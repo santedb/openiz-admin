@@ -24,12 +24,16 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
-    public class UserController : Controller
-    {
-        // GET: Certificate
-        public ActionResult Index()
-        {
-            return View();
-        }
-    }
+	public class UserAdministration : Controller
+	{
+		public ActionResult UserRoles()
+		{
+			return View();
+		}
+
+		public ActionResult Users()
+		{
+			return View();
+		}
+	}
 }

@@ -171,8 +171,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\UserRoleController.cs" />
+    <Compile Include="Controllers\UserAdministration.cs" />
     <Compile Include="Controllers\AppletController.cs" />
     <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\CertificateController.cs" />
@@ -284,8 +283,7 @@
     <Folder Include="Views\Applet\" />
     <Folder Include="Views\Certificate\" />
     <Folder Include="Views\Device\" />
-    <Folder Include="Views\UserRole\" />
-    <Folder Include="Views\User\" />
+    <Folder Include="Views\UserAdministration\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
