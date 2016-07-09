@@ -12,5 +12,35 @@
         </div>
     </div>
     <div class="panel panel-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        Applet Id
+                    </th>
+                    <th>
+                        Group
+                    </th>
+                    <th>
+                        Name
+                    </th>
+                    <th>
+                        Version
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@Html.ActionLink(item.Id.ToString(), "Applet", "Applet", new { appletId = item.Id }, null)</td>
+                        <td>@item.Group</td>
+                        <td>@item.Name</td>
+                        <td>@item.Version</td>
+                    </tr>
+}
+            </tbody>
+        </table>
+
     </div>
 </div>

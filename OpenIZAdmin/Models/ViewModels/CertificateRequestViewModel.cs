@@ -25,5 +25,22 @@ namespace OpenIZAdmin.Models.ViewModels
 {
 	public class CertificateRequestViewModel
 	{
+		public CertificateRequestViewModel() : this(null, DateTime.UtcNow, Guid.Empty)
+		{
+
+		}
+
+		public CertificateRequestViewModel(string commonName, DateTime createdOnUtcDate, Guid id)
+		{
+			this.CommonName = commonName;
+			this.CreatedOnUtcDate = createdOnUtcDate;
+			this.Id = id;
+		}
+
+		public string CommonName { get; set; }
+
+		public DateTime CreatedOnUtcDate { get; set; }
+
+		public Guid Id { get; set; }
 	}
 }

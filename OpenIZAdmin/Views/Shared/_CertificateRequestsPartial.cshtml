@@ -6,8 +6,41 @@
 <div class="panel panel-default">
     <div class="panel panel-heading">
         Certificate Requests
+        <div class="pull-right">
+            <span>New</span>
+            <a href="~/CertificateRequest/Create" class="glyphicon glyphicon-plus-sign"></a>
+        </div>
     </div>
     <div class="panel panel-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        Certificate Request Id
+                    </th>
+                    <th>
+                        Common Name
+                    </th>
+                    <th>
+                        Date Requested
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="clickable-row" data-href="/message?transactionId=@item.Id">
+                        <td><span class="glyphicon glyphicon-lock pull-left" aria-hidden="true"></span></td>
+                        <td>@item.Id</td>
+                        <td>@item.CommonName</td>
+                        <td>@item.CreatedOnUtcDate.ToLocalTime()</td>
+                        <td><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></td>
+                    </tr>}
+                </tbody>
+            </table>
+
+        </div>
     </div>
-</div>
+
 

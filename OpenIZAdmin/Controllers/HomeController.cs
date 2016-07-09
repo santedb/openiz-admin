@@ -31,8 +31,18 @@ namespace OpenIZAdmin.Controllers
 		{
 			DashboardViewModel viewModel = new DashboardViewModel
 			{
-				Applets = new List<AppletViewModel>(),
-				CertificateRequests = new List<CertificateRequestViewModel>(),
+				Applets = new List<AppletViewModel>
+				{
+					new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.authentication", "0.5.0.0"),
+					new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientAdministration", "0.5.0.0"),
+					new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientEncounters", "0.5.0.0"),
+				},
+				CertificateRequests = new List<CertificateRequestViewModel>
+				{
+					new CertificateRequestViewModel("demo.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
+					new CertificateRequestViewModel("arusha.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
+					new CertificateRequestViewModel("zanzibar.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
+				},
 				Devices = new List<DeviceViewModel>(),
 				UserRoles = new List<UserRoleViewModel>(),
 				Users = new List<UserViewModel>()
