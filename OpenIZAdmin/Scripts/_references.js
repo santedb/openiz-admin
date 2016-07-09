@@ -10,3 +10,5 @@
 /// <reference path="moment-with-locales.min.js" />
 /// <reference path="respond.matchmedia.addlistener.min.js" />
 /// <reference path="respond.min.js" />
+/// <reference path="toastr.min.js" />
+/// <reference path="toastr-logic.js" />
