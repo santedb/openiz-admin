@@ -13,32 +13,32 @@
  * License for the specific language governing permissions and limitations under 
  * the License.
  * 
- * User: khannan
- * Date: 2016-5-31
+ * User: Nityan
+ * Date: 2016-7-8
  */
-using OpenIZAdmin.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 
-namespace OpenIZAdmin.Controllers
+namespace OpenIZAdmin.Models.ViewModels
 {
-	public class HomeController : Controller
+	public class DashboardViewModel
 	{
-		public ActionResult Index()
+		public DashboardViewModel()
 		{
-			DashboardViewModel viewModel = new DashboardViewModel
-			{
-				Applets = new List<AppletViewModel>(),
-				CertificateRequests = new List<CertificateRequestViewModel>(),
-				Devices = new List<DeviceViewModel>(),
-				UserRoles = new List<UserRoleViewModel>(),
-				Users = new List<UserViewModel>()
-			};
 
-			return View(viewModel);
 		}
+
+		public IEnumerable<AppletViewModel> Applets { get; set; }
+
+		public IEnumerable<CertificateRequestViewModel> CertificateRequests { get; set; }
+
+		public IEnumerable<DeviceViewModel> Devices { get; set; }
+
+		public IEnumerable<UserRoleViewModel> UserRoles { get; set; }
+
+		public IEnumerable<UserViewModel> Users { get; set; }
+
 	}
 }

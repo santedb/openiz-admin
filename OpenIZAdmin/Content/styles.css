@@ -105,42 +105,22 @@ div#history .panel-body {
 }
 
 /*
-    Login
+    Content
 */
-div#login {
+div.content {
     margin-top: 85px;
 }
 
-div#login .panel {
+div.content .panel {
     background-color: #ffffff;
     color: #333;
 }
 
-div#login .panel .panel-default {
+div.content .panel .panel-default {
     border: none;
 }
 
-div#login .panel-body {
-    color: #333;
-}
-
-/*
-    Register
-*/
-div#register {
-    margin-top: 85px;
-}
-
-div#register .panel {
-    background-color: #ffffff;
-    color: #333;
-}
-
-div#register .panel .panel-default {
-    border: none;
-}
-
-div#register .panel-body {
+div.content .panel-body {
     color: #333;
 }
 

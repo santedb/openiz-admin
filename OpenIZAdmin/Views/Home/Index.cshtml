@@ -1,35 +1,28 @@
-﻿@{
+﻿@model OpenIZAdmin.Models.ViewModels.DashboardViewModel
+@{
     ViewBag.Title = "Home";
 }
 
 <div id="home" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
 
     <div class="jumbotron">
-        <h1>Welcome!</h1>
-        <p class="lead">Welcome to the Maximus Population Generation Tool.</p>
+        <h1>OpenIZ Administration Portal</h1>
+        <p class="lead">Welcome to the OpenIZ Administration Portal.</p>
     </div>
 
-    <div class="col-md-6">
-        <h2>
-            <span class="glyphicon glyphicon-equalizer"></span>
-            <a href="/Generation">Generation</a>
-        </h2>
-        <p>
-            Start generating data!
-        </p>
+    <div class="col-md-12">
+        @Html.Partial("_AppletsPartial", Model.Applets)
     </div>
-    <div class="col-md-6">
-        <h2>
-            <span class="glyphicon glyphicon-time"></span>
-            <a href="/Generation/History">History</a>
-        </h2>
-        <p>Easily view the previously generated data.</p>
+    <div class="col-md-12">
+        @Html.Partial("_CertificateRequestsPartial", Model.CertificateRequests)
     </div>
-    <div class="col-md-4">
-        @*<h2>
-                <span class="glyphicon glyphicon-cog"></span>
-                <a href="/Generation/History">Settings</a>
-            </h2>
-            <p>Configure different components for Maximus.</p>*@
+    <div class="col-md-12">
+        @Html.Partial("_UserRolesPartial", Model.UserRoles)
+    </div>
+    <div class="col-md-12">
+        @Html.Partial("_UsersPartial", Model.Users)
+    </div>
+    <div class="col-md-12">
+        @Html.Partial("_DevicesPartial", Model.Devices)
     </div>
 </div>

@@ -171,6 +171,11 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UserRoleController.cs" />
+    <Compile Include="Controllers\AppletController.cs" />
+    <Compile Include="Controllers\DeviceController.cs" />
+    <Compile Include="Controllers\CertificateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Global.asax.cs">
@@ -181,6 +186,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\ViewModels\AppletViewModel.cs" />
     <Compile Include="Models\ViewModels\CertificateRequestViewModel.cs" />
+    <Compile Include="Models\ViewModels\DashboardViewModel.cs" />
     <Compile Include="Models\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Models\ViewModels\UserRoleViewModel.cs" />
     <Compile Include="Models\ViewModels\UserViewModel.cs" />
@@ -266,11 +272,20 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-    <Content Include="Views\Shared\AppletsPartial.cshtml" />
     <Content Include="Views\Shared\_SearchPartial.cshtml" />
+    <Content Include="Views\Shared\_CertificateRequestsPartial.cshtml" />
+    <Content Include="Views\Shared\_UserRolesPartial.cshtml" />
+    <Content Include="Views\Shared\_UsersPartial.cshtml" />
+    <Content Include="Views\Shared\_AppletsPartial.cshtml" />
+    <Content Include="Views\Shared\_DevicesPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Applet\" />
+    <Folder Include="Views\Certificate\" />
+    <Folder Include="Views\Device\" />
+    <Folder Include="Views\UserRole\" />
+    <Folder Include="Views\User\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

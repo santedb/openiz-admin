@@ -13,10 +13,9 @@
  * License for the specific language governing permissions and limitations under 
  * the License.
  * 
- * User: khannan
- * Date: 2016-5-31
+ * User: Nityan
+ * Date: 2016-7-8
  */
-using OpenIZAdmin.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,20 +24,12 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
-	public class HomeController : Controller
-	{
-		public ActionResult Index()
-		{
-			DashboardViewModel viewModel = new DashboardViewModel
-			{
-				Applets = new List<AppletViewModel>(),
-				CertificateRequests = new List<CertificateRequestViewModel>(),
-				Devices = new List<DeviceViewModel>(),
-				UserRoles = new List<UserRoleViewModel>(),
-				Users = new List<UserViewModel>()
-			};
-
-			return View(viewModel);
-		}
-	}
+    public class UserController : Controller
+    {
+        // GET: Certificate
+        public ActionResult Index()
+        {
+            return View();
+        }
+    }
 }
