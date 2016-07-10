@@ -23,8 +23,15 @@ using System.Web.Http;
 
 namespace OpenIZAdmin
 {
+	/// <summary>
+	/// Represents web api configuration for the application.
+	/// </summary>
     public static class WebApiConfig
     {
+		/// <summary>
+		/// Registers web api configuration settings.
+		/// </summary>
+		/// <param name="config">The configuration for which to add the web api configuration.</param>
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services

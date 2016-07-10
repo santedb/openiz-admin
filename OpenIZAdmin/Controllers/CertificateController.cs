@@ -25,9 +25,15 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
+	/// <summary>
+	/// Provides operations for managing certificates.
+	/// </summary>
 	[Authorize]
     public class CertificateController : Controller
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.CertificateController"/> class.
+		/// </summary>
 		public CertificateController()
 		{
 
@@ -44,55 +50,6 @@ namespace OpenIZAdmin.Controllers
 			return View();
 		}
 
-		[HttpGet]
-		public ActionResult Certificate(string id)
-		{
-			return View();
-		}
-
-		[HttpGet]
-		public ActionResult CertificateRevocationList()
-		{
-			return View();
-		}
-
-		/// <summary>
-		/// Gets a list of certificates
-		/// </summary>
-		/// <returns>Returns a view with a list of certificates.</returns>
-		[HttpGet]
-		public ActionResult Certificates()
-		{
-			return View();
-		}
-
-		/// <summary>
-		/// Gets a certificate signing request.
-		/// </summary>
-		/// <param name="id">The id of the certificate signing request.</param>
-		/// <returns>Returns a view with the certificate signing request.</returns>
-		[HttpGet]
-		public ActionResult CertificateSigningRequest(string id)
-		{
-			return View();
-		}
-
-		/// <summary>
-		/// Gets a list of certificate signing requests.
-		/// </summary>
-		/// <returns>Returns a view with a list of certificate signing requests.</returns>
-		[HttpGet]
-		public ActionResult CertificateSigningRequests()
-		{
-			return View();
-		}
-
-		[HttpGet]
-		public ActionResult DeleteCertificate()
-		{
-			return View();
-		}
-
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteCertificate(DeleteCertificateModel model)
@@ -105,11 +62,54 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+		[HttpGet]
+		public ActionResult GetCertificate(string id)
+		{
+			return View();
+		}
+
+		[HttpGet]
+		public ActionResult GetCertificateRevocationList()
+		{
+			return View();
+		}
+
+		/// <summary>
+		/// Gets a list of certificates
+		/// </summary>
+		/// <returns>Returns a view with a list of certificates.</returns>
+		[HttpGet]
+		public ActionResult GetCertificates()
+		{
+			return View();
+		}
+
+		/// <summary>
+		/// Gets a certificate signing request.
+		/// </summary>
+		/// <param name="id">The id of the certificate signing request.</param>
+		/// <returns>Returns a view with the certificate signing request.</returns>
+		[HttpGet]
+		public ActionResult GetCertificateSigningRequest(string id)
+		{
+			return View();
+		}
+
+		/// <summary>
+		/// Gets a list of certificate signing requests.
+		/// </summary>
+		/// <returns>Returns a view with a list of certificate signing requests.</returns>
+		[HttpGet]
+		public ActionResult GetCertificateSigningRequests()
+		{
+			return View();
+		}
+
 		/// <summary>
 		/// Displays the index view.
 		/// </summary>
 		/// <returns>Returns the index view.</returns>
-        [HttpGet]
+		[HttpGet]
         public ActionResult Index()
         {
             return View();

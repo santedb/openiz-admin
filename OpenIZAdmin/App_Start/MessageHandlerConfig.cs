@@ -13,26 +13,30 @@
  * License for the specific language governing permissions and limitations under 
  * the License.
  * 
- * User: khannan
- * Date: 2016-5-31
+ * User: Nityan
+ * Date: 2016-7-10
  */
+using OpenIZAdmin.MessageHandlers;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
-using System.Web.Mvc;
+using System.Web.Http;
 
 namespace OpenIZAdmin
 {
 	/// <summary>
-	/// Represents filter configuration for the application.
+	/// Represents message handling configuration for the application.
 	/// </summary>
-	public class FilterConfig
+	public static class MessageHandlerConfig
 	{
 		/// <summary>
-		/// Registers global filters for the application.
+		/// Registers message handlers for the application.
 		/// </summary>
-		/// <param name="filters">The filter collection for which to add filters.</param>
-		public static void RegisterGlobalFilters(GlobalFilterCollection filters)
+		/// <param name="config">The http configuration for which to add the message handlers.</param>
+		public static void Register(HttpConfiguration config)
 		{
-			filters.Add(new HandleErrorAttribute());
+			config.MessageHandlers.Add(new LogMessageHandler());
 		}
 	}
 }

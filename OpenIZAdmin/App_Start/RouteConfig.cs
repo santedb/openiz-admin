@@ -25,8 +25,15 @@ using System.Web.Routing;
 
 namespace OpenIZAdmin
 {
+	/// <summary>
+	/// Represents route configuration for the application.
+	/// </summary>
 	public class RouteConfig
 	{
+		/// <summary>
+		/// Registers routes for the application.
+		/// </summary>
+		/// <param name="routes">The route collection for which to add routes.</param>
 		public static void RegisterRoutes(RouteCollection routes)
 		{
 			routes.IgnoreRoute("{resource}.axd/{*pathInfo}");

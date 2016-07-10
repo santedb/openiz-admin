@@ -18,6 +18,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -27,15 +28,41 @@ using System.Web.Routing;
 
 namespace OpenIZAdmin
 {
+	/// <summary>
+	/// Represents global configuration for the application.
+	/// </summary>
     public class MvcApplication : System.Web.HttpApplication
     {
-        protected void Application_Start()
+		/// <summary>
+		/// Called when the application starts.
+		/// </summary>
+		protected void Application_Start()
         {
             AreaRegistration.RegisterAllAreas();
+
+			// default .net configuration
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+			// message handler configuration
+			MessageHandlerConfig.Register(GlobalConfiguration.Configuration);
+
+			Trace.TraceInformation("Application started");
         }
-    }
+
+		/// <summary>
+		/// Called when the application encounters an unexpected error.
+		/// </summary>
+		/// <param name="sender">The sender of the error.</param>
+		/// <param name="e">The event.</param>
+		protected void Application_Error(object sender, EventArgs e)
+		{
+#if DEBUG
+			Trace.TraceError("Application error: {0}", Server.GetLastError());
+#endif
+			Trace.TraceError("Application error: {0}", Server.GetLastError().Message);
+		}
+	}
 }

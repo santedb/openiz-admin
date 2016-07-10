@@ -21,9 +21,15 @@ using System.Web.Optimization;
 
 namespace OpenIZAdmin
 {
+	/// <summary>
+	/// Represents bundle configuration for the application.
+	/// </summary>
 	public class BundleConfig
 	{
-		// For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
+		/// <summary>
+		/// Registers bundles for the application.
+		/// </summary>
+		/// <param name="bundles">The bundle collection for which to add the bundles.</param>
 		public static void RegisterBundles(BundleCollection bundles)
 		{
 			bundles.Add(new ScriptBundle("~/bundles/jquery").Include(

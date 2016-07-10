@@ -70,12 +70,6 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-		[HttpGet]
-		public ActionResult DeleteRole()
-		{
-			return View();
-		}
-
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteRole(object model)
