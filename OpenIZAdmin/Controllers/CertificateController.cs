@@ -17,9 +17,13 @@
  * Date: 2016-7-8
  */
 using OpenIZAdmin.Models.CertificateModels;
+using OpenIZAdmin.Models.CertificateModels.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -29,14 +33,24 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing certificates.
 	/// </summary>
 	[Authorize]
-    public class CertificateController : Controller
+	public class CertificateController : Controller
 	{
+		/// <summary>
+		/// The internal reference to the administrative interface endpoint.
+		/// </summary>
+		private static readonly Uri amiEndpoint = AmiConfig.AmiEndpoint;
+
+		/// <summary>
+		/// The internal reference to the <see cref="System.Net.Http.HttpClient"/> instance.
+		/// </summary>
+		private readonly HttpClient client;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.CertificateController"/> class.
 		/// </summary>
 		public CertificateController()
 		{
-
+			this.client = new HttpClient();
 		}
 
 		/// <summary>
@@ -44,44 +58,130 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <returns>Returns a view with the accepted certificate signing request.</returns>
 		[HttpPost]
+		[ActionName("AcceptCsr")]
 		[ValidateAntiForgeryToken]
-		public ActionResult AcceptCertificateSigningRequest()
+		public async Task<ActionResult> AcceptCertificateSigningRequestAsync(AcceptCertificateSigningRequestModel model)
 		{
-			return View();
+			if (ModelState.IsValid)
+			{
+				var response = await this.client.PutAsync(string.Format("{0}/csr/{1}", amiEndpoint, model.CertificateId), null);
+
+				if (response.IsSuccessStatusCode)
+				{
+					TempData["success"] = "Certificate signing request successfully accepted";
+
+					return RedirectToAction("Index");
+				}
+			}
+
+			TempData["error"] = "Unable to accept certificate signing request";
+
+			return RedirectToAction("Index");
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult DeleteCertificate(DeleteCertificateModel model)
+		[ActionName("DeleteCertificate")]
+		public async Task<ActionResult> DeleteCertificateAsync(DeleteCertificateModel model)
 		{
 			if (ModelState.IsValid)
 			{
+				var response = await this.client.DeleteAsync(string.Format("{0}/csr/{1}", amiEndpoint, model.CertificateId));
 
+				if (response.IsSuccessStatusCode)
+				{
+					TempData["success"] = "Certificate successfully deleted";
+
+					return RedirectToAction("Index");
+				}
 			}
 
-			return View(model);
-		}
+			TempData["error"] = "Unable to delete certificate";
 
-		[HttpGet]
-		public ActionResult GetCertificate(string id)
-		{
-			return View();
-		}
-
-		[HttpGet]
-		public ActionResult GetCertificateRevocationList()
-		{
-			return View();
+			return RedirectToAction("Index");
 		}
 
 		/// <summary>
-		/// Gets a list of certificates
+		/// Dispose of any managed resources.
+		/// </summary>
+		/// <param name="disposing">Whether the current invocation is disposing.</param>
+		protected override void Dispose(bool disposing)
+		{
+			Trace.TraceInformation("{0} disposing", nameof(CertificateController));
+
+			this.client?.Dispose();
+
+			base.Dispose(disposing);
+		}
+
+		/// <summary>
+		/// Gets a certificate by id.
+		/// </summary>
+		/// <param name="id">The id of the certificate to retrieve.</param>
+		/// <returns>Returns a view with the specified certificate.</returns>
+		[HttpGet]
+		[ActionName("GetCertificate")]
+		public async Task<ActionResult> GetCertificateAsync(string id)
+		{
+			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
+			{
+				var response = await this.client.GetAsync(string.Format("{0}/certificate/{1}", amiEndpoint, id));
+
+				if (response.IsSuccessStatusCode)
+				{
+					CertificateViewModel viewModel = new CertificateViewModel();
+
+					return View(viewModel);
+				}
+			}
+
+			TempData["error"] = "Unable to find specified certificate";
+
+			return RedirectToAction("Index");
+		}
+
+		/// <summary>
+		/// Gets the certificate revocation list.
+		/// </summary>
+		/// <returns>Returns a view with a list of revoked certificates.</returns>
+		[HttpGet]
+		[ActionName("CertificateRevocationList")]
+		public async Task<ActionResult> GetCertificateRevocationListAsync()
+		{
+			var response = await this.client.GetAsync(string.Format("{0}/crl", amiEndpoint));
+
+			if (response.IsSuccessStatusCode)
+			{
+				CertificateRevocationListViewModel viewModel = new CertificateRevocationListViewModel();
+
+				return View(viewModel);
+			}
+
+			TempData["error"] = "Unable to retrieve certificate revocation list";
+
+			return RedirectToAction("Index");
+		}
+
+		/// <summary>
+		/// Gets a list of certificates.
 		/// </summary>
 		/// <returns>Returns a view with a list of certificates.</returns>
 		[HttpGet]
-		public ActionResult GetCertificates()
+		[ActionName("GetCertificates")]
+		public async Task<ActionResult> GetCertificatesAsync()
 		{
-			return View();
+			var response = await this.client.GetAsync(string.Format("{0}/certificate", amiEndpoint));
+
+			if (response.IsSuccessStatusCode)
+			{
+				CertificateViewModel viewModel = new CertificateViewModel();
+
+				return View(viewModel);
+			}
+
+			TempData["error"] = "Unable to retrieve certificate list";
+
+			return RedirectToAction("Index");
 		}
 
 		/// <summary>
@@ -90,9 +190,24 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The id of the certificate signing request.</param>
 		/// <returns>Returns a view with the certificate signing request.</returns>
 		[HttpGet]
-		public ActionResult GetCertificateSigningRequest(string id)
+		[ActionName("GetCertificateSigingRequest")]
+		public async Task<ActionResult> GetCertificateSigningRequestAsync(string id)
 		{
-			return View();
+			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
+			{
+				var response = await this.client.GetAsync(string.Format("{0}/csr/{1}", amiEndpoint, id));
+
+				if (response.IsSuccessStatusCode)
+				{
+					CertificateSigningRequestViewModel viewModel = new CertificateSigningRequestViewModel();
+
+					return View(viewModel);
+				}
+			}
+
+			TempData["error"] = "Unable to find specified certificate signing request";
+
+			return RedirectToAction("Index");
 		}
 
 		/// <summary>
@@ -100,9 +215,21 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <returns>Returns a view with a list of certificate signing requests.</returns>
 		[HttpGet]
-		public ActionResult GetCertificateSigningRequests()
+		[ActionName("GetCertificateSigningRequests")]
+		public async Task<ActionResult> GetCertificateSigningRequestsAsync()
 		{
-			return View();
+			var response = await this.client.GetAsync(string.Format("{0}/csr", amiEndpoint));
+
+			if (response.IsSuccessStatusCode)
+			{
+				CertificateSigningRequestViewModel viewModel = new CertificateSigningRequestViewModel();
+
+				return View(viewModel);
+			}
+
+			TempData["error"] = "Unable to retrieve certificate signing request list";
+
+			return RedirectToAction("Index");
 		}
 
 		/// <summary>
@@ -110,10 +237,10 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <returns>Returns the index view.</returns>
 		[HttpGet]
-        public ActionResult Index()
-        {
-            return View();
-        }
+		public ActionResult Index()
+		{
+			return View();
+		}
 
 		/// <summary>
 		/// Rejects a certificate signing request.
@@ -142,5 +269,5 @@ namespace OpenIZAdmin.Controllers
 
 			return View(model);
 		}
-    }
+	}
 }

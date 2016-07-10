@@ -164,8 +164,10 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AmiConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\MessageHandlerConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -182,7 +184,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logging\RollOverTextWriterTraceListener.cs" />
+    <Compile Include="MessageHandlers\LogMessageHandler.cs" />
     <Compile Include="Models\AccountModels\ViewModels\AccountViewModels.cs" />
+    <Compile Include="Models\CertificateModels\AcceptCertificateSigningRequestModel.cs" />
     <Compile Include="Models\CertificateModels\DeleteCertificateModel.cs" />
     <Compile Include="Models\CertificateModels\SubmitCertificateSigningRequestModel.cs" />
     <Compile Include="Models\CertificateModels\RejectCertificateSigningRequestModel.cs" />
@@ -191,6 +196,9 @@
     <Compile Include="Models\AccountModels\ViewModels\ManageViewModels.cs" />
     <Compile Include="Models\AppletModels\ViewModels\AppletViewModel.cs" />
     <Compile Include="Models\CertificateModels\ViewModels\CertificateRequestViewModel.cs" />
+    <Compile Include="Models\CertificateModels\ViewModels\CertificateRevocationListViewModel.cs" />
+    <Compile Include="Models\CertificateModels\ViewModels\CertificateSigningRequestViewModel.cs" />
+    <Compile Include="Models\CertificateModels\ViewModels\CertificateViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DeviceModels\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Models\Domain\ApplicationUser.cs" />
