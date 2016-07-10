@@ -26,14 +26,140 @@ namespace OpenIZAdmin.Controllers
 {
 	public class UserAdministration : Controller
 	{
-		public ActionResult UserRoles()
+		public UserAdministration()
+		{
+
+		}
+
+		[HttpGet]
+		public ActionResult CreateRole()
 		{
 			return View();
 		}
 
-		public ActionResult Users()
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult CreateRole(object model)
+		{
+			if (ModelState.IsValid)
+			{
+
+			}
+
+			TempData["error"] = "Unable to create role";
+
+			return View(model);
+		}
+
+		[HttpGet]
+		public ActionResult CreateUser()
 		{
 			return View();
+		}
+
+		[HttpPost]
+		public ActionResult CreateUser(object model)
+		{
+			if (ModelState.IsValid)
+			{
+
+			}
+
+			TempData["error"] = "Unable to create user";
+
+			return View(model);
+		}
+
+		[HttpGet]
+		public ActionResult DeleteRole()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult DeleteRole(object model)
+		{
+			if (ModelState.IsValid)
+			{
+
+			}
+
+			TempData["error"] = "Unable to delete role";
+
+			return View(model);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult DeleteUser(object model)
+		{
+			if (ModelState.IsValid)
+			{
+
+			}
+
+			TempData["error"] = "Unable to delete user";
+
+			return View(model);
+		}
+
+		[HttpGet]
+		public ActionResult GetRole(string id)
+		{
+			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
+			{
+
+			}
+
+			TempData["error"] = "Role not found";
+
+			return RedirectToAction("Index");
+		}
+
+		[HttpGet]
+		public ActionResult GetRoles()
+		{
+			return View();
+		}
+
+		[HttpGet]
+		public ActionResult GetUser(string id)
+		{
+			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
+			{
+
+			}
+
+			TempData["error"] = "User not found";
+
+			return RedirectToAction("Index");
+		}
+
+		[HttpGet]
+		public ActionResult GetUsers()
+		{
+			return View();
+		}
+
+		[HttpGet]
+		public ActionResult UpdateUser()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult UpdateUser(object model)
+		{
+			if (ModelState.IsValid)
+			{
+
+			}
+
+			TempData["error"] = "Unable to update user";
+
+			return View(model);
 		}
 	}
 }

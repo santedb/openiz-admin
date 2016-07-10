@@ -14,16 +14,24 @@
  * the License.
  * 
  * User: Nityan
- * Date: 2016-7-8
+ * Date: 2016-7-10
  */
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace OpenIZAdmin.Models.ViewModels
+namespace OpenIZAdmin.Models.CertificateModels
 {
-	public class UserRoleViewModel
+	public class DeleteCertificateModel
 	{
+		public DeleteCertificateModel()
+		{
+
+		}
+
+		[Required]
+		public string CertificateId { get; set; }
 	}
 }

@@ -19,7 +19,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace OpenIZAdmin.Models
+namespace OpenIZAdmin.Models.AccountModels.ViewModels
 {
     public class ExternalLoginConfirmationViewModel
     {

@@ -16,7 +16,11 @@
  * User: khannan
  * Date: 2016-5-31
  */
-using OpenIZAdmin.Models.ViewModels;
+using OpenIZAdmin.Models;
+using OpenIZAdmin.Models.AppletModels.ViewModels;
+using OpenIZAdmin.Models.CertificateModels.ViewModels;
+using OpenIZAdmin.Models.DeviceModels.ViewModels;
+using OpenIZAdmin.Models.UserAdministration.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

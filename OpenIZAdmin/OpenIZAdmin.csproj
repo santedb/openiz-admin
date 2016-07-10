@@ -166,7 +166,6 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -177,18 +176,26 @@
     <Compile Include="Controllers\CertificateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="DAL\ApplicationDbContext.cs" />
+    <Compile Include="DAL\ApplicationSignInManager.cs" />
+    <Compile Include="DAL\ApplicationUserManager.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\ViewModels\AppletViewModel.cs" />
-    <Compile Include="Models\ViewModels\CertificateRequestViewModel.cs" />
-    <Compile Include="Models\ViewModels\DashboardViewModel.cs" />
-    <Compile Include="Models\ViewModels\DeviceViewModel.cs" />
-    <Compile Include="Models\ViewModels\UserRoleViewModel.cs" />
-    <Compile Include="Models\ViewModels\UserViewModel.cs" />
+    <Compile Include="Models\AccountModels\ViewModels\AccountViewModels.cs" />
+    <Compile Include="Models\CertificateModels\DeleteCertificateModel.cs" />
+    <Compile Include="Models\CertificateModels\SubmitCertificateSigningRequestModel.cs" />
+    <Compile Include="Models\CertificateModels\RejectCertificateSigningRequestModel.cs" />
+    <Compile Include="Models\CertificateModels\RevokeReason.cs" />
+    <Compile Include="Models\AccountModels\LoginModel.cs" />
+    <Compile Include="Models\AccountModels\ViewModels\ManageViewModels.cs" />
+    <Compile Include="Models\AppletModels\ViewModels\AppletViewModel.cs" />
+    <Compile Include="Models\CertificateModels\ViewModels\CertificateRequestViewModel.cs" />
+    <Compile Include="Models\DashboardViewModel.cs" />
+    <Compile Include="Models\DeviceModels\ViewModels\DeviceViewModel.cs" />
+    <Compile Include="Models\Domain\ApplicationUser.cs" />
+    <Compile Include="Models\UserAdminstration\ViewModels\UserRoleViewModel.cs" />
+    <Compile Include="Models\UserAdminstration\ViewModels\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -277,13 +284,13 @@
     <Content Include="Views\Shared\_UsersPartial.cshtml" />
     <Content Include="Views\Shared\_AppletsPartial.cshtml" />
     <Content Include="Views\Shared\_DevicesPartial.cshtml" />
+    <Content Include="Views\UserAdministration\Index.cshtml" />
+    <Content Include="Views\Device\Index.cshtml" />
+    <Content Include="Views\Certificate\Index.cshtml" />
+    <Content Include="Views\Applet\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Applet\" />
-    <Folder Include="Views\Certificate\" />
-    <Folder Include="Views\Device\" />
-    <Folder Include="Views\UserAdministration\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

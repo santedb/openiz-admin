@@ -14,33 +14,27 @@
  * the License.
  * 
  * User: Nityan
- * Date: 2016-7-8
+ * Date: 2016-7-10
  */
+using Microsoft.AspNet.Identity.EntityFramework;
+using OpenIZAdmin.Models.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace OpenIZAdmin.Models.ViewModels
+namespace OpenIZAdmin.DAL
 {
-	public class CertificateRequestViewModel
+	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 	{
-		public CertificateRequestViewModel() : this(null, DateTime.UtcNow, Guid.Empty)
+		public ApplicationDbContext()
+			: base("DefaultConnection", throwIfV1Schema: false)
 		{
-
 		}
 
-		public CertificateRequestViewModel(string commonName, DateTime createdOnUtcDate, Guid id)
+		public static ApplicationDbContext Create()
 		{
-			this.CommonName = commonName;
-			this.CreatedOnUtcDate = createdOnUtcDate;
-			this.Id = id;
+			return new ApplicationDbContext();
 		}
-
-		public string CommonName { get; set; }
-
-		public DateTime CreatedOnUtcDate { get; set; }
-
-		public Guid Id { get; set; }
 	}
 }

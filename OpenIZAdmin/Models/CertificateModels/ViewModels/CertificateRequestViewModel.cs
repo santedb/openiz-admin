@@ -21,24 +21,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace OpenIZAdmin.Models.ViewModels
+namespace OpenIZAdmin.Models.CertificateModels.ViewModels
 {
-	public class DashboardViewModel
+	public class CertificateRequestViewModel
 	{
-		public DashboardViewModel()
+		public CertificateRequestViewModel() : this(null, DateTime.UtcNow, Guid.Empty)
 		{
 
 		}
 
-		public IEnumerable<AppletViewModel> Applets { get; set; }
+		public CertificateRequestViewModel(string commonName, DateTime createdOnUtcDate, Guid id)
+		{
+			this.CommonName = commonName;
+			this.CreatedOnUtcDate = createdOnUtcDate;
+			this.Id = id;
+		}
 
-		public IEnumerable<CertificateRequestViewModel> CertificateRequests { get; set; }
+		public string CommonName { get; set; }
 
-		public IEnumerable<DeviceViewModel> Devices { get; set; }
+		public DateTime CreatedOnUtcDate { get; set; }
 
-		public IEnumerable<UserRoleViewModel> UserRoles { get; set; }
-
-		public IEnumerable<UserViewModel> Users { get; set; }
-
+		public Guid Id { get; set; }
 	}
 }

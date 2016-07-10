@@ -16,14 +16,33 @@
  * User: Nityan
  * Date: 2016-7-8
  */
+using OpenIZAdmin.Models.AppletModels.ViewModels;
+using OpenIZAdmin.Models.CertificateModels.ViewModels;
+using OpenIZAdmin.Models.DeviceModels.ViewModels;
+using OpenIZAdmin.Models.UserAdministration.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace OpenIZAdmin.Models.ViewModels
+namespace OpenIZAdmin.Models
 {
-	public class DeviceViewModel
+	public class DashboardViewModel
 	{
+		public DashboardViewModel()
+		{
+
+		}
+
+		public IEnumerable<AppletViewModel> Applets { get; set; }
+
+		public IEnumerable<CertificateRequestViewModel> CertificateRequests { get; set; }
+
+		public IEnumerable<DeviceViewModel> Devices { get; set; }
+
+		public IEnumerable<UserRoleViewModel> UserRoles { get; set; }
+
+		public IEnumerable<UserViewModel> Users { get; set; }
+
 	}
 }

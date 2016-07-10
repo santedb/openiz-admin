@@ -21,7 +21,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace OpenIZAdmin.Models
+namespace OpenIZAdmin.Models.AccountModels.ViewModels
 {
     public class IndexViewModel
     {

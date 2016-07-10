@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace OpenIZAdmin.Models.ViewModels
+namespace OpenIZAdmin.Models.AppletModels.ViewModels
 {
 	/// <summary>
 	/// Represents an applet.

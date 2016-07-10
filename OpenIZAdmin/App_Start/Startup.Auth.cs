@@ -23,6 +23,8 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
 using OpenIZAdmin.Models;
+using OpenIZAdmin.DAL;
+using OpenIZAdmin.Models.Domain;
 
 namespace OpenIZAdmin
 {

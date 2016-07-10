@@ -14,16 +14,28 @@
  * the License.
  * 
  * User: Nityan
- * Date: 2016-7-8
+ * Date: 2016-7-9
  */
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace OpenIZAdmin.Models.ViewModels
+namespace OpenIZAdmin.Models.CertificateModels
 {
-	public class UserViewModel
+	public class RejectCertificateSigningRequestModel
 	{
+		public RejectCertificateSigningRequestModel()
+		{
+
+		}
+
+		[Required]
+		public string CertificateId { get; set; }
+
+		[Required]
+		[Display(Name = "Revoke Reason")]
+		public RevokeReason RevokeReason { get; set; }
 	}
 }

@@ -27,6 +27,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using OpenIZAdmin.Models;
+using OpenIZAdmin.DAL;
+using OpenIZAdmin.Models.AccountModels.ViewModels;
+using OpenIZAdmin.Models.Domain;
 
 namespace OpenIZAdmin.Controllers
 {
