@@ -189,6 +189,7 @@
     <Compile Include="Models\AccountModels\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\CertificateModels\AcceptCertificateSigningRequestModel.cs" />
     <Compile Include="Models\CertificateModels\DeleteCertificateModel.cs" />
+    <Compile Include="Models\CertificateModels\SubmissionStatus.cs" />
     <Compile Include="Models\CertificateModels\SubmitCertificateSigningRequestModel.cs" />
     <Compile Include="Models\CertificateModels\RejectCertificateSigningRequestModel.cs" />
     <Compile Include="Models\CertificateModels\RevokeReason.cs" />
@@ -302,7 +303,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
-    <None Include="Project_Readme.html" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
