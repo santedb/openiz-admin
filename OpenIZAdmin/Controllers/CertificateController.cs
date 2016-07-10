@@ -120,7 +120,7 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The id of the certificate to retrieve.</param>
 		/// <returns>Returns a view with the specified certificate.</returns>
 		[HttpGet]
-		[ActionName("GetCertificate")]
+		[ActionName("Certificate")]
 		public async Task<ActionResult> GetCertificateAsync(string id)
 		{
 			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
@@ -167,7 +167,7 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <returns>Returns a view with a list of certificates.</returns>
 		[HttpGet]
-		[ActionName("GetCertificates")]
+		[ActionName("Certificates")]
 		public async Task<ActionResult> GetCertificatesAsync()
 		{
 			var response = await this.client.GetAsync(string.Format("{0}/certificate", amiEndpoint));
@@ -190,7 +190,7 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The id of the certificate signing request.</param>
 		/// <returns>Returns a view with the certificate signing request.</returns>
 		[HttpGet]
-		[ActionName("GetCertificateSigingRequest")]
+		[ActionName("CertificateSigningRequest")]
 		public async Task<ActionResult> GetCertificateSigningRequestAsync(string id)
 		{
 			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
@@ -248,24 +248,44 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns a view with the status of the rejection.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult RejectCertificateSigningRequest(RejectCertificateSigningRequestModel model)
+		[ActionName("RejectCertificateSigningRequest")]
+		public async Task<ActionResult> RejectCertificateSigningRequestAsync(RejectCertificateSigningRequestModel model)
 		{
 			if (ModelState.IsValid)
 			{
+				var response = await this.client.DeleteAsync(string.Format("{0}/csr/{1}", amiEndpoint, model.CertificateId));
 
+				if (response.IsSuccessStatusCode)
+				{
+					TempData["success"] = "Certificate signing request sucessfully rejected";
+
+					return RedirectToAction("Index");
+				}
 			}
+
+			TempData["error"] = "Unable to reject certificate signing request";
 
 			return View(model);
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult SubmitCertificateSigningRequest(SubmitCertificateSigningRequestModel model)
+		[ActionName("SubmitCertificateSigningRequest")]
+		public async Task<ActionResult> SubmitCertificateSigningRequestAsync(SubmitCertificateSigningRequestModel model)
 		{
 			if (ModelState.IsValid)
 			{
+				var response = await this.client.PostAsXmlAsync(string.Format("{0}/csr", amiEndpoint), model);
 
+				if (response.IsSuccessStatusCode)
+				{
+					TempData["success"] = "Certificate signing request sucessfully submitted";
+
+					return RedirectToAction("Index");
+				}
 			}
+
+			TempData["error"] = "Unable to submit certificate signing request";
 
 			return View(model);
 		}

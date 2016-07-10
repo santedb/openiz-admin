@@ -49,6 +49,9 @@ namespace OpenIZAdmin
 			// message handler configuration
 			MessageHandlerConfig.Register(GlobalConfiguration.Configuration);
 
+			// Administrative Interface configuration
+			AmiConfig.Initialize();
+
 			Trace.TraceInformation("Application started");
         }
 

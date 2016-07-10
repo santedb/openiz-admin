@@ -55,6 +55,14 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.IdentityModel.Logging, Version=1.0.0.127, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Logging.1.0.0\lib\net451\Microsoft.IdentityModel.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.IdentityModel.Tokens, Version=5.0.0.127, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.0.0\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -62,6 +70,10 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IdentityModel.Tokens.Jwt, Version=5.0.0.127, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.0.0\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
@@ -177,7 +189,6 @@
     <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\CertificateController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="DAL\ApplicationDbContext.cs" />
     <Compile Include="DAL\ApplicationSignInManager.cs" />
     <Compile Include="DAL\ApplicationUserManager.cs" />
@@ -186,7 +197,6 @@
     </Compile>
     <Compile Include="Logging\RollOverTextWriterTraceListener.cs" />
     <Compile Include="MessageHandlers\LogMessageHandler.cs" />
-    <Compile Include="Models\AccountModels\ViewModels\AccountViewModels.cs" />
     <Compile Include="Models\CertificateModels\AcceptCertificateSigningRequestModel.cs" />
     <Compile Include="Models\CertificateModels\DeleteCertificateModel.cs" />
     <Compile Include="Models\CertificateModels\SubmissionStatus.cs" />
@@ -194,7 +204,6 @@
     <Compile Include="Models\CertificateModels\RejectCertificateSigningRequestModel.cs" />
     <Compile Include="Models\CertificateModels\RevokeReason.cs" />
     <Compile Include="Models\AccountModels\LoginModel.cs" />
-    <Compile Include="Models\AccountModels\ViewModels\ManageViewModels.cs" />
     <Compile Include="Models\AppletModels\ViewModels\AppletViewModel.cs" />
     <Compile Include="Models\CertificateModels\ViewModels\CertificateRequestViewModel.cs" />
     <Compile Include="Models\CertificateModels\ViewModels\CertificateRevocationListViewModel.cs" />
@@ -267,24 +276,7 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\ConfirmEmail.cshtml" />
-    <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
-    <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
-    <Content Include="Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\SendCode.cshtml" />
-    <Content Include="Views\Account\VerifyCode.cshtml" />
-    <Content Include="Views\Manage\AddPhoneNumber.cshtml" />
-    <Content Include="Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
-    <Content Include="Views\Manage\ManageLogins.cshtml" />
-    <Content Include="Views\Manage\SetPassword.cshtml" />
-    <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_SearchPartial.cshtml" />
@@ -297,6 +289,10 @@
     <Content Include="Views\Device\Index.cshtml" />
     <Content Include="Views\Certificate\Index.cshtml" />
     <Content Include="Views\Applet\Index.cshtml" />
+    <Content Include="Views\Certificate\CertificateRevocationList.cshtml" />
+    <Content Include="Views\Certificate\Certificates.cshtml" />
+    <Content Include="Views\Certificate\Certificate.cshtml" />
+    <Content Include="Views\Certificate\CertificateSigningRequest.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

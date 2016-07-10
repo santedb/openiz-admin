@@ -16,21 +16,25 @@
  * User: Nityan
  * Date: 2016-7-10
  */
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
+using Newtonsoft.Json.Linq;
 using OpenIZAdmin.Models.Domain;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
 namespace OpenIZAdmin.DAL
 {
-	// Configure the application sign-in manager which is used in this application.
 	public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
 	{
 		public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
@@ -50,19 +54,97 @@ namespace OpenIZAdmin.DAL
 
 		public override async Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
 		{
-			HttpClient client = new HttpClient();
-
-			StringContent content = new StringContent(string.Format("grant_type=password&scope=http://demo.openiz.org:8080/imsi&username={0}&password={1}", userName, password));
-
-			var result = await client.PostAsync("http://demo.openiz.org:8080/auth/oauth2_token", content);
-
-			if (result.IsSuccessStatusCode)
+			using (HttpClient client = new HttpClient())
 			{
-				return await base.PasswordSignInAsync(userName, password, isPersistent, shouldLockout);
-			}
-			else
-			{
-				return SignInStatus.Failure;
+				client.DefaultRequestHeaders.Add("Authorization", "BASIC " + Convert.ToBase64String(Encoding.UTF8.GetBytes(AmiConfig.ApplicationId + ":" + AmiConfig.ApplicationSecret)));
+
+				StringContent content = new StringContent(string.Format("grant_type=password&username={0}&password={1}&scope=http://demo.openiz.org:8080/imsi", userName, password));
+
+				// HACK: have to remove the headers before adding them...
+				content.Headers.Remove("Content-Type");
+				content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+
+				var result = await client.PostAsync("http://demo.openiz.org:8080/auth/oauth2_token", content);
+
+				if (result.IsSuccessStatusCode)
+				{
+					var responseAsString = await result.Content.ReadAsStringAsync();
+
+					var response = JObject.Parse(responseAsString);
+
+					string accessToken = response.GetValue("access_token").ToString();
+					string expiresIn = response.GetValue("expires_in").ToString();
+					string tokenType = response.GetValue("token_type").ToString();
+#if DEBUG
+					Trace.TraceInformation("Access token: {0}", accessToken);
+					Trace.TraceInformation("Expires in: {0}", expiresIn);
+					Trace.TraceInformation("Token type {0}", tokenType);
+#endif
+					Dictionary<string, string> authenticationDictionary = new Dictionary<string, string>();
+
+					authenticationDictionary.Add("username", userName);
+					authenticationDictionary.Add("access_token", accessToken);
+					authenticationDictionary.Add("token_type", tokenType);
+
+					AuthenticationProperties properties = new AuthenticationProperties(authenticationDictionary);
+
+					properties.IsPersistent = false;
+
+					JwtSecurityToken securityToken = new JwtSecurityToken(accessToken);
+
+					var user = await this.UserManager.FindByIdAsync(securityToken.Claims.First(c => c.Type == "nameid").Value);
+
+					if (user == null)
+					{
+						string email = securityToken.Claims.First(c => c.Type == "email").Value;
+						int mailto = email.LastIndexOf("mailto:");
+						email = email.Substring(7, email.Length - 7);
+
+						ApplicationUser applicationUser = new ApplicationUser
+						{
+							Id = securityToken.Claims.First(c => c.Type == "nameid").Value,
+							Email = email,
+							UserName = securityToken.Claims.First(c => c.Type == "unique_name").Value
+						};
+
+						foreach (var claim in securityToken.Claims)
+						{
+							IdentityUserClaim identityUserClaim = new IdentityUserClaim
+							{
+								ClaimType = claim.Type,
+								ClaimValue = claim.Value,
+								UserId = securityToken.Claims.First(c => c.Type == "nameid").Value
+							};
+
+							applicationUser.Claims.Add(identityUserClaim);
+						}
+
+						var identityResult = await this.UserManager.CreateAsync(applicationUser);
+
+						if (!identityResult.Succeeded)
+						{
+							return SignInStatus.Failure;
+						}
+						else
+						{
+							var userIdentity = await this.CreateUserIdentityAsync(applicationUser);
+
+							this.AuthenticationManager.SignIn(properties, userIdentity);
+						}
+					}
+					else
+					{
+						var userIdentity = await this.CreateUserIdentityAsync(user);
+
+						this.AuthenticationManager.SignIn(properties, userIdentity);
+					}
+
+					return SignInStatus.Success;
+				}
+				else
+				{
+					return SignInStatus.Failure;
+				}
 			}
 		}
 	}

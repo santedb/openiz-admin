@@ -25,6 +25,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Security.Claims;
+using System.Threading.Tasks;
 
 namespace OpenIZAdmin.DAL
 {
@@ -81,6 +83,11 @@ namespace OpenIZAdmin.DAL
 			}
 
 			return manager;
+		}
+
+		public override Task<ClaimsIdentity> CreateIdentityAsync(ApplicationUser user, string authenticationType)
+		{
+			return this.ClaimsIdentityFactory.CreateAsync(this, user, authenticationType);
 		}
 	}
 }
