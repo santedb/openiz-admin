@@ -178,6 +178,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Attributes\TokenAuthorize.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\SearchController.cs" />
     <Compile Include="Controllers\UserAdministrationController.cs" />
     <Compile Include="Controllers\AppletController.cs" />
     <Compile Include="Controllers\DeviceController.cs" />
@@ -206,6 +207,8 @@
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DeviceModels\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Models\Domain\ApplicationUser.cs" />
+    <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="Models\SearchType.cs" />
     <Compile Include="Models\UserAdministration\ViewModels\RoleViewModel.cs" />
     <Compile Include="Models\UserAdministration\ViewModels\UserRoleViewModel.cs" />
     <Compile Include="Models\UserAdministration\ViewModels\UserViewModel.cs" />

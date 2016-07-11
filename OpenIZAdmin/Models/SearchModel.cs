@@ -14,33 +14,31 @@
  * the License.
  * 
  * User: Nityan
- * Date: 2016-7-8
+ * Date: 2016-7-10
  */
-using OpenIZAdmin.Models;
-using OpenIZAdmin.Models.DeviceModels.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 
-namespace OpenIZAdmin.Controllers
+namespace OpenIZAdmin.Models
 {
-	public class DeviceController : Controller
+	public class SearchModel
 	{
-		// GET: Certificate
-		public ActionResult Index()
+		public SearchModel()
 		{
-			TempData["searchType"] = SearchType.Device;
 
-			List<DeviceViewModel> viewModels = new List<DeviceViewModel>
-			{
-				new DeviceViewModel(DateTime.Now, "Nexus 5", null),
-				new DeviceViewModel(DateTime.Now, "Nexus 7", null),
-				new DeviceViewModel(new DateTime(DateTime.UtcNow.Year -1, DateTime.UtcNow.Month, DateTime.UtcNow.Day), "Samsung Galaxy 3", DateTime.UtcNow)
-			};
-
-			return View(viewModels);
 		}
+
+		[Required]
+		[Display(Name = "Search")]
+		[StringLength(255)]
+		public string SearchTerm { get; set; }
+
+		[Required]
+		[StringLength(255)]
+		[Display(Name = "Search Type")]
+		public string SearchType { get; set; }
 	}
 }
