@@ -17,7 +17,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.CmcRequest, new { @class = "col-md-2 control-label" })
                     <div class="col-md-6">
-                        @Html.TextAreaFor(m => m.CmcRequest, new { @class = "form-control" })
+                        @Html.TextAreaFor(m => m.CmcRequest, new { @class = "form-control", rows = 10 })
                         @Html.ValidationMessageFor(m => m.CmcRequest, "", new { @class = "text-danger" })
                     </div>
                 </div>

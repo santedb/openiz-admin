@@ -17,13 +17,16 @@
  * Date: 2016-7-8
  */
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Models.Ami;
 using OpenIZAdmin.Models.CertificateModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
+using OpenIZAdmin.Services;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -43,9 +46,9 @@ namespace OpenIZAdmin.Controllers
 		private static readonly Uri amiEndpoint = AmiConfig.AmiEndpoint;
 
 		/// <summary>
-		/// The internal reference to the <see cref="System.Net.Http.HttpClient"/> instance.
+		/// The internal reference to the <see cref="OpenIZAdmin.Services.RestClient"/> instance.
 		/// </summary>
-		private HttpClient client;
+		private RestClient client;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.CertificateController"/> class.
@@ -65,7 +68,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var response = await this.client.PutAsync(string.Format("{0}/csr/{1}", amiEndpoint, model.CertificateId), null);
+				var response = await this.client.PutAsync(string.Format("{0}/csr/{1}", amiEndpoint, model.CertificateId));
 
 				if (response.IsSuccessStatusCode)
 				{
@@ -262,8 +265,7 @@ namespace OpenIZAdmin.Controllers
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			this.client = new HttpClient();
-			this.client.DefaultRequestHeaders.Add("Authorization", string.Format("Bearer {0}", HttpContext.Request.Cookies["access_token"].Value));
+			this.client = new RestClient(amiEndpoint, new Credentials(HttpContext.Request), new XmlMediaTypeFormatter { UseXmlSerializer = true });
 
 			base.OnActionExecuting(filterContext);
 		}
@@ -307,7 +309,8 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var response = await this.client.PostAsXmlAsync(string.Format("{0}/csr/", amiEndpoint), model);
+				SubmissionRequest submissionRequest = new SubmissionRequest(model);
+				var response = await this.client.PostAsync<SubmissionRequest, HttpResponseMessage>(string.Format("{0}/csr/", amiEndpoint), submissionRequest);
 
 				if (response.IsSuccessStatusCode)
 				{
