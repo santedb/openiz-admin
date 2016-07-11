@@ -74,6 +74,10 @@
       <HintPath>..\packages\System.IdentityModel.Tokens.Jwt.5.0.0\lib\net451\System.IdentityModel.Tokens.Jwt.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.ServiceModel" />
     <Reference Include="System.Web.DynamicData" />
@@ -132,15 +136,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="System.Net.Http.Formatting">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Web.Http.WebHost">
-      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -179,12 +174,11 @@
     <Compile Include="App_Start\AmiConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
-    <Compile Include="App_Start\MessageHandlerConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
-    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Attributes\TokenAuthorize.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\UserAdministration.cs" />
+    <Compile Include="Controllers\UserAdministrationController.cs" />
     <Compile Include="Controllers\AppletController.cs" />
     <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\CertificateController.cs" />
@@ -196,7 +190,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logging\RollOverTextWriterTraceListener.cs" />
-    <Compile Include="MessageHandlers\LogMessageHandler.cs" />
     <Compile Include="Models\CertificateModels\AcceptCertificateSigningRequestModel.cs" />
     <Compile Include="Models\CertificateModels\DeleteCertificateModel.cs" />
     <Compile Include="Models\CertificateModels\SubmissionStatus.cs" />
@@ -205,6 +198,7 @@
     <Compile Include="Models\CertificateModels\RevokeReason.cs" />
     <Compile Include="Models\AccountModels\LoginModel.cs" />
     <Compile Include="Models\AppletModels\ViewModels\AppletViewModel.cs" />
+    <Compile Include="Models\CertificateModels\ViewModels\CertificateIndexViewModel.cs" />
     <Compile Include="Models\CertificateModels\ViewModels\CertificateRequestViewModel.cs" />
     <Compile Include="Models\CertificateModels\ViewModels\CertificateRevocationListViewModel.cs" />
     <Compile Include="Models\CertificateModels\ViewModels\CertificateSigningRequestViewModel.cs" />
@@ -212,8 +206,9 @@
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DeviceModels\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Models\Domain\ApplicationUser.cs" />
-    <Compile Include="Models\UserAdminstration\ViewModels\UserRoleViewModel.cs" />
-    <Compile Include="Models\UserAdminstration\ViewModels\UserViewModel.cs" />
+    <Compile Include="Models\UserAdministration\ViewModels\RoleViewModel.cs" />
+    <Compile Include="Models\UserAdministration\ViewModels\UserRoleViewModel.cs" />
+    <Compile Include="Models\UserAdministration\ViewModels\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -251,7 +246,6 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\modernizr-2.8.3.js" />
     <Content Include="Scripts\moment-with-locales.js" />
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
@@ -293,6 +287,9 @@
     <Content Include="Views\Certificate\Certificates.cshtml" />
     <Content Include="Views\Certificate\Certificate.cshtml" />
     <Content Include="Views\Certificate\CertificateSigningRequest.cshtml" />
+    <Content Include="Views\Certificate\SubmitCertificateSigningRequest.cshtml" />
+    <Content Include="Views\UserAdministration\CreateUser.cshtml" />
+    <Content Include="Views\UserAdministration\CreateRole.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

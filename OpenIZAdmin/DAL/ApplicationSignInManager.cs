@@ -42,6 +42,8 @@ namespace OpenIZAdmin.DAL
 		{
 		}
 
+		public string AccessToken { get; private set; }
+
 		public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
 		{
 			return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
@@ -58,13 +60,13 @@ namespace OpenIZAdmin.DAL
 			{
 				client.DefaultRequestHeaders.Add("Authorization", "BASIC " + Convert.ToBase64String(Encoding.UTF8.GetBytes(AmiConfig.ApplicationId + ":" + AmiConfig.ApplicationSecret)));
 
-				StringContent content = new StringContent(string.Format("grant_type=password&username={0}&password={1}&scope=http://demo.openiz.org:8080/imsi", userName, password));
+				StringContent content = new StringContent(string.Format("grant_type=password&username={0}&password={1}&scope={2}", userName, password, AmiConfig.Scope));
 
 				// HACK: have to remove the headers before adding them...
 				content.Headers.Remove("Content-Type");
 				content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
 
-				var result = await client.PostAsync("http://demo.openiz.org:8080/auth/oauth2_token", content);
+				var result = await client.PostAsync(AmiConfig.AmiTokenEndpoint, content);
 
 				if (result.IsSuccessStatusCode)
 				{
@@ -100,7 +102,7 @@ namespace OpenIZAdmin.DAL
 						int mailto = email.LastIndexOf("mailto:");
 						email = email.Substring(7, email.Length - 7);
 
-						ApplicationUser applicationUser = new ApplicationUser
+						user = new ApplicationUser
 						{
 							Id = securityToken.Claims.First(c => c.Type == "nameid").Value,
 							Email = email,
@@ -116,10 +118,10 @@ namespace OpenIZAdmin.DAL
 								UserId = securityToken.Claims.First(c => c.Type == "nameid").Value
 							};
 
-							applicationUser.Claims.Add(identityUserClaim);
+							user.Claims.Add(identityUserClaim);
 						}
 
-						var identityResult = await this.UserManager.CreateAsync(applicationUser);
+						var identityResult = await this.UserManager.CreateAsync(user);
 
 						if (!identityResult.Succeeded)
 						{
@@ -127,9 +129,10 @@ namespace OpenIZAdmin.DAL
 						}
 						else
 						{
-							var userIdentity = await this.CreateUserIdentityAsync(applicationUser);
+							var userIdentity = await this.CreateUserIdentityAsync(user);
 
 							this.AuthenticationManager.SignIn(properties, userIdentity);
+							this.AccessToken = accessToken;
 						}
 					}
 					else
@@ -137,6 +140,7 @@ namespace OpenIZAdmin.DAL
 						var userIdentity = await this.CreateUserIdentityAsync(user);
 
 						this.AuthenticationManager.SignIn(properties, userIdentity);
+						this.AccessToken = accessToken;
 					}
 
 					return SignInStatus.Success;

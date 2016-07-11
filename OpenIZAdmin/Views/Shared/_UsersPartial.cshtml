@@ -6,8 +6,44 @@
 <div class="panel panel-default">
     <div class="panel panel-heading">
         Users
+        <div class="pull-right">
+            <span>New</span>
+            <a href="~/UserAdministration/CreateUser" class="glyphicon glyphicon-plus-sign"></a>
+        </div>
     </div>
     <div class="panel panel-body">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>
+                        User Id
+                    </th>
+                    <th>
+                        Username
+                    </th>
+                    <th>
+                        Email
+                    </th>
+                    <th>
+                        Locked Out?
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr class="clickable-row" data-href="/UserAdministration/User/@item.UserId">
+                        <td><span class="glyphicon glyphicon-user pull-left" aria-hidden="true"></span></td>
+                        <td>@item.UserId</td>
+                        <td>@item.Username</td>
+                        <td>@item.Email</td>
+                        <td>@item.IsLockedOut</td>
+                        <td><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></td>
+                    </tr>}
+            </tbody>
+        </table>
+
     </div>
 </div>
 

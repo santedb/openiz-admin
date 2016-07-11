@@ -1,9 +1,9 @@
-﻿@model OpenIZAdmin.Models.CertificateModels.ViewModels.CertificateRequestViewModel
+﻿@model OpenIZAdmin.Models.CertificateModels.ViewModels.CertificateIndexViewModel
 @{
     ViewBag.Title = "Certificates";
 }
 
 <h2>Certificates</h2>
 
-@Html.Partial("_CertificateRequestsPartial", Model)
+@Html.Partial("_CertificateSigningRequestsPartial", Model.CertificateSigningRequests)
 

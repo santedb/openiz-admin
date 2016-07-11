@@ -14,29 +14,38 @@
  * the License.
  * 
  * User: Nityan
- * Date: 2016-7-10
+ * Date: 2016-7-8
  */
-using OpenIZAdmin.MessageHandlers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Http;
 
-namespace OpenIZAdmin
+namespace OpenIZAdmin.Models.UserAdministration.ViewModels
 {
-	/// <summary>
-	/// Represents message handling configuration for the application.
-	/// </summary>
-	public static class MessageHandlerConfig
+	public class UserViewModel
 	{
-		/// <summary>
-		/// Registers message handlers for the application.
-		/// </summary>
-		/// <param name="config">The http configuration for which to add the message handlers.</param>
-		public static void Register(HttpConfiguration config)
+		public UserViewModel() : this(null, null, null, false)
 		{
-			config.MessageHandlers.Add(new LogMessageHandler());
+
 		}
+
+		public UserViewModel(string userId, string username, string email, bool isLockedOut)
+		{
+			this.Email = email;
+			this.IsLockedOut = isLockedOut;
+			this.UserId = userId;
+			this.Username = username;
+		}
+
+		public string Email { get; set; }
+
+		public bool IsLockedOut { get; set; }
+
+		public IEnumerable<RoleViewModel> Roles { get; set; }
+
+		public string UserId { get; set; }
+
+		public string Username { get; set; }
 	}
 }

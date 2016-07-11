@@ -16,6 +16,7 @@
  * User: Nityan
  * Date: 2016-7-8
  */
+using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models.CertificateModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
 using System;
@@ -26,13 +27,14 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace OpenIZAdmin.Controllers
 {
 	/// <summary>
 	/// Provides operations for managing certificates.
 	/// </summary>
-	[Authorize]
+	[TokenAuthorize]
 	public class CertificateController : Controller
 	{
 		/// <summary>
@@ -43,14 +45,13 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// The internal reference to the <see cref="System.Net.Http.HttpClient"/> instance.
 		/// </summary>
-		private readonly HttpClient client;
+		private HttpClient client;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.CertificateController"/> class.
 		/// </summary>
 		public CertificateController()
 		{
-			this.client = new HttpClient();
 		}
 
 		/// <summary>
@@ -170,7 +171,7 @@ namespace OpenIZAdmin.Controllers
 		[ActionName("Certificates")]
 		public async Task<ActionResult> GetCertificatesAsync()
 		{
-			var response = await this.client.GetAsync(string.Format("{0}/certificate", amiEndpoint));
+			var response = await this.client.GetAsync(string.Format("{0}/certificate/", amiEndpoint));
 
 			if (response.IsSuccessStatusCode)
 			{
@@ -237,9 +238,34 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <returns>Returns the index view.</returns>
 		[HttpGet]
-		public ActionResult Index()
+		[ActionName("Index")]
+		public async Task<ActionResult> IndexAsync()
 		{
-			return View();
+			var response = await this.client.GetAsync(string.Format("{0}/csr/", amiEndpoint));
+
+			if (response.IsSuccessStatusCode)
+			{
+				CertificateIndexViewModel viewModel = new CertificateIndexViewModel
+				{
+					CertificateSigningRequests = new List<CertificateSigningRequestViewModel>
+					{
+					}
+				};
+
+				return View(viewModel);
+			}
+
+			TempData["error"] = "Unable to retrieve certificate signing request list";
+
+			return RedirectToAction("Index", "Home");
+		}
+
+		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		{
+			this.client = new HttpClient();
+			this.client.DefaultRequestHeaders.Add("Authorization", string.Format("Bearer {0}", HttpContext.Request.Cookies["access_token"].Value));
+
+			base.OnActionExecuting(filterContext);
 		}
 
 		/// <summary>
@@ -268,6 +294,12 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+		[HttpGet]
+		public ActionResult SubmitCertificateSigningRequest()
+		{
+			return View();
+		}
+
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		[ActionName("SubmitCertificateSigningRequest")]
@@ -275,7 +307,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var response = await this.client.PostAsXmlAsync(string.Format("{0}/csr", amiEndpoint), model);
+				var response = await this.client.PostAsXmlAsync(string.Format("{0}/csr/", amiEndpoint), model);
 
 				if (response.IsSuccessStatusCode)
 				{

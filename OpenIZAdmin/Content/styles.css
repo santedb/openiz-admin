@@ -22,7 +22,7 @@ span.glyphicon {
  */
 
 .navigation   {
-    background-color: #428bca;
+    background-color: #353535;
 }
 
 .navigation a {
@@ -39,7 +39,7 @@ span.glyphicon {
 a.logo   {
     display: inline-block;
     font-weight: 600;
-    text-shadow: #3e3e3e 1px 0px 2px;
+    text-shadow: #353535 1px 0px 2px;
 }
 
 a.settings {
@@ -50,7 +50,7 @@ a.settings {
 
 a.settings:hover {
     color: #fff;
-    text-shadow: #3e3e3e 0px 0px 2px;
+    text-shadow: #353535 0px 0px 2px;
 }
 
 
@@ -66,14 +66,14 @@ a.settings:hover {
 
 .panel-body {
 	background-color: #f5f5f5;
-	color: #316895;
+	color: #353535;
 }
 
 .panel a {
 	font-weight: 600;
 	text-decoration: none;
 	font-size: 0.9em;
-	color: #316895;
+	color: #353535;
 }
 
 div#header {
@@ -87,21 +87,6 @@ div#home .jumbotron {
 
 div.panel-heading > a.row {
     display: block;
-}
-
-
-/*
-    History
-*/
-
-div#history div#header {
-	margin-bottom: 20px;
-    margin-top: 0px;
-}
-
-div#history .panel-body {
-	background-color: #ebf6ff;
-    color: #333;
 }
 
 /*
@@ -142,7 +127,7 @@ div.content .panel-body {
 		padding: 20px;
 		overflow-x: hidden;
 		overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-		background-color: #316895;
+		background-color: #404040;
 		color: #fff;
 		border-right: 1px solid #eee;
 	}
@@ -278,7 +263,7 @@ div#data .panel-body {
 }
 
 .panel-heading.page-title {
-	color: #316895;
+	color: #353535;
 }
 
 .panel-heading.page-title a {

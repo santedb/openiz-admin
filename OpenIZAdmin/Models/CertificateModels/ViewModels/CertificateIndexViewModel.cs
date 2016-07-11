@@ -23,24 +23,17 @@ using System.Web;
 
 namespace OpenIZAdmin.Models.CertificateModels.ViewModels
 {
-	public class CertificateSigningRequestViewModel
+	public class CertificateIndexViewModel
 	{
-		public CertificateSigningRequestViewModel() : this(null, DateTime.UtcNow, Guid.Empty)
+		public CertificateIndexViewModel()
 		{
 
 		}
 
-		public CertificateSigningRequestViewModel(string commonName, DateTime createdOnUtcDate, Guid id)
-		{
-			this.CommonName = commonName;
-			this.CreatedOnUtcDate = createdOnUtcDate;
-			this.Id = id;
-		}
+		public IEnumerable<CertificateSigningRequestViewModel> CertificateSigningRequests { get; set; }
 
-		public string CommonName { get; set; }
+		public IEnumerable<CertificateViewModel> Certificates { get; set; }
 
-		public DateTime CreatedOnUtcDate { get; set; }
-
-		public Guid Id { get; set; }
+		public IEnumerable<CertificateRevocationListViewModel> CertificateRevocations { get; set; }
 	}
 }

@@ -16,6 +16,7 @@
  * User: khannan
  * Date: 2016-5-31
  */
+using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.AppletModels.ViewModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
@@ -29,6 +30,7 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
+	[TokenAuthorize]
 	public class HomeController : Controller
 	{
 		public ActionResult Index()
@@ -41,15 +43,26 @@ namespace OpenIZAdmin.Controllers
 					new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientAdministration", "0.5.0.0"),
 					new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientEncounters", "0.5.0.0"),
 				},
-				CertificateRequests = new List<CertificateRequestViewModel>
+				CertificateRequests = new List<CertificateSigningRequestViewModel>
 				{
-					new CertificateRequestViewModel("demo.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
-					new CertificateRequestViewModel("arusha.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
-					new CertificateRequestViewModel("zanzibar.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
+					new CertificateSigningRequestViewModel("demo.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
+					new CertificateSigningRequestViewModel("arusha.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
+					new CertificateSigningRequestViewModel("zanzibar.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
 				},
-				Devices = new List<DeviceViewModel>(),
+				Devices = new List<DeviceViewModel>
+				{
+					new DeviceViewModel(DateTime.Now, "Nexus 5", null),
+					new DeviceViewModel(DateTime.Now, "Nexus 7", null),
+					new DeviceViewModel(new DateTime(DateTime.UtcNow.Year -1, DateTime.UtcNow.Month, DateTime.UtcNow.Day), "Samsung Galaxy 3", DateTime.UtcNow)
+				},
 				UserRoles = new List<UserRoleViewModel>(),
-				Users = new List<UserViewModel>()
+				Users = new List<UserViewModel>
+				{
+					new UserViewModel(Guid.NewGuid().ToString(), "nityan", "nityan@example.com", false),
+					new UserViewModel(Guid.NewGuid().ToString(), "mo", "mo@example.com", false),
+					new UserViewModel(Guid.NewGuid().ToString(), "justin", "justin@example.com", false),
+					new UserViewModel(Guid.NewGuid().ToString(), "lockedout", "lockedout@example.com", true)
+				}
 			};
 
 			return View(viewModel);

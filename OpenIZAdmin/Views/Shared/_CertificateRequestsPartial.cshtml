@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OpenIZAdmin.Models.CertificateModels.ViewModels.CertificateRequestViewModel>
+﻿@model IEnumerable<OpenIZAdmin.Models.CertificateModels.ViewModels.CertificateSigningRequestViewModel>
 @{
     ViewBag.Title = "Certificate Requests";
 }
@@ -8,7 +8,7 @@
         Certificate Requests
         <div class="pull-right">
             <span>New</span>
-            <a href="~/CertificateRequest/Create" class="glyphicon glyphicon-plus-sign"></a>
+            <a href="~/Certificate/SubmitCertificateSigningRequest" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
     <div class="panel panel-body">
@@ -17,7 +17,7 @@
                 <tr>
                     <th></th>
                     <th>
-                        Certificate Request Id
+                        Certificate Signing Request Id
                     </th>
                     <th>
                         Common Name
@@ -30,17 +30,17 @@
             <tbody>
                 @foreach (var item in Model)
                 {
-                    <tr class="clickable-row" data-href="/message?transactionId=@item.Id">
+                    <tr class="clickable-row" data-href="/Certificate/CertificateSigningRequest?id=@item.Id">
                         <td><span class="glyphicon glyphicon-lock pull-left" aria-hidden="true"></span></td>
                         <td>@item.Id</td>
                         <td>@item.CommonName</td>
                         <td>@item.CreatedOnUtcDate.ToLocalTime()</td>
                         <td><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></td>
                     </tr>}
-                </tbody>
-            </table>
+            </tbody>
+        </table>
 
-        </div>
     </div>
+</div>
 
 

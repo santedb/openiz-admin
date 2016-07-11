@@ -14,7 +14,7 @@
  * the License.
  * 
  * User: Nityan
- * Date: 2016-7-8
+ * Date: 2016-7-10
  */
 using System;
 using System.Collections.Generic;
@@ -23,7 +23,15 @@ using System.Web;
 
 namespace OpenIZAdmin.Models.UserAdministration.ViewModels
 {
-	public class UserViewModel
+	public class RoleViewModel
 	{
+		public RoleViewModel()
+		{
+
+		}
+
+		public string Id { get; set; }
+
+		public string Name { get; set; }
 	}
 }

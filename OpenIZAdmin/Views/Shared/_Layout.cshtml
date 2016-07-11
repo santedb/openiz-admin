@@ -25,12 +25,9 @@
                 </a>
                 <ul class="nav pull-right">
                     <li>
-                        <a href="/Generation/Settings" class="settings" title="Settings">
-                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-                        </a>
+                        @Html.Partial("_LoginPartial")
                     </li>
                 </ul>
-                @Html.Partial("_LoginPartial")
             </nav>
         </div>
     </div>
@@ -46,7 +43,7 @@
                     {
                         <li><a href="/Certificate"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Certificates</a></li>
                         <li><a href="/Device"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> Devices</a></li>
-                        <li><a href="/UserAdministration/Users"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users</a></li>
+                        <li><a href="/UserAdministration"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users</a></li>
                         <li><a href="/UserAdministration/UserRoles"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> User Roles</a></li>
                         <li><a href="/Applet"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Applets</a></li>
                     }

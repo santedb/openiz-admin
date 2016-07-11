@@ -50,12 +50,18 @@ namespace OpenIZAdmin
 		/// </summary>
 		public static Uri AmiTokenEndpoint { get; private set; }
 
+		/// <summary>
+		/// The scope for which to request against the AMI.
+		/// </summary>
+		public static Uri Scope { get; set; }
+
 		public static void Initialize()
 		{
 			AmiEndpoint = new Uri(Setting<string>("amiEndpoint"));
 			AmiTokenEndpoint = new Uri(Setting<string>("amiTokenEndpoint"));
 			ApplicationId = Setting<string>("applicationId");
 			ApplicationSecret = Setting<string>("applicationSecret");
+			Scope = new Uri(Setting<string>("scope"));
 		}
 
 		/// <summary>

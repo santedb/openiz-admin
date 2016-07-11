@@ -126,6 +126,7 @@ namespace OpenIZAdmin.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+					Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");

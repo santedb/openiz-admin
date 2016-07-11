@@ -36,7 +36,7 @@ namespace OpenIZAdmin.Models
 
 		public IEnumerable<AppletViewModel> Applets { get; set; }
 
-		public IEnumerable<CertificateRequestViewModel> CertificateRequests { get; set; }
+		public IEnumerable<CertificateSigningRequestViewModel> CertificateRequests { get; set; }
 
 		public IEnumerable<DeviceViewModel> Devices { get; set; }
 
