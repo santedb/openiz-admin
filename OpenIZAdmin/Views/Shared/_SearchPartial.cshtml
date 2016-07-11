@@ -1,25 +1,14 @@
 ﻿@model OpenIZAdmin.Models.SearchModel
 @{
-    ViewBag.Title = "_SearchPartial";
-
-    AjaxOptions options = new AjaxOptions
-    {
-        AllowCache = false,
-        HttpMethod = "POST",
-        InsertionMode = InsertionMode.Replace,
-        OnSuccess = "searchSuccess",
-        UpdateTargetId = "results"
-    };
+    ViewBag.Title = "Search";
 }
-
-
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
         Search
     </div>
     <div class="panel panel-body">
-        @using (Ajax.BeginForm("Search", "Search", new { searchType = TempData["searchType"] }, options, new { @class = "form-horizontal", role = "form" }))
+        @using (Html.BeginForm("Search", TempData["searchType"]?.ToString(), FormMethod.Get, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })

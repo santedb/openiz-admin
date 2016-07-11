@@ -190,7 +190,7 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = "Unable to retrieve user list";
 
-			return RedirectToAction("Index");
+			return RedirectToAction("Index", "Home");
 		}
 
 		[HttpGet]
@@ -210,7 +210,7 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = "Unable to retrieve user list";
 
-			return RedirectToAction("Index");
+			return RedirectToAction("Index", "Home");
 		}
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)

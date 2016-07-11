@@ -35,10 +35,5 @@ namespace OpenIZAdmin.Models
 		[Display(Name = "Search")]
 		[StringLength(255)]
 		public string SearchTerm { get; set; }
-
-		[Required]
-		[StringLength(255)]
-		[Display(Name = "Search Type")]
-		public string SearchType { get; set; }
 	}
 }

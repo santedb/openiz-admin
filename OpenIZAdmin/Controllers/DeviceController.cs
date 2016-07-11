@@ -21,6 +21,7 @@ using OpenIZAdmin.Models.DeviceModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -28,10 +29,9 @@ namespace OpenIZAdmin.Controllers
 {
 	public class DeviceController : Controller
 	{
-		// GET: Certificate
 		public ActionResult Index()
 		{
-			TempData["searchType"] = SearchType.Device;
+			TempData["searchType"] = "Device";
 
 			List<DeviceViewModel> viewModels = new List<DeviceViewModel>
 			{
@@ -41,6 +41,25 @@ namespace OpenIZAdmin.Controllers
 			};
 
 			return View(viewModels);
+		}
+
+		[HttpGet]
+		[ActionName("Search")]
+		public async Task<ActionResult> SearchAsync(string searchTerm)
+		{
+			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+			{
+				List<DeviceViewModel> viewModels = new List<DeviceViewModel>
+				{
+					new DeviceViewModel(DateTime.Now, "Nexus 5", null),
+					new DeviceViewModel(DateTime.Now, "Nexus 7", null)
+				};
+
+				return View("Index", viewModels);
+			}
+
+			TempData["error"] = "Invalid search, please check your search criteria";
+			return View("Index", searchTerm);
 		}
 	}
 }

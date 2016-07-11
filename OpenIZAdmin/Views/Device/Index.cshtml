@@ -8,6 +8,8 @@
 <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
     @Html.Partial("_SearchPartial", new OpenIZAdmin.Models.SearchModel())
 
-    @Html.Partial("_DevicesPartial", Model)
+    <div id="results">
+        @{  Html.RenderPartial("_DevicesPartial", Model); }
+    </div>
 </div>
 
