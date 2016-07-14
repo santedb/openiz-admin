@@ -67,6 +67,12 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="OpenIZ.Core.Applets">
+      <HintPath>..\Solution Items\OpenIZ.Core.Applets.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenIZ.Core.Model">
+      <HintPath>..\Solution Items\OpenIZ.Core.Model.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -178,6 +184,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Attributes\TokenAuthorize.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\RealmController.cs" />
     <Compile Include="Controllers\UserAdministrationController.cs" />
     <Compile Include="Controllers\AppletController.cs" />
     <Compile Include="Controllers\DeviceController.cs" />
@@ -190,7 +197,9 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Logging\RollOverTextWriterTraceListener.cs" />
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Ami\SubmissionRequest.cs" />
+    <Compile Include="Models\AppletModels\UploadAppletModel.cs" />
     <Compile Include="Models\CertificateModels\AcceptCertificateSigningRequestModel.cs" />
     <Compile Include="Models\CertificateModels\DeleteCertificateModel.cs" />
     <Compile Include="Models\CertificateModels\SubmissionStatus.cs" />
@@ -207,6 +216,11 @@
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DeviceModels\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Models\Domain\ApplicationUser.cs" />
+    <Compile Include="Models\Domain\Realm.cs" />
+    <Compile Include="Models\RealmModels\JoinRealmModel.cs" />
+    <Compile Include="Models\RealmModels\LeaveRealmModel.cs" />
+    <Compile Include="Models\RealmModels\SwitchRealmModel.cs" />
+    <Compile Include="Models\RealmModels\UpdateRealmModel.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\UserAdministration\ViewModels\RoleViewModel.cs" />
     <Compile Include="Models\UserAdministration\ViewModels\UserRoleViewModel.cs" />
@@ -294,8 +308,14 @@
     <Content Include="Views\Certificate\SubmitCertificateSigningRequest.cshtml" />
     <Content Include="Views\UserAdministration\CreateUser.cshtml" />
     <Content Include="Views\UserAdministration\CreateRole.cshtml" />
+    <Content Include="Views\Applet\Upload.cshtml" />
+    <Content Include="Views\Realm\JoinRealm.cshtml" />
+    <Content Include="Views\Realm\UpdateRealmSettings.cshtml" />
+    <Content Include="Views\Realm\LeaveRealm.cshtml" />
+    <Content Include="Views\Realm\SwitchRealm.cshtml" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Applets\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

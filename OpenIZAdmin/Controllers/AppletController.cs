@@ -16,20 +16,64 @@
  * User: Nityan
  * Date: 2016-7-8
  */
+using OpenIZAdmin.Models.AppletModels;
+using OpenIZAdmin.Models.AppletModels.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
-    public class AppletController : Controller
-    {
-        // GET: Certificate
-        public ActionResult Index()
-        {
-            return View();
-        }
-    }
+	public class AppletController : Controller
+	{
+		[HttpGet]
+		public ActionResult Index()
+		{
+			List<AppletViewModel> applets = new List<AppletViewModel>
+			{
+				new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.authentication", "0.5.0.0"),
+				new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientAdministration", "0.5.0.0"),
+				new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientEncounters", "0.5.0.0")
+			};
+
+			return View(applets);
+		}
+
+		[HttpGet]
+		public ActionResult Upload()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Upload(UploadAppletModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				string pathToSave = Server.MapPath("~/Applets/");
+				string filename = Path.GetFileName(Request.Files[0].FileName);
+
+				Request.Files[0].SaveAs(Path.Combine(pathToSave, Guid.NewGuid().ToString() + "." + filename));
+
+				TempData["success"] = string.Format("Applet {0} uploaded successfully", filename);
+
+				if (model.UploadAnotherFile)
+				{
+					ModelState.Clear();
+					model.File = null;
+					return View(model);
+				}
+
+				return RedirectToAction("Index");
+			}
+
+			TempData["success"] = "Unable to upload applet";
+
+			return View(model);
+		}
+	}
 }

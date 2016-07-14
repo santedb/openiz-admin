@@ -14,37 +14,49 @@
  * the License.
  * 
  * User: Nityan
- * Date: 2016-7-10
+ * Date: 2016-7-13
  */
-using Microsoft.AspNet.Identity.EntityFramework;
-using OpenIZAdmin.Models.Domain;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
-namespace OpenIZAdmin.DAL
+namespace OpenIZAdmin.Models.Domain
 {
-	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+	public class Realm
 	{
-		public ApplicationDbContext()
-			: base("OpenIZAdminConnection", throwIfV1Schema: false)
+		public Realm()
 		{
+
 		}
 
-		public static ApplicationDbContext Create()
-		{
-			return new ApplicationDbContext();
-		}
+		[Required]
+		[StringLength(255)]
+		public string Address { get; set; }
 
-		protected override void OnModelCreating(DbModelBuilder modelBuilder)
-		{
-			modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-			base.OnModelCreating(modelBuilder);
-		}
+		[Url]
+		[Required]
+		public string AmiAuthEndpoint { get; set; }
 
-		public DbSet<Realm> Realm { get; set; }
+		[Url]
+		[Required]
+		public string AmiEndpoint { get; set; }
+
+		[Required]
+		[StringLength(255)]
+		public string ApplicationId { get; set; }
+
+		[Required]
+		[StringLength(255)]
+		public string ApplicationSecret { get; set; }
+
+		[Key]
+		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+		public Guid Id { get; set; }
+
+		[StringLength(100)]
+		public string Name { get; set; }
 	}
 }

@@ -14,37 +14,16 @@
  * the License.
  * 
  * User: Nityan
- * Date: 2016-7-10
+ * Date: 2016-7-13
  */
-using Microsoft.AspNet.Identity.EntityFramework;
-using OpenIZAdmin.Models.Domain;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
 using System.Linq;
 using System.Web;
 
-namespace OpenIZAdmin.DAL
+namespace OpenIZAdmin.Models.RealmModels
 {
-	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+	public class UpdateRealmModel
 	{
-		public ApplicationDbContext()
-			: base("OpenIZAdminConnection", throwIfV1Schema: false)
-		{
-		}
-
-		public static ApplicationDbContext Create()
-		{
-			return new ApplicationDbContext();
-		}
-
-		protected override void OnModelCreating(DbModelBuilder modelBuilder)
-		{
-			modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-			base.OnModelCreating(modelBuilder);
-		}
-
-		public DbSet<Realm> Realm { get; set; }
 	}
 }

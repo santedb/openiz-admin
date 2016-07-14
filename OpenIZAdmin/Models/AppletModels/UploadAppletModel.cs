@@ -14,37 +14,34 @@
  * the License.
  * 
  * User: Nityan
- * Date: 2016-7-10
+ * Date: 2016-7-13
  */
-using Microsoft.AspNet.Identity.EntityFramework;
-using OpenIZAdmin.Models.Domain;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
-using System.Data.Entity.ModelConfiguration.Conventions;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace OpenIZAdmin.DAL
+namespace OpenIZAdmin.Models.AppletModels
 {
-	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+	public class UploadAppletModel
 	{
-		public ApplicationDbContext()
-			: base("OpenIZAdminConnection", throwIfV1Schema: false)
+		public UploadAppletModel()
 		{
+
 		}
 
-		public static ApplicationDbContext Create()
-		{
-			return new ApplicationDbContext();
-		}
+		[Required]
+		[StringLength(255)]
+		public string Description { get; set; }
 
-		protected override void OnModelCreating(DbModelBuilder modelBuilder)
-		{
-			modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
-			base.OnModelCreating(modelBuilder);
-		}
+		[Required]
+		[StringLength(100)]
+		public string Name { get; set; }
 
-		public DbSet<Realm> Realm { get; set; }
+		[Required]
+		public HttpPostedFileBase File { get; set; }
+
+		public bool UploadAnotherFile { get; set; }
 	}
 }
