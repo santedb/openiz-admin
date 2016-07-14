@@ -1,77 +1,72 @@
 ﻿/*
  * Copyright 2016-2016 Mohawk College of Applied Arts and Technology
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you 
- * may not use this file except in compliance with the License. You may 
- * obtain a copy of the License at 
- * 
- * http://www.apache.org/licenses/LICENSE-2.0 
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the 
- * License for the specific language governing permissions and limitations under 
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * User: khannan
  * Date: 2016-5-31
  */
-using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
+
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using OpenIZAdmin.Models;
 using OpenIZAdmin.DAL;
-using OpenIZAdmin.Models.Domain;
 using OpenIZAdmin.Models.AccountModels;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
-    [Authorize]
-    public class AccountController : Controller
-    {
-        private ApplicationSignInManager _signInManager;
-        private ApplicationUserManager _userManager;
+	[Authorize]
+	public class AccountController : Controller
+	{
+		private ApplicationSignInManager _signInManager;
+		private ApplicationUserManager _userManager;
 
-        public AccountController()
-        {
-        }
+		public AccountController()
+		{
+		}
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
-        {
-            UserManager = userManager;
-            SignInManager = signInManager;
-        }
+		public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+		{
+			UserManager = userManager;
+			SignInManager = signInManager;
+		}
 
-        public ApplicationSignInManager SignInManager
-        {
-            get
-            {
-                return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
-            }
-            private set 
-            { 
-                _signInManager = value; 
-            }
-        }
+		public ApplicationSignInManager SignInManager
+		{
+			get
+			{
+				return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
+			}
+			private set
+			{
+				_signInManager = value;
+			}
+		}
 
-        public ApplicationUserManager UserManager
-        {
-            get
-            {
-                return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
-        }
+		public ApplicationUserManager UserManager
+		{
+			get
+			{
+				return _userManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+			}
+			private set
+			{
+				_userManager = value;
+			}
+		}
 
 		protected override void Dispose(bool disposing)
 		{
@@ -111,101 +106,106 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="model">The login model containing a username and password.</param>
 		/// <param name="returnUrl">The return url to redirect to once the user is authenticated.</param>
 		/// <returns>Returns a <see cref="System.Threading.Tasks.Task"/> with the result of the login action.</returns>
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Login(LoginModel model, string returnUrl)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(model);
-            }
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public async Task<ActionResult> Login(LoginModel model, string returnUrl)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
 
 			var result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, false, shouldLockout: false);
 
-            switch (result)
-            {
-                case SignInStatus.Success:
+			switch (result)
+			{
+				case SignInStatus.Success:
 					Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
-                    return RedirectToLocal(returnUrl);
-                case SignInStatus.LockedOut:
-                    return View("Lockout");
-                case SignInStatus.RequiresVerification:
-                    return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
-                case SignInStatus.Failure:
-                default:
-                    ModelState.AddModelError("", "Incorrect Username or Password");
-                    return View(model);
-            }
-        }
+					return RedirectToLocal(returnUrl);
 
-        //
-        // POST: /Account/LogOff
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LogOff()
-        {
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            return RedirectToAction("Index", "Home");
-        }
+				case SignInStatus.LockedOut:
+					return View("Lockout");
 
-        #region Helpers
-        // Used for XSRF protection when adding external logins
-        private const string XsrfKey = "XsrfId";
+				case SignInStatus.RequiresVerification:
+					return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
 
-        private IAuthenticationManager AuthenticationManager
-        {
-            get
-            {
-                return HttpContext.GetOwinContext().Authentication;
-            }
-        }
+				case SignInStatus.Failure:
+				default:
+					ModelState.AddModelError("", "Incorrect Username or Password");
+					return View(model);
+			}
+		}
 
-        private void AddErrors(IdentityResult result)
-        {
-            foreach (var error in result.Errors)
-            {
-                ModelState.AddModelError("", error);
-            }
-        }
+		//
+		// POST: /Account/LogOff
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult LogOff()
+		{
+			AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+			return RedirectToAction("Index", "Home");
+		}
 
-        private ActionResult RedirectToLocal(string returnUrl)
-        {
-            if (Url.IsLocalUrl(returnUrl))
-            {
-                return Redirect(returnUrl);
-            }
-            return RedirectToAction("Index", "Home");
-        }
+		#region Helpers
 
-        internal class ChallengeResult : HttpUnauthorizedResult
-        {
-            public ChallengeResult(string provider, string redirectUri)
-                : this(provider, redirectUri, null)
-            {
-            }
+		// Used for XSRF protection when adding external logins
+		private const string XsrfKey = "XsrfId";
 
-            public ChallengeResult(string provider, string redirectUri, string userId)
-            {
-                LoginProvider = provider;
-                RedirectUri = redirectUri;
-                UserId = userId;
-            }
+		private IAuthenticationManager AuthenticationManager
+		{
+			get
+			{
+				return HttpContext.GetOwinContext().Authentication;
+			}
+		}
 
-            public string LoginProvider { get; set; }
-            public string RedirectUri { get; set; }
-            public string UserId { get; set; }
+		private void AddErrors(IdentityResult result)
+		{
+			foreach (var error in result.Errors)
+			{
+				ModelState.AddModelError("", error);
+			}
+		}
 
-            public override void ExecuteResult(ControllerContext context)
-            {
-                var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
-                if (UserId != null)
-                {
-                    properties.Dictionary[XsrfKey] = UserId;
-                }
-                context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
-            }
-        }
-        #endregion
-    }
+		private ActionResult RedirectToLocal(string returnUrl)
+		{
+			if (Url.IsLocalUrl(returnUrl))
+			{
+				return Redirect(returnUrl);
+			}
+			return RedirectToAction("Index", "Home");
+		}
+
+		internal class ChallengeResult : HttpUnauthorizedResult
+		{
+			public ChallengeResult(string provider, string redirectUri)
+				: this(provider, redirectUri, null)
+			{
+			}
+
+			public ChallengeResult(string provider, string redirectUri, string userId)
+			{
+				LoginProvider = provider;
+				RedirectUri = redirectUri;
+				UserId = userId;
+			}
+
+			public string LoginProvider { get; set; }
+			public string RedirectUri { get; set; }
+			public string UserId { get; set; }
+
+			public override void ExecuteResult(ControllerContext context)
+			{
+				var properties = new AuthenticationProperties { RedirectUri = RedirectUri };
+				if (UserId != null)
+				{
+					properties.Dictionary[XsrfKey] = UserId;
+				}
+				context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
+			}
+		}
+
+		#endregion Helpers
+	}
 }
