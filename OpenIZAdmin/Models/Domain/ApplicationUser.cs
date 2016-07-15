@@ -19,6 +19,9 @@
 
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -34,5 +37,11 @@ namespace OpenIZAdmin.Models.Domain
 			// Add custom user claims here
 			return userIdentity;
 		}
+
+		[Required]
+		public Guid RealmId { get; set; }
+
+		[ForeignKey("RealmId")]
+		public virtual Realm Realm { get; set; }
 	}
 }

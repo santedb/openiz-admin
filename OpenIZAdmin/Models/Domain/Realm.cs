@@ -18,6 +18,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -39,6 +40,8 @@ namespace OpenIZAdmin.Models.Domain
 
 		[Url]
 		[Required]
+		[StringLength(255)]
+		[Index(IsUnique = true)]
 		public string AmiEndpoint { get; set; }
 
 		[Required]
@@ -55,5 +58,7 @@ namespace OpenIZAdmin.Models.Domain
 
 		[StringLength(100)]
 		public string Name { get; set; }
+
+		public virtual ICollection<ApplicationUser> Users { get; set; }
 	}
 }
