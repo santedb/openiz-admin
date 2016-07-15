@@ -20,6 +20,8 @@
 using OpenIZAdmin.Models.AppletModels.ViewModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
 using OpenIZAdmin.Models.DeviceModels.ViewModels;
+using OpenIZAdmin.Models.RealmModels;
+using OpenIZAdmin.Models.RealmModels.ViewModels;
 using OpenIZAdmin.Models.UserAdministration.ViewModels;
 using System.Collections.Generic;
 

@@ -17,9 +17,45 @@
  * Date: 2016-7-13
  */
 
+using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace OpenIZAdmin.Models.RealmModels
 {
 	public class JoinRealmModel
 	{
+		public JoinRealmModel()
+		{
+
+		}
+
+		[Required]
+		[StringLength(255)]
+		public string Address { get; set; }
+
+		[Required]
+		[StringLength(255)]
+		public string ApplicationId { get; set; }
+
+		[Required]
+		[StringLength(255)]
+		public string ApplicationSecret { get; set; }
+
+		[StringLength(255)]
+		public string Description { get; set; }
+
+		[Required]
+		[StringLength(100)]
+		public string Name { get; set; }
+
+		[Required]
+		[Display(Name = "Password")]
+		[DataType(DataType.Password)]
+		public string Password { get; set; }
+
+		[Required]
+		[StringLength(255)]
+		[Display(Name = "Username")]
+		public string Username { get; set; }
 	}
 }

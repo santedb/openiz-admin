@@ -1,0 +1,45 @@
+﻿@model OpenIZAdmin.Models.RealmModels.ViewModels.RealmViewModel
+@{
+    ViewBag.Title = "Realm View";
+}
+
+<div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
+    <div class="panel panel-default">
+        <div class="panel panel-heading">
+            <span>Switch Realm</span>
+            <a href="~/Realm/SwitchRealm" class="glyphicon glyphicon-refresh"></a>
+        </div>
+        <div class="panel panel-body panel-default">
+            <div class="form-group">
+                @Html.LabelFor(m => m.Address, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ApplicationId, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.ApplicationId, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ApplicationSecret, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.ApplicationSecret, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Description, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

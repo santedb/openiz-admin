@@ -17,9 +17,17 @@
  * Date: 2016-7-13
  */
 
+using System;
+
 namespace OpenIZAdmin.Models.RealmModels
 {
 	public class LeaveRealmModel
 	{
+		public LeaveRealmModel()
+		{
+
+		}
+
+		public Guid RealmId { get; set; }
 	}
 }

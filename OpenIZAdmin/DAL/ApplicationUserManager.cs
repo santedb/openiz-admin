@@ -23,6 +23,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using OpenIZAdmin.Models.Domain;
 using System;
+using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -81,6 +82,17 @@ namespace OpenIZAdmin.DAL
 			}
 
 			return manager;
+		}
+
+		public override Task<IdentityResult> CreateAsync(ApplicationUser user)
+		{
+			using (IUnitOfWork unitOfWork = new EntityUnitOfWork(new ApplicationDbContext()))
+			{
+				var activeRealm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).Single();
+				user.RealmId = activeRealm.Id;
+			}
+
+			return base.CreateAsync(user);
 		}
 
 		public override Task<ClaimsIdentity> CreateIdentityAsync(ApplicationUser user, string authenticationType)

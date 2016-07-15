@@ -29,42 +29,52 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
-	[TokenAuthorize]
+	[AllowAnonymous]
 	public class HomeController : Controller
 	{
 		public ActionResult Index()
 		{
-			DashboardViewModel viewModel = new DashboardViewModel
+			if (!RealmConfig.IsJoinedToRealm())
 			{
-				Applets = new List<AppletViewModel>
-				{
-					new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.authentication", "0.5.0.0"),
-					new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientAdministration", "0.5.0.0"),
-					new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientEncounters", "0.5.0.0"),
-				},
-				CertificateRequests = new List<CertificateSigningRequestViewModel>
-				{
-					new CertificateSigningRequestViewModel("demo.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
-					new CertificateSigningRequestViewModel("arusha.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
-					new CertificateSigningRequestViewModel("zanzibar.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
-				},
-				Devices = new List<DeviceViewModel>
-				{
-					new DeviceViewModel(DateTime.Now, "Nexus 5", null),
-					new DeviceViewModel(DateTime.Now, "Nexus 7", null),
-					new DeviceViewModel(new DateTime(DateTime.UtcNow.Year -1, DateTime.UtcNow.Month, DateTime.UtcNow.Day), "Samsung Galaxy 3", DateTime.UtcNow)
-				},
-				UserRoles = new List<UserRoleViewModel>(),
-				Users = new List<UserViewModel>
-				{
-					new UserViewModel(Guid.NewGuid().ToString(), "nityan", "nityan@example.com", false),
-					new UserViewModel(Guid.NewGuid().ToString(), "mo", "mo@example.com", false),
-					new UserViewModel(Guid.NewGuid().ToString(), "justin", "justin@example.com", false),
-					new UserViewModel(Guid.NewGuid().ToString(), "lockedout", "lockedout@example.com", true)
-				}
-			};
+				return RedirectToAction("JoinRealm", "Realm");
+			}
 
-			return View(viewModel);
+			if (User.Identity.IsAuthenticated)
+			{
+				DashboardViewModel viewModel = new DashboardViewModel
+				{
+					Applets = new List<AppletViewModel>
+					{
+						new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.authentication", "0.5.0.0"),
+						new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientAdministration", "0.5.0.0"),
+						new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientEncounters", "0.5.0.0"),
+					},
+					CertificateRequests = new List<CertificateSigningRequestViewModel>
+					{
+						new CertificateSigningRequestViewModel("demo.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
+						new CertificateSigningRequestViewModel("arusha.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
+						new CertificateSigningRequestViewModel("zanzibar.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
+					},
+					Devices = new List<DeviceViewModel>
+					{
+						new DeviceViewModel(DateTime.Now, "Nexus 5", null),
+						new DeviceViewModel(DateTime.Now, "Nexus 7", null),
+						new DeviceViewModel(new DateTime(DateTime.UtcNow.Year -1, DateTime.UtcNow.Month, DateTime.UtcNow.Day), "Samsung Galaxy 3", DateTime.UtcNow)
+					},
+					UserRoles = new List<UserRoleViewModel>(),
+					Users = new List<UserViewModel>
+					{
+						new UserViewModel(Guid.NewGuid().ToString(), "nityan", "nityan@example.com", false),
+						new UserViewModel(Guid.NewGuid().ToString(), "mo", "mo@example.com", false),
+						new UserViewModel(Guid.NewGuid().ToString(), "justin", "justin@example.com", false),
+						new UserViewModel(Guid.NewGuid().ToString(), "lockedout", "lockedout@example.com", true)
+					}
+				};
+
+				return View(viewModel);
+			}
+
+			return RedirectToAction("Login", "Account", new { returnUrl = Request.UrlReferrer?.ToString() });
 		}
 	}
 }

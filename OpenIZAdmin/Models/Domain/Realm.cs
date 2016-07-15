@@ -17,6 +17,7 @@
  * Date: 2016-7-13
  */
 
+using OpenIZAdmin.Models.RealmModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -26,8 +27,15 @@ namespace OpenIZAdmin.Models.Domain
 {
 	public class Realm
 	{
-		public Realm()
+		public Realm() : this(DateTime.UtcNow, Guid.NewGuid())
 		{
+
+		}
+
+		public Realm(DateTime creationTime, Guid id)
+		{
+			this.CreationTime = creationTime;
+			this.Id = id;
 		}
 
 		[Required]
@@ -52,12 +60,21 @@ namespace OpenIZAdmin.Models.Domain
 		[StringLength(255)]
 		public string ApplicationSecret { get; set; }
 
+		[Required]
+		public DateTime CreationTime { get; set; }
+
+		[StringLength(255)]
+		public string Description { get; set; }
+
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public Guid Id { get; set; }
 
+		[Required]
 		[StringLength(100)]
 		public string Name { get; set; }
+
+		public DateTime? ObsoletionTime { get; set; }
 
 		public virtual ICollection<ApplicationUser> Users { get; set; }
 	}

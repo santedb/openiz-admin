@@ -17,9 +17,19 @@
  * Date: 2016-7-13
  */
 
+using System;
+using System.ComponentModel.DataAnnotations;
+
 namespace OpenIZAdmin.Models.RealmModels
 {
 	public class SwitchRealmModel
 	{
+		public SwitchRealmModel()
+		{
+
+		}
+
+		[Required]
+		public Guid RealmId { get; set; }
 	}
 }
