@@ -30,10 +30,8 @@ namespace OpenIZAdmin.Models.RealmModels.ViewModels
 
 		}
 
-		public string Address { get; set; }
+		public RealmViewModel CurrentRealm { get; set; }
 
-		public Guid Id { get; set; }
-
-		public string Name { get; set; }
+		public IEnumerable<RealmViewModel> InactiveRealms { get; set; }
 	}
 }

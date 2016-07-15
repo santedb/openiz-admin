@@ -226,7 +226,6 @@
     <Compile Include="Models\ModelMapper.cs" />
     <Compile Include="Models\RealmModels\JoinRealmModel.cs" />
     <Compile Include="Models\RealmModels\LeaveRealmModel.cs" />
-    <Compile Include="Models\RealmModels\SwitchRealmModel.cs" />
     <Compile Include="Models\RealmModels\UpdateRealmModel.cs" />
     <Compile Include="Models\RealmModels\ViewModels\RealmViewModel.cs" />
     <Compile Include="Models\RealmModels\ViewModels\SwitchRealmViewModel.cs" />
@@ -318,11 +317,12 @@
     <Content Include="Views\UserAdministration\CreateUser.cshtml" />
     <Content Include="Views\UserAdministration\CreateRole.cshtml" />
     <Content Include="Views\Applet\Upload.cshtml" />
-    <Content Include="Views\Realm\JoinRealm.cshtml" />
     <Content Include="Views\Realm\UpdateRealmSettings.cshtml" />
     <Content Include="Views\Realm\LeaveRealm.cshtml" />
     <Content Include="Views\Realm\SwitchRealm.cshtml" />
     <Content Include="Views\Realm\Index.cshtml" />
+    <Content Include="Views\Realm\JoinRealm.cshtml" />
+    <Content Include="Views\Shared\_CurrentRealmPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />

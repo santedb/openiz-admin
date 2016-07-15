@@ -17,6 +17,7 @@
  * Date: 2016-7-8
  */
 
+using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models.DeviceModels.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,7 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
+	[TokenAuthorize]
 	public class DeviceController : Controller
 	{
 		public ActionResult Index()

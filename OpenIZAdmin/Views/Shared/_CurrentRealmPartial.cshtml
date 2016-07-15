@@ -1,0 +1,84 @@
+﻿@model OpenIZAdmin.Models.RealmModels.ViewModels.RealmViewModel
+@{
+    ViewBag.Title = "Realm View";
+}
+
+<div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
+    <div class="panel panel-default">
+        <div class="panel panel-heading">
+            <span>Current Realm</span>
+            <div class="pull-right">
+                <a href="~/Realm/SwitchRealm">
+                    <span class="glyphicon glyphicon-transfer"></span>
+                    Switch to an Existing Realm
+                </a>
+                <a href="~/Realm/JoinRealm">
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                    Join New Realm
+                </a>
+                <a href="~/Realm/LeaveRealm">
+                    <span class="glyphicon glyphicon-export"></span>
+                    Leave Realm
+                </a>
+            </div>
+        </div>
+        <div class="panel panel-body panel-default">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.LabelFor(m => m.Address, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Address, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.LabelFor(m => m.Description, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Description, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.LabelFor(m => m.Id, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Id, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.LabelFor(m => m.ApplicationId, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.ApplicationId, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.LabelFor(m => m.ApplicationSecret, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.ApplicationSecret, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-4">
+                            @Html.LabelFor(m => m.CreationTime, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.LabelFor(m => m.AmiAuthEndpoint, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.AmiAuthEndpoint, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.LabelFor(m => m.AmiEndpoint, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.AmiEndpoint, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

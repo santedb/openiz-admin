@@ -17,7 +17,9 @@
  * Date: 2016-7-13
  */
 
+using OpenIZAdmin.Models.RealmModels.ViewModels;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.RealmModels
 {
@@ -28,6 +30,7 @@ namespace OpenIZAdmin.Models.RealmModels
 
 		}
 
-		public Guid RealmId { get; set; }
+		[Required]
+		public RealmViewModel CurrentRealm { get; set; }
 	}
 }

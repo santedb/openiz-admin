@@ -35,10 +35,12 @@ namespace OpenIZAdmin.Models.RealmModels
 
 		[Required]
 		[StringLength(255)]
+		[Display(Name = "Application Id")]
 		public string ApplicationId { get; set; }
 
 		[Required]
 		[StringLength(255)]
+		[Display(Name = "Application Secret")]
 		public string ApplicationSecret { get; set; }
 
 		[StringLength(255)]

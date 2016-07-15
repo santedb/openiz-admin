@@ -17,6 +17,7 @@
  * Date: 2016-7-8
  */
 
+using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models.AppletModels;
 using OpenIZAdmin.Models.AppletModels.ViewModels;
 using System;
@@ -26,6 +27,7 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
+	[TokenAuthorize]
 	public class AppletController : Controller
 	{
 		[HttpGet]

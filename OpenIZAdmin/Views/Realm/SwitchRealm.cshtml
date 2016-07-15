@@ -1,5 +1,77 @@
-﻿@model OpenIZAdmin.Models.RealmModels.SwitchRealmModel
+﻿@model OpenIZAdmin.Models.RealmModels.ViewModels.SwitchRealmViewModel
 @{
     ViewBag.Title = "Switch Realm";
 }
 
+@Html.Partial("_CurrentRealmPartial", Model.CurrentRealm)
+
+
+<div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
+    <div class="panel panel-default">
+        <div class="panel panel-heading">
+            Other Realms
+        </div>
+        <div class="panel panel-body">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            Creation Time
+                        </th>
+                        <th>
+                            Address
+                        </th>
+                        <th>
+                            Name
+                        </th>
+                        <th>
+                            Description
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.InactiveRealms)
+                    {
+                        <tr>
+                            <td><span class="glyphicon glyphicon-cog pull-left" aria-hidden="true"></span></td>
+                            <td>@item.CreationTime.ToLocalTime()</td>
+                            <td>@item.Address</td>
+                            <td>@item.Name</td>
+                            <td>@item.Description</td>
+                            <td>
+                                @using (Html.BeginForm("RemoveRealm", "Realm", new { realmId = item.Id }, FormMethod.Post, new { @class = "form-horizontal pull-left", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    @Html.HiddenFor(m => item.Id)
+
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn btn-danger">
+                                                <span class="glyphicon glyphicon-trash"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                }
+                            </td>
+                            <td>
+                                @using (Html.BeginForm("SwitchRealm", "Realm", new { realmId = item.Id }, FormMethod.Post, new { @class = "form-horizontal pull-right", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <div class="form-group">
+                                        <div class="col-sm-2">
+                                            <button type="submit" class="btn btn-primary">
+                                                <span class="glyphicon glyphicon-transfer"></span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                }
+                            </td>
+                        </tr>}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>

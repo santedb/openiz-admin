@@ -17,6 +17,7 @@
  * Date: 2016-7-15
  */
 using OpenIZAdmin.DAL;
+using OpenIZAdmin.Models.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,6 +37,18 @@ namespace OpenIZAdmin
 			}
 
 			return isJoinedToRealm;
+		}
+
+		public static Realm GetCurrentRealm()
+		{
+			Realm currentRealm = null;
+
+			using (IUnitOfWork unitOfWork = new EntityUnitOfWork(new ApplicationDbContext()))
+			{
+				currentRealm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).Single();
+			}
+
+			return currentRealm;
 		}
 	}
 }

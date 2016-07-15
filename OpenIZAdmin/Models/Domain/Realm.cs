@@ -40,6 +40,7 @@ namespace OpenIZAdmin.Models.Domain
 
 		[Required]
 		[StringLength(255)]
+		[Index(IsUnique = true)]
 		public string Address { get; set; }
 
 		[Url]
@@ -49,7 +50,6 @@ namespace OpenIZAdmin.Models.Domain
 		[Url]
 		[Required]
 		[StringLength(255)]
-		[Index(IsUnique = true)]
 		public string AmiEndpoint { get; set; }
 
 		[Required]

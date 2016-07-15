@@ -30,6 +30,7 @@ namespace OpenIZAdmin.Extensions
 			ThrowIfNullSource(source);
 
 			return source.EndsWith("\\");
+			
 		}
 
 		public static bool HasTrailingForwardSlash(this string source)
@@ -37,6 +38,16 @@ namespace OpenIZAdmin.Extensions
 			ThrowIfNullSource(source);
 
 			return source.EndsWith("/");
+		}
+
+		public static string RemoveTrailingBackSlash(this string source)
+		{
+			return source.Substring(0, source.LastIndexOf('\\'));
+		}
+
+		public static string RemoveTrailingForwardSlash(this string source)
+		{
+			return source.Substring(0, source.LastIndexOf('/'));
 		}
 
 		private static void ThrowIfNullSource(object source)

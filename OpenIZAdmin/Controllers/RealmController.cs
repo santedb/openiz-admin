@@ -99,10 +99,11 @@ namespace OpenIZAdmin.Controllers
 			base.Dispose(disposing);
 		}
 
-		private SwitchRealmViewModel GenerateSwitchRealmViewModel(Realm realm)
+		private LeaveRealmModel GenerateLeaveRealmModel(Realm realm)
 		{
-			SwitchRealmViewModel viewModel = new SwitchRealmViewModel();
+			LeaveRealmModel viewModel = new LeaveRealmModel();
 
+			viewModel.CurrentRealm = new RealmViewModel().Map(realm);
 			viewModel.Map(realm);
 
 			return viewModel;
@@ -117,9 +118,24 @@ namespace OpenIZAdmin.Controllers
 			return viewModel;
 		}
 
+		private SwitchRealmViewModel GenerateSwitchRealmViewModel(Realm realm)
+		{
+			SwitchRealmViewModel viewModel = new SwitchRealmViewModel();
+
+			viewModel.CurrentRealm = new RealmViewModel().Map(realm);
+			viewModel.Map(realm);
+
+			return viewModel;
+		}
+
 		[HttpGet]
 		public ActionResult Index()
 		{
+			if (!RealmConfig.IsJoinedToRealm())
+			{
+				return RedirectToAction("Index", "Home");
+			}
+
 			Realm realm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).Single();
 
 			return View(this.GenerateRealmViewModel(realm));
@@ -140,24 +156,47 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
+				model.Address = model.Address.HasTrailingBackSlash() ? model.Address.RemoveTrailingBackSlash() : model.Address;
+				model.Address = model.Address.HasTrailingForwardSlash() ? model.Address.RemoveTrailingForwardSlash() : model.Address;
 
-				Realm realm = unitOfWork.RealmRepository.Create();
+				Realm realm = unitOfWork.RealmRepository.Get(r => r.Address == model.Address && r.ObsoletionTime != null).AsEnumerable().SingleOrDefault();
 
-				realm.AmiAuthEndpoint = model.Address + (model.Address.HasTrailingForwardSlash() ? "auth/oauth2_token" : "/auth/oauth2_token");
-				realm.AmiEndpoint = model.Address + (model.Address.HasTrailingForwardSlash() ? "ami" : "/ami");
-				realm.Map(model);
-
-				IEnumerable<Realm> activeRealms = unitOfWork.RealmRepository.AsQueryable().Where(r => r.ObsoletionTime == null);
-
-				foreach (var activeRealm in activeRealms)
+				// HACK: the UrlAttribute class thinks that http://localhost is not a valid url...
+				if (model.Address.StartsWith("http://localhost"))
 				{
-					activeRealm.ObsoletionTime = DateTime.UtcNow;
-					unitOfWork.RealmRepository.Update(activeRealm);
-					unitOfWork.Save();
+					model.Address = model.Address.Replace("http://localhost", "http://127.0.0.1");
 				}
 
-				unitOfWork.RealmRepository.Add(realm);
-				unitOfWork.Save();
+				// is the user attempting to join a realm which they have already left?
+				if (realm != null)
+				{
+					realm.AmiAuthEndpoint = string.Format("{0}/auth/oauth2_token", model.Address);
+					realm.AmiEndpoint = string.Format("{0}/ami", model.Address);
+					realm.Map(model);
+					realm.ObsoletionTime = null;
+
+					unitOfWork.RealmRepository.Update(realm);
+					unitOfWork.Save();
+				}
+				else
+				{
+					realm = unitOfWork.RealmRepository.Create();
+
+					realm.AmiAuthEndpoint = string.Format("{0}/auth/oauth2_token", model.Address);
+					realm.AmiEndpoint = string.Format("{0}/ami", model.Address);
+					realm.Map(model);
+
+					IEnumerable<Realm> activeRealms = unitOfWork.RealmRepository.AsQueryable().Where(r => r.ObsoletionTime == null).AsEnumerable();
+
+					foreach (var activeRealm in activeRealms)
+					{
+						activeRealm.ObsoletionTime = DateTime.UtcNow;
+						unitOfWork.RealmRepository.Update(activeRealm);
+					}
+
+					unitOfWork.RealmRepository.Add(realm);
+					unitOfWork.Save();
+				}
 
 				var result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, false, shouldLockout: false);
 
@@ -175,12 +214,12 @@ namespace OpenIZAdmin.Controllers
 						return View(model);
 				}
 
-				TempData["success"] = "Realm saved successfully";
+				TempData["success"] = "Realm joined successfully";
 
 				return RedirectToAction("Index", "Home");
 			}
 
-			TempData["error"] = "Unable to save realm";
+			TempData["error"] = "Unable to join realm";
 
 			return View(model);
 		}
@@ -188,7 +227,11 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult LeaveRealm()
 		{
-			return View();
+			Realm realm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).Single();
+
+			LeaveRealmModel leaveRealmModel = this.GenerateLeaveRealmModel(realm);
+
+			return View(leaveRealmModel);
 		}
 
 		[HttpPost]
@@ -197,7 +240,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				Realm realm = unitOfWork.RealmRepository.FindById(model.RealmId);
+				Realm realm = unitOfWork.RealmRepository.FindById(model.CurrentRealm.Id);
 
 				if (realm == null)
 				{
@@ -207,12 +250,12 @@ namespace OpenIZAdmin.Controllers
 
 				realm.ObsoletionTime = DateTime.UtcNow;
 
-				unitOfWork.RealmRepository.Update(realm);
+				unitOfWork.RealmRepository.Delete(realm);
 				unitOfWork.Save();
 
-				TempData["error"] = "Realm left successfully";
+				TempData["success"] = "Realm left successfully";
 
-				return RedirectToAction("Index");
+				return RedirectToAction("Index", "Home");
 			}
 
 			TempData["error"] = "Unable to leave realm";
@@ -223,20 +266,24 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult SwitchRealm()
 		{
-			IEnumerable<Realm> realms = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime != null);
+			IEnumerable<Realm> realms = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null);
 
-			IEnumerable<SwitchRealmViewModel> realmViewModels = realms.Select(r => this.GenerateSwitchRealmViewModel(r));
+			SwitchRealmViewModel switchRealmModel = realms.Select(r => this.GenerateSwitchRealmViewModel(r)).AsEnumerable().Single();
 
-			return View(realmViewModels);
+			IEnumerable<Realm> inactiveRealms = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime != null);
+
+			switchRealmModel.InactiveRealms = inactiveRealms.Select(r => this.GenerateRealmViewModel(r)).AsEnumerable();
+
+			return View(switchRealmModel);
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult SwitchRealm(SwitchRealmModel model)
+		public ActionResult SwitchRealm(Guid realmId)
 		{
-			if (ModelState.IsValid)
+			if (realmId != Guid.Empty)
 			{
-				Realm realm = unitOfWork.RealmRepository.FindById(model.RealmId);
+				Realm realm = unitOfWork.RealmRepository.FindById(realmId);
 
 				if (realm == null)
 				{
@@ -261,7 +308,7 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = "Unable to switch realm";
 
-			return View(model);
+			return View();
 		}
 
 		[HttpGet]
