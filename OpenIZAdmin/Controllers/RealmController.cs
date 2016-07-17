@@ -303,7 +303,9 @@ namespace OpenIZAdmin.Controllers
 				unitOfWork.Save();
 
 				TempData["success"] = "Realm switched successfully";
-				return RedirectToAction("Index");
+				HttpContext.GetOwinContext().Authentication.SignOut();
+
+				return RedirectToAction("Login", "Account");
 			}
 
 			TempData["error"] = "Unable to switch realm";
