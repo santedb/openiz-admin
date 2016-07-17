@@ -28,8 +28,8 @@ namespace OpenIZAdmin.Models
 		}
 
 		[Required]
-		[Display(Name = "Search")]
 		[StringLength(255)]
+		[Display(Name = "Search")]
 		public string SearchTerm { get; set; }
 	}
 }

@@ -72,7 +72,7 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index");
 			}
 
-			TempData["success"] = "Unable to upload applet";
+			TempData["error"] = "Unable to upload applet";
 
 			return View(model);
 		}

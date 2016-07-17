@@ -33,17 +33,8 @@ namespace OpenIZAdmin.Models.RealmModels.ViewModels
 
 		public string Address { get; set; }
 
-		[Display(Name = "Authorization Endpoint")]
-		public string AmiAuthEndpoint { get; set; }
-
-		[Display(Name = "Administrative Interface Endpoint")]
-		public string AmiEndpoint { get; set; }
-
 		[Display(Name = "Application Id")]
 		public string ApplicationId { get; set; }
-
-		[Display(Name = "Application Secret")]
-		public string ApplicationSecret { get; set; }
 
 		[Display(Name = "Creation Time")]
 		public DateTime CreationTime { get; set; }

@@ -40,6 +40,7 @@ namespace OpenIZAdmin.Models.AppletModels
 		[FileExtensions(Extensions = ".pak.gz, .zip, .xml", ErrorMessage = "Unsupported file format, the allow file types are .pak.gz, .zip, .xml")]
 		public HttpPostedFileBase File { get; set; }
 
+		[Display(Name = "Upload another file?")]
 		public bool UploadAnotherFile { get; set; }
 	}
 }

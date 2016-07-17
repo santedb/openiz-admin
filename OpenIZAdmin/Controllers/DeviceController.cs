@@ -55,6 +55,8 @@ namespace OpenIZAdmin.Controllers
 					new DeviceViewModel(DateTime.Now, "Nexus 7", null)
 				};
 
+				TempData["searchTerm"] = searchTerm;
+
 				return View("Index", viewModels);
 			}
 

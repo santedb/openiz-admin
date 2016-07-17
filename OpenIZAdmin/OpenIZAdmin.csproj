@@ -67,11 +67,11 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="OpenIZ.Core.Applets">
-      <HintPath>..\Solution Items\OpenIZ.Core.Applets.dll</HintPath>
-    </Reference>
     <Reference Include="OpenIZ.Core.Model">
       <HintPath>..\Solution Items\OpenIZ.Core.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenIZ.Core.Model.AMI">
+      <HintPath>..\Solution Items\OpenIZ.Core.Model.AMI.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -230,6 +230,7 @@
     <Compile Include="Models\RealmModels\ViewModels\RealmViewModel.cs" />
     <Compile Include="Models\RealmModels\ViewModels\SwitchRealmViewModel.cs" />
     <Compile Include="Models\SearchModel.cs" />
+    <Compile Include="Models\UserAdministration\CreateUserModel.cs" />
     <Compile Include="Models\UserAdministration\ViewModels\RoleViewModel.cs" />
     <Compile Include="Models\UserAdministration\ViewModels\UserRoleViewModel.cs" />
     <Compile Include="Models\UserAdministration\ViewModels\UserViewModel.cs" />
