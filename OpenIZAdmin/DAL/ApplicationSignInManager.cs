@@ -35,25 +35,57 @@ using System.Threading.Tasks;
 
 namespace OpenIZAdmin.DAL
 {
+	/// <summary>
+	/// Represents the sign in manager for the application.
+	/// </summary>
 	public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OpenIZAdmin.DAL.ApplicationSignInManager"/> class
+		/// with a specified <see cref="OpenIZAdmin.DAL.ApplicationUserManager"/> instance and a
+		/// specified <see cref="Microsoft.Owin.Security.IAuthenticationManager"/> instance.
+		/// </summary>
+		/// <param name="userManager">The user manager instance.</param>
+		/// <param name="authenticationManager">The authentication manager instance.</param>
 		public ApplicationSignInManager(ApplicationUserManager userManager, IAuthenticationManager authenticationManager)
 			: base(userManager, authenticationManager)
 		{
 		}
 
+		/// <summary>
+		/// Gets the access token.
+		/// </summary>
 		public string AccessToken { get; private set; }
 
+		/// <summary>
+		/// Creates a user identity.
+		/// </summary>
+		/// <param name="user">The user for which to create the identity from.</param>
+		/// <returns>Returns the newly created user identity.</returns>
 		public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
 		{
 			return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
 		}
 
+		/// <summary>
+		/// Creates an instance of the <see cref="OpenIZAdmin.DAL.ApplicationSignInManager"/> class.
+		/// </summary>
+		/// <param name="options">The options of the sign in manager.</param>
+		/// <param name="context">The context of the sign in manager.</param>
+		/// <returns></returns>
 		public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
 		{
 			return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
 		}
 
+		/// <summary>
+		/// Signs in a user using a username and password.
+		/// </summary>
+		/// <param name="userName">The username of the user.</param>
+		/// <param name="password">The password of the user.</param>
+		/// <param name="isPersistent">Whether the user session is persistent.</param>
+		/// <param name="shouldLockout">Whether the user should be locked out.</param>
+		/// <returns>Returns a sign in status.</returns>
 		public override async Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
 		{
 			using (HttpClient client = new HttpClient())
