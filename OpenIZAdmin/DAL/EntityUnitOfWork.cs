@@ -17,6 +17,8 @@
  * Date: 2016-7-14
  */
 using OpenIZAdmin.Models.Domain;
+using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace OpenIZAdmin.DAL
@@ -71,8 +73,12 @@ namespace OpenIZAdmin.DAL
 			{
 				context.SaveChanges();
 			}
-			catch (System.Exception e)
+			catch (Exception e)
 			{
+#if DEBUG
+				Trace.TraceError(e.StackTrace);
+#endif
+				Trace.TraceError(e.Message);
 
 				throw;
 			}
@@ -81,6 +87,7 @@ namespace OpenIZAdmin.DAL
 		/// <summary>
 		/// Save any pending changes to the database.
 		/// </summary>
+		/// <returns>Returns a task.</returns>
 		public async Task SaveAsync()
 		{
 			await context.SaveChangesAsync();
@@ -136,7 +143,7 @@ namespace OpenIZAdmin.DAL
 			{
 				if (disposing)
 				{
-					context?.Dispose();
+					this.context?.Dispose();
 				}
 
 				// TODO: free unmanaged resources (unmanaged objects) and override a finalizer below.

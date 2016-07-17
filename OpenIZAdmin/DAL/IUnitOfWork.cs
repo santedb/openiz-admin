@@ -49,6 +49,7 @@ namespace OpenIZAdmin.DAL
 		/// <summary>
 		/// Save any pending changes to the database.
 		/// </summary>
+		/// <returns>Returns a task.</returns>
 		Task SaveAsync();
 	}
 }

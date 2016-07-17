@@ -71,7 +71,7 @@ namespace OpenIZAdmin.DAL
 		/// </summary>
 		/// <param name="filter">The filter for the query.</param>
 		/// <param name="orderBy">The order criteria for the results.</param>
-		/// <returns></returns>
+		/// <returns>Returns an IQueryable based on the filter criteria.</returns>
 		IQueryable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
 
 		/// <summary>
