@@ -24,24 +24,41 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace OpenIZAdmin.DAL
 {
+	/// <summary>
+	/// Represents the database context for the application.
+	/// </summary>
 	public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OpenIZAdmin.DAL.ApplicationDbContext"/> class.
+		/// </summary>
 		public ApplicationDbContext()
 			: base("OpenIZAdminConnection", throwIfV1Schema: false)
 		{
 		}
 
+		/// <summary>
+		/// Creates a database context.
+		/// </summary>
+		/// <returns>Returns the newly created database context.</returns>
 		public static ApplicationDbContext Create()
 		{
 			return new ApplicationDbContext();
 		}
 
+		/// <summary>
+		/// Overrides the on model creating process for customization purposes.
+		/// </summary>
+		/// <param name="modelBuilder">The model builder reference.</param>
 		protected override void OnModelCreating(DbModelBuilder modelBuilder)
 		{
 			modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 			base.OnModelCreating(modelBuilder);
 		}
 
+		/// <summary>
+		/// Gets or sets the Realm database set.
+		/// </summary>
 		public DbSet<Realm> Realm { get; set; }
 	}
 }
