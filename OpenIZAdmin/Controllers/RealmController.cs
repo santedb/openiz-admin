@@ -40,28 +40,60 @@ using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace OpenIZAdmin.Controllers
 {
+	/// <summary>
+	/// Provides operations for managing realms.
+	/// </summary>
 	[Authorize]
 	public class RealmController : Controller
 	{
+		/// <summary>
+		/// The internal reference to the sign in manager.
+		/// </summary>
 		private ApplicationSignInManager signInManager;
+
+		/// <summary>
+		/// The internal reference to the user manager.
+		/// </summary>
 		private ApplicationUserManager userManager;
+
+		/// <summary>
+		/// The internal reference to the unit of work.
+		/// </summary>
 		private readonly IUnitOfWork unitOfWork;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.RealmController"/> class.
+		/// </summary>
 		public RealmController() : this(new EntityUnitOfWork(new ApplicationDbContext()))
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.RealmController"/> class
+		/// with a specified <see cref="OpenIZAdmin.DAL.IUnitOfWork"/> instance.
+		/// </summary>
+		/// <param name="unitOfWork">The unit of work instance.</param>
 		public RealmController(IUnitOfWork unitOfWork)
 		{
 			this.unitOfWork = unitOfWork;
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.RealmController"/> class
+		/// with a specified <see cref="OpenIZAdmin.DAL.ApplicationUserManager"/> instance and a
+		/// specified <see cref="OpenIZAdmin.DAL.ApplicationSignInManager"/> instance.
+		/// </summary>
+		/// <param name="userManager">The user manager instance.</param>
+		/// <param name="signInManager">The sign in manager instance.</param>
 		public RealmController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
 		{
 			this.UserManager = userManager;
 			this.SignInManager = signInManager;
 		}
 
+		/// <summary>
+		/// Gets the sign in manager.
+		/// </summary>
 		public ApplicationSignInManager SignInManager
 		{
 			get
@@ -74,6 +106,9 @@ namespace OpenIZAdmin.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Gets the user manager.
+		/// </summary>
 		public ApplicationUserManager UserManager
 		{
 			get
@@ -86,6 +121,10 @@ namespace OpenIZAdmin.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Dispose of any managed resources.
+		/// </summary>
+		/// <param name="disposing">Whether the current invocation is disposing.</param>
 		protected override void Dispose(bool disposing)
 		{
 			this.unitOfWork?.Dispose();
@@ -99,6 +138,11 @@ namespace OpenIZAdmin.Controllers
 			base.Dispose(disposing);
 		}
 
+		/// <summary>
+		/// Generates a <see cref="OpenIZAdmin.Models.RealmModels.LeaveRealmModel"/> instance.
+		/// </summary>
+		/// <param name="realm">The realm for which to generate the <see cref="OpenIZAdmin.Models.RealmModels.LeaveRealmModel"/> from.</param>
+		/// <returns>Returns an instance of the <see cref="OpenIZAdmin.Models.RealmModels.LeaveRealmModel"/> class.</returns>
 		private LeaveRealmModel GenerateLeaveRealmModel(Realm realm)
 		{
 			LeaveRealmModel viewModel = new LeaveRealmModel();
@@ -109,6 +153,11 @@ namespace OpenIZAdmin.Controllers
 			return viewModel;
 		}
 
+		/// <summary>
+		/// Generates a <see cref="OpenIZAdmin.Models.RealmModels.ViewModels.RealmViewModel"/> instance.
+		/// </summary>
+		/// <param name="realm">The realm for which to generate the <see cref="OpenIZAdmin.Models.RealmModels.ViewModels.RealmViewModel"/> from.</param>
+		/// <returns>Returns an instance of the <see cref="OpenIZAdmin.Models.RealmModels.ViewModels.RealmViewModel"/> class.</returns>
 		private RealmViewModel GenerateRealmViewModel(Realm realm)
 		{
 			RealmViewModel viewModel = new RealmViewModel();
@@ -118,6 +167,11 @@ namespace OpenIZAdmin.Controllers
 			return viewModel;
 		}
 
+		/// <summary>
+		/// Generates a <see cref="OpenIZAdmin.Models.RealmModels.ViewModels.SwitchRealmViewModel"/> instance.
+		/// </summary>
+		/// <param name="realm">The realm for which to generate the <see cref="OpenIZAdmin.Models.RealmModels.ViewModels.SwitchRealmViewModel"/> from.</param>
+		/// <returns>Returns an instance of the <see cref="OpenIZAdmin.Models.RealmModels.ViewModels.SwitchRealmViewModel"/> class.</returns>
 		private SwitchRealmViewModel GenerateSwitchRealmViewModel(Realm realm)
 		{
 			SwitchRealmViewModel viewModel = new SwitchRealmViewModel();
@@ -128,6 +182,10 @@ namespace OpenIZAdmin.Controllers
 			return viewModel;
 		}
 
+		/// <summary>
+		/// Displays the index view.
+		/// </summary>
+		/// <returns>Returns the index view.</returns>
 		[HttpGet]
 		public ActionResult Index()
 		{
@@ -141,6 +199,10 @@ namespace OpenIZAdmin.Controllers
 			return View(this.GenerateRealmViewModel(realm));
 		}
 
+		/// <summary>
+		/// Displays the join realm view.
+		/// </summary>
+		/// <returns>Returns the join realm view.</returns>
 		[HttpGet]
 		[AllowAnonymous]
 		public ActionResult JoinRealm()
@@ -148,6 +210,11 @@ namespace OpenIZAdmin.Controllers
 			return View();
 		}
 
+		/// <summary>
+		/// Joins a realm.
+		/// </summary>
+		/// <param name="model">The model containing the properties to use to join the realm.</param>
+		/// <returns>Returns the index view if the realm is joined successfully.</returns>
 		[HttpPost]
 		[AllowAnonymous]
 		[ActionName("JoinRealm")]
@@ -224,6 +291,10 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+		/// <summary>
+		/// Displays the leave realm view.
+		/// </summary>
+		/// <returns>Returns the leave realm view.</returns>
 		[HttpGet]
 		public ActionResult LeaveRealm()
 		{
@@ -234,6 +305,11 @@ namespace OpenIZAdmin.Controllers
 			return View(leaveRealmModel);
 		}
 
+		/// <summary>
+		/// Leaves a realm.
+		/// </summary>
+		/// <param name="model">The model containing the properties to use to leave the realm</param>
+		/// <returns>Returns the index view if the realm is left successfully.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult LeaveRealm(LeaveRealmModel model)
@@ -263,6 +339,10 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+		/// <summary>
+		/// Displays the switch realm view.
+		/// </summary>
+		/// <returns>Returns the switch realm view.</returns>
 		[HttpGet]
 		public ActionResult SwitchRealm()
 		{
@@ -277,6 +357,11 @@ namespace OpenIZAdmin.Controllers
 			return View(switchRealmModel);
 		}
 
+		/// <summary>
+		/// Switches a realm.
+		/// </summary>
+		/// <param name="realmId">The id of the realm to switch to.</param>
+		/// <returns>Returns the login view if the realm is switched successfully.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult SwitchRealm(Guid realmId)
@@ -313,6 +398,10 @@ namespace OpenIZAdmin.Controllers
 			return View();
 		}
 
+		/// <summary>
+		/// Displays the update realm settings view.
+		/// </summary>
+		/// <returns>Returns the update realm settings view.</returns>
 		[HttpGet]
 		public ActionResult UpdateRealmSettings()
 		{
