@@ -32,11 +32,12 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr class="clickable-row" data-href="/Certificate/CertificateSigningRequest?id=@item.Id">
+                        <tr class="clickable-row" data-href="#">
                             <td><span class="glyphicon glyphicon-lock pull-left" aria-hidden="true"></span></td>
-                            <td>@item.Id</td>
-                            <td>@item.CommonName</td>
-                            <td>@item.CreatedOnUtcDate.ToLocalTime()</td>
+                            <td>@item.AdministrativeContactName</td>
+                            <td>@item.AdministrativeContactName</td>
+                            <td>@item.DistinguishedName</td>
+                            <td>@item.SubmissionTime.ToLocalTime()</td>
                             <td><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></td>
                         </tr>}
                 </tbody>
