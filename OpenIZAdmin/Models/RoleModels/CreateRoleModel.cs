@@ -14,21 +14,35 @@
  * the License.
  *
  * User: Nityan
- * Date: 2016-7-15
+ * Date: 2016-7-17
  */
 
-using System.Collections.Generic;
+using OpenIZ.Core.Model.AMI.Auth;
+using System.ComponentModel.DataAnnotations;
 
-namespace OpenIZAdmin.Models.RealmModels.ViewModels
+namespace OpenIZAdmin.Models.RoleModels
 {
-	public class SwitchRealmViewModel
+	public class CreateRoleModel
 	{
-		public SwitchRealmViewModel()
+		public CreateRoleModel()
 		{
 		}
 
-		public RealmViewModel CurrentRealm { get; set; }
+		public CreateRoleModel(SecurityRoleInfo roleInfo)
+		{
+			this.Name = roleInfo.Name;
+		}
 
-		public IEnumerable<RealmViewModel> InactiveRealms { get; set; }
+		[Required]
+		[StringLength(100)]
+		public string Name { get; set; }
+
+		public SecurityRoleInfo ToSecurityRoleInfo()
+		{
+			return new SecurityRoleInfo
+			{
+				Name = this.Name
+			};
+		}
 	}
 }

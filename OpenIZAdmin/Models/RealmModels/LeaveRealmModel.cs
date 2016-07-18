@@ -18,7 +18,6 @@
  */
 
 using OpenIZAdmin.Models.RealmModels.ViewModels;
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.RealmModels
@@ -27,7 +26,6 @@ namespace OpenIZAdmin.Models.RealmModels
 	{
 		public LeaveRealmModel()
 		{
-
 		}
 
 		[Required]

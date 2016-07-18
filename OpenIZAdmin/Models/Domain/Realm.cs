@@ -17,7 +17,6 @@
  * Date: 2016-7-13
  */
 
-using OpenIZAdmin.Models.RealmModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +28,6 @@ namespace OpenIZAdmin.Models.Domain
 	{
 		public Realm() : this(DateTime.UtcNow, Guid.NewGuid())
 		{
-
 		}
 
 		public Realm(DateTime creationTime, Guid id)
@@ -45,6 +43,7 @@ namespace OpenIZAdmin.Models.Domain
 
 		[Url]
 		[Required]
+		[StringLength(255)]
 		public string AmiAuthEndpoint { get; set; }
 
 		[Url]

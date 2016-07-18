@@ -17,7 +17,6 @@
  * Date: 2016-7-13
  */
 
-using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.RealmModels
@@ -26,7 +25,6 @@ namespace OpenIZAdmin.Models.RealmModels
 	{
 		public JoinRealmModel()
 		{
-
 		}
 
 		[Required]

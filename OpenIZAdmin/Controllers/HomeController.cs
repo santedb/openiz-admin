@@ -22,7 +22,9 @@ using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.AppletModels.ViewModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
 using OpenIZAdmin.Models.DeviceModels.ViewModels;
+using OpenIZAdmin.Models.RoleModels.ViewModels;
 using OpenIZAdmin.Models.UserAdministration.ViewModels;
+using OpenIZAdmin.Models.UserModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Web.Mvc;
@@ -61,13 +63,53 @@ namespace OpenIZAdmin.Controllers
 						new DeviceViewModel(DateTime.Now, "Nexus 7", null),
 						new DeviceViewModel(new DateTime(DateTime.UtcNow.Year -1, DateTime.UtcNow.Month, DateTime.UtcNow.Day), "Samsung Galaxy 3", DateTime.UtcNow)
 					},
+					Roles = new List<RoleViewModel>
+					{
+						new RoleViewModel
+						{
+							Description = "Group for users who have administrative access",
+							Id = Guid.Parse("f6d2ba1d-5bb5-41e3-b7fb-2ec32418b2e1"),
+							Name = "ADMINISTRATORS"
+						}
+					},
 					UserRoles = new List<UserRoleViewModel>(),
 					Users = new List<UserViewModel>
 					{
-						new UserViewModel(Guid.NewGuid().ToString(), "nityan", "nityan@example.com", false),
-						new UserViewModel(Guid.NewGuid().ToString(), "mo", "mo@example.com", false),
-						new UserViewModel(Guid.NewGuid().ToString(), "justin", "justin@example.com", false),
-						new UserViewModel(Guid.NewGuid().ToString(), "lockedout", "lockedout@example.com", true)
+						new UserViewModel
+						{
+							Email = "administrator@openiz.org",
+							IsLockedOut = false,
+							UserId = Guid.Parse("f8f4449f-6b4c-e611-bf27-f46d0450b928"),
+							Username = "Administrator"
+						},
+						new UserViewModel
+						{
+							Email = "nityan@example.com",
+							UserId = Guid.NewGuid(),
+							IsLockedOut = false,
+							Username = "nityan"
+						},
+						new UserViewModel
+						{
+							Email = "mo@example.com",
+							UserId = Guid.NewGuid(),
+							IsLockedOut = false,
+							Username = "mo"
+						},
+						new UserViewModel
+						{
+							Email = "justin@example.com",
+							UserId = Guid.NewGuid(),
+							IsLockedOut = false,
+							Username = "justin"
+						},
+						new UserViewModel
+						{
+							Email = "lockedout@example.com",
+							UserId = Guid.NewGuid(),
+							IsLockedOut = false,
+							Username = "lockedout"
+						}
 					}
 				};
 

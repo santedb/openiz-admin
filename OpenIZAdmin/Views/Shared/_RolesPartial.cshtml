@@ -1,14 +1,14 @@
-﻿@model IEnumerable<OpenIZAdmin.Models.UserModels.ViewModels.UserViewModel>
+﻿@model IEnumerable<OpenIZAdmin.Models.RoleModels.ViewModels.RoleViewModel>
 @{
-    ViewBag.Title = "Users";
+    ViewBag.Title = "Roles";
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        Users
+        Roles
         <div class="pull-right">
             <span>New</span>
-            <a href="~/User/CreateUser" class="glyphicon glyphicon-plus-sign"></a>
+            <a href="~/Role/CreateRole" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
     <div class="panel panel-body">
@@ -19,28 +19,24 @@
                     <tr>
                         <th></th>
                         <th>
-                            User Id
+                            Role Id
                         </th>
                         <th>
-                            Username
+                            Name
                         </th>
                         <th>
-                            Email
-                        </th>
-                        <th>
-                            Locked Out?
+                            Description
                         </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr class="clickable-row" data-href="/UserAdministration/User/@item.UserId">
+                        <tr class="clickable-row" data-href="/Role/Role/@item.Id">
                             <td><span class="glyphicon glyphicon-user pull-left" aria-hidden="true"></span></td>
-                            <td>@item.UserId</td>
-                            <td>@item.Username</td>
-                            <td>@item.Email</td>
-                            <td>@item.IsLockedOut</td>
+                            <td><a href="/Role/Role/@item.Id">@item.Id</a></td>
+                            <td>@item.Name</td>
+                            <td>@item.Description</td>
                             <td><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></td>
                         </tr>}
                 </tbody>
@@ -48,7 +44,7 @@
         }
         else
         {
-            <p>No users have been added.</p>
+            <p>No roles have been added.</p>
         }
 
 

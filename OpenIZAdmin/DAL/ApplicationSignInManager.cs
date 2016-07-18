@@ -23,6 +23,8 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json.Linq;
 using OpenIZAdmin.Models.Domain;
+using OpenIZAdmin.Models.RealmModels;
+using OpenIZAdmin.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -88,9 +90,16 @@ namespace OpenIZAdmin.DAL
 		/// <returns>Returns a sign in status.</returns>
 		public override async Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
 		{
+			Realm currentRealm = RealmConfig.GetCurrentRealm();
+
+			if (currentRealm == null)
+			{
+				throw new InvalidOperationException("Must be joined to realm before attempting to sign in");
+			}
+
 			using (HttpClient client = new HttpClient())
 			{
-				client.DefaultRequestHeaders.Add("Authorization", "BASIC " + Convert.ToBase64String(Encoding.UTF8.GetBytes(AmiConfig.ApplicationId + ":" + AmiConfig.ApplicationSecret)));
+				client.DefaultRequestHeaders.Add("Authorization", "BASIC " + Convert.ToBase64String(Encoding.UTF8.GetBytes(currentRealm.ApplicationId + ":" + currentRealm.ApplicationSecret)));
 
 				StringContent content = new StringContent(string.Format("grant_type=password&username={0}&password={1}&scope={2}", userName, password, AmiConfig.Scope));
 
@@ -98,90 +107,100 @@ namespace OpenIZAdmin.DAL
 				content.Headers.Remove("Content-Type");
 				content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
 
-				var result = await client.PostAsync(AmiConfig.AmiTokenEndpoint, content);
+				var result = await client.PostAsync(currentRealm.AmiAuthEndpoint, content);
 
 				if (result.IsSuccessStatusCode)
 				{
-					var responseAsString = await result.Content.ReadAsStringAsync();
-
-					var response = JObject.Parse(responseAsString);
-
-					string accessToken = response.GetValue("access_token").ToString();
-					string expiresIn = response.GetValue("expires_in").ToString();
-					string tokenType = response.GetValue("token_type").ToString();
-#if DEBUG
-					Trace.TraceInformation("Access token: {0}", accessToken);
-					Trace.TraceInformation("Expires in: {0}", expiresIn);
-					Trace.TraceInformation("Token type {0}", tokenType);
-#endif
-					Dictionary<string, string> authenticationDictionary = new Dictionary<string, string>();
-
-					authenticationDictionary.Add("username", userName);
-					authenticationDictionary.Add("access_token", accessToken);
-					authenticationDictionary.Add("token_type", tokenType);
-
-					AuthenticationProperties properties = new AuthenticationProperties(authenticationDictionary);
-
-					properties.IsPersistent = false;
-
-					JwtSecurityToken securityToken = new JwtSecurityToken(accessToken);
-
-					var user = await this.UserManager.FindByIdAsync(securityToken.Claims.First(c => c.Type == "nameid").Value);
-
-					if (user == null)
-					{
-						string email = securityToken.Claims.First(c => c.Type == "email").Value;
-						int mailto = email.LastIndexOf("mailto:");
-						email = email.Substring(7, email.Length - 7);
-
-						user = new ApplicationUser
-						{
-							Id = securityToken.Claims.First(c => c.Type == "nameid").Value,
-							Email = email,
-							UserName = securityToken.Claims.First(c => c.Type == "unique_name").Value
-						};
-
-						foreach (var claim in securityToken.Claims)
-						{
-							IdentityUserClaim identityUserClaim = new IdentityUserClaim
-							{
-								ClaimType = claim.Type,
-								ClaimValue = claim.Value,
-								UserId = securityToken.Claims.First(c => c.Type == "nameid").Value
-							};
-
-							user.Claims.Add(identityUserClaim);
-						}
-
-						var identityResult = await this.UserManager.CreateAsync(user);
-
-						if (!identityResult.Succeeded)
-						{
-							return SignInStatus.Failure;
-						}
-						else
-						{
-							var userIdentity = await this.CreateUserIdentityAsync(user);
-
-							this.AuthenticationManager.SignIn(properties, userIdentity);
-							this.AccessToken = accessToken;
-						}
-					}
-					else
-					{
-						var userIdentity = await this.CreateUserIdentityAsync(user);
-
-						this.AuthenticationManager.SignIn(properties, userIdentity);
-						this.AccessToken = accessToken;
-					}
-
-					return SignInStatus.Success;
+					return await this.SignInAsync(result, userName);
 				}
 				else
 				{
 					return SignInStatus.Failure;
 				}
 			}
+		}
+
+		private async Task<ApplicationUser> FindUserAsync(string username)
+		{
+			return await this.UserManager.FindByNameAsync(username);
+		}
+
+		private async Task<SignInStatus> SignInAsync(HttpResponseMessage result, string username)
+		{
+			var responseAsString = await result.Content.ReadAsStringAsync();
+
+			var response = JObject.Parse(responseAsString);
+
+			string accessToken = response.GetValue("access_token").ToString();
+			string expiresIn = response.GetValue("expires_in").ToString();
+			string tokenType = response.GetValue("token_type").ToString();
+#if DEBUG
+			Trace.TraceInformation("Access token: {0}", accessToken);
+			Trace.TraceInformation("Expires in: {0}", expiresIn);
+			Trace.TraceInformation("Token type {0}", tokenType);
+#endif
+			Dictionary<string, string> authenticationDictionary = new Dictionary<string, string>();
+
+			authenticationDictionary.Add("username", username);
+			authenticationDictionary.Add("access_token", accessToken);
+			authenticationDictionary.Add("token_type", tokenType);
+
+			AuthenticationProperties properties = new AuthenticationProperties(authenticationDictionary);
+
+			properties.IsPersistent = false;
+
+			JwtSecurityToken securityToken = new JwtSecurityToken(accessToken);
+
+			var user = await this.UserManager.FindByIdAsync(securityToken.Claims.First(c => c.Type == "nameid").Value);
+
+			if (user == null)
+			{
+				string email = securityToken.Claims.First(c => c.Type == "email").Value;
+				int mailto = email.LastIndexOf("mailto:");
+				email = email.Substring(7, email.Length - 7);
+
+				user = new ApplicationUser
+				{
+					Id = securityToken.Claims.First(c => c.Type == "nameid").Value,
+					Email = email,
+					UserName = securityToken.Claims.First(c => c.Type == "unique_name").Value
+				};
+
+				foreach (var claim in securityToken.Claims)
+				{
+					IdentityUserClaim identityUserClaim = new IdentityUserClaim
+					{
+						ClaimType = claim.Type,
+						ClaimValue = claim.Value,
+						UserId = securityToken.Claims.First(c => c.Type == "nameid").Value
+					};
+
+					user.Claims.Add(identityUserClaim);
+				}
+
+				var identityResult = await this.UserManager.CreateAsync(user);
+
+				if (!identityResult.Succeeded)
+				{
+					return SignInStatus.Failure;
+				}
+				else
+				{
+					var userIdentity = await this.CreateUserIdentityAsync(user);
+
+					this.AuthenticationManager.SignIn(properties, userIdentity);
+					this.AccessToken = accessToken;
+				}
+			}
+			else
+			{
+				var userIdentity = await this.CreateUserIdentityAsync(user);
+
+				this.AuthenticationManager.SignIn(properties, userIdentity);
+				this.AccessToken = accessToken;
+			}
+
+			return SignInStatus.Success;
 		}
 	}
 }

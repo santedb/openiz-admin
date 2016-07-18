@@ -41,7 +41,7 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// The internal reference to the administrative interface endpoint.
 		/// </summary>
-		private static readonly Uri amiEndpoint = AmiConfig.AmiEndpoint;
+		private static readonly Uri amiEndpoint = new Uri(RealmConfig.GetCurrentRealm().AmiEndpoint);
 
 		/// <summary>
 		/// The internal reference to the <see cref="OpenIZAdmin.Services.RestClient"/> instance.
@@ -66,7 +66,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var response = await this.client.PutAsync(string.Format("{0}/csr/{1}", amiEndpoint, model.CertificateId));
+				var response = await this.client.PutAsync(string.Format("/csr/{0}", model.CertificateId));
 
 				if (response.IsSuccessStatusCode)
 				{
@@ -88,7 +88,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var response = await this.client.DeleteAsync(string.Format("{0}/csr/{1}", amiEndpoint, model.CertificateId));
+				var response = await this.client.DeleteAsync(string.Format("/csr/{0}", model.CertificateId));
 
 				if (response.IsSuccessStatusCode)
 				{
@@ -127,7 +127,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
 			{
-				var response = await this.client.GetAsync(string.Format("{0}/certificate/{1}", amiEndpoint, id));
+				var response = await this.client.GetAsync(string.Format("/certificate/{0}", id));
 
 				if (response.IsSuccessStatusCode)
 				{
@@ -150,7 +150,7 @@ namespace OpenIZAdmin.Controllers
 		[ActionName("CertificateRevocationList")]
 		public async Task<ActionResult> GetCertificateRevocationListAsync()
 		{
-			var response = await this.client.GetAsync(string.Format("{0}/crl", amiEndpoint));
+			var response = await this.client.GetAsync(string.Format("/crl"));
 
 			if (response.IsSuccessStatusCode)
 			{
@@ -172,7 +172,7 @@ namespace OpenIZAdmin.Controllers
 		[ActionName("Certificates")]
 		public async Task<ActionResult> GetCertificatesAsync()
 		{
-			var response = await this.client.GetAsync(string.Format("{0}/certificate/", amiEndpoint));
+			var response = await this.client.GetAsync(string.Format("/certificates/"));
 
 			if (response.IsSuccessStatusCode)
 			{
@@ -197,7 +197,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
 			{
-				var response = await this.client.GetAsync(string.Format("{0}/csr/{1}", amiEndpoint, id));
+				var response = await this.client.GetAsync(string.Format("/csr/{0}", id));
 
 				if (response.IsSuccessStatusCode)
 				{
@@ -220,7 +220,7 @@ namespace OpenIZAdmin.Controllers
 		[ActionName("GetCertificateSigningRequests")]
 		public async Task<ActionResult> GetCertificateSigningRequestsAsync()
 		{
-			var response = await this.client.GetAsync(string.Format("{0}/csr", amiEndpoint));
+			var response = await this.client.GetAsync(string.Format("/csrs/"));
 
 			if (response.IsSuccessStatusCode)
 			{
@@ -242,7 +242,7 @@ namespace OpenIZAdmin.Controllers
 		[ActionName("Index")]
 		public async Task<ActionResult> IndexAsync()
 		{
-			var response = await this.client.GetAsync(string.Format("{0}/csr/", amiEndpoint));
+			var response = await this.client.GetAsync(string.Format("/csrs/"));
 
 			if (response.IsSuccessStatusCode)
 			{
@@ -263,7 +263,7 @@ namespace OpenIZAdmin.Controllers
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			this.client = new RestClient(amiEndpoint, new Credentials(HttpContext.Request), new XmlMediaTypeFormatter { UseXmlSerializer = true });
+			this.client = new RestClient(amiEndpoint, new Credentials(HttpContext.Request));
 
 			base.OnActionExecuting(filterContext);
 		}
@@ -279,7 +279,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var response = await this.client.DeleteAsync(string.Format("{0}/csr/{1}", amiEndpoint, model.CertificateId));
+				var response = await this.client.DeleteAsync(string.Format("/csr/{0}", model.CertificateId));
 
 				if (response.IsSuccessStatusCode)
 				{
@@ -308,7 +308,7 @@ namespace OpenIZAdmin.Controllers
 			if (ModelState.IsValid)
 			{
 				SubmissionRequest submissionRequest = new SubmissionRequest(model);
-				var response = await this.client.PostAsync<SubmissionRequest, HttpResponseMessage>(string.Format("{0}/csr/", amiEndpoint), submissionRequest);
+				var response = await this.client.PostAsync<SubmissionRequest, HttpResponseMessage>(string.Format("/csr/"), submissionRequest);
 
 				if (response.IsSuccessStatusCode)
 				{

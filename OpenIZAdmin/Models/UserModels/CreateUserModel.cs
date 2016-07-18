@@ -14,35 +14,51 @@
  * the License.
  *
  * User: Nityan
- * Date: 2016-7-8
+ * Date: 2016-7-17
  */
 
+using OpenIZ.Core.Model.AMI.Auth;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
-namespace OpenIZAdmin.Models.UserAdministration.ViewModels
+namespace OpenIZAdmin.Models.UserModels
 {
-	public class UserViewModel
+	public class CreateUserModel
 	{
-		public UserViewModel() : this(null, null, null, false)
+		public CreateUserModel()
 		{
 		}
 
-		public UserViewModel(string userId, string username, string email, bool isLockedOut)
+		public CreateUserModel(SecurityUserInfo userInfo)
 		{
-			this.Email = email;
-			this.IsLockedOut = isLockedOut;
-			this.UserId = userId;
-			this.Username = username;
+			this.Email = userInfo.Email;
+			this.Username = userInfo.UserName;
 		}
 
+		[Required]
+		[EmailAddress]
+		[DataType(DataType.EmailAddress)]
 		public string Email { get; set; }
 
-		public bool IsLockedOut { get; set; }
+		[Required]
+		[DataType(DataType.Password)]
+		public string Password { get; set; }
 
-		public IEnumerable<RoleViewModel> Roles { get; set; }
+		[Required]
+		public IEnumerable<string> Roles { get; set; }
 
-		public string UserId { get; set; }
-
+		[Required]
+		[StringLength(255)]
 		public string Username { get; set; }
+
+		public SecurityUserInfo ToSecurityUserInfo()
+		{
+			return new SecurityUserInfo
+			{
+				Email = this.Email,
+				Password = this.Password,
+				UserName = this.Username
+			};
+		}
 	}
 }

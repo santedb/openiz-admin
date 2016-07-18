@@ -33,11 +33,11 @@ namespace OpenIZAdmin.Services
 		private readonly Uri baseUrl;
 		private MediaTypeFormatter mediaTypeFormatter;
 
-		public RestClient(string baseUrl, Credentials credentials, MediaTypeFormatter mediaTypeFormatter) : this(new Uri(baseUrl), credentials, mediaTypeFormatter)
+		public RestClient(string baseUrl, Credentials credentials) : this(new Uri(baseUrl), credentials)
 		{
 		}
 
-		public RestClient(Uri baseUrl, Credentials credentials, MediaTypeFormatter mediaTypeFormatter)
+		public RestClient(Uri baseUrl, Credentials credentials, MediaTypeFormatter mediaTypeFormatter = null)
 		{
 			this.baseUrl = baseUrl;
 
@@ -55,12 +55,7 @@ namespace OpenIZAdmin.Services
 				client.DefaultRequestHeaders.Add(header.Key, header.Value);
 			}
 
-			if (mediaTypeFormatter == null)
-			{
-				throw new ArgumentNullException(string.Format("{0} cannot be null", nameof(mediaTypeFormatter)));
-			}
-
-			this.mediaTypeFormatter = mediaTypeFormatter;
+			this.mediaTypeFormatter = mediaTypeFormatter ?? new XmlMediaTypeFormatter { UseXmlSerializer = true };
 		}
 
 		public Credentials Credentials { get; }
@@ -88,9 +83,7 @@ namespace OpenIZAdmin.Services
 
 		public async Task<HttpResponseMessage> DeleteAsync(string path)
 		{
-			var response = await client.DeleteAsync(string.Format("{0}/{1}", this.baseUrl, path));
-
-			return response;
+			return await this.client.DeleteAsync(string.Format("{0}/{1}", this.baseUrl, path));
 		}
 
 		public async Task<HttpResponseMessage> DeleteAsync(string path, KeyValuePair<string, object> parameters)
@@ -104,7 +97,7 @@ namespace OpenIZAdmin.Services
 		{
 			var response = await client.DeleteAsync(string.Format("{0}/{1}?{2}", this.baseUrl, path, CreateQueryString(parameters)));
 
-			return response.Content.ReadAsAsync<T>() as T;
+			return await response.Content.ReadAsAsync<T>(new List<MediaTypeFormatter> { this.mediaTypeFormatter });
 		}
 
 		#region IDisposable Support
@@ -146,44 +139,66 @@ namespace OpenIZAdmin.Services
 
 		public async Task<HttpResponseMessage> GetAsync(string path)
 		{
-			var response = await client.GetAsync(string.Format("{0}/{1}", this.baseUrl, path));
-
-			return response;
+			return await this.client.GetAsync(string.Format("{0}/{1}", this.baseUrl, path));
 		}
 
 		public async Task<T> GetAsync<T>(string path) where T : class
 		{
-			var response = await client.GetAsync(string.Format("{0}/{1}", this.baseUrl, path));
-
-			return await response.Content.ReadAsAsync<T>();
+			return await this.GetAsync<T>(path, new Dictionary<string, object>());
 		}
 
-		public async Task<T> GetAsync<T>(string path, KeyValuePair<string, object> parameters) where T : class
+		public async Task<T> GetAsync<T>(string path, IDictionary<string, object> parameters) where T : class
 		{
-			var response = await client.GetAsync(string.Format("{0}/{1}?{2}", this.baseUrl, path, CreateQueryString(parameters)));
+			HttpResponseMessage response;
 
-			return await response.Content.ReadAsAsync<T>();
+			if (parameters.Count == 0)
+			{
+				response = await client.GetAsync(string.Format("{0}/{1}", this.baseUrl, path));
+			}
+			else
+			{
+				response = await client.GetAsync(string.Format("{0}/{1}?{2}", this.baseUrl, path, CreateQueryString(parameters.ToArray())));
+			}
+
+			if (response.IsSuccessStatusCode)
+			{
+				return await response.Content.ReadAsAsync<T>(new List<MediaTypeFormatter> { this.mediaTypeFormatter });
+			}
+			else
+			{
+				return null;
+			}
 		}
 
-		public async Task<TResult> PostAsync<T, TResult>(string path, KeyValuePair<string, object> parameters, T content) where TResult : class
+		public async Task<TResult> PostAsync<T, TResult>(string path, IDictionary<string, object> parameters, T content) where TResult : class
 		{
-			var response = await client.PostAsync<T>(string.Format("{0}/{1}?{2}", this.baseUrl, path, CreateQueryString(parameters)), content, this.mediaTypeFormatter);
+			HttpResponseMessage response;
 
-			return await response.Content.ReadAsAsync<TResult>();
+			if (parameters.Count == 0)
+			{
+				response = await this.client.PostAsync<T>(string.Format("{0}/{1}", this.baseUrl, path), content, this.mediaTypeFormatter);
+			}
+			else
+			{
+				response = await this.client.PostAsync<T>(string.Format("{0}/{1}?{2}", this.baseUrl, path, CreateQueryString(parameters.ToArray())), content, this.mediaTypeFormatter);
+			}
+
+			return await response.Content.ReadAsAsync<TResult>(new List<MediaTypeFormatter> { this.mediaTypeFormatter });
 		}
 
 		public async Task<TResult> PostAsync<T, TResult>(string path, T content) where TResult : class
 		{
-			var response = await client.PostAsync<T>(string.Format("{0}/{1}", this.baseUrl, path), content, this.mediaTypeFormatter);
+			return await this.PostAsync<T, TResult>(path, new Dictionary<string, object>(), content);
+		}
 
-			return await response.Content.ReadAsAsync<TResult>();
+		public async Task<HttpResponseMessage> PostAsync<T>(string path, T content)
+		{
+			return await this.client.PostAsync<T>(string.Format("{0}/{1}", this.baseUrl, path), content, this.mediaTypeFormatter);
 		}
 
 		public async Task<HttpResponseMessage> PutAsync(string path)
 		{
-			var response = await client.PutAsync(string.Format("{0}/{1}", this.baseUrl, path), new StringContent(string.Empty));
-
-			return response;
+			return await this.client.PutAsync(string.Format("{0}/{1}", this.baseUrl, path), new StringContent(string.Empty));
 		}
 
 		public async Task PutAsync(string path, KeyValuePair<string, object> parameters)
@@ -193,25 +208,25 @@ namespace OpenIZAdmin.Services
 			await Task.FromResult<object>(null);
 		}
 
-		public async Task<TResult> PutAsync<T, TResult>(string path, KeyValuePair<string, object> parameters, T content) where TResult : class
+		public async Task<TResult> PutAsync<T, TResult>(string path, IDictionary<string, object> parameters, T content) where TResult : class
 		{
-			var response = await client.PostAsync<T>(string.Format("{0}/{1}?{2}", this.baseUrl, path, CreateQueryString(parameters)), content, this.mediaTypeFormatter);
+			HttpResponseMessage response;
+
+			if (parameters.Count == 0)
+			{
+				response = await this.client.PutAsync<T>(string.Format("{0}/{1}", this.baseUrl, path), content, this.mediaTypeFormatter);
+			}
+			else
+			{
+				response = await client.PostAsync<T>(string.Format("{0}/{1}?{2}", this.baseUrl, path, CreateQueryString(parameters.ToArray())), content, this.mediaTypeFormatter);
+			}
 
 			return await response.Content.ReadAsAsync<TResult>();
 		}
 
 		public async Task<TResult> PutAsync<T, TResult>(string path, T content) where TResult : class
 		{
-			var response = await client.PostAsync<T>(string.Format("{0}/{1}", this.baseUrl, path), content, this.mediaTypeFormatter);
-
-			return await response.Content.ReadAsAsync<TResult>();
-		}
-
-		public async Task<T> PutAsync<T>(string path, KeyValuePair<string, object> parameters) where T : class
-		{
-			var response = await client.PutAsync(string.Format("{0}/{1}?{2}", this.baseUrl, path, CreateQueryString(parameters)), new StringContent(string.Empty));
-
-			return await response.Content.ReadAsAsync<T>();
+			return await this.PutAsync<T, TResult>(path, new Dictionary<string, object>(), content);
 		}
 	}
 }

@@ -29,36 +29,12 @@ namespace OpenIZAdmin
 	public static class AmiConfig
 	{
 		/// <summary>
-		/// The application id for the web application to use to identify itself to the AMI.
-		/// </summary>
-		public static string ApplicationId { get; private set; }
-
-		/// <summary>
-		/// The application secret for the web application to use to identify itself to the AMI.
-		/// </summary>
-		public static string ApplicationSecret { get; private set; }
-
-		/// <summary>
-		/// The endpoint for which to request administrative data from the AMI.
-		/// </summary>
-		public static Uri AmiEndpoint { get; private set; }
-
-		/// <summary>
-		/// The endpoint for which to request tokens from the AMI.
-		/// </summary>
-		public static Uri AmiTokenEndpoint { get; private set; }
-
-		/// <summary>
 		/// The scope for which to request against the AMI.
 		/// </summary>
 		public static Uri Scope { get; set; }
 
 		public static void Initialize()
 		{
-			AmiEndpoint = new Uri(Setting<string>("amiEndpoint"));
-			AmiTokenEndpoint = new Uri(Setting<string>("amiTokenEndpoint"));
-			ApplicationId = Setting<string>("applicationId");
-			ApplicationSecret = Setting<string>("applicationSecret");
 			Scope = new Uri(Setting<string>("scope"));
 		}
 

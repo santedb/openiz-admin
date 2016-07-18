@@ -16,13 +16,17 @@
         @Html.Partial("_CertificateRequestsPartial", Model.CertificateRequests)
     </div>
     <div class="col-md-12">
+        @Html.Partial("_DevicesPartial", Model.Devices)
+    </div>
+    <div class="col-md-12">
+        @Html.Partial("_RolesPartial", Model.Roles)
+    </div>
+    <div class="col-md-12">
         @Html.Partial("_UserRolesPartial", Model.UserRoles)
     </div>
     <div class="col-md-12">
         @Html.Partial("_UsersPartial", Model.Users)
     </div>
-    <div class="col-md-12">
-        @Html.Partial("_DevicesPartial", Model.Devices)
-    </div>
+
 
 </div>

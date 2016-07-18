@@ -1,0 +1,31 @@
+﻿@model OpenIZAdmin.Models.RoleModels.CreateRoleModel
+@{
+    ViewBag.Title = "Create Role";
+}
+
+<div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
+    <div class="panel panel-default">
+        <div class="panel panel-heading">
+            Create Role
+        </div>
+        <div class="panel panel-body panel-default">
+            @using (Html.BeginForm("CreateRole", "Role", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-3">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Create Role" class="btn btn-default" />
+                    </div>
+                </div>}
+        </div>
+    </div>
+</div>

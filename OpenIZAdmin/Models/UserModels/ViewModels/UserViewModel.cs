@@ -14,19 +14,38 @@
  * the License.
  *
  * User: Nityan
- * Date: 2016-7-10
+ * Date: 2016-7-8
  */
 
-namespace OpenIZAdmin.Models.UserAdministration.ViewModels
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZAdmin.Models.RoleModels.ViewModels;
+using System;
+using System.Collections.Generic;
+
+namespace OpenIZAdmin.Models.UserModels.ViewModels
 {
-	public class RoleViewModel
+	public class UserViewModel
 	{
-		public RoleViewModel()
+		public UserViewModel()
 		{
 		}
 
-		public string Id { get; set; }
+		public UserViewModel(SecurityUserInfo userInfo)
+		{
+			this.Email = userInfo.Email;
+			this.IsLockedOut = userInfo.Lockout;
+			this.UserId = userInfo.UserId.Value;
+			this.Username = userInfo.UserName;
+		}
 
-		public string Name { get; set; }
+		public string Email { get; set; }
+
+		public bool IsLockedOut { get; set; }
+
+		public IEnumerable<RoleViewModel> Roles { get; set; }
+
+		public Guid UserId { get; set; }
+
+		public string Username { get; set; }
 	}
 }
