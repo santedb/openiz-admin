@@ -30,6 +30,11 @@ namespace OpenIZAdmin.Models.Domain
 	// You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
 	public class ApplicationUser : IdentityUser
 	{
+		public ApplicationUser()
+		{
+			this.Language = "en";
+		}
+
 		public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
 		{
 			// Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -40,6 +45,9 @@ namespace OpenIZAdmin.Models.Domain
 
 		[Required]
 		public Guid RealmId { get; set; }
+
+		[StringLength(2)]
+		public string Language { get; set; }
 
 		[ForeignKey("RealmId")]
 		public virtual Realm Realm { get; set; }

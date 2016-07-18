@@ -180,6 +180,7 @@
     <Compile Include="App_Start\AmiConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\LocalizationConfig.cs" />
     <Compile Include="App_Start\RealmConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
@@ -206,6 +207,7 @@
     </Compile>
     <Compile Include="Logging\RollOverTextWriterTraceListener.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccountModels\ChangeLanguageModel.cs" />
     <Compile Include="Models\AppletModels\UploadAppletModel.cs" />
     <Compile Include="Models\CertificateModels\AcceptCertificateSigningRequestModel.cs" />
     <Compile Include="Models\CertificateModels\DeleteCertificateModel.cs" />
@@ -336,6 +338,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenIZAdmin.Localization\OpenIZAdmin.Localization.csproj">
+      <Project>{1d9b8eca-559d-449d-8611-a5dbd36028e3}</Project>
+      <Name>OpenIZAdmin.Localization</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
