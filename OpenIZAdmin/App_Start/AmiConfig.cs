@@ -33,6 +33,9 @@ namespace OpenIZAdmin
 		/// </summary>
 		public static Uri Scope { get; set; }
 
+		/// <summary>
+		/// Initializes the AMI configuration for the application.
+		/// </summary>
 		public static void Initialize()
 		{
 			Scope = new Uri(Setting<string>("scope"));

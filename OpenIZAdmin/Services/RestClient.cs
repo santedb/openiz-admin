@@ -183,7 +183,14 @@ namespace OpenIZAdmin.Services
 				response = await this.client.PostAsync<T>(string.Format("{0}/{1}?{2}", this.baseUrl, path, CreateQueryString(parameters.ToArray())), content, this.mediaTypeFormatter);
 			}
 
-			return await response.Content.ReadAsAsync<TResult>(new List<MediaTypeFormatter> { this.mediaTypeFormatter });
+			if (response.IsSuccessStatusCode)
+			{
+				return await response.Content.ReadAsAsync<TResult>(new List<MediaTypeFormatter> { this.mediaTypeFormatter });
+			}
+			else
+			{
+				return null;
+			}
 		}
 
 		public async Task<TResult> PostAsync<T, TResult>(string path, T content) where TResult : class
@@ -199,13 +206,6 @@ namespace OpenIZAdmin.Services
 		public async Task<HttpResponseMessage> PutAsync(string path)
 		{
 			return await this.client.PutAsync(string.Format("{0}/{1}", this.baseUrl, path), new StringContent(string.Empty));
-		}
-
-		public async Task PutAsync(string path, KeyValuePair<string, object> parameters)
-		{
-			var response = await client.PutAsync(string.Format("{0}/{1}?{2}", this.baseUrl, path, CreateQueryString(parameters)), new StringContent(string.Empty));
-
-			await Task.FromResult<object>(null);
 		}
 
 		public async Task<TResult> PutAsync<T, TResult>(string path, IDictionary<string, object> parameters, T content) where TResult : class

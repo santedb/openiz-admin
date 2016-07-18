@@ -17,28 +17,59 @@
  * Date: 2016-7-9
  */
 
+using OpenIZ.Core.Model.AMI.Security;
 using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.CertificateModels
 {
+	/// <summary>
+	/// Represents a model to submit a certificate signing request.
+	/// </summary>
 	public class SubmitCertificateSigningRequestModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OpenIZAdmin.Models.CertificateModels.AcceptCertificateSigningRequestModel"/> class.
+		/// </summary>
 		public SubmitCertificateSigningRequestModel()
 		{
 		}
 
+		/// <summary>
+		/// Gets or sets the cmc request of the submission request.
+		/// </summary>
 		[Required]
 		[Display(Name = "CMC Request")]
 		public string CmcRequest { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name of the administrative contact of the submission request.
+		/// </summary>
 		[Required]
 		[StringLength(255)]
 		[Display(Name = "Administrative Contact Name")]
 		public string AdministrativeContactName { get; set; }
 
+		/// <summary>
+		/// Gets or sets the email of the administrative contact of the submission request.
+		/// </summary>
 		[Required]
 		[EmailAddress]
 		[Display(Name = "Administrative Contact Email")]
 		public string AdministrativeContactEmail { get; set; }
+
+		/// <summary>
+		/// Converts a <see cref="OpenIZAdmin.Models.CertificateModels.SubmitCertificateSigningRequestModel"/> instance
+		/// to a <see cref="OpenIZ.Core.Model.AMI.Security.SubmissionRequest"/> instance.
+		/// </summary>
+		/// <returns>Returns a submission request.</returns>
+		public SubmissionRequest ToSubmissionRequest()
+		{
+			return new SubmissionRequest
+			{
+				CmcRequest = this.CmcRequest,
+				AdminAddress = this.AdministrativeContactEmail,
+				AdminContactName = this.AdministrativeContactName
+			};
+		}
 	}
 }

@@ -29,14 +29,27 @@ using System.Threading.Tasks;
 
 namespace OpenIZAdmin.DAL
 {
-	// Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
+	/// <summary>
+	/// Represents the user manager for the application.
+	/// </summary>
 	public class ApplicationUserManager : UserManager<ApplicationUser>
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OpenIZAdmin.DAL.ApplicationUserManager"/> class
+		/// with a specified <see cref="Microsoft.AspNet.Identity.IUserStore{TUser}"/> instance.
+		/// </summary>
+		/// <param name="store"></param>
 		public ApplicationUserManager(IUserStore<ApplicationUser> store)
 			: base(store)
 		{
 		}
 
+		/// <summary>
+		/// Creates a application user manager instance.
+		/// </summary>
+		/// <param name="options">The identity options to use for creating the user manager.</param>
+		/// <param name="context">The authentication context.</param>
+		/// <returns>Returns the newly created instance of the application user manager.</returns>
 		public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
 		{
 			var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationDbContext>()));
@@ -84,6 +97,11 @@ namespace OpenIZAdmin.DAL
 			return manager;
 		}
 
+		/// <summary>
+		/// Creates an identity result.
+		/// </summary>
+		/// <param name="user">The user from which to create the identity.</param>
+		/// <returns>Returns the newly created identity result.</returns>
 		public override Task<IdentityResult> CreateAsync(ApplicationUser user)
 		{
 			using (IUnitOfWork unitOfWork = new EntityUnitOfWork(new ApplicationDbContext()))
@@ -95,6 +113,12 @@ namespace OpenIZAdmin.DAL
 			return base.CreateAsync(user);
 		}
 
+		/// <summary>
+		/// Creates a claims identity.
+		/// </summary>
+		/// <param name="user">The user from which to create the claims identity.</param>
+		/// <param name="authenticationType">The authentication type to use when creating the claims identity.</param>
+		/// <returns>Returns the newly created claims identity.</returns>
 		public override Task<ClaimsIdentity> CreateIdentityAsync(ApplicationUser user, string authenticationType)
 		{
 			return this.ClaimsIdentityFactory.CreateAsync(this, user, authenticationType);

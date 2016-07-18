@@ -32,6 +32,9 @@ namespace OpenIZAdmin.Attributes
 	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
 	public class TokenAuthorize : AuthorizeAttribute
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OpenIZAdmin.Attributes.TokenAuthorize"/> class.
+		/// </summary>
 		public TokenAuthorize()
 		{
 

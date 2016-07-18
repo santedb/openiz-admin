@@ -120,11 +120,12 @@ namespace OpenIZAdmin.DAL
 			}
 		}
 
-		private async Task<ApplicationUser> FindUserAsync(string username)
-		{
-			return await this.UserManager.FindByNameAsync(username);
-		}
-
+		/// <summary>
+		/// Signs in a user.
+		/// </summary>
+		/// <param name="result">The HTTP response message from the IMS.</param>
+		/// <param name="username">The username of the user.</param>
+		/// <returns>Returns a sign in status successful if the user is signed in successfully.</returns>
 		private async Task<SignInStatus> SignInAsync(HttpResponseMessage result, string username)
 		{
 			var responseAsString = await result.Content.ReadAsStringAsync();

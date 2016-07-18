@@ -21,17 +21,29 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.AccountModels
 {
+	/// <summary>
+	/// Represents a login model.
+	/// </summary>
 	public class LoginModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OpenIZAdmin.Models.AccountModels.LoginModel"/> class.
+		/// </summary>
 		public LoginModel()
 		{
 		}
 
+		/// <summary>
+		/// Gets or sets the username of the model.
+		/// </summary>
 		[Required]
 		[StringLength(255)]
 		[Display(Name = "Username")]
 		public string Username { get; set; }
 
+		/// <summary>
+		/// Gets or sets the password of the model.
+		/// </summary>
 		[Required]
 		[Display(Name = "Password")]
 		[DataType(DataType.Password)]

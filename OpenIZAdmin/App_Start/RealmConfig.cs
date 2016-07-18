@@ -25,8 +25,15 @@ using System.Web;
 
 namespace OpenIZAdmin
 {
+	/// <summary>
+	/// Represents realm configuration for the application.
+	/// </summary>
 	public static class RealmConfig
 	{
+		/// <summary>
+		/// Determines whether the application is joined to a realm.
+		/// </summary>
+		/// <returns>Returns true if the application is joined to a realm.</returns>
 		public static bool IsJoinedToRealm()
 		{
 			bool isJoinedToRealm = false;
@@ -39,6 +46,10 @@ namespace OpenIZAdmin
 			return isJoinedToRealm;
 		}
 
+		/// <summary>
+		/// Gets the current realm of the application.
+		/// </summary>
+		/// <returns>Returns the current realm of the application.</returns>
 		public static Realm GetCurrentRealm()
 		{
 			Realm currentRealm = null;

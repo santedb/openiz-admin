@@ -53,9 +53,27 @@ namespace OpenIZAdmin.Controllers
 					},
 					CertificateRequests = new List<CertificateSigningRequestViewModel>
 					{
-						new CertificateSigningRequestViewModel("demo.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
-						new CertificateSigningRequestViewModel("arusha.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
-						new CertificateSigningRequestViewModel("zanzibar.openiz.org", DateTime.UtcNow, Guid.NewGuid()),
+						new CertificateSigningRequestViewModel
+						{
+							AdministrativeContactEmail = "nityan.khanna@mohawkcollege.ca",
+							AdministrativeContactName = "Nityan Khanna",
+							DistinguishedName = "demo.openiz.org",
+							SubmissionTime = DateTime.Now
+						},
+						new CertificateSigningRequestViewModel
+						{
+							AdministrativeContactEmail = "justin.fyfe1@mohawkcollege.ca",
+							AdministrativeContactName = "Justin Fyfe",
+							DistinguishedName = "arusha.openiz.org",
+							SubmissionTime = DateTime.Now
+						},
+						new CertificateSigningRequestViewModel
+						{
+							AdministrativeContactEmail = "mohamed.ibrahim1@mohawkcollege.ca",
+							AdministrativeContactName = "Mohamed Ibrahim",
+							DistinguishedName = "zanzibar@openiz.org",
+							SubmissionTime = DateTime.Now
+						}
 					},
 					Devices = new List<DeviceViewModel>
 					{

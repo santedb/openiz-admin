@@ -17,8 +17,8 @@
  * Date: 2016-7-8
  */
 
+using OpenIZ.Core.Model.AMI.Security;
 using OpenIZAdmin.Attributes;
-using OpenIZAdmin.Models.Ami;
 using OpenIZAdmin.Models.CertificateModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
 using OpenIZAdmin.Services;
@@ -242,9 +242,15 @@ namespace OpenIZAdmin.Controllers
 		[ActionName("Index")]
 		public async Task<ActionResult> IndexAsync()
 		{
-			var response = await this.client.GetAsync(string.Format("/csrs/"));
+			var response = await this.client.GetAsync<AmiCollection<SubmissionInfo>>(string.Format("/csrs/"));
 
-			if (response.IsSuccessStatusCode)
+			if (response == null)
+			{
+				TempData["error"] = "Unable to retrieve certificate signing request list";
+
+				return RedirectToAction("Index", "Home");
+			}
+			else
 			{
 				CertificateIndexViewModel viewModel = new CertificateIndexViewModel
 				{
@@ -255,10 +261,6 @@ namespace OpenIZAdmin.Controllers
 
 				return View(viewModel);
 			}
-
-			TempData["error"] = "Unable to retrieve certificate signing request list";
-
-			return RedirectToAction("Index", "Home");
 		}
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -307,15 +309,20 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				SubmissionRequest submissionRequest = new SubmissionRequest(model);
-				var response = await this.client.PostAsync<SubmissionRequest, HttpResponseMessage>(string.Format("/csr/"), submissionRequest);
+				SubmissionRequest submissionRequest = model.ToSubmissionRequest();
 
-				if (response.IsSuccessStatusCode)
+				var response = await this.client.PostAsync<SubmissionRequest, SubmissionRequest>("/csr/", submissionRequest);
+
+				if (response == null)
 				{
-					TempData["success"] = "Certificate signing request sucessfully submitted";
+					TempData["error"] = "Unable to submit certificate signing request";
 
-					return RedirectToAction("Index");
+					return View(model);
 				}
+
+				TempData["success"] = "Certificate signing request successfully submitted";
+
+				return RedirectToAction("Index");
 			}
 
 			TempData["error"] = "Unable to submit certificate signing request";
