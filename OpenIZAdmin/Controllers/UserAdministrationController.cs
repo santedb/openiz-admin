@@ -19,21 +19,16 @@
 
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.AMI.Security;
-using OpenIZ.Core.Model.Query;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models.RoleModels;
 using OpenIZAdmin.Models.RoleModels.ViewModels;
-using OpenIZAdmin.Models.UserAdministration;
-using OpenIZAdmin.Models.UserAdministration.ViewModels;
 using OpenIZAdmin.Models.UserModels;
 using OpenIZAdmin.Models.UserModels.ViewModels;
 using OpenIZAdmin.Services;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
-using System.Net.Http.Formatting;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 

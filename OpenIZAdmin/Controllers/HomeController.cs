@@ -17,7 +17,6 @@
  * Date: 2016-5-31
  */
 
-using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.AppletModels.ViewModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;

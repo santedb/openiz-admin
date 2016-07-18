@@ -23,8 +23,6 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json.Linq;
 using OpenIZAdmin.Models.Domain;
-using OpenIZAdmin.Models.RealmModels;
-using OpenIZAdmin.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

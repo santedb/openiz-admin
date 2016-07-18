@@ -17,26 +17,19 @@
  * Date: 2016-7-13
  */
 
+using Microsoft.AspNet.Identity.Owin;
 using OpenIZAdmin.DAL;
 using OpenIZAdmin.Extensions;
-using System.Linq;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.Domain;
-using Microsoft.AspNet.Identity.Owin;
 using OpenIZAdmin.Models.RealmModels;
-using System.Web.Mvc;
-using System.Collections.Generic;
-using System;
 using OpenIZAdmin.Models.RealmModels.ViewModels;
-using System.Net.Http;
-using System.Web;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
-using System.Text;
-using Newtonsoft.Json.Linq;
-using System.Diagnostics;
-using Microsoft.Owin.Security;
-using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNet.Identity.EntityFramework;
+using System.Web;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -272,6 +265,7 @@ namespace OpenIZAdmin.Controllers
 					case SignInStatus.Success:
 						Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
 						break;
+
 					default:
 						var addedRealm = unitOfWork.RealmRepository.Get(r => r.Address == model.Address).Single();
 						unitOfWork.RealmRepository.Delete(addedRealm.Id);
