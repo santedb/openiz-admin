@@ -6,10 +6,10 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">
-            <a data-toggle="collapse" href="#searchResultsCollapse">Search Results</a>
+            <span>Search Results</span>
         </h3>
     </div>
-    <div id="searchResultsCollapse" class="panel-collapse collapse in">
+    <div class="panel panel-body">
         @if (Model.Count() > 0)
         {
             <table class="table table-striped table-bordered">
@@ -32,7 +32,7 @@
                                 <span class="btn-group">
                                     @if (item.ConceptSearchType == OpenIZAdmin.Models.ConceptModels.ConceptSearchType.Concept)
                                     {
-                                        <a class="btn btn-primary" href="/Concept/ViewConcept?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
+                                        <a class="btn btn-primary text-white" href="/Concept/ViewConcept?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
                                             View
                                             <span class="glyphicon glyphicon-eye-open"></span>
                                         </a>

@@ -235,6 +235,7 @@
     <Compile Include="Models\ConceptModels\SearchConceptModel.cs" />
     <Compile Include="Models\ConceptModels\ViewModels\ConceptSearchResultViewModel.cs" />
     <Compile Include="Models\ConceptModels\ViewModels\ConceptViewModel.cs" />
+    <Compile Include="Models\ConceptModels\ViewModels\DetailedConceptViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DeviceModels\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Models\Domain\ApplicationUser.cs" />

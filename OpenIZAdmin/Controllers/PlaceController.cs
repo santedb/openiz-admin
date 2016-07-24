@@ -99,9 +99,21 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var places = this.client.GetPlaces(p => p.Names.SelectMany(n => n.Component).Any(c => c.Value == model.Name));
+				try
+				{
+					var places = this.client.GetPlaces(p => p.Names.SelectMany(n => n.Component).Any(c => c.Value == model.Name));
 
-				return PartialView("_PlaceSearchResultsPartial", places.CollectionItem.Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name));
+					return PartialView("_PlaceSearchResultsPartial", places.CollectionItem.Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name));
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					Trace.TraceError("Unable to retrieve places: {0}", e.StackTrace);
+#endif
+					Trace.TraceError("Unable to retrieve places: {0}", e.Message);
+				}
+
+				return PartialView("_PlaceSearchResultsPartial", new List<PlaceViewModel>());
 			}
 
 			return View(model);
