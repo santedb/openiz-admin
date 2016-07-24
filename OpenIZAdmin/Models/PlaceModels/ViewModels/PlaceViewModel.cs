@@ -32,6 +32,8 @@ namespace OpenIZAdmin.Models.PlaceModels.ViewModels
 
 		public PlaceViewModel(Place place)
 		{
+			this.CreationTime = place.CreationTime.DateTime;
+			this.Details = new List<DetailedPlaceViewModel>();
 			this.Key = place.Key.Value;
 			this.Latitude = place.Lat ?? 0;
 			this.Longitude = place.Lng ?? 0;

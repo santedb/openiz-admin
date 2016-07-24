@@ -30,10 +30,10 @@ namespace OpenIZAdmin.Models.PlaceModels
 		}
 
 		[Display(Name = "Latitude", ResourceType = typeof(Localization.Resources))]
-		public double Latitude { get; set; }
+		public double? Latitude { get; set; }
 
 		[Display(Name = "Longitude", ResourceType = typeof(Localization.Resources))]
-		public double Longitude { get; set; }
+		public double? Longitude { get; set; }
 
 		[Display(Name = "Name", ResourceType = typeof(Localization.Resources))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
