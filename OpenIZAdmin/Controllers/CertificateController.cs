@@ -18,10 +18,13 @@
  */
 
 using OpenIZ.Core.Model.AMI.Security;
+using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models.CertificateModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
 using OpenIZAdmin.Services;
+using OpenIZAdmin.Services.Http;
+using OpenIZAdmin.Services.Http.Security;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -42,9 +45,9 @@ namespace OpenIZAdmin.Controllers
 		private static readonly Uri amiEndpoint = new Uri(RealmConfig.GetCurrentRealm().AmiEndpoint);
 
 		/// <summary>
-		/// The internal reference to the <see cref="OpenIZAdmin.Services.RestClient"/> instance.
+		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
 		/// </summary>
-		private RestClient client;
+		private AmiServiceClient client;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.CertificateController"/> class.
@@ -60,17 +63,24 @@ namespace OpenIZAdmin.Controllers
 		[HttpPost]
 		[ActionName("AcceptCsr")]
 		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> AcceptCertificateSigningRequestAsync(AcceptCertificateSigningRequestModel model)
+		public ActionResult AcceptCertificateSigningRequest(AcceptCertificateSigningRequestModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				var response = await this.client.PutAsync(string.Format("/csr/{0}", model.CertificateId));
-
-				if (response.IsSuccessStatusCode)
+				try
 				{
+					this.client.AcceptCertificateSigningRequest(model.CertificateId);
+
 					TempData["success"] = "Certificate signing request successfully accepted";
 
 					return RedirectToAction("Index");
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					Trace.TraceError("Unable to accept certificate signing request: {0}", e.StackTrace);
+#endif
+					Trace.TraceError("Unable to accept certificate signing request: {0}", e.Message);
 				}
 			}
 
@@ -81,20 +91,19 @@ namespace OpenIZAdmin.Controllers
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		[ActionName("DeleteCertificate")]
-		public async Task<ActionResult> DeleteCertificateAsync(DeleteCertificateModel model)
+		public ActionResult DeleteCertificate(DeleteCertificateModel model)
 		{
-			if (ModelState.IsValid)
-			{
-				var response = await this.client.DeleteAsync(string.Format("/csr/{0}", model.CertificateId));
+			//if (ModelState.IsValid)
+			//{
+			//	var response = await this.client.DeleteAsync(string.Format("/csr/{0}", model.CertificateId));
 
-				if (response.IsSuccessStatusCode)
-				{
-					TempData["success"] = "Certificate successfully deleted";
+			//	if (response.IsSuccessStatusCode)
+			//	{
+			//		TempData["success"] = "Certificate successfully deleted";
 
-					return RedirectToAction("Index");
-				}
-			}
+			//		return RedirectToAction("Index");
+			//	}
+			//}
 
 			TempData["error"] = "Unable to delete certificate";
 
@@ -121,19 +130,19 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns a view with the specified certificate.</returns>
 		[HttpGet]
 		[ActionName("Certificate")]
-		public async Task<ActionResult> GetCertificateAsync(string id)
+		public ActionResult GetCertificate(string id)
 		{
-			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
-			{
-				var response = await this.client.GetAsync(string.Format("/certificate/{0}", id));
+			//if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
+			//{
+			//	var response = await this.client.GetAsync(string.Format("/certificate/{0}", id));
 
-				if (response.IsSuccessStatusCode)
-				{
-					CertificateViewModel viewModel = new CertificateViewModel();
+			//	if (response.IsSuccessStatusCode)
+			//	{
+			//		CertificateViewModel viewModel = new CertificateViewModel();
 
-					return View(viewModel);
-				}
-			}
+			//		return View(viewModel);
+			//	}
+			//}
 
 			TempData["error"] = "Unable to find specified certificate";
 
@@ -146,16 +155,16 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns a view with a list of revoked certificates.</returns>
 		[HttpGet]
 		[ActionName("CertificateRevocationList")]
-		public async Task<ActionResult> GetCertificateRevocationListAsync()
+		public ActionResult GetCertificateRevocationList()
 		{
-			var response = await this.client.GetAsync(string.Format("/crl"));
+			//var response = await this.client.GetAsync(string.Format("/crl"));
 
-			if (response.IsSuccessStatusCode)
-			{
-				CertificateRevocationListViewModel viewModel = new CertificateRevocationListViewModel();
+			//if (response.IsSuccessStatusCode)
+			//{
+			//	CertificateRevocationListViewModel viewModel = new CertificateRevocationListViewModel();
 
-				return View(viewModel);
-			}
+			//	return View(viewModel);
+			//}
 
 			TempData["error"] = "Unable to retrieve certificate revocation list";
 
@@ -168,16 +177,16 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns a view with a list of certificates.</returns>
 		[HttpGet]
 		[ActionName("Certificates")]
-		public async Task<ActionResult> GetCertificatesAsync()
+		public ActionResult GetCertificates()
 		{
-			var response = await this.client.GetAsync(string.Format("/certificates/"));
+			//var response = await this.client.GetAsync(string.Format("/certificates/"));
 
-			if (response.IsSuccessStatusCode)
-			{
-				CertificateViewModel viewModel = new CertificateViewModel();
+			//if (response.IsSuccessStatusCode)
+			//{
+			//	CertificateViewModel viewModel = new CertificateViewModel();
 
-				return View(viewModel);
-			}
+			//	return View(viewModel);
+			//}
 
 			TempData["error"] = "Unable to retrieve certificate list";
 
@@ -191,19 +200,19 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns a view with the certificate signing request.</returns>
 		[HttpGet]
 		[ActionName("CertificateSigningRequest")]
-		public async Task<ActionResult> GetCertificateSigningRequestAsync(string id)
+		public ActionResult GetCertificateSigningRequest(string id)
 		{
-			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
-			{
-				var response = await this.client.GetAsync(string.Format("/csr/{0}", id));
+			//if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
+			//{
+			//	var response = await this.client.GetAsync(string.Format("/csr/{0}", id));
 
-				if (response.IsSuccessStatusCode)
-				{
-					CertificateSigningRequestViewModel viewModel = new CertificateSigningRequestViewModel();
+			//	if (response.IsSuccessStatusCode)
+			//	{
+			//		CertificateSigningRequestViewModel viewModel = new CertificateSigningRequestViewModel();
 
-					return View(viewModel);
-				}
-			}
+			//		return View(viewModel);
+			//	}
+			//}
 
 			TempData["error"] = "Unable to find specified certificate signing request";
 
@@ -216,16 +225,16 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns a view with a list of certificate signing requests.</returns>
 		[HttpGet]
 		[ActionName("GetCertificateSigningRequests")]
-		public async Task<ActionResult> GetCertificateSigningRequestsAsync()
+		public ActionResult GetCertificateSigningRequests()
 		{
-			var response = await this.client.GetAsync(string.Format("/csrs/"));
+			//var response = await this.client.GetAsync(string.Format("/csrs/"));
 
-			if (response.IsSuccessStatusCode)
-			{
-				CertificateSigningRequestViewModel viewModel = new CertificateSigningRequestViewModel();
+			//if (response.IsSuccessStatusCode)
+			//{
+			//	CertificateSigningRequestViewModel viewModel = new CertificateSigningRequestViewModel();
 
-				return View(viewModel);
-			}
+			//	return View(viewModel);
+			//}
 
 			TempData["error"] = "Unable to retrieve certificate signing request list";
 
@@ -237,33 +246,41 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <returns>Returns the index view.</returns>
 		[HttpGet]
-		[ActionName("Index")]
-		public async Task<ActionResult> IndexAsync()
+		public ActionResult Index()
 		{
-			var response = await this.client.GetAsync<AmiCollection<SubmissionInfo>>(string.Format("/csrs/"));
+			//var response = await this.client.GetAsync<AmiCollection<SubmissionInfo>>(string.Format("/csrs/"));
 
-			if (response == null)
-			{
-				TempData["error"] = "Unable to retrieve certificate signing request list";
+			//if (response == null)
+			//{
+			//	TempData["error"] = "Unable to retrieve certificate signing request list";
 
-				return RedirectToAction("Index", "Home");
-			}
-			else
-			{
-				CertificateIndexViewModel viewModel = new CertificateIndexViewModel
-				{
-					CertificateSigningRequests = new List<CertificateSigningRequestViewModel>
-					{
-					}
-				};
+			//	return RedirectToAction("Index", "Home");
+			//}
+			//else
+			//{
+			//	CertificateIndexViewModel viewModel = new CertificateIndexViewModel
+			//	{
+			//		CertificateSigningRequests = new List<CertificateSigningRequestViewModel>
+			//		{
+			//		}
+			//	};
 
-				return View(viewModel);
-			}
+			//	return View(viewModel);
+			//}
+
+			TempData["error"] = "Unable to retrieve certificate signing request list";
+
+			return RedirectToAction("Index", "Home");
 		}
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			this.client = new RestClient(amiEndpoint, new Credentials(HttpContext.Request));
+			var restClient = new RestClientService("AMI");
+
+			restClient.Accept = "application/xml";
+			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
+
+			this.client = new AmiServiceClient(restClient);
 
 			base.OnActionExecuting(filterContext);
 		}
@@ -273,21 +290,21 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <returns>Returns a view with the status of the rejection.</returns>
 		[HttpPost]
+		[ActionName("RejectCsr")]
 		[ValidateAntiForgeryToken]
-		[ActionName("RejectCertificateSigningRequest")]
-		public async Task<ActionResult> RejectCertificateSigningRequestAsync(RejectCertificateSigningRequestModel model)
+		public ActionResult RejectCertificateSigningRequest(RejectCertificateSigningRequestModel model)
 		{
-			if (ModelState.IsValid)
-			{
-				var response = await this.client.DeleteAsync(string.Format("/csr/{0}", model.CertificateId));
+			//if (ModelState.IsValid)
+			//{
+			//	var response = await this.client.DeleteAsync(string.Format("/csr/{0}", model.CertificateId));
 
-				if (response.IsSuccessStatusCode)
-				{
-					TempData["success"] = "Certificate signing request sucessfully rejected";
+			//	if (response.IsSuccessStatusCode)
+			//	{
+			//		TempData["success"] = "Certificate signing request sucessfully rejected";
 
-					return RedirectToAction("Index");
-				}
-			}
+			//		return RedirectToAction("Index");
+			//	}
+			//}
 
 			TempData["error"] = "Unable to reject certificate signing request";
 
@@ -301,27 +318,27 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		[HttpPost]
+		[ActionName("SubmitCsr")]
 		[ValidateAntiForgeryToken]
-		[ActionName("SubmitCertificateSigningRequest")]
-		public async Task<ActionResult> SubmitCertificateSigningRequestAsync(SubmitCertificateSigningRequestModel model)
+		public ActionResult SubmitCertificateSigningRequest(SubmitCertificateSigningRequestModel model)
 		{
-			if (ModelState.IsValid)
-			{
-				SubmissionRequest submissionRequest = model.ToSubmissionRequest();
+			//if (ModelState.IsValid)
+			//{
+			//	SubmissionRequest submissionRequest = model.ToSubmissionRequest();
 
-				var response = await this.client.PostAsync<SubmissionRequest, SubmissionRequest>("/csr/", submissionRequest);
+			//	var response = await this.client.PostAsync<SubmissionRequest, SubmissionRequest>("/csr/", submissionRequest);
 
-				if (response == null)
-				{
-					TempData["error"] = "Unable to submit certificate signing request";
+			//	if (response == null)
+			//	{
+			//		TempData["error"] = "Unable to submit certificate signing request";
 
-					return View(model);
-				}
+			//		return View(model);
+			//	}
 
-				TempData["success"] = "Certificate signing request successfully submitted";
+			//	TempData["success"] = "Certificate signing request successfully submitted";
 
-				return RedirectToAction("Index");
-			}
+			//	return RedirectToAction("Index");
+			//}
 
 			TempData["error"] = "Unable to submit certificate signing request";
 

@@ -126,6 +126,9 @@
   <data name="PasswordRequired" xml:space="preserve">
     <value>The Password field is required</value>
   </data>
+  <data name="RoleNotFound" xml:space="preserve">
+    <value>Role not found</value>
+  </data>
   <data name="Username" xml:space="preserve">
     <value>Username</value>
   </data>
@@ -134,5 +137,8 @@
   </data>
   <data name="UsernameTooLong" xml:space="preserve">
     <value>The Username field must be between 1 and 255 characters</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>User not found</value>
   </data>
 </root>

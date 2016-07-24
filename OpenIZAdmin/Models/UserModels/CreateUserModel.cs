@@ -18,8 +18,15 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.DataTypes;
+using OpenIZ.Core.Model.Entities;
+using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Extensions;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace OpenIZAdmin.Models.UserModels
 {
@@ -41,6 +48,14 @@ namespace OpenIZAdmin.Models.UserModels
 		public string Email { get; set; }
 
 		[Required]
+		[StringLength(255)]
+		public string FirstName { get; set; }
+
+		[Required]
+		[StringLength(255)]
+		public string LastName { get; set; }
+
+		[Required]
 		[DataType(DataType.Password)]
 		public string Password { get; set; }
 
@@ -53,12 +68,45 @@ namespace OpenIZAdmin.Models.UserModels
 
 		public SecurityUserInfo ToSecurityUserInfo()
 		{
-			return new SecurityUserInfo
+			//List<EntityNameComponent> patientNames = new List<EntityNameComponent>();
+			//if (this.GivenNames != null)
+			//{
+			//	patientNames.AddRange(this.GivenNames.Select(x => new OpenIZ.Core.Model.Entities.EntityNameComponent(NameComponentKeys.Given, x)).ToList());
+			//}
+			//if (this.FamilyNames != null)
+			//{
+			//	patientNames.AddRange(this.FamilyNames.Select(x => new OpenIZ.Core.Model.Entities.EntityNameComponent(NameComponentKeys.Family, x)).ToList());
+			//}
+
+			SecurityUserInfo userInfo = new SecurityUserInfo
 			{
 				Email = this.Email,
 				Password = this.Password,
+				User = new SecurityUser
+				{
+					Entities = new List<Person>()
+				},
 				UserName = this.Username
 			};
+
+			//userInfo.User.AddPersonNames(NameUseKeys.Legal, NameComponentKeys.Given, new List<string> { this.FirstName });
+			//userInfo.User.AddPersonNames(NameUseKeys.Legal, NameComponentKeys.Family, new List<string> { this.LastName });
+
+			List<Guid> roleIds = new List<Guid>();
+
+			foreach (var roleId in Roles)
+			{
+				Guid role = Guid.Empty;
+
+				if (Guid.TryParse(roleId, out role))
+				{
+					roleIds.Add(role);
+				}
+			}
+
+			userInfo.User.CreateRoles(roleIds);
+
+			return userInfo;
 		}
 	}
 }

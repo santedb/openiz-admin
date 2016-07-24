@@ -46,9 +46,6 @@ namespace OpenIZAdmin
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-			// Administrative Interface configuration
-			AmiConfig.Initialize();
-
 			Trace.TraceInformation("Application started");
         }
 
@@ -75,12 +72,12 @@ namespace OpenIZAdmin
 		/// </summary>
 		/// <param name="sender">The sender of the error.</param>
 		/// <param name="e">The event arguments.</param>
-		protected void Application_Error(object sender, EventArgs e)
-		{
-#if DEBUG
-			Trace.TraceError("Application error: {0}", Server.GetLastError());
-#endif
-			Trace.TraceError("Application error: {0}", Server.GetLastError().Message);
-		}
+//		protected void Application_Error(object sender, EventArgs e)
+//		{
+//#if DEBUG
+//			Trace.TraceError("Application error: {0}", Server.GetLastError());
+//#endif
+//			Trace.TraceError("Application error: {0}", Server.GetLastError().Message);
+//		}
 	}
 }

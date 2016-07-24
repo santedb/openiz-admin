@@ -99,7 +99,7 @@ namespace OpenIZAdmin.DAL
 			{
 				client.DefaultRequestHeaders.Add("Authorization", "BASIC " + Convert.ToBase64String(Encoding.UTF8.GetBytes(currentRealm.ApplicationId + ":" + currentRealm.ApplicationSecret)));
 
-				StringContent content = new StringContent(string.Format("grant_type=password&username={0}&password={1}&scope={2}", userName, password, AmiConfig.Scope));
+				StringContent content = new StringContent(string.Format("grant_type=password&username={0}&password={1}&scope={2}", userName, password, currentRealm.Scope));
 
 				// HACK: have to remove the headers before adding them...
 				content.Headers.Remove("Content-Type");

@@ -9,6 +9,11 @@
             Represents the base class for an act
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Acts.Act.#ctor">
+            <summary>
+            Constructor for ACT
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.IsNegated">
             <summary>
             Gets or sets an indicator which identifies whether the object is negated
@@ -124,6 +129,11 @@
             Participations
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Acts.Act.Refresh">
+            <summary>
+            Forces the delay load properties in this type to reload
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Acts.ActParticipation">
             <summary>
             Associates an entity which participates in an act
@@ -147,6 +157,11 @@
         <member name="P:OpenIZ.Core.Model.Acts.ActParticipation.ParticipationRole">
             <summary>
             Gets or sets the role that the entity played in participating in the act
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Acts.ActParticipation.Refresh">
+            <summary>
+            Forces a delay load from the underlying model
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Acts.ActRelationship">
@@ -174,9 +189,19 @@
             Gets or sets the association type
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Acts.ActRelationship.Refresh">
+            <summary>
+            Refreshes the model to force reload from underlying model
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Acts.ControlAct">
             <summary>
             Represents an act which indicates why data was created/changed
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Acts.ControlAct.#ctor">
+            <summary>
+            Control act
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Acts.Observation">
@@ -199,6 +224,11 @@
             Gets or sets the concept which indicates the interpretation of the observtion
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Acts.Observation.Refresh">
+            <summary>
+            Refresh the object forcing delay load 
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Acts.QuantityObservation">
             <summary>
             Represents an observation that contains a quantity
@@ -217,6 +247,11 @@
         <member name="P:OpenIZ.Core.Model.Acts.QuantityObservation.UnitOfMeasure">
             <summary>
             Gets or sets the unit of measure
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Acts.QuantityObservation.Refresh">
+            <summary>
+            Forces a refresh of the object
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Acts.TextObservation">
@@ -244,6 +279,11 @@
             Gets or sets the coded value of the observation
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Acts.CodedObservation.Refresh">
+            <summary>
+            Forces a refresh of underlying data
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Acts.PatientEncounter">
             <summary>
             Represents an encounter a patient has with the health system
@@ -262,6 +302,11 @@
         <member name="P:OpenIZ.Core.Model.Acts.PatientEncounter.DischargeDisposition">
             <summary>
             Gets or sets the discharge disposition (how the patient left the encounter
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Acts.PatientEncounter.Refresh">
+            <summary>
+            Refresh forcing delay load
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Acts.SubstanceAdministration">
@@ -302,6 +347,341 @@
         <member name="P:OpenIZ.Core.Model.Acts.SubstanceAdministration.SequenceId">
             <summary>
             The sequence of the dose (i.e. OPV 0 = 0 , OPV 1 = 1, etc.)
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Acts.SubstanceAdministration.Refresh">
+            <summary>
+            Force delay loading of properties
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Security.AmiCollection`1">
+            <summary>
+            AMI collection base
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.AmiCollection`1.Size">
+            <summary>
+            Total collection size
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.AmiCollection`1.Offset">
+            <summary>
+            Total offset
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.AmiCollection`1.CollectionItem">
+            <summary>
+            Collection item
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Security.RevokeReason">
+            <summary>
+            The reason something is revoked
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Security.SubmissionInfo">
+            <summary>
+            Enrollment information
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.RequestID">
+            <summary>
+            RequestId
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.XmlStatusCode">
+            <summary>
+            Status code
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.DispositionMessage">
+            <summary>
+            Disposition message
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.SubmittedWhen">
+            <summary>
+            Submitted on
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.ResolvedWhen">
+            <summary>
+            Resolved on
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.RevokedWhen">
+            <summary>
+            Revoked on
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.XmlRevokeReason">
+            <summary>
+            Revokation reason
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.EMail">
+            <summary>
+            Email address of user
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.NotBefore">
+            <summary>
+            Before date
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.NotAfter">
+            <summary>
+            Expiry
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.AdminContact">
+            <summary>
+            Administration contact
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.AdminSiteAddress">
+            <summary>
+            Administration
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.RevokedReason">
+            <summary>
+            Revoke reason from Keystore
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.DistinguishedName">
+            <summary>
+            DN
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Security.SubmissionRequest">
+            <summary>
+            Submission request
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionRequest.CmcRequest">
+            <summary>
+            Gets or sets the cmc request
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionRequest.AdminContactName">
+            <summary>
+            Gets or sets the contact name
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionRequest.AdminAddress">
+            <summary>
+            Gets or sets the admin address
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Security.SubmissionResult">
+            <summary>
+            Represents the submission result
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Security.SubmissionResult.#ctor(System.String,System.Int32,OpenIZ.Core.Model.AMI.Security.SubmissionStatus,System.String)">
+            <summary>
+            Creates a new client certificate request result based on the internal request response
+            </summary>
+            <param name="certificateRequestResponse"></param>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionResult.Message">
+            <summary>
+            Gets or sets the message from the server
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionResult.Certificate">
+            <summary>
+            Gets or sets the certificate content
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionResult.Status">
+            <summary>
+            Gets or sets the status
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionResult.RequestId">
+            <summary>
+            Gets or sets the request id
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Security.SubmissionStatus">
+            <summary>
+            Resubmission outcome
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info">
+            <summary>
+            Certificate information
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info.#ctor(System.String,System.DateTime,System.DateTime,System.String,System.String)">
+            <summary>
+            Constructs a certificate info
+            </summary>
+            <param name="cert"></param>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info.#ctor(System.Collections.Generic.List{System.Collections.Generic.KeyValuePair{System.String,System.String}})">
+            <summary>
+            Create from a CA attribute set
+            </summary>
+            <param name="attributes"></param>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info.Id">
+            <summary>
+            The identifier of the certificate
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info.Issuer">
+            <summary>
+            Gets or sets the issuers
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info.Subject">
+            <summary>
+            Distinguished name
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info.NotBefore">
+            <summary>
+            Gets or sets the issue date
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info.NotAfter">
+            <summary>
+            Gets or sets the expiry date
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info.Thumbprint">
+            <summary>
+            Gets or sets the thumbprint
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo">
+            <summary>
+            Wrapper for policy information
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo.#ctor">
+            <summary>
+            Policy information
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo.#ctor(OpenIZ.Core.Model.Security.SecurityPolicy)">
+            <summary>
+            Constructs this policy information object from an IMS policy instane
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo.#ctor(OpenIZ.Core.Model.Security.SecurityPolicyInstance)">
+            <summary>
+            Constructs this policy information object from an IMS policy instane
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo.CanOverride">
+            <summary>
+            True if the policy can be overridden
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo.Grant">
+            <summary>
+            The outcome grant if an instance
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo.Name">
+            <summary>
+            The name of the policy
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo.Oid">
+            <summary>
+            The OID of the policy
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo">
+            <summary>
+            Represents security role information.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo.#ctor(OpenIZ.Core.Model.Security.SecurityRole)">
+            <summary>
+            Creates a new security role information object from the specified security role.
+            </summary>
+            <param name="role">The security role.</param>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo.Id">
+            <summary>
+            Gets or sets the identifier of the message
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo.Name">
+            <summary>
+            Gets or sets the name of the group
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo.Policies">
+            <summary>
+            Represents policies
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo.Role">
+            <summary>
+            Gets or sets the role information
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo">
+            <summary>
+            Gets or sets security user information
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.#ctor">
+            <summary>
+            Default constructor
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.#ctor(OpenIZ.Core.Model.Security.SecurityUser)">
+            <summary>
+            Creates a new security user from the specified info
+            </summary>
+            <param name="u"></param>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.UserId">
+            <summary>
+            Gets the user identifier
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.UserName">
+            <summary>
+            Gets or sets the name of the user
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.Password">
+            <summary>
+            User password
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.Email">
+            <summary>
+            E-mail address
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.Lockout">
+            <summary>
+            Lockout
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.Roles">
+            <summary>
+            Roles
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.User">
+            <summary>
+            Security user object
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Attributes.AutoLoadAttribute">
@@ -445,6 +825,11 @@
             Represent the data as a string
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.BaseEntityData.Refresh">
+            <summary>
+            Clears delay load properties forcing a refresh
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Association`1">
             <summary>
             Represents a bse class for bound relational data
@@ -459,6 +844,11 @@
         <member name="P:OpenIZ.Core.Model.Association`1.SourceEntity">
             <summary>
             The entity that this relationship targets
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Association`1.Refresh">
+            <summary>
+            Force delay load properties to reload
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Collection.Bundle">
@@ -590,6 +980,211 @@
         <member name="F:OpenIZ.Core.Model.Constants.ActClassKeys.Supply">
             <summary>
             The act represents a supply of some material
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActClassKeys.ControlAct">
+            <summary>
+            Control act event
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.Constants.ActMoodKeys">
+            <summary>
+            Act Mood keys
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActMoodKeys.Goal">
+            <summary>
+            The ACT represents some sort of GOAL
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActMoodKeys.AppointmentRequest">
+            <summary>
+            The ACT represents a special type of request to create an appointment
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActMoodKeys.Appointment">
+            <summary>
+            The ACT represents an appointment that was made to do something
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActMoodKeys.Promise">
+            <summary>
+            The ACT represents a promise to do something
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActMoodKeys.Request">
+            <summary>
+            The ACT represents a request to do something
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActMoodKeys.Eventoccurrence">
+            <summary>
+            The ACT represents something that has occurred
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActMoodKeys.Intent">
+            <summary>
+            The ACT represents an intent made by a human to do something
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActMoodKeys.Propose">
+            <summary>
+            The ACT represents a proposal that a human should do something
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActMoodKeys.Definition">
+            <summary>
+            The ACT represents a definition of a type of act
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.Constants.ActParticipationKey">
+            <summary>
+            Represents the participation concepts which an entity can participate in an act
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Transcriber">
+            <summary>
+            The person who transcribed data from the original act
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.EntryLocation">
+            <summary>
+            The location where the act was entered
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Location">
+            <summary>
+            The location where the service was performed
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.SecondaryPerformer">
+            <summary>
+            The secondary performing person (support clinician)
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.IndirectTarget">
+            <summary>
+            The entity not directly present in the act but which will be the focust of th act
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys">
+            <summary>
+            Act relationship types
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.RefersTo">
+            <summary>
+            Indicates that the source act refers to the target act
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.Arrival">
+            <summary>
+            Links the transortation act from another act
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.Departure">
+            <summary>
+            Links a transporation act from another act indicating departure of the subject
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.Evaluates">
+            <summary>
+            Used to link a goal to an observation
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.HasControlVariable">
+            <summary>
+            Relationship from an act to one or more control variables (for example: device settings, or environment)
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.Documents">
+            <summary>
+            The source act documents the target act
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.HasSupport">
+            <summary>
+            Indicates an existing act is suggesting evidence for a new observation.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.EpisodeLink">
+            <summary>
+            Links two instances of the same act over time (example: chronic conditions)
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.Replaces">
+            <summary>
+            The source act replaces the target act
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.IsManfestationOf">
+            <summary>
+            The assertion that a new observation may be a manifestation of another
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.Appends">
+            <summary>
+            Indicates that the source act appends information contained in the target act
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.HasSubject">
+            <summary>
+            Indicates the subject of a particular act (example: clinical act is a subject of a control act)
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.Fulfills">
+            <summary>
+            Indicates that the source act fulfills the target act
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.IsDerivedFrom">
+            <summary>
+            Indicates the source act is derived from information contained in the target act
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.IsCauseOf">
+            <summary>
+            Indicates that the source act is the cause of the target act
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.IsExcerptOf">
+            <summary>
+            Indicates that the source act is an excerpt of the target act
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.HasComponent">
+            <summary>
+            Indicates that the target act is a component of the source act
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.StartsAfterStartOf">
+            <summary>
+            Indicates that the source act starts after the start of another act
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.HasPrecondition">
+            <summary>
+            Indicates that the target act is a pre-condition of the source act
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.HasReason">
+            <summary>
+            Indicates a reasoning as to why the source act is occurring
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.HasAuthorization">
+            <summary>
+            Indicates that the target act authorizes the source act
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.HasReferenceValues">
+            <summary>
+            Indicates that the source act contains reference values from the target
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys.Transforms">
+            <summary>
+            Indicates that the source act transforms the target act
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.AddressUseKeys">
@@ -1117,9 +1712,24 @@
             Gets or sets the assigning device
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.AssigningAuthority.Refresh">
+            <summary>
+            Force reloading of delay load properties
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.DataTypes.CodeSystem">
             <summary>
             Represents a code system which is a collection of reference terms
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.CodeSystem.#ctor">
+            <summary>
+            Creates a new code system
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.CodeSystem.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Creates a new code system object
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.DataTypes.CodeSystem.Name">
@@ -1164,7 +1774,7 @@
         </member>
         <member name="M:OpenIZ.Core.Model.DataTypes.Concept.#ctor">
             <summary>
-            Ctor
+            Creates a new concept
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.DataTypes.Concept.IsSystemConcept">
@@ -1267,6 +1877,11 @@
             Gets or sets the phonetic algorithm
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.ConceptName.Refresh">
+            <summary>
+            Refresh the object's delay load properties
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.DataTypes.ConceptReferenceTerm">
             <summary>
             Represents a reference term relationship between a concept and reference term
@@ -1290,6 +1905,11 @@
         <member name="P:OpenIZ.Core.Model.DataTypes.ConceptReferenceTerm.RelationshipType">
             <summary>
             Gets or sets the relationship type
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.ConceptReferenceTerm.Refresh">
+            <summary>
+            Refresh the specified object
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.DataTypes.ConceptRelationship">
@@ -1317,6 +1937,11 @@
             Gets or sets the relationship type
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.ConceptRelationship.Refresh">
+            <summary>
+            Force reloading of delay load properties
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.DataTypes.ConceptRelationshipType">
             <summary>
             Concept relationship type
@@ -1335,6 +1960,11 @@
         <member name="T:OpenIZ.Core.Model.DataTypes.ConceptSet">
             <summary>
             Represents set of concepts
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.ConceptSet.#ctor">
+            <summary>
+            Concept set
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.DataTypes.ConceptSet.Name">
@@ -1400,6 +2030,11 @@
         <member name="P:OpenIZ.Core.Model.DataTypes.Extension`1.ExtensionType">
             <summary>
             Gets or sets the extension type
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.Extension`1.Refresh">
+            <summary>
+            Forces refresh 
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.DataTypes.EntityExtension">
@@ -1512,6 +2147,11 @@
             Gets or sets the assigning authority 
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.IdentifierBase`1.Refresh">
+            <summary>
+            Force reloading of delay load properties
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.DataTypes.IdentifierType">
             <summary>
             Represents a basic information class which classifies the use of an identifier
@@ -1535,6 +2175,11 @@
         <member name="P:OpenIZ.Core.Model.DataTypes.IdentifierType.ScopeConcept">
             <summary>
             Gets the scope of the identifier
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.IdentifierType.Refresh">
+            <summary>
+            Force reloading of delay load properties
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.DataTypes.Note`1">
@@ -1565,6 +2210,11 @@
         <member name="P:OpenIZ.Core.Model.DataTypes.Note`1.Author">
             <summary>
             Gets or sets the author entity
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.Note`1.Refresh">
+            <summary>
+            Forces a refresh of the object
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.DataTypes.EntityNote">
@@ -1632,6 +2282,11 @@
             Gets display names associated with the reference term
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.ReferenceTerm.Refresh">
+            <summary>
+            Force reloading of delay load properties
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.DataTypes.ReferenceTermName">
             <summary>
             Display name of a code system or reference term
@@ -1667,6 +2322,11 @@
             Gets or sets the phonetic algorithm
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.ReferenceTermName.Refresh">
+            <summary>
+            Force reloading of delay load properties
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.DataTypes.Tag`1">
             <summary>
             Represents the base class for tags
@@ -1685,6 +2345,11 @@
         <member name="P:OpenIZ.Core.Model.DataTypes.Tag`1.SourceEntityKey">
             <summary>
             Gets or sets the source entity's key (where the relationship is FROM)
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.DataTypes.Tag`1.SourceEntity">
+            <summary>
+            The entity that this relationship targets
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.DataTypes.EntityTag">
@@ -1757,6 +2422,11 @@
             Gets or sets the vendoer name of the software
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Entities.ApplicationEntity.Refresh">
+            <summary>
+            Force delay loading
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Entities.DeviceEntity">
             <summary>
             Represents a device entity
@@ -1787,6 +2457,11 @@
             Gets or sets the operating system name
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Entities.DeviceEntity.Refresh">
+            <summary>
+            Force refresh of data model
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Entities.Entity">
             <summary>
             Represents the base of all entities
@@ -1794,12 +2469,7 @@
         </member>
         <member name="M:OpenIZ.Core.Model.Entities.Entity.#ctor">
             <summary>
-            Constructs a new entity
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.Entities.Entity.ShouldSerializeCreationAct">
-            <summary>
-            Should serialize previous version?
+            Creates a new instance of the entity class
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.Entities.Entity.ClassConceptKey">
@@ -1857,19 +2527,9 @@
             Gets the identifiers associated with this entity
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.Entities.Entity.ShouldSerializeIdentifiers">
-            <summary>
-            Should serialize identifiers
-            </summary>
-        </member>
         <member name="P:OpenIZ.Core.Model.Entities.Entity.Relationships">
             <summary>
             Gets a list of all associated entities for this entity
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.Entities.Entity.ShouldSerializeRelationships">
-            <summary>
-            Should serialize identifiers
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.Entities.Entity.Telecoms">
@@ -1877,19 +2537,9 @@
             Gets a list of all telecommunications addresses associated with the entity
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.Entities.Entity.ShouldSerializeTelecoms">
-            <summary>
-            Should serialize identifiers
-            </summary>
-        </member>
         <member name="P:OpenIZ.Core.Model.Entities.Entity.Extensions">
             <summary>
             Gets a list of all extensions associated with the entity
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.Entities.Entity.ShouldSerializeExtensions">
-            <summary>
-            Should serialize identifiers
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.Entities.Entity.Names">
@@ -1897,19 +2547,9 @@
             Gets a list of all names associated with the entity
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.Entities.Entity.ShouldSerializeNames">
-            <summary>
-            Should serialize identifiers
-            </summary>
-        </member>
         <member name="P:OpenIZ.Core.Model.Entities.Entity.Addresses">
             <summary>
             Gets a list of all addresses associated with the entity
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.Entities.Entity.ShouldSerializeAddresses">
-            <summary>
-            Should serialize identifiers
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.Entities.Entity.Notes">
@@ -1917,29 +2557,14 @@
             Gets a list of all notes associated with the entity
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.Entities.Entity.ShouldSerializeNotes">
-            <summary>
-            Should serialize identifiers
-            </summary>
-        </member>
         <member name="P:OpenIZ.Core.Model.Entities.Entity.Tags">
             <summary>
             Gets a list of all tags associated with the entity
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.Entities.Entity.ShouldSerializeTags">
-            <summary>
-            Should serialize identifiers
-            </summary>
-        </member>
         <member name="P:OpenIZ.Core.Model.Entities.Entity.Participations">
             <summary>
             Gets the acts in which this entity participates
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.Entities.Entity.ShouldSerializeParticipations">
-            <summary>
-            Should serialize identifiers
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Entities.EntityAddress">
@@ -2026,6 +2651,11 @@
             Gets or sets the component types
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityName.Refresh">
+            <summary>
+            Refreshes the underlying content
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Entities.EntityNameComponent">
             <summary>
             Represents a name component which is bound to a name
@@ -2074,7 +2704,7 @@
             Default constructor for entity relationship
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.Entities.EntityRelationship.#ctor(System.Guid,OpenIZ.Core.Model.Entities.Entity)">
+        <member name="M:OpenIZ.Core.Model.Entities.EntityRelationship.#ctor(System.Nullable{System.Guid},OpenIZ.Core.Model.Entities.Entity)">
             <summary>
             Entity relationship between <paramref name="source"/> and <paramref name="target"/>
             </summary>
@@ -2082,11 +2712,6 @@
         <member name="M:OpenIZ.Core.Model.Entities.EntityRelationship.#ctor(System.Nullable{System.Guid},System.Nullable{System.Guid})">
             <summary>
             Entity relationship between <paramref name="source"/> and <paramref name="target"/>
-            </summary>
-        </member>
-        <member name="F:OpenIZ.Core.Model.Entities.EntityRelationship.m_targetEntityKey">
-            <summary>
-            Raw target entity key
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.Entities.EntityRelationship.TargetEntityKey">
@@ -2112,6 +2737,11 @@
         <member name="P:OpenIZ.Core.Model.Entities.EntityRelationship.RelationshipType">
             <summary>
             Gets or sets the association type
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityRelationship.Refresh">
+            <summary>
+            Refresh this entity
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Entities.EntityTelecomAddress">
@@ -2142,6 +2772,11 @@
         <member name="P:OpenIZ.Core.Model.Entities.EntityTelecomAddress.Value">
             <summary>
             Gets or sets the value of the telecom address
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityTelecomAddress.Refresh">
+            <summary>
+            Forces refresh of the delay load properties
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Entities.GenericComponentValues`1">
@@ -2178,6 +2813,11 @@
         <member name="P:OpenIZ.Core.Model.Entities.GenericComponentValues`1.Value">
             <summary>
             Gets or sets the value of the name component
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.GenericComponentValues`1.Refresh">
+            <summary>
+            Forces refreshing of delay load properties
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Entities.ManufacturedMaterial">
@@ -2241,6 +2881,11 @@
             True if the material is simply administrative
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Entities.Material.Refresh">
+            <summary>
+            Forces refresh of the delay load properties
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Entities.Organization">
             <summary>
             Organization entity
@@ -2259,6 +2904,11 @@
         <member name="P:OpenIZ.Core.Model.Entities.Organization.IndustryConcept">
             <summary>
             Gets or sets the industry in which the organization operates
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.Organization.Refresh">
+            <summary>
+            Forces reload of delay load properties
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Entities.Person">
@@ -2346,17 +2996,6 @@
             Gets or sets the longitude
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.Entities.Place.ShouldSerializeLat">
-            <summary>
-            Should serialize Lat?
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.Entities.Place.ShouldSerializeLng">
-            <summary>
-            Should serialize longitude
-            </summary>
-            <returns></returns>
-        </member>
         <member name="P:OpenIZ.Core.Model.Entities.Place.Services">
             <summary>
             Gets the services
@@ -2380,6 +3019,11 @@
         <member name="P:OpenIZ.Core.Model.Entities.PlaceService.ServiceConcept">
             <summary>
             Gets or sets the service concept
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.PlaceService.Refresh">
+            <summary>
+            Refresh the delay load properties
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.EntityLoader.EntitySource">
@@ -2472,19 +3116,14 @@
             Represents data that is identified by a key
             </summary>
         </member>
-        <member name="F:OpenIZ.Core.Model.IdentifiedData.SourceProvider">
+        <member name="P:OpenIZ.Core.Model.IdentifiedData.IsDelayLoadEnabled">
             <summary>
-            Threadstatic source provider so it can be overridden in serialization
+            True if the class is currently loading associations when accessed
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.IdentifiedData.#ctor">
+        <member name="M:OpenIZ.Core.Model.IdentifiedData.SetDelayLoad(System.Boolean)">
             <summary>
-            Entity source
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Model.IdentifiedData.EntityProvider">
-            <summary>
-            Gets or sets the entity source
+            Set delay load
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.IdentifiedData.Key">
@@ -2503,14 +3142,24 @@
             Gets the type
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.IdentifiedData.DelayLoad``1(System.Nullable{System.Guid},``0)">
+            <summary>
+            Get associated entity
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.IdentifiedData.Refresh">
+            <summary>
+            Force reloading of delay load properties
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Model.IdentifiedData.Clone">
             <summary>
             Clone the specified data
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.IdentifiedData.IsLogicalNull">
+        <member name="M:OpenIZ.Core.Model.IdentifiedData.GetLocked">
             <summary>
-            True if this is a placeholder
+            Clone the specified data
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Interfaces.IBaseEntityData">
@@ -2546,11 +3195,6 @@
         <member name="P:OpenIZ.Core.Model.Interfaces.IIdentifiedEntity.Key">
             <summary>
             Gets the identifier for the entity
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Model.Interfaces.IIdentifiedEntity.IsLogicalNull">
-            <summary>
-            Returns true if this object is null even though instantiated
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Interfaces.ISimpleAssociation">
@@ -3271,6 +3915,11 @@
             Gets or sets the gender concept
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Roles.Patient.Refresh">
+            <summary>
+            Force a refresh of delay load properties
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Roles.Provider">
             <summary>
             Represents a provider role of a person
@@ -3289,6 +3938,11 @@
         <member name="P:OpenIZ.Core.Model.Roles.Provider.ProviderSpecialty">
             <summary>
             Gets or sets the provider specialty
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Roles.Provider.Refresh">
+            <summary>
+            Force a refresh of the delay load properties
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Security.SecurityApplication">
@@ -3403,7 +4057,7 @@
         </member>
         <member name="M:OpenIZ.Core.Model.Security.SecurityRole.#ctor">
             <summary>
-            CTOR
+            Users in teh group
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.Security.SecurityRole.Name">
@@ -3416,11 +4070,6 @@
             Description of the role
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.Security.SecurityRole.UsersXml">
-            <summary>
-            User list XML
-            </summary>
-        </member>
         <member name="P:OpenIZ.Core.Model.Security.SecurityRole.Users">
             <summary>
             Gets or sets the security users in the role
@@ -3429,6 +4078,11 @@
         <member name="T:OpenIZ.Core.Model.Security.SecurityUser">
             <summary>
             Security user represents a user for the purpose of security 
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Security.SecurityUser.#ctor">
+            <summary>
+            Roles belonging to the user
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.Security.SecurityUser.Email">
@@ -3481,12 +4135,12 @@
             Gets or sets the binary representation of the user's photo
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.Security.SecurityUser.Entity">
+        <member name="P:OpenIZ.Core.Model.Security.SecurityUser.Entities">
             <summary>
             Gets the list of entities associated with this security user
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.Security.SecurityUser.EntityXml">
+        <member name="P:OpenIZ.Core.Model.Security.SecurityUser.EntitiesXml">
             <summary>
             Concepts as identifiers for XML purposes only
             </summary>
@@ -3506,11 +4160,6 @@
             Represents roles
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.Security.SecurityUser.RolesXml">
-            <summary>
-            Gets or sets the roles for XML
-            </summary>
-        </member>
         <member name="P:OpenIZ.Core.Model.Security.SecurityUser.PhoneNumber">
             <summary>
             Gets or sets the patient's phone number
@@ -3524,6 +4173,11 @@
         <member name="P:OpenIZ.Core.Model.Security.SecurityUser.UserClass">
             <summary>
             Gets or sets the user class key
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Security.SecurityUser.Policies">
+            <summary>
+            Gets or sets the policies for the user
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Serialization.ModelSerializationBinder">
@@ -3567,6 +4221,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:OpenIZ.Core.Model.NonVersionedEntityData.Refresh">
+            <summary>
+            Forces refresh
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.VersionedAssociation`1">
             <summary>
             Represents a relational class which is bound on a version boundary
@@ -3581,18 +4240,6 @@
             <summary>
             Gets or sets the obsoleted version identifier
             </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.VersionedAssociation`1.ShouldSerializeObsoleteVersionSequenceId">
-            <summary>
-            Shoudl seralize
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:OpenIZ.Core.Model.VersionedAssociation`1.ShouldSerializeEffectiveVersionSequenceId">
-            <summary>
-            Should serialize
-            </summary>
-            <returns></returns>
         </member>
         <member name="T:OpenIZ.Core.Model.VersionedEntityData`1">
             <summary>
@@ -3634,9 +4281,9 @@
             Represent the versioned data as a string
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.VersionedEntityData`1.ShouldSerializePreviousVersionKey">
+        <member name="M:OpenIZ.Core.Model.VersionedEntityData`1.Refresh">
             <summary>
-            Should serialize previous version?
+            Force bound attributes to reload
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Exceptions.ModelMapValidationException">

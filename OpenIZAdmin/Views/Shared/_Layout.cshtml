@@ -64,6 +64,7 @@
                     {
                         <li><a href="/Applet"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span> Applets</a></li>
                         <li><a href="/Certificate"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Certificates</a></li>
+                        <li><a href="/Concept"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Concepts</a></li>
                         <li><a href="/Device"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> Devices</a></li>
                         <li><a href="/Realm"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Realm Management</a></li>
                         <li><a href="/Role"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Roles</a></li>
@@ -88,9 +89,10 @@
     <input type="hidden" id="error" value="@TempData["error"]" />
 
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/jqueryajax")
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/toastr")
-    @Scripts.Render("~/bundles/jqueryval")
     @Scripts.Render("~/bundles/moment")
 
     @RenderSection("scripts", required: false)

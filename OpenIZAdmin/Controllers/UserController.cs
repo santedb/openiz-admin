@@ -19,10 +19,13 @@
 
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.AMI.Security;
+using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models.UserModels;
 using OpenIZAdmin.Models.UserModels.ViewModels;
 using OpenIZAdmin.Services;
+using OpenIZAdmin.Services.Http;
+using OpenIZAdmin.Services.Http.Security;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -39,14 +42,9 @@ namespace OpenIZAdmin.Controllers
 	public class UserController : Controller
 	{
 		/// <summary>
-		/// The internal reference to the administrative interface endpoint.
+		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
 		/// </summary>
-		private static readonly Uri amiEndpoint = new Uri(RealmConfig.GetCurrentRealm().AmiEndpoint);
-
-		/// <summary>
-		/// The internal reference to the <see cref="OpenIZAdmin.Services.RestClient"/> instance.
-		/// </summary>
-		private RestClient client;
+		private AmiServiceClient client;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.UserController"/> class.
@@ -70,13 +68,20 @@ namespace OpenIZAdmin.Controllers
 			{
 				SecurityUserInfo user = model.ToSecurityUserInfo();
 
-				var result = await this.client.PostAsync("/user/", user);
-
-				if (result.IsSuccessStatusCode)
+				try
 				{
+					var result = this.client.CreateUser(user);
+
 					TempData["success"] = "User created successfully";
 
 					return RedirectToAction("Index");
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					Trace.TraceError("Unable to create user: {0}", e.StackTrace);
+#endif
+					Trace.TraceError("Unable to create user: {0}", e.Message);
 				}
 			}
 
@@ -90,17 +95,17 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> DeleteUserAsync(Guid id)
 		{
-			if (id != Guid.Empty)
-			{
-				var result = await this.client.DeleteAsync(string.Format("/user/{0}", id));
+			//if (id != Guid.Empty)
+			//{
+			//	var result = await this.client.DeleteAsync(string.Format("/user/{0}", id));
 
-				if (result.IsSuccessStatusCode)
-				{
-					TempData["success"] = "User deleted successfully";
+			//	if (result.IsSuccessStatusCode)
+			//	{
+			//		TempData["success"] = "User deleted successfully";
 
-					return RedirectToAction("Index");
-				}
-			}
+			//		return RedirectToAction("Index");
+			//	}
+			//}
 
 			TempData["error"] = "Unable to delete user";
 
@@ -122,21 +127,25 @@ namespace OpenIZAdmin.Controllers
 
 		[HttpGet]
 		[ActionName("User")]
-		public async Task<ActionResult> GetUserAsync(Guid id)
+		public ActionResult GetUser(string id)
 		{
-			if (id != Guid.Empty)
+			Guid userId = Guid.Empty;
+
+			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out userId))
 			{
-				var result = await this.client.GetAsync(string.Format("/user/{0}", id));
+				var result = this.client.GetUsers(u => u.UserId == userId);
 
-				if (result.IsSuccessStatusCode)
+				if (result.CollectionItem.Count == 0)
 				{
-					var content = await result.Content.ReadAsAsync<SecurityUserInfo>();
+					TempData["error"] = Localization.Resources.UserNotFound;
 
-					return View(new UserViewModel(content));
+					return RedirectToAction("Index");
 				}
+
+				return View(new UserViewModel(result.CollectionItem.Single()));
 			}
 
-			TempData["error"] = "User not found";
+			TempData["error"] = Localization.Resources.UserNotFound;
 
 			return RedirectToAction("Index");
 		}
@@ -145,14 +154,14 @@ namespace OpenIZAdmin.Controllers
 		[ActionName("Users")]
 		public async Task<ActionResult> GetUsersAsync()
 		{
-			var result = await this.client.GetAsync(string.Format("/users/"));
+			//var result = await this.client.GetAsync(string.Format("/users/"));
 
-			if (result.IsSuccessStatusCode)
-			{
-				var content = await result.Content.ReadAsAsync<AmiCollection<SecurityUserInfo>>();
+			//if (result.IsSuccessStatusCode)
+			//{
+			//	var content = await result.Content.ReadAsAsync<AmiCollection<SecurityUserInfo>>();
 
-				return View(content.CollectionItem.Select(u => new UserViewModel(u)));
-			}
+			//	return View(content.CollectionItem.Select(u => new UserViewModel(u)));
+			//}
 
 			TempData["error"] = "Unable to retrieve user list";
 
@@ -163,14 +172,14 @@ namespace OpenIZAdmin.Controllers
 		[ActionName("Index")]
 		public async Task<ActionResult> IndexAsync()
 		{
-			var result = await this.client.GetAsync(string.Format("/users/"));
+			//var result = await this.client.GetAsync(string.Format("/users/"));
 
-			if (result.IsSuccessStatusCode)
-			{
-				var content = await result.Content.ReadAsAsync<AmiCollection<SecurityUserInfo>>();
+			//if (result.IsSuccessStatusCode)
+			//{
+			//	var content = await result.Content.ReadAsAsync<AmiCollection<SecurityUserInfo>>();
 
-				return View(content.CollectionItem.Select(u => new UserViewModel(u)));
-			}
+			//	return View(content.CollectionItem.Select(u => new UserViewModel(u)));
+			//}
 
 			TempData["error"] = "Unable to retrieve user list";
 
@@ -179,7 +188,12 @@ namespace OpenIZAdmin.Controllers
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			this.client = new RestClient(amiEndpoint, new Credentials(HttpContext.Request));
+			var restClient = new RestClientService("AMI");
+
+			restClient.Accept = "application/xml";
+			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
+
+			this.client = new AmiServiceClient(restClient);
 
 			base.OnActionExecuting(filterContext);
 		}

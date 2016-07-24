@@ -24,47 +24,81 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace OpenIZAdmin.Models.Domain
 {
+	/// <summary>
+	/// Represents a realm.
+	/// </summary>
 	public class Realm
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OpenIZAdmin.Models.Domain.Realm"/> class.
+		/// </summary>
 		public Realm() : this(DateTime.UtcNow, Guid.NewGuid())
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OpenIZAdmin.Models.Domain.Realm"/> class
+		/// with a specified creation time and id.
+		/// </summary>
 		public Realm(DateTime creationTime, Guid id)
 		{
 			this.CreationTime = creationTime;
 			this.Id = id;
 		}
 
+		/// <summary>
+		/// Gets or sets the address of the realm.
+		/// </summary>
 		[Required]
 		[StringLength(255)]
 		[Index(IsUnique = true)]
 		public string Address { get; set; }
 
+		/// <summary>
+		/// Gets or sets the AMI authorization endpoint of the realm.
+		/// </summary>
 		[Url]
 		[Required]
 		[StringLength(255)]
 		public string AmiAuthEndpoint { get; set; }
 
+		/// <summary>
+		/// Gets or sets the AMI endpoint of the realm.
+		/// </summary>
 		[Url]
 		[Required]
 		[StringLength(255)]
 		public string AmiEndpoint { get; set; }
 
+		/// <summary>
+		/// Gets or sets the application id.
+		/// </summary>
 		[Required]
 		[StringLength(255)]
 		public string ApplicationId { get; set; }
 
+		/// <summary>
+		/// Gets or sets the application secret.
+		/// </summary>
 		[Required]
 		[StringLength(255)]
 		public string ApplicationSecret { get; set; }
 
+		/// <summary>
+		/// Gets or sets the creation time of the realm.
+		/// </summary>
 		[Required]
 		public DateTime CreationTime { get; set; }
 
+		/// <summary>
+		/// Gets or sets the description of the realm.
+		/// </summary>
 		[StringLength(255)]
 		public string Description { get; set; }
 
+		/// <summary>
+		/// Gets or sets the id of the realm.
+		/// </summary>
 		[Key]
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public Guid Id { get; set; }
@@ -74,6 +108,11 @@ namespace OpenIZAdmin.Models.Domain
 		public string Name { get; set; }
 
 		public DateTime? ObsoletionTime { get; set; }
+
+		[Url]
+		[Required]
+		[StringLength(255)]
+		public string Scope { get; set; }
 
 		public virtual ICollection<ApplicationUser> Users { get; set; }
 	}

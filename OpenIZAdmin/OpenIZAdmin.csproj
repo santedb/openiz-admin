@@ -36,6 +36,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\OpenIZAdmin.XML</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -70,8 +71,14 @@
     <Reference Include="OpenIZ.Core.Model">
       <HintPath>..\Solution Items\OpenIZ.Core.Model.dll</HintPath>
     </Reference>
-    <Reference Include="OpenIZ.Core.Model.AMI">
-      <HintPath>..\Solution Items\OpenIZ.Core.Model.AMI.dll</HintPath>
+    <Reference Include="OpenIZ.Core.PCL">
+      <HintPath>..\Solution Items\OpenIZ.Core.PCL.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenIZ.Messaging.AMI.Client">
+      <HintPath>..\Solution Items\OpenIZ.Messaging.AMI.Client.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenIZ.Messaging.IMSI.Client">
+      <HintPath>..\Solution Items\OpenIZ.Messaging.IMSI.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -177,7 +184,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AmiConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\LocalizationConfig.cs" />
@@ -186,6 +192,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Attributes\TokenAuthorize.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ConceptController.cs" />
     <Compile Include="Controllers\RealmController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -201,6 +208,8 @@
     <Compile Include="DAL\EntityUnitOfWork.cs" />
     <Compile Include="DAL\IRepository.cs" />
     <Compile Include="DAL\IUnitOfWork.cs" />
+    <Compile Include="Extensions\IdentifiedDataExtensions.cs" />
+    <Compile Include="Extensions\SecurityUserExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -221,6 +230,10 @@
     <Compile Include="Models\CertificateModels\ViewModels\CertificateRevocationListViewModel.cs" />
     <Compile Include="Models\CertificateModels\ViewModels\CertificateSigningRequestViewModel.cs" />
     <Compile Include="Models\CertificateModels\ViewModels\CertificateViewModel.cs" />
+    <Compile Include="Models\ConceptModels\ConceptSearchType.cs" />
+    <Compile Include="Models\ConceptModels\SearchConceptModel.cs" />
+    <Compile Include="Models\ConceptModels\ViewModels\ConceptSearchResultViewModel.cs" />
+    <Compile Include="Models\ConceptModels\ViewModels\ConceptViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DeviceModels\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Models\Domain\ApplicationUser.cs" />
@@ -238,8 +251,16 @@
     <Compile Include="Models\UserAdministration\ViewModels\UserRoleViewModel.cs" />
     <Compile Include="Models\UserModels\ViewModels\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\Credentials.cs" />
-    <Compile Include="Services\RestClient.cs" />
+    <Compile Include="Services\Entity\WebEntitySourceProvider.cs" />
+    <Compile Include="Services\Http\Configuration\ServiceClientConfigurationSection.cs" />
+    <Compile Include="Services\Http\RestClientService.cs" />
+    <Compile Include="Services\Http\Security\AmiCredentials.cs" />
+    <Compile Include="Services\Http\Security\OAuthTokenServiceCredentials.cs" />
+    <Compile Include="Services\Http\ServiceCertificateConfiguration.cs" />
+    <Compile Include="Services\Http\ServiceClientBinding.cs" />
+    <Compile Include="Services\Http\ServiceClientDescription.cs" />
+    <Compile Include="Services\Http\ServiceClientEndpoint.cs" />
+    <Compile Include="Services\Http\ServiceClientSecurity.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -272,6 +293,8 @@
     <Content Include="Scripts\jquery-3.0.0.slim.min.map" />
     <Content Include="Scripts\jquery-3.0.0.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
@@ -331,6 +354,9 @@
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
     <Content Include="Views\Role\Role.cshtml" />
+    <Content Include="Views\Concept\Index.cshtml" />
+    <Content Include="Views\Shared\_ConceptSearchResultsPartial.cshtml" />
+    <Content Include="Views\Concept\ViewConcept.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />

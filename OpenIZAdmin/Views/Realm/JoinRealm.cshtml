@@ -18,6 +18,7 @@
                     <div class="col-md-10">
                         @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                        <span class="help-block">Example: http://localhost:8080 </span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -25,6 +26,7 @@
                     <div class="col-md-10">
                         @Html.TextBoxFor(m => m.ApplicationId, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.ApplicationId, "", new { @class = "text-danger" })
+                        <span class="help-block">Example: org.openiz.example </span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -32,6 +34,7 @@
                     <div class="col-md-10">
                         @Html.PasswordFor(m => m.ApplicationSecret, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.ApplicationSecret, "", new { @class = "text-danger" })
+                        <span class="help-block">Example: BEAFE87B-D7BA-46BE-A535-A3685FA1DA92 </span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -39,6 +42,7 @@
                     <div class="col-md-10">
                         @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        <span class="help-block">Example: OpenIZ Local Instance </span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -46,6 +50,7 @@
                     <div class="col-md-10">
                         @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                        <span class="help-block">Example: A local instance of OpenIZ </span>
                     </div>
                 </div>
                 <div class="form-group">

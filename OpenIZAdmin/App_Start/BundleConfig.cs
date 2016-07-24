@@ -38,6 +38,9 @@ namespace OpenIZAdmin
 			bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
 						"~/Scripts/jquery.validate*"));
 
+			bundles.Add(new ScriptBundle("~/bundles/jqueryajax").Include(
+						"~/Scripts/jquery.unobtrusive-ajax.min.js"));
+
 			bundles.Add(new ScriptBundle("~/bundles/moment").Include(
 						"~/Scripts/moment.min.js"));
 

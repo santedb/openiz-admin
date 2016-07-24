@@ -232,6 +232,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					realm.AmiAuthEndpoint = string.Format("{0}/auth/oauth2_token", model.Address);
 					realm.AmiEndpoint = string.Format("{0}/ami", model.Address);
+					realm.Scope = string.Format("{0}/imsi", model.Address);
 					realm.Map(model);
 					realm.ObsoletionTime = null;
 
@@ -244,6 +245,7 @@ namespace OpenIZAdmin.Controllers
 
 					realm.AmiAuthEndpoint = string.Format("{0}/auth/oauth2_token", model.Address);
 					realm.AmiEndpoint = string.Format("{0}/ami", model.Address);
+					realm.Scope = string.Format("{0}/imsi", model.Address);
 					realm.Map(model);
 
 					IEnumerable<Realm> activeRealms = unitOfWork.RealmRepository.AsQueryable().Where(r => r.ObsoletionTime == null).AsEnumerable();

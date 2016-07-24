@@ -19,12 +19,15 @@
 
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.AMI.Security;
+using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models.RoleModels;
 using OpenIZAdmin.Models.RoleModels.ViewModels;
 using OpenIZAdmin.Models.UserModels;
 using OpenIZAdmin.Models.UserModels.ViewModels;
 using OpenIZAdmin.Services;
+using OpenIZAdmin.Services.Http;
+using OpenIZAdmin.Services.Http.Security;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -46,9 +49,9 @@ namespace OpenIZAdmin.Controllers
 		private static readonly Uri amiEndpoint = new Uri(RealmConfig.GetCurrentRealm().AmiEndpoint);
 
 		/// <summary>
-		/// The internal reference to the <see cref="OpenIZAdmin.Services.RestClient"/> instance.
+		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
 		/// </summary>
-		private RestClient client;
+		private AmiServiceClient client;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.UserAdministrationController"/> class.
@@ -57,243 +60,258 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
-		[HttpGet]
-		public ActionResult CreateRole()
-		{
-			return View();
-		}
+		//[HttpGet]
+		//public ActionResult CreateRole()
+		//{
+		//	return View();
+		//}
 
-		[HttpPost]
-		[ActionName("CreateRole")]
-		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> CreateRoleAsync(CreateRoleModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				SecurityRoleInfo role = model.ToSecurityRoleInfo();
+		//[HttpPost]
+		//[ActionName("CreateRole")]
+		//[ValidateAntiForgeryToken]
+		//public async Task<ActionResult> CreateRoleAsync(CreateRoleModel model)
+		//{
+		//	if (ModelState.IsValid)
+		//	{
+		//		SecurityRoleInfo role = model.ToSecurityRoleInfo();
 
-				var result = await this.client.PostAsync("/role/", role);
+		//		try
+		//		{
+		//			var result = this.client.CreateRole(role);
+		//		}
+		//		catch (Exception e)
+		//		{
 
-				if (result.IsSuccessStatusCode)
-				{
-					TempData["success"] = "Role created successfully";
+		//			throw;
+		//		}
 
-					return RedirectToAction("Index");
-				}
-			}
+		//		var result = await this.client("/role/", role);
 
-			TempData["error"] = "Unable to create role";
+		//		if (result.IsSuccessStatusCode)
+		//		{
+		//			TempData["success"] = "Role created successfully";
 
-			return View(model);
-		}
+		//			return RedirectToAction("Index");
+		//		}
+		//	}
 
-		[HttpGet]
-		public ActionResult CreateUser()
-		{
-			return View();
-		}
+		//	TempData["error"] = "Unable to create role";
 
-		[HttpPost]
-		[ActionName("CreateUser")]
-		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> CreateUserAsync(CreateUserModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				SecurityUserInfo user = model.ToSecurityUserInfo();
+		//	return View(model);
+		//}
 
-				var result = await this.client.PostAsync("/user/", user);
+		//[HttpGet]
+		//public ActionResult CreateUser()
+		//{
+		//	return View();
+		//}
 
-				if (result.IsSuccessStatusCode)
-				{
-					TempData["success"] = "User created successfully";
+		//[HttpPost]
+		//[ActionName("CreateUser")]
+		//[ValidateAntiForgeryToken]
+		//public async Task<ActionResult> CreateUserAsync(CreateUserModel model)
+		//{
+		//	if (ModelState.IsValid)
+		//	{
+		//		SecurityUserInfo user = model.ToSecurityUserInfo();
 
-					return RedirectToAction("Index");
-				}
-			}
+		//		var result = await this.client.PostAsync("/user/", user);
 
-			TempData["error"] = "Unable to create user";
+		//		if (result.IsSuccessStatusCode)
+		//		{
+		//			TempData["success"] = "User created successfully";
 
-			return View(model);
-		}
+		//			return RedirectToAction("Index");
+		//		}
+		//	}
 
-		[HttpPost]
-		[ActionName("DeleteRole")]
-		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> DeleteRoleAsync(Guid id)
-		{
-			if (id != Guid.Empty)
-			{
-				var result = await this.client.DeleteAsync(string.Format("/role/{0}", id));
+		//	TempData["error"] = "Unable to create user";
 
-				if (result.IsSuccessStatusCode)
-				{
-					TempData["success"] = "User deleted successfully";
+		//	return View(model);
+		//}
 
-					return RedirectToAction("Index");
-				}
-			}
+		//[HttpPost]
+		//[ActionName("DeleteRole")]
+		//[ValidateAntiForgeryToken]
+		//public async Task<ActionResult> DeleteRoleAsync(Guid id)
+		//{
+		//	if (id != Guid.Empty)
+		//	{
+		//		var result = await this.client.DeleteAsync(string.Format("/role/{0}", id));
 
-			TempData["error"] = "Unable to delete role";
+		//		if (result.IsSuccessStatusCode)
+		//		{
+		//			TempData["success"] = "User deleted successfully";
 
-			return RedirectToAction("Index");
-		}
+		//			return RedirectToAction("Index");
+		//		}
+		//	}
 
-		[HttpPost]
-		[ActionName("Delete")]
-		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> DeleteUserAsync(Guid id)
-		{
-			if (id != Guid.Empty)
-			{
-				var result = await this.client.DeleteAsync(string.Format("/user/{0}", id));
+		//	TempData["error"] = "Unable to delete role";
 
-				if (result.IsSuccessStatusCode)
-				{
-					TempData["success"] = "User deleted successfully";
+		//	return RedirectToAction("Index");
+		//}
 
-					return RedirectToAction("Index");
-				}
-			}
+		//[HttpPost]
+		//[ActionName("Delete")]
+		//[ValidateAntiForgeryToken]
+		//public async Task<ActionResult> DeleteUserAsync(Guid id)
+		//{
+		//	if (id != Guid.Empty)
+		//	{
+		//		var result = await this.client.DeleteAsync(string.Format("/user/{0}", id));
 
-			TempData["error"] = "Unable to delete user";
+		//		if (result.IsSuccessStatusCode)
+		//		{
+		//			TempData["success"] = "User deleted successfully";
 
-			return RedirectToAction("Index");
-		}
+		//			return RedirectToAction("Index");
+		//		}
+		//	}
 
-		/// <summary>
-		/// Dispose of any managed resources.
-		/// </summary>
-		/// <param name="disposing">Whether the current invocation is disposing.</param>
-		protected override void Dispose(bool disposing)
-		{
-			Trace.TraceInformation("{0} disposing", nameof(UserAdministrationController));
+		//	TempData["error"] = "Unable to delete user";
 
-			this.client?.Dispose();
+		//	return RedirectToAction("Index");
+		//}
 
-			base.Dispose(disposing);
-		}
+		///// <summary>
+		///// Dispose of any managed resources.
+		///// </summary>
+		///// <param name="disposing">Whether the current invocation is disposing.</param>
+		//protected override void Dispose(bool disposing)
+		//{
+		//	Trace.TraceInformation("{0} disposing", nameof(UserAdministrationController));
 
-		[HttpGet]
-		[ActionName("Role")]
-		public async Task<ActionResult> GetRoleAsync(Guid id)
-		{
-			if (id != Guid.Empty)
-			{
-				var result = await this.client.GetAsync(string.Format("/role/{0}", id));
+		//	this.client?.Dispose();
 
-				if (result.IsSuccessStatusCode)
-				{
-					var content = await result.Content.ReadAsAsync<SecurityRoleInfo>();
+		//	base.Dispose(disposing);
+		//}
 
-					return View(new RoleViewModel(content));
-				}
-			}
+		//[HttpGet]
+		//[ActionName("Role")]
+		//public async Task<ActionResult> GetRoleAsync(Guid id)
+		//{
+		//	if (id != Guid.Empty)
+		//	{
+		//		var result = await this.client.GetAsync(string.Format("/role/{0}", id));
 
-			TempData["error"] = "Role not found";
+		//		if (result.IsSuccessStatusCode)
+		//		{
+		//			var content = await result.Content.ReadAsAsync<SecurityRoleInfo>();
 
-			return RedirectToAction("Index");
-		}
+		//			return View(new RoleViewModel(content));
+		//		}
+		//	}
 
-		[HttpGet]
-		[ActionName("Roles")]
-		public async Task<ActionResult> GetRolesAsync()
-		{
-			var result = await this.client.GetAsync(string.Format("/roles/"));
+		//	TempData["error"] = "Role not found";
 
-			if (result.IsSuccessStatusCode)
-			{
-				var content = await result.Content.ReadAsAsync<AmiCollection<SecurityRoleInfo>>();
+		//	return RedirectToAction("Index");
+		//}
 
-				return View(content.CollectionItem.Select(r => new RoleViewModel(r)));
-			}
+		//[HttpGet]
+		//[ActionName("Roles")]
+		//public async Task<ActionResult> GetRolesAsync()
+		//{
+		//	var result = await this.client.GetAsync(string.Format("/roles/"));
 
-			TempData["error"] = "Unable to retrieve role list";
+		//	if (result.IsSuccessStatusCode)
+		//	{
+		//		var content = await result.Content.ReadAsAsync<AmiCollection<SecurityRoleInfo>>();
 
-			return RedirectToAction("Index", "Home");
-		}
+		//		return View(content.CollectionItem.Select(r => new RoleViewModel(r)));
+		//	}
 
-		[HttpGet]
-		[ActionName("User")]
-		public async Task<ActionResult> GetUserAsync(Guid id)
-		{
-			if (id != Guid.Empty)
-			{
-				var result = await this.client.GetAsync(string.Format("/user/{0}", id));
+		//	TempData["error"] = "Unable to retrieve role list";
 
-				if (result.IsSuccessStatusCode)
-				{
-					var content = await result.Content.ReadAsAsync<SecurityUserInfo>();
+		//	return RedirectToAction("Index", "Home");
+		//}
 
-					return View(new UserViewModel(content));
-				}
-			}
+		//[HttpGet]
+		//[ActionName("User")]
+		//public async Task<ActionResult> GetUserAsync(Guid id)
+		//{
+		//	if (id != Guid.Empty)
+		//	{
+		//		var result = await this.client.GetAsync(string.Format("/user/{0}", id));
 
-			TempData["error"] = "User not found";
+		//		if (result.IsSuccessStatusCode)
+		//		{
+		//			var content = await result.Content.ReadAsAsync<SecurityUserInfo>();
 
-			return RedirectToAction("Index");
-		}
+		//			return View(new UserViewModel(content));
+		//		}
+		//	}
 
-		[HttpGet]
-		[ActionName("Users")]
-		public async Task<ActionResult> GetUsersAsync()
-		{
-			var result = await this.client.GetAsync(string.Format("/users/"));
+		//	TempData["error"] = "User not found";
 
-			if (result.IsSuccessStatusCode)
-			{
-				var content = await result.Content.ReadAsAsync<AmiCollection<SecurityUserInfo>>();
+		//	return RedirectToAction("Index");
+		//}
 
-				return View(content.CollectionItem.Select(u => new UserViewModel(u)));
-			}
+		//[HttpGet]
+		//[ActionName("Users")]
+		//public async Task<ActionResult> GetUsersAsync()
+		//{
+		//	var result = await this.client.GetAsync(string.Format("/users/"));
 
-			TempData["error"] = "Unable to retrieve user list";
+		//	if (result.IsSuccessStatusCode)
+		//	{
+		//		var content = await result.Content.ReadAsAsync<AmiCollection<SecurityUserInfo>>();
 
-			return RedirectToAction("Index", "Home");
-		}
+		//		return View(content.CollectionItem.Select(u => new UserViewModel(u)));
+		//	}
 
-		[HttpGet]
-		[ActionName("Index")]
-		public async Task<ActionResult> IndexAsync()
-		{
-			var result = await this.client.GetAsync(string.Format("/users/"));
+		//	TempData["error"] = "Unable to retrieve user list";
 
-			if (result.IsSuccessStatusCode)
-			{
-				var content = await result.Content.ReadAsAsync<AmiCollection<SecurityUserInfo>>();
+		//	return RedirectToAction("Index", "Home");
+		//}
 
-				return View(content.CollectionItem.Select(u => new UserViewModel(u)));
-			}
+		//[HttpGet]
+		//[ActionName("Index")]
+		//public async Task<ActionResult> IndexAsync()
+		//{
+		//	var result = await this.client.GetAsync(string.Format("/users/"));
 
-			TempData["error"] = "Unable to retrieve user list";
+		//	if (result.IsSuccessStatusCode)
+		//	{
+		//		var content = await result.Content.ReadAsAsync<AmiCollection<SecurityUserInfo>>();
 
-			return RedirectToAction("Index", "Home");
-		}
+		//		return View(content.CollectionItem.Select(u => new UserViewModel(u)));
+		//	}
 
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			this.client = new RestClient(amiEndpoint, new Credentials(HttpContext.Request));
+		//	TempData["error"] = "Unable to retrieve user list";
 
-			base.OnActionExecuting(filterContext);
-		}
+		//	return RedirectToAction("Index", "Home");
+		//}
 
-		[HttpGet]
-		public ActionResult UpdateUser()
-		{
-			return View();
-		}
+		//protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		//{
+		//	var restClient = new RestClientService("AMI");
 
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult UpdateUser(object model)
-		{
-			if (ModelState.IsValid)
-			{
-			}
+		//	restClient.Accept = "application/xml";
+		//	restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
 
-			TempData["error"] = "Unable to update user";
+		//	this.client = new AmiServiceClient(restClient);
 
-			return View(model);
-		}
+		//	base.OnActionExecuting(filterContext);
+		//}
+
+		//[HttpGet]
+		//public ActionResult UpdateUser()
+		//{
+		//	return View();
+		//}
+
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
+		//public ActionResult UpdateUser(object model)
+		//{
+		//	if (ModelState.IsValid)
+		//	{
+		//	}
+
+		//	TempData["error"] = "Unable to update user";
+
+		//	return View(model);
+		//}
 	}
 }

@@ -19,10 +19,13 @@
 
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.AMI.Security;
+using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models.RoleModels;
 using OpenIZAdmin.Models.RoleModels.ViewModels;
 using OpenIZAdmin.Services;
+using OpenIZAdmin.Services.Http;
+using OpenIZAdmin.Services.Http.Security;
 using System;
 using System.Diagnostics;
 using System.Linq;
@@ -39,14 +42,9 @@ namespace OpenIZAdmin.Controllers
 	public class RoleController : Controller
 	{
 		/// <summary>
-		/// The internal reference to the administrative interface endpoint.
+		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
 		/// </summary>
-		private static readonly Uri amiEndpoint = new Uri(RealmConfig.GetCurrentRealm().AmiEndpoint);
-
-		/// <summary>
-		/// The internal reference to the <see cref="OpenIZAdmin.Services.RestClient"/> instance.
-		/// </summary>
-		private RestClient client;
+		private AmiServiceClient client;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.RoleController"/> class.
@@ -70,13 +68,20 @@ namespace OpenIZAdmin.Controllers
 			{
 				SecurityRoleInfo role = model.ToSecurityRoleInfo();
 
-				var result = await this.client.PostAsync("/role/", role);
-
-				if (result.IsSuccessStatusCode)
+				try
 				{
+					var result = this.client.CreateRole(role);
+
 					TempData["success"] = "Role created successfully";
 
 					return RedirectToAction("Index");
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					Trace.TraceError("Unable to create role: {0}", e.StackTrace);
+#endif
+					Trace.TraceError("Unable to create role: {0}", e.Message);
 				}
 			}
 
@@ -90,17 +95,17 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> DeleteRoleAsync(Guid id)
 		{
-			if (id != Guid.Empty)
-			{
-				var result = await this.client.DeleteAsync(string.Format("/role/{0}", id));
+			//if (id != Guid.Empty)
+			//{
+			//	var result = await this.client.DeleteAsync(string.Format("/role/{0}", id));
 
-				if (result.IsSuccessStatusCode)
-				{
-					TempData["success"] = "User deleted successfully";
+			//	if (result.IsSuccessStatusCode)
+			//	{
+			//		TempData["success"] = "User deleted successfully";
 
-					return RedirectToAction("Index");
-				}
-			}
+			//		return RedirectToAction("Index");
+			//	}
+			//}
 
 			TempData["error"] = "Unable to delete role";
 
@@ -122,23 +127,25 @@ namespace OpenIZAdmin.Controllers
 
 		[HttpGet]
 		[ActionName("Role")]
-		public async Task<ActionResult> GetRoleAsync(Guid id)
+		public ActionResult GetRole(string id)
 		{
-			if (id != Guid.Empty)
-			{
-				var result = await this.client.GetAsync<SecurityRoleInfo>(string.Format("/role/{0}", id));
+			Guid roleId = Guid.Empty;
 
-				if (result == null)
+			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out roleId))
+			{
+				var result = this.client.GetRoles(r => r.Key == roleId);
+
+				if (result.CollectionItem.Count == 0)
 				{
-					TempData["error"] = "Role not found";
+					TempData["error"] = Localization.Resources.RoleNotFound;
 
 					return RedirectToAction("Index");
 				}
 
-				return View(new RoleViewModel(result));
+				return View(new RoleViewModel(result.CollectionItem.Single()));
 			}
 
-			TempData["error"] = "Role not found";
+			TempData["error"] = Localization.Resources.RoleNotFound;
 
 			return RedirectToAction("Index");
 		}
@@ -147,14 +154,14 @@ namespace OpenIZAdmin.Controllers
 		[ActionName("Roles")]
 		public async Task<ActionResult> GetRolesAsync()
 		{
-			var result = await this.client.GetAsync(string.Format("/roles/"));
+			//var result = await this.client.GetAsync(string.Format("/roles/"));
 
-			if (result.IsSuccessStatusCode)
-			{
-				var content = await result.Content.ReadAsAsync<AmiCollection<SecurityRoleInfo>>();
+			//if (result.IsSuccessStatusCode)
+			//{
+			//	var content = await result.Content.ReadAsAsync<AmiCollection<SecurityRoleInfo>>();
 
-				return View(content.CollectionItem.Select(r => new RoleViewModel(r)));
-			}
+			//	return View(content.CollectionItem.Select(r => new RoleViewModel(r)));
+			//}
 
 			TempData["error"] = "Unable to retrieve role list";
 
@@ -165,14 +172,14 @@ namespace OpenIZAdmin.Controllers
 		[ActionName("Index")]
 		public async Task<ActionResult> IndexAsync()
 		{
-			var result = await this.client.GetAsync(string.Format("/roles/"));
+			//var result = await this.client.GetAsync(string.Format("/roles/"));
 
-			if (result.IsSuccessStatusCode)
-			{
-				var content = await result.Content.ReadAsAsync<AmiCollection<SecurityRoleInfo>>();
+			//if (result.IsSuccessStatusCode)
+			//{
+			//	var content = await result.Content.ReadAsAsync<AmiCollection<SecurityRoleInfo>>();
 
-				return View(content.CollectionItem.Select(r => new RoleViewModel(r)));
-			}
+			//	return View(content.CollectionItem.Select(r => new RoleViewModel(r)));
+			//}
 
 			TempData["error"] = "Unable to retrieve role list";
 
@@ -181,7 +188,12 @@ namespace OpenIZAdmin.Controllers
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			this.client = new RestClient(amiEndpoint, new Credentials(HttpContext.Request));
+			var restClient = new RestClientService("AMI");
+
+			restClient.Accept = "application/xml";
+			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
+
+			this.client = new AmiServiceClient(restClient);
 
 			base.OnActionExecuting(filterContext);
 		}
