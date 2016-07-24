@@ -412,6 +412,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No additional details have been provided.
+        /// </summary>
+        public static string NoAdditionalDetails {
+            get {
+                return ResourceManager.GetString("NoAdditionalDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No concepts found.
         /// </summary>
         public static string NoConceptsFound {
@@ -489,6 +498,15 @@ namespace OpenIZAdmin.Localization {
         public static string PasswordRequired {
             get {
                 return ResourceManager.GetString("PasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Place.
+        /// </summary>
+        public static string Place {
+            get {
+                return ResourceManager.GetString("Place", resourceCulture);
             }
         }
         

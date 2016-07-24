@@ -51,7 +51,26 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreatePlaceModel model)
 		{
-			return View();
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var place = this.client.CreatePlace(model.ToPlace());
+
+					return RedirectToAction("ViewPlace", new { key = place.Key, versionKey = place.VersionKey });
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					Trace.TraceError("Unable to create place: {0}", e.StackTrace);
+#endif
+					Trace.TraceError("Unable to create place: {0}", e.Message);
+				}
+
+			}
+
+			TempData["error"] = "Unable to create place";
+			return View(model);
 		}
 
 		public ActionResult Index()

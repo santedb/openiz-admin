@@ -243,6 +243,7 @@
     <Compile Include="Models\ModelMapper.cs" />
     <Compile Include="Models\PlaceModels\CreatePlaceModel.cs" />
     <Compile Include="Models\PlaceModels\SearchPlaceModel.cs" />
+    <Compile Include="Models\PlaceModels\ViewModels\DetailedPlaceViewModel.cs" />
     <Compile Include="Models\PlaceModels\ViewModels\PlaceViewModel.cs" />
     <Compile Include="Models\RealmModels\JoinRealmModel.cs" />
     <Compile Include="Models\RealmModels\LeaveRealmModel.cs" />
@@ -366,6 +367,9 @@
     <Content Include="Views\Concept\Search.cshtml" />
     <Content Include="Views\Place\Search.cshtml" />
     <Content Include="Views\Shared\_PlaceSearchResultsPartial.cshtml" />
+    <Content Include="Views\Place\Create.cshtml" />
+    <Content Include="Views\Place\ViewPlace.cshtml" />
+    <Content Include="Views\Place\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />

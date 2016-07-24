@@ -23,6 +23,20 @@
             <param name="id">The id of the certificate signing request.</param>
             <returns>Returns the submission result.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateDevice(OpenIZ.Core.Model.Security.SecurityDevice)">
+            <summary>
+            Creates a device in the IMS.
+            </summary>
+            <param name="device">The device to be created.</param>
+            <returns>Returns the newly created device.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreatePlace(OpenIZ.Core.Model.Entities.Place)">
+            <summary>
+            Creates a place in the IMS.
+            </summary>
+            <param name="place">The place to be created.</param>
+            <returns>Returns the newly created place.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateRole(OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo)">
             <summary>
             Creates a role in the IMS.
@@ -61,6 +75,13 @@
             </summary>
             <param name="query">The query expression to use to find the concept sets.</param>
             <returns>Returns a collection of concept sets which match the specified query.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetDevices(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityDevice,System.Boolean}})">
+            <summary>
+            Gets a list of devices from the AMI.
+            </summary>
+            <param name="query">The query expression to use to find the devices.</param>
+            <returns>Returns a collection of devices which match the specified query.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetPlaces(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.Place,System.Boolean}})">
             <summary>

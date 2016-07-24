@@ -19,6 +19,7 @@
 
 using OpenIZ.Core.Model.Entities;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace OpenIZAdmin.Models.PlaceModels.ViewModels
@@ -37,6 +38,10 @@ namespace OpenIZAdmin.Models.PlaceModels.ViewModels
 			this.Name = place.Names.SelectMany(e => e.Component).Select(c => c.Value).Aggregate((a, b) => (a + ", " + b));
 			this.VersionKey = place.VersionKey.GetValueOrDefault();
 		}
+
+		public DateTime CreationTime { get; set; }
+
+		public List<DetailedPlaceViewModel> Details { get; set; }
 
 		public Guid Key { get; set; }
 

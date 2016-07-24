@@ -29,12 +29,12 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 	{
 		public ConceptViewModel()
 		{
-			this.ConceptDetails = new List<DetailedConceptViewModel>();
+			this.Details = new List<DetailedConceptViewModel>();
 		}
 
 		public ConceptViewModel(Concept concept)
 		{
-			this.ConceptDetails = new List<DetailedConceptViewModel>();
+			this.Details = new List<DetailedConceptViewModel>();
 			this.CreatedBy = concept.CreatedBy?.Entities.SelectMany(e => e.Names).SelectMany(n => n.Component).Select(c => c.Value).Aggregate((a, b) => (a + ", " + b));
 			this.CreationTime = concept.CreationTime.DateTime;
 			this.IsReadOnly = concept.IsSystemConcept;
@@ -45,7 +45,7 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 
 		public ConceptViewModel(ConceptSet conceptSet)
 		{
-			this.ConceptDetails = new List<DetailedConceptViewModel>();
+			this.Details = new List<DetailedConceptViewModel>();
 			this.CreatedBy = conceptSet.CreatedBy?.Entities.SelectMany(e => e.Names).SelectMany(n => n.Component).Select(c => c.Value).Aggregate((a, b) => (a + ", " + b));
 			this.CreationTime = conceptSet.CreationTime.DateTime;
 			this.IsReadOnly = conceptSet.Concepts.Select(c => c.IsSystemConcept).All(c => c);
@@ -61,7 +61,7 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 		public DateTime CreationTime { get; set; }
 
 		[Display(Name = "Concept Details")]
-		public List<DetailedConceptViewModel> ConceptDetails { get; set; }
+		public List<DetailedConceptViewModel> Details { get; set; }
 
 		[Display(Name = "Is Read Only?")]
 		public bool IsReadOnly { get; set; }

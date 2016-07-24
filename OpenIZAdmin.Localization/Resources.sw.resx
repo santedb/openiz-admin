@@ -339,4 +339,10 @@
   <data name="IncorrectUsernameOrPassword" xml:space="preserve">
     <value>Sahihi jina la mtumiaji au password</value>
   </data>
+  <data name="NoAdditionalDetails" xml:space="preserve">
+    <value>Hakuna maelezo ya ziada wamepatiwa</value>
+  </data>
+  <data name="Place" xml:space="preserve">
+    <value>Mahali</value>
+  </data>
 </root>

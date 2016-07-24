@@ -224,7 +224,7 @@ namespace OpenIZAdmin.Controllers
 				// HACK: the UrlAttribute class thinks that http://localhost is not a valid url...
 				if (model.Address.StartsWith("http://localhost"))
 				{
-					model.Address = model.Address.Replace("http://localhost", "http://127.0.0.1");
+					model.Address = model.Address.Replace("http://localhost", "http://127.0.0.1").Trim();
 				}
 
 				// is the user attempting to join a realm which they have already left?

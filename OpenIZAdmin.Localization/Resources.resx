@@ -345,4 +345,10 @@
   <data name="IncorrectUsernameOrPassword" xml:space="preserve">
     <value>Incorrect Username or Password</value>
   </data>
+  <data name="NoAdditionalDetails" xml:space="preserve">
+    <value>No additional details have been provided</value>
+  </data>
+  <data name="Place" xml:space="preserve">
+    <value>Place</value>
+  </data>
 </root>

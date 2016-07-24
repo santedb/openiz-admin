@@ -17,6 +17,10 @@
  * Date: 2016-7-23
  */
 
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.Entities;
+using System.ComponentModel.DataAnnotations;
+
 namespace OpenIZAdmin.Models.PlaceModels
 {
 	public class CreatePlaceModel
@@ -25,10 +29,26 @@ namespace OpenIZAdmin.Models.PlaceModels
 		{
 		}
 
+		[Display(Name = "Latitude", ResourceType = typeof(Localization.Resources))]
 		public double Latitude { get; set; }
 
+		[Display(Name = "Longitude", ResourceType = typeof(Localization.Resources))]
 		public double Longitude { get; set; }
 
+		[Display(Name = "Name", ResourceType = typeof(Localization.Resources))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Resources))]
 		public string Name { get; set; }
+
+		public Place ToPlace()
+		{
+			Place place = new Place();
+
+			place.Lat = this.Latitude;
+			place.Lng = this.Longitude;
+			place.Names.Add(new EntityName(NameUseKeys.OfficialRecord, this.Name));
+
+			return place;
+		}
 	}
 }

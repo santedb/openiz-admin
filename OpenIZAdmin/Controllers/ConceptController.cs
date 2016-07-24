@@ -227,7 +227,7 @@ namespace OpenIZAdmin.Controllers
 
 					DetailedConceptViewModel viewModel = new DetailedConceptViewModel(conceptSet);
 
-					viewModel.ConceptDetails.Add(new DetailedConceptViewModel
+					viewModel.Details.Add(new DetailedConceptViewModel
 					{
 						Oid = conceptSet.Oid,
 						Concepts = conceptSet.Concepts.SelectMany(c => c.ConceptNames).Select(c => c.Name).ToList(),
