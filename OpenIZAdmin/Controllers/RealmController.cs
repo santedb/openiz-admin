@@ -322,17 +322,10 @@ namespace OpenIZAdmin.Controllers
 
 				realm.ObsoletionTime = DateTime.UtcNow;
 
-				// delete all the local references to the users when leaving a realm to avoid conflicts
-				// such as multiple accounts named "administrator" etc.
-				List<ApplicationUser> users = realm.Users.ToList();
-
-				//foreach (var user in users)
-				//{
-				//	unitOfWork.UserRepository.Delete(user);
-				//}
-
 				unitOfWork.RealmRepository.Delete(realm);
 				unitOfWork.Save();
+
+				SignInManager.AuthenticationManager.SignOut();
 
 				TempData["success"] = "Realm left successfully";
 
