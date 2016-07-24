@@ -17,18 +17,13 @@
  * Date: 2016-7-8
  */
 
-using OpenIZ.Core.Model.AMI.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models.CertificateModels;
-using OpenIZAdmin.Models.CertificateModels.ViewModels;
-using OpenIZAdmin.Services;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers

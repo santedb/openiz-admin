@@ -18,19 +18,15 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.AMI.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models.UserModels;
 using OpenIZAdmin.Models.UserModels.ViewModels;
-using OpenIZAdmin.Services;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
