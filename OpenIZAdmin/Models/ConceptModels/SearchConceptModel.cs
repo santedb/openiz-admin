@@ -27,13 +27,16 @@ namespace OpenIZAdmin.Models.ConceptModels
 		{
 		}
 
-		[Required]
+		[Display(Name = "SearchType", ResourceType = typeof(Localization.Resources))]
+		[Required(ErrorMessageResourceName = "SearchTypeRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
 		public ConceptSearchType SearchType { get; set; }
 
-		[StringLength(255)]
+		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Resources))]
+		[StringLength(255, ErrorMessageResourceName = "MnemonicTooLong", ErrorMessageResourceType = typeof(Localization.Resources))]
 		public string Mnemonic { get; set; }
 
-		[StringLength(255)]
+		[Display(Name = "Name", ResourceType = typeof(Localization.Resources))]
+		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Resources))]
 		public string Name { get; set; }
 	}
 }

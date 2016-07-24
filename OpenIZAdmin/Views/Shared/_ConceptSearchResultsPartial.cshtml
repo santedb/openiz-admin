@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<OpenIZAdmin.Models.ConceptModels.ViewModels.ConceptSearchResultViewModel>
 @{
-    ViewBag.Title = "Concept Search Results";
+    ViewBag.Title = Resources.ConceptSearchResults;
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">
-            <span>Search Results</span>
+            <span>@Resources.SearchResults</span>
         </h3>
     </div>
     <div class="panel panel-body">
@@ -53,7 +53,7 @@
         }
         else
         {
-            <p>No concepts found.</p>
+            <p>@Resources.NoConceptsFound .</p>
         }
 
     </div>

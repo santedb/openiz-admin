@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<OpenIZAdmin.Models.CertificateModels.ViewModels.CertificateSigningRequestViewModel>
 @{
-    ViewBag.Title = "Certificate Requests";
+    ViewBag.Title = Resources.CertificateRequests;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        Certificate Requests
+        @Resources.CertificateRequests
         <div class="pull-right">
-            <span>New</span>
+            <span>@Resources.New</span>
             <a href="~/Certificate/SubmitCertificateSigningRequest" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
@@ -19,13 +19,13 @@
                     <tr>
                         <th></th>
                         <th>
-                            Certificate Signing Request Id
+                            @Resources.CertificateSigningRequestId
                         </th>
                         <th>
-                            Common Name
+                            @Resources.CommonName
                         </th>
                         <th>
-                            Date Requested
+                            @Resources.DateRequested
                         </th>
                     </tr>
                 </thead>
@@ -45,7 +45,7 @@
         }
         else
         {
-            <p>No new certificates signing requests have been submitted.</p>
+            <p>@Resources.NoNewCertificateSigningRequestsSubmitted.</p>
         }
 
     </div>

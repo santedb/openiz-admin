@@ -186,4 +186,163 @@
   <data name="Reset" xml:space="preserve">
     <value>Reset</value>
   </data>
+  <data name="AppletId" xml:space="preserve">
+    <value>Applet Id</value>
+  </data>
+  <data name="Applets" xml:space="preserve">
+    <value>Applets</value>
+  </data>
+  <data name="CertificateRequests" xml:space="preserve">
+    <value>Certificate Requests</value>
+  </data>
+  <data name="CertificateSigningRequestId" xml:space="preserve">
+    <value>Certificate Signing Request Id</value>
+  </data>
+  <data name="CommonName" xml:space="preserve">
+    <value>Common Name</value>
+  </data>
+  <data name="DateRequested" xml:space="preserve">
+    <value>Date Requested</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="LockedOut" xml:space="preserve">
+    <value>Locked Out?</value>
+  </data>
+  <data name="NoUserRolesAdded" xml:space="preserve">
+    <value>No user roles have been added</value>
+  </data>
+  <data name="RoleId" xml:space="preserve">
+    <value>Role Id</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="ConceptNotFound" xml:space="preserve">
+    <value>Concept not found</value>
+  </data>
+  <data name="CurrentRealm" xml:space="preserve">
+    <value>Current Realm</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Hello</value>
+  </data>
+  <data name="LeaveRealm" xml:space="preserve">
+    <value>Leave Realm</value>
+  </data>
+  <data name="Logoff" xml:space="preserve">
+    <value>Logoff</value>
+  </data>
+  <data name="PlaceNotFound" xml:space="preserve">
+    <value>Place not found</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="UnableToRetrieveDeviceList" xml:space="preserve">
+    <value>Unable to retrieve device list</value>
+  </data>
+  <data name="UnableToRetrieveRoleList" xml:space="preserve">
+    <value>Unable to retrieve role list</value>
+  </data>
+  <data name="UnableToRetrieveUserList" xml:space="preserve">
+    <value>Unable to retrieve user list</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="NoNewCertificateSigningRequestsSubmitted" xml:space="preserve">
+    <value>No new certificate signing requests have been submitted</value>
+  </data>
+  <data name="ConceptSearchResults" xml:space="preserve">
+    <value>Concept Search Results</value>
+  </data>
+  <data name="SearchResults" xml:space="preserve">
+    <value>Saerch Results</value>
+  </data>
+  <data name="CreationTime" xml:space="preserve">
+    <value>Creation Time</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>View</value>
+  </data>
+  <data name="NoConceptsFound" xml:space="preserve">
+    <value>No concepts found</value>
+  </data>
+  <data name="JoinNewRealm" xml:space="preserve">
+    <value>Join New Realm</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="ApplicationId" xml:space="preserve">
+    <value>Application Id</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="UpdatedTime" xml:space="preserve">
+    <value>Updated Time</value>
+  </data>
+  <data name="NoDevicesAdded" xml:space="preserve">
+    <value>No devices have been added</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="PlaceSearchResults" xml:space="preserve">
+    <value>Place Search Results</value>
+  </data>
+  <data name="Latitude" xml:space="preserve">
+    <value>Latitude</value>
+  </data>
+  <data name="Longitude" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="NoPlacesFound" xml:space="preserve">
+    <value>No places found</value>
+  </data>
+  <data name="NoRolesAdded" xml:space="preserve">
+    <value>No roles have been added</value>
+  </data>
+  <data name="SearchTerm" xml:space="preserve">
+    <value>Search Term</value>
+  </data>
+  <data name="UserId" xml:space="preserve">
+    <value>User Id</value>
+  </data>
+  <data name="NoUsersAdded" xml:space="preserve">
+    <value>No users have been added</value>
+  </data>
+  <data name="SearchType" xml:space="preserve">
+    <value>Search Type</value>
+  </data>
+  <data name="SearchTypeRequired" xml:space="preserve">
+    <value>Please select a search type</value>
+  </data>
+  <data name="MnemonicTooLong" xml:space="preserve">
+    <value>The mnemonic field must not exceed 255 characters</value>
+  </data>
+  <data name="NameTooLong" xml:space="preserve">
+    <value>The name field must not exceed 255 characters</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>The name field is required</value>
+  </data>
+  <data name="IncorrectUsernameOrPassword" xml:space="preserve">
+    <value>Incorrect Username or Password</value>
+  </data>
 </root>

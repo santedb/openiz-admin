@@ -4,9 +4,9 @@
 }
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        Devices
+        @Resources.Devices
         <div class="pull-right">
-            <span>New</span>
+            <span>@Resources.New</span>
             <a href="~/Device/Create" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
@@ -18,13 +18,13 @@
                     <tr>
                         <th></th>
                         <th>
-                            Creation Time
+                            @Resources.CreationTime
                         </th>
                         <th>
-                            Name
+                            @Resources.Name
                         </th>
                         <th>
-                            Updated Time
+                            @Resources.UpdatedTime
                         </th>
                     </tr>
                 </thead>
@@ -43,7 +43,7 @@
         }
         else
         {
-            <p>No devices have been added.</p>
+            <p>@Resources.NoDevicesAdded .</p>
         }
 
 

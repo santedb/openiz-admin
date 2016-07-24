@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<OpenIZAdmin.Models.AppletModels.ViewModels.AppletViewModel>
 @{
-    ViewBag.Title = "Applets";
+    ViewBag.Title = Resources.Applets;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        Applets
+        @Resources.New
         <div class="pull-right">
-            <span>New</span>
+            <span></span>
             <a href="~/Applet/Upload" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
@@ -16,16 +16,16 @@
             <thead>
                 <tr>
                     <th>
-                        Applet Id
+                        @Resources.AppletId
                     </th>
                     <th>
-                        Group
+                        @Resources.Group
                     </th>
                     <th>
-                        Name
+                        @Resources.Name
                     </th>
                     <th>
-                        Version
+                        @Resources.Version
                     </th>
                 </tr>
             </thead>

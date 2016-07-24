@@ -1,6 +1,6 @@
 ﻿@model OpenIZAdmin.Models.PlaceModels.SearchPlaceModel
 @{
-    ViewBag.Title = "Search";
+    ViewBag.Title = Resources.Search;
 
     AjaxOptions options = new AjaxOptions
     {
@@ -13,9 +13,9 @@
 <div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
     <div class="panel panel-default">
         <div class="panel panel-heading">
-            Search Places
+            @Resources.Search
             <div class="pull-right">
-                <span>New</span>
+                <span>@Resources.New</span>
                 <a href="~/Place/Create" class="glyphicon glyphicon-plus-sign"></a>
             </div>
         </div>
@@ -36,9 +36,9 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <button type="button" class="btn btn-warning" id="reset">
-                            <span class="glyphicon glyphicon-refresh"></span>Reset
+                            <span class="glyphicon glyphicon-refresh"></span>@Resources.Reset
                         </button>
-                        <input type="submit" value="Search" class="btn btn-default" />
+                        <input type="submit" value="@Resources.Search" class="btn btn-default" />
                     </div>
                 </div>}
         </div>

@@ -117,14 +117,131 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AppletId" xml:space="preserve">
+    <value>Applet Id</value>
+  </data>
+  <data name="Applets" xml:space="preserve">
+    <value>Applets</value>
+  </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Kufuta</value>
+  </data>
+  <data name="CertificateRequests" xml:space="preserve">
+    <value>Maombi Cheti</value>
+  </data>
+  <data name="CertificateSigningRequestId" xml:space="preserve">
+    <value>Kusaini Cheti Ombi Id</value>
+  </data>
   <data name="ChangeLanguage" xml:space="preserve">
     <value>Lugha Mabadiliko</value>
+  </data>
+  <data name="CommonName" xml:space="preserve">
+    <value>Jina la kawaida</value>
+  </data>
+  <data name="Concept" xml:space="preserve">
+    <value>Dhana</value>
+  </data>
+  <data name="ConceptName" xml:space="preserve">
+    <value>Dhana Jina</value>
+  </data>
+  <data name="ConceptNotFound" xml:space="preserve">
+    <value>Dhana Haukupatikana</value>
+  </data>
+  <data name="Concepts" xml:space="preserve">
+    <value>Dhana</value>
+  </data>
+  <data name="ConceptSearchResults" xml:space="preserve">
+    <value>Matokeo dhana search</value>
+  </data>
+  <data name="CurrentRealm" xml:space="preserve">
+    <value>Sasa Ulimwengu</value>
+  </data>
+  <data name="Dashboard" xml:space="preserve">
+    <value>Dashibodi</value>
+  </data>
+  <data name="DateRequested" xml:space="preserve">
+    <value>Tarehe Tafsiri</value>
+  </data>
+  <data name="Description" xml:space="preserve">
+    <value>Maelezo</value>
+  </data>
+  <data name="Devices" xml:space="preserve">
+    <value>Vifaa</value>
+  </data>
+  <data name="Email" xml:space="preserve">
+    <value>Barua pepe</value>
+  </data>
+  <data name="Group" xml:space="preserve">
+    <value>Kundi</value>
+  </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Habari</value>
+  </data>
+  <data name="LeaveRealm" xml:space="preserve">
+    <value>Acha Ulimwengu</value>
+  </data>
+  <data name="LockedOut" xml:space="preserve">
+    <value>Zimefungiwa</value>
+  </data>
+  <data name="Logoff" xml:space="preserve">
+    <value>Logoff</value>
+  </data>
+  <data name="Mnemonic" xml:space="preserve">
+    <value>Mnemonic</value>
+  </data>
+  <data name="Name" xml:space="preserve">
+    <value>Jina</value>
+  </data>
+  <data name="New" xml:space="preserve">
+    <value>Mpya</value>
+  </data>
+  <data name="NoNewCertificateSigningRequestsSubmitted" xml:space="preserve">
+    <value>Hakuna mpya maombi cheti kusaini imewasilishwa</value>
+  </data>
+  <data name="NoUserRolesAdded" xml:space="preserve">
+    <value>Hakuna majukumu user wamekuwa aliongeza</value>
   </data>
   <data name="Password" xml:space="preserve">
     <value>Nywila</value>
   </data>
   <data name="PasswordRequired" xml:space="preserve">
     <value>Uwanja Password anahitajika</value>
+  </data>
+  <data name="Places" xml:space="preserve">
+    <value>Maeneo</value>
+  </data>
+  <data name="RealmManagement" xml:space="preserve">
+    <value>Usimamizi Ulimwengu</value>
+  </data>
+  <data name="Reset" xml:space="preserve">
+    <value>Rudisha</value>
+  </data>
+  <data name="RoleId" xml:space="preserve">
+    <value>Id Jukumu</value>
+  </data>
+  <data name="RoleNotFound" xml:space="preserve">
+    <value>Jukumu Hakuonekana</value>
+  </data>
+  <data name="Roles" xml:space="preserve">
+    <value>Majukumu</value>
+  </data>
+  <data name="Save" xml:space="preserve">
+    <value>Kuokoa</value>
+  </data>
+  <data name="Search" xml:space="preserve">
+    <value>Tafuta</value>
+  </data>
+  <data name="Submit" xml:space="preserve">
+    <value>Kuwasilisha</value>
+  </data>
+  <data name="UnableToRetrieveDeviceList" xml:space="preserve">
+    <value>Hawawezi retrieve orodha kifaa</value>
+  </data>
+  <data name="UnableToRetrieveRoleList" xml:space="preserve">
+    <value>Hawawezi retrieve orodha jukumu</value>
+  </data>
+  <data name="UnableToRetrieveUserList" xml:space="preserve">
+    <value>Hawawezi retrieve orodha user</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>Jina</value>
@@ -134,5 +251,92 @@
   </data>
   <data name="UsernameTooLong" xml:space="preserve">
     <value>Jina la mtumiaji shamba lazima kati ya 1 na 255 wahusika</value>
+  </data>
+  <data name="SearchResults" xml:space="preserve">
+    <value>Matokeo</value>
+  </data>
+  <data name="CreationTime" xml:space="preserve">
+    <value>Viumbe Wakati</value>
+  </data>
+  <data name="Version" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="View" xml:space="preserve">
+    <value>Mtazamo</value>
+  </data>
+  <data name="NoConceptsFound" xml:space="preserve">
+    <value>Hakuna dhana kupatikana</value>
+  </data>
+  <data name="JoinNewRealm" xml:space="preserve">
+    <value>Kujiunga na ulimwengu mpya</value>
+  </data>
+  <data name="Address" xml:space="preserve">
+    <value>Anuani</value>
+  </data>
+  <data name="ApplicationId" xml:space="preserve">
+    <value>Maombi Id</value>
+  </data>
+  <data name="Id" xml:space="preserve">
+    <value>Id</value>
+  </data>
+  <data name="UpdatedTime" xml:space="preserve">
+    <value>Wakati Updated</value>
+  </data>
+  <data name="NoDevicesAdded" xml:space="preserve">
+    <value>Hakuna vifaa wamekuwa aliongeza</value>
+  </data>
+  <data name="Login" xml:space="preserve">
+    <value>Ingia</value>
+  </data>
+  <data name="PlaceSearchResults" xml:space="preserve">
+    <value>Matokeo mahali search</value>
+  </data>
+  <data name="Latitude" xml:space="preserve">
+    <value>Latitude</value>
+  </data>
+  <data name="Longitude" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
+  <data name="NoPlacesFound" xml:space="preserve">
+    <value>Hakuna maeneo kupatikana</value>
+  </data>
+  <data name="NoRolesAdded" xml:space="preserve">
+    <value>Hakuna majukumu wamekuwa aliongeza</value>
+  </data>
+  <data name="SearchTerm" xml:space="preserve">
+    <value>Muda wa kutafuta</value>
+  </data>
+  <data name="UserId" xml:space="preserve">
+    <value>Id user</value>
+  </data>
+  <data name="NoUsersAdded" xml:space="preserve">
+    <value>Hakuna watumiaji wamekuwa aliongeza</value>
+  </data>
+  <data name="Certificates" xml:space="preserve">
+    <value>Vyeti</value>
+  </data>
+  <data name="UserRoles" xml:space="preserve">
+    <value>Majukumu user</value>
+  </data>
+  <data name="Users" xml:space="preserve">
+    <value>Watumiaji</value>
+  </data>
+  <data name="SearchType" xml:space="preserve">
+    <value>Aina search</value>
+  </data>
+  <data name="SearchTypeRequired" xml:space="preserve">
+    <value>Tafadhali kuchagua aina search</value>
+  </data>
+  <data name="MnemonicTooLong" xml:space="preserve">
+    <value>Uwanja mnemonic lazima kisichozidi 255 wahusika</value>
+  </data>
+  <data name="NameTooLong" xml:space="preserve">
+    <value>Jina uwanja lazima kisichozidi 255 wahusika</value>
+  </data>
+  <data name="NameRequired" xml:space="preserve">
+    <value>Jina ni shamba required</value>
+  </data>
+  <data name="IncorrectUsernameOrPassword" xml:space="preserve">
+    <value>Sahihi jina la mtumiaji au password</value>
   </data>
 </root>

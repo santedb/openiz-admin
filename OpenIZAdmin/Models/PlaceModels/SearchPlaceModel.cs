@@ -27,7 +27,9 @@ namespace OpenIZAdmin.Models.PlaceModels
 		{
 		}
 
-		[Required]
+		[Display(Name = "Name", ResourceType = typeof(Localization.Resources))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Resources))]
 		public string Name { get; set; }
 	}
 }

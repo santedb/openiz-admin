@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<OpenIZAdmin.Models.UserModels.ViewModels.UserViewModel>
 @{
-    ViewBag.Title = "Users";
+    ViewBag.Title = Resources.Users;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        Users
+        @Resources.Users
         <div class="pull-right">
-            <span>New</span>
+            <span>@Resources.New</span>
             <a href="~/User/CreateUser" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
@@ -19,16 +19,16 @@
                     <tr>
                         <th></th>
                         <th>
-                            User Id
+                            @Resources.UserId
                         </th>
                         <th>
-                            Username
+                            @Resources.Username
                         </th>
                         <th>
-                            Email
+                            @Resources.Email
                         </th>
                         <th>
-                            Locked Out?
+                            @Resources.LockedOut
                         </th>
                     </tr>
                 </thead>
@@ -48,7 +48,7 @@
         }
         else
         {
-            <p>No users have been added.</p>
+            <p>@Resources.NoUsersAdded .</p>
         }
 
 

@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<OpenIZAdmin.Models.UserAdministration.ViewModels.UserRoleViewModel>
 @{
-    ViewBag.Title = "User Roles";
+    ViewBag.Title = Resources.UserRoles;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        User Roles
+        @Resources.UserRoles
     </div>
     <div class="panel panel-body">
         @if (Model.Count() > 0)
@@ -14,7 +14,7 @@
         }
         else
         {
-            <p>No user roles have been added.</p>
+            <p>@Resources.NoUserRolesAdded .</p>
         }
     </div>
 </div>

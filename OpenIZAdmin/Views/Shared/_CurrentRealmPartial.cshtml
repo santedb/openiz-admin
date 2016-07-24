@@ -1,12 +1,12 @@
 ﻿@model OpenIZAdmin.Models.RealmModels.ViewModels.RealmViewModel
 @{
-    ViewBag.Title = "Realm View";
+    ViewBag.Title = Resources.CurrentRealm;
 }
 
 <div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
     <div class="panel panel-default">
         <div class="panel panel-heading">
-            <span>Current Realm</span>
+            <span>@Resources.CurrentRealm</span>
             <div class="pull-right">
                 @*<a href="~/Realm/SwitchRealm">
                     <span class="glyphicon glyphicon-transfer"></span>
@@ -14,11 +14,11 @@
                 </a>*@
                 <a href="~/Realm/JoinRealm">
                     <span class="glyphicon glyphicon-plus-sign"></span>
-                    Join New Realm
+                    @Resources.JoinNewRealm
                 </a>
                 <a href="~/Realm/LeaveRealm">
                     <span class="glyphicon glyphicon-export"></span>
-                    Leave Realm
+                    @Resources.LeaveRealm
                 </a>
             </div>
         </div>

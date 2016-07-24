@@ -59,18 +59,18 @@
             <div class="col-sm-3 col-md-2 sidebar">
 
                 <ul class="nav nav-sidebar">
-                    <li><a href="/Home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> Dashboard</a></li>
+                    <li><a href="/Home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> @Resources.Dashboard</a></li>
                     @if (User.Identity.IsAuthenticated && isJoinedToRealm)
                     {
-                        <li><a href="/Applet"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span> Applets</a></li>
-                        <li><a href="/Certificate"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Certificates</a></li>
-                        <li><a href="/Concept"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> Concepts</a></li>
-                        <li><a href="/Device"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> Devices</a></li>
-                        <li><a href="/Place/Search"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> Places</a></li>
-                        <li><a href="/Realm"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> Realm Management</a></li>
-                        <li><a href="/Role"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Roles</a></li>
-                        <li><a href="/UserAdministration/UserRoles"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> User Roles</a></li>
-                        <li><a href="/User"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Users</a></li>
+                        <li><a href="/Applet"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span> @Resources.Applets</a></li>
+                        <li><a href="/Certificate"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> @Resources.Certificates</a></li>
+                        <li><a href="/Concept"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> @Resources.Concepts</a></li>
+                        <li><a href="/Device"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> @Resources.Devices</a></li>
+                        <li><a href="/Place/Search"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> @Resources.Places</a></li>
+                        <li><a href="/Realm"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> @Resources.RealmManagement</a></li>
+                        <li><a href="/Role"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Resources.Roles</a></li>
+                        <li><a href="/UserAdministration/UserRoles"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Resources.UserRoles</a></li>
+                        <li><a href="/User"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Resources.Users</a></li>
                     }
                 </ul>
             </div>
@@ -100,6 +100,8 @@
     <script type="text/javascript">
         $(".change-language").on('click', function () {
             var language = $(this).attr("language");
+
+            console.log(language);
         });
     </script>
 </body>

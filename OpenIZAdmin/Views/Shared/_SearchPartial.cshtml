@@ -1,12 +1,12 @@
 ﻿@model OpenIZAdmin.Models.SearchModel
 @{
-    ViewBag.Title = "Search";
+    ViewBag.Title = Resources.Search;
     Model.SearchTerm = TempData["searchTerm"]?.ToString();
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        Search
+        @Resources.Search
     </div>
     <div class="panel panel-body">
         @using (Html.BeginForm("Search", TempData["searchType"]?.ToString(), FormMethod.Get, new { @class = "form-horizontal", role = "form" }))
@@ -19,7 +19,7 @@
                     @Html.ValidationMessageFor(m => m.SearchTerm, "", new { @class = "text-danger" })
                 </div>
                 <div class="col-md-2">
-                    <input type="submit" value="Search" class="btn btn-default" />
+                    <input type="submit" value="@Resources.Search" class="btn btn-default" />
                 </div>
             </div>
         }
