@@ -27,6 +27,7 @@ using OpenIZAdmin.Services;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
@@ -152,16 +153,22 @@ namespace OpenIZAdmin.Controllers
 
 		[HttpGet]
 		[ActionName("Users")]
-		public async Task<ActionResult> GetUsersAsync()
+		public ActionResult GetUsers()
 		{
-			//var result = await this.client.GetAsync(string.Format("/users/"));
+			try
+			{
+				// HACK
+				var users = this.client.GetUsers(u => u.UserId != null);
 
-			//if (result.IsSuccessStatusCode)
-			//{
-			//	var content = await result.Content.ReadAsAsync<AmiCollection<SecurityUserInfo>>();
-
-			//	return View(content.CollectionItem.Select(u => new UserViewModel(u)));
-			//}
+				return View(users.CollectionItem.Select(u => new UserViewModel(u)));
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Unable to retrieve users: {0}", e.StackTrace);
+#endif
+				Trace.TraceError("Unable to retrieve users: {0}", e.Message);
+			}
 
 			TempData["error"] = "Unable to retrieve user list";
 
@@ -169,17 +176,22 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		[HttpGet]
-		[ActionName("Index")]
-		public async Task<ActionResult> IndexAsync()
+		public ActionResult Index()
 		{
-			//var result = await this.client.GetAsync(string.Format("/users/"));
+			try
+			{
+				// HACK
+				var users = this.client.GetUsers(u => u.User.EmailConfirmed == true);
 
-			//if (result.IsSuccessStatusCode)
-			//{
-			//	var content = await result.Content.ReadAsAsync<AmiCollection<SecurityUserInfo>>();
-
-			//	return View(content.CollectionItem.Select(u => new UserViewModel(u)));
-			//}
+				return View(users.CollectionItem.Select(u => new UserViewModel(u)));
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Unable to retrieve users: {0}", e.StackTrace);
+#endif
+				Trace.TraceError("Unable to retrieve users: {0}", e.Message);
+			}
 
 			TempData["error"] = "Unable to retrieve user list";
 

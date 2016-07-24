@@ -52,22 +52,22 @@
             <summary>
             Gets a list of concepts from the AMI.
             </summary>
-            <param name="query">The query expressions to use to find the concepts.</param>
+            <param name="query">The query expression to use to find the concepts.</param>
             <returns>Returns a collection of concepts which match the specified query.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetConceptSets(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptSet,System.Boolean}})">
             <summary>
             Gets a list of concept sets from the AMI.
             </summary>
-            <param name="query">The query expressions to use to find the concept sets.</param>
+            <param name="query">The query expression to use to find the concept sets.</param>
             <returns>Returns a collection of concept sets which match the specified query.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetRoles(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityRole,System.Boolean}})">
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetPlaces(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.Place,System.Boolean}})">
             <summary>
-            Retrieves a specified role from the AMI.
+            Gets a list of places from the AMI.
             </summary>
-            <param name="query">The query expression to use to find the role.</param>
-            <returns>Returns a collection of roles which match the specified query parameters.</returns>
+            <param name="query">The query expression to use to find the places.</param>
+            <returns>Returns a collection of places which match the specified query.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetPolicies(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityPolicy,System.Boolean}})">
             <summary>
@@ -75,6 +75,13 @@
             </summary>
             <param name="query">The query expression to use to find the policy.</param>
             <returns>Returns a collection of policies which match the specified query parameters.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetRoles(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityRole,System.Boolean}})">
+            <summary>
+            Retrieves a specified role from the AMI.
+            </summary>
+            <param name="query">The query expression to use to find the role.</param>
+            <returns>Returns a collection of roles which match the specified query parameters.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetUsers(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo,System.Boolean}})">
             <summary>

@@ -60,9 +60,8 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		[HttpPost]
-		[ActionName("CreateRole")]
 		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> CreateRoleAsync(CreateRoleModel model)
+		public ActionResult CreateRole(CreateRoleModel model)
 		{
 			if (ModelState.IsValid)
 			{
@@ -152,16 +151,22 @@ namespace OpenIZAdmin.Controllers
 
 		[HttpGet]
 		[ActionName("Roles")]
-		public async Task<ActionResult> GetRolesAsync()
+		public ActionResult GetRoles()
 		{
-			//var result = await this.client.GetAsync(string.Format("/roles/"));
+			try
+			{
+				// HACK
+				var roles = this.client.GetRoles(r => r.Name != null);
 
-			//if (result.IsSuccessStatusCode)
-			//{
-			//	var content = await result.Content.ReadAsAsync<AmiCollection<SecurityRoleInfo>>();
-
-			//	return View(content.CollectionItem.Select(r => new RoleViewModel(r)));
-			//}
+				return View(roles.CollectionItem.Select(r => new RoleViewModel(r)));
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Unable to retrieve roles: {0}", e.StackTrace);
+#endif
+				Trace.TraceError("Unable to retrieve roles: {0}", e.Message);
+			}
 
 			TempData["error"] = "Unable to retrieve role list";
 
@@ -169,17 +174,22 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		[HttpGet]
-		[ActionName("Index")]
-		public async Task<ActionResult> IndexAsync()
+		public ActionResult Index()
 		{
-			//var result = await this.client.GetAsync(string.Format("/roles/"));
+			try
+			{
+				// HACK
+				var roles = this.client.GetRoles(r => r.Name != null);
 
-			//if (result.IsSuccessStatusCode)
-			//{
-			//	var content = await result.Content.ReadAsAsync<AmiCollection<SecurityRoleInfo>>();
-
-			//	return View(content.CollectionItem.Select(r => new RoleViewModel(r)));
-			//}
+				return View(roles.CollectionItem.Select(r => new RoleViewModel(r)));
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Unable to retrieve roles: {0}", e.StackTrace);
+#endif
+				Trace.TraceError("Unable to retrieve roles: {0}", e.Message);
+			}
 
 			TempData["error"] = "Unable to retrieve role list";
 

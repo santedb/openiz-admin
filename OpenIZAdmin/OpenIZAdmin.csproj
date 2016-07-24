@@ -193,6 +193,7 @@
     <Compile Include="Attributes\TokenAuthorize.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConceptController.cs" />
+    <Compile Include="Controllers\PlaceController.cs" />
     <Compile Include="Controllers\RealmController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -239,6 +240,9 @@
     <Compile Include="Models\Domain\ApplicationUser.cs" />
     <Compile Include="Models\Domain\Realm.cs" />
     <Compile Include="Models\ModelMapper.cs" />
+    <Compile Include="Models\PlaceModels\CreatePlaceModel.cs" />
+    <Compile Include="Models\PlaceModels\SearchPlaceModel.cs" />
+    <Compile Include="Models\PlaceModels\ViewModels\PlaceViewModel.cs" />
     <Compile Include="Models\RealmModels\JoinRealmModel.cs" />
     <Compile Include="Models\RealmModels\LeaveRealmModel.cs" />
     <Compile Include="Models\RealmModels\UpdateRealmModel.cs" />
@@ -357,6 +361,10 @@
     <Content Include="Views\Concept\Index.cshtml" />
     <Content Include="Views\Shared\_ConceptSearchResultsPartial.cshtml" />
     <Content Include="Views\Concept\ViewConcept.cshtml" />
+    <Content Include="Views\Place\Index.cshtml" />
+    <Content Include="Views\Concept\Search.cshtml" />
+    <Content Include="Views\Place\Search.cshtml" />
+    <Content Include="Views\Shared\_PlaceSearchResultsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />
