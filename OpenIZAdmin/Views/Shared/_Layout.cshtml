@@ -100,8 +100,21 @@
     <script type="text/javascript">
         $(".change-language").on('click', function () {
             var language = $(this).attr("language");
-
             console.log(language);
+
+            document.cookie = "__openiz_language=" + language;
+
+            $.ajax({
+                url: "/Locale/ChangeLanguage?language=" + language,
+                success: function (data) {
+                    console.log(data);
+                    window.location.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                type: "POST"
+            });
         });
     </script>
 </body>

@@ -17,6 +17,7 @@
  * Date: 2016-5-31
  */
 
+using OpenIZAdmin.Filters;
 using System.Web.Mvc;
 
 namespace OpenIZAdmin
@@ -32,6 +33,7 @@ namespace OpenIZAdmin
 		/// <param name="filters">The filter collection for which to add filters.</param>
 		public static void RegisterGlobalFilters(GlobalFilterCollection filters)
 		{
+			filters.Add(new LanguageActionFilter());
 			filters.Add(new HandleErrorAttribute());
 		}
 	}

@@ -54,18 +54,18 @@ namespace OpenIZAdmin
 		/// </summary>
 		/// <param name="sender">The sender of the request.</param>
 		/// <param name="e">The event arguments.</param>
-		private void Application_BeginRequest(object sender, EventArgs e)
-		{
-			string preferredLanguage = LocalizationConfig.DefaultLanguage;
+		//private void Application_BeginRequest(object sender, EventArgs e)
+		//{
+		//	string preferredLanguage = LocalizationConfig.DefaultLanguage;
 
-			if (User != null && User.Identity != null && User.Identity.IsAuthenticated)
-			{
-				preferredLanguage = LocalizationConfig.GetPreferredLanguage(User.Identity.GetUserId());
-			}
+		//	if (User != null && User.Identity != null && User.Identity.IsAuthenticated)
+		//	{
+		//		preferredLanguage = LocalizationConfig.GetPreferredLanguage(User.Identity.GetUserId());
+		//	}
 
-			Thread.CurrentThread.CurrentCulture = new CultureInfo(preferredLanguage);
-			Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
-		}
+		//	Thread.CurrentThread.CurrentCulture = new CultureInfo(preferredLanguage);
+		//	Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
+		//}
 
 		/// <summary>
 		/// Called when the application encounters an unexpected error.

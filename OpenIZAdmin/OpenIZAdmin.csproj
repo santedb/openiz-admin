@@ -193,6 +193,7 @@
     <Compile Include="Attributes\TokenAuthorize.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConceptController.cs" />
+    <Compile Include="Controllers\LocaleController.cs" />
     <Compile Include="Controllers\PlaceController.cs" />
     <Compile Include="Controllers\RealmController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
@@ -212,6 +213,7 @@
     <Compile Include="Extensions\IdentifiedDataExtensions.cs" />
     <Compile Include="Extensions\SecurityUserExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Filters\LanguageActionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -374,6 +376,7 @@
   <ItemGroup>
     <Folder Include="Applets\" />
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Locale\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

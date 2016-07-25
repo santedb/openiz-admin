@@ -36,25 +36,8 @@ namespace OpenIZAdmin
 		internal static readonly string DefaultLanguage = "en";
 
 		/// <summary>
-		/// Gets the preferred language of a user.
+		/// The default cookie name which contains the users preferred language.
 		/// </summary>
-		/// <param name="userId">The id of the user for which to retrieve the language.</param>
-		/// <returns>Returns the preferred language of the user.</returns>
-		internal static string GetPreferredLanguage(string userId)
-		{
-			string preferredLanguage = LocalizationConfig.DefaultLanguage;
-
-			using (IUnitOfWork unitOfWork = new EntityUnitOfWork(new ApplicationDbContext()))
-			{
-				var user = unitOfWork.UserRepository.FindById(userId);
-
-				if (user != null && user.Language != null)
-				{
-					preferredLanguage = user.Language;
-				}
-			}
-
-			return preferredLanguage;
-		}
+		internal static readonly string LanguageCookieName = "__openiz_language";
 	}
 }

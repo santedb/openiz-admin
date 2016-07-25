@@ -221,10 +221,13 @@ namespace OpenIZAdmin.Controllers
 
 				Realm realm = unitOfWork.RealmRepository.Get(r => r.Address == model.Address && r.ObsoletionTime != null).AsEnumerable().SingleOrDefault();
 
+				// remove any leading or trailing spaces
+				model.Address = model.Address.Trim();
+
 				// HACK: the UrlAttribute class thinks that http://localhost is not a valid url...
 				if (model.Address.StartsWith("http://localhost"))
 				{
-					model.Address = model.Address.Replace("http://localhost", "http://127.0.0.1").Trim();
+					model.Address = model.Address.Replace("http://localhost", "http://127.0.0.1");
 				}
 
 				// is the user attempting to join a realm which they have already left?
