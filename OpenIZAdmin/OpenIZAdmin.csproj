@@ -219,7 +219,6 @@
     </Compile>
     <Compile Include="Logging\RollOverTextWriterTraceListener.cs" />
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountModels\ChangeLanguageModel.cs" />
     <Compile Include="Models\AppletModels\UploadAppletModel.cs" />
     <Compile Include="Models\CertificateModels\AcceptCertificateSigningRequestModel.cs" />
     <Compile Include="Models\CertificateModels\DeleteCertificateModel.cs" />
