@@ -103,17 +103,29 @@ namespace OpenIZAdmin.Models.Domain
 		[DatabaseGenerated(DatabaseGeneratedOption.Identity)]
 		public Guid Id { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name of the realm.
+		/// </summary>
 		[Required]
 		[StringLength(100)]
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Gets or sets the obsoletion time of the realm.
+		/// </summary>
 		public DateTime? ObsoletionTime { get; set; }
 
+		/// <summary>
+		/// Gets or sets the scope of the realm.
+		/// </summary>
 		[Url]
 		[Required]
 		[StringLength(255)]
 		public string Scope { get; set; }
 
+		/// <summary>
+		/// Gets or sets the list of users associated with the realm.
+		/// </summary>
 		public virtual ICollection<ApplicationUser> Users { get; set; }
 	}
 }

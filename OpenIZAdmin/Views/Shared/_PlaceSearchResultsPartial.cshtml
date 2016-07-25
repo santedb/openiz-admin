@@ -6,10 +6,10 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">
-            <a data-toggle="collapse" href="#searchResultsCollapse">@Resources.SearchResults</a>
+            <span>@Resources.SearchResults</span>
         </h3>
     </div>
-    <div id="searchResultsCollapse" class="panel-collapse collapse in">
+    <div class="panel panel-body">
         @if (Model.Count() > 0)
         {
             <table class="table table-striped table-bordered">
@@ -33,14 +33,14 @@
                                     @if (item.VersionKey.HasValue && item.VersionKey.Value != Guid.Empty)
                                     {
                                         <a class="btn btn-primary" href="/Place/ViewPlace?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
-                                            View
+                                            @Resources.View
                                             <span class="glyphicon glyphicon-eye-open"></span>
                                         </a>
 }
                                     else
                                     {
                                         <a class="btn btn-primary" href="/Place/ViewPlace?key=@item.Key">
-                                            View
+                                            @Resources.View
                                             <span class="glyphicon glyphicon-eye-open"></span>
                                         </a>
 }
@@ -53,7 +53,7 @@
         }
         else
         {
-            <p>@Resources.NoPlacesFound .</p>
+            <p>@Resources.NoPlacesFound</p>
         }
 
     </div>

@@ -57,8 +57,9 @@ namespace OpenIZAdmin
 						"~/Content/bootstrap-theme.min.css",
 						"~/Content/styles.css",
 						"~/Content/toastr.min.css"));
-
+#if !DEBUG
 			BundleTable.EnableOptimizations = true;
+#endif
 		}
 	}
 }

@@ -21,38 +21,65 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.RealmModels
 {
+	/// <summary>
+	/// Represents a model to join a realm.
+	/// </summary>
 	public class JoinRealmModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OpenIZAdmin.Models.RealmModels.JoinRealmModel"/> class.
+		/// </summary>
 		public JoinRealmModel()
 		{
 		}
 
+		/// <summary>
+		/// Gets or sets the address of the realm.
+		/// </summary>
 		[Required]
 		[StringLength(255)]
 		public string Address { get; set; }
 
+		/// <summary>
+		/// Gets or sets the application id of the current application.
+		/// </summary>
 		[Required]
 		[StringLength(255)]
 		[Display(Name = "Application Id")]
 		public string ApplicationId { get; set; }
 
+		/// <summary>
+		/// Gets or sets the application secret of current application.
+		/// </summary>
 		[Required]
 		[StringLength(255)]
 		[Display(Name = "Application Secret")]
 		public string ApplicationSecret { get; set; }
 
+		/// <summary>
+		/// Gets or sets the description of the realm.
+		/// </summary>
 		[StringLength(255)]
 		public string Description { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name of the realm.
+		/// </summary>
 		[Required]
 		[StringLength(100)]
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Gets or sets the password used to connect to the realm.
+		/// </summary>
 		[Required]
 		[Display(Name = "Password")]
 		[DataType(DataType.Password)]
 		public string Password { get; set; }
 
+		/// <summary>
+		/// Gets or sets the username used to connect to the realm.
+		/// </summary>
 		[Required]
 		[StringLength(255)]
 		[Display(Name = "Username")]

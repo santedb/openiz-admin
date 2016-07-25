@@ -50,16 +50,24 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
+		/// <summary>
+		/// Displays the create user view.
+		/// </summary>
+		/// <returns>Returns the create user view.</returns>
 		[HttpGet]
-		public ActionResult CreateUser()
+		public ActionResult Create()
 		{
 			return View();
 		}
 
+		/// <summary>
+		/// Creates a user.
+		/// </summary>
+		/// <param name="model">The model containing the information about the user.</param>
+		/// <returns>Returns the index view.</returns>
 		[HttpPost]
-		[ActionName("CreateUser")]
 		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> CreateUserAsync(CreateUserModel model)
+		public ActionResult Create(CreateUserModel model)
 		{
 			if (ModelState.IsValid)
 			{
@@ -87,22 +95,34 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+		/// <summary>
+		/// Deletes a user.
+		/// </summary>
+		/// <param name="id">The id of the user to be deleted.</param>
+		/// <returns>Returns the index view.</returns>
 		[HttpPost]
-		[ActionName("Delete")]
 		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> DeleteUserAsync(Guid id)
+		public ActionResult Delete(string id)
 		{
-			//if (id != Guid.Empty)
-			//{
-			//	var result = await this.client.DeleteAsync(string.Format("/user/{0}", id));
+			Guid userKey = Guid.Empty;
 
-			//	if (result.IsSuccessStatusCode)
-			//	{
-			//		TempData["success"] = "User deleted successfully";
+			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
+			{
+				try
+				{
+					this.client.DeleteUser(id);
+					TempData["success"] = "User deleted successfully";
 
-			//		return RedirectToAction("Index");
-			//	}
-			//}
+					return RedirectToAction("Index");
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					Trace.TraceError("Unable to delete user: {0}", e.StackTrace);
+#endif
+					Trace.TraceError("Unable to delete user: {0}", e.Message);
+				}
+			}
 
 			TempData["error"] = "Unable to delete user";
 

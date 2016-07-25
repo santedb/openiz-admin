@@ -331,7 +331,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_SearchPartial.cshtml" />
     <Content Include="Views\Shared\_CertificateRequestsPartial.cshtml" />
@@ -348,7 +347,7 @@
     <Content Include="Views\Certificate\Certificate.cshtml" />
     <Content Include="Views\Certificate\CertificateSigningRequest.cshtml" />
     <Content Include="Views\Certificate\SubmitCertificateSigningRequest.cshtml" />
-    <Content Include="Views\User\CreateUser.cshtml" />
+    <Content Include="Views\User\Create.cshtml" />
     <Content Include="Views\Role\CreateRole.cshtml" />
     <Content Include="Views\Applet\Upload.cshtml" />
     <Content Include="Views\Realm\UpdateRealmSettings.cshtml" />
@@ -375,7 +374,6 @@
   <ItemGroup>
     <Folder Include="Applets\" />
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Locale\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

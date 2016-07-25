@@ -345,4 +345,10 @@
   <data name="Place" xml:space="preserve">
     <value>Mahali</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Makosa</value>
+  </data>
+  <data name="GenericErrorMessage" xml:space="preserve">
+    <value>Ni kosa ilitokea wakati usindikaji ombi lako</value>
+  </data>
 </root>

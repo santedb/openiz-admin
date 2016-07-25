@@ -33,7 +33,7 @@ using System.Web.Mvc;
 namespace OpenIZAdmin.Controllers
 {
 	/// <summary>
-	/// Provides operations for administering users.
+	/// Provides operations for administering roles.
 	/// </summary>
 	[TokenAuthorize]
 	public class RoleController : Controller
@@ -51,14 +51,14 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult CreateRole()
+		public ActionResult Create()
 		{
 			return View();
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult CreateRole(CreateRoleModel model)
+		public ActionResult Create(CreateRoleModel model)
 		{
 			if (ModelState.IsValid)
 			{
@@ -87,21 +87,28 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		[HttpPost]
-		[ActionName("DeleteRole")]
 		[ValidateAntiForgeryToken]
-		public async Task<ActionResult> DeleteRoleAsync(Guid id)
+		public ActionResult Delete(string id)
 		{
-			//if (id != Guid.Empty)
-			//{
-			//	var result = await this.client.DeleteAsync(string.Format("/role/{0}", id));
+			Guid userKey = Guid.Empty;
 
-			//	if (result.IsSuccessStatusCode)
-			//	{
-			//		TempData["success"] = "User deleted successfully";
+			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
+			{
+				try
+				{
+					this.client.DeleteRole(id);
+					TempData["success"] = "Role deleted successfully";
 
-			//		return RedirectToAction("Index");
-			//	}
-			//}
+					return RedirectToAction("Index");
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					Trace.TraceError("Unable to delete role: {0}", e.StackTrace);
+#endif
+					Trace.TraceError("Unable to delete role: {0}", e.Message);
+				}
+			}
 
 			TempData["error"] = "Unable to delete role";
 

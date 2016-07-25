@@ -351,4 +351,10 @@
   <data name="Place" xml:space="preserve">
     <value>Place</value>
   </data>
+  <data name="Error" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="GenericErrorMessage" xml:space="preserve">
+    <value>An error occurred while processing your request</value>
+  </data>
 </root>
