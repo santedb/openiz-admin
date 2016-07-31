@@ -486,4 +486,7 @@
   <data name="SubmissionTime" xml:space="preserve">
     <value>Kuwasilisha wakati</value>
   </data>
+  <data name="JoinRealm" xml:space="preserve">
+    <value>Kujiunga na ulimwengu</value>
+  </data>
 </root>

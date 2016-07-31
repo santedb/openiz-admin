@@ -529,6 +529,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Join Realm.
+        /// </summary>
+        public static string JoinRealm {
+            get {
+                return ResourceManager.GetString("JoinRealm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last name.
         /// </summary>
         public static string LastName {

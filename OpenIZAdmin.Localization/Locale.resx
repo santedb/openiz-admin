@@ -495,4 +495,7 @@
   <data name="SubmissionTime" xml:space="preserve">
     <value>Submission Time</value>
   </data>
+  <data name="JoinRealm" xml:space="preserve">
+    <value>Join Realm</value>
+  </data>
 </root>
