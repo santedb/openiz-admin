@@ -85,12 +85,6 @@ namespace OpenIZAdmin.Services.Http
 			return request;
 		}
 
-
-		private ServiceClientConfigurationSection GetLatestConfiguration()
-		{
-			return InternalConfiguration.GetServiceClientConfiguration();
-		}
-
 		/// <summary>
 		/// Invokes a request.
 		/// </summary>

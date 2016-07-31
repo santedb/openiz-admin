@@ -97,6 +97,15 @@ namespace OpenIZAdmin.Controllers
 		[AllowAnonymous]
 		public ActionResult Login(string returnUrl)
 		{
+			if (User.Identity.IsAuthenticated && RealmConfig.IsJoinedToRealm())
+			{
+				return RedirectToAction("Index", "Home");
+			}
+			else if (!RealmConfig.IsJoinedToRealm())
+			{
+				return RedirectToAction("JoinRealm", "Realm");
+			}
+
 			ViewBag.ReturnUrl = returnUrl;
 			return View();
 		}
