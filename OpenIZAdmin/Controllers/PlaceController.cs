@@ -21,7 +21,6 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Query;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
-using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.PlaceModels;
 using OpenIZAdmin.Models.PlaceModels.ViewModels;
 using OpenIZAdmin.Services.Http;
@@ -68,7 +67,6 @@ namespace OpenIZAdmin.Controllers
 #endif
 					Trace.TraceError("Unable to create place: {0}", e.Message);
 				}
-
 			}
 
 			TempData["error"] = "Unable to create place";

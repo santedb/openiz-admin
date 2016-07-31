@@ -17,19 +17,18 @@
  * Date: 2016-7-8
  */
 
+using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Models.DeviceModels;
 using OpenIZAdmin.Models.DeviceModels.ViewModels;
-using System;
-using System.Collections.Generic;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
-using System.Threading.Tasks;
+using OpenIZAdmin.Util;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Messaging.AMI.Client;
-using OpenIZAdmin.Util;
-using System.Diagnostics;
-using OpenIZAdmin.Models.DeviceModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -66,7 +65,6 @@ namespace OpenIZAdmin.Controllers
 #endif
 					Trace.TraceError("Unable to create device: {0}", e.Message);
 				}
-
 			}
 
 			TempData["error"] = "Unable to create device";
@@ -100,7 +98,6 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 				{
-
 					var collection = this.client.GetDevices(d => d.Name.Contains(searchTerm));
 
 					TempData["searchTerm"] = searchTerm;

@@ -34,7 +34,6 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public class CertificateController : Controller
 	{
-
 		/// <summary>
 		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
 		/// </summary>

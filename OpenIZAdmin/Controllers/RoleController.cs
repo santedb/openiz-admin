@@ -29,7 +29,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
@@ -158,7 +157,6 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 				{
-
 					var collection = this.client.GetRoles(r => r.Name.Contains(searchTerm));
 
 					TempData["searchTerm"] = searchTerm;

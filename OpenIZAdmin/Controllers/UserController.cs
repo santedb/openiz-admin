@@ -18,7 +18,6 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Query;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models.UserModels;
@@ -30,7 +29,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers

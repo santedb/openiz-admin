@@ -167,7 +167,6 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-
 			}
 
 			TempData["error"] = Locale.UnableToUpdateProfile;
