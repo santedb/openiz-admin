@@ -3,32 +3,31 @@
     ViewBag.Title = "Join Realm";
 }
 
-<div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
-    <div class="panel panel-default">
-        <div class="panel panel-heading">
-            Join Realm
-        </div>
-        <div class="panel panel-body panel-default">
-            @using (Html.BeginForm("JoinRealm", "Realm", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Address, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
-                        <span class="help-block">Example: http://localhost:8080 </span>
-                    </div>
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        Join Realm
+    </div>
+    <div class="panel panel-body panel-default">
+        @using (Html.BeginForm("JoinRealm", "Realm", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.Address, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Address, "", new { @class = "text-danger" })
+                    <span class="help-block">Example: http://localhost:8080 </span>
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ApplicationId, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.ApplicationId, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.ApplicationId, "", new { @class = "text-danger" })
-                        <span class="help-block">Example: org.openiz.example </span>
-                    </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.ApplicationId, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.ApplicationId, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ApplicationId, "", new { @class = "text-danger" })
+                    <span class="help-block">Example: org.openiz.example </span>
                 </div>
+            </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.ApplicationSecret, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
@@ -73,6 +72,5 @@
                         <input type="submit" value="Join Realm" class="btn btn-default" />
                     </div>
                 </div>}
-        </div>
     </div>
 </div>

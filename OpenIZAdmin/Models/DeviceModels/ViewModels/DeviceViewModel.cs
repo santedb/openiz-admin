@@ -17,21 +17,15 @@
  * Date: 2016-7-8
  */
 
+using OpenIZ.Core.Model.Security;
 using System;
 
 namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 {
 	public class DeviceViewModel
 	{
-		public DeviceViewModel() : this(DateTime.Now, null, null)
+		public DeviceViewModel()
 		{
-		}
-
-		public DeviceViewModel(DateTime creationTime, string name, DateTime? updatedTime)
-		{
-			this.CreationTime = creationTime;
-			this.Name = name;
-			this.UpdatedTime = updatedTime;
 		}
 
 		public DateTime CreationTime { get; set; }

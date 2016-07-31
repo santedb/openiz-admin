@@ -21,7 +21,6 @@ using OpenIZAdmin.Models.AppletModels.ViewModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
 using OpenIZAdmin.Models.DeviceModels.ViewModels;
 using OpenIZAdmin.Models.RoleModels.ViewModels;
-using OpenIZAdmin.Models.UserAdministration.ViewModels;
 using OpenIZAdmin.Models.UserModels.ViewModels;
 using System.Collections.Generic;
 
@@ -40,8 +39,6 @@ namespace OpenIZAdmin.Models
 		public IEnumerable<DeviceViewModel> Devices { get; set; }
 
 		public IEnumerable<RoleViewModel> Roles { get; set; }
-
-		public IEnumerable<UserRoleViewModel> UserRoles { get; set; }
 
 		public IEnumerable<UserViewModel> Users { get; set; }
 	}

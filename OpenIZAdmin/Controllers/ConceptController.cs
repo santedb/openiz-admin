@@ -129,12 +129,12 @@ namespace OpenIZAdmin.Controllers
 
 			if (!string.IsNullOrEmpty(model.Mnemonic) && !string.IsNullOrWhiteSpace(model.Mnemonic))
 			{
-				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic == model.Mnemonic));
+				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(model.Mnemonic)));
 			}
 
 			if (!string.IsNullOrEmpty(model.Name) && !string.IsNullOrWhiteSpace(model.Name))
 			{
-				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ConceptNames.Any(cn => cn.Name == model.Name)));
+				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ConceptNames.Any(cn => cn.Name.Contains(model.Name))));
 			}
 
 			if (query.Count == 0)
@@ -151,12 +151,12 @@ namespace OpenIZAdmin.Controllers
 
 			if (!string.IsNullOrEmpty(model.Mnemonic) && !string.IsNullOrWhiteSpace(model.Mnemonic))
 			{
-				query.AddRange(QueryExpressionBuilder.BuildQuery<ConceptSet>(c => c.Mnemonic == model.Mnemonic));
+				query.AddRange(QueryExpressionBuilder.BuildQuery<ConceptSet>(c => c.Mnemonic.Contains(model.Mnemonic)));
 			}
 
 			if (!string.IsNullOrEmpty(model.Name) && !string.IsNullOrWhiteSpace(model.Name))
 			{
-				query.AddRange(QueryExpressionBuilder.BuildQuery<ConceptSet>(c => c.Name == model.Name));
+				query.AddRange(QueryExpressionBuilder.BuildQuery<ConceptSet>(c => c.Name.Contains(model.Name)));
 			}
 
 			if (query.Count == 0)

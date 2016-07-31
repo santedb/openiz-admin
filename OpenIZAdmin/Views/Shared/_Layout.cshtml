@@ -66,15 +66,17 @@
                         <li><a href="/Certificate"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> @Resources.Certificates</a></li>
                         <li><a href="/Concept"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> @Resources.Concepts</a></li>
                         <li><a href="/Device"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> @Resources.Devices</a></li>
-                        <li><a href="/Place/Search"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> @Resources.Places</a></li>
+                        <li><a href="/Place"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> @Resources.Places</a></li>
                         <li><a href="/Realm"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> @Resources.RealmManagement</a></li>
                         <li><a href="/Role"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Resources.Roles</a></li>
-                        <li><a href="/UserAdministration/UserRoles"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Resources.UserRoles</a></li>
                         <li><a href="/User"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Resources.Users</a></li>}
                 </ul>
             </div>
 
-            @RenderBody()
+            <div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
+                @RenderBody()
+            </div>
+
 
         </div>
         <div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
@@ -115,6 +117,12 @@
                     console.log(error);
                 },
                 type: "POST"
+            });
+        });
+        $(document).ready(function () {
+            $("#reset").on("click", function () {
+                $("#SearchTerm").val('');
+                window.location.reload();
             });
         });
     </script>

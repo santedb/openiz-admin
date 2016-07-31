@@ -150,7 +150,7 @@ namespace OpenIZAdmin.DAL
 
 			JwtSecurityToken securityToken = new JwtSecurityToken(accessToken);
 
-			var user = await this.UserManager.FindByIdAsync(securityToken.Claims.First(c => c.Type == "nameid").Value);
+			var user = await this.UserManager.FindByIdAsync(securityToken.Claims.First(c => c.Type == "sub").Value);
 
 			if (user == null)
 			{
@@ -160,7 +160,7 @@ namespace OpenIZAdmin.DAL
 
 				user = new ApplicationUser
 				{
-					Id = securityToken.Claims.First(c => c.Type == "nameid").Value,
+					Id = securityToken.Claims.First(c => c.Type == "sub").Value,
 					Email = email,
 					UserName = securityToken.Claims.First(c => c.Type == "unique_name").Value
 				};
@@ -171,7 +171,7 @@ namespace OpenIZAdmin.DAL
 					{
 						ClaimType = claim.Type,
 						ClaimValue = claim.Value,
-						UserId = securityToken.Claims.First(c => c.Type == "nameid").Value
+						UserId = securityToken.Claims.First(c => c.Type == "sub").Value
 					};
 
 					user.Claims.Add(identityUserClaim);

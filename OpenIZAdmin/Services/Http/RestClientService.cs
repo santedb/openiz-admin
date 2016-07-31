@@ -37,13 +37,14 @@ namespace OpenIZAdmin.Services.Http
 		/// <summary>
 		/// The internal reference to the service client configuration section.
 		/// </summary>
-		private static readonly ServiceClientConfigurationSection configuration = InternalConfiguration.GetServiceClientConfiguration();
+		private readonly ServiceClientConfigurationSection configuration = InternalConfiguration.GetServiceClientConfiguration();
 
 		/// <summary>
 		/// Initializes a new instance <see cref="OpenIZAdmin.Services.Http.RestClientService"/> class.
 		/// </summary>
-		public RestClientService(string endpointName) : this(configuration.Clients.Find(x => x.Name == endpointName))
+		public RestClientService(string endpointName) : base(InternalConfiguration.GetServiceClientConfiguration().Clients.Find(x => x.Name == endpointName))
 		{
+			Trace.TraceInformation(string.Format("Current Entity Source: {0}", EntitySource.Current));
 		}
 
 		/// <summary>
@@ -82,6 +83,12 @@ namespace OpenIZAdmin.Services.Http
 			}
 
 			return request;
+		}
+
+
+		private ServiceClientConfigurationSection GetLatestConfiguration()
+		{
+			return InternalConfiguration.GetServiceClientConfiguration();
 		}
 
 		/// <summary>

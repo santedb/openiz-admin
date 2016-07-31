@@ -3,33 +3,31 @@
     ViewBag.Title = Resources.Place;
 }
 
-<div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
-    <div class="panel panel-default">
-        <div class="panel panel-heading">
-            <span class="text-white">@Resources.Place</span>
-        </div>
-        <div class="panel panel-body panel-default">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <div class="col-md-6">
-                            @Html.LabelFor(m => m.CreationTime, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                        <div class="col-md-6">
-                            @Html.LabelFor(m => m.Name, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        <span class="text-white">@Resources.Place</span>
+    </div>
+    <div class="panel panel-body panel-default">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Html.LabelFor(m => m.CreationTime, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
                     </div>
-                    <div class="form-group">
-                        <div class="col-md-6">
-                            @Html.LabelFor(m => m.Latitude, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Latitude, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                        <div class="col-md-6">
-                            @Html.LabelFor(m => m.Longitude, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Longitude, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
+                    <div class="col-md-6">
+                        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-6">
+                        @Html.LabelFor(m => m.Latitude, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Latitude, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.LabelFor(m => m.Longitude, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Longitude, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>
             </div>

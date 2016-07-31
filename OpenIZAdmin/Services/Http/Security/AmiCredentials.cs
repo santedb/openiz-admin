@@ -66,7 +66,13 @@ namespace OpenIZAdmin.Services.Http.Security
 		/// <returns>Returns the HTTP headers.</returns>
 		public override Dictionary<string, string> GetHttpHeaders()
 		{
+			if (this.httpHeaders.ContainsKey("Authorization"))
+			{
+				this.httpHeaders.Remove("Authorization");
+			}
+
 			this.httpHeaders.Add("Authorization", string.Format("Bearer {0}", this.Request.Cookies.Get("access_token")?.Value));
+
 			return this.httpHeaders;
 		}
 	}

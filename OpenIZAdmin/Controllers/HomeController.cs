@@ -17,15 +17,19 @@
  * Date: 2016-5-31
  */
 
+using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.AppletModels.ViewModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
 using OpenIZAdmin.Models.DeviceModels.ViewModels;
 using OpenIZAdmin.Models.RoleModels.ViewModels;
-using OpenIZAdmin.Models.UserAdministration.ViewModels;
 using OpenIZAdmin.Models.UserModels.ViewModels;
+using OpenIZAdmin.Services.Http;
+using OpenIZAdmin.Services.Http.Security;
+using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
@@ -33,6 +37,11 @@ namespace OpenIZAdmin.Controllers
 	[AllowAnonymous]
 	public class HomeController : Controller
 	{
+		/// <summary>
+		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
+		/// </summary>
+		private AmiServiceClient client;
+
 		public ActionResult Index()
 		{
 			if (!RealmConfig.IsJoinedToRealm())
@@ -50,90 +59,28 @@ namespace OpenIZAdmin.Controllers
 						new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientAdministration", "0.5.0.0"),
 						new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientEncounters", "0.5.0.0"),
 					},
-					CertificateRequests = new List<CertificateSigningRequestViewModel>
-					{
-						new CertificateSigningRequestViewModel
-						{
-							AdministrativeContactEmail = "nityan.khanna@mohawkcollege.ca",
-							AdministrativeContactName = "Nityan Khanna",
-							DistinguishedName = "demo.openiz.org",
-							SubmissionTime = DateTime.Now
-						},
-						new CertificateSigningRequestViewModel
-						{
-							AdministrativeContactEmail = "justin.fyfe1@mohawkcollege.ca",
-							AdministrativeContactName = "Justin Fyfe",
-							DistinguishedName = "arusha.openiz.org",
-							SubmissionTime = DateTime.Now
-						},
-						new CertificateSigningRequestViewModel
-						{
-							AdministrativeContactEmail = "mohamed.ibrahim1@mohawkcollege.ca",
-							AdministrativeContactName = "Mohamed Ibrahim",
-							DistinguishedName = "zanzibar@openiz.org",
-							SubmissionTime = DateTime.Now
-						}
-					},
-					Devices = new List<DeviceViewModel>
-					{
-						new DeviceViewModel(DateTime.Now, "Nexus 5", null),
-						new DeviceViewModel(DateTime.Now, "Nexus 7", null),
-						new DeviceViewModel(new DateTime(DateTime.UtcNow.Year -1, DateTime.UtcNow.Month, DateTime.UtcNow.Day), "Samsung Galaxy 3", DateTime.UtcNow)
-					},
-					Roles = new List<RoleViewModel>
-					{
-						new RoleViewModel
-						{
-							Description = "Group for users who have administrative access",
-							Id = Guid.Parse("f6d2ba1d-5bb5-41e3-b7fb-2ec32418b2e1"),
-							Name = "ADMINISTRATORS"
-						}
-					},
-					UserRoles = new List<UserRoleViewModel>(),
-					Users = new List<UserViewModel>
-					{
-						new UserViewModel
-						{
-							Email = "administrator@openiz.org",
-							IsLockedOut = false,
-							UserId = Guid.Parse("f8f4449f-6b4c-e611-bf27-f46d0450b928"),
-							Username = "Administrator"
-						},
-						new UserViewModel
-						{
-							Email = "nityan@example.com",
-							UserId = Guid.NewGuid(),
-							IsLockedOut = false,
-							Username = "nityan"
-						},
-						new UserViewModel
-						{
-							Email = "mo@example.com",
-							UserId = Guid.NewGuid(),
-							IsLockedOut = false,
-							Username = "mo"
-						},
-						new UserViewModel
-						{
-							Email = "justin@example.com",
-							UserId = Guid.NewGuid(),
-							IsLockedOut = false,
-							Username = "justin"
-						},
-						new UserViewModel
-						{
-							Email = "lockedout@example.com",
-							UserId = Guid.NewGuid(),
-							IsLockedOut = false,
-							Username = "lockedout"
-						}
-					}
+					CertificateRequests = new List<CertificateSigningRequestViewModel>(),//CertificateUtil.GetAllCertificateSigningRequests(this.client),
+					Devices = DeviceUtil.GetAllDevices(this.client).OrderBy(d => d.CreationTime).ThenBy(d => d.Name),
+					Roles = RoleUtil.GetAllRoles(this.client).OrderBy(r => r.Name),
+					Users = UserUtil.GetAllUsers(this.client).OrderBy(u => u.Username)
 				};
 
 				return View(viewModel);
 			}
 
 			return RedirectToAction("Login", "Account", new { returnUrl = Request.UrlReferrer?.ToString() });
+		}
+
+		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		{
+			var restClient = new RestClientService("AMI");
+
+			restClient.Accept = "application/xml";
+			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
+
+			this.client = new AmiServiceClient(restClient);
+
+			base.OnActionExecuting(filterContext);
 		}
 	}
 }

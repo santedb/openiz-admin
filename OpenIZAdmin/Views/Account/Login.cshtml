@@ -3,23 +3,22 @@
     ViewBag.Title = "Log in";
 }
 
-<div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
-    <div class="panel panel-default">
-        <div class="panel panel-heading">
-            @Resources.Login
-        </div>
-        <div class="panel panel-body panel-default">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
-                    </div>
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        @Resources.Login
+    </div>
+    <div class="panel panel-body panel-default">
+        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
                 </div>
+            </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
@@ -32,7 +31,6 @@
                         <input type="submit" value="@Resources.Login" class="btn btn-default" />
                     </div>
                 </div>
-}
-        </div>
+        }
     </div>
 </div>

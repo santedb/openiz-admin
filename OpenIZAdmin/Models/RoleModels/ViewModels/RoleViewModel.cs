@@ -28,13 +28,6 @@ namespace OpenIZAdmin.Models.RoleModels.ViewModels
 		{
 		}
 
-		public RoleViewModel(SecurityRoleInfo roleInfo)
-		{
-			this.Description = roleInfo.Role.Description;
-			this.Name = roleInfo.Name;
-			this.Id = roleInfo.Id.Value;
-		}
-
 		public string Description { get; set; }
 
 		public Guid Id { get; set; }

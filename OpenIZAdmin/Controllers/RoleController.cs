@@ -24,7 +24,9 @@ using OpenIZAdmin.Models.RoleModels;
 using OpenIZAdmin.Models.RoleModels.ViewModels;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
+using OpenIZAdmin.Util;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -62,7 +64,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				SecurityRoleInfo role = model.ToSecurityRoleInfo();
+				SecurityRoleInfo role = RoleUtil.ToSecurityRoleInfo(model);
 
 				try
 				{
@@ -129,8 +131,57 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		[HttpGet]
-		[ActionName("Role")]
-		public ActionResult GetRole(string id)
+		public ActionResult Index()
+		{
+			TempData["searchType"] = "Role";
+			return View(RoleUtil.GetAllRoles(this.client));
+		}
+
+		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		{
+			var restClient = new RestClientService("AMI");
+
+			restClient.Accept = "application/xml";
+			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
+
+			this.client = new AmiServiceClient(restClient);
+
+			base.OnActionExecuting(filterContext);
+		}
+
+		[HttpGet]
+		public ActionResult Search(string searchTerm)
+		{
+			IEnumerable<RoleViewModel> roles = new List<RoleViewModel>();
+
+			try
+			{
+				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+				{
+
+					var collection = this.client.GetRoles(r => r.Name.Contains(searchTerm));
+
+					TempData["searchTerm"] = searchTerm;
+
+					return PartialView("_RolesPartial", collection.CollectionItem.Select(r => RoleUtil.ToRoleViewModel(r)));
+				}
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Unable to search roles: {0}", e.StackTrace);
+#endif
+				Trace.TraceError("Unable to search roles: {0}", e.Message);
+			}
+
+			TempData["error"] = "Invalid search, please check your search criteria";
+			TempData["searchTerm"] = searchTerm;
+
+			return PartialView("_RolesPartial", roles);
+		}
+
+		[HttpGet]
+		public ActionResult ViewRole(string id)
 		{
 			Guid roleId = Guid.Empty;
 
@@ -145,71 +196,12 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return View(new RoleViewModel(result.CollectionItem.Single()));
+				return View(RoleUtil.ToRoleViewModel(result.CollectionItem.Single()));
 			}
 
 			TempData["error"] = Localization.Resources.RoleNotFound;
 
 			return RedirectToAction("Index");
-		}
-
-		[HttpGet]
-		[ActionName("Roles")]
-		public ActionResult GetRoles()
-		{
-			try
-			{
-				// HACK
-				var roles = this.client.GetRoles(r => r.Name != null);
-
-				return View(roles.CollectionItem.Select(r => new RoleViewModel(r)));
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve roles: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve roles: {0}", e.Message);
-			}
-
-			TempData["error"] = "Unable to retrieve role list";
-
-			return RedirectToAction("Index", "Home");
-		}
-
-		[HttpGet]
-		public ActionResult Index()
-		{
-			try
-			{
-				// HACK
-				var roles = this.client.GetRoles(r => r.Name != null);
-
-				return View(roles.CollectionItem.Select(r => new RoleViewModel(r)));
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve roles: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve roles: {0}", e.Message);
-			}
-
-			TempData["error"] = "Unable to retrieve role list";
-
-			return RedirectToAction("Index", "Home");
-		}
-
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var restClient = new RestClientService("AMI");
-
-			restClient.Accept = "application/xml";
-			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
-
-			this.client = new AmiServiceClient(restClient);
-
-			base.OnActionExecuting(filterContext);
 		}
 	}
 }

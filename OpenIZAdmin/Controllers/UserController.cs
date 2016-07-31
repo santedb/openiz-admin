@@ -18,13 +18,16 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Query;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models.UserModels;
 using OpenIZAdmin.Models.UserModels.ViewModels;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
+using OpenIZAdmin.Util;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -57,7 +60,12 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			return View();
+			CreateUserModel model = new CreateUserModel();
+			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
+
+			model.RolesList.AddRange(RoleUtil.GetAllRoles(this.client).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }));
+
+			return View(model);
 		}
 
 		/// <summary>
@@ -71,7 +79,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				SecurityUserInfo user = model.ToSecurityUserInfo();
+				SecurityUserInfo user = UserUtil.ToSecurityUserInfo(model);
 
 				try
 				{
@@ -143,75 +151,10 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		[HttpGet]
-		[ActionName("User")]
-		public ActionResult GetUser(string id)
-		{
-			Guid userId = Guid.Empty;
-
-			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out userId))
-			{
-				var result = this.client.GetUsers(u => u.UserId == userId);
-
-				if (result.CollectionItem.Count == 0)
-				{
-					TempData["error"] = Localization.Resources.UserNotFound;
-
-					return RedirectToAction("Index");
-				}
-
-				return View(new UserViewModel(result.CollectionItem.Single()));
-			}
-
-			TempData["error"] = Localization.Resources.UserNotFound;
-
-			return RedirectToAction("Index");
-		}
-
-		[HttpGet]
-		[ActionName("Users")]
-		public ActionResult GetUsers()
-		{
-			try
-			{
-				// HACK
-				var users = this.client.GetUsers(u => u.UserId != null);
-
-				return View(users.CollectionItem.Select(u => new UserViewModel(u)));
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve users: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve users: {0}", e.Message);
-			}
-
-			TempData["error"] = "Unable to retrieve user list";
-
-			return RedirectToAction("Index", "Home");
-		}
-
-		[HttpGet]
 		public ActionResult Index()
 		{
-			try
-			{
-				// HACK
-				var users = this.client.GetUsers(u => u.User.EmailConfirmed == true);
-
-				return View(users.CollectionItem.Select(u => new UserViewModel(u)));
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve users: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve users: {0}", e.Message);
-			}
-
-			TempData["error"] = "Unable to retrieve user list";
-
-			return RedirectToAction("Index", "Home");
+			TempData["searchType"] = "User";
+			return View(UserUtil.GetAllUsers(this.client));
 		}
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -224,6 +167,36 @@ namespace OpenIZAdmin.Controllers
 			this.client = new AmiServiceClient(restClient);
 
 			base.OnActionExecuting(filterContext);
+		}
+
+		[HttpGet]
+		public ActionResult Search(string searchTerm)
+		{
+			IEnumerable<UserViewModel> users = new List<UserViewModel>();
+
+			try
+			{
+				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+				{
+					var collection = this.client.GetUsers(u => u.UserName.Contains(searchTerm));
+
+					TempData["searchTerm"] = searchTerm;
+
+					return PartialView("_UsersPartial", collection.CollectionItem.Select(u => UserUtil.ToUserViewModel(u)));
+				}
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Unable to search roles: {0}", e.StackTrace);
+#endif
+				Trace.TraceError("Unable to search roles: {0}", e.Message);
+			}
+
+			TempData["error"] = "Invalid search, please check your search criteria";
+			TempData["searchTerm"] = searchTerm;
+
+			return PartialView("_UsersPartial", users);
 		}
 
 		[HttpGet]
@@ -243,6 +216,30 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = "Unable to update user";
 
 			return View(model);
+		}
+
+		[HttpGet]
+		public ActionResult ViewUser(string id)
+		{
+			Guid userId = Guid.Empty;
+
+			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out userId))
+			{
+				var result = this.client.GetUsers(u => u.Key == userId);
+
+				if (result.CollectionItem.Count == 0)
+				{
+					TempData["error"] = Localization.Resources.UserNotFound;
+
+					return RedirectToAction("Index");
+				}
+
+				return View(UserUtil.ToUserViewModel(result.CollectionItem.Single()));
+			}
+
+			TempData["error"] = Localization.Resources.UserNotFound;
+
+			return RedirectToAction("Index");
 		}
 	}
 }

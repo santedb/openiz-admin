@@ -21,6 +21,7 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Query;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.PlaceModels;
 using OpenIZAdmin.Models.PlaceModels.ViewModels;
 using OpenIZAdmin.Services.Http;
@@ -75,6 +76,10 @@ namespace OpenIZAdmin.Controllers
 
 		public ActionResult Index()
 		{
+			TempData["searchType"] = "Place";
+
+			return View(new List<PlaceViewModel>());
+
 			try
 			{
 				var places = this.client.GetPlaces(p => p.IsMobile == false);
@@ -107,20 +112,13 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult Search()
-		{
-			return View();
-		}
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Search(SearchPlaceModel model)
+		public ActionResult Search(string searchTerm)
 		{
 			if (ModelState.IsValid)
 			{
 				try
 				{
-					var places = this.client.GetPlaces(p => p.Names.SelectMany(n => n.Component).Any(c => c.Value == model.Name));
+					var places = this.client.GetPlaces(p => p.Names.SelectMany(n => n.Component).Any(c => c.Value == searchTerm));
 
 					return PartialView("_PlaceSearchResultsPartial", places.CollectionItem.Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name));
 				}
@@ -135,7 +133,7 @@ namespace OpenIZAdmin.Controllers
 				return PartialView("_PlaceSearchResultsPartial", new List<PlaceViewModel>());
 			}
 
-			return View(model);
+			return View("Index");
 		}
 
 		[HttpGet]

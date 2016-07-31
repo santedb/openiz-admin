@@ -93,7 +93,12 @@ namespace OpenIZAdmin.Services.Http.Configuration
 
 			using (IUnitOfWork unitOfWork = new EntityUnitOfWork(new ApplicationDbContext()))
 			{
-				realm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).Single();
+				realm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).SingleOrDefault();
+			}
+
+			if (realm == null)
+			{
+				return new ServiceClientConfigurationSection();
 			}
 
 			ServiceClientConfigurationSection configurationSection = new ServiceClientConfigurationSection

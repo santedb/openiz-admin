@@ -1,14 +1,14 @@
-﻿@model OpenIZAdmin.Models.RoleModels.ViewModels.RoleViewModel
+﻿@model OpenIZAdmin.Models.UserModels.ViewModels.UserViewModel
 @{
-    ViewBag.Title = "Role View";
+    ViewBag.Title = "User View";
 }
 
 <div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
     <div class="panel panel-default">
         <div class="panel panel-heading">
-            <span>Role</span>
+            <span>User</span>
             <div class="pull-right">
-                <a href="~/Role/Edit">
+                <a href="~/User/Edit">
                     <span class="glyphicon glyphicon-edit"></span>
                     Edit
                 </a>
@@ -19,16 +19,16 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <div class="col-md-4">
-                            @Html.LabelFor(m => m.Id, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Id, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.LabelFor(m => m.UserId, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.UserId, new { @class = "form-control", @readonly = "readonly" })
                         </div>
                         <div class="col-md-4">
-                            @Html.LabelFor(m => m.Name, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.LabelFor(m => m.Username, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @readonly = "readonly" })
                         </div>
                         <div class="col-md-4">
-                            @Html.LabelFor(m => m.Description, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Description, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = "readonly" })
                         </div>
                     </div>
                 </div>

@@ -3,30 +3,29 @@
     ViewBag.Title = Resources.Places;
 }
 
-<div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
-    <div class="panel panel-default">
-        <div class="panel panel-heading">
-            Add New Place
-        </div>
-        <div class="panel panel-body panel-default">
-            @using (Html.BeginForm("Create", "Place", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
-                    </div>
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        Add New Place
+    </div>
+    <div class="panel panel-body panel-default">
+        @using (Html.BeginForm("Create", "Place", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                 </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Latitude, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Latitude, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Latitude, "", new { @class = "text-danger" })
-                    </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Latitude, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.Latitude, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Latitude, "", new { @class = "text-danger" })
                 </div>
+            </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Longitude, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">
@@ -39,6 +38,5 @@
                         <input type="submit" value="@Resources.Save" class="btn btn-default" />
                     </div>
                 </div>}
-        </div>
     </div>
 </div>

@@ -195,10 +195,10 @@
     <Compile Include="Controllers\ConceptController.cs" />
     <Compile Include="Controllers\LocaleController.cs" />
     <Compile Include="Controllers\PlaceController.cs" />
+    <Compile Include="Controllers\PolicyController.cs" />
     <Compile Include="Controllers\RealmController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
-    <Compile Include="Controllers\UserAdministrationController.cs" />
     <Compile Include="Controllers\AppletController.cs" />
     <Compile Include="Controllers\DeviceController.cs" />
     <Compile Include="Controllers\CertificateController.cs" />
@@ -238,14 +238,16 @@
     <Compile Include="Models\ConceptModels\ViewModels\ConceptViewModel.cs" />
     <Compile Include="Models\ConceptModels\ViewModels\DetailedConceptViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
+    <Compile Include="Models\DeviceModels\CreateDeviceModel.cs" />
     <Compile Include="Models\DeviceModels\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Models\Domain\ApplicationUser.cs" />
     <Compile Include="Models\Domain\Realm.cs" />
     <Compile Include="Models\ModelMapper.cs" />
     <Compile Include="Models\PlaceModels\CreatePlaceModel.cs" />
-    <Compile Include="Models\PlaceModels\SearchPlaceModel.cs" />
     <Compile Include="Models\PlaceModels\ViewModels\DetailedPlaceViewModel.cs" />
     <Compile Include="Models\PlaceModels\ViewModels\PlaceViewModel.cs" />
+    <Compile Include="Models\PolicyModels\CreatePolicyModel.cs" />
+    <Compile Include="Models\PolicyModels\ViewModels\PolicyViewModel.cs" />
     <Compile Include="Models\RealmModels\JoinRealmModel.cs" />
     <Compile Include="Models\RealmModels\LeaveRealmModel.cs" />
     <Compile Include="Models\RealmModels\UpdateRealmModel.cs" />
@@ -255,7 +257,6 @@
     <Compile Include="Models\RoleModels\CreateRoleModel.cs" />
     <Compile Include="Models\UserModels\CreateUserModel.cs" />
     <Compile Include="Models\RoleModels\ViewModels\RoleViewModel.cs" />
-    <Compile Include="Models\UserAdministration\ViewModels\UserRoleViewModel.cs" />
     <Compile Include="Models\UserModels\ViewModels\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Entity\WebEntitySourceProvider.cs" />
@@ -269,6 +270,11 @@
     <Compile Include="Services\Http\ServiceClientEndpoint.cs" />
     <Compile Include="Services\Http\ServiceClientSecurity.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Util\CertificateUtil.cs" />
+    <Compile Include="Util\DeviceUtil.cs" />
+    <Compile Include="Util\PolicyUtil.cs" />
+    <Compile Include="Util\RoleUtil.cs" />
+    <Compile Include="Util\UserUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -338,7 +344,6 @@
     <Content Include="Views\Shared\_UsersPartial.cshtml" />
     <Content Include="Views\Shared\_AppletsPartial.cshtml" />
     <Content Include="Views\Shared\_DevicesPartial.cshtml" />
-    <Content Include="Views\UserAdministration\Index.cshtml" />
     <Content Include="Views\Device\Index.cshtml" />
     <Content Include="Views\Certificate\Index.cshtml" />
     <Content Include="Views\Applet\Index.cshtml" />
@@ -348,32 +353,33 @@
     <Content Include="Views\Certificate\CertificateSigningRequest.cshtml" />
     <Content Include="Views\Certificate\SubmitCertificateSigningRequest.cshtml" />
     <Content Include="Views\User\Create.cshtml" />
-    <Content Include="Views\Role\CreateRole.cshtml" />
+    <Content Include="Views\Role\Create.cshtml" />
     <Content Include="Views\Applet\Upload.cshtml" />
     <Content Include="Views\Realm\UpdateRealmSettings.cshtml" />
     <Content Include="Views\Realm\LeaveRealm.cshtml" />
-    <Content Include="Views\Realm\SwitchRealm.cshtml" />
     <Content Include="Views\Realm\Index.cshtml" />
     <Content Include="Views\Realm\JoinRealm.cshtml" />
     <Content Include="Views\Shared\_CurrentRealmPartial.cshtml" />
     <Content Include="Views\Shared\_RolesPartial.cshtml" />
     <Content Include="Views\Role\Index.cshtml" />
     <Content Include="Views\User\Index.cshtml" />
-    <Content Include="Views\Role\Role.cshtml" />
+    <Content Include="Views\Role\ViewRole.cshtml" />
     <Content Include="Views\Concept\Index.cshtml" />
     <Content Include="Views\Shared\_ConceptSearchResultsPartial.cshtml" />
     <Content Include="Views\Concept\ViewConcept.cshtml" />
     <Content Include="Views\Place\Index.cshtml" />
     <Content Include="Views\Concept\Search.cshtml" />
-    <Content Include="Views\Place\Search.cshtml" />
     <Content Include="Views\Shared\_PlaceSearchResultsPartial.cshtml" />
     <Content Include="Views\Place\Create.cshtml" />
     <Content Include="Views\Place\ViewPlace.cshtml" />
     <Content Include="Views\Place\Edit.cshtml" />
+    <Content Include="Views\Device\Create.cshtml" />
+    <Content Include="Views\User\ViewUser.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Policy\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

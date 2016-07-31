@@ -8,7 +8,7 @@
         @Resources.Users
         <div class="pull-right">
             <span>@Resources.New</span>
-            <a href="~/User/CreateUser" class="glyphicon glyphicon-plus-sign"></a>
+            <a href="~/User/Create" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
     <div class="panel panel-body">
@@ -30,19 +30,30 @@
                         <th>
                             @Resources.LockedOut
                         </th>
+                        <th>
+                            Roles
+                        </th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr class="clickable-row" data-href="/UserAdministration/User/@item.UserId">
+                        <tr class="clickable-row" data-href="/User/User/@item.UserId">
                             <td><span class="glyphicon glyphicon-user pull-left" aria-hidden="true"></span></td>
-                            <td>@item.UserId</td>
+                            <td><a href="/User/ViewUser/@item.UserId">@item.UserId</a></td>
                             <td>@item.Username</td>
                             <td>@item.Email</td>
                             <td>@item.IsLockedOut</td>
-                            <td><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></td>
-                        </tr>}
+                            <td>
+                                @if (item.Roles.Count() > 0)
+                                {
+                                    item.Roles.Select(r => r.Name).OrderBy(r => r).Aggregate((a, b) => a + ", " + b);
+                                }
+                        </td>
+
+
+                        <td><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></td>
+                    </tr>}
                 </tbody>
             </table>
         }

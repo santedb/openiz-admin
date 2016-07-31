@@ -27,9 +27,9 @@ namespace OpenIZAdmin.Models
 		{
 		}
 
-		[Required]
-		[StringLength(255)]
-		[Display(Name = "Search")]
+		[Display(Name = "Name", ResourceType = typeof(Localization.Resources))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Resources))]
 		public string SearchTerm { get; set; }
 	}
 }

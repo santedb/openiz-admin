@@ -3,30 +3,22 @@
     ViewBag.Title = "Home";
 }
 
-<div id="home" class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
-
-    <div class="jumbotron">
-        <h1>OpenIZ Administration Portal</h1>
-        <p class="lead">Welcome to the OpenIZ Administration Portal.</p>
-    </div>
-    <div class="col-md-12">
-        @Html.Partial("_AppletsPartial", Model.Applets)
-    </div>
-    <div class="col-md-12">
-        @Html.Partial("_CertificateRequestsPartial", Model.CertificateRequests)
-    </div>
-    <div class="col-md-12">
-        @Html.Partial("_DevicesPartial", Model.Devices)
-    </div>
-    <div class="col-md-12">
-        @Html.Partial("_RolesPartial", Model.Roles)
-    </div>
-    <div class="col-md-12">
-        @Html.Partial("_UserRolesPartial", Model.UserRoles)
-    </div>
-    <div class="col-md-12">
-        @Html.Partial("_UsersPartial", Model.Users)
-    </div>
-
-
+<div class="jumbotron">
+    <h1>OpenIZ Administration Portal</h1>
+    <p class="lead">Welcome to the OpenIZ Administration Portal.</p>
+</div>
+<div class="col-md-12">
+    @Html.Partial("_AppletsPartial", Model.Applets)
+</div>
+<div class="col-md-12">
+    @Html.Partial("_CertificateRequestsPartial", Model.CertificateRequests)
+</div>
+<div class="col-md-12">
+    @Html.Partial("_DevicesPartial", Model.Devices)
+</div>
+<div class="col-md-12">
+    @Html.Partial("_RolesPartial", Model.Roles)
+</div>
+<div class="col-md-12">
+    @Html.Partial("_UsersPartial", Model.Users)
 </div>

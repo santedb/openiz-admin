@@ -24,6 +24,7 @@ using OpenIZAdmin.Extensions;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.UserModels
 {
@@ -31,11 +32,13 @@ namespace OpenIZAdmin.Models.UserModels
 	{
 		public CreateUserModel()
 		{
+			this.RolesList = new List<SelectListItem>();
 		}
 
 		public CreateUserModel(SecurityUserInfo userInfo)
 		{
 			this.Email = userInfo.Email;
+			this.RolesList = new List<SelectListItem>();
 			this.Username = userInfo.UserName;
 		}
 
@@ -59,51 +62,10 @@ namespace OpenIZAdmin.Models.UserModels
 		[Required]
 		public IEnumerable<string> Roles { get; set; }
 
+		public List<SelectListItem> RolesList { get; set; }
+
 		[Required]
 		[StringLength(255)]
 		public string Username { get; set; }
-
-		public SecurityUserInfo ToSecurityUserInfo()
-		{
-			//List<EntityNameComponent> patientNames = new List<EntityNameComponent>();
-			//if (this.GivenNames != null)
-			//{
-			//	patientNames.AddRange(this.GivenNames.Select(x => new OpenIZ.Core.Model.Entities.EntityNameComponent(NameComponentKeys.Given, x)).ToList());
-			//}
-			//if (this.FamilyNames != null)
-			//{
-			//	patientNames.AddRange(this.FamilyNames.Select(x => new OpenIZ.Core.Model.Entities.EntityNameComponent(NameComponentKeys.Family, x)).ToList());
-			//}
-
-			SecurityUserInfo userInfo = new SecurityUserInfo
-			{
-				Email = this.Email,
-				Password = this.Password,
-				User = new SecurityUser
-				{
-					Entities = new List<Person>()
-				},
-				UserName = this.Username
-			};
-
-			//userInfo.User.AddPersonNames(NameUseKeys.Legal, NameComponentKeys.Given, new List<string> { this.FirstName });
-			//userInfo.User.AddPersonNames(NameUseKeys.Legal, NameComponentKeys.Family, new List<string> { this.LastName });
-
-			List<Guid> roleIds = new List<Guid>();
-
-			foreach (var roleId in Roles)
-			{
-				Guid role = Guid.Empty;
-
-				if (Guid.TryParse(roleId, out role))
-				{
-					roleIds.Add(role);
-				}
-			}
-
-			userInfo.User.CreateRoles(roleIds);
-
-			return userInfo;
-		}
 	}
 }

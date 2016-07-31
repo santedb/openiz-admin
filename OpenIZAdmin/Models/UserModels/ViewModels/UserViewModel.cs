@@ -19,8 +19,10 @@
 
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Models.RoleModels.ViewModels;
+using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenIZAdmin.Models.UserModels.ViewModels
 {
@@ -28,14 +30,6 @@ namespace OpenIZAdmin.Models.UserModels.ViewModels
 	{
 		public UserViewModel()
 		{
-		}
-
-		public UserViewModel(SecurityUserInfo userInfo)
-		{
-			this.Email = userInfo.Email;
-			this.IsLockedOut = userInfo.Lockout;
-			this.UserId = userInfo.UserId.Value;
-			this.Username = userInfo.UserName;
 		}
 
 		public string Email { get; set; }

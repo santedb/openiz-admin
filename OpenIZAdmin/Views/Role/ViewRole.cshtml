@@ -1,0 +1,36 @@
+﻿@model OpenIZAdmin.Models.RoleModels.ViewModels.RoleViewModel
+@{
+    ViewBag.Title = "Role View";
+}
+
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        <span>Role</span>
+        <div class="pull-right">
+            <a href="~/Role/Edit">
+                <span class="glyphicon glyphicon-edit"></span>
+                Edit
+            </a>
+        </div>
+    </div>
+    <div class="panel panel-body panel-default">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Html.LabelFor(m => m.Id, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Id, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.LabelFor(m => m.Description, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Description, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

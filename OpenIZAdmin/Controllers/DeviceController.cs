@@ -21,47 +21,105 @@ using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models.DeviceModels.ViewModels;
 using System;
 using System.Collections.Generic;
+using OpenIZAdmin.Services.Http;
+using OpenIZAdmin.Services.Http.Security;
 using System.Threading.Tasks;
+using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Util;
+using System.Diagnostics;
+using OpenIZAdmin.Models.DeviceModels;
 
 namespace OpenIZAdmin.Controllers
 {
 	[TokenAuthorize]
 	public class DeviceController : Controller
 	{
+		/// <summary>
+		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
+		/// </summary>
+		private AmiServiceClient client;
+
+		[HttpGet]
+		public ActionResult Create()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Create(CreateDeviceModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var device = this.client.CreateDevice(DeviceUtil.ToSecurityDevice(model));
+
+					return RedirectToAction("ViewDevice", new { key = device.Key });
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					Trace.TraceError("Unable to create device: {0}", e.StackTrace);
+#endif
+					Trace.TraceError("Unable to create device: {0}", e.Message);
+				}
+
+			}
+
+			TempData["error"] = "Unable to create device";
+			return View(model);
+		}
+
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Device";
+			return View(DeviceUtil.GetAllDevices(this.client));
+		}
 
-			List<DeviceViewModel> viewModels = new List<DeviceViewModel>
-			{
-				new DeviceViewModel(DateTime.Now, "Nexus 5", null),
-				new DeviceViewModel(DateTime.Now, "Nexus 7", null),
-				new DeviceViewModel(new DateTime(DateTime.UtcNow.Year -1, DateTime.UtcNow.Month, DateTime.UtcNow.Day), "Samsung Galaxy 3", DateTime.UtcNow)
-			};
+		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		{
+			var restClient = new RestClientService("AMI");
 
-			return View(viewModels);
+			restClient.Accept = "application/xml";
+			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
+
+			this.client = new AmiServiceClient(restClient);
+
+			base.OnActionExecuting(filterContext);
 		}
 
 		[HttpGet]
-		[ActionName("Search")]
-		public async Task<ActionResult> SearchAsync(string searchTerm)
+		public ActionResult Search(string searchTerm)
 		{
-			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+			IEnumerable<DeviceViewModel> devices = new List<DeviceViewModel>();
+
+			try
 			{
-				List<DeviceViewModel> viewModels = new List<DeviceViewModel>
+				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 				{
-					new DeviceViewModel(DateTime.Now, "Nexus 5", null),
-					new DeviceViewModel(DateTime.Now, "Nexus 7", null)
-				};
 
-				TempData["searchTerm"] = searchTerm;
+					var collection = this.client.GetDevices(d => d.Name.Contains(searchTerm));
 
-				return View("Index", viewModels);
+					TempData["searchTerm"] = searchTerm;
+
+					return PartialView("_DevicesPartial", collection.CollectionItem.Select(d => DeviceUtil.ToDeviceViewModel(d)));
+				}
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Unable to search devices: {0}", e.StackTrace);
+#endif
+				Trace.TraceError("Unable to search devices: {0}", e.Message);
 			}
 
 			TempData["error"] = "Invalid search, please check your search criteria";
-			return View("Index", searchTerm);
+			TempData["searchTerm"] = searchTerm;
+
+			return PartialView("_DevicesPartial", devices);
 		}
 	}
 }

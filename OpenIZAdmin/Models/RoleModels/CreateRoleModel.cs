@@ -28,21 +28,8 @@ namespace OpenIZAdmin.Models.RoleModels
 		{
 		}
 
-		public CreateRoleModel(SecurityRoleInfo roleInfo)
-		{
-			this.Name = roleInfo.Name;
-		}
-
 		[Required]
 		[StringLength(100)]
 		public string Name { get; set; }
-
-		public SecurityRoleInfo ToSecurityRoleInfo()
-		{
-			return new SecurityRoleInfo
-			{
-				Name = this.Name
-			};
-		}
 	}
 }

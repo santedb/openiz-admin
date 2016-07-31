@@ -32,9 +32,9 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr class="clickable-row" data-href="/Role/Role/@item.Id">
+                        <tr class="clickable-row" data-href="/Role/ViewRole/@item.Id">
                             <td><span class="glyphicon glyphicon-user pull-left" aria-hidden="true"></span></td>
-                            <td><a href="/Role/Role/@item.Id">@item.Id</a></td>
+                            <td><a href="/Role/ViewRole/@item.Id">@item.Id</a></td>
                             <td>@item.Name</td>
                             <td>@item.Description</td>
                             <td><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></td>
