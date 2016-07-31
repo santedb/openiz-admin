@@ -17,10 +17,8 @@
  * Date: 2016-7-8
  */
 
-using OpenIZ.Core.Model.Security;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Xml.Linq;
 
 namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 {

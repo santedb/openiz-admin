@@ -17,7 +17,6 @@
  * Date: 2016-7-10
  */
 
-using OpenIZ.Core.Model.AMI.Auth;
 using System;
 
 namespace OpenIZAdmin.Models.RoleModels.ViewModels

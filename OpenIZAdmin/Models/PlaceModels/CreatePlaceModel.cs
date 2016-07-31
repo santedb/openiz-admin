@@ -17,8 +17,6 @@
  * Date: 2016-7-23
  */
 
-using OpenIZ.Core.Model.Constants;
-using OpenIZ.Core.Model.Entities;
 using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.PlaceModels

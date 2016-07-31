@@ -17,12 +17,9 @@
  * Date: 2016-7-8
  */
 
-using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Models.RoleModels.ViewModels;
-using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OpenIZAdmin.Models.UserModels.ViewModels
 {

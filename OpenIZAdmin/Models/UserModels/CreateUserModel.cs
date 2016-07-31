@@ -17,11 +17,6 @@
  * Date: 2016-7-17
  */
 
-using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Entities;
-using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Extensions;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
