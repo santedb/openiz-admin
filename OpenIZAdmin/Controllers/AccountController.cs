@@ -157,6 +157,23 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
+		[HttpGet]
+		public ActionResult Manage()
+		{
+			return View();
+		}
+
+		public ActionResult Manage(ManageModel model)
+		{
+			if (ModelState.IsValid)
+			{
+
+			}
+
+			TempData["error"] = Resources.UnableToUpdateProfile;
+			return View(model);
+		}
+
 		#region Helpers
 
 		private IAuthenticationManager AuthenticationManager

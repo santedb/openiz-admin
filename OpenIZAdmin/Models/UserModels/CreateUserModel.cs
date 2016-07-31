@@ -35,37 +35,35 @@ namespace OpenIZAdmin.Models.UserModels
 			this.RolesList = new List<SelectListItem>();
 		}
 
-		public CreateUserModel(SecurityUserInfo userInfo)
-		{
-			this.Email = userInfo.Email;
-			this.RolesList = new List<SelectListItem>();
-			this.Username = userInfo.UserName;
-		}
-
-		[Required]
-		[EmailAddress]
-		[DataType(DataType.EmailAddress)]
+		[Display(Name = "Email", ResourceType = typeof(Localization.Resources))]
+		[Required(ErrorMessageResourceName = "EmailRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[EmailAddress(ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Localization.Resources))]
 		public string Email { get; set; }
 
-		[Required]
-		[StringLength(255)]
+		[Display(Name = "FirstName", ResourceType = typeof(Localization.Resources))]
+		[Required(ErrorMessageResourceName = "FirstNameRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[StringLength(255, ErrorMessageResourceName = "FirstNameTooLong", ErrorMessageResourceType = typeof(Localization.Resources))]
 		public string FirstName { get; set; }
 
-		[Required]
-		[StringLength(255)]
+		[Display(Name = "LastName", ResourceType = typeof(Localization.Resources))]
+		[Required(ErrorMessageResourceName = "LastNameRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[StringLength(255, ErrorMessageResourceName = "LastNameTooLong", ErrorMessageResourceType = typeof(Localization.Resources))]
 		public string LastName { get; set; }
 
-		[Required]
 		[DataType(DataType.Password)]
+		[Display(Name = "Password", ResourceType = typeof(Localization.Resources))]
+		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
 		public string Password { get; set; }
 
-		[Required]
+		[Display(Name = "Roles", ResourceType = typeof(Localization.Resources))]
+		[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
 		public IEnumerable<string> Roles { get; set; }
 
 		public List<SelectListItem> RolesList { get; set; }
 
-		[Required]
-		[StringLength(255)]
+		[Display(Name = "Username", ResourceType = typeof(Localization.Resources))]
+		[Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[StringLength(255, ErrorMessageResourceName = "UsernameTooLong", ErrorMessageResourceType = typeof(Localization.Resources))]
 		public string Username { get; set; }
 	}
 }

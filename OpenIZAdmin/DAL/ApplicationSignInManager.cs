@@ -154,16 +154,24 @@ namespace OpenIZAdmin.DAL
 
 			if (user == null)
 			{
-				string email = securityToken.Claims.First(c => c.Type == "email").Value;
-				int mailto = email.LastIndexOf("mailto:");
-				email = email.Substring(7, email.Length - 7);
-
 				user = new ApplicationUser
 				{
 					Id = securityToken.Claims.First(c => c.Type == "sub").Value,
-					Email = email,
 					UserName = securityToken.Claims.First(c => c.Type == "unique_name").Value
 				};
+
+				string email = securityToken.Claims.FirstOrDefault(c => c.Type == "email")?.Value;
+
+				if (email != null)
+				{
+					if (email.StartsWith("mailto:"))
+					{
+						int mailto = email.LastIndexOf("mailto:");
+						email = email.Substring(7, email.Length - 7);
+					}
+
+					user.Email = email;
+				}
 
 				foreach (var claim in securityToken.Claims)
 				{

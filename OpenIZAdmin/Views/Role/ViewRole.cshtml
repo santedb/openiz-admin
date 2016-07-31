@@ -1,15 +1,15 @@
 ﻿@model OpenIZAdmin.Models.RoleModels.ViewModels.RoleViewModel
 @{
-    ViewBag.Title = "Role View";
+    ViewBag.Title = Resources.RoleView;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        <span>Role</span>
+        <span>@Resources.Role</span>
         <div class="pull-right">
             <a href="~/Role/Edit">
                 <span class="glyphicon glyphicon-edit"></span>
-                Edit
+                @Resources.Edit
             </a>
         </div>
     </div>

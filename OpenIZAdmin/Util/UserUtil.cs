@@ -89,19 +89,9 @@ namespace OpenIZAdmin.Util
 				}
 			});
 
-			List<Guid> roleIds = new List<Guid>();
+			userInfo.Roles = new List<SecurityRoleInfo>();
 
-			foreach (var roleId in model.Roles)
-			{
-				Guid role = Guid.Empty;
-
-				if (Guid.TryParse(roleId, out role))
-				{
-					roleIds.Add(role);
-				}
-			}
-
-			userInfo.User.CreateRoles(roleIds);
+			userInfo.Roles.AddRange(model.Roles.Select(r => new SecurityRoleInfo { Name = r }));
 
 			return userInfo;
 		}

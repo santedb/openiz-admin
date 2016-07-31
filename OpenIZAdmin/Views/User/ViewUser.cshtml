@@ -1,35 +1,33 @@
 ﻿@model OpenIZAdmin.Models.UserModels.ViewModels.UserViewModel
 @{
-    ViewBag.Title = "User View";
+    ViewBag.Title = Resources.UserView;
 }
 
-<div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
-    <div class="panel panel-default">
-        <div class="panel panel-heading">
-            <span>User</span>
-            <div class="pull-right">
-                <a href="~/User/Edit">
-                    <span class="glyphicon glyphicon-edit"></span>
-                    Edit
-                </a>
-            </div>
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        <span>@Resources.User</span>
+        <div class="pull-right">
+            <a href="~/User/Edit">
+                <span class="glyphicon glyphicon-edit"></span>
+                @Resources.Edit
+            </a>
         </div>
-        <div class="panel panel-body panel-default">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <div class="col-md-4">
-                            @Html.LabelFor(m => m.UserId, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.UserId, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                        <div class="col-md-4">
-                            @Html.LabelFor(m => m.Username, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                        <div class="col-md-4">
-                            @Html.LabelFor(m => m.Email, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
+    </div>
+    <div class="panel panel-body panel-default">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Html.LabelFor(m => m.UserId, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.UserId, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.LabelFor(m => m.Username, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>
             </div>

@@ -63,7 +63,7 @@ namespace OpenIZAdmin.Controllers
 			CreateUserModel model = new CreateUserModel();
 			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
 
-			model.RolesList.AddRange(RoleUtil.GetAllRoles(this.client).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }));
+			model.RolesList.AddRange(RoleUtil.GetAllRoles(this.client).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
 
 			return View(model);
 		}

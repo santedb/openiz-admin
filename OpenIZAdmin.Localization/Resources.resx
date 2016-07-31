@@ -357,4 +357,73 @@
   <data name="GenericErrorMessage" xml:space="preserve">
     <value>An error occurred while processing your request</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="UnableToUpdateDevice" xml:space="preserve">
+    <value>Unable to update device</value>
+  </data>
+  <data name="UnableToUpdatePlace" xml:space="preserve">
+    <value>Unable to update place</value>
+  </data>
+  <data name="UnableToUpdateProfile" xml:space="preserve">
+    <value>Unable to update profile</value>
+  </data>
+  <data name="UnableToUpdateUser" xml:space="preserve">
+    <value>Unable to update user</value>
+  </data>
+  <data name="UpdateToUpdateRole" xml:space="preserve">
+    <value>Unable to update role</value>
+  </data>
+  <data name="UserView" xml:space="preserve">
+    <value>User View</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>First name</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Last name</value>
+  </data>
+  <data name="FirstNameRequired" xml:space="preserve">
+    <value>The first name field is required</value>
+  </data>
+  <data name="FirstNameTooLong" xml:space="preserve">
+    <value>The first name field must not exceed 255 characters</value>
+  </data>
+  <data name="LastNameRequired" xml:space="preserve">
+    <value>The last name field is required</value>
+  </data>
+  <data name="LastNameTooLong" xml:space="preserve">
+    <value>The last name field must not exceed 255 characters</value>
+  </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>The email field is required</value>
+  </data>
+  <data name="InvalidEmailAddress" xml:space="preserve">
+    <value>Please enter a valid email address</value>
+  </data>
+  <data name="CreateDevice" xml:space="preserve">
+    <value>Create Device</value>
+  </data>
+  <data name="CreatePlace" xml:space="preserve">
+    <value>Create Place</value>
+  </data>
+  <data name="CreateRole" xml:space="preserve">
+    <value>Create Role</value>
+  </data>
+  <data name="CreateUser" xml:space="preserve">
+    <value>Create User</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="RoleView" xml:space="preserve">
+    <value>Role View</value>
+  </data>
+  <data name="RolesRequired" xml:space="preserve">
+    <value>Please select a role</value>
+  </data>
 </root>

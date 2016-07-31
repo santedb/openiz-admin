@@ -351,4 +351,73 @@
   <data name="GenericErrorMessage" xml:space="preserve">
     <value>Ni kosa ilitokea wakati usindikaji ombi lako</value>
   </data>
+  <data name="Edit" xml:space="preserve">
+    <value>Hariri</value>
+  </data>
+  <data name="User" xml:space="preserve">
+    <value>Mtumiaji</value>
+  </data>
+  <data name="UnableToUpdateDevice" xml:space="preserve">
+    <value>Haikuweza kusasisha kifaa</value>
+  </data>
+  <data name="UnableToUpdatePlace" xml:space="preserve">
+    <value>Haikuweza kusasisha mahali</value>
+  </data>
+  <data name="UnableToUpdateProfile" xml:space="preserve">
+    <value>Haikuweza kusasisha maelezo mafupi</value>
+  </data>
+  <data name="UnableToUpdateRole" xml:space="preserve">
+    <value>Haikuweza kusasisha jukumu</value>
+  </data>
+  <data name="UnableToUpdateUser" xml:space="preserve">
+    <value>Haikuweza kusasisha mtumiaji</value>
+  </data>
+  <data name="UserView" xml:space="preserve">
+    <value>Mtazami Mtumiaji</value>
+  </data>
+  <data name="FirstName" xml:space="preserve">
+    <value>Jina la kwanza</value>
+  </data>
+  <data name="LastName" xml:space="preserve">
+    <value>Jina la familia</value>
+  </data>
+  <data name="FirstNameRequired" xml:space="preserve">
+    <value>Jina la kwanza uwanja ni inahitajika</value>
+  </data>
+  <data name="FirstNameTooLong" xml:space="preserve">
+    <value>Jina la kwanza uwanja lazima kisichozidi 255 wahusika</value>
+  </data>
+  <data name="LastNameRequired" xml:space="preserve">
+    <value>Jina la mwisho uwanja ni inahitajika</value>
+  </data>
+  <data name="LastNameTooLong" xml:space="preserve">
+    <value>Jina uwanja wa mwisho lazima kisichozidi 255 wahusika</value>
+  </data>
+  <data name="EmailRequired" xml:space="preserve">
+    <value>Uwanja email anahitajika</value>
+  </data>
+  <data name="InvalidEmailAddress" xml:space="preserve">
+    <value>Tafadhali kuingia halali ya barua pepe</value>
+  </data>
+  <data name="CreateDevice" xml:space="preserve">
+    <value>Kujenga Kifaa</value>
+  </data>
+  <data name="CreatePlace" xml:space="preserve">
+    <value>Kujenga Mahali</value>
+  </data>
+  <data name="CreateRole" xml:space="preserve">
+    <value>Kujenga Jukumu</value>
+  </data>
+  <data name="CreateUser" xml:space="preserve">
+    <value>Kujenga Mtumiaji</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Jukumu</value>
+  </data>
+  <data name="RoleView" xml:space="preserve">
+    <value>Mtazamo Jukumu</value>
+  </data>
+  <data name="RolesRequired" xml:space="preserve">
+    <value>Tafadhali kuchagua jukumu</value>
+  </data>
 </root>
