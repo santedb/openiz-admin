@@ -191,7 +191,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (result.CollectionItem.Count == 0)
 				{
-					TempData["error"] = Localization.Resources.RoleNotFound;
+					TempData["error"] = Localization.Locale.RoleNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -199,7 +199,7 @@ namespace OpenIZAdmin.Controllers
 				return View(RoleUtil.ToRoleViewModel(result.CollectionItem.Single()));
 			}
 
-			TempData["error"] = Localization.Resources.RoleNotFound;
+			TempData["error"] = Localization.Locale.RoleNotFound;
 
 			return RedirectToAction("Index");
 		}

@@ -229,7 +229,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (result.CollectionItem.Count == 0)
 				{
-					TempData["error"] = Localization.Resources.UserNotFound;
+					TempData["error"] = Localization.Locale.UserNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -237,7 +237,7 @@ namespace OpenIZAdmin.Controllers
 				return View(UserUtil.ToUserViewModel(result.CollectionItem.Single()));
 			}
 
-			TempData["error"] = Localization.Resources.UserNotFound;
+			TempData["error"] = Localization.Locale.UserNotFound;
 
 			return RedirectToAction("Index");
 		}

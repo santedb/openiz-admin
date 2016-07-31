@@ -31,7 +31,7 @@ namespace OpenIZAdmin.Models.PlaceModels.ViewModels
 		{
 		}
 
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Resources))]
+		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime CreationTime { get; set; }
 
 		public List<DetailedPlaceViewModel> Details { get; set; }

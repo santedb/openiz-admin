@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.RoleModels.CreateRoleModel
 @{
-    ViewBag.Title = "Create Role";
+    ViewBag.Title = Locale.CreateRole;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        Create Role
+        @Locale.CreateRole
     </div>
     <div class="panel panel-body panel-default">
         @using (Html.BeginForm("Create", "Role", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -22,7 +22,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Create Role" class="btn btn-default" />
+                    <input type="submit" value="@Locale.Submit" class="btn btn-default" />
                 </div>
             </div>}
     </div>

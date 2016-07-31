@@ -32,22 +32,22 @@ namespace OpenIZAdmin.Models.PolicyModels
 			this.GrantsList = new List<SelectListItem>();
 		}
 
-		[Display(Name = "CanOverride", ResourceType = typeof(Localization.Resources))]
+		[Display(Name = "CanOverride", ResourceType = typeof(Localization.Locale))]
 		public bool CanOverride { get; set; }
 
-		[Display(Name = "Grants", ResourceType = typeof(Localization.Resources))]
-		[Required(ErrorMessageResourceName = "GrantsRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[Display(Name = "Grants", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "GrantsRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public int Grant { get; set; }
 
 		public List<SelectListItem> GrantsList { get; set; }
 
-		[Display(Name = "Name", ResourceType = typeof(Localization.Resources))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
-		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
-		[Display(Name = "Oid", ResourceType = typeof(Localization.Resources))]
-		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Oid { get; set; }
 	}
 }

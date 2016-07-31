@@ -61,10 +61,10 @@ namespace OpenIZAdmin.Controllers
 		{
 			CreatePolicyModel model = new CreatePolicyModel();
 
-			model.GrantsList.Add(new SelectListItem { Text = Resources.Select, Value = "" });
-			model.GrantsList.Add(new SelectListItem { Text = Resources.Deny, Value = "0" });
-			model.GrantsList.Add(new SelectListItem { Text = Resources.Elevate, Value = "1" });
-			model.GrantsList.Add(new SelectListItem { Text = Resources.Grant, Value = "2" });
+			model.GrantsList.Add(new SelectListItem { Text = Locale.Select, Value = "" });
+			model.GrantsList.Add(new SelectListItem { Text = Locale.Deny, Value = "0" });
+			model.GrantsList.Add(new SelectListItem { Text = Locale.Elevate, Value = "1" });
+			model.GrantsList.Add(new SelectListItem { Text = Locale.Grant, Value = "2" });
 
 			return View(model);
 		}
@@ -211,7 +211,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (result.CollectionItem.Count == 0)
 				{
-					TempData["error"] = Localization.Resources.PolicyNotFound;
+					TempData["error"] = Localization.Locale.PolicyNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -219,7 +219,7 @@ namespace OpenIZAdmin.Controllers
 				return View(PolicyUtil.ToPolicyViewModel(result.CollectionItem.Single()));
 			}
 
-			TempData["error"] = Localization.Resources.PolicyNotFound;
+			TempData["error"] = Localization.Locale.PolicyNotFound;
 
 			return RedirectToAction("Index");
 		}

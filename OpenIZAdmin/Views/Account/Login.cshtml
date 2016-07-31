@@ -5,7 +5,7 @@
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Resources.Login
+        @Locale.Login
     </div>
     <div class="panel panel-body panel-default">
         @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -28,7 +28,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="@Resources.Login" class="btn btn-default" />
+                        <input type="submit" value="@Locale.Login" class="btn btn-default" />
                     </div>
                 </div>
         }

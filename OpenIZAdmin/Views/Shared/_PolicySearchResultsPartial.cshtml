@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel>
 @{
-    ViewBag.Title = Resources.PolicySearchResults;
+    ViewBag.Title = Locale.PolicySearchResults;
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">
-            <span>@Resources.SearchResults</span>
+            <span>@Locale.SearchResults</span>
         </h3>
     </div>
     <div class="panel panel-body">
@@ -32,7 +32,7 @@
                             <td>@item.CanOverride</td>
                             <td>
                                 <a class="btn btn-primary" href="/Policy/ViewPolicy?key=@item.Key">
-                                    @Resources.View
+                                    @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
                             </td>
@@ -43,7 +43,7 @@
         }
         else
         {
-            <p>@Resources.NoPoliciesFound</p>
+            <p>@Locale.NoPoliciesFound</p>
         }
 
     </div>

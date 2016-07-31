@@ -22,14 +22,14 @@ namespace OpenIZAdmin.Localization {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class Resources {
+    public class Locale {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal Locale() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace OpenIZAdmin.Localization {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("OpenIZAdmin.Localization.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("OpenIZAdmin.Localization.Locale", typeof(Locale).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -66,6 +66,24 @@ namespace OpenIZAdmin.Localization {
         public static string Address {
             get {
                 return ResourceManager.GetString("Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Administrative contact email.
+        /// </summary>
+        public static string AdministrativeContactEmail {
+            get {
+                return ResourceManager.GetString("AdministrativeContactEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Administrative contact name.
+        /// </summary>
+        public static string AdministrativeContactName {
+            get {
+                return ResourceManager.GetString("AdministrativeContactName", resourceCulture);
             }
         }
         
@@ -147,6 +165,15 @@ namespace OpenIZAdmin.Localization {
         public static string ChangeLanguage {
             get {
                 return ResourceManager.GetString("ChangeLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Change Password.
+        /// </summary>
+        public static string ChangePassword {
+            get {
+                return ResourceManager.GetString("ChangePassword", resourceCulture);
             }
         }
         
@@ -304,11 +331,29 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Device not found.
+        /// </summary>
+        public static string DeviceNotFound {
+            get {
+                return ResourceManager.GetString("DeviceNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Devices.
         /// </summary>
         public static string Devices {
             get {
                 return ResourceManager.GetString("Devices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Distinguished name.
+        /// </summary>
+        public static string DistinguishedName {
+            get {
+                return ResourceManager.GetString("DistinguishedName", resourceCulture);
             }
         }
         
@@ -939,6 +984,15 @@ namespace OpenIZAdmin.Localization {
         public static string Select {
             get {
                 return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submission Time.
+        /// </summary>
+        public static string SubmissionTime {
+            get {
+                return ResourceManager.GetString("SubmissionTime", resourceCulture);
             }
         }
         

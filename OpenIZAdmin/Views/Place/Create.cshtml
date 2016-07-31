@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.PlaceModels.CreatePlaceModel
 @{
-    ViewBag.Title = Resources.CreatePlace;
+    ViewBag.Title = Locale.CreatePlace;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Resources.CreatePlace
+        @Locale.CreatePlace
     </div>
     <div class="panel panel-body panel-default">
         @using (Html.BeginForm("Create", "Place", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="@Resources.Submit" class="btn btn-default" />
+                        <input type="submit" value="@Locale.Submit" class="btn btn-default" />
                     </div>
                 </div>}
     </div>

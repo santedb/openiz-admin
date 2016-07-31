@@ -1,6 +1,6 @@
 ﻿@model OpenIZAdmin.Models.SearchModel
 @{
-    ViewBag.Title = Resources.Search;
+    ViewBag.Title = Locale.Search;
     Model.SearchTerm = TempData["searchTerm"]?.ToString();
     string searchType = TempData["searchType"]?.ToString();
 
@@ -14,9 +14,9 @@
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Resources.Search
+        @Locale.Search
         <div class="pull-right">
-            <span>@Resources.New</span>
+            <span>@Locale.New</span>
             <a href="~/@searchType/Create" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
@@ -37,9 +37,9 @@
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <button type="button" class="btn btn-warning" id="reset">
-                            <span class="glyphicon glyphicon-refresh"></span>@Resources.Reset
+                            <span class="glyphicon glyphicon-refresh"></span>@Locale.Reset
                         </button>
-                        <input type="submit" value="@Resources.Search" class="btn btn-default" />
+                        <input type="submit" value="@Locale.Search" class="btn btn-default" />
                     </div>
                 </div>}
     </div>

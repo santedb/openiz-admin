@@ -16,6 +16,7 @@
  * User: Nityan
  * Date: 2016-7-30
  */
+using OpenIZ.Core.Model.AMI.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
 using System;
@@ -35,9 +36,9 @@ namespace OpenIZAdmin.Util
 			try
 			{
 				// HACK
-				var devices = client.GetCertificateSigningRequests(c => c.DistinguishedName != null);
+				var certificateSigningRequests = client.GetCertificateSigningRequests(c => c.DistinguishedName != null);
 
-				viewModels = devices.CollectionItem.Select(d => new CertificateSigningRequestViewModel(d));
+				viewModels = certificateSigningRequests.CollectionItem.Select(c => CertificateUtil.ToCertificateSigningRequestViewModel(c));
 			}
 			catch (Exception e)
 			{
@@ -48,6 +49,18 @@ namespace OpenIZAdmin.Util
 			}
 
 			return viewModels;
+		}
+
+		public static CertificateSigningRequestViewModel ToCertificateSigningRequestViewModel(SubmissionInfo submissionInfo)
+		{
+			CertificateSigningRequestViewModel viewModel = new CertificateSigningRequestViewModel();
+
+			viewModel.AdministrativeContactEmail = submissionInfo.EMail;
+			viewModel.AdministrativeContactName = submissionInfo.AdminContact;
+			viewModel.DistinguishedName = submissionInfo.DistinguishedName;
+			viewModel.SubmissionTime = Convert.ToDateTime(submissionInfo.SubmittedWhen);
+
+			return viewModel;
 		}
 	}
 }

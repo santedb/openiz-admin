@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<OpenIZAdmin.Models.RoleModels.ViewModels.RoleViewModel>
 @{
-    ViewBag.Title = Resources.Roles;
+    ViewBag.Title = Locale.Roles;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Resources.Roles
+        @Locale.Roles
         <div class="pull-right">
-            <span>@Resources.New</span>
+            <span>@Locale.New</span>
             <a href="~/Role/Create" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
@@ -19,13 +19,13 @@
                     <tr>
                         <th></th>
                         <th>
-                            @Resources.RoleId
+                            @Html.DisplayNameFor(m => m.Id)
                         </th>
                         <th>
-                            @Resources.Name
+                            @Html.DisplayNameFor(m => m.Name)
                         </th>
                         <th>
-                            @Resources.Description
+                            @Html.DisplayNameFor(m => m.Description)
                         </th>
                     </tr>
                 </thead>
@@ -44,7 +44,7 @@
         }
         else
         {
-            <p>@Resources.NoRolesAdded</p>
+            <p>@Locale.NoRolesAdded</p>
         }
 
 

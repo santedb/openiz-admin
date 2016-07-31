@@ -19,6 +19,7 @@
 
 using OpenIZ.Core.Model.AMI.Security;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.CertificateModels.ViewModels
 {
@@ -35,36 +36,27 @@ namespace OpenIZAdmin.Models.CertificateModels.ViewModels
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenIZAdmin.Models.CertificateModels.ViewModels.CertificateSigningRequestViewModel"/> class
-		/// with a specified <see cref="OpenIZ.Core.Model.AMI.Security.SubmissionInfo"/> instance.
-		/// </summary>
-		/// <param name="submissionInfo">The submission information about the certificate signing request submission.</param>
-		public CertificateSigningRequestViewModel(SubmissionInfo submissionInfo)
-		{
-			this.AdministrativeContactEmail = submissionInfo.EMail;
-			this.AdministrativeContactName = submissionInfo.AdminContact;
-			this.DistinguishedName = submissionInfo.DistinguishedName;
-			this.SubmissionTime = Convert.ToDateTime(submissionInfo.SubmittedWhen);
-		}
-
-		/// <summary>
 		/// Gets or sets the administrative contact email of the signing request.
 		/// </summary>
+		[Display(Name = "AdministrativeContactEmail", ResourceType = typeof(Localization.Locale))]
 		public string AdministrativeContactEmail { get; set; }
 
 		/// <summary>
 		/// Gets or sets the administrative contact name of the signing request.
 		/// </summary>
+		[Display(Name = "AdministrativeContactName", ResourceType = typeof(Localization.Locale))]
 		public string AdministrativeContactName { get; set; }
 
 		/// <summary>
 		/// Gets or sets the distinguished name of the signing request.
 		/// </summary>
+		[Display(Name = "DistinguishedName", ResourceType = typeof(Localization.Locale))]
 		public string DistinguishedName { get; set; }
 
 		/// <summary>
 		/// Gets or sets the submission time of the signing request.
 		/// </summary>
+		[Display(Name = "SubmissionTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime SubmissionTime { get; set; }
 	}
 }

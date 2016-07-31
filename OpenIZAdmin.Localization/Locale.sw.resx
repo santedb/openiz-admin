@@ -474,4 +474,16 @@
   <data name="DeviceNotFound" xml:space="preserve">
     <value>Kifaa hakuonekana</value>
   </data>
+  <data name="AdministrativeContactEmail" xml:space="preserve">
+    <value>Utawala kuwasiliana pepe</value>
+  </data>
+  <data name="AdministrativeContactName" xml:space="preserve">
+    <value>Utawala jina kuwasiliana</value>
+  </data>
+  <data name="DistinguishedName" xml:space="preserve">
+    <value>Jina wanajulikana</value>
+  </data>
+  <data name="SubmissionTime" xml:space="preserve">
+    <value>Kuwasilisha wakati</value>
+  </data>
 </root>

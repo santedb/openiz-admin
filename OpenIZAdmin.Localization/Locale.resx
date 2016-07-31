@@ -480,4 +480,19 @@
   <data name="DeviceNotFound" xml:space="preserve">
     <value>Device not found</value>
   </data>
+  <data name="ChangePassword" xml:space="preserve">
+    <value>Change Password</value>
+  </data>
+  <data name="AdministrativeContactEmail" xml:space="preserve">
+    <value>Administrative contact email</value>
+  </data>
+  <data name="AdministrativeContactName" xml:space="preserve">
+    <value>Administrative contact name</value>
+  </data>
+  <data name="DistinguishedName" xml:space="preserve">
+    <value>Distinguished name</value>
+  </data>
+  <data name="SubmissionTime" xml:space="preserve">
+    <value>Submission Time</value>
+  </data>
 </root>

@@ -1,15 +1,15 @@
 ﻿@model OpenIZAdmin.Models.PlaceModels.ViewModels.PlaceViewModel
 @{
-    ViewBag.Title = Resources.Place;
+    ViewBag.Title = Locale.Place;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        <span>@Resources.Place</span>
+        <span>@Locale.Place</span>
         <div class="pull-right">
-            <a href="~/User/Edit">
+            <a href="~/Place/Edit">
                 <span class="glyphicon glyphicon-edit"></span>
-                @Resources.Edit
+                @Locale.Edit
             </a>
         </div>
     </div>
@@ -67,7 +67,7 @@
                 </table>}
             else
             {
-                <p>@Resources.NoAdditionalDetails</p>}
+                <p>@Locale.NoAdditionalDetails</p>}
 
         </div>
     </div>

@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<OpenIZAdmin.Models.CertificateModels.ViewModels.CertificateSigningRequestViewModel>
 @{
-    ViewBag.Title = Resources.CertificateRequests;
+    ViewBag.Title = Locale.CertificateRequests;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Resources.CertificateRequests
+        @Locale.CertificateRequests
         <div class="pull-right">
-            <span>@Resources.New</span>
+            <span>@Locale.New</span>
             <a href="~/Certificate/SubmitCertificateSigningRequest" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
@@ -19,14 +19,18 @@
                     <tr>
                         <th></th>
                         <th>
-                            @Resources.CertificateSigningRequestId
+                            @Html.DisplayNameFor(m => m.AdministrativeContactName)
                         </th>
                         <th>
-                            @Resources.CommonName
+                            @Html.DisplayNameFor(m => m.AdministrativeContactEmail)
                         </th>
                         <th>
-                            @Resources.DateRequested
+                            @Html.DisplayNameFor(m => m.DistinguishedName)
                         </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.SubmissionTime)
+                        </th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,7 +39,7 @@
                         <tr class="clickable-row" data-href="#">
                             <td><span class="glyphicon glyphicon-lock pull-left" aria-hidden="true"></span></td>
                             <td>@item.AdministrativeContactName</td>
-                            <td>@item.AdministrativeContactName</td>
+                            <td>@item.AdministrativeContactEmail</td>
                             <td>@item.DistinguishedName</td>
                             <td>@item.SubmissionTime.ToLocalTime()</td>
                             <td><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></td>
@@ -45,7 +49,7 @@
         }
         else
         {
-            <p>@Resources.NoNewCertificateSigningRequestsSubmitted</p>
+            <p>@Locale.NoNewCertificateSigningRequestsSubmitted</p>
         }
 
     </div>

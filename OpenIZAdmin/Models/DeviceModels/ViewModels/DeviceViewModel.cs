@@ -30,10 +30,10 @@ namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 		{
 		}
 
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Resources))]
+		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime CreationTime { get; set; }
 
-		[Display(Name = "Name", ResourceType = typeof(Localization.Resources))]
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
 		public DateTime? UpdatedTime { get; set; }

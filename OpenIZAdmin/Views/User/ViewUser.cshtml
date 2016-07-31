@@ -1,15 +1,15 @@
 ﻿@model OpenIZAdmin.Models.UserModels.ViewModels.UserViewModel
 @{
-    ViewBag.Title = Resources.UserView;
+    ViewBag.Title = Locale.UserView;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        <span>@Resources.User</span>
+        <span>@Locale.User</span>
         <div class="pull-right">
             <a href="~/User/Edit">
                 <span class="glyphicon glyphicon-edit"></span>
-                @Resources.Edit
+                @Locale.Edit
             </a>
         </div>
     </div>
@@ -18,15 +18,19 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="col-md-4">
-                        @Html.LabelFor(m => m.UserId, new { @class = "control-label" })
+                        <label class="control-label">@Html.DisplayNameFor(m => m.UserId)</label>
                         @Html.TextBoxFor(m => m.UserId, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                     <div class="col-md-4">
-                        @Html.LabelFor(m => m.Username, new { @class = "control-label" })
+                        <label class="control-label">
+                            @Html.DisplayNameFor(m => m.Username)
+                        </label>
                         @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                     <div class="col-md-4">
-                        @Html.LabelFor(m => m.Email, new { @class = "control-label" })
+                        <label class="control-label">
+                            @Html.DisplayNameFor(m => m.Email)
+                        </label>
                         @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>

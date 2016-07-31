@@ -41,28 +41,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources.Designer.cs">
+    <Compile Include="Locale.sw.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
+      <DependentUpon>Locale.sw.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources.sw.Designer.cs">
+    <Compile Include="Locale.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.sw.resx</DependentUpon>
+      <DependentUpon>Locale.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenIZAdmin.Localization.licenseheader" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources.resx">
+    <EmbeddedResource Include="Locale.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources1.Designer.cs</LastGenOutput>
+      <LastGenOutput>Locale.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources.sw.resx">
+    <EmbeddedResource Include="Locale.sw.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.sw.Designer.cs</LastGenOutput>
+      <LastGenOutput>Locale.sw.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

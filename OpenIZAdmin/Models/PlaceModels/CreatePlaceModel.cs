@@ -29,15 +29,15 @@ namespace OpenIZAdmin.Models.PlaceModels
 		{
 		}
 
-		[Display(Name = "Latitude", ResourceType = typeof(Localization.Resources))]
+		[Display(Name = "Latitude", ResourceType = typeof(Localization.Locale))]
 		public double? Latitude { get; set; }
 
-		[Display(Name = "Longitude", ResourceType = typeof(Localization.Resources))]
+		[Display(Name = "Longitude", ResourceType = typeof(Localization.Locale))]
 		public double? Longitude { get; set; }
 
-		[Display(Name = "Name", ResourceType = typeof(Localization.Resources))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
-		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 	}
 }

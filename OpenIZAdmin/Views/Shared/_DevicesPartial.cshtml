@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<OpenIZAdmin.Models.DeviceModels.ViewModels.DeviceViewModel>
 @{
-    ViewBag.Title = "Devices";
+    ViewBag.Title = Locale.Devices;
 }
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Resources.Devices
+        @Locale.Devices
         <div class="pull-right">
-            <span>@Resources.New</span>
+            <span>@Locale.New</span>
             <a href="~/Device/Create" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
@@ -18,13 +18,13 @@
                     <tr>
                         <th></th>
                         <th>
-                            @Resources.CreationTime
+                            @Locale.CreationTime
                         </th>
                         <th>
-                            @Resources.Name
+                            @Locale.Name
                         </th>
                         <th>
-                            @Resources.UpdatedTime
+                            @Locale.UpdatedTime
                         </th>
                     </tr>
                 </thead>
@@ -43,7 +43,7 @@
         }
         else
         {
-            <p>@Resources.NoDevicesAdded</p>
+            <p>@Locale.NoDevicesAdded</p>
         }
 
 

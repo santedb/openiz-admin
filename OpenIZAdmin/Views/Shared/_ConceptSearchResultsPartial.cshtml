@@ -1,12 +1,12 @@
 ﻿@model IEnumerable<OpenIZAdmin.Models.ConceptModels.ViewModels.ConceptSearchResultViewModel>
 @{
-    ViewBag.Title = Resources.ConceptSearchResults;
+    ViewBag.Title = Locale.ConceptSearchResults;
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
         <h3 class="panel-title">
-            <span>@Resources.SearchResults</span>
+            <span>@Locale.SearchResults</span>
         </h3>
     </div>
     <div class="panel panel-body">
@@ -33,14 +33,14 @@
                                     @if (item.ConceptSearchType == OpenIZAdmin.Models.ConceptModels.ConceptSearchType.Concept)
                                     {
                                         <a class="btn btn-primary text-white" href="/Concept/ViewConcept?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
-                                            View
+                                            @Locale.View
                                             <span class="glyphicon glyphicon-eye-open"></span>
                                         </a>
 }
                                     else if (item.ConceptSearchType == OpenIZAdmin.Models.ConceptModels.ConceptSearchType.ConceptSet)
                                     {
                                         <a class="btn btn-primary" href="/Concept/ViewConceptSet?key=@item.Key">
-                                            View
+                                            @Locale.View
                                             <span class="glyphicon glyphicon-eye-open"></span>
                                         </a>
 }
@@ -53,7 +53,7 @@
         }
         else
         {
-            <p>@Resources.NoConceptsFound</p>
+            <p>@Locale.NoConceptsFound</p>
         }
 
     </div>

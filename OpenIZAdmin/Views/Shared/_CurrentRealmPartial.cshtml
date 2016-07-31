@@ -1,19 +1,19 @@
 ﻿@model OpenIZAdmin.Models.RealmModels.ViewModels.RealmViewModel
 @{
-    ViewBag.Title = Resources.CurrentRealm;
+    ViewBag.Title = Locale.CurrentRealm;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        <span>@Resources.CurrentRealm</span>
+        <span>@Locale.CurrentRealm</span>
         <div class="pull-right">
             <a href="~/Realm/JoinRealm">
                 <span class="glyphicon glyphicon-plus-sign"></span>
-                @Resources.JoinNewRealm
+                @Locale.JoinNewRealm
             </a>
             <a href="~/Realm/LeaveRealm">
                 <span class="glyphicon glyphicon-export"></span>
-                @Resources.LeaveRealm
+                @Locale.LeaveRealm
             </a>
         </div>
     </div>

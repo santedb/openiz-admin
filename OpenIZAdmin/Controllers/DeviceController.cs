@@ -133,7 +133,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (result.CollectionItem.Count == 0)
 				{
-					TempData["error"] = Localization.Resources.Devices;
+					TempData["error"] = Localization.Locale.DeviceNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -141,7 +141,7 @@ namespace OpenIZAdmin.Controllers
 				return View(DeviceUtil.ToDeviceViewModel(result.CollectionItem.Single()));
 			}
 
-			TempData["error"] = Localization.Resources.Devices;
+			TempData["error"] = Localization.Locale.DeviceNotFound;
 
 			return RedirectToAction("Index");
 		}

@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<OpenIZAdmin.Models.UserModels.ViewModels.UserViewModel>
 @{
-    ViewBag.Title = Resources.Users;
+    ViewBag.Title = Locale.Users;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Resources.Users
+        @Locale.Users
         <div class="pull-right">
-            <span>@Resources.New</span>
+            <span>@Locale.New</span>
             <a href="~/User/Create" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
@@ -19,19 +19,19 @@
                     <tr>
                         <th></th>
                         <th>
-                            @Resources.UserId
+                            @Html.DisplayNameFor(m => m.UserId)
                         </th>
                         <th>
-                            @Resources.Username
+                            @Html.DisplayNameFor(m => m.Username)
                         </th>
                         <th>
-                            @Resources.Email
+                            @Html.DisplayNameFor(m => m.Email)
                         </th>
                         <th>
-                            @Resources.LockedOut
+                            @Html.DisplayNameFor(m => m.IsLockedOut)
                         </th>
                         <th>
-                            Roles
+                            @Html.DisplayNameFor(m => m.Roles)
                         </th>
                     </tr>
                 </thead>
@@ -59,7 +59,7 @@
         }
         else
         {
-            <p>@Resources.NoUsersAdded</p>
+            <p>@Locale.NoUsersAdded</p>
         }
 
 

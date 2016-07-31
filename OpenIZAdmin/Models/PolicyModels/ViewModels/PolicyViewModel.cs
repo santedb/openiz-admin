@@ -31,24 +31,24 @@ namespace OpenIZAdmin.Models.PolicyModels.ViewModels
 
 		}
 
-		[Display(Name = "CanOverride", ResourceType = typeof(Localization.Resources))]
+		[Display(Name = "CanOverride", ResourceType = typeof(Localization.Locale))]
 		public bool CanOverride { get; set; }
 
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Resources))]
+		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime CreationTime { get; set; }
 
-		[Display(Name = "Grant", ResourceType = typeof(Localization.Resources))]
+		[Display(Name = "Grant", ResourceType = typeof(Localization.Locale))]
 		public string Grant { get; set; }
 
-		[Display(Name = "IsPublic", ResourceType = typeof(Localization.Resources))]
+		[Display(Name = "IsPublic", ResourceType = typeof(Localization.Locale))]
 		public bool IsPublic { get; set; }
 
 		public Guid Key { get; set; }
 
-		[Display(Name = "Name", ResourceType = typeof(Localization.Resources))]
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
-		[Display(Name = "Oid", ResourceType = typeof(Localization.Resources))]
+		[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
 		public string Oid { get; set; }
 	}
 }

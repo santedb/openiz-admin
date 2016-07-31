@@ -35,35 +35,35 @@ namespace OpenIZAdmin.Models.UserModels
 			this.RolesList = new List<SelectListItem>();
 		}
 
-		[Display(Name = "Email", ResourceType = typeof(Localization.Resources))]
-		[Required(ErrorMessageResourceName = "EmailRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
-		[EmailAddress(ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[Display(Name = "Email", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "EmailRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[EmailAddress(ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Email { get; set; }
 
-		[Display(Name = "FirstName", ResourceType = typeof(Localization.Resources))]
-		[Required(ErrorMessageResourceName = "FirstNameRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
-		[StringLength(255, ErrorMessageResourceName = "FirstNameTooLong", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[Display(Name = "FirstName", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "FirstNameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(255, ErrorMessageResourceName = "FirstNameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string FirstName { get; set; }
 
-		[Display(Name = "LastName", ResourceType = typeof(Localization.Resources))]
-		[Required(ErrorMessageResourceName = "LastNameRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
-		[StringLength(255, ErrorMessageResourceName = "LastNameTooLong", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[Display(Name = "LastName", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "LastNameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(255, ErrorMessageResourceName = "LastNameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string LastName { get; set; }
 
 		[DataType(DataType.Password)]
-		[Display(Name = "Password", ResourceType = typeof(Localization.Resources))]
-		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[Display(Name = "Password", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Password { get; set; }
 
-		[Display(Name = "Roles", ResourceType = typeof(Localization.Resources))]
-		[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public IEnumerable<string> Roles { get; set; }
 
 		public List<SelectListItem> RolesList { get; set; }
 
-		[Display(Name = "Username", ResourceType = typeof(Localization.Resources))]
-		[Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
-		[StringLength(255, ErrorMessageResourceName = "UsernameTooLong", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[Display(Name = "Username", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(255, ErrorMessageResourceName = "UsernameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Username { get; set; }
 	}
 }

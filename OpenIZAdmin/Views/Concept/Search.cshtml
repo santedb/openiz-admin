@@ -1,6 +1,6 @@
 ﻿@model OpenIZAdmin.Models.ConceptModels.SearchConceptModel
 @{
-    ViewBag.Title = "Search";
+    ViewBag.Title = Locale.Search;
 
     AjaxOptions options = new AjaxOptions
     {
@@ -15,7 +15,7 @@
         Search Concepts
     </div>
     <div class="panel panel-body">
-        @using (Ajax.BeginForm("Search", "PatientManagement", options, new { @class = "form-horizontal", role = "form" }))
+        @using (Ajax.BeginForm("Search", null, options, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -48,7 +48,7 @@
                         <button type="button" class="btn btn-warning" id="reset">
                             <span class="glyphicon glyphicon-refresh"></span>Reset
                         </button>
-                        <input type="submit" value="Search" class="btn btn-default" />
+                        <input type="submit" value="@Locale.Search" class="btn btn-default" />
                     </div>
                 </div>}
         <div id="concept-search-results">

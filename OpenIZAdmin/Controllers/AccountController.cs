@@ -142,7 +142,7 @@ namespace OpenIZAdmin.Controllers
 
 				case SignInStatus.Failure:
 				default:
-					ModelState.AddModelError("", Resources.IncorrectUsernameOrPassword);
+					ModelState.AddModelError("", Locale.IncorrectUsernameOrPassword);
 					return View(model);
 			}
 		}
@@ -170,7 +170,7 @@ namespace OpenIZAdmin.Controllers
 
 			}
 
-			TempData["error"] = Resources.UnableToUpdateProfile;
+			TempData["error"] = Locale.UnableToUpdateProfile;
 			return View(model);
 		}
 
