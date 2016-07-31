@@ -35,7 +35,7 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 		public ConceptViewModel(Concept concept)
 		{
 			this.Details = new List<DetailedConceptViewModel>();
-			this.CreatedBy = concept.CreatedBy?.Entities.SelectMany(e => e.Names).SelectMany(n => n.Component).Select(c => c.Value).Aggregate((a, b) => (a + ", " + b));
+			//this.CreatedBy = concept.CreatedBy?.Entities.SelectMany(e => e.Names).SelectMany(n => n.Component).Select(c => c.Value).Aggregate((a, b) => (a + ", " + b));
 			this.CreationTime = concept.CreationTime.DateTime;
 			this.IsReadOnly = concept.IsSystemConcept;
 			this.Language = concept.ConceptNames.Select(c => c.Language).FirstOrDefault();
@@ -46,7 +46,7 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 		public ConceptViewModel(ConceptSet conceptSet)
 		{
 			this.Details = new List<DetailedConceptViewModel>();
-			this.CreatedBy = conceptSet.CreatedBy?.Entities.SelectMany(e => e.Names).SelectMany(n => n.Component).Select(c => c.Value).Aggregate((a, b) => (a + ", " + b));
+			//this.CreatedBy = conceptSet.CreatedBy?.Entities.SelectMany(e => e.Names).SelectMany(n => n.Component).Select(c => c.Value).Aggregate((a, b) => (a + ", " + b));
 			this.CreationTime = conceptSet.CreationTime.DateTime;
 			this.IsReadOnly = conceptSet.Concepts.Select(c => c.IsSystemConcept).All(c => c);
 			this.Language = "N/A";

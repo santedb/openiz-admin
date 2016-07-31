@@ -26,6 +26,7 @@ using OpenIZAdmin.Models.PlaceModels;
 using OpenIZAdmin.Models.PlaceModels.ViewModels;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
+using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -56,7 +57,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var place = this.client.CreatePlace(model.ToPlace());
+					var place = this.client.CreatePlace(PlaceUtil.ToPlace(model));
 
 					return RedirectToAction("ViewPlace", new { key = place.Key, versionKey = place.VersionKey });
 				}
@@ -84,7 +85,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				var places = this.client.GetPlaces(p => p.IsMobile == false);
 
-				return View(places.CollectionItem.Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name));
+				return View(places.CollectionItem.Select(p => PlaceUtil.ToPlaceViewModel(p)).OrderBy(p => p.Name));
 			}
 			catch (Exception e)
 			{
@@ -120,7 +121,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					var places = this.client.GetPlaces(p => p.Names.SelectMany(n => n.Component).Any(c => c.Value == searchTerm));
 
-					return PartialView("_PlaceSearchResultsPartial", places.CollectionItem.Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name));
+					return PartialView("_PlaceSearchResultsPartial", places.CollectionItem.Select(p => PlaceUtil.ToPlaceViewModel(p)).OrderBy(p => p.Name));
 				}
 				catch (Exception e)
 				{
@@ -165,7 +166,7 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
-					return View(new PlaceViewModel(place));
+					return View(PlaceUtil.ToPlaceViewModel(place));
 				}
 			}
 

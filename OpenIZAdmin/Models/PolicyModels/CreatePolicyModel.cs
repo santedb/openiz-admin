@@ -18,12 +18,36 @@
  */
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.PolicyModels
 {
 	public class CreatePolicyModel
 	{
+		public CreatePolicyModel()
+		{
+			this.GrantsList = new List<SelectListItem>();
+		}
+
+		[Display(Name = "CanOverride", ResourceType = typeof(Localization.Resources))]
+		public bool CanOverride { get; set; }
+
+		[Display(Name = "Grants", ResourceType = typeof(Localization.Resources))]
+		[Required(ErrorMessageResourceName = "GrantsRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
+		public int Grant { get; set; }
+
+		public List<SelectListItem> GrantsList { get; set; }
+
+		[Display(Name = "Name", ResourceType = typeof(Localization.Resources))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
+		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Resources))]
+		public string Name { get; set; }
+
+		[Display(Name = "Oid", ResourceType = typeof(Localization.Resources))]
+		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
+		public string Oid { get; set; }
 	}
 }

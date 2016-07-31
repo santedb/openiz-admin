@@ -24,16 +24,11 @@ using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Models.PlaceModels.ViewModels
 {
-	public class DetailedPlaceViewModel : PlaceViewModel
+	public class DetailedPlaceViewModel
 	{
 		public DetailedPlaceViewModel()
 		{
 
-		}
-
-		public DetailedPlaceViewModel(Place place) : base(place)
-		{
-			this.IsMobile = place.IsMobile;
 		}
 
 		public bool IsMobile { get; set; }

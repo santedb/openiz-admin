@@ -37,6 +37,13 @@
             <param name="place">The place to be created.</param>
             <returns>Returns the newly created place.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreatePolicy(OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo)">
+            <summary>
+            Creates a policy in the IMS.
+            </summary>
+            <param name="policy">The policy to be created.</param>
+            <returns>Returns the newly created policy.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateRole(OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo)">
             <summary>
             Creates a role in the IMS.
@@ -181,7 +188,7 @@
             <param name="id">The id of the user to be retrieved.</param>
             <returns>Returns the specified user.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetUsers(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo,System.Boolean}})">
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetUsers(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityUser,System.Boolean}})">
             <summary>
             Retrieves a specified user.
             </summary>

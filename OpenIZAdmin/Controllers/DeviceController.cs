@@ -121,5 +121,29 @@ namespace OpenIZAdmin.Controllers
 
 			return PartialView("_DevicesPartial", devices);
 		}
+
+		[HttpGet]
+		public ActionResult ViewDevice(string key)
+		{
+			Guid deviceId = Guid.Empty;
+
+			if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key) && Guid.TryParse(key, out deviceId))
+			{
+				var result = this.client.GetDevices(r => r.Key == deviceId);
+
+				if (result.CollectionItem.Count == 0)
+				{
+					TempData["error"] = Localization.Resources.Devices;
+
+					return RedirectToAction("Index");
+				}
+
+				return View(DeviceUtil.ToDeviceViewModel(result.CollectionItem.Single()));
+			}
+
+			TempData["error"] = Localization.Resources.Devices;
+
+			return RedirectToAction("Index");
+		}
 	}
 }

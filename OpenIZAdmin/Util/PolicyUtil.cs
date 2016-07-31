@@ -17,6 +17,7 @@
  * Date: 2016-7-30
  */
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Models.PolicyModels;
 using OpenIZAdmin.Models.PolicyModels.ViewModels;
@@ -43,9 +44,9 @@ namespace OpenIZAdmin.Util
 			catch (Exception e)
 			{
 #if DEBUG
-				Trace.TraceError("Unable to retrieve devices: {0}", e.StackTrace);
+				Trace.TraceError("Unable to retrieve policies: {0}", e.StackTrace);
 #endif
-				Trace.TraceError("Unable to retrieve devices: {0}", e.Message);
+				Trace.TraceError("Unable to retrieve policies: {0}", e.Message);
 			}
 
 			return viewModels;
@@ -55,14 +56,25 @@ namespace OpenIZAdmin.Util
 		{
 			PolicyViewModel viewModel = new PolicyViewModel();
 
+			viewModel.CanOverride = policy.CanOverride;
+			viewModel.Grant = Enum.GetName(typeof(PolicyGrantType), policy.Grant);
+			viewModel.IsPublic = policy.Policy.IsPublic;
+			viewModel.Key = policy.Policy.Key.Value;
+			viewModel.Name = policy.Name;
+			viewModel.Oid = policy.Oid;
+
 			return viewModel;
 		}
 
 		public static SecurityPolicyInfo ToSecurityPolicy(CreatePolicyModel model)
 		{
-			SecurityPolicyInfo device = new SecurityPolicyInfo();
+			SecurityPolicyInfo policy = new SecurityPolicyInfo();
 
-			return device;
+			policy.CanOverride = model.CanOverride;
+			policy.Name = model.Name;
+			policy.Oid = model.Oid;
+
+			return policy;
 		}
 	}
 }

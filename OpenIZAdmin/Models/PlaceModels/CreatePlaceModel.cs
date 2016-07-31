@@ -39,16 +39,5 @@ namespace OpenIZAdmin.Models.PlaceModels
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Resources))]
 		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Resources))]
 		public string Name { get; set; }
-
-		public Place ToPlace()
-		{
-			Place place = new Place();
-
-			place.Lat = this.Latitude;
-			place.Lng = this.Longitude;
-			place.Names.Add(new EntityName(NameUseKeys.OfficialRecord, this.Name));
-
-			return place;
-		}
 	}
 }

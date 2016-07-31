@@ -18,6 +18,8 @@
  */
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.PolicyModels;
 using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using OpenIZAdmin.Services.Http;
@@ -35,6 +37,7 @@ namespace OpenIZAdmin.Controllers
 	/// <summary>
 	/// Provides operations for administering policies.
 	/// </summary>
+	[TokenAuthorize]
 	public class PolicyController : Controller
     {
 		/// <summary>
@@ -56,7 +59,14 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			return View();
+			CreatePolicyModel model = new CreatePolicyModel();
+
+			model.GrantsList.Add(new SelectListItem { Text = Resources.Select, Value = "" });
+			model.GrantsList.Add(new SelectListItem { Text = Resources.Deny, Value = "0" });
+			model.GrantsList.Add(new SelectListItem { Text = Resources.Elevate, Value = "1" });
+			model.GrantsList.Add(new SelectListItem { Text = Resources.Grant, Value = "2" });
+
+			return View(model);
 		}
 
 		/// <summary>
@@ -74,7 +84,7 @@ namespace OpenIZAdmin.Controllers
 
 				try
 				{
-					var result = this.client;
+					this.client.CreatePolicy(policy);
 
 					TempData["success"] = "Policy created successfully";
 
@@ -173,7 +183,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["searchTerm"] = searchTerm;
 
-					return PartialView("_PoliciesPartial", collection.CollectionItem.Select(p => PolicyUtil.ToPolicyViewModel(p)));
+					return PartialView("_PolicySearchResultsPartial", collection.CollectionItem.Select(p => PolicyUtil.ToPolicyViewModel(p)));
 				}
 			}
 			catch (Exception e)
@@ -188,6 +198,30 @@ namespace OpenIZAdmin.Controllers
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_PoliciesPartial", policies);
+		}
+
+		[HttpGet]
+		public ActionResult ViewPolicy(string key)
+		{
+			Guid policyId = Guid.Empty;
+
+			if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key) && Guid.TryParse(key, out policyId))
+			{
+				var result = this.client.GetPolicies(r => r.Key == policyId);
+
+				if (result.CollectionItem.Count == 0)
+				{
+					TempData["error"] = Localization.Resources.PolicyNotFound;
+
+					return RedirectToAction("Index");
+				}
+
+				return View(PolicyUtil.ToPolicyViewModel(result.CollectionItem.Single()));
+			}
+
+			TempData["error"] = Localization.Resources.PolicyNotFound;
+
+			return RedirectToAction("Index");
 		}
 	}
 }

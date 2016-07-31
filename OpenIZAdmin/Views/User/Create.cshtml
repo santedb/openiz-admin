@@ -33,13 +33,13 @@
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                 </div>
             </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.DropDownListFor(m => m.Roles, Model.RolesList)
-                        @Html.ValidationMessageFor(m => m.Roles, "", new { @class = "text-danger" })
-                    </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(m => m.Roles, Model.RolesList)
+                    @Html.ValidationMessageFor(m => m.Roles, "", new { @class = "text-danger" })
                 </div>
+            </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
                     <div class="col-md-10">

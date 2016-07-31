@@ -106,6 +106,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Can Override.
+        /// </summary>
+        public static string CanOverride {
+            get {
+                return ResourceManager.GetString("CanOverride", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Certificate Requests.
         /// </summary>
         public static string CertificateRequests {
@@ -214,6 +223,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Policy.
+        /// </summary>
+        public static string CreatePolicy {
+            get {
+                return ResourceManager.GetString("CreatePolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Role.
         /// </summary>
         public static string CreateRole {
@@ -268,6 +286,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deny.
+        /// </summary>
+        public static string Deny {
+            get {
+                return ResourceManager.GetString("Deny", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
@@ -291,6 +318,15 @@ namespace OpenIZAdmin.Localization {
         public static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Elevate.
+        /// </summary>
+        public static string Elevate {
+            get {
+                return ResourceManager.GetString("Elevate", resourceCulture);
             }
         }
         
@@ -358,6 +394,33 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Grant.
+        /// </summary>
+        public static string Grant {
+            get {
+                return ResourceManager.GetString("Grant", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Grants.
+        /// </summary>
+        public static string Grants {
+            get {
+                return ResourceManager.GetString("Grants", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a grant.
+        /// </summary>
+        public static string GrantsRequired {
+            get {
+                return ResourceManager.GetString("GrantsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Group.
         /// </summary>
         public static string Group {
@@ -399,6 +462,15 @@ namespace OpenIZAdmin.Localization {
         public static string InvalidEmailAddress {
             get {
                 return ResourceManager.GetString("InvalidEmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is Public.
+        /// </summary>
+        public static string IsPublic {
+            get {
+                return ResourceManager.GetString("IsPublic", resourceCulture);
             }
         }
         
@@ -592,6 +664,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No policies found.
+        /// </summary>
+        public static string NoPoliciesFound {
+            get {
+                return ResourceManager.GetString("NoPoliciesFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No roles have been added.
         /// </summary>
         public static string NoRolesAdded {
@@ -615,6 +696,24 @@ namespace OpenIZAdmin.Localization {
         public static string NoUsersAdded {
             get {
                 return ResourceManager.GetString("NoUsersAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oid.
+        /// </summary>
+        public static string Oid {
+            get {
+                return ResourceManager.GetString("Oid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Oid field is required.
+        /// </summary>
+        public static string OidRequired {
+            get {
+                return ResourceManager.GetString("OidRequired", resourceCulture);
             }
         }
         
@@ -669,6 +768,42 @@ namespace OpenIZAdmin.Localization {
         public static string PlaceSearchResults {
             get {
                 return ResourceManager.GetString("PlaceSearchResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Policies.
+        /// </summary>
+        public static string Policies {
+            get {
+                return ResourceManager.GetString("Policies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Policy.
+        /// </summary>
+        public static string Policy {
+            get {
+                return ResourceManager.GetString("Policy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Policy not found.
+        /// </summary>
+        public static string PolicyNotFound {
+            get {
+                return ResourceManager.GetString("PolicyNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Policy Search Results.
+        /// </summary>
+        public static string PolicySearchResults {
+            get {
+                return ResourceManager.GetString("PolicySearchResults", resourceCulture);
             }
         }
         
@@ -763,7 +898,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Saerch Results.
+        ///   Looks up a localized string similar to Search Results.
         /// </summary>
         public static string SearchResults {
             get {
@@ -799,11 +934,29 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select.
+        /// </summary>
+        public static string Select {
+            get {
+                return ResourceManager.GetString("Select", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submit.
         /// </summary>
         public static string Submit {
             get {
                 return ResourceManager.GetString("Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to create policy.
+        /// </summary>
+        public static string UnableToCreatePolicy {
+            get {
+                return ResourceManager.GetString("UnableToCreatePolicy", resourceCulture);
             }
         }
         

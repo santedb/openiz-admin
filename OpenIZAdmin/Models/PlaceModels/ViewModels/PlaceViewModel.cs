@@ -20,6 +20,7 @@
 using OpenIZ.Core.Model.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace OpenIZAdmin.Models.PlaceModels.ViewModels
@@ -30,17 +31,7 @@ namespace OpenIZAdmin.Models.PlaceModels.ViewModels
 		{
 		}
 
-		public PlaceViewModel(Place place)
-		{
-			this.CreationTime = place.CreationTime.DateTime;
-			this.Details = new List<DetailedPlaceViewModel>();
-			this.Key = place.Key.Value;
-			this.Latitude = place.Lat ?? 0;
-			this.Longitude = place.Lng ?? 0;
-			this.Name = place.Names.SelectMany(e => e.Component).Select(c => c.Value).Aggregate((a, b) => (a + ", " + b));
-			this.VersionKey = place.VersionKey.GetValueOrDefault();
-		}
-
+		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Resources))]
 		public DateTime CreationTime { get; set; }
 
 		public List<DetailedPlaceViewModel> Details { get; set; }

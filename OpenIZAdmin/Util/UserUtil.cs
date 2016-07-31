@@ -74,20 +74,8 @@ namespace OpenIZAdmin.Util
 			{
 				Email = model.Email,
 				Password = model.Password,
-				User = new SecurityUser
-				{
-					Entities = new List<Person>()
-				},
 				UserName = model.Username
 			};
-
-			userInfo.User.Entities.Add(new Person
-			{
-				Names = new List<EntityName>
-				{
-					new EntityName(NameUseKeys.Legal, model.LastName, new string[] { model.FirstName })
-				}
-			});
 
 			userInfo.Roles = new List<SecurityRoleInfo>();
 

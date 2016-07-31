@@ -19,6 +19,8 @@
 
 using OpenIZ.Core.Model.Security;
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.Xml.Linq;
 
 namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 {
@@ -28,8 +30,10 @@ namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 		{
 		}
 
+		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Resources))]
 		public DateTime CreationTime { get; set; }
 
+		[Display(Name = "Name", ResourceType = typeof(Localization.Resources))]
 		public string Name { get; set; }
 
 		public DateTime? UpdatedTime { get; set; }

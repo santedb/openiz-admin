@@ -18,6 +18,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -25,5 +26,29 @@ namespace OpenIZAdmin.Models.PolicyModels.ViewModels
 {
 	public class PolicyViewModel
 	{
+		public PolicyViewModel()
+		{
+
+		}
+
+		[Display(Name = "CanOverride", ResourceType = typeof(Localization.Resources))]
+		public bool CanOverride { get; set; }
+
+		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Resources))]
+		public DateTime CreationTime { get; set; }
+
+		[Display(Name = "Grant", ResourceType = typeof(Localization.Resources))]
+		public string Grant { get; set; }
+
+		[Display(Name = "IsPublic", ResourceType = typeof(Localization.Resources))]
+		public bool IsPublic { get; set; }
+
+		public Guid Key { get; set; }
+
+		[Display(Name = "Name", ResourceType = typeof(Localization.Resources))]
+		public string Name { get; set; }
+
+		[Display(Name = "Oid", ResourceType = typeof(Localization.Resources))]
+		public string Oid { get; set; }
 	}
 }
