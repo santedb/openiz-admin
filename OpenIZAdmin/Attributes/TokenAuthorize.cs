@@ -28,8 +28,8 @@ namespace OpenIZAdmin.Attributes
 	/// <summary>
 	/// Validates against whether a user accessing a resource has the correct permissions.
 	/// </summary>
-	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
-	public class TokenAuthorize : AuthorizeAttribute
+	[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
+	public sealed class TokenAuthorize : AuthorizeAttribute
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenIZAdmin.Attributes.TokenAuthorize"/> class.
