@@ -31,12 +31,11 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr class="clickable-row" data-href="/Device/Device?id=@item.Name">
+                        <tr>
                             <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>
                             <td>@item.CreationTime.ToLocalTime()</td>
                             <td>@item.Name</td>
                             <td>@item.UpdatedTime</td>
-                            <td><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></td>
                         </tr>}
                 </tbody>
             </table>

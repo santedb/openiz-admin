@@ -32,12 +32,11 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr class="clickable-row" data-href="/Role/ViewRole/@item.Id">
+                        <tr>
                             <td><span class="glyphicon glyphicon-user pull-left" aria-hidden="true"></span></td>
                             <td><a href="/Role/ViewRole/@item.Id">@item.Id</a></td>
                             <td>@item.Name</td>
                             <td>@item.Description</td>
-                            <td><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></td>
                         </tr>}
                 </tbody>
             </table>

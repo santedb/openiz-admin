@@ -30,19 +30,17 @@
                         <th>
                             @Html.DisplayNameFor(m => m.SubmissionTime)
                         </th>
-                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr class="clickable-row" data-href="#">
+                        <tr>
                             <td><span class="glyphicon glyphicon-lock pull-left" aria-hidden="true"></span></td>
                             <td>@item.AdministrativeContactName</td>
                             <td>@item.AdministrativeContactEmail</td>
                             <td>@item.DistinguishedName</td>
                             <td>@item.SubmissionTime.ToLocalTime()</td>
-                            <td><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></td>
                         </tr>}
                 </tbody>
             </table>

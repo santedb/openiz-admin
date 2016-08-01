@@ -38,7 +38,7 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr class="clickable-row" data-href="/User/User/@item.UserId">
+                        <tr>
                             <td><span class="glyphicon glyphicon-user pull-left" aria-hidden="true"></span></td>
                             <td><a href="/User/ViewUser/@item.UserId">@item.UserId</a></td>
                             <td>@item.Username</td>
@@ -49,10 +49,7 @@
                                 {
                                     item.Roles.Select(r => r.Name).OrderBy(r => r).Aggregate((a, b) => a + ", " + b);
                                 }
-                        </td>
-
-
-                        <td><span class="glyphicon glyphicon-chevron-right pull-right" aria-hidden="true"></span></td>
+                            </td>
                     </tr>}
                 </tbody>
             </table>
