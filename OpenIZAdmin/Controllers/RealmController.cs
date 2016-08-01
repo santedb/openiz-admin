@@ -24,6 +24,7 @@ using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.Domain;
 using OpenIZAdmin.Models.RealmModels;
 using OpenIZAdmin.Models.RealmModels.ViewModels;
+using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -132,50 +133,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Generates a <see cref="OpenIZAdmin.Models.RealmModels.LeaveRealmModel"/> instance.
-		/// </summary>
-		/// <param name="realm">The realm for which to generate the <see cref="OpenIZAdmin.Models.RealmModels.LeaveRealmModel"/> from.</param>
-		/// <returns>Returns an instance of the <see cref="OpenIZAdmin.Models.RealmModels.LeaveRealmModel"/> class.</returns>
-		private LeaveRealmModel GenerateLeaveRealmModel(Realm realm)
-		{
-			LeaveRealmModel viewModel = new LeaveRealmModel();
-
-			viewModel.CurrentRealm = new RealmViewModel().Map(realm);
-			viewModel.Map(realm);
-
-			return viewModel;
-		}
-
-		/// <summary>
-		/// Generates a <see cref="OpenIZAdmin.Models.RealmModels.ViewModels.RealmViewModel"/> instance.
-		/// </summary>
-		/// <param name="realm">The realm for which to generate the <see cref="OpenIZAdmin.Models.RealmModels.ViewModels.RealmViewModel"/> from.</param>
-		/// <returns>Returns an instance of the <see cref="OpenIZAdmin.Models.RealmModels.ViewModels.RealmViewModel"/> class.</returns>
-		private RealmViewModel GenerateRealmViewModel(Realm realm)
-		{
-			RealmViewModel viewModel = new RealmViewModel();
-
-			viewModel.Map(realm);
-
-			return viewModel;
-		}
-
-		/// <summary>
-		/// Generates a <see cref="OpenIZAdmin.Models.RealmModels.ViewModels.SwitchRealmViewModel"/> instance.
-		/// </summary>
-		/// <param name="realm">The realm for which to generate the <see cref="OpenIZAdmin.Models.RealmModels.ViewModels.SwitchRealmViewModel"/> from.</param>
-		/// <returns>Returns an instance of the <see cref="OpenIZAdmin.Models.RealmModels.ViewModels.SwitchRealmViewModel"/> class.</returns>
-		private SwitchRealmViewModel GenerateSwitchRealmViewModel(Realm realm)
-		{
-			SwitchRealmViewModel viewModel = new SwitchRealmViewModel();
-
-			viewModel.CurrentRealm = new RealmViewModel().Map(realm);
-			viewModel.Map(realm);
-
-			return viewModel;
-		}
-
-		/// <summary>
 		/// Displays the index view.
 		/// </summary>
 		/// <returns>Returns the index view.</returns>
@@ -189,7 +146,7 @@ namespace OpenIZAdmin.Controllers
 
 			Realm realm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).Single();
 
-			return View(this.GenerateRealmViewModel(realm));
+			return View(RealmUtil.GenerateRealmViewModel(realm));
 		}
 
 		/// <summary>
@@ -299,7 +256,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			Realm realm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).Single();
 
-			LeaveRealmModel leaveRealmModel = this.GenerateLeaveRealmModel(realm);
+			LeaveRealmModel leaveRealmModel = RealmUtil.GenerateLeaveRealmModel(realm);
 
 			return View(leaveRealmModel);
 		}
@@ -338,24 +295,6 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = "Unable to leave realm";
 
 			return View(model);
-		}
-
-		/// <summary>
-		/// Displays the switch realm view.
-		/// </summary>
-		/// <returns>Returns the switch realm view.</returns>
-		[HttpGet]
-		public ActionResult SwitchRealm()
-		{
-			IEnumerable<Realm> realms = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null);
-
-			SwitchRealmViewModel switchRealmModel = realms.Select(r => this.GenerateSwitchRealmViewModel(r)).AsEnumerable().Single();
-
-			IEnumerable<Realm> inactiveRealms = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime != null);
-
-			switchRealmModel.InactiveRealms = inactiveRealms.Select(r => this.GenerateRealmViewModel(r)).AsEnumerable();
-
-			return View(switchRealmModel);
 		}
 
 		/// <summary>

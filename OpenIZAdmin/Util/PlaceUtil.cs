@@ -26,9 +26,9 @@ using System.Linq;
 
 namespace OpenIZAdmin.Util
 {
-	public static class PlaceUtil
+	internal static class PlaceUtil
 	{
-		public static Place ToPlace(CreatePlaceModel model)
+		internal static Place ToPlace(CreatePlaceModel model)
 		{
 			Place place = new Place();
 
@@ -39,7 +39,7 @@ namespace OpenIZAdmin.Util
 			return place;
 		}
 
-		public static PlaceViewModel ToPlaceViewModel(Place place)
+		internal static PlaceViewModel ToPlaceViewModel(Place place)
 		{
 			PlaceViewModel viewModel = new PlaceViewModel();
 

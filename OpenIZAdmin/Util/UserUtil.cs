@@ -28,9 +28,9 @@ using System.Linq;
 
 namespace OpenIZAdmin.Util
 {
-	public static class UserUtil
+	internal static class UserUtil
 	{
-		public static IEnumerable<UserViewModel> GetAllUsers(AmiServiceClient client)
+		internal static IEnumerable<UserViewModel> GetAllUsers(AmiServiceClient client)
 		{
 			IEnumerable<UserViewModel> viewModels = new List<UserViewModel>();
 
@@ -52,7 +52,7 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
-		public static SecurityUserInfo ToSecurityUserInfo(CreateUserModel model)
+		internal static SecurityUserInfo ToSecurityUserInfo(CreateUserModel model)
 		{
 			//List<EntityNameComponent> patientNames = new List<EntityNameComponent>();
 			//if (this.GivenNames != null)
@@ -78,7 +78,7 @@ namespace OpenIZAdmin.Util
 			return userInfo;
 		}
 
-		public static UserViewModel ToUserViewModel(SecurityUserInfo userInfo)
+		internal static UserViewModel ToUserViewModel(SecurityUserInfo userInfo)
 		{
 			UserViewModel viewModel = new UserViewModel();
 

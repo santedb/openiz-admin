@@ -253,7 +253,6 @@
     <Compile Include="Models\RealmModels\LeaveRealmModel.cs" />
     <Compile Include="Models\RealmModels\UpdateRealmModel.cs" />
     <Compile Include="Models\RealmModels\ViewModels\RealmViewModel.cs" />
-    <Compile Include="Models\RealmModels\ViewModels\SwitchRealmViewModel.cs" />
     <Compile Include="Models\SearchModel.cs" />
     <Compile Include="Models\RoleModels\CreateRoleModel.cs" />
     <Compile Include="Models\UserModels\CreateUserModel.cs" />

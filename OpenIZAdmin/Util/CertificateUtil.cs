@@ -27,15 +27,14 @@ using System.Linq;
 
 namespace OpenIZAdmin.Util
 {
-	public static class CertificateUtil
+	internal static class CertificateUtil
 	{
-		public static IEnumerable<CertificateSigningRequestViewModel> GetAllCertificateSigningRequests(AmiServiceClient client)
+		internal static IEnumerable<CertificateSigningRequestViewModel> GetAllCertificateSigningRequests(AmiServiceClient client)
 		{
 			IEnumerable<CertificateSigningRequestViewModel> viewModels = new List<CertificateSigningRequestViewModel>();
 
 			try
 			{
-				// HACK
 				var certificateSigningRequests = client.GetCertificateSigningRequests(c => c.DistinguishedName != null);
 
 				viewModels = certificateSigningRequests.CollectionItem.Select(c => CertificateUtil.ToCertificateSigningRequestViewModel(c));
@@ -51,7 +50,7 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
-		public static CertificateSigningRequestViewModel ToCertificateSigningRequestViewModel(SubmissionInfo submissionInfo)
+		internal static CertificateSigningRequestViewModel ToCertificateSigningRequestViewModel(SubmissionInfo submissionInfo)
 		{
 			CertificateSigningRequestViewModel viewModel = new CertificateSigningRequestViewModel();
 

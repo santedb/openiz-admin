@@ -28,9 +28,9 @@ using System.Linq;
 
 namespace OpenIZAdmin.Util
 {
-	public static class DeviceUtil
+	internal static class DeviceUtil
 	{
-		public static IEnumerable<DeviceViewModel> GetAllDevices(AmiServiceClient client)
+		internal static IEnumerable<DeviceViewModel> GetAllDevices(AmiServiceClient client)
 		{
 			IEnumerable<DeviceViewModel> viewModels = new List<DeviceViewModel>();
 
@@ -52,7 +52,7 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
-		public static DeviceViewModel ToDeviceViewModel(SecurityDevice device)
+		internal static DeviceViewModel ToDeviceViewModel(SecurityDevice device)
 		{
 			DeviceViewModel viewModel = new DeviceViewModel();
 
@@ -63,7 +63,7 @@ namespace OpenIZAdmin.Util
 			return viewModel;
 		}
 
-		public static SecurityDevice ToSecurityDevice(CreateDeviceModel model)
+		internal static SecurityDevice ToSecurityDevice(CreateDeviceModel model)
 		{
 			SecurityDevice device = new SecurityDevice();
 

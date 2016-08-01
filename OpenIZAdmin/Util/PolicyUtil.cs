@@ -29,9 +29,9 @@ using System.Linq;
 
 namespace OpenIZAdmin.Util
 {
-	public static class PolicyUtil
+	internal static class PolicyUtil
 	{
-		public static IEnumerable<PolicyViewModel> GetAllPolicies(AmiServiceClient client)
+		internal static IEnumerable<PolicyViewModel> GetAllPolicies(AmiServiceClient client)
 		{
 			IEnumerable<PolicyViewModel> viewModels = new List<PolicyViewModel>();
 
@@ -52,7 +52,7 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
-		public static PolicyViewModel ToPolicyViewModel(SecurityPolicyInfo policy)
+		internal static PolicyViewModel ToPolicyViewModel(SecurityPolicyInfo policy)
 		{
 			PolicyViewModel viewModel = new PolicyViewModel();
 
@@ -66,7 +66,7 @@ namespace OpenIZAdmin.Util
 			return viewModel;
 		}
 
-		public static SecurityPolicyInfo ToSecurityPolicy(CreatePolicyModel model)
+		internal static SecurityPolicyInfo ToSecurityPolicy(CreatePolicyModel model)
 		{
 			SecurityPolicyInfo policy = new SecurityPolicyInfo();
 

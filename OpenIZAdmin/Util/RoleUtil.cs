@@ -28,9 +28,9 @@ using System.Linq;
 
 namespace OpenIZAdmin.Util
 {
-	public static class RoleUtil
+	internal static class RoleUtil
 	{
-		public static IEnumerable<RoleViewModel> GetAllRoles(AmiServiceClient client)
+		internal static IEnumerable<RoleViewModel> GetAllRoles(AmiServiceClient client)
 		{
 			IEnumerable<RoleViewModel> viewModels = new List<RoleViewModel>();
 
@@ -52,7 +52,7 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
-		public static RoleViewModel ToRoleViewModel(SecurityRoleInfo roleInfo)
+		internal static RoleViewModel ToRoleViewModel(SecurityRoleInfo roleInfo)
 		{
 			RoleViewModel viewModel = new RoleViewModel();
 
@@ -63,7 +63,7 @@ namespace OpenIZAdmin.Util
 			return viewModel;
 		}
 
-		public static SecurityRoleInfo ToSecurityRoleInfo(CreateRoleModel model)
+		internal static SecurityRoleInfo ToSecurityRoleInfo(CreateRoleModel model)
 		{
 			SecurityRoleInfo roleInfo = new SecurityRoleInfo();
 
