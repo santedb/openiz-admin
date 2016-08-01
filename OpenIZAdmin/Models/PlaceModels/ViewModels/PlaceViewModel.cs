@@ -27,6 +27,7 @@ namespace OpenIZAdmin.Models.PlaceModels.ViewModels
 	{
 		public PlaceViewModel()
 		{
+			this.Details = new List<DetailedPlaceViewModel>();
 		}
 
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]

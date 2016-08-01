@@ -18,58 +18,64 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="col-md-6">
-                        @Html.LabelFor(m => m.CreationTime, new { @class = "control-label" })
+                        <label class="control-label">@Html.DisplayNameFor(m => m.CreationTime)</label>
                         @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                     <div class="col-md-6">
-                        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                        <label class="control-label">@Html.DisplayNameFor(m => m.Name)</label>
                         @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-6">
-                        @Html.LabelFor(m => m.Latitude, new { @class = "control-label" })
+                        <label class="control-label">@Html.DisplayNameFor(m => m.Latitude)</label>
                         @Html.TextBoxFor(m => m.Latitude, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                     <div class="col-md-6">
-                        @Html.LabelFor(m => m.Longitude, new { @class = "control-label" })
+                        <label class="control-label">@Html.DisplayNameFor(m => m.Longitude)</label>
                         @Html.TextBoxFor(m => m.Longitude, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                <span class="text-white">Place Details</span>
-            </h3>
-        </div>
-        <div class="panel panel-body">
-            @if (Model.Details.Count > 0)
-            {
-                <table class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Is Mobile</th>
-                            <th>Services</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var item in Model.Details)
-                        {
-                            <tr>
-                                <td>@item.IsMobile</td>
-                                <td>@item.Services.Aggregate((a, b) => (a + ", " + b))</td>
-                            </tr>}
-
-                    </tbody>
-                </table>}
-            else
-            {
-                <p>@Locale.NoAdditionalDetails</p>}
-
-        </div>
+</div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <span class="text-white">Place Details</span>
+        </h3>
     </div>
+    <div class="panel panel-body">
+        @if (Model.Details.Count > 0)
+        {
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Is Mobile</th>
+                        <th>Services</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Details)
+                    {
+                        <tr>
+                            <td>@item.IsMobile</td>
+                            @if (item.Services.Count > 0)
+                            {
+                                <td>@item.Services.Aggregate((a, b) => (a + ", " + b))</td>
+}
+                            else
+                            {
+                                <td>@Locale.NoAdditionalDetails</td>
+}
+                        </tr>}
 
+                </tbody>
+            </table>}
+        else
+        {
+            <p>@Locale.NoAdditionalDetails</p>}
+
+    </div>
 </div>
