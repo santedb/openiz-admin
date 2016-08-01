@@ -33,7 +33,7 @@ namespace OpenIZAdmin.Util
 		{
 			CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
 
-			model.LanguageList.AddRange(cultures.Select(c => new SelectListItem { Text = c.TwoLetterISOLanguageName, Value = c.TwoLetterISOLanguageName }));
+			model.LanguageList.AddRange(cultures.Where(c => c.TwoLetterISOLanguageName.Length == 2).Select(c => c).Distinct().OrderBy(c => c.DisplayName).Select(c => new SelectListItem { Text = c.DisplayName + " (" + c.TwoLetterISOLanguageName + ")", Value = c.TwoLetterISOLanguageName }));
 		}
 
 		public static Concept ToConcept(CreateConceptModel model)
