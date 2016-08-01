@@ -27,8 +27,16 @@ using System.Linq;
 
 namespace OpenIZAdmin.Util
 {
+	/// <summary>
+	/// Provides a utility for managing certificates.
+	/// </summary>
 	public static class CertificateUtil
 	{
+		/// <summary>
+		/// Gets a list of certificate signing requests.
+		/// </summary>
+		/// <param name="client">The <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.</param>
+		/// <returns>Returns a list of certificate signing requests.</returns>
 		internal static IEnumerable<CertificateSigningRequestViewModel> GetAllCertificateSigningRequests(AmiServiceClient client)
 		{
 			IEnumerable<CertificateSigningRequestViewModel> viewModels = new List<CertificateSigningRequestViewModel>();
@@ -50,6 +58,11 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
+		/// <summary>
+		/// Converts a <see cref="OpenIZ.Core.Model.AMI.Security.SubmissionInfo"/> to a <see cref="OpenIZAdmin.Models.CertificateModels.ViewModels.CertificateSigningRequestViewModel"/>.
+		/// </summary>
+		/// <param name="submissionInfo">The submission information to convert.</param>
+		/// <returns>Returns a certificate signing request view model.</returns>
 		public static CertificateSigningRequestViewModel ToCertificateSigningRequestViewModel(SubmissionInfo submissionInfo)
 		{
 			CertificateSigningRequestViewModel viewModel = new CertificateSigningRequestViewModel();

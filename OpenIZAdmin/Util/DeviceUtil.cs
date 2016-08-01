@@ -28,8 +28,16 @@ using System.Linq;
 
 namespace OpenIZAdmin.Util
 {
+	/// <summary>
+	/// Provides a utility for managing devices.
+	/// </summary>
 	public static class DeviceUtil
 	{
+		/// <summary>
+		/// Gets a list of devices.
+		/// </summary>
+		/// <param name="client">The <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.</param>
+		/// <returns>Returns a list of devices.</returns>
 		internal static IEnumerable<DeviceViewModel> GetAllDevices(AmiServiceClient client)
 		{
 			IEnumerable<DeviceViewModel> viewModels = new List<DeviceViewModel>();
@@ -52,6 +60,11 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
+		/// <summary>
+		/// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.ViewModels.DeviceViewModel"/>.
+		/// </summary>
+		/// <param name="device">The security device to convert.</param>
+		/// <returns>Returns a device view model.</returns>
 		public static DeviceViewModel ToDeviceViewModel(SecurityDevice device)
 		{
 			DeviceViewModel viewModel = new DeviceViewModel();
@@ -63,6 +76,11 @@ namespace OpenIZAdmin.Util
 			return viewModel;
 		}
 
+		/// <summary>
+		/// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.CreateDeviceModel"/> to a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/>.
+		/// </summary>
+		/// <param name="model">The create device model to convert.</param>
+		/// <returns>Returns a security device.</returns>
 		public static SecurityDevice ToSecurityDevice(CreateDeviceModel model)
 		{
 			SecurityDevice device = new SecurityDevice();

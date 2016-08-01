@@ -27,8 +27,15 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Util
 {
+	/// <summary>
+	/// Provides a utility for managing concepts.
+	/// </summary>
 	public static class ConceptUtil
 	{
+		/// <summary>
+		/// Populates a language list.
+		/// </summary>
+		/// <param name="model">The model for which to populate the language list.</param>
 		public static void PopulateLanguageList(ref CreateConceptModel model)
 		{
 			CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
@@ -36,6 +43,11 @@ namespace OpenIZAdmin.Util
 			model.LanguageList.AddRange(cultures.Where(c => c.TwoLetterISOLanguageName.Length == 2).Select(c => c).Distinct().OrderBy(c => c.DisplayName).Select(c => new SelectListItem { Text = c.DisplayName + " (" + c.TwoLetterISOLanguageName + ")", Value = c.TwoLetterISOLanguageName }));
 		}
 
+		/// <summary>
+		/// Converts a <see cref="OpenIZ.Core.Model.DataTypes.Concept"/> to a <see cref="OpenIZAdmin.Models.ConceptModels.CreateConceptModel"/>.
+		/// </summary>
+		/// <param name="model">The create concept model to convert.</param>
+		/// <returns>Returns a concept.</returns>
 		public static Concept ToConcept(CreateConceptModel model)
 		{
 			Concept concept = new Concept();

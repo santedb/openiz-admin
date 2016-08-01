@@ -26,8 +26,16 @@ using System.Linq;
 
 namespace OpenIZAdmin.Util
 {
+	/// <summary>
+	/// Provides a utility for managing places.
+	/// </summary>
 	public static class PlaceUtil
 	{
+		/// <summary>
+		/// Converts a <see cref="OpenIZAdmin.Models.PlaceModels.CreatePlaceModel"/> to a <see cref="OpenIZ.Core.Model.Entities.Place"/>.
+		/// </summary>
+		/// <param name="model">The create place model to convert.</param>
+		/// <returns>Returns a place.</returns>
 		public static Place ToPlace(CreatePlaceModel model)
 		{
 			Place place = new Place();
@@ -39,6 +47,11 @@ namespace OpenIZAdmin.Util
 			return place;
 		}
 
+		/// <summary>
+		/// Converts a <see cref="OpenIZ.Core.Model.Entities.Place"/> to a <see cref="OpenIZAdmin.Models.PlaceModels.ViewModels.PlaceViewModel"/>.
+		/// </summary>
+		/// <param name="place">The place to convert.</param>
+		/// <returns>Returns a place view model.</returns>
 		public static PlaceViewModel ToPlaceViewModel(Place place)
 		{
 			PlaceViewModel viewModel = new PlaceViewModel();
