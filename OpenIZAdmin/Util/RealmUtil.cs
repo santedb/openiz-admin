@@ -24,14 +24,14 @@ using OpenIZAdmin.Models.RealmModels.ViewModels;
 
 namespace OpenIZAdmin.Util
 {
-	internal static class RealmUtil
+	public static class RealmUtil
 	{
 		/// <summary>
 		/// Generates a <see cref="OpenIZAdmin.Models.RealmModels.LeaveRealmModel"/> instance.
 		/// </summary>
 		/// <param name="realm">The realm for which to generate the <see cref="OpenIZAdmin.Models.RealmModels.LeaveRealmModel"/> from.</param>
 		/// <returns>Returns an instance of the <see cref="OpenIZAdmin.Models.RealmModels.LeaveRealmModel"/> class.</returns>
-		internal static LeaveRealmModel GenerateLeaveRealmModel(Realm realm)
+		public static LeaveRealmModel GenerateLeaveRealmModel(Realm realm)
 		{
 			LeaveRealmModel viewModel = new LeaveRealmModel();
 
@@ -46,7 +46,7 @@ namespace OpenIZAdmin.Util
 		/// </summary>
 		/// <param name="realm">The realm for which to generate the <see cref="OpenIZAdmin.Models.RealmModels.ViewModels.RealmViewModel"/> from.</param>
 		/// <returns>Returns an instance of the <see cref="OpenIZAdmin.Models.RealmModels.ViewModels.RealmViewModel"/> class.</returns>
-		internal static RealmViewModel GenerateRealmViewModel(Realm realm)
+		public static RealmViewModel GenerateRealmViewModel(Realm realm)
 		{
 			RealmViewModel viewModel = new RealmViewModel();
 

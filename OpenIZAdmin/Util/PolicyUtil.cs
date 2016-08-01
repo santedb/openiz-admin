@@ -29,7 +29,7 @@ using System.Linq;
 
 namespace OpenIZAdmin.Util
 {
-	internal static class PolicyUtil
+	public static class PolicyUtil
 	{
 		internal static IEnumerable<PolicyViewModel> GetAllPolicies(AmiServiceClient client)
 		{
@@ -52,7 +52,7 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
-		internal static PolicyViewModel ToPolicyViewModel(SecurityPolicyInfo policy)
+		public static PolicyViewModel ToPolicyViewModel(SecurityPolicyInfo policy)
 		{
 			PolicyViewModel viewModel = new PolicyViewModel();
 
@@ -66,7 +66,7 @@ namespace OpenIZAdmin.Util
 			return viewModel;
 		}
 
-		internal static SecurityPolicyInfo ToSecurityPolicy(CreatePolicyModel model)
+		public static SecurityPolicyInfo ToSecurityPolicy(CreatePolicyModel model)
 		{
 			SecurityPolicyInfo policy = new SecurityPolicyInfo();
 

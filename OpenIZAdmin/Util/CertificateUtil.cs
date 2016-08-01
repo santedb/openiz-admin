@@ -27,7 +27,7 @@ using System.Linq;
 
 namespace OpenIZAdmin.Util
 {
-	internal static class CertificateUtil
+	public static class CertificateUtil
 	{
 		internal static IEnumerable<CertificateSigningRequestViewModel> GetAllCertificateSigningRequests(AmiServiceClient client)
 		{
@@ -50,7 +50,7 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
-		internal static CertificateSigningRequestViewModel ToCertificateSigningRequestViewModel(SubmissionInfo submissionInfo)
+		public static CertificateSigningRequestViewModel ToCertificateSigningRequestViewModel(SubmissionInfo submissionInfo)
 		{
 			CertificateSigningRequestViewModel viewModel = new CertificateSigningRequestViewModel();
 
