@@ -234,6 +234,7 @@
     <Compile Include="Models\CertificateModels\ViewModels\CertificateSigningRequestViewModel.cs" />
     <Compile Include="Models\CertificateModels\ViewModels\CertificateViewModel.cs" />
     <Compile Include="Models\ConceptModels\ConceptSearchType.cs" />
+    <Compile Include="Models\ConceptModels\CreateConceptModel.cs" />
     <Compile Include="Models\ConceptModels\SearchConceptModel.cs" />
     <Compile Include="Models\ConceptModels\ViewModels\ConceptSearchResultViewModel.cs" />
     <Compile Include="Models\ConceptModels\ViewModels\ConceptViewModel.cs" />
@@ -263,6 +264,7 @@
     <Compile Include="Services\Http\Configuration\ServiceClientConfigurationSection.cs" />
     <Compile Include="Services\Http\RestClientService.cs" />
     <Compile Include="Services\Http\Security\AmiCredentials.cs" />
+    <Compile Include="Services\Http\Security\ImsCredentials.cs" />
     <Compile Include="Services\Http\Security\OAuthTokenServiceCredentials.cs" />
     <Compile Include="Services\Http\ServiceCertificateConfiguration.cs" />
     <Compile Include="Services\Http\ServiceClientBinding.cs" />
@@ -271,6 +273,7 @@
     <Compile Include="Services\Http\ServiceClientSecurity.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Util\CertificateUtil.cs" />
+    <Compile Include="Util\ConceptUtil.cs" />
     <Compile Include="Util\DeviceUtil.cs" />
     <Compile Include="Util\PlaceUtil.cs" />
     <Compile Include="Util\PolicyUtil.cs" />
@@ -379,6 +382,7 @@
     <Content Include="Views\Policy\Create.cshtml" />
     <Content Include="Views\Shared\_PolicySearchResultsPartial.cshtml" />
     <Content Include="Views\Policy\ViewPolicy.cshtml" />
+    <Content Include="Views\Concept\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />

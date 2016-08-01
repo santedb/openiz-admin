@@ -196,6 +196,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Concept created successfully.
+        /// </summary>
+        public static string ConceptCreatedSuccessfully {
+            get {
+                return ResourceManager.GetString("ConceptCreatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Concept Name.
         /// </summary>
         public static string ConceptName {
@@ -228,6 +237,15 @@ namespace OpenIZAdmin.Localization {
         public static string ConceptSearchResults {
             get {
                 return ResourceManager.GetString("ConceptSearchResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Concept.
+        /// </summary>
+        public static string CreateConcept {
+            get {
+                return ResourceManager.GetString("CreateConcept", resourceCulture);
             }
         }
         
@@ -538,6 +556,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language.
+        /// </summary>
+        public static string Language {
+            get {
+                return ResourceManager.GetString("Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a language.
+        /// </summary>
+        public static string LanguageRequired {
+            get {
+                return ResourceManager.GetString("LanguageRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last name.
         /// </summary>
         public static string LastName {
@@ -624,6 +660,15 @@ namespace OpenIZAdmin.Localization {
         public static string Mnemonic {
             get {
                 return ResourceManager.GetString("Mnemonic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The mnemonic field is required.
+        /// </summary>
+        public static string MnemonicRequired {
+            get {
+                return ResourceManager.GetString("MnemonicRequired", resourceCulture);
             }
         }
         
@@ -1011,6 +1056,15 @@ namespace OpenIZAdmin.Localization {
         public static string Submit {
             get {
                 return ResourceManager.GetString("Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to create concept.
+        /// </summary>
+        public static string UnableToCreateConcept {
+            get {
+                return ResourceManager.GetString("UnableToCreateConcept", resourceCulture);
             }
         }
         

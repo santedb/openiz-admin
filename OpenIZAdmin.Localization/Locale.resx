@@ -498,4 +498,22 @@
   <data name="JoinRealm" xml:space="preserve">
     <value>Join Realm</value>
   </data>
+  <data name="ConceptCreatedSuccessfully" xml:space="preserve">
+    <value>Concept created successfully</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="LanguageRequired" xml:space="preserve">
+    <value>Please select a language</value>
+  </data>
+  <data name="UnableToCreateConcept" xml:space="preserve">
+    <value>Unable to create concept</value>
+  </data>
+  <data name="CreateConcept" xml:space="preserve">
+    <value>Create Concept</value>
+  </data>
+  <data name="MnemonicRequired" xml:space="preserve">
+    <value>The mnemonic field is required</value>
+  </data>
 </root>

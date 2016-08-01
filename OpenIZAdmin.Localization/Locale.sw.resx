@@ -489,4 +489,22 @@
   <data name="JoinRealm" xml:space="preserve">
     <value>Kujiunga na ulimwengu</value>
   </data>
+  <data name="ConceptCreatedSuccessfully" xml:space="preserve">
+    <value>Dhana iliyoundwa kwa mafanikio</value>
+  </data>
+  <data name="Language" xml:space="preserve">
+    <value>Lugha</value>
+  </data>
+  <data name="LanguageRequired" xml:space="preserve">
+    <value>Tafadhali kuchagua lugha</value>
+  </data>
+  <data name="UnableToCreateConcept" xml:space="preserve">
+    <value>Hawawezi kujenga dhana</value>
+  </data>
+  <data name="CreateConcept" xml:space="preserve">
+    <value>Kujenga Dhana</value>
+  </data>
+  <data name="MnemonicRequired" xml:space="preserve">
+    <value>Uwanja mnemonic anahitajika</value>
+  </data>
 </root>

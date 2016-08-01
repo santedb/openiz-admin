@@ -21,11 +21,14 @@ using OpenIZ.Core.Model.AMI.Security;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Query;
 using OpenIZ.Messaging.AMI.Client;
+using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ConceptModels;
 using OpenIZAdmin.Models.ConceptModels.ViewModels;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
+using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -43,7 +46,56 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
 		/// </summary>
-		private AmiServiceClient client;
+		private AmiServiceClient amiClient;
+
+		private ImsiServiceClient imsiClient;
+
+		[HttpGet]
+		public ActionResult Create()
+		{
+			CreateConceptModel model = new CreateConceptModel();
+
+			ConceptUtil.PopulateLanguageList(ref model);
+
+			return View(model);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Create(CreateConceptModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				RestClientService restClient = new RestClientService("IMSI");
+
+				restClient.Accept = "application/xml";
+				restClient.Credentials = new ImsCredentials(this.User, this.Request);
+
+				using (ImsiServiceClient client = new ImsiServiceClient(restClient))
+				{
+					try
+					{
+						var result = client.Create(ConceptUtil.ToConcept(model));
+
+						TempData["success"] = Locale.ConceptCreatedSuccessfully;
+
+						return RedirectToAction("Index");
+					}
+					catch (Exception e)
+					{
+#if DEBUG
+						Trace.TraceError("Unable to create concept: {0}", e.StackTrace);
+#endif
+						Trace.TraceError("Unable to create concept: {0}", e.Message);
+					}
+				}
+			}
+
+			TempData["error"] = Locale.UnableToCreateConcept;
+			ConceptUtil.PopulateLanguageList(ref model);
+
+			return View(model);
+		}
 
 		/// <summary>
 		/// Displays the index view.
@@ -61,7 +113,7 @@ namespace OpenIZAdmin.Controllers
 			restClient.Accept = "application/xml";
 			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
 
-			this.client = new AmiServiceClient(restClient);
+			this.amiClient = new AmiServiceClient(restClient);
 
 			base.OnActionExecuting(filterContext);
 		}
@@ -142,7 +194,7 @@ namespace OpenIZAdmin.Controllers
 				throw new ArgumentException(string.Format("{0} must not be empty", nameof(query)));
 			}
 
-			return this.client.GetConcepts(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
+			return this.amiClient.GetConcepts(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
 		}
 
 		private AmiCollection<ConceptSet> SearchConceptSets(SearchConceptModel model)
@@ -164,7 +216,7 @@ namespace OpenIZAdmin.Controllers
 				throw new ArgumentException(string.Format("{0} must not be empty", nameof(query)));
 			}
 
-			return this.client.GetConceptSets(QueryExpressionParser.BuildLinqExpression<ConceptSet>(new NameValueCollection(query.ToArray())));
+			return this.amiClient.GetConceptSets(QueryExpressionParser.BuildLinqExpression<ConceptSet>(new NameValueCollection(query.ToArray())));
 		}
 
 		[HttpGet]
@@ -188,7 +240,7 @@ namespace OpenIZAdmin.Controllers
 						query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == conceptId));
 					}
 
-					var concept = this.client.GetConcepts(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray()))).CollectionItem.SingleOrDefault();
+					var concept = this.amiClient.GetConcepts(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray()))).CollectionItem.SingleOrDefault();
 
 					if (concept == null)
 					{
@@ -217,7 +269,7 @@ namespace OpenIZAdmin.Controllers
 
 					query.AddRange(QueryExpressionBuilder.BuildQuery<ConceptSet>(c => c.Key == conceptSetId));
 
-					var conceptSet = this.client.GetConceptSets(QueryExpressionParser.BuildLinqExpression<ConceptSet>(new NameValueCollection(query.ToArray()))).CollectionItem.SingleOrDefault();
+					var conceptSet = this.amiClient.GetConceptSets(QueryExpressionParser.BuildLinqExpression<ConceptSet>(new NameValueCollection(query.ToArray()))).CollectionItem.SingleOrDefault();
 
 					if (conceptSet == null)
 					{

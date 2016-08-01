@@ -13,6 +13,10 @@
 <div class="panel panel-default">
     <div class="panel panel-heading">
         Search Concepts
+        <div class="pull-right">
+            <span>@Locale.New</span>
+            <a href="~/Concept/Create" class="glyphicon glyphicon-plus-sign"></a>
+        </div>
     </div>
     <div class="panel panel-body">
         @using (Ajax.BeginForm("Search", null, options, new { @class = "form-horizontal", role = "form" }))
