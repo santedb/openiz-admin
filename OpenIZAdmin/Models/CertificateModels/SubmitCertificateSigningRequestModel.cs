@@ -56,20 +56,5 @@ namespace OpenIZAdmin.Models.CertificateModels
 		[EmailAddress]
 		[Display(Name = "Administrative Contact Email")]
 		public string AdministrativeContactEmail { get; set; }
-
-		/// <summary>
-		/// Converts a <see cref="OpenIZAdmin.Models.CertificateModels.SubmitCertificateSigningRequestModel"/> instance
-		/// to a <see cref="OpenIZ.Core.Model.AMI.Security.SubmissionRequest"/> instance.
-		/// </summary>
-		/// <returns>Returns a submission request.</returns>
-		public SubmissionRequest ToSubmissionRequest()
-		{
-			return new SubmissionRequest
-			{
-				CmcRequest = this.CmcRequest,
-				AdminAddress = this.AdministrativeContactEmail,
-				AdminContactName = this.AdministrativeContactName
-			};
-		}
 	}
 }

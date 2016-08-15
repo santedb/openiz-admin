@@ -9,6 +9,11 @@
             Represents a logger
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Diagnostics.Tracer.AddWriter(OpenIZ.Core.Diagnostics.TraceWriter)">
+            <summary>
+            Adds a writer to the trace stack
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Diagnostics.Tracer.#ctor(System.String)">
             <summary>
             Initializes a new instance of the <see cref="!:OpenIZ.Core.Diagnostics.Logger"/> class.
@@ -152,6 +157,11 @@
             Gets the address of the endpoint
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Http.Description.IRestClientEndpointDescription.Timeout">
+            <summary>
+            Gets or sets the timeouts
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Http.Description.IRestClientBindingDescription">
             <summary>
             REST client binding
@@ -221,7 +231,7 @@
             Gets the authentication realm
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Http.Description.IRestClientSecurityDescription.PremptiveAuthentication">
+        <member name="P:OpenIZ.Core.Http.Description.IRestClientSecurityDescription.PreemptiveAuthentication">
             <summary>
             When true instructs the client to pre-emptively authenticate itself
             </summary>
@@ -333,6 +343,11 @@
             Authenticate a user in the credential.
             </summary>
             <param name="context">Context.</param>
+        </member>
+        <member name="M:OpenIZ.Core.Http.ICredentialProvider.GetCredentials(System.Security.Principal.IPrincipal)">
+            <summary>
+            Gets credentials for the specified principal
+            </summary>
         </member>
         <member name="T:OpenIZ.Core.Http.IRestClient">
             <summary>
@@ -550,7 +565,7 @@
             <param name="query"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenIZ.Core.Http.RestClientBase.InvokeInternal``2(System.String,System.String,System.String,``0,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
+        <member name="M:OpenIZ.Core.Http.RestClientBase.InvokeInternal``2(System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.Net.HttpRequestHeader,System.String},``0,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
             <summary>
             Invokes the specified method against the url provided
             </summary>
@@ -710,6 +725,11 @@
             Creates the request event args with the specified values
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Http.RestRequestEventArgs.AdditionalHeaders">
+            <summary>
+            Gets or sets additional headers
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Http.RestRequestEventArgs.Cancel">
             <summary>
             Gets or sets an indicator whether this request can be cancelled
@@ -766,6 +786,56 @@
             Initializes a new instance of the <see cref="!:OpenIZ.Mobile.Core.Interop.Clients.ServiceClientBase"/> class.
             </summary>
             <param name="clientName">Client name.</param>
+        </member>
+        <member name="T:OpenIZ.Core.Services.IActRepositoryService">
+            <summary>
+            Represents the act repository service
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.FindSubstanceAdministrations(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Acts.SubstanceAdministration,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Find the substance administrations
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Services.ICarePlanService">
+            <summary>
+            Represents a class which can create care plans
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ICarePlanService.CreateCarePlan(OpenIZ.Core.Model.Roles.Patient)">
+            <summary>
+            Create a care plam
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Services.ICarePlanService.Protocols">
+            <summary>
+            Gets the list of protocols which can be or should be used to create the care plans
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Services.ICarePlanService.Repository">
+            <summary>
+            Gets or sets the clinical repository to use
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ICarePlanService.Initialize">
+            <summary>
+            Initializes the protocols
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Services.IClinicalProtocolRepositoryService">
+            <summary>
+            Represents a service that can do clinical protocols
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IClinicalProtocolRepositoryService.FindProtocol(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Acts.Protocol,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Find protocols in the repository service
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IClinicalProtocolRepositoryService.InsertProtocol(OpenIZ.Core.Model.Acts.Protocol)">
+            <summary>
+            Find protocols in the repository service
+            </summary>
         </member>
         <member name="T:OpenIZ.Core.Services.IConceptRepositoryService">
             <summary>
@@ -894,6 +964,93 @@
         <member name="M:OpenIZ.Core.Services.IDataCachingService.GetCacheItem``1(System.Guid)">
             <summary>
             Get the specified cache item
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Services.IMaterialRepositoryService">
+            <summary>
+            Represents the repository handler for materials
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.SaveMaterial(OpenIZ.Core.Model.Entities.Material)">
+            <summary>
+            Saves the specified material from data layer
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.InsertMaterial(OpenIZ.Core.Model.Entities.Material)">
+            <summary>
+            Inserts the material in the persistence layer
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.GetMaterial(System.Guid,System.Guid)">
+            <summary>
+            Gets the specified material from the database
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.ObsoleteMaterial(System.Guid)">
+            <summary>
+            Obsoletes the specified material
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.FindMaterial(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.Material,System.Boolean}})">
+            <summary>
+            Finds the specified material
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.FindMaterial(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.Material,System.Boolean}},System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            Finds the specified material with the specified restrictions
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.SaveManufacturedMaterial(OpenIZ.Core.Model.Entities.ManufacturedMaterial)">
+            <summary>
+            Saves the specified ManufacturedMaterial from data layer
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.InsertManufacturedMaterial(OpenIZ.Core.Model.Entities.ManufacturedMaterial)">
+            <summary>
+            Inserts the ManufacturedMaterial in the persistence layer
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.GetManufacturedMaterial(System.Guid,System.Guid)">
+            <summary>
+            Gets the specified ManufacturedMaterial from the database
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.ObsoleteManufacturedMaterial(System.Guid)">
+            <summary>
+            Obsoletes the specified ManufacturedMaterial
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.FindManufacturedMaterial(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.ManufacturedMaterial,System.Boolean}})">
+            <summary>
+            Finds the specified ManufacturedMaterial
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.FindManufacturedMaterial(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.ManufacturedMaterial,System.Boolean}},System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            Finds the specified ManufacturedMaterial with the specified restrictions
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Services.Impl.IMetadataRepositoryService">
+            <summary>
+            Represents a repository which deals with metadata such as assigning authorities,
+            concept classes, etc.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.IMetadataRepositoryService.GetAssigningAuthority(System.Guid)">
+            <summary>
+            Gets an assigning authority
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.IMetadataRepositoryService.FindAssigningAuthority(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.AssigningAuthority,System.Boolean}})">
+            <summary>
+            Finds the specified assigning authority 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.IMetadataRepositoryService.FindAssigningAuthority(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.AssigningAuthority,System.Boolean}},System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            Finds the specified assigning authority with restrictions
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Services.Impl.NullPhoneticAlgorithmHandler">
@@ -1075,95 +1232,289 @@
             Security repository service is responsible for the maintenance of security entities
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.CreateUser(OpenIZ.Core.Model.Security.SecurityUser,System.String)">
-            <summary>
-            Create the specified user with specified password
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.ObsoleteUser(System.Guid)">
-            <summary>
-            Obsolete a user
-            </summary>
-        </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.ChangePassword(System.Guid,System.String)">
             <summary>
-            Change user's password
+            Changes a user's password.
+            </summary>
+            <param name="userId">The id of the user.</param>
+            <param name="password">The new password of the user.</param>
+            <returns>Returns the updated user.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.CreateDevice(OpenIZ.Core.Model.Security.SecurityDevice)">
+            <summary>
+            Creates a device.
+            </summary>
+            <param name="device">The security device.</param>
+            <returns>Returns the newly created device.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.CreatePolicy(OpenIZ.Core.Model.Security.SecurityPolicy)">
+            <summary>
+            Creates a security policy.
+            </summary>
+            <param name="policy">The security policy.</param>
+            <returns>Returns the newly created policy.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.CreateRole(OpenIZ.Core.Model.Security.SecurityRole)">
+            <summary>
+            Creates a role.
+            </summary>
+            <param name="roleInfo">The security role.</param>
+            <returns>Returns the newly created security role.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.CreateUser(OpenIZ.Core.Model.Security.SecurityUser,System.String)">
+            <summary>
+            Creates a user with a specified password.
+            </summary>
+            <param name="userInfo">The security user.</param>
+            <param name="password">The password.</param>
+            <returns>Returns the newly created user.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.CreateUserEntity(OpenIZ.Core.Model.Entities.UserEntity)">
+            <summary>
+            Creates the specified user entity
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindDevices(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityDevice,System.Boolean}})">
+            <summary>
+            Gets a list of devices based on a query.
+            </summary>
+            <param name="query">The query to use to match the devices.</param>
+            <returns>Returns a list of devices.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindDevices(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityDevice,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Gets a list of devices based on a query.
+            </summary>
+            <param name="query">The filter to use to match the devices.</param>
+            <param name="offset">The offset of the search.</param>
+            <param name="count">The number of devices.</param>
+            <param name="totalResults">The total number of devices.</param>
+            <returns>Returns a list of devices.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindPolicies(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityPolicy,System.Boolean}})">
+            <summary>
+            Gets a list of policies based on a query.
+            </summary>
+            <param name="query">The query to use to match the policies.</param>
+            <returns>Returns a list of policies.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindPolicies(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityPolicy,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Gets a list of policies based on a query.
+            </summary>
+            <param name="query">The query to use to match the policies.</param>
+            <param name="offset">The offset of the search.</param>
+            <param name="count">The number of policies.</param>
+            <param name="totalResults">The total number of policies.</param>
+            <returns>Returns a list of policies.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindRoles(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityRole,System.Boolean}})">
+            <summary>
+            Gets a list of roles based on a query.
+            </summary>
+            <param name="query">The query to use to match the roles.</param>
+            <returns>Returns a list of roles.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindRoles(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityRole,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Gets a list of roles based on a query.
+            </summary>
+            <param name="query">The query to use to match the roles.</param>
+            <param name="offset">The offset of the search.</param>
+            <param name="count">The number of roles.</param>
+            <param name="totalResults">The total number of roles.</param>
+            <returns>Returns a list of roles.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindUserEntity(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.UserEntity,System.Boolean}})">
+            <summary>
+            Finds the specified user entity 
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.LockUser(System.Guid)">
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindUserEntity(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.UserEntity,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
             <summary>
-            Lock a user
+            Finds the specified user entity 
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.UnlockUser(System.Guid)">
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindUsers(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityUser,System.Boolean}})">
             <summary>
-            Unlock a user
+            Gets a list of users based on a query.
             </summary>
+            <param name="query">The query to use to match the users.</param>
+            <returns>Returns a list of users.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindUsers(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityUser,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Gets a list of users based on a query.
+            </summary>
+            <param name="query">The query to use to match the users.</param>
+            <param name="offset">The offset of the search.</param>
+            <param name="count">The number of users.</param>
+            <param name="totalResults">The total number of users.</param>
+            <returns>Returns a list of roles.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.GetDevice(System.Guid)">
+            <summary>
+            Gets a specific device.
+            </summary>
+            <param name="deviceId">The id of the device to be retrieved.</param>
+            <returns>Returns the device.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.GetRole(System.Guid)">
+            <summary>
+            Gets a specific role.
+            </summary>
+            <param name="roleId">The id of the role to retrieve.</param>
+            <returns>Returns the role.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.GetUser(System.Guid)">
+            <summary>
+            Gets a specific user.
+            </summary>
+            <param name="userId">The id of the user to retrieve.</param>
+            <returns>Returns the user.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.GetUser(System.Security.Principal.IIdentity)">
             <summary>
             Gets the specified security user based on the principal
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.GetUser(System.Guid)">
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.GetUserEntity(System.Guid,System.Guid)">
             <summary>
-            Get the specified user
+            Gets the specified user entity
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindUsers(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityUser,System.Boolean}})">
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.LockUser(System.Guid)">
             <summary>
-            Finds the specified users
+            Locks a specific user.
+            </summary>
+            <param name="userId">The id of the user to lock.</param>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.ObsoleteUserEntity(System.Guid)">
+            <summary>
+            Obsoletes the specfied user entity
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindUsers(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityUser,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.ObsoleteDevice(System.Guid)">
             <summary>
-            Finds the specified users matching the query 
+            Obsoletes a device.
             </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.SaveUser(OpenIZ.Core.Model.Security.SecurityUser)">
-            <summary>
-            Save the specified security user
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.CreateRole(OpenIZ.Core.Model.Security.SecurityRole)">
-            <summary>
-            Create the specified Role with specified password
-            </summary>
+            <param name="deviceId">The id of the device to be obsoleted.</param>
+            <returns>Returns the obsoleted device.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.ObsoleteRole(System.Guid)">
             <summary>
-            Obsolete a Role
+            Obsoletes a role.
             </summary>
+            <param name="roleId">The id of the role to be obsoleted.</param>
+            <returns>Returns the obsoleted role.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.GetRole(System.Guid)">
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.ObsoleteUser(System.Guid)">
             <summary>
-            Get the specified Role
+            Obsoletes a user.
             </summary>
+            <param name="userId">The id of the user to be obsoleted.</param>
+            <returns>Returns the obsoleted user.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindRoles(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityRole,System.Boolean}})">
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.SaveDevice(OpenIZ.Core.Model.Security.SecurityDevice)">
             <summary>
-            Finds the specified Roles
+            Updates a security device.
             </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindRoles(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityRole,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
-            <summary>
-            Finds the specified Roles matching the query 
-            </summary>
+            <param name="device">The security device containing the updated information.</param>
+            <returns>Returns the updated device.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.SaveRole(OpenIZ.Core.Model.Security.SecurityRole)">
             <summary>
-            Save the specified security Role
+            Updates a security role.
+            </summary>
+            <param name="role">The security role containing the updated information.</param>
+            <returns>Returns the updated role.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.SaveUser(OpenIZ.Core.Model.Security.SecurityUser)">
+            <summary>
+            Updates a security user.
+            </summary>
+            <param name="user">The security user containing the updated information.</param>
+            <returns>Returns the updated user.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.SaveUserEntity(OpenIZ.Core.Model.Entities.UserEntity)">
+            <summary>
+            Saves (inserts or updates) the specified user entity
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindPolicies(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityPolicy,System.Boolean}})">
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.UnlockUser(System.Guid)">
             <summary>
-            Gets the specified policies
+            Unlocks a specific user.
+            </summary>
+            <param name="userId">The id of the user to be unlocked.</param>
+        </member>
+        <member name="T:OpenIZ.Core.Protocol.IClinicalProtocol">
+            <summary>
+            Represents a clinical protocol
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindPolicies(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityPolicy,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+        <member name="M:OpenIZ.Core.Protocol.IClinicalProtocol.Load(OpenIZ.Core.Model.Acts.Protocol)">
             <summary>
-            Find the specified policies
+            Load the specified protocol data
             </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Protocol.IClinicalProtocol.GetProtcolData">
+            <summary>
+            Get the protocol data
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Protocol.IClinicalProtocol.Id">
+            <summary>
+            Gets the identifier for the protocol
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Protocol.IClinicalProtocol.Name">
+            <summary>
+            Gets the name of the protocol
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Protocol.IClinicalProtocol.Calculate(OpenIZ.Core.Model.Roles.Patient)">
+            <summary>
+            Calculate the clinical protocol for the given patient
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Protocol.IClinicalProtocol.Update(OpenIZ.Core.Model.Roles.Patient,System.Collections.Generic.List{OpenIZ.Core.Model.Acts.Act})">
+            <summary>
+            Update the care plan based on new data
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Protocol.SimpleCarePlanService">
+            <summary>
+            Represents a care plan service that can bundle protocol acts together 
+            based on their start/stop times
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Protocol.SimpleCarePlanService.#ctor">
+            <summary>
+            Constructs the aggregate care planner
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Protocol.SimpleCarePlanService.Initialize">
+            <summary>
+            Initialize
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Protocol.SimpleCarePlanService.Protocols">
+            <summary>
+            Gets the protocols
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Protocol.SimpleCarePlanService.Repository">
+            <summary>
+            Gets or sets the repository to be used
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Protocol.SimpleCarePlanService.CreateCarePlan(OpenIZ.Core.Model.Roles.Patient)">
+            <summary>
+            Create a care plan
+            </summary>
+            <param name="p"></param>
+            <returns></returns>
         </member>
     </members>
 </doc>

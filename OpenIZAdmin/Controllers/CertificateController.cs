@@ -17,11 +17,13 @@
  * Date: 2016-7-8
  */
 
+using OpenIZ.Core.Model.AMI.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models.CertificateModels;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
+using OpenIZAdmin.Util;
 using System;
 using System.Diagnostics;
 using System.Web.Mvc;
@@ -140,28 +142,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Gets the certificate revocation list.
-		/// </summary>
-		/// <returns>Returns a view with a list of revoked certificates.</returns>
-		[HttpGet]
-		[ActionName("CertificateRevocationList")]
-		public ActionResult GetCertificateRevocationList()
-		{
-			//var response = await this.client.GetAsync(string.Format("/crl"));
-
-			//if (response.IsSuccessStatusCode)
-			//{
-			//	CertificateRevocationListViewModel viewModel = new CertificateRevocationListViewModel();
-
-			//	return View(viewModel);
-			//}
-
-			TempData["error"] = "Unable to retrieve certificate revocation list";
-
-			return RedirectToAction("Index");
-		}
-
-		/// <summary>
 		/// Gets a list of certificates.
 		/// </summary>
 		/// <returns>Returns a view with a list of certificates.</returns>
@@ -184,37 +164,10 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Gets a certificate signing request.
-		/// </summary>
-		/// <param name="id">The id of the certificate signing request.</param>
-		/// <returns>Returns a view with the certificate signing request.</returns>
-		[HttpGet]
-		[ActionName("CertificateSigningRequest")]
-		public ActionResult GetCertificateSigningRequest(string id)
-		{
-			//if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
-			//{
-			//	var response = await this.client.GetAsync(string.Format("/csr/{0}", id));
-
-			//	if (response.IsSuccessStatusCode)
-			//	{
-			//		CertificateSigningRequestViewModel viewModel = new CertificateSigningRequestViewModel();
-
-			//		return View(viewModel);
-			//	}
-			//}
-
-			TempData["error"] = "Unable to find specified certificate signing request";
-
-			return RedirectToAction("Index");
-		}
-
-		/// <summary>
 		/// Gets a list of certificate signing requests.
 		/// </summary>
 		/// <returns>Returns a view with a list of certificate signing requests.</returns>
 		[HttpGet]
-		[ActionName("GetCertificateSigningRequests")]
 		public ActionResult GetCertificateSigningRequests()
 		{
 			//var response = await this.client.GetAsync(string.Format("/csrs/"));
@@ -238,29 +191,8 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Index()
 		{
-			//var response = await this.client.GetAsync<AmiCollection<SubmissionInfo>>(string.Format("/csrs/"));
-
-			//if (response == null)
-			//{
-			//	TempData["error"] = "Unable to retrieve certificate signing request list";
-
-			//	return RedirectToAction("Index", "Home");
-			//}
-			//else
-			//{
-			//	CertificateIndexViewModel viewModel = new CertificateIndexViewModel
-			//	{
-			//		CertificateSigningRequests = new List<CertificateSigningRequestViewModel>
-			//		{
-			//		}
-			//	};
-
-			//	return View(viewModel);
-			//}
-
-			TempData["error"] = "Unable to retrieve certificate signing request list";
-
-			return RedirectToAction("Index", "Home");
+			TempData["searchType"] = "Certificate";
+			return View(CertificateUtil.GetAllCertificateSigningRequests(this.client));
 		}
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
@@ -280,7 +212,6 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <returns>Returns a view with the status of the rejection.</returns>
 		[HttpPost]
-		[ActionName("RejectCsr")]
 		[ValidateAntiForgeryToken]
 		public ActionResult RejectCertificateSigningRequest(RejectCertificateSigningRequestModel model)
 		{
@@ -308,31 +239,81 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		[HttpPost]
-		[ActionName("SubmitCsr")]
 		[ValidateAntiForgeryToken]
 		public ActionResult SubmitCertificateSigningRequest(SubmitCertificateSigningRequestModel model)
 		{
-			//if (ModelState.IsValid)
-			//{
-			//	SubmissionRequest submissionRequest = model.ToSubmissionRequest();
+			if (ModelState.IsValid)
+			{
+				SubmissionRequest submissionRequest = CertificateUtil.ToSubmissionRequest(model);
 
-			//	var response = await this.client.PostAsync<SubmissionRequest, SubmissionRequest>("/csr/", submissionRequest);
+				SubmissionResult result = null;
 
-			//	if (response == null)
-			//	{
-			//		TempData["error"] = "Unable to submit certificate signing request";
+				try
+				{
+					result = this.client.SubmitCertificateSigningRequest(submissionRequest);
 
-			//		return View(model);
-			//	}
+					TempData["success"] = "Certificate signing request successfully submitted";
 
-			//	TempData["success"] = "Certificate signing request successfully submitted";
-
-			//	return RedirectToAction("Index");
-			//}
+					return RedirectToAction("Index");
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					Trace.TraceError("Unable to submit certificate signing request: {0}", e.StackTrace);
+#endif
+					Trace.TraceError("Unable to submit certificate signing request: {0}", e.Message);
+				}
+			}
 
 			TempData["error"] = "Unable to submit certificate signing request";
 
 			return View(model);
+		}
+
+		/// <summary>
+		/// Gets the certificate revocation list.
+		/// </summary>
+		/// <returns>Returns a view with a list of revoked certificates.</returns>
+		[HttpGet]
+		public ActionResult ViewCertificateRevocationList()
+		{
+			//var response = await this.client.GetAsync(string.Format("/crl"));
+
+			//if (response.IsSuccessStatusCode)
+			//{
+			//	CertificateRevocationListViewModel viewModel = new CertificateRevocationListViewModel();
+
+			//	return View(viewModel);
+			//}
+
+			TempData["error"] = "Unable to retrieve certificate revocation list";
+
+			return RedirectToAction("Index");
+		}
+
+		/// <summary>
+		/// Gets a certificate signing request.
+		/// </summary>
+		/// <param name="id">The id of the certificate signing request.</param>
+		/// <returns>Returns a view with the certificate signing request.</returns>
+		[HttpGet]
+		public ActionResult ViewCertificateSigningRequest(string id)
+		{
+			//if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
+			//{
+			//	var response = await this.client.GetAsync(string.Format("/csr/{0}", id));
+
+			//	if (response.IsSuccessStatusCode)
+			//	{
+			//		CertificateSigningRequestViewModel viewModel = new CertificateSigningRequestViewModel();
+
+			//		return View(viewModel);
+			//	}
+			//}
+
+			TempData["error"] = "Unable to find specified certificate signing request";
+
+			return RedirectToAction("Index");
 		}
 	}
 }

@@ -22,17 +22,9 @@ using System.Collections.Generic;
 
 namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 {
-	public class DetailedConceptViewModel : ConceptViewModel
+	public class DetailedConceptViewModel
 	{
 		public DetailedConceptViewModel()
-		{
-		}
-
-		public DetailedConceptViewModel(Concept concept) : base(concept)
-		{
-		}
-
-		public DetailedConceptViewModel(ConceptSet conceptSet) : base(conceptSet)
 		{
 		}
 

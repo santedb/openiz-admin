@@ -97,7 +97,7 @@ namespace OpenIZAdmin.Services.Http
 		/// <param name="body">The body of the request.</param>
 		/// <param name="query">The query parameters of the request.</param>
 		/// <returns>Returns the response of the request.</returns>
-		protected override TResult InvokeInternal<TBody, TResult>(string method, string url, string contentType, TBody body, params KeyValuePair<string, object>[] query)
+		protected override TResult InvokeInternal<TBody, TResult>(string method, string url, string contentType, Dictionary<HttpRequestHeader, string> additionalHeaders, TBody body, params KeyValuePair<string, object>[] query)
 		{
 			if (string.IsNullOrEmpty(method))
 			{
@@ -111,9 +111,13 @@ namespace OpenIZAdmin.Services.Http
 
 			var requestObj = this.CreateHttpRequest(url, query);
 
-			if (!string.IsNullOrEmpty(contentType))
+			if (!string.IsNullOrEmpty(contentType) && !string.IsNullOrWhiteSpace(contentType))
 			{
 				requestObj.ContentType = contentType;
+			}
+			else
+			{
+				requestObj.ContentType = "application/xml";
 			}
 
 			requestObj.Method = method;
@@ -163,7 +167,7 @@ namespace OpenIZAdmin.Services.Http
 					// De-serialize
 					serializer = this.Description.Binding.ContentTypeMapper.GetSerializer(response.ContentType, typeof(TResult));
 
-					EntitySource.Current = new EntitySource(new WebEntitySourceProvider());
+					EntitySource.Current = new EntitySource(new WebEntitySourceProvider(this.Credentials));
 
 					// Compression?
 					switch (response.Headers[HttpResponseHeader.ContentEncoding])

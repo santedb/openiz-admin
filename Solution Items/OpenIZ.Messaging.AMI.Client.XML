@@ -104,6 +104,16 @@
             Dispose of any resources.
             </summary>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.FindRole(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityRole,System.Boolean}})">
+            <summary>
+            Retrieves the specified role from the AMI
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.FindPolicy(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityPolicy,System.Boolean}})">
+            <summary>
+            Retrieves the specified role from the AMI
+            </summary>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetCertificates(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.AMI.Security.X509Certificate2Info,System.Boolean}})">
             <summary>
             Gets a list of certificates.

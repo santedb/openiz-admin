@@ -18,6 +18,7 @@
  */
 
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.RoleModels.ViewModels
 {
@@ -27,10 +28,13 @@ namespace OpenIZAdmin.Models.RoleModels.ViewModels
 		{
 		}
 
+		[Display(Name = "Description", ResourceType = typeof(Localization.Locale))]
 		public string Description { get; set; }
 
+		[Display(Name = "Id", ResourceType = typeof(Localization.Locale))]
 		public Guid Id { get; set; }
 
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 	}
 }

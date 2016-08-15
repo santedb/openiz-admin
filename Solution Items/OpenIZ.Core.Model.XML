@@ -24,6 +24,11 @@
             Gets or sets the stop time of the act
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.Acts.Act.Template">
+            <summary>
+            Gets or sets the template identifier 
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.ActTimeXml">
             <summary>
             Gets or sets the creation time in XML format
@@ -109,6 +114,11 @@
             Gets a list of all associated acts for this act
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.Acts.Act.Policies">
+            <summary>
+            Gets or sets the policy instances
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.Extensions">
             <summary>
             Gets a list of all extensions associated with the act
@@ -138,6 +148,12 @@
             <summary>
             Forces the delay load properties in this type to reload
             </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Acts.Act.Clean">
+            <summary>
+            Clean the patient of any empty "noise" elements
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:OpenIZ.Core.Model.Acts.ActParticipation">
             <summary>
@@ -179,6 +195,11 @@
             Gets or sets the role that the entity played in participating in the act
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.Acts.ActParticipation.ActKey">
+            <summary>
+            The entity that this relationship targets
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.Acts.ActParticipation.Act">
             <summary>
             The entity that this relationship targets
@@ -188,6 +209,18 @@
             <summary>
             Forces a delay load from the underlying model
             </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Acts.ActParticipation.Clean">
+            <summary>
+            Clean
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Acts.ActParticipation.IsEmpty">
+            <summary>
+            Determine if this is empty
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:OpenIZ.Core.Model.Acts.ActProtocol">
             <summary>
@@ -432,6 +465,16 @@
         <member name="P:OpenIZ.Core.Model.Acts.SubstanceAdministration.SequenceId">
             <summary>
             The sequence of the dose (i.e. OPV 0 = 0 , OPV 1 = 1, etc.)
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Acts.SubstanceAdministration.SiteKey">
+            <summary>
+            Gets or sets the site
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Acts.SubstanceAdministration.Site">
+            <summary>
+            Gets or sets a concept which indicates the site of administration
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.Acts.SubstanceAdministration.Refresh">
@@ -994,6 +1037,11 @@
         <member name="P:OpenIZ.Core.Model.Collection.Bundle.TotalResults">
             <summary>
             Gets or sets the total results
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Collection.Bundle.SetDelayLoad(System.Boolean)">
+            <summary>
+            Set delay loading on bundle
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.Collection.Bundle.CreateBundle(OpenIZ.Core.Model.IdentifiedData)">
@@ -1812,6 +1860,11 @@
             The URL of the assigning authority
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.DataTypes.AssigningAuthority.AuthorityScopeXml">
+            <summary>
+            Represents scopes to which the authority is bound
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.DataTypes.AssigningAuthority.AssigningDeviceKey">
             <summary>
             Assigning device identifier
@@ -1820,6 +1873,11 @@
         <member name="P:OpenIZ.Core.Model.DataTypes.AssigningAuthority.AssigningDevice">
             <summary>
             Gets or sets the assigning device
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.DataTypes.AssigningAuthority.AuthorityScope">
+            <summary>
+            Gets concept sets to which this concept is a member
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.DataTypes.AssigningAuthority.Refresh">
@@ -2287,6 +2345,12 @@
             Force reloading of delay load properties
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.IdentifierBase`1.IsEmpty">
+            <summary>
+            True if the identifier is empty
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:OpenIZ.Core.Model.DataTypes.IdentifierType">
             <summary>
             Represents a basic information class which classifies the use of an identifier
@@ -2527,6 +2591,31 @@
             Construtor setting key and tag
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Model.DataTypes.TemplateDefinition">
+            <summary>
+            Represents a template definition
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.DataTypes.TemplateDefinition.Mnemonic">
+            <summary>
+            Gets or sets the mnemonic
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.DataTypes.TemplateDefinition.Name">
+            <summary>
+            Gets or set the name 
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.DataTypes.TemplateDefinition.Oid">
+            <summary>
+            Gets or sets the oid of the concept set
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.DataTypes.TemplateDefinition.Description">
+            <summary>
+            Gets or sets the description
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Entities.UserEntity">
             <summary>
             Represents a user entity
@@ -2627,6 +2716,11 @@
             Creates a new instance of the entity class
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.Entities.Entity.Template">
+            <summary>
+            Gets or sets the template identifier 
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.Entities.Entity.ClassConceptKey">
             <summary>
             Class concept
@@ -2722,6 +2816,12 @@
             Gets the acts in which this entity participates
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Entities.Entity.Clean">
+            <summary>
+            Clean the patient of any empty "noise" elements
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:OpenIZ.Core.Model.Entities.EntityAddress">
             <summary>
             Entity address
@@ -2751,6 +2851,17 @@
             <summary>
             Gets or sets the component types
             </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityAddress.Clean">
+            <summary>
+            Remove empty components
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityAddress.IsEmpty">
+            <summary>
+            True if empty
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:OpenIZ.Core.Model.Entities.EntityAddressComponent">
             <summary>
@@ -2811,6 +2922,17 @@
             Refreshes the underlying content
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityName.Clean">
+            <summary>
+            Clean object
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityName.IsEmpty">
+            <summary>
+            True if empty
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:OpenIZ.Core.Model.Entities.EntityNameComponent">
             <summary>
             Represents a name component which is bound to a name
@@ -2847,6 +2969,11 @@
         <member name="P:OpenIZ.Core.Model.Entities.EntityNameComponent.PhoneticAlgorithm">
             <summary>
             Gets or sets the phonetic algorithm
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityNameComponent.ToString">
+            <summary>
+            Value of the name
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Entities.EntityRelationship">
@@ -2894,6 +3021,18 @@
             Gets or sets the association type
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityRelationship.IsEmpty">
+            <summary>
+            Is empty
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityRelationship.Clean">
+            <summary>
+            Clean the entity
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:OpenIZ.Core.Model.Entities.EntityRelationship.Refresh">
             <summary>
             Refresh this entity
@@ -2918,6 +3057,12 @@
             <summary>
             Gets or sets the name use key
             </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityTelecomAddress.IsEmpty">
+            <summary>
+            Empty
+            </summary>
+            <returns></returns>
         </member>
         <member name="P:OpenIZ.Core.Model.Entities.EntityTelecomAddress.AddressUse">
             <summary>
@@ -2969,6 +3114,12 @@
             <summary>
             Gets or sets the value of the name component
             </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.GenericComponentValues`1.IsEmpty">
+            <summary>
+            Gets if the item is empty
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:OpenIZ.Core.Model.Entities.GenericComponentValues`1.Refresh">
             <summary>
@@ -3317,6 +3468,17 @@
             Gets a tag which changes whenever the object is updated
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.IdentifiedData.Clean">
+            <summary>
+            Cleans the identified data of any "empty" stuff
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.IdentifiedData.IsEmpty">
+            <summary>
+            True if the object is empty
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:OpenIZ.Core.Model.IdentifiedData.Clone">
             <summary>
             Clone the specified data
@@ -3422,6 +3584,21 @@
             Gets the previous version
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Model.Map.CastMap">
+            <summary>
+            Cast map
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Map.CastMap.TypeName">
+            <summary>
+            Type name
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Map.CastMap.ModelType">
+            <summary>
+            Gets the model CLR type
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Map.ClassMap">
             <summary>
             Class mapping
@@ -3460,6 +3637,11 @@
         <member name="P:OpenIZ.Core.Model.Map.ClassMap.ParentDomainProperty">
             <summary>
             Gets or sets the base proeprty 
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Map.ClassMap.Cast">
+            <summary>
+            Casting
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.Map.ClassMap.TryGetCollapseKey(System.String,OpenIZ.Core.Model.Map.CollapseKey@)">
@@ -3539,6 +3721,19 @@
             Value - MethodInfo of the method that will perform the operation to convert
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Map.MapUtil.RegisterMap(System.Type,System.Type,System.Reflection.MethodInfo)">
+            <summary>
+            Register a map
+            </summary>
+            <param name="sourceType"></param>
+            <param name="destType"></param>
+            <param name="method"></param>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Map.MapUtil.HasMap(System.Type,System.Type)">
+            <summary>
+            Returns true if the maps contains 
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Model.Map.MapUtil.FindConverter(System.Type,System.Type,System.Type)">
             <summary>
             Find the converter for the types specified
@@ -3568,7 +3763,7 @@
             classes
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.Map.ModelExpressionVisitor.LambdaCorrectionVisitor.#ctor(System.Linq.Expressions.Expression,System.Linq.Expressions.ParameterExpression)">
+        <member name="M:OpenIZ.Core.Model.Map.ModelExpressionVisitor.LambdaCorrectionVisitor.#ctor(System.Linq.Expressions.Expression,System.Linq.Expressions.ParameterExpression,OpenIZ.Core.Model.Map.ModelMapper)">
             <summary>
             Creates a new instance of the lambda correction visitor
             </summary>
@@ -3591,6 +3786,16 @@
         <member name="M:OpenIZ.Core.Model.Map.ModelExpressionVisitor.Visit(System.Linq.Expressions.Expression)">
             <summary>
             Visit an expression
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Map.ModelExpressionVisitor.VisitTypeBinary(System.Linq.Expressions.TypeBinaryExpression)">
+            <summary>
+            Map type binary
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Map.ModelExpressionVisitor.VisitUnary(System.Linq.Expressions.UnaryExpression)">
+            <summary>
+            Visit unary expression
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.Map.ModelExpressionVisitor.VisitConvert(System.Linq.Expressions.UnaryExpression)">
@@ -3726,6 +3931,11 @@
             Fires that a map has occurred
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Map.ModelMapper.MapTypeCast(System.Linq.Expressions.UnaryExpression,System.Linq.Expressions.Expression)">
+            <summary>
+            Maps a cast to appropriate path
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Model.Map.ModelMapper.MapModelMember(System.Linq.Expressions.MemberExpression,System.Linq.Expressions.Expression,System.Type)">
             <summary>
             Map member 
@@ -3785,6 +3995,16 @@
         <member name="M:OpenIZ.Core.Model.Map.OpenIZConvert.ByteToGuid(System.Byte[])">
             <summary>
             Byte[] > GUID
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Map.OpenIZConvert.DateTimeToDateTimeOffset(System.Nullable{System.DateTime})">
+            <summary>
+            DT > DTO
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Map.OpenIZConvert.DateTimeOffsetToDateTime(System.Nullable{System.DateTimeOffset})">
+            <summary>
+            DTO > DT
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.Map.OpenIZConvert.DateTimeToDateTimeOffset(System.DateTime)">
@@ -4016,6 +4236,11 @@
         <member name="T:OpenIZ.Core.Model.Reflection.ReflectionUtil">
             <summary>
             Reflection tools
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Reflection.ReflectionUtil.StripNullable(System.Type)">
+            <summary>
+            Strips any nullable typing
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.Reflection.ReflectionUtil.CopyObjectData``1(``0,``0)">
@@ -4400,6 +4625,71 @@
         <member name="M:OpenIZ.Core.Model.NonVersionedEntityData.Refresh">
             <summary>
             Forces refresh
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.Stock.StockBalance">
+            <summary>
+            Stock balance
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Stock.StockBalance.Quantity">
+            <summary>
+            Gets or sets the quantity of object
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Stock.StockBalance.MaterialKey">
+            <summary>
+            Gets or sets the material key
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Stock.StockBalance.Material">
+            <summary>
+            Material which is being counted
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.Stock.StockLedger">
+            <summary>
+            Represents a single entry in a place's stock ledger
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Stock.StockLedger.Quantity">
+            <summary>
+            Gets or sets the quantity of stock in the ledger object
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Stock.StockLedger.StockActionKey">
+            <summary>
+            Gets or sets the stock action performed
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Stock.StockLedger.StockAction">
+            <summary>
+            Gets or sets the stock action
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Stock.StockLedger.MaterialKey">
+            <summary>
+            Gets or sets the material key
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Stock.StockLedger.Material">
+            <summary>
+            Material which is being counted
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Stock.StockLedger.CreationTime">
+            <summary>
+            Gets or sets the creation time
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Stock.StockLedger.CreatedByKey">
+            <summary>
+            Gets or set the key of the user that created this 
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Stock.StockLedger.CreatedBy">
+            <summary>
+            Gets or sets the user that created this entry
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.VersionedAssociation`1">

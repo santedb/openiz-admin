@@ -83,7 +83,10 @@ namespace OpenIZAdmin.Util
 			UserViewModel viewModel = new UserViewModel();
 
 			viewModel.Email = userInfo.Email;
+			viewModel.InvalidLoginAttempts = userInfo.User.InvalidLoginAttempts;
 			viewModel.IsLockedOut = userInfo.Lockout;
+			viewModel.LastLoginTime = userInfo.User.LastLoginTime?.DateTime;
+			viewModel.PhoneNumber = userInfo.User.PhoneNumber;
 			viewModel.Roles = userInfo.Roles.Select(r => RoleUtil.ToRoleViewModel(r));
 			viewModel.UserId = userInfo.UserId.Value;
 			viewModel.Username = userInfo.UserName;

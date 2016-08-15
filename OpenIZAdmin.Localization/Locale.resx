@@ -516,4 +516,7 @@
   <data name="MnemonicRequired" xml:space="preserve">
     <value>The mnemonic field is required</value>
   </data>
+  <data name="Details" xml:space="preserve">
+    <value>Details</value>
+  </data>
 </root>

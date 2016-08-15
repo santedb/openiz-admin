@@ -17,6 +17,7 @@
  * Date: 2016-7-23
  */
 
+using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Query;
 using OpenIZ.Messaging.AMI.Client;
@@ -117,7 +118,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var places = this.client.GetPlaces(p => p.Names.SelectMany(n => n.Component).Any(c => c.Value == searchTerm));
+					var places = this.client.GetPlaces(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))));
 
 					return PartialView("_PlaceSearchResultsPartial", places.CollectionItem.Select(p => PlaceUtil.ToPlaceViewModel(p)).OrderBy(p => p.Name));
 				}

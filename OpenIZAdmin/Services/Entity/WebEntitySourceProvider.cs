@@ -17,6 +17,7 @@
  * Date: 2016-7-23
  */
 
+using OpenIZ.Core.Http;
 using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.EntityLoader;
 using OpenIZ.Core.Model.Interfaces;
@@ -33,8 +34,9 @@ namespace OpenIZAdmin.Services.Entity
 	{
 		private ImsiServiceClient serviceClient = new ImsiServiceClient(new RestClientService("IMSI"));
 
-		public WebEntitySourceProvider()
+		public WebEntitySourceProvider(Credentials credentials)
 		{
+			this.serviceClient.Client.Credentials = credentials;
 		}
 
 		#region IDisposable Support
@@ -94,11 +96,6 @@ namespace OpenIZAdmin.Services.Entity
 			return response as TObject;
 		}
 
-		public List<TObject> GetRelations<TObject>(Guid? sourceKey, decimal? sourceVersionSequence, List<TObject> currentInstance) where TObject : IdentifiedData, IVersionedAssociation, new()
-		{
-			return this.Query<TObject>(x => x.SourceEntityKey == sourceKey.GetValueOrDefault(Guid.Empty)).ToList();
-		}
-
 		public IEnumerable<TObject> Query<TObject>(Expression<Func<TObject, bool>> query) where TObject : IdentifiedData, new()
 		{
 			var response = this.serviceClient.Query<TObject>(query);
@@ -113,7 +110,7 @@ namespace OpenIZAdmin.Services.Entity
 
 		public List<TObject> GetRelations<TObject>(Guid? sourceKey, decimal? sourceVersionSequence) where TObject : IdentifiedData, IVersionedAssociation, new()
 		{
-			throw new NotImplementedException();
+			return this.Query<TObject>(o => sourceKey == o.SourceEntityKey && sourceVersionSequence >= o.EffectiveVersionSequenceId && (o.ObsoleteVersionSequenceId == null || sourceVersionSequence < o.ObsoleteVersionSequenceId)).ToList();
 		}
 	}
 }

@@ -27,7 +27,14 @@
                         <tr>
                             <td>@item.CreationTime</td>
                             <td>@item.Mnemonic</td>
-                            <td>@item.ConceptNames.Aggregate((a, b) => (a + ", " + b))</td>
+                            @if (item.ConceptNames.Count == 0)
+                            {
+                                <td></td>
+                            }
+                            else
+                            {
+                                <td>@item.ConceptNames.Aggregate((a, b) => (a + ", " + b))</td>
+                            }
                             <td>
                                 <span class="btn-group">
                                     @if (item.ConceptSearchType == OpenIZAdmin.Models.ConceptModels.ConceptSearchType.Concept)

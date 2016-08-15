@@ -35,5 +35,18 @@ namespace OpenIZAdmin.Services.Http
 		/// <value>The address.</value>
 		[XmlAttribute("address")]
 		public String Address { get; set; }
+
+		public int Timeout
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
 	}
 }

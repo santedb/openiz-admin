@@ -19,6 +19,7 @@
 
 using OpenIZ.Core.Model.AMI.Security;
 using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Models.CertificateModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -73,6 +74,22 @@ namespace OpenIZAdmin.Util
 			viewModel.SubmissionTime = Convert.ToDateTime(submissionInfo.SubmittedWhen);
 
 			return viewModel;
+		}
+
+		/// <summary>
+		/// Converts a <see cref="OpenIZAdmin.Models.CertificateModels.SubmitCertificateSigningRequestModel"/> instance
+		/// to a <see cref="OpenIZ.Core.Model.AMI.Security.SubmissionRequest"/> instance.
+		/// </summary>
+		/// <returns>Returns a submission request.</returns>
+		public static SubmissionRequest ToSubmissionRequest(SubmitCertificateSigningRequestModel model)
+		{
+			SubmissionRequest submissionRequest = new SubmissionRequest();
+
+			submissionRequest.AdminAddress = model.AdministrativeContactEmail;
+			submissionRequest.AdminContactName = model.AdministrativeContactName;
+			submissionRequest.CmcRequest = model.CmcRequest;
+
+			return submissionRequest;
 		}
 	}
 }

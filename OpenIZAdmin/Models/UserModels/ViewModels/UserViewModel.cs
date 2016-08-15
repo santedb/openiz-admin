@@ -20,6 +20,7 @@
 using OpenIZAdmin.Models.RoleModels.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.UserModels.ViewModels
 {
@@ -29,14 +30,24 @@ namespace OpenIZAdmin.Models.UserModels.ViewModels
 		{
 		}
 
+		[Display(Name = "Email", ResourceType = typeof(Localization.Locale))]
 		public string Email { get; set; }
+
+		public int InvalidLoginAttempts { get; set; }
 
 		public bool IsLockedOut { get; set; }
 
+		public DateTime? LastLoginTime { get; set; }
+
+		public string PhoneNumber { get; set; }
+
+		[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
 		public IEnumerable<RoleViewModel> Roles { get; set; }
 
+		[Display(Name = "UserId", ResourceType = typeof(Localization.Locale))]
 		public Guid UserId { get; set; }
 
+		[Display(Name = "Username", ResourceType = typeof(Localization.Locale))]
 		public string Username { get; set; }
 	}
 }

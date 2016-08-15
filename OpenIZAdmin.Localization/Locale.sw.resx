@@ -507,4 +507,7 @@
   <data name="MnemonicRequired" xml:space="preserve">
     <value>Uwanja mnemonic anahitajika</value>
   </data>
+  <data name="Details" xml:space="preserve">
+    <value>Maelezo</value>
+  </data>
 </root>

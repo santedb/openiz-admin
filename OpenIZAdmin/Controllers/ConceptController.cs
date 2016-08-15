@@ -160,7 +160,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return PartialView("_ConceptSearchResultsPartial", viewModels);
+				return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
 			}
 			catch (Exception e)
 			{
@@ -172,7 +172,7 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = "Unable to retrieve concepts";
 
-			return PartialView("_ConceptSearchResultsPartial", viewModels);
+			return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
 		}
 
 		private AmiCollection<Concept> SearchConcepts(SearchConceptModel model)
@@ -277,16 +277,16 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
-					DetailedConceptViewModel viewModel = new DetailedConceptViewModel(conceptSet);
+					ConceptViewModel viewModel = new ConceptViewModel(conceptSet);
 
 					viewModel.Details.Add(new DetailedConceptViewModel
 					{
 						Oid = conceptSet.Oid,
-						Concepts = conceptSet.Concepts.SelectMany(c => c.ConceptNames).Select(c => c.Name).ToList(),
+						Concepts = conceptSet.Concepts.SelectMany(c => c.ConceptNames).Select(c => c.Name).OrderBy(c => c).ToList(),
 						Url = conceptSet.Url,
 					});
 
-					return View("ViewConcept", new ConceptViewModel(conceptSet));
+					return View("ViewConcept", viewModel);
 				}
 			}
 

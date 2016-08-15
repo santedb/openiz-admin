@@ -125,5 +125,18 @@ namespace OpenIZAdmin.Services.Http
 				throw new NotImplementedException();
 			}
 		}
+
+		public bool PreemptiveAuthentication
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+
+			set
+			{
+				throw new NotImplementedException();
+			}
+		}
 	}
 }
