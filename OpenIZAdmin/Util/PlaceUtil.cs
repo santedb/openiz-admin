@@ -47,6 +47,33 @@ namespace OpenIZAdmin.Util
 			return place;
 		}
 
+		public static Place ToPlace(EditPlaceModel model)
+		{
+			Place place = new Place();
+
+			place.Key = model.Id;
+			place.Lat = model.Latitude;
+			place.Lng = model.Longitude;
+			place.Names.Add(new EntityName(NameUseKeys.OfficialRecord, model.Name));
+			place.VersionKey = model.VersionId;
+			place.StatusConceptKey = StatusKeys.Active;
+
+			return place;
+		}
+
+		public static EditPlaceModel ToEditPlaceModel(Place place)
+		{
+			EditPlaceModel model = new EditPlaceModel();
+
+			model.Id = place.Key.Value;
+			model.Latitude = place.Lat;
+			model.Longitude = place.Lng;
+			model.Name = place.Names.SelectMany(n => n.Component).Select(c => c.Value).Aggregate((a, b) => a + ", " + b);
+			model.VersionId = place.VersionKey.Value;
+
+			return model;
+		}
+
 		/// <summary>
 		/// Converts a <see cref="OpenIZ.Core.Model.Entities.Place"/> to a <see cref="OpenIZAdmin.Models.PlaceModels.ViewModels.PlaceViewModel"/>.
 		/// </summary>

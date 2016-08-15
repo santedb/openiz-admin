@@ -241,11 +241,13 @@
     <Compile Include="Models\ConceptModels\ViewModels\DetailedConceptViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DeviceModels\CreateDeviceModel.cs" />
+    <Compile Include="Models\DeviceModels\EditDeviceModel.cs" />
     <Compile Include="Models\DeviceModels\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Models\Domain\ApplicationUser.cs" />
     <Compile Include="Models\Domain\Realm.cs" />
     <Compile Include="Models\ModelMapper.cs" />
     <Compile Include="Models\PlaceModels\CreatePlaceModel.cs" />
+    <Compile Include="Models\PlaceModels\EditPlaceModel.cs" />
     <Compile Include="Models\PlaceModels\ViewModels\DetailedPlaceViewModel.cs" />
     <Compile Include="Models\PlaceModels\ViewModels\PlaceViewModel.cs" />
     <Compile Include="Models\PolicyModels\CreatePolicyModel.cs" />
@@ -258,6 +260,7 @@
     <Compile Include="Models\RoleModels\CreateRoleModel.cs" />
     <Compile Include="Models\UserModels\CreateUserModel.cs" />
     <Compile Include="Models\RoleModels\ViewModels\RoleViewModel.cs" />
+    <Compile Include="Models\UserModels\EditUserModel.cs" />
     <Compile Include="Models\UserModels\ViewModels\UserViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\Entity\WebEntitySourceProvider.cs" />
@@ -383,6 +386,7 @@
     <Content Include="Views\Shared\_PolicySearchResultsPartial.cshtml" />
     <Content Include="Views\Policy\ViewPolicy.cshtml" />
     <Content Include="Views\Concept\Create.cshtml" />
+    <Content Include="Views\Device\ViewDevice.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />

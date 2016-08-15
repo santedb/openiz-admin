@@ -510,4 +510,7 @@
   <data name="Details" xml:space="preserve">
     <value>Maelezo</value>
   </data>
+  <data name="Device" xml:space="preserve">
+    <value>Kifaa</value>
+  </data>
 </root>

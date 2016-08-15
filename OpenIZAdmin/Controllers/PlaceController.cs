@@ -74,6 +74,68 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+		[HttpGet]
+		public ActionResult Edit(string key, string versionKey)
+		{
+			if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
+			{
+				Guid placeId = Guid.Empty;
+				Guid placeVersion = Guid.Empty;
+
+				if (Guid.TryParse(key, out placeId) && Guid.TryParse(versionKey, out placeVersion))
+				{
+					List<KeyValuePair<string, object>> query = new List<KeyValuePair<string, object>>();
+
+					if (placeVersion != Guid.Empty)
+					{
+						query.AddRange(QueryExpressionBuilder.BuildQuery<Place>(c => c.Key == placeId && c.VersionKey == placeVersion));
+					}
+					else
+					{
+						query.AddRange(QueryExpressionBuilder.BuildQuery<Place>(c => c.Key == placeId));
+					}
+
+					var place = this.client.GetPlaces(QueryExpressionParser.BuildLinqExpression<Place>(new NameValueCollection(query.ToArray()))).CollectionItem.SingleOrDefault();
+
+					if (place == null)
+					{
+						TempData["error"] = "Place not found";
+						return RedirectToAction("Index");
+					}
+
+					return View(PlaceUtil.ToEditPlaceModel(place));
+				}
+			}
+
+			TempData["error"] = "Place not found";
+			return RedirectToAction("Index");
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(EditPlaceModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var place = this.client.UpdatePlace(PlaceUtil.ToPlace(model));
+
+					return RedirectToAction("ViewPlace", new { key = place.Key, versionKey = place.VersionKey });
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					Trace.TraceError("Unable to update place: {0}", e.StackTrace);
+#endif
+					Trace.TraceError("Unable to update place: {0}", e.Message);
+				}
+			}
+
+			TempData["error"] = Localization.Locale.UnableToUpdatePlace;
+			return View(model);
+		}
+
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Place";

@@ -66,6 +66,27 @@ namespace OpenIZAdmin.Util
 			return viewModel;
 		}
 
+		public static PolicyViewModel ToPolicyViewModel(SecurityPolicy policy)
+		{
+			PolicyViewModel viewModel = new PolicyViewModel();
+
+			viewModel.CanOverride = policy.CanOverride;
+			//viewModel.Grant = Enum.GetName(typeof(PolicyGrantType), policy);
+			viewModel.IsPublic = policy.IsPublic;
+			viewModel.Key = policy.Key.Value;
+			viewModel.Name = policy.Name;
+			viewModel.Oid = policy.Oid;
+
+			return viewModel;
+		}
+
+		public static PolicyViewModel ToPolicyViewModel(SecurityPolicyInstance policy)
+		{
+			PolicyViewModel viewModel = PolicyUtil.ToPolicyViewModel(policy.Policy);
+
+			return viewModel;
+		}
+
 		public static SecurityPolicyInfo ToSecurityPolicy(CreatePolicyModel model)
 		{
 			SecurityPolicyInfo policy = new SecurityPolicyInfo();

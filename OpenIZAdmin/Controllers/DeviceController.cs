@@ -71,6 +71,37 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+		[HttpGet]
+		public ActionResult Edit(string id)
+		{
+			Guid deviceKey = Guid.Empty;
+
+			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out deviceKey))
+			{
+				var result = this.client.GetDevices(r => r.Key == deviceKey);
+
+				if (result.CollectionItem.Count == 0)
+				{
+					TempData["error"] = Localization.Locale.DeviceNotFound;
+
+					return RedirectToAction("Index");
+				}
+
+				return View(DeviceUtil.ToDeviceViewModel(result.CollectionItem.Single()));
+			}
+
+			TempData["error"] = Localization.Locale.DeviceNotFound;
+
+			return RedirectToAction("Index");
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(EditDeviceModel model)
+		{
+			throw new NotImplementedException();
+		}
+
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Device";
@@ -120,13 +151,13 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult ViewDevice(string key)
+		public ActionResult ViewDevice(string id)
 		{
-			Guid deviceId = Guid.Empty;
+			Guid deviceKey = Guid.Empty;
 
-			if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key) && Guid.TryParse(key, out deviceId))
+			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out deviceKey))
 			{
-				var result = this.client.GetDevices(r => r.Key == deviceId);
+				var result = this.client.GetDevices(r => r.Key == deviceKey);
 
 				if (result.CollectionItem.Count == 0)
 				{

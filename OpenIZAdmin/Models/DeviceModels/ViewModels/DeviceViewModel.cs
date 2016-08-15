@@ -17,7 +17,9 @@
  * Date: 2016-7-8
  */
 
+using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.DeviceModels.ViewModels
@@ -26,13 +28,18 @@ namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 	{
 		public DeviceViewModel()
 		{
+			this.Policies = new List<PolicyViewModel>();
 		}
 
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime CreationTime { get; set; }
 
+		public Guid Id { get; set; }
+
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
+
+		public List<PolicyViewModel> Policies { get; set; }
 
 		public DateTime? UpdatedTime { get; set; }
 	}

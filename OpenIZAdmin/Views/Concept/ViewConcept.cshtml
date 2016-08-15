@@ -64,7 +64,14 @@
                     @foreach (var item in Model.Details)
                     {
                         <tr>
-                            <td>@item.Concepts.Aggregate((a, b) => (a + ", " + b))</td>
+                            @if (item.Concepts.Count == 0)
+                            {
+                                <td></td>
+                            }
+                            else
+                            {
+                                <td>@item.Concepts.Aggregate((a, b) => (a + ", " + b))</td>
+                            }
                             <td>@item.Oid</td>
                             <td>@item.Url</td>
                         </tr>}

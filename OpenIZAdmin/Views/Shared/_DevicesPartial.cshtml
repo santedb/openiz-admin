@@ -18,6 +18,9 @@
                     <tr>
                         <th></th>
                         <th>
+                            @Locale.Id
+                        </th>
+                        <th>
                             @Locale.CreationTime
                         </th>
                         <th>
@@ -33,6 +36,7 @@
                     {
                         <tr>
                             <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>
+                            <td><a href="/Device/ViewDevice/@item.Id">@item.Id</a></td>
                             <td>@item.CreationTime.ToLocalTime()</td>
                             <td>@item.Name</td>
                             <td>@item.UpdatedTime</td>

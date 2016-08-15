@@ -70,7 +70,9 @@ namespace OpenIZAdmin.Util
 			DeviceViewModel viewModel = new DeviceViewModel();
 
 			viewModel.CreationTime = device.CreationTime.DateTime;
+			viewModel.Id = device.Key.Value;
 			viewModel.Name = device.Name;
+			viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
 			viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
 
 			return viewModel;

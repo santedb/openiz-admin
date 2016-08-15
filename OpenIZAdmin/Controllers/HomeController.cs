@@ -56,7 +56,7 @@ namespace OpenIZAdmin.Controllers
 						new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientAdministration", "0.5.0.0"),
 						new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientEncounters", "0.5.0.0"),
 					},
-					CertificateRequests = CertificateUtil.GetAllCertificateSigningRequests(this.client),
+					CertificateRequests = new List<CertificateSigningRequestViewModel>(), //CertificateUtil.GetAllCertificateSigningRequests(this.client),
 					Devices = DeviceUtil.GetAllDevices(this.client).OrderBy(d => d.CreationTime).ThenBy(d => d.Name),
 					Roles = RoleUtil.GetAllRoles(this.client).OrderBy(r => r.Name),
 					Users = UserUtil.GetAllUsers(this.client).OrderBy(u => u.Username)
