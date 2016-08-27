@@ -513,4 +513,25 @@
   <data name="Device" xml:space="preserve">
     <value>Kifaa</value>
   </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Kuthibitisha Nywila</value>
+  </data>
+  <data name="ConfirmPasswordMatch" xml:space="preserve">
+    <value>Nywila na kuthibitisha nywila si mechi</value>
+  </data>
+  <data name="ConfirmPasswordRequired" xml:space="preserve">
+    <value>uwanja kuthibitisha nywila inahitajika</value>
+  </data>
+  <data name="ExistingPassword" xml:space="preserve">
+    <value>Nywila Zilizopo</value>
+  </data>
+  <data name="ExistingPasswordRequired" xml:space="preserve">
+    <value>Uwanja zilizopo nywila inahitajika</value>
+  </data>
+  <data name="UnableToChangePassword" xml:space="preserve">
+    <value>Hawawezi kubadili nywila</value>
+  </data>
+  <data name="PasswordChangedSuccessfully" xml:space="preserve">
+    <value>Nywila iliyopita kwa mafanikio</value>
+  </data>
 </root>

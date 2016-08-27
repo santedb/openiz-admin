@@ -71,6 +71,9 @@
     <Reference Include="OpenIZ.Core.Model">
       <HintPath>..\Solution Items\OpenIZ.Core.Model.dll</HintPath>
     </Reference>
+    <Reference Include="OpenIZ.Core.Model.AMI">
+      <HintPath>..\Solution Items\OpenIZ.Core.Model.AMI.dll</HintPath>
+    </Reference>
     <Reference Include="OpenIZ.Core.PCL">
       <HintPath>..\Solution Items\OpenIZ.Core.PCL.dll</HintPath>
     </Reference>
@@ -220,6 +223,7 @@
     </Compile>
     <Compile Include="Logging\RollOverTextWriterTraceListener.cs" />
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\AccountModels\ChangePasswordModel.cs" />
     <Compile Include="Models\AccountModels\ManageModel.cs" />
     <Compile Include="Models\AppletModels\UploadAppletModel.cs" />
     <Compile Include="Models\CertificateModels\AcceptCertificateSigningRequestModel.cs" />
@@ -396,6 +400,7 @@
     <Content Include="Views\Provider\Create.cshtml" />
     <Content Include="Views\Provider\Edit.cshtml" />
     <Content Include="Views\Provider\ViewProvider.cshtml" />
+    <Content Include="Views\Shared\_ChangePasswordPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />

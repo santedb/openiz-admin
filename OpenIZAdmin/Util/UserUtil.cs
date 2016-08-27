@@ -19,6 +19,7 @@
 
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Models.AccountModels;
 using OpenIZAdmin.Models.UserModels;
 using OpenIZAdmin.Models.UserModels.ViewModels;
 using System;
@@ -84,7 +85,7 @@ namespace OpenIZAdmin.Util
 
 			viewModel.Email = userInfo.Email;
 			viewModel.InvalidLoginAttempts = userInfo.User.InvalidLoginAttempts;
-			viewModel.IsLockedOut = userInfo.Lockout;
+			viewModel.IsLockedOut = userInfo.Lockout.GetValueOrDefault(false);
 			viewModel.LastLoginTime = userInfo.User.LastLoginTime?.DateTime;
 			viewModel.PhoneNumber = userInfo.User.PhoneNumber;
 			viewModel.Roles = userInfo.Roles.Select(r => RoleUtil.ToRoleViewModel(r));

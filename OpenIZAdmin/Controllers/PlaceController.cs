@@ -119,7 +119,8 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var place = this.client.UpdatePlace(PlaceUtil.ToPlace(model));
+					var placeToUpdate = PlaceUtil.ToPlace(model);
+					var place = this.client.UpdatePlace(placeToUpdate.Key.Value.ToString(), placeToUpdate);
 
 					return RedirectToAction("ViewPlace", new { key = place.Key, versionKey = place.VersionKey });
 				}

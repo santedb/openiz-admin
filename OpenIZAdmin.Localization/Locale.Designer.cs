@@ -241,6 +241,33 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Confirm Password.
+        /// </summary>
+        public static string ConfirmPassword {
+            get {
+                return ResourceManager.GetString("ConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password and confirm password do not match.
+        /// </summary>
+        public static string ConfirmPasswordMatch {
+            get {
+                return ResourceManager.GetString("ConfirmPasswordMatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The confirm password field is required.
+        /// </summary>
+        public static string ConfirmPasswordRequired {
+            get {
+                return ResourceManager.GetString("ConfirmPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Concept.
         /// </summary>
         public static string CreateConcept {
@@ -435,6 +462,24 @@ namespace OpenIZAdmin.Localization {
         public static string Error {
             get {
                 return ResourceManager.GetString("Error", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Existing Password.
+        /// </summary>
+        public static string ExistingPassword {
+            get {
+                return ResourceManager.GetString("ExistingPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The existing password field is required.
+        /// </summary>
+        public static string ExistingPasswordRequired {
+            get {
+                return ResourceManager.GetString("ExistingPasswordRequired", resourceCulture);
             }
         }
         
@@ -844,6 +889,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password changed successfully.
+        /// </summary>
+        public static string PasswordChangedSuccessfully {
+            get {
+                return ResourceManager.GetString("PasswordChangedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Password field is required.
         /// </summary>
         public static string PasswordRequired {
@@ -1074,6 +1128,15 @@ namespace OpenIZAdmin.Localization {
         public static string Submit {
             get {
                 return ResourceManager.GetString("Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to change password.
+        /// </summary>
+        public static string UnableToChangePassword {
+            get {
+                return ResourceManager.GetString("UnableToChangePassword", resourceCulture);
             }
         }
         

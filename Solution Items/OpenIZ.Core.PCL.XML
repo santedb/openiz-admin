@@ -4,6 +4,128 @@
         <name>OpenIZ.Core.PCL</name>
     </assembly>
     <members>
+        <member name="T:OpenIZ.Core.Alerting.AlertEventArgs">
+            <summary>
+            Alert event arguments
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Alerting.AlertEventArgs.#ctor(OpenIZ.Core.Alerting.AlertMessage)">
+            <summary>
+            Construct a new alert event 
+            </summary>
+            <param name="msg"></param>
+        </member>
+        <member name="P:OpenIZ.Core.Alerting.AlertEventArgs.Ignore">
+            <summary>
+            Allows the handler to instruct the alert engine to ignore (not to persist) the 
+            alert
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alerting.AlertEventArgs.Message">
+            <summary>
+            Gets the alert message
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Alerting.AlertMessage">
+            <summary>
+            A message
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Alerting.AlertMessage.#ctor">
+            <summary>
+            Creates alert message
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Alerting.AlertMessage.#ctor(System.String,System.String,System.String,System.String,OpenIZ.Core.Alerting.AlertMessageFlags)">
+            <summary>
+            Creates a new alert message
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alerting.AlertMessage.Id">
+            <summary>
+            Gets or sets the id of the alert
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alerting.AlertMessage.TimeStamp">
+            <summary>
+            Gets or sets the time
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alerting.AlertMessage.Flags">
+            <summary>
+            Gets or sets the status of the alert
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alerting.AlertMessage.CreatedBy">
+            <summary>
+            The principal that created the message
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alerting.AlertMessage.To">
+            <summary>
+            Identifies the to
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alerting.AlertMessage.From">
+            <summary>
+            Gets or sets the "from" subject if it is a human based message
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alerting.AlertMessage.Subject">
+            <summary>
+            Gets or sets the subject
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alerting.AlertMessage.Body">
+            <summary>
+            Body of the message
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Alerting.AlertMessageFlags">
+            <summary>
+            Message status type
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Alerting.AlertMessageFlags.None">
+            <summary>
+            Just a normal alert
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Alerting.AlertMessageFlags.Alert">
+            <summary>
+            Indicates the message requires some immediate action!
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Alerting.AlertMessageFlags.Acknowledged">
+            <summary>
+            Indicates whether someone has acknowledged the alert
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Alerting.AlertMessageFlags.HighPriority">
+            <summary>
+            Indicates the alert is high priority but doesn't require immediate action
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Alerting.AlertMessageFlags.System">
+            <summary>
+            Indicates the alert is a system alert
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Alerting.AlertMessageFlags.Transient">
+            <summary>
+            Indicates the alert is transient and shouldn't be persisted
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.ApplicationServiceContext">
+            <summary>
+            Application context
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.ApplicationServiceContext.Current">
+            <summary>
+            Gets or sets the current application service context
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Diagnostics.Tracer">
             <summary>
             Represents a logger
@@ -792,9 +914,184 @@
             Represents the act repository service
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Validate(OpenIZ.Core.Model.Acts.Act)">
+            <summary>
+            Validate the act 
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Insert(OpenIZ.Core.Model.Acts.Act)">
+            <summary>
+            Insert the specified act
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Save(OpenIZ.Core.Model.Acts.Act)">
+            <summary>
+            Insert or update the specified act
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Obsolete(System.Guid)">
+            <summary>
+            Obsolete the specified act
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Get(System.Guid,System.Guid)">
+            <summary>
+            Get the specified act
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.FindActs(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Acts.Act,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Find all acts
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Services.IActRepositoryService.FindSubstanceAdministrations(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Acts.SubstanceAdministration,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
             <summary>
             Find the substance administrations
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Services.IAlertService">
+            <summary>
+            Represents an alerting service.
+            </summary>
+        </member>
+        <member name="E:OpenIZ.Core.Services.IAlertService.Received">
+            <summary>
+            Fired when an alert was raised and is being processed.
+            </summary>
+        </member>
+        <member name="E:OpenIZ.Core.Services.IAlertService.Committed">
+            <summary>
+            Fired when an alert is received.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IAlertService.BroadcastAlert(OpenIZ.Core.Alerting.AlertMessage)">
+            <summary>
+            Broadcasts an alert.
+            </summary>
+            <param name="msg">The alert message to be broadcast.</param>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IAlertService.FindAlerts(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Alerting.AlertMessage,System.Boolean}},System.Int32,System.Nullable{System.Int32})">
+            <summary>
+            Searches for alerts.
+            </summary>
+            <param name="predicate">The predicate to use to search for alerts.</param>
+            <param name="offset">The offset of the search.</param>
+            <param name="count">The count of the search results.</param>
+            <returns>Returns a list of alerts.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IAlertService.GetAlert(System.Guid)">
+            <summary>
+            Gets an alert.
+            </summary>
+            <param name="id">The id of the alert to be retrieved.</param>
+            <returns>Returns an alert.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IAlertService.SaveAlert(OpenIZ.Core.Alerting.AlertMessage)">
+            <summary>
+            Saves an alert.
+            </summary>
+            <param name="msg">The alert message to be saved.</param>
+        </member>
+        <member name="T:OpenIZ.Core.Services.IBatchRepositoryService">
+            <summary>
+            Represents a simple repository service for storing batches (bundles)
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBatchRepositoryService.Insert(OpenIZ.Core.Model.Collection.Bundle)">
+            <summary>
+            Inserts all the data in the provided bundle in one transaction
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBatchRepositoryService.Update(OpenIZ.Core.Model.Collection.Bundle)">
+            <summary>
+            Updates all the data in the provided bundle in one transaction
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBatchRepositoryService.Obsolete(OpenIZ.Core.Model.Collection.Bundle)">
+            <summary>
+            Obsoletes all data in the provided bundle in one transaction
+            </summary>
+        </member>
+        <!-- Badly formed XML comment ignored for member "M:OpenIZ.Core.Services.IBatchRepositoryService.Validate(OpenIZ.Core.Model.Collection.Bundle)" -->
+        <member name="T:OpenIZ.Core.Services.IBusinessRulesService`1">
+            <summary>
+            Represents a service that executes business rules based on triggers which happen in the persistence layer
+            </summary>
+            <remarks>
+            Note: This can be done, instead with events on the persistence layer on the OpenIZ datalayer, however there 
+            may come a time when a rule is fired without persistence occurring
+            </remarks>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.BeforeInsert(`0)">
+            <summary>
+            Called before an insert occurs
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.AfterInsert(`0)">
+            <summary>
+            Called after an insert occurs
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.Validate(`0)">
+            <summary>
+            Called to validate a specific object
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.BeforeUpdate(`0)">
+            <summary>
+            Called before an update occurs
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.AfterUpdate(`0)">
+            <summary>
+            Called after update committed
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.BeforeObsolete(`0)">
+            <summary>
+            Called before obsolete
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.AfterObsolete(`0)">
+            <summary>
+            Called after obsolete committed
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.AfterRetrieve(`0)">
+            <summary>
+            Called after retrieve
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.AfterQuery(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Called after query
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Services.DetectedIssuePriorityType">
+            <summary>
+            Detected issue priority
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Services.DetectedIssue">
+            <summary>
+            Represents a detected issue
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Services.DetectedIssue.Priority">
+            <summary>
+            Represents a detected issue priority
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Services.DetectedIssue.Text">
+            <summary>
+            Text related to the issue
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Services.DetectedIssue.TypeKey">
+            <summary>
+            The type of issue (a concept)
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Services.ICarePlanService">
@@ -810,11 +1107,6 @@
         <member name="P:OpenIZ.Core.Services.ICarePlanService.Protocols">
             <summary>
             Gets the list of protocols which can be or should be used to create the care plans
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Services.ICarePlanService.Repository">
-            <summary>
-            Gets or sets the clinical repository to use
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.ICarePlanService.Initialize">
@@ -1031,26 +1323,79 @@
             Finds the specified ManufacturedMaterial with the specified restrictions
             </summary>
         </member>
-        <member name="T:OpenIZ.Core.Services.Impl.IMetadataRepositoryService">
+        <member name="T:OpenIZ.Core.Services.IMetadataRepositoryService">
             <summary>
             Represents a repository which deals with metadata such as assigning authorities,
             concept classes, etc.
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.Impl.IMetadataRepositoryService.GetAssigningAuthority(System.Guid)">
+        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.GetAssigningAuthority(System.Guid)">
             <summary>
             Gets an assigning authority
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.Impl.IMetadataRepositoryService.FindAssigningAuthority(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.AssigningAuthority,System.Boolean}})">
+        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.FindAssigningAuthority(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.AssigningAuthority,System.Boolean}})">
             <summary>
             Finds the specified assigning authority 
             </summary>
             <returns></returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.Impl.IMetadataRepositoryService.FindAssigningAuthority(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.AssigningAuthority,System.Boolean}},System.Int32,System.Int32,System.Int32@)">
+        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.FindAssigningAuthority(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.AssigningAuthority,System.Boolean}},System.Int32,System.Int32,System.Int32@)">
             <summary>
             Finds the specified assigning authority with restrictions
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1">
+            <summary>
+            Represents a business rules service with no behavior, but intended to help in the implementation of another 
+            business rules service
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.AfterInsert(`0)">
+            <summary>
+            After insert
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.AfterObsolete(`0)">
+            <summary>
+            After obsolete
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.AfterQuery(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            After query
+            </summary>
+            <param name="results"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.AfterRetrieve(`0)">
+            <summary>
+            Fired after retrieve
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.AfterUpdate(`0)">
+            <summary>
+            After update
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.BeforeInsert(`0)">
+            <summary>
+            Before insert complete
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.BeforeObsolete(`0)">
+            <summary>
+            Before obselete
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.BeforeUpdate(`0)">
+            <summary>
+            Before update
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.Validate(`0)">
+            <summary>
+            Validate the specified object
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Services.Impl.NullPhoneticAlgorithmHandler">
@@ -1073,6 +1418,11 @@
             Represents the patient repository service. This service is responsible
             for ensuring that patient roles in the IMS database are in a consistent 
             state.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.Validate(OpenIZ.Core.Model.Roles.Patient)">
+            <summary>
+            Validate the specified patient, or rather ensure the patient is valid
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.Insert(OpenIZ.Core.Model.Roles.Patient)">
@@ -1209,6 +1559,11 @@
             <param name="id">The id of the provider.</param>
             <param name="versionId">The version id of the provider.</param>
             <returns>Returns the specified provider.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IProviderRepositoryService.Get(System.Security.Principal.IIdentity)">
+            <summary>
+            Get the provider based off the user identity
+            </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.IProviderRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Roles.Provider,System.Boolean}})">
             <summary>
@@ -1384,6 +1739,11 @@
             Gets the specified user entity
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.GetUserEntity(System.Security.Principal.IIdentity)">
+            <summary>
+            Get the user entity 
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.LockUser(System.Guid)">
             <summary>
             Locks a specific user.
@@ -1448,6 +1808,21 @@
             </summary>
             <param name="userId">The id of the user to be unlocked.</param>
         </member>
+        <member name="T:OpenIZ.Core.Services.IStockManagementService">
+            <summary>
+            Represents an abstract way for PCL classes to interact with persistence events that occur on the back end
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IStockManagementService.Adjust(OpenIZ.Core.Model.Entities.ManufacturedMaterial,OpenIZ.Core.Model.Entities.Place,System.Int32,OpenIZ.Core.Model.DataTypes.Concept)">
+            <summary>
+            Performs a stock adjustment for the specified facility and material
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IStockManagementService.GetBalance(OpenIZ.Core.Model.Entities.Place,OpenIZ.Core.Model.Entities.ManufacturedMaterial)">
+            <summary>
+            Gets the balance for the material
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Protocol.IClinicalProtocol">
             <summary>
             Represents a clinical protocol
@@ -1502,11 +1877,6 @@
         <member name="P:OpenIZ.Core.Protocol.SimpleCarePlanService.Protocols">
             <summary>
             Gets the protocols
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Protocol.SimpleCarePlanService.Repository">
-            <summary>
-            Gets or sets the repository to be used
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Protocol.SimpleCarePlanService.CreateCarePlan(OpenIZ.Core.Model.Roles.Patient)">

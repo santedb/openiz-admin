@@ -23,6 +23,14 @@
             <param name="id">The id of the certificate signing request.</param>
             <returns>Returns the submission result.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.ChangePassword(System.Guid,System.String)">
+            <summary>
+            Changes the password of a user.
+            </summary>
+            <param name="id">The id of the user whose password is to be changed.</param>
+            <param name="password">The new password of the user.</param>
+            <returns>Returns the updated user.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateDevice(OpenIZ.Core.Model.Security.SecurityDevice)">
             <summary>
             Creates a device in the IMS.
@@ -212,21 +220,23 @@
             <param name="submissionRequest">The certificate signing request.</param>
             <returns>Returns the submission result.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateConcept(OpenIZ.Core.Model.DataTypes.Concept)">
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateConcept(System.String,OpenIZ.Core.Model.DataTypes.Concept)">
             <summary>
             Updates a concept.
             </summary>
+            <param name="conceptId">The id of the concept to be updated.</param>
             <param name="concept">The concept containing the updated information.</param>
             <returns>Returns the updated concept.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdatePlace(OpenIZ.Core.Model.Entities.Place)">
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdatePlace(System.String,OpenIZ.Core.Model.Entities.Place)">
             <summary>
             Updates a place.
             </summary>
+            <param name="placeId">The id of the place to be updated.</param>
             <param name="place">The place containing the updated information.</param>
             <returns>Returns the updated place.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateUser(System.String,OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo)">
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateUser(System.Guid,OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo)">
             <summary>
             Updates a user.
             </summary>

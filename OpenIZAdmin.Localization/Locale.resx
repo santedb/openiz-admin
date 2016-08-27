@@ -522,4 +522,25 @@
   <data name="Device" xml:space="preserve">
     <value>Device</value>
   </data>
+  <data name="ConfirmPassword" xml:space="preserve">
+    <value>Confirm Password</value>
+  </data>
+  <data name="ConfirmPasswordMatch" xml:space="preserve">
+    <value>The password and confirm password do not match</value>
+  </data>
+  <data name="ConfirmPasswordRequired" xml:space="preserve">
+    <value>The confirm password field is required</value>
+  </data>
+  <data name="ExistingPassword" xml:space="preserve">
+    <value>Existing Password</value>
+  </data>
+  <data name="ExistingPasswordRequired" xml:space="preserve">
+    <value>The existing password field is required</value>
+  </data>
+  <data name="UnableToChangePassword" xml:space="preserve">
+    <value>Unable to change password</value>
+  </data>
+  <data name="PasswordChangedSuccessfully" xml:space="preserve">
+    <value>Password changed successfully</value>
+  </data>
 </root>

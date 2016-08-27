@@ -20,31 +20,61 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.DAL;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AccountModels;
+using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
+	/// <summary>
+	/// Provides operations to manage an account.
+	/// </summary>
 	[Authorize]
 	public class AccountController : Controller
 	{
+		/// <summary>
+		/// The internal reference to the <see cref="AmiServiceClient"/> instance.
+		/// </summary>
+		private AmiServiceClient amiClient;
+
+		/// <summary>
+		/// The internal reference to the <see cref="ApplicationUserManager"/> instance.
+		/// </summary>
 		private ApplicationSignInManager signInManager;
+
+		/// <summary>
+		/// The internal reference to the <see cref="ApplicationSignInManager"/> instance.
+		/// </summary>
 		private ApplicationUserManager userManager;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AccountController"/> class.
+		/// </summary>
 		public AccountController()
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AccountController"/> class
+		/// with a specified user manager instance and sign in manager instance.
+		/// </summary>
+		/// <param name="userManager">The user manager.</param>
+		/// <param name="signInManager">The sign in manager.</param>
 		public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
 		{
 			UserManager = userManager;
 			SignInManager = signInManager;
 		}
 
+		/// <summary>
+		/// Gets the sign in manager.
+		/// </summary>
 		public ApplicationSignInManager SignInManager
 		{
 			get
@@ -57,6 +87,9 @@ namespace OpenIZAdmin.Controllers
 			}
 		}
 
+		/// <summary>
+		/// Gets the user manager.
+		/// </summary>
 		public ApplicationUserManager UserManager
 		{
 			get
@@ -67,6 +100,46 @@ namespace OpenIZAdmin.Controllers
 			{
 				userManager = value;
 			}
+		}
+
+		/// <summary>
+		/// Changes the password of a user.
+		/// </summary>
+		/// <param name="model">The model containing the users new password.</param>
+		/// <returns>Returns an action result.</returns>
+		[HttpPost]
+		public ActionResult ChangePassword(ChangePasswordModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var userId = Guid.Parse(User.Identity.GetUserId());
+
+				try
+				{
+					var user = this.amiClient.GetUser(userId.ToString());
+
+					if (user != null && !user.Lockout.GetValueOrDefault(false))
+					{
+						user.Password = model.Password;
+						user = this.amiClient.UpdateUser(userId, user);
+					}
+
+					TempData["success"] = Locale.PasswordChangedSuccessfully;
+
+					return RedirectToAction("Manage");
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					Trace.TraceError("Unable to change user's password", e.StackTrace);
+#endif
+					Trace.TraceError("Unable to change user's password", e.Message);
+				}
+			}
+
+			TempData["error"] = Locale.UnableToChangePassword;
+
+			return RedirectToAction("Manage");
 		}
 
 		protected override void Dispose(bool disposing)
