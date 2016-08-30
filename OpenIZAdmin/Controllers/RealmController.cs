@@ -23,7 +23,6 @@ using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.Domain;
 using OpenIZAdmin.Models.RealmModels;
-using OpenIZAdmin.Models.RealmModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
@@ -41,6 +40,11 @@ namespace OpenIZAdmin.Controllers
 	public class RealmController : Controller
 	{
 		/// <summary>
+		/// The internal reference to the unit of work.
+		/// </summary>
+		private readonly IUnitOfWork unitOfWork;
+
+		/// <summary>
 		/// The internal reference to the sign in manager.
 		/// </summary>
 		private ApplicationSignInManager signInManager;
@@ -49,11 +53,6 @@ namespace OpenIZAdmin.Controllers
 		/// The internal reference to the user manager.
 		/// </summary>
 		private ApplicationUserManager userManager;
-
-		/// <summary>
-		/// The internal reference to the unit of work.
-		/// </summary>
-		private readonly IUnitOfWork unitOfWork;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.RealmController"/> class.
@@ -113,23 +112,6 @@ namespace OpenIZAdmin.Controllers
 			{
 				userManager = value;
 			}
-		}
-
-		/// <summary>
-		/// Dispose of any managed resources.
-		/// </summary>
-		/// <param name="disposing">Whether the current invocation is disposing.</param>
-		protected override void Dispose(bool disposing)
-		{
-			this.unitOfWork?.Dispose();
-
-			this.userManager?.Dispose();
-			this.userManager = null;
-
-			this.signInManager?.Dispose();
-			this.signInManager = null;
-
-			base.Dispose(disposing);
 		}
 
 		/// <summary>
@@ -353,6 +335,23 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult UpdateRealmSettings(UpdateRealmModel model)
 		{
 			return View();
+		}
+
+		/// <summary>
+		/// Dispose of any managed resources.
+		/// </summary>
+		/// <param name="disposing">Whether the current invocation is disposing.</param>
+		protected override void Dispose(bool disposing)
+		{
+			this.unitOfWork?.Dispose();
+
+			this.userManager?.Dispose();
+			this.userManager = null;
+
+			this.signInManager?.Dispose();
+			this.signInManager = null;
+
+			base.Dispose(disposing);
 		}
 	}
 }

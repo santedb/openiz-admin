@@ -31,29 +31,22 @@ namespace OpenIZAdmin.DAL
 	public interface IRepository<T> where T : class
 	{
 		/// <summary>
-		/// Create an entity.
-		/// </summary>
-		/// <returns>Returns the created entity.</returns>
-		T Create();
-
-		/// <summary>
 		/// Add an entity to the repository.
 		/// </summary>
 		/// <param name="entity">The entity to be added.</param>
 		void Add(T entity);
 
 		/// <summary>
-		/// Update an existing entity.
+		/// Get the repository as a queryable.
 		/// </summary>
-		/// <param name="entity">The entity to be updated.</param>
-		void Update(T entity);
+		/// <returns>Returns the entity as an IQueryable.</returns>
+		IQueryable<T> AsQueryable();
 
 		/// <summary>
-		/// Updates an existing entity.
+		/// Create an entity.
 		/// </summary>
-		/// <param name="entity">The entity to be updated.</param>
-		/// <returns>Returns a task.</returns>
-		Task UpdateAsync(T entity);
+		/// <returns>Returns the created entity.</returns>
+		T Create();
 
 		/// <summary>
 		/// Delete an entity from the repository.
@@ -66,14 +59,6 @@ namespace OpenIZAdmin.DAL
 		/// </summary>
 		/// <param name="id">The id of the entity to be deleted.</param>
 		void Delete(object id);
-
-		/// <summary>
-		/// Query the repository.
-		/// </summary>
-		/// <param name="filter">The filter for the query.</param>
-		/// <param name="orderBy">The order criteria for the results.</param>
-		/// <returns>Returns an IQueryable based on the filter criteria.</returns>
-		IQueryable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
 
 		/// <summary>
 		/// Get an entity from the repository by its id.
@@ -90,9 +75,24 @@ namespace OpenIZAdmin.DAL
 		Task<T> FindByIdAsync(object id);
 
 		/// <summary>
-		/// Get the repository as a queryable.
+		/// Query the repository.
 		/// </summary>
-		/// <returns>Returns the entity as an IQueryable.</returns>
-		IQueryable<T> AsQueryable();
+		/// <param name="filter">The filter for the query.</param>
+		/// <param name="orderBy">The order criteria for the results.</param>
+		/// <returns>Returns an IQueryable based on the filter criteria.</returns>
+		IQueryable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null);
+
+		/// <summary>
+		/// Update an existing entity.
+		/// </summary>
+		/// <param name="entity">The entity to be updated.</param>
+		void Update(T entity);
+
+		/// <summary>
+		/// Updates an existing entity.
+		/// </summary>
+		/// <param name="entity">The entity to be updated.</param>
+		/// <returns>Returns a task.</returns>
+		Task UpdateAsync(T entity);
 	}
 }

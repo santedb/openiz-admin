@@ -34,19 +34,19 @@ namespace OpenIZAdmin.Models.AccountModels
 		}
 
 		/// <summary>
-		/// Gets or sets the username of the model.
-		/// </summary>
-		[Display(Name = "Username", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(255, ErrorMessageResourceName = "UsernameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string Username { get; set; }
-
-		/// <summary>
 		/// Gets or sets the password of the model.
 		/// </summary>
 		[DataType(DataType.Password)]
 		[Display(Name = "Password", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Password { get; set; }
+
+		/// <summary>
+		/// Gets or sets the username of the model.
+		/// </summary>
+		[Display(Name = "Username", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(255, ErrorMessageResourceName = "UsernameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		public string Username { get; set; }
 	}
 }

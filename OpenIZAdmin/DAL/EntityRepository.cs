@@ -45,15 +45,6 @@ namespace OpenIZAdmin.DAL
 		}
 
 		/// <summary>
-		/// Create an entity.
-		/// </summary>
-		/// <returns>Returns the created entity.</returns>
-		public virtual T Create()
-		{
-			return dbSet.Create();
-		}
-
-		/// <summary>
 		/// Add an entity to the repository.
 		/// </summary>
 		/// <param name="entity">The entity to be added.</param>
@@ -63,26 +54,21 @@ namespace OpenIZAdmin.DAL
 		}
 
 		/// <summary>
-		/// Update an existing entity.
+		/// Get the repository as a queryable.
 		/// </summary>
-		/// <param name="entity">The entity to be updated.</param>
-		public virtual void Update(T entity)
+		/// <returns>Returns the entity as an IQueryable.</returns>
+		public virtual IQueryable<T> AsQueryable()
 		{
-			dbSet.Attach(entity);
-			context.Entry(entity).State = EntityState.Modified;
+			return dbSet;
 		}
 
 		/// <summary>
-		/// Updates an existing entity.
+		/// Create an entity.
 		/// </summary>
-		/// <param name="entity">The entity to be updated.</param>
-		/// <returns>Returns a task.</returns>
-		public async virtual Task UpdateAsync(T entity)
+		/// <returns>Returns the created entity.</returns>
+		public virtual T Create()
 		{
-			await Task.Run(() =>
-				{
-					Update(entity);
-				});
+			return dbSet.Create();
 		}
 
 		/// <summary>
@@ -109,6 +95,26 @@ namespace OpenIZAdmin.DAL
 		}
 
 		/// <summary>
+		/// Get an entity from the repository by its id.
+		/// </summary>
+		/// <param name="id">The primary key of the entity.</param>
+		/// <returns>Returns the entity.</returns>
+		public virtual T FindById(object id)
+		{
+			return dbSet.Find(id);
+		}
+
+		/// <summary>
+		/// Get an entity from the repository by its id.
+		/// </summary>
+		/// <param name="id">The primary key of the entity.</param>
+		/// <returns>Returns the entity.</returns>
+		public async virtual Task<T> FindByIdAsync(object id)
+		{
+			return await dbSet.FindAsync(id);
+		}
+
+		/// <summary>
 		/// Query the repository.
 		/// </summary>
 		/// <param name="filter">The filter for the query.</param>
@@ -132,32 +138,26 @@ namespace OpenIZAdmin.DAL
 		}
 
 		/// <summary>
-		/// Get an entity from the repository by its id.
+		/// Update an existing entity.
 		/// </summary>
-		/// <param name="id">The primary key of the entity.</param>
-		/// <returns>Returns the entity.</returns>
-		public virtual T FindById(object id)
+		/// <param name="entity">The entity to be updated.</param>
+		public virtual void Update(T entity)
 		{
-			return dbSet.Find(id);
+			dbSet.Attach(entity);
+			context.Entry(entity).State = EntityState.Modified;
 		}
 
 		/// <summary>
-		/// Get an entity from the repository by its id.
+		/// Updates an existing entity.
 		/// </summary>
-		/// <param name="id">The primary key of the entity.</param>
-		/// <returns>Returns the entity.</returns>
-		public async virtual Task<T> FindByIdAsync(object id)
+		/// <param name="entity">The entity to be updated.</param>
+		/// <returns>Returns a task.</returns>
+		public async virtual Task UpdateAsync(T entity)
 		{
-			return await dbSet.FindAsync(id);
-		}
-
-		/// <summary>
-		/// Get the repository as a queryable.
-		/// </summary>
-		/// <returns>Returns the entity as an IQueryable.</returns>
-		public virtual IQueryable<T> AsQueryable()
-		{
-			return dbSet;
+			await Task.Run(() =>
+				{
+					Update(entity);
+				});
 		}
 	}
 }

@@ -9,9 +9,26 @@
             Represents information about an alert message.
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Alerting.AlertMessageInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.Alerting.AlertMessageInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Alerting.AlertMessageInfo.#ctor(OpenIZ.Core.Alert.Alerting.AlertMessage)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.Alerting.AlertMessageInfo"/> class
+            with a specified alert message.
+            </summary>
+            <param name="alertMessage"></param>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Alerting.AlertMessageInfo.AlertMessage">
+            <summary>
+            Gets or sets the alert message of the alert message information.
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.AMI.Alerting.AlertMessageInfo.Id">
             <summary>
-            Gets or sets the id of the alert message.
+            Gets or sets the id of the alert message information.
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.AMI.Security.AmiCollection`1">
@@ -19,9 +36,9 @@
             AMI collection base
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.AmiCollection`1.Size">
+        <member name="P:OpenIZ.Core.Model.AMI.Security.AmiCollection`1.CollectionItem">
             <summary>
-            Total collection size
+            Collection item
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.AMI.Security.AmiCollection`1.Offset">
@@ -29,9 +46,9 @@
             Total offset
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.AmiCollection`1.CollectionItem">
+        <member name="P:OpenIZ.Core.Model.AMI.Security.AmiCollection`1.Size">
             <summary>
-            Collection item
+            Total collection size
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.AMI.Security.RevokeReason">
@@ -44,56 +61,6 @@
             Enrollment information
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.RequestID">
-            <summary>
-            RequestId
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.XmlStatusCode">
-            <summary>
-            Status code
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.DispositionMessage">
-            <summary>
-            Disposition message
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.SubmittedWhen">
-            <summary>
-            Submitted on
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.ResolvedWhen">
-            <summary>
-            Resolved on
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.RevokedWhen">
-            <summary>
-            Revoked on
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.XmlRevokeReason">
-            <summary>
-            Revokation reason
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.EMail">
-            <summary>
-            Email address of user
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.NotBefore">
-            <summary>
-            Before date
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.NotAfter">
-            <summary>
-            Expiry
-            </summary>
-        </member>
         <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.AdminContact">
             <summary>
             Administration contact
@@ -104,9 +71,9 @@
             Administration
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.RevokedReason">
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.DispositionMessage">
             <summary>
-            Revoke reason from Keystore
+            Disposition message
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.DistinguishedName">
@@ -114,14 +81,64 @@
             DN
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.EMail">
+            <summary>
+            Email address of user
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.NotAfter">
+            <summary>
+            Expiry
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.NotBefore">
+            <summary>
+            Before date
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.RequestID">
+            <summary>
+            RequestId
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.ResolvedWhen">
+            <summary>
+            Resolved on
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.RevokedReason">
+            <summary>
+            Revoke reason from Keystore
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.RevokedWhen">
+            <summary>
+            Revoked on
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.SubmittedWhen">
+            <summary>
+            Submitted on
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.XmlRevokeReason">
+            <summary>
+            Revokation reason
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionInfo.XmlStatusCode">
+            <summary>
+            Status code
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.AMI.Security.SubmissionRequest">
             <summary>
             Submission request
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionRequest.CmcRequest">
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionRequest.AdminAddress">
             <summary>
-            Gets or sets the cmc request
+            Gets or sets the admin address
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionRequest.AdminContactName">
@@ -129,9 +146,9 @@
             Gets or sets the contact name
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionRequest.AdminAddress">
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionRequest.CmcRequest">
             <summary>
-            Gets or sets the admin address
+            Gets or sets the cmc request
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.AMI.Security.SubmissionResult">
@@ -145,24 +162,24 @@
             </summary>
             <param name="certificateRequestResponse"></param>
         </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionResult.Message">
-            <summary>
-            Gets or sets the message from the server
-            </summary>
-        </member>
         <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionResult.Certificate">
             <summary>
             Gets or sets the certificate content
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionResult.Status">
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionResult.Message">
             <summary>
-            Gets or sets the status
+            Gets or sets the message from the server
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionResult.RequestId">
             <summary>
             Gets or sets the request id
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.SubmissionResult.Status">
+            <summary>
+            Gets or sets the status
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.AMI.Security.SubmissionStatus">
@@ -197,9 +214,9 @@
             Gets or sets the issuers
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info.Subject">
+        <member name="P:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info.NotAfter">
             <summary>
-            Distinguished name
+            Gets or sets the expiry date
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info.NotBefore">
@@ -207,9 +224,9 @@
             Gets or sets the issue date
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info.NotAfter">
+        <member name="P:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info.Subject">
             <summary>
-            Gets or sets the expiry date
+            Distinguished name
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info.Thumbprint">
@@ -314,21 +331,6 @@
             </summary>
             <param name="u"></param>
         </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.UserId">
-            <summary>
-            Gets the user identifier
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.UserName">
-            <summary>
-            Gets or sets the name of the user
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.Password">
-            <summary>
-            User password
-            </summary>
-        </member>
         <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.Email">
             <summary>
             E-mail address
@@ -339,6 +341,11 @@
             Lockout
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.Password">
+            <summary>
+            User password
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.Roles">
             <summary>
             Roles
@@ -347,6 +354,42 @@
         <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.User">
             <summary>
             Security user object
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.UserId">
+            <summary>
+            Gets the user identifier
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo.UserName">
+            <summary>
+            Gets or sets the name of the user
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo">
+            <summary>
+            Represents information about an assigning authority.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo.#ctor(OpenIZ.Core.Model.DataTypes.AssigningAuthority)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo"/> class
+            with a specific assigning authority.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo.AssigningAuthority">
+            <summary>
+            Gets or sets the assigning authority.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo.Id">
+            <summary>
+            Gets or sets the id of the assigning authority.
             </summary>
         </member>
     </members>

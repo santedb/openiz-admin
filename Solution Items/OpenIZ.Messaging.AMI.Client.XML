@@ -101,15 +101,20 @@
             <param name="id">The id of the user to be deleted.</param>
             <returns>Returns the deleted user.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.Dispose">
+            <summary>
+            Dispose of any resources.
+            </summary>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.Dispose(System.Boolean)">
             <summary>
             Dispose of any managed resources.
             </summary>
             <param name="disposing">Whether the current invocation is disposing.</param>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.Dispose">
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.FindPolicy(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityPolicy,System.Boolean}})">
             <summary>
-            Dispose of any resources.
+            Retrieves the specified role from the AMI
             </summary>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.FindRole(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityRole,System.Boolean}})">
@@ -117,10 +122,19 @@
             Retrieves the specified role from the AMI
             </summary>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.FindPolicy(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityPolicy,System.Boolean}})">
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetAlerts(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Alert.Alerting.AlertMessage,System.Boolean}})">
             <summary>
-            Retrieves the specified role from the AMI
+            Gets a list of alerts.
             </summary>
+            <param name="query">The query expression to use to find the alerts.</param>
+            <returns>Returns a collection of alerts which match the specified criteria.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetAssigningAuthorities(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.AssigningAuthority,System.Boolean}})">
+            <summary>
+            Gets a list of assigning authorities.
+            </summary>
+            <param name="query">The query expression to use to find the assigning authorities.</param>
+            <returns>Returns a collection of assigning authorities which match the specified criteria.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetCertificates(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.AMI.Security.X509Certificate2Info,System.Boolean}})">
             <summary>
@@ -128,20 +142,6 @@
             </summary>
             <param name="query">The query expression to use to find the certificates.</param>
             <returns>Returns a collection of certificates which match the specified query.</returns>
-        </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetConcepts(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.Concept,System.Boolean}})">
-            <summary>
-            Gets a list of concepts.
-            </summary>
-            <param name="query">The query expression to use to find the concepts.</param>
-            <returns>Returns a collection of concepts which match the specified query.</returns>
-        </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetConceptSets(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptSet,System.Boolean}})">
-            <summary>
-            Gets a list of concept sets.
-            </summary>
-            <param name="query">The query expression to use to find the concept sets.</param>
-            <returns>Returns a collection of concept sets which match the specified query.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetCertificateSigningRequest(System.String)">
             <summary>
@@ -156,6 +156,20 @@
             </summary>
             <param name="query">The query expression to use to find the certificate signing requests.</param>
             <returns>Returns a collection of certificate signing requests which match the specified query.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetConcepts(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.Concept,System.Boolean}})">
+            <summary>
+            Gets a list of concepts.
+            </summary>
+            <param name="query">The query expression to use to find the concepts.</param>
+            <returns>Returns a collection of concepts which match the specified query.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetConceptSets(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptSet,System.Boolean}})">
+            <summary>
+            Gets a list of concept sets.
+            </summary>
+            <param name="query">The query expression to use to find the concept sets.</param>
+            <returns>Returns a collection of concept sets which match the specified query.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetDevices(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityDevice,System.Boolean}})">
             <summary>
@@ -219,6 +233,14 @@
             </summary>
             <param name="submissionRequest">The certificate signing request.</param>
             <returns>Returns the submission result.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateAlert(System.String,OpenIZ.Core.Model.AMI.Alerting.AlertMessageInfo)">
+            <summary>
+            Updates an alert.
+            </summary>
+            <param name="alertId">The id of the alert to be updated.</param>
+            <param name="alertMessageInfo">The alert message info containing the updated information.</param>
+            <returns>Returns the updated alert.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateConcept(System.String,OpenIZ.Core.Model.DataTypes.Concept)">
             <summary>

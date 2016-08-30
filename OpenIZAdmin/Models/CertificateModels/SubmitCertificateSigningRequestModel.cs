@@ -17,7 +17,6 @@
  * Date: 2016-7-9
  */
 
-using OpenIZ.Core.Model.AMI.Security;
 using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.CertificateModels
@@ -35,11 +34,12 @@ namespace OpenIZAdmin.Models.CertificateModels
 		}
 
 		/// <summary>
-		/// Gets or sets the cmc request of the submission request.
+		/// Gets or sets the email of the administrative contact of the submission request.
 		/// </summary>
 		[Required]
-		[Display(Name = "CMC Request")]
-		public string CmcRequest { get; set; }
+		[EmailAddress]
+		[Display(Name = "Administrative Contact Email")]
+		public string AdministrativeContactEmail { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the administrative contact of the submission request.
@@ -50,11 +50,10 @@ namespace OpenIZAdmin.Models.CertificateModels
 		public string AdministrativeContactName { get; set; }
 
 		/// <summary>
-		/// Gets or sets the email of the administrative contact of the submission request.
+		/// Gets or sets the cmc request of the submission request.
 		/// </summary>
 		[Required]
-		[EmailAddress]
-		[Display(Name = "Administrative Contact Email")]
-		public string AdministrativeContactEmail { get; set; }
+		[Display(Name = "CMC Request")]
+		public string CmcRequest { get; set; }
 	}
 }

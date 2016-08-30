@@ -38,6 +38,11 @@ namespace OpenIZAdmin.DAL
 		}
 
 		/// <summary>
+		/// Gets or sets the Realm database set.
+		/// </summary>
+		public DbSet<Realm> Realm { get; set; }
+
+		/// <summary>
 		/// Creates a database context.
 		/// </summary>
 		/// <returns>Returns the newly created database context.</returns>
@@ -55,10 +60,5 @@ namespace OpenIZAdmin.DAL
 			modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 			base.OnModelCreating(modelBuilder);
 		}
-
-		/// <summary>
-		/// Gets or sets the Realm database set.
-		/// </summary>
-		public DbSet<Realm> Realm { get; set; }
 	}
 }

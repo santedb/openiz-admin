@@ -35,6 +35,15 @@ namespace OpenIZAdmin.Models.Domain
 			this.Language = "en";
 		}
 
+		[StringLength(2)]
+		public string Language { get; set; }
+
+		[ForeignKey("RealmId")]
+		public virtual Realm Realm { get; set; }
+
+		[Required]
+		public Guid RealmId { get; set; }
+
 		public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
 		{
 			// Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
@@ -42,14 +51,5 @@ namespace OpenIZAdmin.Models.Domain
 			// Add custom user claims here
 			return userIdentity;
 		}
-
-		[Required]
-		public Guid RealmId { get; set; }
-
-		[StringLength(2)]
-		public string Language { get; set; }
-
-		[ForeignKey("RealmId")]
-		public virtual Realm Realm { get; set; }
 	}
 }

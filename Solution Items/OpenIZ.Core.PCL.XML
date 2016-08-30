@@ -4,118 +4,6 @@
         <name>OpenIZ.Core.PCL</name>
     </assembly>
     <members>
-        <member name="T:OpenIZ.Core.Alerting.AlertEventArgs">
-            <summary>
-            Alert event arguments
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Alerting.AlertEventArgs.#ctor(OpenIZ.Core.Alerting.AlertMessage)">
-            <summary>
-            Construct a new alert event 
-            </summary>
-            <param name="msg"></param>
-        </member>
-        <member name="P:OpenIZ.Core.Alerting.AlertEventArgs.Ignore">
-            <summary>
-            Allows the handler to instruct the alert engine to ignore (not to persist) the 
-            alert
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Alerting.AlertEventArgs.Message">
-            <summary>
-            Gets the alert message
-            </summary>
-        </member>
-        <member name="T:OpenIZ.Core.Alerting.AlertMessage">
-            <summary>
-            A message
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Alerting.AlertMessage.#ctor">
-            <summary>
-            Creates alert message
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Alerting.AlertMessage.#ctor(System.String,System.String,System.String,System.String,OpenIZ.Core.Alerting.AlertMessageFlags)">
-            <summary>
-            Creates a new alert message
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Alerting.AlertMessage.Id">
-            <summary>
-            Gets or sets the id of the alert
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Alerting.AlertMessage.TimeStamp">
-            <summary>
-            Gets or sets the time
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Alerting.AlertMessage.Flags">
-            <summary>
-            Gets or sets the status of the alert
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Alerting.AlertMessage.CreatedBy">
-            <summary>
-            The principal that created the message
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Alerting.AlertMessage.To">
-            <summary>
-            Identifies the to
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Alerting.AlertMessage.From">
-            <summary>
-            Gets or sets the "from" subject if it is a human based message
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Alerting.AlertMessage.Subject">
-            <summary>
-            Gets or sets the subject
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Alerting.AlertMessage.Body">
-            <summary>
-            Body of the message
-            </summary>
-        </member>
-        <member name="T:OpenIZ.Core.Alerting.AlertMessageFlags">
-            <summary>
-            Message status type
-            </summary>
-        </member>
-        <member name="F:OpenIZ.Core.Alerting.AlertMessageFlags.None">
-            <summary>
-            Just a normal alert
-            </summary>
-        </member>
-        <member name="F:OpenIZ.Core.Alerting.AlertMessageFlags.Alert">
-            <summary>
-            Indicates the message requires some immediate action!
-            </summary>
-        </member>
-        <member name="F:OpenIZ.Core.Alerting.AlertMessageFlags.Acknowledged">
-            <summary>
-            Indicates whether someone has acknowledged the alert
-            </summary>
-        </member>
-        <member name="F:OpenIZ.Core.Alerting.AlertMessageFlags.HighPriority">
-            <summary>
-            Indicates the alert is high priority but doesn't require immediate action
-            </summary>
-        </member>
-        <member name="F:OpenIZ.Core.Alerting.AlertMessageFlags.System">
-            <summary>
-            Indicates the alert is a system alert
-            </summary>
-        </member>
-        <member name="F:OpenIZ.Core.Alerting.AlertMessageFlags.Transient">
-            <summary>
-            Indicates the alert is transient and shouldn't be persisted
-            </summary>
-        </member>
         <member name="T:OpenIZ.Core.ApplicationServiceContext">
             <summary>
             Application context
@@ -914,31 +802,6 @@
             Represents the act repository service
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Validate(OpenIZ.Core.Model.Acts.Act)">
-            <summary>
-            Validate the act 
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Insert(OpenIZ.Core.Model.Acts.Act)">
-            <summary>
-            Insert the specified act
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Save(OpenIZ.Core.Model.Acts.Act)">
-            <summary>
-            Insert or update the specified act
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Obsolete(System.Guid)">
-            <summary>
-            Obsolete the specified act
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Get(System.Guid,System.Guid)">
-            <summary>
-            Get the specified act
-            </summary>
-        </member>
         <member name="M:OpenIZ.Core.Services.IActRepositoryService.FindActs(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Acts.Act,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
             <summary>
             Find all acts
@@ -949,48 +812,132 @@
             Find the substance administrations
             </summary>
         </member>
-        <member name="T:OpenIZ.Core.Services.IAlertService">
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Get(System.Guid,System.Guid)">
+            <summary>
+            Get the specified act
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Insert(OpenIZ.Core.Model.Acts.Act)">
+            <summary>
+            Insert the specified act
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Obsolete(System.Guid)">
+            <summary>
+            Obsolete the specified act
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Save(OpenIZ.Core.Model.Acts.Act)">
+            <summary>
+            Insert or update the specified act
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Validate(OpenIZ.Core.Model.Acts.Act)">
+            <summary>
+            Validate the act
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Services.IAlertRepositoryService">
             <summary>
             Represents an alerting service.
             </summary>
         </member>
-        <member name="E:OpenIZ.Core.Services.IAlertService.Received">
-            <summary>
-            Fired when an alert was raised and is being processed.
-            </summary>
-        </member>
-        <member name="E:OpenIZ.Core.Services.IAlertService.Committed">
+        <member name="E:OpenIZ.Core.Services.IAlertRepositoryService.Committed">
             <summary>
             Fired when an alert is received.
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IAlertService.BroadcastAlert(OpenIZ.Core.Alerting.AlertMessage)">
+        <member name="E:OpenIZ.Core.Services.IAlertRepositoryService.Received">
+            <summary>
+            Fired when an alert was raised and is being processed.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IAlertRepositoryService.BroadcastAlert(OpenIZ.Core.Alert.Alerting.AlertMessage)">
             <summary>
             Broadcasts an alert.
             </summary>
             <param name="msg">The alert message to be broadcast.</param>
         </member>
-        <member name="M:OpenIZ.Core.Services.IAlertService.FindAlerts(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Alerting.AlertMessage,System.Boolean}},System.Int32,System.Nullable{System.Int32})">
+        <member name="M:OpenIZ.Core.Services.IAlertRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Alert.Alerting.AlertMessage,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
             <summary>
             Searches for alerts.
             </summary>
             <param name="predicate">The predicate to use to search for alerts.</param>
             <param name="offset">The offset of the search.</param>
             <param name="count">The count of the search results.</param>
+            <param name="totalCount">The total count of the alerts.</param>
             <returns>Returns a list of alerts.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IAlertService.GetAlert(System.Guid)">
+        <member name="M:OpenIZ.Core.Services.IAlertRepositoryService.Get(System.Guid)">
             <summary>
             Gets an alert.
             </summary>
             <param name="id">The id of the alert to be retrieved.</param>
             <returns>Returns an alert.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IAlertService.SaveAlert(OpenIZ.Core.Alerting.AlertMessage)">
+        <member name="M:OpenIZ.Core.Services.IAlertRepositoryService.Insert(OpenIZ.Core.Alert.Alerting.AlertMessage)">
+            <summary>
+            Inserts an alert message.
+            </summary>
+            <param name="message">The alert message to be inserted.</param>
+            <returns>Returns the inserted alert.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IAlertRepositoryService.Save(OpenIZ.Core.Alert.Alerting.AlertMessage)">
             <summary>
             Saves an alert.
             </summary>
-            <param name="msg">The alert message to be saved.</param>
+            <param name="message">The alert message to be saved.</param>
+            <returns>Returns the saved alert.</returns>
+        </member>
+        <member name="T:OpenIZ.Core.Services.IAssigningAuthorityRepositoryService">
+            <summary>
+            Represents a repository service for managing assigning authorities.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IAssigningAuthorityRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.AssigningAuthority,System.Boolean}})">
+            <summary>
+            Finds a list of assigning authorities.
+            </summary>
+            <param name="query">The query to use to find the assigning authorities.</param>
+            <returns>Returns a list of assigning authorities.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IAssigningAuthorityRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.AssigningAuthority,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Finds a list of assigning authorities.
+            </summary>
+            <param name="query">The query to use to find the assigning authorities.</param>
+            <param name="offSet">The offset of the query.</param>
+            <param name="count">The count of the query.</param>
+            <param name="totalCount">The total count of the query.</param>
+            <returns>Returns a list of assigning authorities.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IAssigningAuthorityRepositoryService.Get(System.Guid)">
+            <summary>
+            Gets an assigning authority.
+            </summary>
+            <param name="key">The key of the assigning authority to be retrieved.</param>
+            <returns>Returns an assiging authority.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IAssigningAuthorityRepositoryService.Insert(OpenIZ.Core.Model.DataTypes.AssigningAuthority)">
+            <summary>
+            Inserts an assigning authority.
+            </summary>
+            <param name="assigningAuthority">The assigning authority to be inserted.</param>
+            <returns>Returns the inserted assigning authority.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IAssigningAuthorityRepositoryService.Obsolete(System.Guid)">
+            <summary>
+            Obsoletes ans assigning authority.
+            </summary>
+            <param name="key">The key of the assigning authority to be obsoleted.</param>
+            <returns>Returns the obsoleted assigning authority.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IAssigningAuthorityRepositoryService.Save(OpenIZ.Core.Model.DataTypes.AssigningAuthority)">
+            <summary>
+            Saves or inserts an assigning authority.
+            </summary>
+            <param name="assigningAuthority">The assigning authority to be saved.</param>
+            <returns>Returns the saved assigning authority.</returns>
         </member>
         <member name="T:OpenIZ.Core.Services.IBatchRepositoryService">
             <summary>
@@ -1002,54 +949,34 @@
             Inserts all the data in the provided bundle in one transaction
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IBatchRepositoryService.Update(OpenIZ.Core.Model.Collection.Bundle)">
-            <summary>
-            Updates all the data in the provided bundle in one transaction
-            </summary>
-        </member>
         <member name="M:OpenIZ.Core.Services.IBatchRepositoryService.Obsolete(OpenIZ.Core.Model.Collection.Bundle)">
             <summary>
             Obsoletes all data in the provided bundle in one transaction
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Services.IBatchRepositoryService.Update(OpenIZ.Core.Model.Collection.Bundle)">
+            <summary>
+            Updates all the data in the provided bundle in one transaction
+            </summary>
+        </member>
         <!-- Badly formed XML comment ignored for member "M:OpenIZ.Core.Services.IBatchRepositoryService.Validate(OpenIZ.Core.Model.Collection.Bundle)" -->
+        <member name="T:OpenIZ.Core.Services.DetectedIssuePriorityType">
+            <summary>
+            Detected issue priority
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Services.IBusinessRulesService`1">
             <summary>
             Represents a service that executes business rules based on triggers which happen in the persistence layer
             </summary>
             <remarks>
-            Note: This can be done, instead with events on the persistence layer on the OpenIZ datalayer, however there 
+            Note: This can be done, instead with events on the persistence layer on the OpenIZ datalayer, however there
             may come a time when a rule is fired without persistence occurring
             </remarks>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.BeforeInsert(`0)">
-            <summary>
-            Called before an insert occurs
-            </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.AfterInsert(`0)">
             <summary>
             Called after an insert occurs
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.Validate(`0)">
-            <summary>
-            Called to validate a specific object
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.BeforeUpdate(`0)">
-            <summary>
-            Called before an update occurs
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.AfterUpdate(`0)">
-            <summary>
-            Called after update committed
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.BeforeObsolete(`0)">
-            <summary>
-            Called before obsolete
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.AfterObsolete(`0)">
@@ -1059,19 +986,39 @@
             <param name="data"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.AfterRetrieve(`0)">
-            <summary>
-            Called after retrieve
-            </summary>
-        </member>
         <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.AfterQuery(System.Collections.Generic.IEnumerable{`0})">
             <summary>
             Called after query
             </summary>
         </member>
-        <member name="T:OpenIZ.Core.Services.DetectedIssuePriorityType">
+        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.AfterRetrieve(`0)">
             <summary>
-            Detected issue priority
+            Called after retrieve
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.AfterUpdate(`0)">
+            <summary>
+            Called after update committed
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.BeforeInsert(`0)">
+            <summary>
+            Called before an insert occurs
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.BeforeObsolete(`0)">
+            <summary>
+            Called before obsolete
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.BeforeUpdate(`0)">
+            <summary>
+            Called before an update occurs
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IBusinessRulesService`1.Validate(`0)">
+            <summary>
+            Called to validate a specific object
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Services.DetectedIssue">
@@ -1099,14 +1046,14 @@
             Represents a class which can create care plans
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.ICarePlanService.CreateCarePlan(OpenIZ.Core.Model.Roles.Patient)">
-            <summary>
-            Create a care plam
-            </summary>
-        </member>
         <member name="P:OpenIZ.Core.Services.ICarePlanService.Protocols">
             <summary>
             Gets the list of protocols which can be or should be used to create the care plans
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ICarePlanService.CreateCarePlan(OpenIZ.Core.Model.Roles.Patient)">
+            <summary>
+            Create a care plam
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.ICarePlanService.Initialize">
@@ -1135,30 +1082,80 @@
             maintenance of concepts
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.InsertConcept(OpenIZ.Core.Model.DataTypes.Concept)">
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptClasses(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptClass,System.Boolean}})">
             <summary>
-            Perform an insert, throwing an error if duplicate exists
+            Searches for a concept class using a given query.
             </summary>
+            <param name="query">The query to use for searching for the concept class.</param>
+            <returns>Returns a list of concept classes who match the specified query.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.SaveConcept(OpenIZ.Core.Model.DataTypes.Concept)">
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptClasses(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptClass,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
             <summary>
-            Inserts or updates a concept into the persistence store
+            Searches for a concept class using a given query.
             </summary>
+            <param name="query">The query to use for searching for the concept class.</param>
+            <param name="count">The count of the concept classes to return.</param>
+            <param name="offset">The offset for the search results.</param>
+            <param name="totalCount">The total count of the search results.</param>
+            <returns>Returns a list of concept classes who match the specified query.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.SaveReferenceTerm(OpenIZ.Core.Model.DataTypes.ReferenceTerm)">
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConcepts(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.Concept,System.Boolean}})">
             <summary>
-            Saves a reference term
+            Searches for a concept using a given query.
             </summary>
+            <param name="query">The query to use for searching for the concept.</param>
+            <returns>Returns a list of concepts who match the specified query.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.SaveConceptClass(OpenIZ.Core.Model.DataTypes.ConceptClass)">
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConcepts(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.Concept,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
             <summary>
-            Saves a concept class
+            Searches for a concept using a given query.
             </summary>
+            <param name="query">The query to use for searching for the concept.</param>
+            <param name="count">The count of the concepts to return.</param>
+            <param name="offset">The offset for the search results.</param>
+            <param name="totalCount">The total count of the search results.</param>
+            <returns>Returns a list of concepts who match the specified query.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConceptSet(System.String)">
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptsByName(System.String,System.String)">
             <summary>
-            Get the concept set by mnemonic
+            Searches for a concept by name and language.
             </summary>
+            <param name="name">The name of the concept.</param>
+            <param name="language">The language of the concept.</param>
+            <returns>Returns a list of concepts.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptsByReferenceTerm(System.String,System.String)">
+            <summary>
+            Finds a concept by reference term.
+            </summary>
+            <param name="code">The code of the reference term.</param>
+            <param name="codeSystemOid">The code system OID of the reference term.</param>
+            <returns>Returns a list of concepts.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptSets(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptSet,System.Boolean}})">
+            <summary>
+            Searches for a concept set using a given query.
+            </summary>
+            <param name="query">The query to use for searching for the concept set.</param>
+            <returns>Returns a list of concept sets who match the specified query.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptSets(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptSet,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Searches for a concept sets using a given query.
+            </summary>
+            <param name="query">The query to use for searching for the concept sets.</param>
+            <param name="count">The count of the concept sets to return.</param>
+            <param name="offset">The offset for the search results.</param>
+            <param name="totalCount">The total count of the search results.</param>
+            <returns>Returns a list of concept sets who match the specified query.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConcept(System.Guid,System.Guid)">
+            <summary>
+            Gets the specified concept.
+            </summary>
+            <param name="id">The id of the concept.</param>
+            <param name="versionId">The version id of the concept.</param>
+            <returns>Returns the specified concept.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConcept(System.String)">
             <summary>
@@ -1166,38 +1163,21 @@
             </summary>
             <param name="mnemonic">The concept mnemonic to get</param>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConcepts(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.Concept,System.Boolean}})">
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConceptClass(System.Guid)">
             <summary>
-            Performs an arbirary query 
+            Gets a concept class.
             </summary>
-            <param name="query">The query to execute</param>
+            <param name="id">The id of the concept class to retrieve.</param>
+            <returns>Returns the concept class.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConcepts(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.Concept,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConceptSet(System.Guid)">
             <summary>
-            Find concepts 
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptsByName(System.String,System.String)">
-            <summary>
-            Finds a series of concepts by name
+            Gets the specified concept set.
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptsByReferenceTerm(System.String,System.String)">
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConceptSet(System.String)">
             <summary>
-            Find a reference term by code system oid
-            </summary>
-            <param name="code">The code</param>
-            <param name="codeSystemOid">The oid of the code system</param>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.Implies(OpenIZ.Core.Model.DataTypes.Concept,OpenIZ.Core.Model.DataTypes.Concept)">
-            <summary>
-            Returns a value which indicates whether <paramref name="a"/> implies <paramref name="b"/>
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.IsMember(OpenIZ.Core.Model.DataTypes.ConceptSet,OpenIZ.Core.Model.DataTypes.Concept)">
-            <summary>
-            Returns true if the concept <paramref name="concept"/> is a member of set <paramref name="set"/>
+            Get the concept set by mnemonic
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetReferenceTerm(OpenIZ.Core.Model.DataTypes.Concept,System.String)">
@@ -1205,47 +1185,85 @@
             Gets the specified reference term from <paramref name="concept"/> in <paramref name="codeSystemOid"/>
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConcept(System.Guid,System.Guid)">
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.Implies(OpenIZ.Core.Model.DataTypes.Concept,OpenIZ.Core.Model.DataTypes.Concept)">
             <summary>
-            Gets the specified concept
+            Returns a value which indicates whether <paramref name="a"/> implies <paramref name="b"/>
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.InsertConcept(OpenIZ.Core.Model.DataTypes.Concept)">
+            <summary>
+            Inserts a concept.
+            </summary>
+            <param name="concept">The concept to be inserted.</param>
+            <returns>Returns the inserted concept.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.InsertConceptClass(OpenIZ.Core.Model.DataTypes.ConceptClass)">
+            <summary>
+            Inserts a concept class.
+            </summary>
+            <param name="conceptClass">The concept class to be inserted.</param>
+            <returns>Returns the newly inserted concept class.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.InsertConceptSet(OpenIZ.Core.Model.DataTypes.ConceptSet)">
+            <summary>
+            Inserts a concept set.
+            </summary>
+            <param name="set">The concept set to be inserted.</param>
+            <returns>Returns the inserted concept set.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.IsMember(OpenIZ.Core.Model.DataTypes.ConceptSet,OpenIZ.Core.Model.DataTypes.Concept)">
+            <summary>
+            Returns true if the concept <paramref name="concept"/> is a member of set <paramref name="set"/>
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.ObsoleteConcept(System.Guid)">
             <summary>
-            Obsoletes the specified concept
+            Obsoletes a concept.
             </summary>
+            <param name="key">The key of the concept to be obsoleted.</param>
+            <returns>Returns the obsoleted concept.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.InsertConceptSet(OpenIZ.Core.Model.DataTypes.ConceptSet)">
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.ObsoleteConceptClass(System.Guid)">
             <summary>
-            Creates the specified concept set
+            Obsoletes a concept class.
             </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.SaveConceptSet(OpenIZ.Core.Model.DataTypes.ConceptSet)">
-            <summary>
-            Saves or updates the existing concept set
-            </summary>
+            <param name="key">The key of the concept class to obsolete.</param>
+            <returns>Returns the obsoleted concept class.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.ObsoleteConceptSet(System.Guid)">
             <summary>
-            Obsoletes the concept set
+            Obsoletes a concept set.
             </summary>
+            <param name="key">The key of the concept set to be obsoleted.</param>
+            <returns>Returns the obsoleted concept set.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConceptSet(System.Guid)">
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.SaveConcept(OpenIZ.Core.Model.DataTypes.Concept)">
             <summary>
-            Gets the specified concept set.
+            Insert or updates a concept.
             </summary>
+            <param name="concept">The concept to be saved.</param>
+            <returns>Returns the saved concept.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptSets(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptSet,System.Boolean}})">
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.SaveConceptClass(OpenIZ.Core.Model.DataTypes.ConceptClass)">
             <summary>
-            Performs an arbirary query 
+            Inserts or updates a concept class.
             </summary>
-            <param name="query">The query to execute</param>
+            <param name="clazz">The concept class to be saved.</param>
+            <returns>Returns the saved concept class.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptSets(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptSet,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.SaveConceptSet(OpenIZ.Core.Model.DataTypes.ConceptSet)">
             <summary>
-            Find concepts 
+            Inserts or updates a concept set.
             </summary>
-            <returns></returns>
+            <param name="set">The concept set to be saved.</param>
+            <returns>Returns the saved concept set.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.SaveReferenceTerm(OpenIZ.Core.Model.DataTypes.ReferenceTerm)">
+            <summary>
+            Inserts or updates a concept reference term.
+            </summary>
+            <param name="term">The reference term to be saved.</param>
+            <returns>Returns a concept.</returns>
         </member>
         <member name="T:OpenIZ.Core.Services.IDataCachingService">
             <summary>
@@ -1258,59 +1276,60 @@
             Get the specified cache item
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Services.IIdentifierTypeRepositoryService">
+            <summary>
+            Provides operations for managing identifier types.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IIdentifierTypeRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.IdentifierType,System.Boolean}})">
+            <summary>
+            Searches for an identifier type using a given query.
+            </summary>
+            <param name="query">The query to use for searching for the identifier type.</param>
+            <returns>Returns a list of identifier types who match the specified query.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IIdentifierTypeRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.IdentifierType,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Searches for an identifier type using a given query.
+            </summary>
+            <param name="query">The query to use for searching for the organization.</param>
+            <param name="count">The count of the organizations to return.</param>
+            <param name="offset">The offset for the search results.</param>
+            <param name="totalCount">The total count of the search results.</param>
+            <returns>Returns a list of identifier types who match the specified query.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IIdentifierTypeRepositoryService.Get(System.Guid,System.Guid)">
+            <summary>
+            Gets the specified identifier type.
+            </summary>
+            <param name="id">The id of the identifier type.</param>
+            <param name="versionId">The version id of the identifier type.</param>
+            <returns>Returns the specified identifier type.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IIdentifierTypeRepositoryService.Insert(OpenIZ.Core.Model.DataTypes.IdentifierType)">
+            <summary>
+            Inserts the specified identifier type.
+            </summary>
+            <param name="identifierType">The identifier type to insert.</param>
+            <returns>Returns the inserted organization.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IIdentifierTypeRepositoryService.Obsolete(System.Guid)">
+            <summary>
+            Obsoletes the specified identifier type.
+            </summary>
+            <param name="id">The id of the identifier type to obsolete.</param>
+            <returns>Returns the obsoleted identifier type.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IIdentifierTypeRepositoryService.Save(OpenIZ.Core.Model.DataTypes.IdentifierType)">
+            <summary>
+            Saves the specified identifier type.
+            </summary>
+            <param name="identifierType">The identifier type to save.</param>
+            <returns>Returns the saved identifier type.</returns>
+        </member>
         <member name="T:OpenIZ.Core.Services.IMaterialRepositoryService">
             <summary>
             Represents the repository handler for materials
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.SaveMaterial(OpenIZ.Core.Model.Entities.Material)">
-            <summary>
-            Saves the specified material from data layer
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.InsertMaterial(OpenIZ.Core.Model.Entities.Material)">
-            <summary>
-            Inserts the material in the persistence layer
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.GetMaterial(System.Guid,System.Guid)">
-            <summary>
-            Gets the specified material from the database
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.ObsoleteMaterial(System.Guid)">
-            <summary>
-            Obsoletes the specified material
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.FindMaterial(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.Material,System.Boolean}})">
-            <summary>
-            Finds the specified material
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.FindMaterial(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.Material,System.Boolean}},System.Int32,System.Int32,System.Int32@)">
-            <summary>
-            Finds the specified material with the specified restrictions
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.SaveManufacturedMaterial(OpenIZ.Core.Model.Entities.ManufacturedMaterial)">
-            <summary>
-            Saves the specified ManufacturedMaterial from data layer
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.InsertManufacturedMaterial(OpenIZ.Core.Model.Entities.ManufacturedMaterial)">
-            <summary>
-            Inserts the ManufacturedMaterial in the persistence layer
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.GetManufacturedMaterial(System.Guid,System.Guid)">
-            <summary>
-            Gets the specified ManufacturedMaterial from the database
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.ObsoleteManufacturedMaterial(System.Guid)">
-            <summary>
-            Obsoletes the specified ManufacturedMaterial
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.FindManufacturedMaterial(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.ManufacturedMaterial,System.Boolean}})">
@@ -1323,20 +1342,65 @@
             Finds the specified ManufacturedMaterial with the specified restrictions
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.FindMaterial(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.Material,System.Boolean}})">
+            <summary>
+            Finds the specified material
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.FindMaterial(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.Material,System.Boolean}},System.Int32,System.Int32,System.Int32@)">
+            <summary>
+            Finds the specified material with the specified restrictions
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.GetManufacturedMaterial(System.Guid,System.Guid)">
+            <summary>
+            Gets the specified ManufacturedMaterial from the database
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.GetMaterial(System.Guid,System.Guid)">
+            <summary>
+            Gets the specified material from the database
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.InsertManufacturedMaterial(OpenIZ.Core.Model.Entities.ManufacturedMaterial)">
+            <summary>
+            Inserts the ManufacturedMaterial in the persistence layer
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.InsertMaterial(OpenIZ.Core.Model.Entities.Material)">
+            <summary>
+            Inserts the material in the persistence layer
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.ObsoleteManufacturedMaterial(System.Guid)">
+            <summary>
+            Obsoletes the specified ManufacturedMaterial
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.ObsoleteMaterial(System.Guid)">
+            <summary>
+            Obsoletes the specified material
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.SaveManufacturedMaterial(OpenIZ.Core.Model.Entities.ManufacturedMaterial)">
+            <summary>
+            Saves the specified ManufacturedMaterial from data layer
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.SaveMaterial(OpenIZ.Core.Model.Entities.Material)">
+            <summary>
+            Saves the specified material from data layer
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Services.IMetadataRepositoryService">
             <summary>
             Represents a repository which deals with metadata such as assigning authorities,
             concept classes, etc.
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.GetAssigningAuthority(System.Guid)">
-            <summary>
-            Gets an assigning authority
-            </summary>
-        </member>
         <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.FindAssigningAuthority(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.AssigningAuthority,System.Boolean}})">
             <summary>
-            Finds the specified assigning authority 
+            Finds the specified assigning authority
             </summary>
             <returns></returns>
         </member>
@@ -1345,9 +1409,14 @@
             Finds the specified assigning authority with restrictions
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.GetAssigningAuthority(System.Guid)">
+            <summary>
+            Gets an assigning authority
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1">
             <summary>
-            Represents a business rules service with no behavior, but intended to help in the implementation of another 
+            Represents a business rules service with no behavior, but intended to help in the implementation of another
             business rules service
             </summary>
         </member>
@@ -1413,16 +1482,80 @@
             Generate the phonetic code
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Services.IOrganizationRepositoryService">
+            <summary>
+            Provides operations for managing organizations.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IOrganizationRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.Organization,System.Boolean}})">
+            <summary>
+            Searches for a organization using a given query.
+            </summary>
+            <param name="query">The query to use for searching for the organization.</param>
+            <returns>Returns a list of organizations who match the specified query.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IOrganizationRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.Organization,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Searches for a organization using a given query.
+            </summary>
+            <param name="query">The query to use for searching for the organization.</param>
+            <param name="count">The count of the organizations to return.</param>
+            <param name="offset">The offset for the search results.</param>
+            <param name="totalCount">The total count of the search results.</param>
+            <returns>Returns a list of organizations who match the specified query.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IOrganizationRepositoryService.Get(System.Guid,System.Guid)">
+            <summary>
+            Gets the specified organization.
+            </summary>
+            <param name="id">The id of the organization.</param>
+            <param name="versionId">The version id of the organization.</param>
+            <returns>Returns the specified organization.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IOrganizationRepositoryService.Insert(OpenIZ.Core.Model.Entities.Organization)">
+            <summary>
+            Inserts the specified organization.
+            </summary>
+            <param name="organization">The organization to insert.</param>
+            <returns>Returns the inserted organization.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IOrganizationRepositoryService.Obsolete(System.Guid)">
+            <summary>
+            Obsoletes the specified organization.
+            </summary>
+            <param name="id">The id of the organization to obsolete.</param>
+            <returns>Returns the obsoleted organization.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IOrganizationRepositoryService.Save(OpenIZ.Core.Model.Entities.Organization)">
+            <summary>
+            Saves the specified organization.
+            </summary>
+            <param name="organization">The organization to save.</param>
+            <returns>Returns the saved organization.</returns>
+        </member>
         <member name="T:OpenIZ.Core.Services.IPatientRepositoryService">
             <summary>
             Represents the patient repository service. This service is responsible
-            for ensuring that patient roles in the IMS database are in a consistent 
+            for ensuring that patient roles in the IMS database are in a consistent
             state.
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.Validate(OpenIZ.Core.Model.Roles.Patient)">
+        <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Roles.Patient,System.Boolean}})">
             <summary>
-            Validate the specified patient, or rather ensure the patient is valid
+            Searches the patient service for the specified patient matching the
+            given predicate
+            </summary>
+            <param name="predicate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Roles.Patient,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Searches the database for the specified patient
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.Get(System.Guid,System.Guid)">
+            <summary>
+            Gets the specified patient
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.Insert(OpenIZ.Core.Model.Roles.Patient)">
@@ -1432,18 +1565,6 @@
             <param name="p"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.Save(OpenIZ.Core.Model.Roles.Patient)">
-            <summary>
-            Updates the given patient only if they already exist
-            </summary>
-            <param name="p"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.Obsolete(System.Guid)">
-            <summary>
-            Obsoletes the given patient
-            </summary>
-        </member>
         <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.Merge(OpenIZ.Core.Model.Roles.Patient,OpenIZ.Core.Model.Roles.Patient)">
             <summary>
             Merges two patients together
@@ -1452,10 +1573,17 @@
             <param name="victim">The victim patient record</param>
             <returns>A new version of patient <paramref name="a"/> representing the merge</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.Get(System.Guid,System.Guid)">
+        <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.Obsolete(System.Guid)">
             <summary>
-            Gets the specified patient
+            Obsoletes the given patient
             </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.Save(OpenIZ.Core.Model.Roles.Patient)">
+            <summary>
+            Updates the given patient only if they already exist
+            </summary>
+            <param name="p"></param>
+            <returns></returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.UnMerge(OpenIZ.Core.Model.Roles.Patient,System.Guid)">
             <summary>
@@ -1465,17 +1593,9 @@
             <param name="versionKey">The version of patient P where the split should occur</param>
             <returns>A new patient representing the split record</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Roles.Patient,System.Boolean}})">
+        <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.Validate(OpenIZ.Core.Model.Roles.Patient)">
             <summary>
-            Searches the patient service for the specified patient matching the 
-            given predicate
-            </summary>
-            <param name="predicate"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IPatientRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Roles.Patient,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
-            <summary>
-            Searches the database for the specified patient
+            Validate the specified patient, or rather ensure the patient is valid
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Services.IPhoneticAlgorithmHandler">
@@ -1498,29 +1618,9 @@
             Represents a repository service for managing places
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IPlaceRepositoryService.Insert(OpenIZ.Core.Model.Entities.Place)">
-            <summary>
-            Inserts the specified place
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IPlaceRepositoryService.Save(OpenIZ.Core.Model.Entities.Place)">
-            <summary>
-            Saves the specified place
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IPlaceRepositoryService.Obsolete(System.Guid)">
-            <summary>
-            Obsoletes the specified place
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IPlaceRepositoryService.Get(System.Guid,System.Guid)">
-            <summary>
-            Gets the specified place
-            </summary>
-        </member>
         <member name="M:OpenIZ.Core.Services.IPlaceRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.Place,System.Boolean}})">
             <summary>
-            Searches the patient service for the specified place matching the 
+            Searches the patient service for the specified place matching the
             given predicate
             </summary>
             <param name="predicate"></param>
@@ -1531,38 +1631,24 @@
             Searches the database for the specified place
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IProviderRepositoryService.Insert(OpenIZ.Core.Model.Roles.Provider)">
+        <member name="M:OpenIZ.Core.Services.IPlaceRepositoryService.Get(System.Guid,System.Guid)">
             <summary>
-            Inserts the specified provider.
+            Gets the specified place
             </summary>
-            <param name="provider">The provider to insert.</param>
-            <returns>Returns the inserted provider.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IProviderRepositoryService.Save(OpenIZ.Core.Model.Roles.Provider)">
+        <member name="M:OpenIZ.Core.Services.IPlaceRepositoryService.Insert(OpenIZ.Core.Model.Entities.Place)">
             <summary>
-            /// Saves the specified provider.
+            Inserts the specified place
             </summary>
-            <param name="provider">The provider to save.</param>
-            <returns>Returns the saved provider.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IProviderRepositoryService.Obsolete(System.Guid)">
+        <member name="M:OpenIZ.Core.Services.IPlaceRepositoryService.Obsolete(System.Guid)">
             <summary>
-            Obsoletes the specified provider.
+            Obsoletes the specified place
             </summary>
-            <param name="id">The id of the provider to obsolete.</param>
-            <returns>Returns the obsoleted provider.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IProviderRepositoryService.Get(System.Guid,System.Guid)">
+        <member name="M:OpenIZ.Core.Services.IPlaceRepositoryService.Save(OpenIZ.Core.Model.Entities.Place)">
             <summary>
-            Gets the specified provider.
-            </summary>
-            <param name="id">The id of the provider.</param>
-            <param name="versionId">The version id of the provider.</param>
-            <returns>Returns the specified provider.</returns>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IProviderRepositoryService.Get(System.Security.Principal.IIdentity)">
-            <summary>
-            Get the provider based off the user identity
+            Saves the specified place
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.IProviderRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Roles.Provider,System.Boolean}})">
@@ -1581,6 +1667,40 @@
             <param name="offset">The offset for the search results.</param>
             <param name="totalCount">The total count of the search results.</param>
             <returns>Returns a list of providers who match the specified predicate.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IProviderRepositoryService.Get(System.Guid,System.Guid)">
+            <summary>
+            Gets the specified provider.
+            </summary>
+            <param name="id">The id of the provider.</param>
+            <param name="versionId">The version id of the provider.</param>
+            <returns>Returns the specified provider.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IProviderRepositoryService.Get(System.Security.Principal.IIdentity)">
+            <summary>
+            Get the provider based off the user identity
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IProviderRepositoryService.Insert(OpenIZ.Core.Model.Roles.Provider)">
+            <summary>
+            Inserts the specified provider.
+            </summary>
+            <param name="provider">The provider to insert.</param>
+            <returns>Returns the inserted provider.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IProviderRepositoryService.Obsolete(System.Guid)">
+            <summary>
+            Obsoletes the specified provider.
+            </summary>
+            <param name="id">The id of the provider to obsolete.</param>
+            <returns>Returns the obsoleted provider.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IProviderRepositoryService.Save(OpenIZ.Core.Model.Roles.Provider)">
+            <summary>
+            /// Saves the specified provider.
+            </summary>
+            <param name="provider">The provider to save.</param>
+            <returns>Returns the saved provider.</returns>
         </member>
         <member name="T:OpenIZ.Core.Services.ISecurityRepositoryService">
             <summary>
@@ -1683,12 +1803,12 @@
         </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindUserEntity(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.UserEntity,System.Boolean}})">
             <summary>
-            Finds the specified user entity 
+            Finds the specified user entity
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindUserEntity(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.UserEntity,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
             <summary>
-            Finds the specified user entity 
+            Finds the specified user entity
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindUsers(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityUser,System.Boolean}})">
@@ -1741,7 +1861,7 @@
         </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.GetUserEntity(System.Security.Principal.IIdentity)">
             <summary>
-            Get the user entity 
+            Get the user entity
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.LockUser(System.Guid)">
@@ -1749,11 +1869,6 @@
             Locks a specific user.
             </summary>
             <param name="userId">The id of the user to lock.</param>
-        </member>
-        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.ObsoleteUserEntity(System.Guid)">
-            <summary>
-            Obsoletes the specfied user entity
-            </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.ObsoleteDevice(System.Guid)">
             <summary>
@@ -1775,6 +1890,11 @@
             </summary>
             <param name="userId">The id of the user to be obsoleted.</param>
             <returns>Returns the obsoleted user.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.ObsoleteUserEntity(System.Guid)">
+            <summary>
+            Obsoletes the specfied user entity
+            </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.SaveDevice(OpenIZ.Core.Model.Security.SecurityDevice)">
             <summary>
@@ -1808,19 +1928,40 @@
             </summary>
             <param name="userId">The id of the user to be unlocked.</param>
         </member>
-        <member name="T:OpenIZ.Core.Services.IStockManagementService">
+        <member name="T:OpenIZ.Core.Services.IStockManagementRepositoryService">
             <summary>
-            Represents an abstract way for PCL classes to interact with persistence events that occur on the back end
+            Represents a stock management repository service.
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IStockManagementService.Adjust(OpenIZ.Core.Model.Entities.ManufacturedMaterial,OpenIZ.Core.Model.Entities.Place,System.Int32,OpenIZ.Core.Model.DataTypes.Concept)">
+        <member name="M:OpenIZ.Core.Services.IStockManagementRepositoryService.Adjust(OpenIZ.Core.Model.Entities.ManufacturedMaterial,OpenIZ.Core.Model.Entities.Place,System.Int32,OpenIZ.Core.Model.DataTypes.Concept)">
             <summary>
-            Performs a stock adjustment for the specified facility and material
+            Performs a stock adjustment for the specified facility and material.
+            </summary>
+            <param name="manufacturedMaterial">The manufactured material to be adjusted.</param>
+            <param name="place">The facility for which the stock is to be adjusted.</param>
+            <param name="quantity">The quantity to be adjusted.</param>
+            <param name="reason">The reason for the stock to be adjusted.</param>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IStockManagementRepositoryService.GetBalance(OpenIZ.Core.Model.Entities.Place,OpenIZ.Core.Model.Entities.ManufacturedMaterial)">
+            <summary>
+            Gets the balance for the material.
+            </summary>
+            <param name="place">The facility for which to get the balance of stock.</param>
+            <param name="manufacturedMaterial">The manufactured material for which to retrieve the balance.</param>
+        </member>
+        <member name="T:OpenIZ.Core.Services.IThreadPoolService">
+            <summary>
+            Represents a thread pooling service
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IStockManagementService.GetBalance(OpenIZ.Core.Model.Entities.Place,OpenIZ.Core.Model.Entities.ManufacturedMaterial)">
+        <member name="M:OpenIZ.Core.Services.IThreadPoolService.QueueUserWorkItem(System.Action{System.Object})">
             <summary>
-            Gets the balance for the material
+            Queues the specified action into the worker pool
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IThreadPoolService.QueueUserWorkItem(System.Action{System.Object},System.Object)">
+            <summary>
+            Queues the specified action into the worker pool
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Protocol.IClinicalProtocol">

@@ -1,0 +1,127 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>OpenIZ.Core.Alert</name>
+    </assembly>
+    <members>
+        <member name="T:OpenIZ.Core.Alert.Alerting.AlertEventArgs">
+            <summary>
+            Represents alert event arguments.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Alert.Alerting.AlertEventArgs.#ctor(OpenIZ.Core.Alert.Alerting.AlertMessage)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Alert.Alerting.AlertEventArgs"/> class
+            with a specified alert message.
+            </summary>
+            <param name="message">The alert message.</param>
+        </member>
+        <member name="P:OpenIZ.Core.Alert.Alerting.AlertEventArgs.Ignore">
+            <summary>
+            Allows the handler to instruct the alert engine to ignore (not to persist) the
+            alert.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alert.Alerting.AlertEventArgs.Message">
+            <summary>
+            Gets the alert message.
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Alert.Alerting.AlertMessage">
+            <summary>
+            Represents an alert message.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Alert.Alerting.AlertMessage.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Alert.Alerting.AlertMessage"/> class.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Alert.Alerting.AlertMessage.#ctor(System.String,System.String,System.String,System.String,OpenIZ.Core.Alert.Alerting.AlertMessageFlags)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Alert.Alerting.AlertMessage"/> class
+            with a specified from, to, subject, body, and alert message flags.
+            </summary>
+            <param name="from">The sender of the alert.</param>
+            <param name="to">The recipient of the alert.</param>
+            <param name="subject">The subject of the alert.</param>
+            <param name="body">The body of the alert.</param>
+            <param name="flags">The flags of the alert.</param>
+        </member>
+        <member name="P:OpenIZ.Core.Alert.Alerting.AlertMessage.Body">
+            <summary>
+            Gets or sets the alert body of the alert.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alert.Alerting.AlertMessage.CreatedBy">
+            <summary>
+            Gets or sets the user who created the alert.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alert.Alerting.AlertMessage.Flags">
+            <summary>
+            Gets or sets the status of the alert.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alert.Alerting.AlertMessage.From">
+            <summary>
+            Gets or sets the "from" subject if it is a human based message of the alert.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alert.Alerting.AlertMessage.Id">
+            <summary>
+            Gets or sets the id of the alert.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alert.Alerting.AlertMessage.Subject">
+            <summary>
+            Gets or sets the subject of the alert.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alert.Alerting.AlertMessage.TimeStamp">
+            <summary>
+            Gets or sets the time of the alert.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Alert.Alerting.AlertMessage.To">
+            <summary>
+            Gets or sets the recipient of the alert.
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Alert.Alerting.AlertMessageFlags">
+            <summary>
+            Represents a flag for an alert message.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Alert.Alerting.AlertMessageFlags.None">
+            <summary>
+            Just a normal alert
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Alert.Alerting.AlertMessageFlags.Alert">
+            <summary>
+            Indicates the message requires some immediate action!
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Alert.Alerting.AlertMessageFlags.Acknowledged">
+            <summary>
+            Indicates whether someone has acknowledged the alert
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Alert.Alerting.AlertMessageFlags.HighPriority">
+            <summary>
+            Indicates the alert is high priority but doesn't require immediate action
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Alert.Alerting.AlertMessageFlags.System">
+            <summary>
+            Indicates the alert is a system alert
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Alert.Alerting.AlertMessageFlags.Transient">
+            <summary>
+            Indicates the alert is transient and shouldn't be persisted
+            </summary>
+        </member>
+    </members>
+</doc>

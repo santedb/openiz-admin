@@ -17,7 +17,6 @@
  * Date: 2016-7-23
  */
 
-using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Query;
 using OpenIZ.Messaging.AMI.Client;

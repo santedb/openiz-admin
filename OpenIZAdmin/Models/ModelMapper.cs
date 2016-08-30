@@ -23,17 +23,6 @@ using System.Reflection;
 namespace OpenIZAdmin.Models
 {
 	/// <summary>
-	/// Instructs the ModelMapper to ignore this property.
-	/// </summary>
-	[AttributeUsage(AttributeTargets.Property)]
-	public class MappingIgnore : Attribute
-	{
-		public MappingIgnore()
-		{
-		}
-	}
-
-	/// <summary>
 	/// A helper class to map basic properties between two objects (models).
 	/// </summary>
 	public static class ModelMapper
@@ -98,6 +87,17 @@ namespace OpenIZAdmin.Models
 			}
 
 			return toModel;
+		}
+	}
+
+	/// <summary>
+	/// Instructs the ModelMapper to ignore this property.
+	/// </summary>
+	[AttributeUsage(AttributeTargets.Property)]
+	public class MappingIgnore : Attribute
+	{
+		public MappingIgnore()
+		{
 		}
 	}
 }

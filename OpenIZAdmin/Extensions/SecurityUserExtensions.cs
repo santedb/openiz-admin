@@ -17,7 +17,6 @@
  * Date: 2016-7-23
  */
 
-using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Security;
 using System;
 using System.Collections.Generic;

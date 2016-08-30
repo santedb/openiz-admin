@@ -17,7 +17,6 @@
  * Date: 2016-7-23
  */
 
-using OpenIZ.Core.Model.DataTypes;
 using System.Collections.Generic;
 
 namespace OpenIZAdmin.Models.ConceptModels.ViewModels

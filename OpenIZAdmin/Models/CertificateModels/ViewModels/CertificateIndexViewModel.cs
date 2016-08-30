@@ -27,10 +27,8 @@ namespace OpenIZAdmin.Models.CertificateModels.ViewModels
 		{
 		}
 
-		public IEnumerable<CertificateSigningRequestViewModel> CertificateSigningRequests { get; set; }
-
-		public IEnumerable<CertificateViewModel> Certificates { get; set; }
-
 		public IEnumerable<CertificateRevocationListViewModel> CertificateRevocations { get; set; }
+		public IEnumerable<CertificateViewModel> Certificates { get; set; }
+		public IEnumerable<CertificateSigningRequestViewModel> CertificateSigningRequests { get; set; }
 	}
 }
