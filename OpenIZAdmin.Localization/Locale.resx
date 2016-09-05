@@ -543,4 +543,43 @@
   <data name="PasswordChangedSuccessfully" xml:space="preserve">
     <value>Password changed successfully</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Yes</value>
+  </data>
+  <data name="Manage" xml:space="preserve">
+    <value>Manage</value>
+  </data>
+  <data name="UpdateProfile" xml:space="preserve">
+    <value>Update profile</value>
+  </data>
+  <data name="ProfileUpdatedSuccessfully" xml:space="preserve">
+    <value>Profile Updated Successfully</value>
+  </data>
+  <data name="FamilyNames" xml:space="preserve">
+    <value>Family Names</value>
+  </data>
+  <data name="Names" xml:space="preserve">
+    <value>Names</value>
+  </data>
+  <data name="Facility" xml:space="preserve">
+    <value>Facility</value>
+  </data>
+  <data name="FacilityRequired" xml:space="preserve">
+    <value>Please select a facility</value>
+  </data>
+  <data name="PhoneType" xml:space="preserve">
+    <value>Phone Type</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="EditUser" xml:space="preserve">
+    <value>Edit User</value>
+  </data>
+  <data name="SessionTimedOut" xml:space="preserve">
+    <value>Session timed out</value>
+  </data>
 </root>

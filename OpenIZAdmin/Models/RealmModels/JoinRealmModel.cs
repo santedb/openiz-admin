@@ -57,19 +57,6 @@ namespace OpenIZAdmin.Models.RealmModels
 		public string ApplicationSecret { get; set; }
 
 		/// <summary>
-		/// Gets or sets the description of the realm.
-		/// </summary>
-		[StringLength(255)]
-		public string Description { get; set; }
-
-		/// <summary>
-		/// Gets or sets the name of the realm.
-		/// </summary>
-		[Required]
-		[StringLength(100)]
-		public string Name { get; set; }
-
-		/// <summary>
 		/// Gets or sets the password used to connect to the realm.
 		/// </summary>
 		[Required]

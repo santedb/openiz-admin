@@ -17,29 +17,31 @@
  * Date: 2016-7-15
  */
 
+using OpenIZAdmin.Localization;
 using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.RealmModels.ViewModels
 {
+	/// <summary>
+	/// Represents a realm view model.
+	/// </summary>
 	public class RealmViewModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RealmViewModel"/> class.
+		/// </summary>
 		public RealmViewModel()
 		{
 		}
 
+		[Display(Name = "Address", ResourceType = typeof(Locale))]
 		public string Address { get; set; }
 
 		[Display(Name = "Application Id")]
 		public string ApplicationId { get; set; }
 
-		[Display(Name = "Creation Time")]
+		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
 		public DateTime CreationTime { get; set; }
-
-		public string Description { get; set; }
-
-		public Guid Id { get; set; }
-
-		public string Name { get; set; }
 	}
 }

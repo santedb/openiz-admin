@@ -8,6 +8,7 @@
             <summary>
             Represents information about an alert message.
             </summary>
+            TODO: What is the purpose of this class?
         </member>
         <member name="M:OpenIZ.Core.Model.AMI.Alerting.AlertMessageInfo.#ctor">
             <summary>

@@ -19,10 +19,28 @@
 
 namespace OpenIZAdmin.Models.AccountModels
 {
+	/// <summary>
+	/// Represents a model to allow a user to manage their account.
+	/// </summary>
 	public class ManageModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ManageModel"/> class.
+		/// </summary>
 		public ManageModel()
 		{
+			this.ChangePasswordModel = new ChangePasswordModel();
+			this.UpdateProfileModel = new UpdateProfileModel();
 		}
+
+		/// <summary>
+		/// Gets or sets the change password model.
+		/// </summary>
+		public ChangePasswordModel ChangePasswordModel { get; set; }
+
+		/// <summary>
+		/// Gets or sets the update profile model.
+		/// </summary>
+		public UpdateProfileModel UpdateProfileModel { get; set; }
 	}
 }

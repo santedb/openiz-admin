@@ -27,6 +27,7 @@
                         <th>
                             @Html.DisplayNameFor(m => m.Description)
                         </th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,9 +35,14 @@
                     {
                         <tr>
                             <td><span class="glyphicon glyphicon-user pull-left" aria-hidden="true"></span></td>
-                            <td><a href="/Role/ViewRole/@item.Id">@item.Id</a></td>
                             <td>@item.Name</td>
                             <td>@item.Description</td>
+                            <td>
+                                <a class="btn btn-primary" href="/Role/ViewRole/@item.Id">
+                                    @Locale.View
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                            </td>
                         </tr>}
                 </tbody>
             </table>

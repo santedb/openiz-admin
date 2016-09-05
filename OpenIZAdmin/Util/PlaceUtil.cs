@@ -19,9 +19,12 @@
 
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Models.PlaceModels;
 using OpenIZAdmin.Models.PlaceModels.ViewModels;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace OpenIZAdmin.Util
@@ -31,6 +34,34 @@ namespace OpenIZAdmin.Util
 	/// </summary>
 	public static class PlaceUtil
 	{
+		/// <summary>
+		/// Gets a list of places from the IMS.
+		/// </summary>
+		/// <param name="client">The IMSI service client.</param>
+		/// <returns>Returns a list of places.</returns>
+		public static IEnumerable<Place> GetPlaces(ImsiServiceClient client)
+		{
+			IEnumerable<Place> places = new List<Place>();
+
+			try
+			{
+				var bundle = client.Query<Place>(p => p.IsMobile == false);
+
+				bundle.Reconstitute();
+
+				places = bundle.Item.OfType<Place>().Cast<Place>().AsEnumerable();
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Unable to retrieve places: {0}", e.StackTrace);
+#endif
+				Trace.TraceError("Unable to retrieve places: {0}", e.Message);
+			}
+
+			return places;
+		}
+
 		/// <summary>
 		/// Converts a <see cref="OpenIZAdmin.Models.PlaceModels.CreatePlaceModel"/> to a <see cref="OpenIZ.Core.Model.Entities.Place"/>.
 		/// </summary>

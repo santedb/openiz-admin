@@ -19,9 +19,6 @@
                     <tr>
                         <th></th>
                         <th>
-                            @Html.DisplayNameFor(m => m.UserId)
-                        </th>
-                        <th>
                             @Html.DisplayNameFor(m => m.Username)
                         </th>
                         <th>
@@ -33,6 +30,8 @@
                         <th>
                             @Html.DisplayNameFor(m => m.Roles)
                         </th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,15 +39,35 @@
                     {
                         <tr>
                             <td><span class="glyphicon glyphicon-user pull-left" aria-hidden="true"></span></td>
-                            <td><a href="/User/ViewUser/@item.UserId">@item.UserId</a></td>
                             <td>@item.Username</td>
                             <td>@item.Email</td>
-                            <td>@item.IsLockedOut</td>
+                            <td>
+                                @if (item.IsLockedOut)
+                                {
+                                    <text>@Locale.Yes</text>
+}
+                                else
+                                {
+                                    <text>@Locale.No</text>
+}
+                            </td>
                             <td>
                                 @if (item.Roles.Count() > 0)
                                 {
                                     item.Roles.Select(r => r.Name).OrderBy(r => r).Aggregate((a, b) => a + ", " + b);
                                 }
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" href="/User/ViewUser/@item.UserId">
+                                    @Locale.View
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a class="btn btn-warning" href="/User/Edit/@item.UserId">
+                                    @Locale.Edit
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
                             </td>
                     </tr>}
                 </tbody>

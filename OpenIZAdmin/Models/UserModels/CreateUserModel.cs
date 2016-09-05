@@ -35,15 +35,17 @@ namespace OpenIZAdmin.Models.UserModels
 		[EmailAddress(ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Email { get; set; }
 
-		[Display(Name = "FirstName", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "FirstNameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(255, ErrorMessageResourceName = "FirstNameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string FirstName { get; set; }
+		/// <summary>
+		/// Gets or sets the family names of the user.
+		/// </summary>
+		[Display(Name = "FamilyNames", ResourceType = typeof(Localization.Locale))]
+		public List<string> FamilyNames { get; set; }
 
-		[Display(Name = "LastName", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "LastNameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(255, ErrorMessageResourceName = "LastNameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string LastName { get; set; }
+		/// <summary>
+		/// Gets or sets the givens names of the user.
+		/// </summary>
+		[Display(Name = "Names", ResourceType = typeof(Localization.Locale))]
+		public List<string> GivenNames { get; set; }
 
 		[DataType(DataType.Password)]
 		[Display(Name = "Password", ResourceType = typeof(Localization.Locale))]

@@ -534,4 +534,43 @@
   <data name="PasswordChangedSuccessfully" xml:space="preserve">
     <value>Nywila iliyopita kwa mafanikio</value>
   </data>
+  <data name="No" xml:space="preserve">
+    <value>Hakuna</value>
+  </data>
+  <data name="Yes" xml:space="preserve">
+    <value>Ndiyo</value>
+  </data>
+  <data name="Manage" xml:space="preserve">
+    <value>Kusimamia</value>
+  </data>
+  <data name="UpdateProfile" xml:space="preserve">
+    <value>Mwisho wasifu</value>
+  </data>
+  <data name="ProfileUpdatedSuccessfully" xml:space="preserve">
+    <value>Wasifu mwisho mafanikio</value>
+  </data>
+  <data name="FamilyNames" xml:space="preserve">
+    <value>Majina ya familia</value>
+  </data>
+  <data name="Names" xml:space="preserve">
+    <value>Majina</value>
+  </data>
+  <data name="Facility" xml:space="preserve">
+    <value>Kituo</value>
+  </data>
+  <data name="FacilityRequired" xml:space="preserve">
+    <value>Tafadhali kuchagua kituo</value>
+  </data>
+  <data name="PhoneType" xml:space="preserve">
+    <value>Aina ya simu</value>
+  </data>
+  <data name="Phone" xml:space="preserve">
+    <value>Simu</value>
+  </data>
+  <data name="EditUser" xml:space="preserve">
+    <value>Hariri mtumiaji</value>
+  </data>
+  <data name="SessionTimedOut" xml:space="preserve">
+    <value>Kikao imeisha</value>
+  </data>
 </root>

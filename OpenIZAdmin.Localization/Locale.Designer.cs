@@ -430,6 +430,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit User.
+        /// </summary>
+        public static string EditUser {
+            get {
+                return ResourceManager.GetString("EditUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Elevate.
         /// </summary>
         public static string Elevate {
@@ -480,6 +489,33 @@ namespace OpenIZAdmin.Localization {
         public static string ExistingPasswordRequired {
             get {
                 return ResourceManager.GetString("ExistingPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Facility.
+        /// </summary>
+        public static string Facility {
+            get {
+                return ResourceManager.GetString("Facility", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a facility.
+        /// </summary>
+        public static string FacilityRequired {
+            get {
+                return ResourceManager.GetString("FacilityRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Family Names.
+        /// </summary>
+        public static string FamilyNames {
+            get {
+                return ResourceManager.GetString("FamilyNames", resourceCulture);
             }
         }
         
@@ -718,6 +754,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manage.
+        /// </summary>
+        public static string Manage {
+            get {
+                return ResourceManager.GetString("Manage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mnemonic.
         /// </summary>
         public static string Mnemonic {
@@ -763,6 +808,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Names.
+        /// </summary>
+        public static string Names {
+            get {
+                return ResourceManager.GetString("Names", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The name field must not exceed 255 characters.
         /// </summary>
         public static string NameTooLong {
@@ -777,6 +831,15 @@ namespace OpenIZAdmin.Localization {
         public static string New {
             get {
                 return ResourceManager.GetString("New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No.
+        /// </summary>
+        public static string No {
+            get {
+                return ResourceManager.GetString("No", resourceCulture);
             }
         }
         
@@ -907,6 +970,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Phone.
+        /// </summary>
+        public static string Phone {
+            get {
+                return ResourceManager.GetString("Phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Phone Type.
+        /// </summary>
+        public static string PhoneType {
+            get {
+                return ResourceManager.GetString("PhoneType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Place.
         /// </summary>
         public static string Place {
@@ -975,6 +1056,15 @@ namespace OpenIZAdmin.Localization {
         public static string PolicySearchResults {
             get {
                 return ResourceManager.GetString("PolicySearchResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Profile Updated Successfully.
+        /// </summary>
+        public static string ProfileUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("ProfileUpdatedSuccessfully", resourceCulture);
             }
         }
         
@@ -1114,6 +1204,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Session timed out.
+        /// </summary>
+        public static string SessionTimedOut {
+            get {
+                return ResourceManager.GetString("SessionTimedOut", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submission Time.
         /// </summary>
         public static string SubmissionTime {
@@ -1231,6 +1330,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update profile.
+        /// </summary>
+        public static string UpdateProfile {
+            get {
+                return ResourceManager.GetString("UpdateProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to update role.
         /// </summary>
         public static string UpdateToUpdateRole {
@@ -1335,6 +1443,15 @@ namespace OpenIZAdmin.Localization {
         public static string View {
             get {
                 return ResourceManager.GetString("View", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Yes.
+        /// </summary>
+        public static string Yes {
+            get {
+                return ResourceManager.GetString("Yes", resourceCulture);
             }
         }
     }

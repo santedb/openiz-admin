@@ -44,6 +44,9 @@ namespace OpenIZAdmin
 			bundles.Add(new ScriptBundle("~/bundles/moment").Include(
 						"~/Scripts/moment.min.js"));
 
+			bundles.Add(new ScriptBundle("~/bundles/select2").Include(
+						"~/Scripts/select2.min.js"));
+
 			bundles.Add(new ScriptBundle("~/bundles/toastr").Include(
 						"~/Scripts/toastr.min.js",
 						"~/Scripts/toastr-logic.js"));
@@ -55,6 +58,7 @@ namespace OpenIZAdmin
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 						"~/Content/bootstrap.min.css",
 						"~/Content/bootstrap-theme.min.css",
+						"~/Content/select2.min.css",
 						"~/Content/styles.css",
 						"~/Content/toastr.min.css"));
 #if !DEBUG

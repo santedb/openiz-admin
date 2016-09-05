@@ -55,22 +55,6 @@ namespace OpenIZAdmin.Models.Domain
 		public string Address { get; set; }
 
 		/// <summary>
-		/// Gets or sets the AMI authorization endpoint of the realm.
-		/// </summary>
-		[Url]
-		[Required]
-		[StringLength(255)]
-		public string AmiAuthEndpoint { get; set; }
-
-		/// <summary>
-		/// Gets or sets the AMI endpoint of the realm.
-		/// </summary>
-		[Url]
-		[Required]
-		[StringLength(255)]
-		public string AmiEndpoint { get; set; }
-
-		/// <summary>
 		/// Gets or sets the application id.
 		/// </summary>
 		[Required]
@@ -91,12 +75,6 @@ namespace OpenIZAdmin.Models.Domain
 		public DateTime CreationTime { get; set; }
 
 		/// <summary>
-		/// Gets or sets the description of the realm.
-		/// </summary>
-		[StringLength(255)]
-		public string Description { get; set; }
-
-		/// <summary>
 		/// Gets or sets the id of the realm.
 		/// </summary>
 		[Key]
@@ -104,24 +82,9 @@ namespace OpenIZAdmin.Models.Domain
 		public Guid Id { get; set; }
 
 		/// <summary>
-		/// Gets or sets the name of the realm.
-		/// </summary>
-		[Required]
-		[StringLength(100)]
-		public string Name { get; set; }
-
-		/// <summary>
 		/// Gets or sets the obsoletion time of the realm.
 		/// </summary>
 		public DateTime? ObsoletionTime { get; set; }
-
-		/// <summary>
-		/// Gets or sets the scope of the realm.
-		/// </summary>
-		[Url]
-		[Required]
-		[StringLength(255)]
-		public string Scope { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of users associated with the realm.

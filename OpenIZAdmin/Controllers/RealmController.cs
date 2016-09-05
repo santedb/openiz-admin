@@ -26,6 +26,7 @@ using OpenIZAdmin.Models.RealmModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -115,6 +116,23 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Dispose of any managed resources.
+		/// </summary>
+		/// <param name="disposing">Whether the current invocation is disposing.</param>
+		protected override void Dispose(bool disposing)
+		{
+			this.unitOfWork?.Dispose();
+
+			this.userManager?.Dispose();
+			this.userManager = null;
+
+			this.signInManager?.Dispose();
+			this.signInManager = null;
+
+			base.Dispose(disposing);
+		}
+
+		/// <summary>
 		/// Displays the index view.
 		/// </summary>
 		/// <returns>Returns the index view.</returns>
@@ -168,13 +186,14 @@ namespace OpenIZAdmin.Controllers
 				{
 					model.Address = model.Address.Replace("http://localhost", "http://127.0.0.1");
 				}
+				else if (model.Address.StartsWith("https://localhost"))
+				{
+					model.Address = model.Address.Replace("https://localhost", "https://127.0.0.1");
+				}
 
 				// is the user attempting to join a realm which they have already left?
 				if (realm != null)
 				{
-					realm.AmiAuthEndpoint = string.Format("{0}/auth/oauth2_token", model.Address);
-					realm.AmiEndpoint = string.Format("{0}/ami", model.Address);
-					realm.Scope = string.Format("{0}/imsi", model.Address);
 					realm.Map(model);
 					realm.ObsoletionTime = null;
 
@@ -185,9 +204,6 @@ namespace OpenIZAdmin.Controllers
 				{
 					realm = unitOfWork.RealmRepository.Create();
 
-					realm.AmiAuthEndpoint = string.Format("{0}/auth/oauth2_token", model.Address);
-					realm.AmiEndpoint = string.Format("{0}/ami", model.Address);
-					realm.Scope = string.Format("{0}/imsi", model.Address);
 					realm.Map(model);
 
 					IEnumerable<Realm> activeRealms = unitOfWork.RealmRepository.AsQueryable().Where(r => r.ObsoletionTime == null).AsEnumerable();
@@ -202,18 +218,40 @@ namespace OpenIZAdmin.Controllers
 					unitOfWork.Save();
 				}
 
-				var result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, false, shouldLockout: false);
+				SignInStatus result = SignInStatus.Failure;
+
+				try
+				{
+					result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, false, shouldLockout: false);
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					Trace.TraceError("Unable to sign in to realm: {0}", e.StackTrace);
+#endif
+
+					Trace.TraceError("Unable to sign in to realm: {0}", e.Message);
+
+					var addedRealm = unitOfWork.RealmRepository.Get(r => r.Address == model.Address).Single();
+					unitOfWork.RealmRepository.Delete(addedRealm.Id);
+					unitOfWork.Save();
+				}
 
 				switch (result)
 				{
 					case SignInStatus.Success:
+						//EntitySource.Current = new EntitySource(new WebEntitySourceProvider());
 						Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
 						break;
 
 					default:
-						var addedRealm = unitOfWork.RealmRepository.Get(r => r.Address == model.Address).Single();
-						unitOfWork.RealmRepository.Delete(addedRealm.Id);
-						unitOfWork.Save();
+						var addedRealm = unitOfWork.RealmRepository.Get(r => r.Address == model.Address).FirstOrDefault();
+
+						if (addedRealm != null)
+						{
+							unitOfWork.RealmRepository.Delete(addedRealm.Id);
+							unitOfWork.Save();
+						}
 
 						ModelState.AddModelError("", "Incorrect Username or Password");
 						return View(model);
@@ -318,40 +356,6 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = "Unable to switch realm";
 
 			return View();
-		}
-
-		/// <summary>
-		/// Displays the update realm settings view.
-		/// </summary>
-		/// <returns>Returns the update realm settings view.</returns>
-		[HttpGet]
-		public ActionResult UpdateRealmSettings()
-		{
-			return View();
-		}
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult UpdateRealmSettings(UpdateRealmModel model)
-		{
-			return View();
-		}
-
-		/// <summary>
-		/// Dispose of any managed resources.
-		/// </summary>
-		/// <param name="disposing">Whether the current invocation is disposing.</param>
-		protected override void Dispose(bool disposing)
-		{
-			this.unitOfWork?.Dispose();
-
-			this.userManager?.Dispose();
-			this.userManager = null;
-
-			this.signInManager?.Dispose();
-			this.signInManager = null;
-
-			base.Dispose(disposing);
 		}
 	}
 }

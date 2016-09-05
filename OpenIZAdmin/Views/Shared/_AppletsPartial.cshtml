@@ -16,9 +16,6 @@
             <thead>
                 <tr>
                     <th>
-                        @Locale.AppletId
-                    </th>
-                    <th>
                         @Locale.Group
                     </th>
                     <th>
@@ -27,16 +24,22 @@
                     <th>
                         @Locale.Version
                     </th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td>@Html.ActionLink(item.Id.ToString(), "Applet", "Applet", new { appletId = item.Id }, null)</td>
                         <td>@item.Group</td>
                         <td>@item.Name</td>
                         <td>@item.Version</td>
+                        <td>
+                            <a class="btn btn-primary" href="/Applet/Applet?appletId=@item.Id.ToString()">
+                                @Locale.View
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </a>
+                        </td>
                     </tr>
 }
             </tbody>

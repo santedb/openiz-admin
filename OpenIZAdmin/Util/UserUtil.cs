@@ -18,7 +18,10 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.Entities;
 using OpenIZ.Messaging.AMI.Client;
+using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Models.AccountModels;
 using OpenIZAdmin.Models.UserModels;
 using OpenIZAdmin.Models.UserModels.ViewModels;
@@ -51,6 +54,70 @@ namespace OpenIZAdmin.Util
 			}
 
 			return viewModels;
+		}
+
+		/// <summary>
+		/// Gets a user entity.
+		/// </summary>
+		/// <param name="client">The IMSI service client.</param>
+		/// <param name="userId">The user id of the user to retrieve.</param>
+		/// <param name="versionKey">The version key of the user.</param>
+		/// <returns>Returns a user entity or null if no user entity is found.</returns>
+		public static UserEntity GetUserEntity(ImsiServiceClient client, Guid userId)
+		{
+			UserEntity user = null;
+
+			try
+			{
+				var bundle = client.Query<UserEntity>(u => u.SecurityUserKey == userId);
+
+				bundle.Reconstitute();
+
+				user = bundle.Item.OfType<UserEntity>().Cast<UserEntity>().FirstOrDefault();
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Unable to retrieve user entity: {0}", e.StackTrace);
+#endif
+				Trace.TraceError("Unable to retrieve user entity: {0}", e.Message);
+			}
+
+			return user;
+		}
+
+		/// <summary>
+		/// Converts a user entity to a edit user model.
+		/// </summary>
+		/// <param name="userEntity">The user entity to convert to a edit user model.</param>
+		/// <returns>Returns a edit user model.</returns>
+		public static EditUserModel ToEditUserModel(UserEntity userEntity)
+		{
+			EditUserModel model = new EditUserModel();
+
+			model.Email = userEntity.SecurityUser.Email;
+			model.FacilityId = userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString();
+			model.FamilyNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentType.Key == NameComponentKeys.Family).Select(c => c.Value).ToList();
+			model.GivenNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentType.Key == NameComponentKeys.Given).Select(c => c.Value).ToList();
+
+			model.Roles = userEntity.SecurityUser.Roles.Select(r => r.Name);
+			model.Username = userEntity.SecurityUser.UserName;
+
+			return model;
+		}
+
+		/// <summary>
+		/// Converts a update profile model to a user entity.
+		/// </summary>
+		/// <param name="model">The model to convert to a user entity.</param>
+		/// <returns>Returns a user entity.</returns>
+		public static UserEntity ToUserEntity(UpdateProfileModel model)
+		{
+			UserEntity userEntity = new UserEntity();
+
+			userEntity.SecurityUser.PhoneNumber = model.PhoneNumber;
+
+			return userEntity;
 		}
 
 		public static SecurityUserInfo ToSecurityUserInfo(CreateUserModel model)

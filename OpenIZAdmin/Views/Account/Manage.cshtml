@@ -1,10 +1,30 @@
 ﻿@model OpenIZAdmin.Models.AccountModels.ManageModel
 @{
-    ViewBag.Title = "Manage";
+    ViewBag.Title = Locale.Manage;
 }
 
-<div class="panel panel-default">
-    <div class="panel panel-heading">
-        @Locale.ChangePassword
-    </div>
-</div>
+@Html.Partial("_ChangePasswordPartial", Model.ChangePasswordModel)
+
+@Html.Partial("_UpdateProfilePartial", Model.UpdateProfileModel)
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('.dynamic-dropdown').select2({
+                tags: true,
+                tokenSeparators: [','],
+                width: '100%'
+            });
+
+            $('.dynamic-dropdown-limited').select2({
+                tags: true,
+                tokenSeparators: [','],
+                width: '100%',
+                maximumSelectionLength: 1
+            });
+        });
+    </script>
+
+}

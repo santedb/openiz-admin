@@ -119,10 +119,10 @@ namespace OpenIZAdmin.Services.Http.Configuration
 						{
 							new ServiceClientEndpoint
 							{
-								Address = realm.AmiAuthEndpoint
+								Address = string.Format("{0}/auth/oauth2_token", realm.Address)
 							}
 						},
-						Name = "ACS"
+						Name = Constants.ACS
 					},
 					new ServiceClientDescription
 					{
@@ -138,10 +138,10 @@ namespace OpenIZAdmin.Services.Http.Configuration
 						{
 							new ServiceClientEndpoint
 							{
-								Address = realm.AmiEndpoint
+								Address = string.Format("{0}/ami", realm.Address)
 							}
 						},
-						Name = "AMI"
+						Name = Constants.AMI
 					},
 					new ServiceClientDescription
 					{
@@ -156,10 +156,10 @@ namespace OpenIZAdmin.Services.Http.Configuration
 						{
 							new ServiceClientEndpoint
 							{
-								Address = realm.Address + "/imsi"
+								Address = string.Format("{0}/imsi", realm.Address)
 							}
 						},
-						Name = "IMSI"
+						Name = Constants.IMSI
 					}
 				}
 			};

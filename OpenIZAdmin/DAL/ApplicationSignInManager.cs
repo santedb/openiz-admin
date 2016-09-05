@@ -99,13 +99,13 @@ namespace OpenIZAdmin.DAL
 			{
 				client.DefaultRequestHeaders.Add("Authorization", "BASIC " + Convert.ToBase64String(Encoding.UTF8.GetBytes(currentRealm.ApplicationId + ":" + currentRealm.ApplicationSecret)));
 
-				StringContent content = new StringContent(string.Format("grant_type=password&username={0}&password={1}&scope={2}", userName, password, currentRealm.Scope));
+				StringContent content = new StringContent(string.Format("grant_type=password&username={0}&password={1}&scope={2}/imsi", userName, password, currentRealm.Address));
 
 				// HACK: have to remove the headers before adding them...
 				content.Headers.Remove("Content-Type");
 				content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
 
-				var result = await client.PostAsync(currentRealm.AmiAuthEndpoint, content);
+				var result = await client.PostAsync(string.Format("{0}/auth/oauth2_token", currentRealm.Address), content);
 
 				if (result.IsSuccessStatusCode)
 				{

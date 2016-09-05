@@ -43,14 +43,6 @@ namespace OpenIZAdmin.Models.AccountModels
 		public string ConfirmPassword { get; set; }
 
 		/// <summary>
-		/// Gets or sets the existing password of the model.
-		/// </summary>
-		[DataType(DataType.Password)]
-		[Display(Name = "ExistingPassword", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string ExistingPassword { get; set; }
-
-		/// <summary>
 		/// Gets or sets the password of the model.
 		/// </summary>
 		[DataType(DataType.Password)]
