@@ -63,11 +63,13 @@
                     @if (User.Identity.IsAuthenticated && isJoinedToRealm)
                     {
                         <li><a href="/Applet"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span> @Locale.Applets</a></li>
+                        <li><a href="/AssigningAuthority"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> @Locale.AssigningAuthorities</a></li>
                         <li><a href="/Certificate"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span> @Locale.Certificates</a></li>
                         <li><a href="/Concept"><span class="glyphicon glyphicon-compressed" aria-hidden="true"></span> @Locale.Concepts</a></li>
                         <li><a href="/Device"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> @Locale.Devices</a></li>
                         <li><a href="/Place"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> @Locale.Places</a></li>
                         <li><a href="/Policy"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> @Locale.Policies</a></li>
+                        <li><a href="/Provider"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> @Locale.Providers</a></li>
                         <li><a href="/Realm"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> @Locale.RealmManagement</a></li>
                         <li><a href="/Role"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Locale.Roles</a></li>
                         <li><a href="/User"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Locale.Users</a></li>}

@@ -30,22 +30,31 @@ namespace OpenIZAdmin.Services.Http
 	public class ServiceClientEndpoint : IRestClientEndpointDescription
 	{
 		/// <summary>
+		/// The internal reference to the timeout value.
+		/// </summary>
+		private int timeout;
+
+		/// <summary>
 		/// Gets or sets the service client endpoint's address.
 		/// </summary>
 		/// <value>The address.</value>
 		[XmlAttribute("address")]
 		public String Address { get; set; }
 
+		/// <summary>
+		/// Gets or sets the timeout value for the endpoint.
+		/// </summary>
+		[XmlAttribute("timeout")]
 		public int Timeout
 		{
 			get
 			{
-				throw new NotImplementedException();
+				return this.timeout;
 			}
 
 			set
 			{
-				throw new NotImplementedException();
+				this.timeout = value;
 			}
 		}
 	}

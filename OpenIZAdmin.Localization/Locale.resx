@@ -582,4 +582,10 @@
   <data name="SessionTimedOut" xml:space="preserve">
     <value>Session timed out</value>
   </data>
+  <data name="AssigningAuthorities" xml:space="preserve">
+    <value>Assigning Authorities</value>
+  </data>
+  <data name="Providers" xml:space="preserve">
+    <value>Providers</value>
+  </data>
 </root>

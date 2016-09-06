@@ -115,6 +115,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assigning Authorities.
+        /// </summary>
+        public static string AssigningAuthorities {
+            get {
+                return ResourceManager.GetString("AssigningAuthorities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -1065,6 +1074,15 @@ namespace OpenIZAdmin.Localization {
         public static string ProfileUpdatedSuccessfully {
             get {
                 return ResourceManager.GetString("ProfileUpdatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Providers.
+        /// </summary>
+        public static string Providers {
+            get {
+                return ResourceManager.GetString("Providers", resourceCulture);
             }
         }
         

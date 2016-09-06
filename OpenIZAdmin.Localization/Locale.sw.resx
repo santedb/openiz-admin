@@ -573,4 +573,10 @@
   <data name="SessionTimedOut" xml:space="preserve">
     <value>Kikao imeisha</value>
   </data>
+  <data name="AssigningAuthorities" xml:space="preserve">
+    <value>Kumshirikisha Mamlaka</value>
+  </data>
+  <data name="Providers" xml:space="preserve">
+    <value>Watoa</value>
+  </data>
 </root>

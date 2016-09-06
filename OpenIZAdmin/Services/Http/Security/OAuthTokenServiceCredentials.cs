@@ -26,13 +26,23 @@ using System.Text;
 
 namespace OpenIZAdmin.Services.Http.Security
 {
+	/// <summary>
+	/// Represents credentials for the IMS authorization endpoint instance.
+	/// </summary>
 	public class OAuthTokenServiceCredentials : Credentials
 	{
+		/// <summary>
+		/// The internal reference to the authorization key.
+		/// </summary>
 		private readonly string authKey;
+
+		/// <summary>
+		/// The internal reference to the authorization value.
+		/// </summary>
 		private readonly string authValue;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenIZAdmin.Services.Http.Security.OAuthTokenServiceCredentials"/> class.
+		/// Initializes a new instance of the <see cref="OAuthTokenServiceCredentials"/> class.
 		/// </summary>
 		/// <param name="principal">Principal.</param>
 		public OAuthTokenServiceCredentials(IPrincipal principal) : base(principal)
@@ -40,9 +50,12 @@ namespace OpenIZAdmin.Services.Http.Security
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenIZAdmin.Services.Http.Security.OAuthTokenServiceCredentials"/> class.
+		/// Initializes a new instance of the <see cref="OAuthTokenServiceCredentials"/> class
+		/// with a specified principal, authorization key, and authorization value.
 		/// </summary>
-		/// <param name="principal">Principal.</param>
+		/// <param name="principal">The principal for the request.</param>
+		/// <param name="authKey">The authorization key.</param>
+		/// <param name="authValue">The authorization value.</param>
 		public OAuthTokenServiceCredentials(IPrincipal principal, string authKey, string authValue) : base(principal)
 		{
 			this.authKey = authKey;

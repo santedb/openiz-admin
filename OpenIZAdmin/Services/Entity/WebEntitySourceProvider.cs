@@ -30,10 +30,21 @@ using System.Linq.Expressions;
 
 namespace OpenIZAdmin.Services.Entity
 {
+	/// <summary>
+	/// Represents a web entity source provider.
+	/// </summary>
 	public class WebEntitySourceProvider : IEntitySourceProvider, IDisposable
 	{
-		private ImsiServiceClient serviceClient = new ImsiServiceClient(new RestClientService("IMSI"));
+		/// <summary>
+		/// The internal reference to the <see cref="ImsiServiceClient"/> instance.
+		/// </summary>
+		private ImsiServiceClient serviceClient = new ImsiServiceClient(new RestClientService(Constants.IMSI));
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WebEntitySourceProvider"/> class
+		/// with specified credentials.
+		/// </summary>
+		/// <param name="credentials">The credentials instance.</param>
 		public WebEntitySourceProvider(Credentials credentials)
 		{
 			this.serviceClient.Client.Credentials = credentials;
@@ -82,6 +93,12 @@ namespace OpenIZAdmin.Services.Entity
 
 		#endregion IDisposable Support
 
+		/// <summary>
+		/// Gets an IMSI object by key.
+		/// </summary>
+		/// <typeparam name="TObject">The type of object to be retrieved.</typeparam>
+		/// <param name="key">The key of the object to be retrieved.</param>
+		/// <returns>Returns the object instance.</returns>
 		public TObject Get<TObject>(Guid? key) where TObject : IdentifiedData, new()
 		{
 			var response = this.serviceClient.Get<TObject>(key.GetValueOrDefault(Guid.Empty), null);
@@ -89,6 +106,13 @@ namespace OpenIZAdmin.Services.Entity
 			return response as TObject;
 		}
 
+		/// <summary>
+		/// Gets an IMSI object by key and version key.
+		/// </summary>
+		/// <typeparam name="TObject">The type of object to be retrieved.</typeparam>
+		/// <param name="key">The key of the object to be retrieved.</param>
+		/// <param name="versionKey">The version key of the object to be retrieved.</param>
+		/// <returns>Returns the object instance.</returns>
 		public TObject Get<TObject>(Guid? key, Guid? versionKey) where TObject : IdentifiedData, IVersionedEntity, new()
 		{
 			var response = this.serviceClient.Get<TObject>(key.GetValueOrDefault(Guid.Empty), versionKey);
@@ -96,6 +120,12 @@ namespace OpenIZAdmin.Services.Entity
 			return response as TObject;
 		}
 
+		/// <summary>
+		/// Queries for an IMSI object.
+		/// </summary>
+		/// <typeparam name="TObject">The type of object to be retrieved.</typeparam>
+		/// <param name="query">The query expression.</param>
+		/// <returns>Returns a list of the object instance.</returns>
 		public IEnumerable<TObject> Query<TObject>(Expression<Func<TObject, bool>> query) where TObject : IdentifiedData, new()
 		{
 			var response = this.serviceClient.Query<TObject>(query);
@@ -108,6 +138,13 @@ namespace OpenIZAdmin.Services.Entity
 			return response as IEnumerable<TObject>;
 		}
 
+		/// <summary>
+		/// Gets a list of relations for an IMSI object.
+		/// </summary>
+		/// <typeparam name="TObject">The type of object to be retrieved.</typeparam>
+		/// <param name="sourceKey">The source key of the object to be retrieved.</param>
+		/// <param name="sourceVersionSequence">The version sequence of the object to be retrieved.</param>
+		/// <returns>Returns a list of the object instance.</returns>
 		public List<TObject> GetRelations<TObject>(Guid? sourceKey, decimal? sourceVersionSequence) where TObject : IdentifiedData, IVersionedAssociation, new()
 		{
 			return this.Query<TObject>(o => sourceKey == o.SourceEntityKey && sourceVersionSequence >= o.EffectiveVersionSequenceId && (o.ObsoleteVersionSequenceId == null || sourceVersionSequence < o.ObsoleteVersionSequenceId)).ToList();

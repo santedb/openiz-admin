@@ -36,7 +36,8 @@ namespace OpenIZAdmin.Services.Http.Security
 		private Dictionary<string, string> httpHeaders;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenIZAdmin.Services.Http.Security.ImsCredentials"/> class with a specified <see cref="System.Security.Principal.IPrincipal"/> instance.
+		/// Initializes a new instance of the <see cref="ImsCredentials"/> class
+		/// with a specified <see cref="IPrincipal"/> instance.
 		/// </summary>
 		/// <param name="principal"></param>
 		public ImsCredentials(IPrincipal principal) : this(principal, null)
@@ -44,12 +45,12 @@ namespace OpenIZAdmin.Services.Http.Security
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenIZAdmin.Services.Http.Security.ImsCredentials"/> class
-		/// with a specified <see cref="System.Security.Principal.IPrincipal"/> instance and
-		/// a <see cref="System.Net.Http.HttpRequestMessage"/> instance.
+		/// Initializes a new instance of the <see cref="ImsCredentials"/> class
+		/// with a specified <see cref="IPrincipal"/> instance and
+		/// a <see cref="HttpRequestBase"/> instance.
 		/// </summary>
 		/// <param name="principal">The current principal for the request.</param>
-		/// <param name="request">The HTTP request used to create the headers for the <see cref="OpenIZAdmin.Services.Http.Security.ImsCredentials"/>.</param>
+		/// <param name="request">The HTTP request used to create the headers for the <see cref="ImsCredentials"/>.</param>
 		public ImsCredentials(IPrincipal principal, HttpRequestBase request) : base(principal)
 		{
 			this.httpHeaders = new Dictionary<string, string>();

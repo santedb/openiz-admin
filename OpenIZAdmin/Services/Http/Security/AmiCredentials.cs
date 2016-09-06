@@ -25,7 +25,7 @@ using System.Web;
 namespace OpenIZAdmin.Services.Http.Security
 {
 	/// <summary>
-	/// Represents credentials for the IMS instance.
+	/// Represents credentials for the AMI instance.
 	/// </summary>
 	public class AmiCredentials : Credentials
 	{
@@ -35,7 +35,8 @@ namespace OpenIZAdmin.Services.Http.Security
 		private Dictionary<string, string> httpHeaders;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenIZAdmin.Services.Http.Security.AmiCredentials"/> class with a specified <see cref="System.Security.Principal.IPrincipal"/> instance.
+		/// Initializes a new instance of the <see cref="AmiCredentials"/> class
+		/// with a specified <see cref="IPrincipal"/> instance.
 		/// </summary>
 		/// <param name="principal"></param>
 		public AmiCredentials(IPrincipal principal) : this(principal, null)
@@ -43,12 +44,12 @@ namespace OpenIZAdmin.Services.Http.Security
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenIZAdmin.Services.Http.Security.AmiCredentials"/> class
-		/// with a specified <see cref="System.Security.Principal.IPrincipal"/> instance and
-		/// a <see cref="System.Net.Http.HttpRequestMessage"/> instance.
+		/// Initializes a new instance of the <see cref="AmiCredentials"/> class
+		/// with a specified <see cref="IPrincipal"/> instance and
+		/// a <see cref="HttpRequestBase"/> instance.
 		/// </summary>
 		/// <param name="principal">The current principal for the request.</param>
-		/// <param name="request">The HTTP request used to create the headers for the <see cref="OpenIZAdmin.Services.Http.Security.AmiCredentials"/>.</param>
+		/// <param name="request">The HTTP request used to create the headers for the <see cref="AmiCredentials"/>.</param>
 		public AmiCredentials(IPrincipal principal, HttpRequestBase request) : base(principal)
 		{
 			this.httpHeaders = new Dictionary<string, string>();

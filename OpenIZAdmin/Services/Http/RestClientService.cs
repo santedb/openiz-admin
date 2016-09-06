@@ -31,7 +31,7 @@ using System.Net;
 namespace OpenIZAdmin.Services.Http
 {
 	/// <summary>
-	/// Represents a Rest service for accessing Rest web endpoints.
+	/// Represents a REST service for accessing REST web endpoints.
 	/// </summary>
 	public class RestClientService : RestClientBase
 	{
@@ -41,17 +41,20 @@ namespace OpenIZAdmin.Services.Http
 		private readonly ServiceClientConfigurationSection configuration = InternalConfiguration.GetServiceClientConfiguration();
 
 		/// <summary>
-		/// Initializes a new instance <see cref="OpenIZAdmin.Services.Http.RestClientService"/> class.
+		/// Initializes a new instance <see cref="RestClientService"/> class
+		/// with a specified endpoint name.
 		/// </summary>
+		/// <param name="endpointName">The name of the endpoint to use in the configuration.</param>
 		public RestClientService(string endpointName) : base(InternalConfiguration.GetServiceClientConfiguration().Clients.Find(x => x.Name == endpointName))
 		{
 			Trace.TraceInformation(string.Format("Current Entity Source: {0}", EntitySource.Current));
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenIZAdmin.Services.Http.RestClientService"/> class with a specified <see cref="OpenIZ.Core.Http.Description.IRestClientDescription"/> instance.
+		/// Initializes a new instance of the <see cref="RestClientService"/> class
+		/// with a specified <see cref="IRestClientDescription"/> instance.
 		/// </summary>
-		/// <param name="configuration"></param>
+		/// <param name="configuration">The configuration instance.</param>
 		public RestClientService(IRestClientDescription configuration) : base(configuration)
 		{
 			Trace.TraceInformation(string.Format("Current Entity Source: {0}", EntitySource.Current));
@@ -74,7 +77,7 @@ namespace OpenIZAdmin.Services.Http
 			// Compress?
 			if (this.Description.Binding.Optimize)
 			{
-				request.Headers.Add(HttpRequestHeader.ContentEncoding, "deflate gzip");
+				request.Headers.Add(HttpRequestHeader.ContentEncoding, "deflate");
 			}
 
 			// Proxy?
@@ -94,6 +97,7 @@ namespace OpenIZAdmin.Services.Http
 		/// <param name="method">The request method.</param>
 		/// <param name="url">The URL of the request.</param>
 		/// <param name="contentType">The content type of the request.</param>
+		/// <param name="additionalHeaders">Any additional headers for the request.</param>
 		/// <param name="body">The body of the request.</param>
 		/// <param name="query">The query parameters of the request.</param>
 		/// <returns>Returns the response of the request.</returns>

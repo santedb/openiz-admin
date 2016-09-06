@@ -24,6 +24,7 @@ using OpenIZAdmin.Models.Domain;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
 
@@ -80,6 +81,21 @@ namespace OpenIZAdmin.Services.Http.Configuration
 		/// <value>The type of the rest client.</value>
 		[XmlIgnore]
 		public Type RestClientType { get; set; }
+
+		/// <summary>
+		/// Converts the service client configuration section to an XML representation.
+		/// </summary>
+		/// <returns>Returns an XML representation of the service client configuration section.</returns>
+		public override string ToString()
+		{
+			XmlSerializer serializer = new XmlSerializer(typeof(ServiceClientConfigurationSection));
+
+			StringWriter stringWriter = new StringWriter();
+
+			serializer.Serialize(stringWriter, this);
+
+			return stringWriter.ToString();
+		}
 	}
 
 	internal class InternalConfiguration
