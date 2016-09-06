@@ -17,6 +17,7 @@
  * Date: 2016-7-31
  */
 
+using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Messaging.IMSI.Client;
@@ -38,14 +39,16 @@ namespace OpenIZAdmin.Util
 		/// Gets a list of places from the IMS.
 		/// </summary>
 		/// <param name="client">The IMSI service client.</param>
+		/// <param name="offset">The offset of the query.</param>
+		/// <param name="count">The count of the query.</param>
 		/// <returns>Returns a list of places.</returns>
-		public static IEnumerable<Place> GetPlaces(ImsiServiceClient client)
+		public static IEnumerable<Place> GetPlaces(ImsiServiceClient client, int offset = 0, int? count = null)
 		{
 			IEnumerable<Place> places = new List<Place>();
 
 			try
 			{
-				var bundle = client.Query<Place>(p => p.IsMobile == false);
+				var bundle = client.Query<Place>(p => p.IsMobile == false, offset, count);
 
 				bundle.Reconstitute();
 
@@ -63,9 +66,9 @@ namespace OpenIZAdmin.Util
 		}
 
 		/// <summary>
-		/// Converts a <see cref="OpenIZAdmin.Models.PlaceModels.CreatePlaceModel"/> to a <see cref="OpenIZ.Core.Model.Entities.Place"/>.
+		/// Converts a <see cref="CreatePlaceModel"/> instance to a <see cref="Place"/> instance.
 		/// </summary>
-		/// <param name="model">The create place model to convert.</param>
+		/// <param name="model">The create place model instance to convert.</param>
 		/// <returns>Returns a place.</returns>
 		public static Place ToPlace(CreatePlaceModel model)
 		{
@@ -78,6 +81,11 @@ namespace OpenIZAdmin.Util
 			return place;
 		}
 
+		/// <summary>
+		/// Converts an <see cref="EditPlaceModel"/> instance to a <see cref="Place"/> instance.
+		/// </summary>
+		/// <param name="model">The edit place model instance to convert.</param>
+		/// <returns>Returns a place.</returns>
 		public static Place ToPlace(EditPlaceModel model)
 		{
 			Place place = new Place();
@@ -91,7 +99,12 @@ namespace OpenIZAdmin.Util
 
 			return place;
 		}
-
+		
+		/// <summary>
+		/// Converts a <see cref="Place"/> instance to a <see cref="EditPlaceModel"/> instance.
+		/// </summary>
+		/// <param name="place">The place instance to convert.</param>
+		/// <returns>Returns an edit place model.</returns>
 		public static EditPlaceModel ToEditPlaceModel(Place place)
 		{
 			EditPlaceModel model = new EditPlaceModel();
@@ -106,7 +119,7 @@ namespace OpenIZAdmin.Util
 		}
 
 		/// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.Entities.Place"/> to a <see cref="OpenIZAdmin.Models.PlaceModels.ViewModels.PlaceViewModel"/>.
+		/// Converts a <see cref="Place"/> instance to a <see cref="PlaceViewModel"/> instance.
 		/// </summary>
 		/// <param name="place">The place to convert.</param>
 		/// <returns>Returns a place view model.</returns>

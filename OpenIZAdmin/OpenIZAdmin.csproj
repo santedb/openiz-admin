@@ -252,6 +252,7 @@
     <Compile Include="Models\DeviceModels\ViewModels\DeviceViewModel.cs" />
     <Compile Include="Models\Domain\ApplicationUser.cs" />
     <Compile Include="Models\Domain\Realm.cs" />
+    <Compile Include="Models\Language.cs" />
     <Compile Include="Models\ModelMapper.cs" />
     <Compile Include="Models\PlaceModels\CreatePlaceModel.cs" />
     <Compile Include="Models\PlaceModels\EditPlaceModel.cs" />
@@ -288,6 +289,7 @@
     <Compile Include="Util\CertificateUtil.cs" />
     <Compile Include="Util\ConceptUtil.cs" />
     <Compile Include="Util\DeviceUtil.cs" />
+    <Compile Include="Util\LanguageUtil.cs" />
     <Compile Include="Util\PlaceUtil.cs" />
     <Compile Include="Util\PolicyUtil.cs" />
     <Compile Include="Util\ProviderUtil.cs" />
@@ -412,7 +414,6 @@
   <ItemGroup>
     <Folder Include="Applets\" />
     <Folder Include="App_Data\" />
-    <Folder Include="Content\css\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

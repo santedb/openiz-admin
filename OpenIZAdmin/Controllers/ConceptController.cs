@@ -44,55 +44,72 @@ namespace OpenIZAdmin.Controllers
 	public class ConceptController : Controller
 	{
 		/// <summary>
-		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
+		/// The internal reference to the <see cref="AmiServiceClient"/> instance.
 		/// </summary>
 		private AmiServiceClient amiClient;
 
+		/// <summary>
+		/// The internal reference to the <see cref="ImsiServiceClient"/> instance.
+		/// </summary>
 		private ImsiServiceClient imsiClient;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ConceptController"/> class.
+		/// </summary>
+		public ConceptController()
+		{
+
+		}
+
+		/// <summary>
+		/// Displays the create view.
+		/// </summary>
+		/// <returns>Returns the create view.</returns>
 		[HttpGet]
 		public ActionResult Create()
 		{
 			CreateConceptModel model = new CreateConceptModel();
 
-			ConceptUtil.PopulateLanguageList(ref model);
+			var languages = LanguageUtil.GetLanguageList();
+
+			model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
 
 			return View(model);
 		}
 
+		/// <summary>
+		/// Creates a concept.
+		/// </summary>
+		/// <param name="model">The model containing the information to create a concept.</param>
+		/// <returns>Returns the created concept.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateConceptModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				RestClientService restClient = new RestClientService("IMSI");
-
-				restClient.Accept = "application/xml";
-				restClient.Credentials = new ImsCredentials(this.User, this.Request);
-
-				using (ImsiServiceClient client = new ImsiServiceClient(restClient))
+				try
 				{
-					try
-					{
-						var result = client.Create(ConceptUtil.ToConcept(model));
+					var result = this.imsiClient.Create(ConceptUtil.ToConcept(model));
 
-						TempData["success"] = Locale.ConceptCreatedSuccessfully;
+					TempData["success"] = Locale.ConceptCreatedSuccessfully;
 
-						return RedirectToAction("Index");
-					}
-					catch (Exception e)
-					{
+					return RedirectToAction("Index");
+				}
+				catch (Exception e)
+				{
 #if DEBUG
-						Trace.TraceError("Unable to create concept: {0}", e.StackTrace);
+					Trace.TraceError("Unable to create concept: {0}", e.StackTrace);
 #endif
-						Trace.TraceError("Unable to create concept: {0}", e.Message);
-					}
+					Trace.TraceError("Unable to create concept: {0}", e.Message);
 				}
 			}
 
 			TempData["error"] = Locale.UnableToCreateConcept;
-			ConceptUtil.PopulateLanguageList(ref model);
+
+			var languages = LanguageUtil.GetLanguageList();
+
+			model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
 
 			return View(model);
 		}
@@ -108,12 +125,19 @@ namespace OpenIZAdmin.Controllers
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			var restClient = new RestClientService("AMI");
+			var amiRestClient = new RestClientService(Constants.AMI);
 
-			restClient.Accept = "application/xml";
-			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
+			amiRestClient.Accept = "application/xml";
+			amiRestClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
 
-			this.amiClient = new AmiServiceClient(restClient);
+			this.amiClient = new AmiServiceClient(amiRestClient);
+
+			var imsiRestClient = new RestClientService(Constants.IMSI);
+
+			imsiRestClient.Accept = "application/xml";
+			imsiRestClient.Credentials = new ImsCredentials(this.User, HttpContext.Request);
+
+			this.imsiClient = new ImsiServiceClient(imsiRestClient);
 
 			base.OnActionExecuting(filterContext);
 		}
@@ -244,7 +268,8 @@ namespace OpenIZAdmin.Controllers
 
 					if (concept == null)
 					{
-						TempData["error"] = "Concept not found";
+						TempData["error"] = Locale.ConceptNotFound;
+
 						return RedirectToAction("Index");
 					}
 
@@ -252,7 +277,8 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = "Concept not found";
+			TempData["error"] = Locale.ConceptNotFound;
+
 			return RedirectToAction("Index");
 		}
 
@@ -273,7 +299,8 @@ namespace OpenIZAdmin.Controllers
 
 					if (conceptSet == null)
 					{
-						TempData["error"] = "Concept Set not found";
+						TempData["error"] = Locale.ConceptNotFound;
+
 						return RedirectToAction("Index");
 					}
 
@@ -290,7 +317,8 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = "Concept not found";
+			TempData["error"] = Locale.ConceptNotFound;
+
 			return RedirectToAction("Index");
 		}
 	}

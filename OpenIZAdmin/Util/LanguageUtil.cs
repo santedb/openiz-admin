@@ -14,44 +14,38 @@
  * the License.
  * 
  * User: Nityan
- * Date: 2016-8-1
+ * Date: 2016-9-5
  */
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Models.ConceptModels;
+using OpenIZAdmin.Models;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
 
 namespace OpenIZAdmin.Util
 {
 	/// <summary>
-	/// Provides a utility for managing concepts.
+	/// Represents a language utility.
 	/// </summary>
-	public static class ConceptUtil
+	public class LanguageUtil
 	{
 		/// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.DataTypes.Concept"/> to a <see cref="OpenIZAdmin.Models.ConceptModels.CreateConceptModel"/>.
+		/// Gets a language list.
 		/// </summary>
-		/// <param name="model">The create concept model to convert.</param>
-		/// <returns>Returns a concept.</returns>
-		public static Concept ToConcept(CreateConceptModel model)
+		/// <returns>Returns a list of languages.</returns>
+		public static IEnumerable<Language> GetLanguageList()
 		{
-			Concept concept = new Concept();
+			CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
 
-			concept.ConceptNames = new List<ConceptName>();
+			HashSet<Language> languages = new HashSet<Language>();
 
-			concept.ConceptNames.Add(new ConceptName
+			foreach (var item in cultures.Where(c => c.TwoLetterISOLanguageName.Length == 2).Select(c => c).OrderBy(c => c.DisplayName).Select(c => new Language(c.TwoLetterISOLanguageName, c.DisplayName)).Distinct())
 			{
-				Language = model.Language,
-				Name = model.Name
-			});
+				languages.Add(item);
+			}
 
-			concept.Mnemonic = model.Mnemonic;
-
-			return concept;
+			return languages.AsEnumerable();
 		}
 	}
 }

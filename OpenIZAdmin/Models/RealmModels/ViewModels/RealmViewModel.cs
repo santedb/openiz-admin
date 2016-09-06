@@ -43,5 +43,7 @@ namespace OpenIZAdmin.Models.RealmModels.ViewModels
 
 		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
 		public DateTime CreationTime { get; set; }
+
+		public Guid Id { get; set; }
 	}
 }
