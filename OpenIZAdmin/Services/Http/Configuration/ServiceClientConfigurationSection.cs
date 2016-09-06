@@ -120,7 +120,7 @@ namespace OpenIZAdmin.Services.Http.Configuration
 
 			ServiceClientConfigurationSection configurationSection = new ServiceClientConfigurationSection
 			{
-				Clients = new System.Collections.Generic.List<ServiceClientDescription>
+				Clients = new List<ServiceClientDescription>
 				{
 					new ServiceClientDescription
 					{
@@ -131,7 +131,7 @@ namespace OpenIZAdmin.Services.Http.Configuration
 								Mode = SecurityScheme.Basic
 							}
 						},
-						Endpoint = new System.Collections.Generic.List<ServiceClientEndpoint>
+						Endpoint = new List<ServiceClientEndpoint>
 						{
 							new ServiceClientEndpoint
 							{
@@ -147,10 +147,9 @@ namespace OpenIZAdmin.Services.Http.Configuration
 							Security = new ServiceClientSecurity
 							{
 								Mode = SecurityScheme.Bearer
-							},
-							Optimize = false
+							}
 						},
-						Endpoint = new System.Collections.Generic.List<ServiceClientEndpoint>
+						Endpoint = new List<ServiceClientEndpoint>
 						{
 							new ServiceClientEndpoint
 							{
@@ -165,10 +164,10 @@ namespace OpenIZAdmin.Services.Http.Configuration
 						{
 							Security = new ServiceClientSecurity
 							{
-								Mode = SecurityScheme.Basic
+								Mode = SecurityScheme.Bearer
 							}
 						},
-						Endpoint = new System.Collections.Generic.List<ServiceClientEndpoint>
+						Endpoint = new List<ServiceClientEndpoint>
 						{
 							new ServiceClientEndpoint
 							{

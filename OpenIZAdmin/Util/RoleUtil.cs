@@ -18,6 +18,7 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Models.RoleModels;
 using OpenIZAdmin.Models.RoleModels.ViewModels;
@@ -67,6 +68,21 @@ namespace OpenIZAdmin.Util
 		{
 			SecurityRoleInfo roleInfo = new SecurityRoleInfo();
 
+			roleInfo.Role = new SecurityRole();
+
+			roleInfo.Role.Description = model.Description;
+			roleInfo.Name = model.Name;
+
+			return roleInfo;
+		}
+
+		public static SecurityRoleInfo ToSecurityRoleInfo(EditRoleModel model)
+		{
+			SecurityRoleInfo roleInfo = new SecurityRoleInfo();
+
+			roleInfo.Role = new SecurityRole();
+
+			roleInfo.Role.Description = model.Description;
 			roleInfo.Name = model.Name;
 
 			return roleInfo;

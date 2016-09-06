@@ -20,6 +20,7 @@
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.RoleModels;
 using OpenIZAdmin.Models.RoleModels.ViewModels;
 using OpenIZAdmin.Services.Http;
@@ -127,6 +128,96 @@ namespace OpenIZAdmin.Controllers
 			this.client?.Dispose();
 
 			base.Dispose(disposing);
+		}
+
+		/// <summary>
+		/// Displays the edit view.
+		/// </summary>
+		/// <param name="id">The id of the role to edit.</param>
+		/// <returns>Returns the edit view.</returns>
+		[HttpGet]
+		public ActionResult Edit(string id)
+		{
+			Guid roleId = Guid.Empty;
+
+			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out roleId))
+			{
+				try
+				{
+					var role = this.client.GetRole(roleId.ToString());
+
+					if (role == null)
+					{
+						TempData["error"] = Locale.RoleNotFound;
+
+						return RedirectToAction("Index");
+					}
+
+					EditRoleModel model = new EditRoleModel();
+
+					model.Description = role.Role.Description;
+					model.Id = role.Id.ToString();
+					model.Name = role.Name;
+
+					return View(model);
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					Trace.TraceError("Unable to find role: {0}", e.StackTrace);
+#endif
+					Trace.TraceError("Unable to find role: {0}", e.Message);
+				}
+			}
+
+			TempData["error"] = Locale.RoleNotFound;
+
+			return RedirectToAction("Index");
+		}
+
+		/// <summary>
+		/// Updates a role.
+		/// </summary>
+		/// <param name="model">The model containing the updated role information.</param>
+		/// <returns>Returns the edit view.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(EditRoleModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var role = this.client.GetRole(model.Id);
+
+					if (role == null)
+					{
+						TempData["error"] = Locale.RoleNotFound;
+
+						return RedirectToAction("Index");
+					}
+
+					role.Role.Description = model.Description;
+					role.Name = model.Name;
+
+					this.client.UpdateRole(role.Id.ToString(), role);
+
+					TempData["success"] = Locale.RoleUpdatedSuccessfully;
+
+					return RedirectToAction("Index");
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					Trace.TraceError("Unable to update role: {0}", e.StackTrace);
+#endif
+					Trace.TraceError("Unable to update role: {0}", e.Message);
+				}
+			}
+
+			TempData["error"] = Locale.UnableToUpdateRole;
+
+			return View(model);
 		}
 
 		[HttpGet]

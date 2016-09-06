@@ -385,6 +385,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The description field must be not exceed 1000 characters.
+        /// </summary>
+        public static string DescriptionTooLong {
+            get {
+                return ResourceManager.GetString("DescriptionTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Details.
         /// </summary>
         public static string Details {
@@ -435,6 +444,15 @@ namespace OpenIZAdmin.Localization {
         public static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Role.
+        /// </summary>
+        public static string EditRole {
+            get {
+                return ResourceManager.GetString("EditRole", resourceCulture);
             }
         }
         
@@ -1114,6 +1132,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Role created successfully.
+        /// </summary>
+        public static string RoleCreatedSuccessfully {
+            get {
+                return ResourceManager.GetString("RoleCreatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Role Id.
         /// </summary>
         public static string RoleId {
@@ -1146,6 +1173,15 @@ namespace OpenIZAdmin.Localization {
         public static string RolesRequired {
             get {
                 return ResourceManager.GetString("RolesRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role updated successfully.
+        /// </summary>
+        public static string RoleUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("RoleUpdatedSuccessfully", resourceCulture);
             }
         }
         
@@ -1276,6 +1312,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to create role.
+        /// </summary>
+        public static string UnableToCreateRole {
+            get {
+                return ResourceManager.GetString("UnableToCreateRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to retrieve device list.
         /// </summary>
         public static string UnableToRetrieveDeviceList {
@@ -1326,6 +1371,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToUpdateProfile {
             get {
                 return ResourceManager.GetString("UnableToUpdateProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to update role.
+        /// </summary>
+        public static string UnableToUpdateRole {
+            get {
+                return ResourceManager.GetString("UnableToUpdateRole", resourceCulture);
             }
         }
         

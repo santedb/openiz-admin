@@ -588,4 +588,22 @@
   <data name="Providers" xml:space="preserve">
     <value>Providers</value>
   </data>
+  <data name="DescriptionTooLong" xml:space="preserve">
+    <value>The description field must be not exceed 1000 characters</value>
+  </data>
+  <data name="RoleCreatedSuccessfully" xml:space="preserve">
+    <value>Role created successfully</value>
+  </data>
+  <data name="RoleUpdatedSuccessfully" xml:space="preserve">
+    <value>Role updated successfully</value>
+  </data>
+  <data name="UnableToCreateRole" xml:space="preserve">
+    <value>Unable to create role</value>
+  </data>
+  <data name="UnableToUpdateRole" xml:space="preserve">
+    <value>Unable to update role</value>
+  </data>
+  <data name="EditRole" xml:space="preserve">
+    <value>Edit Role</value>
+  </data>
 </root>

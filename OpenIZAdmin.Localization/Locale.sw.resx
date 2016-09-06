@@ -579,4 +579,22 @@
   <data name="Providers" xml:space="preserve">
     <value>Watoa</value>
   </data>
+  <data name="DescriptionTooLong" xml:space="preserve">
+    <value>Maelezo uwanja lazima kisichozidi viwambo 1000</value>
+  </data>
+  <data name="RoleCreatedSuccessfully" xml:space="preserve">
+    <value>Jukumu umba mafanikio</value>
+  </data>
+  <data name="RoleUpdatedSuccessfully" xml:space="preserve">
+    <value>Jukumu mwisho kwa mafanikio</value>
+  </data>
+  <data name="UnableToCreateRole" xml:space="preserve">
+    <value>Hawawezi kuunda jukumu</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="EditRole" xml:space="preserve">
+    <value>Hariri jukumu</value>
+  </data>
 </root>
