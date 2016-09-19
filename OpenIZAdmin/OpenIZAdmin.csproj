@@ -323,6 +323,7 @@
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />
     <None Include="Properties\PublishProfiles\MARC_HI_khannan_OpenIZAdmin.pubxml" />
+    <None Include="Properties\PublishProfiles\MARC_HI_khannan_TImRAdmin.pubxml" />
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.2.4.js" />
     <Content Include="Scripts\jquery-2.2.4.min.js" />
