@@ -8,7 +8,9 @@
     {
         HttpMethod = "GET",
         InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = "search-results"
+        UpdateTargetId = "search-results",
+        OnBegin = "showLoadingBar()",
+        OnComplete = "hideLoadingBar()"
     };
 }
 
@@ -44,6 +46,9 @@
                 </div>}
     </div>
 </div>
+
+@Html.Partial("_LoadingBar")
+
 <div id="search-results">
 
 </div>

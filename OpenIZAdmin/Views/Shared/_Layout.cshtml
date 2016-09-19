@@ -105,7 +105,9 @@
 
     @RenderSection("scripts", required: false)
     <script type="text/javascript">
-        $(".change-language").on('click', function () {
+
+        $(".change-language").on('click', function ()
+        {
             var language = $(this).attr("language");
             console.log(language);
 
@@ -113,22 +115,38 @@
 
             $.ajax({
                 url: "/Locale/ChangeLanguage?language=" + language,
-                success: function (data) {
+                success: function (data)
+                {
                     console.log(data);
                     window.location.reload();
                 },
-                error: function (error) {
+                error: function (error)
+                {
                     console.log(error);
                 },
                 type: "POST"
             });
         });
-        $(document).ready(function () {
-            $("#reset").on("click", function () {
+
+        $(document).ready(function ()
+        {
+            $("#reset").on("click", function ()
+            {
                 $("#SearchTerm").val('');
                 window.location.reload();
             });
         });
+
+        function hideLoadingBar()
+        {
+            $("#loading-bar").hide();
+        }
+
+        function showLoadingBar()
+        {
+            $("#loading-bar").show();
+        }
+
     </script>
 </body>
 </html>
