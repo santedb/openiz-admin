@@ -7,10 +7,10 @@
     <div class="panel panel-heading">
         <span>@Locale.User</span>
         <div class="pull-right">
-            @*<a href="~/User/Edit">
+            <a href="~/User/Edit/@Model.UserId">
                 <span class="glyphicon glyphicon-edit"></span>
                 @Locale.Edit
-            </a>*@
+            </a>
         </div>
     </div>
     <div class="panel panel-body panel-default">
@@ -18,19 +18,15 @@
             <div class="col-md-12">
                 <div class="form-group">
                     <div class="col-md-4">
-                        <label class="control-label">@Html.DisplayNameFor(m => m.UserId)</label>
-                        @Html.TextBoxFor(m => m.UserId, new { @class = "form-control", @readonly = "readonly" })
+                        <label class="control-label">@Html.DisplayNameFor(m => m.HealthFacility)</label>
+                        @Html.TextBoxFor(m => m.HealthFacility, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">
-                            @Html.DisplayNameFor(m => m.Username)
-                        </label>
-                        @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @readonly = "readonly" })
+                        <label class="control-label">@Html.DisplayNameFor(m => m.Name)</label>
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">
-                            @Html.DisplayNameFor(m => m.Email)
-                        </label>
+                        <label class="control-label">@Html.DisplayNameFor(m => m.Email)</label>
                         @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>
@@ -45,15 +41,11 @@
                         @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">
-                            @Html.DisplayNameFor(m => m.InvalidLoginAttempts)
-                        </label>
-                        @Html.TextBoxFor(m => m.InvalidLoginAttempts, new { @class = "form-control", @readonly = "readonly" })
+                        <label class="control-label">@Html.DisplayNameFor(m => m.Username)</label>
+                        @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                     <div class="col-md-4">
-                        <label class="control-label">
-                            @Html.DisplayNameFor(m => m.LastLoginTime)
-                        </label>
+                        <label class="control-label">@Html.DisplayNameFor(m => m.LastLoginTime)</label>
                         @Html.TextBoxFor(m => m.LastLoginTime, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>

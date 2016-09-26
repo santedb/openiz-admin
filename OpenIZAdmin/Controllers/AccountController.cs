@@ -249,7 +249,25 @@ namespace OpenIZAdmin.Controllers
 		{
 			ManageModel model = new ManageModel();
 
-			UserEntity user = UserUtil.GetUserEntity(this.imsiClient, Guid.Parse(User.Identity.GetUserId()));
+			var userId = Guid.Parse(User.Identity.GetUserId());
+
+			UserEntity user = null;
+
+			try
+			{
+				var bundle = this.imsiClient.Query<UserEntity>(u => u.SecurityUserKey.Value == userId);
+
+				bundle.Reconstitute();
+
+				user = bundle.Item.OfType<UserEntity>().Cast<UserEntity>().FirstOrDefault();
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Unable to retrieve user entity", e.StackTrace);
+#endif
+				Trace.TraceError("Unable to retrieve user entity", e.Message);
+			}
 
 			if (user == null)
 			{
@@ -266,7 +284,7 @@ namespace OpenIZAdmin.Controllers
 				Value = ""
 			});
 
-			var places = PlaceUtil.GetPlaces(this.imsiClient);
+			var places = PlaceUtil.GetPlaces(this.imsiClient, 0, 200);
 
 			facilityList.AddRange(places.Select(p => new SelectListItem { Text = string.Join(" ", p.Names.SelectMany(n => n.Component).Select(c => c.Value)), Value = p.Key.Value.ToString() }));
 
@@ -343,7 +361,15 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var userEntity = UserUtil.GetUserEntity(this.imsiClient, Guid.Parse(User.Identity.GetUserId()));
+					var userId = Guid.Parse(User.Identity.GetUserId());
+
+					UserEntity userEntity = null;
+
+					var bundle = this.imsiClient.Query<UserEntity>(u => u.SecurityUserKey.Value == userId);
+
+					bundle.Reconstitute();
+
+					userEntity = bundle.Item.OfType<UserEntity>().Cast<UserEntity>().FirstOrDefault();
 
 					if (userEntity == null)
 					{

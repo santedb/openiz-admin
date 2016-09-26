@@ -36,6 +36,35 @@ namespace OpenIZAdmin.Util
 	public static class PlaceUtil
 	{
 		/// <summary>
+		/// Gets a place by key.
+		/// </summary>
+		/// <param name="client">The IMSI service client.</param>
+		/// <param name="key">The key of the place to be retrieved.</param>
+		/// <returns>Returns a place.</returns>
+		public static Place GetPlace(ImsiServiceClient client, Guid key)
+		{
+			Place place = null;
+
+			try
+			{
+				var bundle = client.Query<Place>(p => p.Key == key);
+
+				bundle.Reconstitute();
+
+				place = bundle.Item.OfType<Place>().Cast<Place>().FirstOrDefault();
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Unable to retrieve place: {0}", e.StackTrace);
+#endif
+				Trace.TraceError("Unable to retrieve place: {0}", e.Message);
+			}
+
+			return place;
+		}
+
+		/// <summary>
 		/// Gets a list of places from the IMS.
 		/// </summary>
 		/// <param name="client">The IMSI service client.</param>

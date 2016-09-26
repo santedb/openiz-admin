@@ -205,6 +205,11 @@
             The entity that this relationship targets
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.Acts.ActParticipation.Quantity">
+            <summary>
+            Gets or sets the quantity of player in the act
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Model.Acts.ActParticipation.Refresh">
             <summary>
             Forces a delay load from the underlying model
@@ -896,6 +901,61 @@
             The person who transcribed data from the original act
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Model.Constants.ActReasonKeys">
+            <summary>
+            Represents act reasons (reasons for an act)
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActReasonKeys.StartedTooLate">
+            <summary>
+            The patient started too late for the therapy
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActReasonKeys.AllergyOrIntolerance">
+            <summary>
+            The patient is allergic or intolerant to the consumable
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActReasonKeys.Expired">
+            <summary>
+            The vaccine or drug was expired
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActReasonKeys.VaccineSafety">
+            <summary>
+            The vaccine was considered unsafe
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActReasonKeys.ProfessionalJudgement">
+            <summary>
+            The vaccine was not performed per the professional judgement of the provider
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActReasonKeys.ReligiousObjecton">
+            <summary>
+            The patient had a religious objection
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActReasonKeys.PatientRefused">
+            <summary>
+            The patient refused the treatment
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActReasonKeys.OutOfStock">
+            <summary>
+            There was insufficient stock to perform the action
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActReasonKeys.Broken">
+            <summary>
+            The items are broken and can no longer be used to deliver care
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActReasonKeys.ColdStorageFailure">
+            <summary>
+            There was a cold-storage failure which resulted in the material being unusable.
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Constants.ActRelationshipTypeKeys">
             <summary>
             Act relationship types
@@ -1404,6 +1464,11 @@
         <member name="T:OpenIZ.Core.Model.Constants.NameUseKeys">
             <summary>
             Name use keys
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.Constants.NullReasonKeys">
+            <summary>
+            Null reason keys
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.PhoneticAlgorithmKeys">
@@ -2774,6 +2839,11 @@
         <member name="P:OpenIZ.Core.Model.Entities.EntityTelecomAddress.Value">
             <summary>
             Gets or sets the value of the telecom address
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Entities.EntityTelecomAddress.IETFValue">
+            <summary>
+            Gets or sets the value as an IETF value
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.Entities.EntityTelecomAddress.Refresh">

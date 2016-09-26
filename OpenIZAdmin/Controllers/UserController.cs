@@ -63,6 +63,53 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Activates a user.
+		/// </summary>
+		/// <param name="id">The id of the user to be activated.</param>
+		/// <returns>Returns the index view.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Activate(string id)
+		{
+			Guid userKey = Guid.Empty;
+
+			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out userKey))
+			{
+				try
+				{
+					var user = UserUtil.GetSecurityUserInfo(this.amiClient, userKey);
+
+					if (user == null)
+					{
+						TempData["error"] = Locale.UserNotFound;
+
+						return RedirectToAction("Index");
+					}
+
+					user.User.ObsoletedBy = null;
+					user.User.ObsoletionTime = null;
+
+					this.amiClient.UpdateUser(userKey, user);
+
+					TempData["success"] = Locale.UserActivatedSuccessfully;
+
+					return RedirectToAction("Index");
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					Trace.TraceError("Unable to delete user: {0}", e.StackTrace);
+#endif
+					Trace.TraceError("Unable to delete user: {0}", e.Message);
+				}
+			}
+
+			TempData["error"] = Locale.UnableToActivateUser;
+
+			return RedirectToAction("Index");
+		}
+
+		/// <summary>
 		/// Displays the create user view.
 		/// </summary>
 		/// <returns>Returns the create user view.</returns>
@@ -73,6 +120,20 @@ namespace OpenIZAdmin.Controllers
 			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
 
 			model.RolesList.AddRange(RoleUtil.GetAllRoles(this.amiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
+
+			List<SelectListItem> facilityList = new List<SelectListItem>();
+
+			facilityList.Add(new SelectListItem
+			{
+				Text = "",
+				Value = ""
+			});
+
+			var places = PlaceUtil.GetPlaces(this.imsiClient, 0, 200);
+
+			facilityList.AddRange(places.Select(p => new SelectListItem { Text = string.Join(" ", p.Names.SelectMany(n => n.Component).Select(c => c.Value)), Value = p.Key.Value.ToString() }));
+
+			model.FacilityList = facilityList.OrderBy(c => c.Text).ToList();
 
 			return View(model);
 		}
@@ -94,32 +155,9 @@ namespace OpenIZAdmin.Controllers
 				{
 					var result = this.amiClient.CreateUser(user);
 
-					UserEntity userEntity = new UserEntity();
+					UserEntity userEntity = UserUtil.ToUserEntity(model);
 
 					userEntity.SecurityUser = result.User;
-
-					EntityName name = new EntityName();
-
-					name.NameUse = new Concept
-					{
-						Key = NameUseKeys.OfficialRecord
-					};
-
-					name.Component = new List<EntityNameComponent>();
-
-					if (model.FamilyNames != null && model.FamilyNames.Count > 0)
-					{
-						name.Component.AddRange(model.FamilyNames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
-					}
-
-					if (model.GivenNames != null && model.GivenNames.Count > 0)
-					{
-						name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
-					}
-
-					userEntity.Names = new List<EntityName>();
-
-					userEntity.Names.Add(name);
 
 					this.imsiClient.Create<UserEntity>(userEntity);
 
@@ -154,14 +192,13 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(string id)
 		{
-			Guid userKey = Guid.Empty;
-
 			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
 			{
 				try
 				{
 					this.amiClient.DeleteUser(id);
-					TempData["success"] = "User deleted successfully";
+
+					TempData["success"] = Locale.UserDeactivatedSuccessfully;
 
 					return RedirectToAction("Index");
 				}
@@ -174,7 +211,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = "Unable to delete user";
+			TempData["error"] = Locale.UnableToDeactivateUser;
 
 			return RedirectToAction("Index");
 		}
@@ -224,11 +261,16 @@ namespace OpenIZAdmin.Controllers
 				return View(model);
 			}
 
-			TempData["error"] = Localization.Locale.UserNotFound;
+			TempData["error"] = Locale.UserNotFound;
 
 			return RedirectToAction("Index");
 		}
 
+		/// <summary>
+		/// Updates a user.
+		/// </summary>
+		/// <param name="model">The model containing the updated user information.</param>
+		/// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditUserModel model)
@@ -237,7 +279,14 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var userEntity = UserUtil.GetUserEntity(this.imsiClient, Guid.Parse(User.Identity.GetUserId()));
+					var userEntity = UserUtil.GetUserEntity(this.imsiClient, model.UserId);
+
+					if (userEntity == null)
+					{
+						TempData["error"] = Locale.UserNotFound;
+
+						return RedirectToAction("Index");
+					}
 
 					EntityName name = new EntityName();
 
@@ -262,19 +311,14 @@ namespace OpenIZAdmin.Controllers
 
 					userEntity.Names.Add(name);
 
-					userEntity.Relationships.Add(new EntityRelationship
-					{
-						RelationshipType = new Concept
-						{
-							Key = EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation
-						},
-						TargetEntity = new Place
-						{
-							Key = Guid.Parse(model.FacilityId)
-						}
-					});
+					userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.FacilityId)));
 
-					userEntity.SecurityUserKey = Guid.Parse(User.Identity.GetUserId());
+					this.amiClient.UpdateUser(userEntity.SecurityUserKey.Value, new SecurityUserInfo(userEntity.SecurityUser));
+					this.imsiClient.Update<UserEntity>(userEntity);
+
+					TempData["success"] = Locale.UserUpdatedSuccessfully;
+
+					return Redirect("Index");
 				}
 				catch (Exception e)
 				{
@@ -316,6 +360,11 @@ namespace OpenIZAdmin.Controllers
 			base.OnActionExecuting(filterContext);
 		}
 
+		/// <summary>
+		/// Searches for a user.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns a list of users which match the search term.</returns>
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
@@ -362,10 +411,46 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return View(UserUtil.ToUserViewModel(result.CollectionItem.Single()));
+				var userViewModel = UserUtil.ToUserViewModel(result.CollectionItem.Single());
+
+				try
+				{
+					var user = UserUtil.GetUserEntity(this.imsiClient, userViewModel.UserId);
+
+					if (user == null)
+					{
+						TempData["error"] = Locale.UserNotFound;
+
+						return RedirectToAction("Index");
+					}
+
+					userViewModel.Name = string.Join(" ", user.Names.SelectMany(n => n.Component).Select(c => c.Value));
+
+					var healthFacility = user.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).FirstOrDefault();
+
+					userViewModel.HealthFacility = "N/A";
+
+					//if (healthFacility == null)
+					//{
+					//	userViewModel.HealthFacility = "N/A";
+					//}
+					//else
+					//{
+					//	userViewModel.HealthFacility = string.Join(" ", healthFacility.TargetEntity.Names.SelectMany(n => n.Component).Select(c => c.Value));
+					//}
+
+					return View(userViewModel);
+				}
+				catch (Exception e)
+				{
+#if DEBUG
+					Trace.TraceError("Unable to retrieve user {0}", e.StackTrace);
+#endif
+					Trace.TraceError("Unable to retrieve user: {0}", e.Message);
+				}
 			}
 
-			TempData["error"] = Localization.Locale.UserNotFound;
+			TempData["error"] = Locale.UserNotFound;
 
 			return RedirectToAction("Index");
 		}

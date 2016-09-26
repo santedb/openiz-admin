@@ -609,4 +609,31 @@
   <data name="Loading" xml:space="preserve">
     <value>Loading</value>
   </data>
+  <data name="UserUpdatedSuccessfully" xml:space="preserve">
+    <value>User updated successfully</value>
+  </data>
+  <data name="HealthFacility" xml:space="preserve">
+    <value>Health Facility</value>
+  </data>
+  <data name="Deactivate" xml:space="preserve">
+    <value>Deactivate</value>
+  </data>
+  <data name="UnableToDeactivateUser" xml:space="preserve">
+    <value>Unable to deactivate user</value>
+  </data>
+  <data name="UserDeactivatedSuccessfully" xml:space="preserve">
+    <value>User deactivated successfully</value>
+  </data>
+  <data name="LastLoginTime" xml:space="preserve">
+    <value>Last login time</value>
+  </data>
+  <data name="Activate" xml:space="preserve">
+    <value>Activate</value>
+  </data>
+  <data name="UnableToActivateUser" xml:space="preserve">
+    <value>Unable to activate user</value>
+  </data>
+  <data name="UserActivatedSuccessfully" xml:space="preserve">
+    <value>User activated successfully</value>
+  </data>
 </root>

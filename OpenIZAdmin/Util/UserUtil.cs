@@ -18,7 +18,9 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.AMI.Security;
 using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZ.Messaging.IMSI.Client;
@@ -32,8 +34,16 @@ using System.Linq;
 
 namespace OpenIZAdmin.Util
 {
+	/// <summary>
+	/// Provides a utility for managing users.
+	/// </summary>
 	public static class UserUtil
 	{
+		/// <summary>
+		/// Gets a list of users.
+		/// </summary>
+		/// <param name="client">The IMSI service client.</param>
+		/// <returns>Returns a list of users.</returns>
 		internal static IEnumerable<UserViewModel> GetAllUsers(AmiServiceClient client)
 		{
 			IEnumerable<UserViewModel> viewModels = new List<UserViewModel>();
@@ -57,11 +67,35 @@ namespace OpenIZAdmin.Util
 		}
 
 		/// <summary>
+		/// Gets a security user info.
+		/// </summary>
+		/// <param name="client">The AMI service client.</param>
+		/// <param name="userId">The id of the user to be retrieved.</param>
+		/// <returns>Returns a security user.</returns>
+		public static SecurityUserInfo GetSecurityUserInfo(AmiServiceClient client, Guid userId)
+		{
+			SecurityUserInfo user = null;
+
+			try
+			{
+				user = client.GetUser(userId.ToString());
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Unable to retrieve security user: {0}", e.StackTrace);
+#endif
+				Trace.TraceError("Unable to retrieve security user: {0}", e.Message);
+			}
+
+			return user;
+		}
+
+		/// <summary>
 		/// Gets a user entity.
 		/// </summary>
 		/// <param name="client">The IMSI service client.</param>
 		/// <param name="userId">The user id of the user to retrieve.</param>
-		/// <param name="versionKey">The version key of the user.</param>
 		/// <returns>Returns a user entity or null if no user entity is found.</returns>
 		public static UserEntity GetUserEntity(ImsiServiceClient client, Guid userId)
 		{
@@ -102,8 +136,41 @@ namespace OpenIZAdmin.Util
 
 			model.Roles = userEntity.SecurityUser.Roles.Select(r => r.Name);
 			model.Username = userEntity.SecurityUser.UserName;
+			model.UserId = userEntity.SecurityUserKey.GetValueOrDefault(Guid.Empty);
 
 			return model;
+		}
+
+		public static UserEntity ToUserEntity(CreateUserModel model)
+		{
+			UserEntity userEntity = new UserEntity();
+
+			EntityName name = new EntityName();
+
+			name.NameUse = new Concept
+			{
+				Key = NameUseKeys.OfficialRecord
+			};
+
+			name.Component = new List<EntityNameComponent>();
+
+			if (model.FamilyNames != null && model.FamilyNames.Count > 0)
+			{
+				name.Component.AddRange(model.FamilyNames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
+			}
+
+			if (model.GivenNames != null && model.GivenNames.Count > 0)
+			{
+				name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
+			}
+
+			userEntity.Names = new List<EntityName>();
+
+			userEntity.Names.Add(name);
+
+			userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.FacilityId)));
+
+			return userEntity;
 		}
 
 		/// <summary>
@@ -122,16 +189,6 @@ namespace OpenIZAdmin.Util
 
 		public static SecurityUserInfo ToSecurityUserInfo(CreateUserModel model)
 		{
-			//List<EntityNameComponent> patientNames = new List<EntityNameComponent>();
-			//if (this.GivenNames != null)
-			//{
-			//	patientNames.AddRange(this.GivenNames.Select(x => new OpenIZ.Core.Model.Entities.EntityNameComponent(NameComponentKeys.Given, x)).ToList());
-			//}
-			//if (this.FamilyNames != null)
-			//{
-			//	patientNames.AddRange(this.FamilyNames.Select(x => new OpenIZ.Core.Model.Entities.EntityNameComponent(NameComponentKeys.Family, x)).ToList());
-			//}
-
 			SecurityUserInfo userInfo = new SecurityUserInfo
 			{
 				Email = model.Email,
@@ -151,8 +208,8 @@ namespace OpenIZAdmin.Util
 			UserViewModel viewModel = new UserViewModel();
 
 			viewModel.Email = userInfo.Email;
-			viewModel.InvalidLoginAttempts = userInfo.User.InvalidLoginAttempts;
 			viewModel.IsLockedOut = userInfo.Lockout.GetValueOrDefault(false);
+			viewModel.IsObsolete = userInfo.User.ObsoletedBy != null;
 			viewModel.LastLoginTime = userInfo.User.LastLoginTime?.DateTime;
 			viewModel.PhoneNumber = userInfo.User.PhoneNumber;
 			viewModel.Roles = userInfo.Roles.Select(r => RoleUtil.ToRoleViewModel(r));

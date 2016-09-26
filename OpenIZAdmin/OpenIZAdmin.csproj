@@ -311,6 +311,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="logs\README.txt" />
     <Content Include="OpenIZAdmin.licenseheader" />
     <Content Include="Content\toastr.scss" />
     <Content Include="Content\toastr.less" />

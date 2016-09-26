@@ -27,13 +27,26 @@ namespace OpenIZAdmin.Models.UserModels
 	{
 		public CreateUserModel()
 		{
+			this.FacilityList = new List<SelectListItem>();
 			this.RolesList = new List<SelectListItem>();
 		}
 
 		[Display(Name = "Email", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "EmailRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[EmailAddress(ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[EmailAddress(ErrorMessage = null, ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Email { get; set; }
+
+		/// <summary>
+		/// Gets or sets the id of the facility of the user.
+		/// </summary>
+		[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "FacilityRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		public string FacilityId { get; set; }
+
+		/// <summary>
+		/// Gets or sets the list of facilities.
+		/// </summary>
+		public List<SelectListItem> FacilityList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the family names of the user.

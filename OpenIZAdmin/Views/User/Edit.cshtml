@@ -16,7 +16,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.GivenNames, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.GivenNames, Model.GivenNamesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
+                    @Html.ListBoxFor(m => m.GivenNames, Model.GivenNamesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
                     @Html.ValidationMessageFor(m => m.GivenNames, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -24,7 +24,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.FamilyNames, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.FamilyNames, Model.FamilyNameList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
+                    @Html.ListBoxFor(m => m.FamilyNames, Model.FamilyNameList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
                     @Html.ValidationMessageFor(m => m.FamilyNames, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -40,7 +40,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.DropDownListFor(m => m.Roles, Model.RolesList, new { @class = "form-control" })
+                    @Html.ListBoxFor(m => m.Roles, Model.RolesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
                     @Html.ValidationMessageFor(m => m.Roles, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -48,7 +48,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.FacilityId, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.ListBoxFor(m => m.FacilityId, Model.FacilityList, new { @class = "dynamic-dropdown-limited form-control" })
+                    @Html.DropDownListFor(m => m.FacilityId, Model.FacilityList, new { @class = "dynamic-dropdown-limited form-control" })
                     @Html.ValidationMessageFor(m => m.FacilityId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -68,6 +68,8 @@
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            @Html.HiddenFor(m => m.UserId)
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">

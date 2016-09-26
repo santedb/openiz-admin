@@ -50,34 +50,16 @@ namespace OpenIZAdmin
         }
 
 		/// <summary>
-		/// Called at the start of each HTTP request.
-		/// </summary>
-		/// <param name="sender">The sender of the request.</param>
-		/// <param name="e">The event arguments.</param>
-		//private void Application_BeginRequest(object sender, EventArgs e)
-		//{
-		//	string preferredLanguage = LocalizationConfig.DefaultLanguage;
-
-		//	if (User != null && User.Identity != null && User.Identity.IsAuthenticated)
-		//	{
-		//		preferredLanguage = LocalizationConfig.GetPreferredLanguage(User.Identity.GetUserId());
-		//	}
-
-		//	Thread.CurrentThread.CurrentCulture = new CultureInfo(preferredLanguage);
-		//	Thread.CurrentThread.CurrentUICulture = Thread.CurrentThread.CurrentCulture;
-		//}
-
-		/// <summary>
 		/// Called when the application encounters an unexpected error.
 		/// </summary>
 		/// <param name="sender">The sender of the error.</param>
 		/// <param name="e">The event arguments.</param>
-//		protected void Application_Error(object sender, EventArgs e)
-//		{
-//#if DEBUG
-//			Trace.TraceError("Application error: {0}", Server.GetLastError());
-//#endif
-//			Trace.TraceError("Application error: {0}", Server.GetLastError().Message);
-//		}
+		protected void Application_Error(object sender, EventArgs e)
+		{
+#if DEBUG
+			Trace.TraceError("Application error: {0}", Server.GetLastError().StackTrace);
+#endif
+			Trace.TraceError("Application error: {0}", Server.GetLastError().Message);
+		}
 	}
 }

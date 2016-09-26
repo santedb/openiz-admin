@@ -32,6 +32,7 @@
                         </th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -68,6 +69,33 @@
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
+                            </td>
+                            <td>
+                                @if (!item.IsObsolete)
+                                {
+                                    using (Html.BeginForm("Delete", "User", new { id = item.UserId }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <button type="submit" class="btn btn-danger">
+                                            @Locale.Deactivate
+                                            <span class="glyphicon glyphicon-log-out"></span>
+                                        </button>
+}
+                                }
+                                else
+                                {
+                                    using (Html.BeginForm("Activate", "User", new { id = item.UserId }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <button type="submit" class="btn btn-success">
+                                            @Locale.Activate
+                                            <span class="glyphicon glyphicon-upload"></span>
+                                        </button>
+}
+                                }
+
                             </td>
                     </tr>}
                 </tbody>

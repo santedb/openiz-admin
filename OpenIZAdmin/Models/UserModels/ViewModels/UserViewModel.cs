@@ -24,29 +24,74 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.UserModels.ViewModels
 {
+	/// <summary>
+	/// Represents a user view model.
+	/// </summary>
 	public class UserViewModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="UserViewModel"/> class.
+		/// </summary>
 		public UserViewModel()
 		{
 		}
 
+		/// <summary>
+		/// Gets or sets the email address of the user.
+		/// </summary>
 		[Display(Name = "Email", ResourceType = typeof(Localization.Locale))]
 		public string Email { get; set; }
 
-		public int InvalidLoginAttempts { get; set; }
+		/// <summary>
+		/// Gets or sets the health facility of the user.
+		/// </summary>
+		[Display(Name = "HealthFacility", ResourceType = typeof(Localization.Locale))]
+		public string HealthFacility { get; set; }
 
+		/// <summary>
+		/// Gets or sets the locked out status of the user.
+		/// </summary>
+		[Display(Name = "LockedOut", ResourceType = typeof(Localization.Locale))]
 		public bool IsLockedOut { get; set; }
 
+		/// <summary>
+		/// Gets or sets the obsolete status of the user.
+		/// </summary>
+		public bool IsObsolete { get; set; }
+
+		/// <summary>
+		/// Gets or sets the last login time of the user.
+		/// </summary>
+		[Display(Name = "LastLoginTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime? LastLoginTime { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name of the user.
+		/// </summary>
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		public string Name { get; set; }
+
+		/// <summary>
+		/// Gets or sets the phone number of the user.
+		/// </summary>
+		[Display(Name = "Phone", ResourceType = typeof(Localization.Locale))]
 		public string PhoneNumber { get; set; }
 
+		/// <summary>
+		/// Gets or sets the roles of the user.
+		/// </summary>
 		[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
 		public IEnumerable<RoleViewModel> Roles { get; set; }
 
+		/// <summary>
+		/// Gets or sets the id of the user.
+		/// </summary>
 		[Display(Name = "UserId", ResourceType = typeof(Localization.Locale))]
 		public Guid UserId { get; set; }
 
+		/// <summary>
+		/// Gets or sets the username of the user.
+		/// </summary>
 		[Display(Name = "Username", ResourceType = typeof(Localization.Locale))]
 		public string Username { get; set; }
 	}

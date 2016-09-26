@@ -17,6 +17,7 @@
  * Date: 2016-8-14
  */
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
@@ -40,7 +41,7 @@ namespace OpenIZAdmin.Models.UserModels
 		/// </summary>
 		[Display(Name = "Email", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "EmailRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[EmailAddress(ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[EmailAddress(ErrorMessage = null, ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Email { get; set; }
 
 		/// <summary>
@@ -97,5 +98,11 @@ namespace OpenIZAdmin.Models.UserModels
 		[Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "UsernameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Username { get; set; }
+
+		/// <summary>
+		/// Gets or sets the user id of the user.
+		/// </summary>
+		[Required]
+		public Guid UserId { get; set; }
 	}
 }

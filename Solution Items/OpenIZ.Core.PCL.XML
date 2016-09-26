@@ -799,42 +799,38 @@
         </member>
         <member name="T:OpenIZ.Core.Services.IActRepositoryService">
             <summary>
-            Represents the act repository service
+            Represents an act repository service.
             </summary>
+            TODO: Should the entire interface be genericised? 
         </member>
-        <member name="M:OpenIZ.Core.Services.IActRepositoryService.FindActs(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Acts.Act,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Find``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
             <summary>
-            Find all acts
+            Finds acts based on a specific query.
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IActRepositoryService.FindSubstanceAdministrations(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Acts.SubstanceAdministration,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
-            <summary>
-            Find the substance administrations
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Get(System.Guid,System.Guid)">
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Get``1(System.Guid,System.Guid)">
             <summary>
             Get the specified act
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Insert(OpenIZ.Core.Model.Acts.Act)">
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Insert``1(``0)">
             <summary>
             Insert the specified act
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Obsolete(System.Guid)">
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Obsolete``1(System.Guid)">
             <summary>
-            Obsolete the specified act
+            Obsoletes a specific act.
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Save(OpenIZ.Core.Model.Acts.Act)">
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Save``1(``0)">
             <summary>
-            Insert or update the specified act
+            Inserts or updates the specific act.
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Validate(OpenIZ.Core.Model.Acts.Act)">
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Validate``1(``0)">
             <summary>
-            Validate the act
+            Validates an act.
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Services.IAssigningAuthorityRepositoryService">
@@ -1895,6 +1891,13 @@
             Obsoletes the specfied user entity
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.SavePolicy(OpenIZ.Core.Model.Security.SecurityPolicy)">
+            <summary>
+            Updates a security policy.
+            </summary>
+            <param name="policy">The security policy containing the updated information.</param>
+            <returns>Returns the updated policy.</returns>
+        </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.SaveDevice(OpenIZ.Core.Model.Security.SecurityDevice)">
             <summary>
             Updates a security device.
@@ -1947,6 +1950,11 @@
             </summary>
             <param name="place">The facility for which to get the balance of stock.</param>
             <param name="manufacturedMaterial">The manufactured material for which to retrieve the balance.</param>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IStockManagementRepositoryService.FindAdjustments(System.Guid,System.Guid,System.Nullable{System.DateTimeOffset},System.Nullable{System.DateTimeOffset})">
+            <summary>
+            Find adjustments matching the specified 
+            </summary>
         </member>
         <member name="T:OpenIZ.Core.Services.IThreadPoolService">
             <summary>
