@@ -16,6 +16,11 @@
             </summary>
             <param name="client">The <see cref="T:OpenIZ.Core.Http.IRestClient"/> instance.</param>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.SubmitDiagnosticReport(OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticReport)">
+            <summary>
+            Submits a diagnostics report
+            </summary>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.AcceptCertificateSigningRequest(System.String)">
             <summary>
             Accepts a certificate signing request.
@@ -288,6 +293,16 @@
             <param name="id">The id of the user to be updated.</param>
             <param name="user">The user containing the updated information.</param>
             <returns>Returns the updated user.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetTwoFactorMechanisms">
+            <summary>
+            Gets a list of two-factor mechanisms
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.SendTfaSecret(OpenIZ.Core.Model.AMI.Auth.TfaRequestInfo)">
+            <summary>
+            Create security password reset request
+            </summary>
         </member>
     </members>
 </doc>

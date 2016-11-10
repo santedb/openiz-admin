@@ -97,11 +97,11 @@ namespace OpenIZAdmin.Services.Http
 		/// <param name="method">The request method.</param>
 		/// <param name="url">The URL of the request.</param>
 		/// <param name="contentType">The content type of the request.</param>
-		/// <param name="additionalHeaders">Any additional headers for the request.</param>
+		/// <param name="additionalHeaders">Additional headers for the request.</param>
 		/// <param name="body">The body of the request.</param>
 		/// <param name="query">The query parameters of the request.</param>
 		/// <returns>Returns the response of the request.</returns>
-		protected override TResult InvokeInternal<TBody, TResult>(string method, string url, string contentType, Dictionary<HttpRequestHeader, string> additionalHeaders, TBody body, params KeyValuePair<string, object>[] query)
+		protected override TResult InvokeInternal<TBody, TResult>(string method, string url, string contentType, WebHeaderCollection additionalHeaders, TBody body, params KeyValuePair<string, object>[] query)
 		{
 			if (string.IsNullOrEmpty(method))
 			{

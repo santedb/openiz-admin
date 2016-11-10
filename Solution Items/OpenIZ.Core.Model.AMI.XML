@@ -316,6 +316,31 @@
             Gets or sets the role information
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Auth.TfaRequestInfo">
+            <summary>
+            Security ticket information
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.TfaRequestInfo.ResetMechanism">
+            <summary>
+            Gets or sets the user key
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.TfaRequestInfo.Verification">
+            <summary>
+            The verification (usually the phone number or e-mail address of the user)
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.TfaRequestInfo.UserName">
+            <summary>
+            The verification (usually the phone number or e-mail address of the user)
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.TfaRequestInfo.Purpose">
+            <summary>
+            The scope or purpose of the TFA secret
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo">
             <summary>
             Gets or sets security user information
@@ -367,6 +392,31 @@
             Gets or sets the name of the user
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Auth.TfaMechanismInfo">
+            <summary>
+            Represents two-factor authentication mechanism information
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Auth.TfaMechanismInfo.#ctor">
+            <summary>
+            Default serialization ctor
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.TfaMechanismInfo.Id">
+            <summary>
+            Gets or sets the identifier
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.TfaMechanismInfo.Name">
+            <summary>
+            Gets or sets the name
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.TfaMechanismInfo.ChallengeText">
+            <summary>
+            Gets or sets the challenge text
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo">
             <summary>
             Represents information about an assigning authority.
@@ -391,6 +441,197 @@
         <member name="P:OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo.Id">
             <summary>
             Gets or sets the id of the assigning authority.
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticApplicationInfo">
+            <summary>
+            Application information
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticApplicationInfo.#ctor">
+            <summary>
+            Diagnostic application information
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticApplicationInfo.#ctor(System.Reflection.Assembly)">
+            <summary>
+            Creates new diagnostic application information
+            </summary>
+            <param name="versionInfo"></param>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticApplicationInfo.EnvironmentInfo">
+            <summary>
+            Environment information
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticApplicationInfo.OpenIZ">
+            <summary>
+            Open IZ information
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticApplicationInfo.Assemblies">
+            <summary>
+            Gets or sets the assemblies
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticApplicationInfo.Applets">
+            <summary>
+            Gets or sets the applets
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticApplicationInfo.FileInfo">
+            <summary>
+            Gets or sets file info
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticApplicationInfo.SyncInfo">
+            <summary>
+            Gets the sync info
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticEnvironmentInfo">
+            <summary>
+            Environment information
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticEnvironmentInfo.Is64Bit">
+            <summary>
+            Is platform 64 bit
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticEnvironmentInfo.OSVersion">
+            <summary>
+            OS Version
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticEnvironmentInfo.ProcessorCount">
+            <summary>
+            CPU count
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticEnvironmentInfo.UsedMemory">
+            <summary>
+            Used memory
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticEnvironmentInfo.Version">
+            <summary>
+            Version
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticAttachmentInfo">
+            <summary>
+            Runtime file inforamtion
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticAttachmentInfo.Id">
+            <summary>
+            Gets or sets the identiifer
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticAttachmentInfo.FileName">
+            <summary>
+            Gets or sets the file name
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticAttachmentInfo.FileDescription">
+            <summary>
+            Description
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticAttachmentInfo.FileSize">
+            <summary>
+            Size of the file
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticAttachmentInfo.LastWriteDate">
+            <summary>
+            Last write date
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticTextAttachment">
+            <summary>
+            Represents meta-data about a particular log
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticTextAttachment.Content">
+            <summary>
+            The content of the log file
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticBinaryAttachment">
+            <summary>
+            Represents meta-data about a particular log
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticBinaryAttachment.Content">
+            <summary>
+            The content of the log file
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticReport">
+            <summary>
+            Diagnostics report
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticReport.Note">
+            <summary>
+            Gets or sets the note
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticReport.Submitter">
+            <summary>
+            Represents the submitter
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticReport.Attachments">
+            <summary>
+            Represents the most recent logs for the bug report
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticReport.ApplicationInfo">
+            <summary>
+            Application configuration information
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticReport.CorrelationId">
+            <summary>
+            Gets or sets any ticket related information
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticSyncInfo">
+            <summary>
+            Remote sync info
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticSyncInfo.Filter">
+            <summary>
+            Filter used to sync
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticVersionInfo">
+            <summary>
+            Application version information
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticVersionInfo.#ctor">
+            <summary>
+            Diagnostic version information
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticVersionInfo.#ctor(System.Reflection.Assembly)">
+            <summary>
+            Version information
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticVersionInfo.Name">
+            <summary>
+            Gets or sets the name
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticVersionInfo.Info">
+            <summary>
+            Gets or sets the informational value
             </summary>
         </member>
     </members>
