@@ -133,6 +133,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assigning Device ID.
+        /// </summary>
+        public static string AssigningDeviceId {
+            get {
+                return ResourceManager.GetString("AssigningDeviceId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {
@@ -282,6 +291,15 @@ namespace OpenIZAdmin.Localization {
         public static string ConfirmPasswordRequired {
             get {
                 return ResourceManager.GetString("ConfirmPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Assigning Authority.
+        /// </summary>
+        public static string CreateAssigningAuthority {
+            get {
+                return ResourceManager.GetString("CreateAssigningAuthority", resourceCulture);
             }
         }
         
@@ -453,6 +471,15 @@ namespace OpenIZAdmin.Localization {
         public static string DistinguishedName {
             get {
                 return ResourceManager.GetString("DistinguishedName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Domain Name.
+        /// </summary>
+        public static string DomainName {
+            get {
+                return ResourceManager.GetString("DomainName", resourceCulture);
             }
         }
         
@@ -1479,6 +1506,15 @@ namespace OpenIZAdmin.Localization {
         public static string UpdateToUpdateRole {
             get {
                 return ResourceManager.GetString("UpdateToUpdateRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Url.
+        /// </summary>
+        public static string Url {
+            get {
+                return ResourceManager.GetString("Url", resourceCulture);
             }
         }
         

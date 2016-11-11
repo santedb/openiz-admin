@@ -43,6 +43,13 @@
             <param name="alertMessageInfo">The alert message to be created.</param>
             <returns>Returns the created alert message.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateAssigningAuthority(OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo)">
+            <summary>
+            Creates an assigning authority.
+            </summary>
+            <param name="assigningAuthorityInfo">The assigning authority to be created.</param>
+            <returns>Returns the created assigning authority.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateDevice(OpenIZ.Core.Model.Security.SecurityDevice)">
             <summary>
             Creates a device in the IMS.
@@ -253,6 +260,14 @@
             <param name="alertId">The id of the alert to be updated.</param>
             <param name="alertMessageInfo">The alert message info containing the updated information.</param>
             <returns>Returns the updated alert.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateAssigningAuthority(System.String,OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo)">
+            <summary>
+            Updates an assigning authority.
+            </summary>
+            <param name="assigningAuthorityId">The id of the assigning authority to be updated.</param>
+            <param name="assigningAuthorityInfo">The assigning authority info containing the updated information.</param>
+            <returns>Returns the updated assigning authority.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateConcept(System.String,OpenIZ.Core.Model.DataTypes.Concept)">
             <summary>

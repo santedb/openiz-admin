@@ -636,4 +636,16 @@
   <data name="UserActivatedSuccessfully" xml:space="preserve">
     <value>User activated successfully</value>
   </data>
+  <data name="AssigningDeviceId" xml:space="preserve">
+    <value>Assigning Device ID</value>
+  </data>
+  <data name="CreateAssigningAuthority" xml:space="preserve">
+    <value>Create Assigning Authority</value>
+  </data>
+  <data name="DomainName" xml:space="preserve">
+    <value>Domain Name</value>
+  </data>
+  <data name="Url" xml:space="preserve">
+    <value>Url</value>
+  </data>
 </root>

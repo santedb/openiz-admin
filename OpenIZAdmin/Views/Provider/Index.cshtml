@@ -1,7 +1,6 @@
-﻿
+﻿@model IEnumerable<OpenIZAdmin.Models.ProviderModels.ViewModels.ProviderViewModel>
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
-
+@Html.Partial("_SearchPartial", new OpenIZAdmin.Models.SearchModel())
