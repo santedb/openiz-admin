@@ -221,12 +221,6 @@ namespace OpenIZAdmin.Controllers
 					Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
 					return RedirectToLocal(returnUrl);
 
-				case SignInStatus.LockedOut:
-					return View("Lockout");
-
-				case SignInStatus.RequiresVerification:
-					return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = false });
-
 				case SignInStatus.Failure:
 				default:
 					ModelState.AddModelError("", Locale.IncorrectUsernameOrPassword);
@@ -432,7 +426,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.ProfileUpdatedSuccessfully;
 
-					return RedirectToAction("Index");
+					return RedirectToAction("Index", "Home");
 				}
 				catch (Exception e)
 				{

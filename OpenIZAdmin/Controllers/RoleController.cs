@@ -229,7 +229,7 @@ namespace OpenIZAdmin.Controllers
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			var restClient = new RestClientService("AMI");
+			var restClient = new RestClientService(Constants.AMI);
 
 			restClient.Accept = "application/xml";
 			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);

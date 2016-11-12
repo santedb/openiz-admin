@@ -79,8 +79,6 @@ namespace OpenIZAdmin.Util
 			{
 				var bundle = client.Query<Place>(p => p.IsMobile == false, offset, count);
 
-				bundle.Reconstitute();
-
 				places = bundle.Item.OfType<Place>().Cast<Place>().AsEnumerable();
 			}
 			catch (Exception e)

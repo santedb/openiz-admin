@@ -235,6 +235,112 @@
             Gets or sets the thumbprint
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo">
+            <summary>
+            Represents a wrapper for the <see cref="P:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo.AppletManifest"/> class.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo.#ctor(OpenIZ.Core.Applets.Model.AppletManifest)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo"/> class
+            with a specific applet manifest instance.
+            </summary>
+            <param name="manifest">The applet manifest instance.</param>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo.AppletManifest">
+            <summary>
+            Gets or sets the applet manifest.
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo">
+            <summary>
+            Represents a wrapper for the <see cref="T:OpenIZ.Core.Model.Security.SecurityApplication"/> class.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo.#ctor(OpenIZ.Core.Model.Security.SecurityApplication)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo"/> class
+            with a specific <see cref="T:OpenIZ.Core.Model.Security.SecurityApplication"/> instance.
+            </summary>
+            <param name="application">The security application.</param>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo.Application">
+            <summary>
+            Gets or sets the application.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo.Id">
+            <summary>
+            Gets or sets the id of the application.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo.Name">
+            <summary>
+            Gets or sets the name of the application.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo.ApplicationSecret">
+            <summary>
+            Gets or sets the application secret of the application.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo.Policies">
+            <summary>
+            Gets or sets the policies associated with the application.
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo">
+            <summary>
+            Represents a wrapper for a <see cref="T:OpenIZ.Core.Model.Security.SecurityDevice"/>.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo"/> class.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo.#ctor(OpenIZ.Core.Model.Security.SecurityDevice)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo"/> class
+            with a specific <see cref="T:OpenIZ.Core.Model.Security.SecurityDevice"/> instance.
+            </summary>
+            <param name="device">The security device instance.</param>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo.Device">
+            <summary>
+            Gets or sets the security device of the security device info.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo.Id">
+            <summary>
+            Gets or sets the id of the device.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo.Name">
+            <summary>
+            Gets or sets the name of the device.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo.DeviceSecret">
+            <summary>
+            Gets or sets the secret of the device.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo.Policies">
+            <summary>
+            Gets or sets the list of security policies associated with the security device.
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo">
             <summary>
             Wrapper for policy information
@@ -415,6 +521,21 @@
         <member name="P:OpenIZ.Core.Model.AMI.Auth.TfaMechanismInfo.ChallengeText">
             <summary>
             Gets or sets the challenge text
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.BusinessRules.BusinessRuleInfo">
+            <summary>
+            Represents a business rules information wrapper.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.BusinessRules.BusinessRuleInfo.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.BusinessRules.BusinessRuleInfo"/> class.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.BusinessRules.BusinessRuleInfo.EncodedContent">
+            <summary>
+            Gets or sets the encoded content of the business rule.
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo">

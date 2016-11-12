@@ -24,15 +24,40 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Web.Mvc;
+using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Services.Http;
+using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin.Controllers
 {
+	/// <summary>
+	/// Contains operations for managing applets.
+	/// </summary>
 	[TokenAuthorize]
 	public class AppletController : Controller
 	{
+		/// <summary>
+		/// The internal reference to the <see cref="AmiServiceClient"/> instance.
+		/// </summary>
+		private AmiServiceClient client;
+
+		/// <summary>
+		/// Displays the index view.
+		/// </summary>
+		/// <returns>Returns the index view.</returns>
 		[HttpGet]
 		public ActionResult Index()
 		{
+			try
+			{
+
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+
 			List<AppletViewModel> applets = new List<AppletViewModel>
 			{
 				new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.authentication", "0.5.0.0"),
@@ -41,6 +66,18 @@ namespace OpenIZAdmin.Controllers
 			};
 
 			return View(applets);
+		}
+
+		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		{
+			var restClient = new RestClientService(Constants.AMI);
+
+			restClient.Accept = "application/xml";
+			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
+
+			this.client = new AmiServiceClient(restClient);
+
+			base.OnActionExecuting(filterContext);
 		}
 
 		[HttpGet]

@@ -43,6 +43,13 @@
             <param name="alertMessageInfo">The alert message to be created.</param>
             <returns>Returns the created alert message.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateApplet(OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo)">
+            <summary>
+            Creates an applet.
+            </summary>
+            <param name="appletManifestInfo">The applet manifest info to be created.</param>
+            <returns>Returns the created applet manifest info.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateAssigningAuthority(OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo)">
             <summary>
             Creates an assigning authority.
@@ -84,6 +91,20 @@
             </summary>
             <param name="user">The user to be created.</param>
             <returns>Returns the newly created user.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.DeleteApplet(System.String)">
+            <summary>
+            Deletes an applet.
+            </summary>
+            <param name="appletId">The id of the applet to be deleted.</param>
+            <returns>Returns the deleted applet.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.DeleteAssigningAuthority(System.String)">
+            <summary>
+            Deletes an assigning authority.
+            </summary>
+            <param name="assigningAuthorityId">The id of the assigning authority to be deleted.</param>
+            <returns>Returns the deleted assigning authority.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.DeleteDevice(System.String)">
             <summary>
@@ -147,6 +168,12 @@
             </summary>
             <param name="query">The query expression to use to find the alerts.</param>
             <returns>Returns a collection of alerts which match the specified criteria.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetApplets(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo,System.Boolean}})">
+            <summary>
+            Gets a list of applets for a specific query.
+            </summary>
+            <returns>Returns a list of applet which match the specific query.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetAssigningAuthorities(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.AssigningAuthority,System.Boolean}})">
             <summary>
@@ -260,6 +287,14 @@
             <param name="alertId">The id of the alert to be updated.</param>
             <param name="alertMessageInfo">The alert message info containing the updated information.</param>
             <returns>Returns the updated alert.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateApplet(System.String,OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo)">
+            <summary>
+            Updates an applet.
+            </summary>
+            <param name="appletId">The id of the applet to be updated.</param>
+            <param name="appletManifestInfo">The applet containing the updated information.</param>
+            <returns>Returns the updated applet.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateAssigningAuthority(System.String,OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo)">
             <summary>
