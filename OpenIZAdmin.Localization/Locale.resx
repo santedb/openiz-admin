@@ -644,6 +644,7 @@
   </data>
   <data name="SearchProviders" xml:space="preserve">
     <value>Search Providers</value>	
+  </data>
   <data name="AssigningDeviceId" xml:space="preserve">
     <value>Assigning Device ID</value>
   </data>
