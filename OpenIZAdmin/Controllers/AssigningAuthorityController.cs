@@ -127,9 +127,10 @@ namespace OpenIZAdmin.Controllers
 				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 				{
 					var collection = this.client.GetAssigningAuthorities(p => p.Name.Contains(searchTerm) && p.ObsoletionTime==null);
-					TempData["searchTerm"] = searchTerm;
+                    var filtered = collection.CollectionItem.FindAll(p => p.AssigningAuthority.ObsoletionTime == null);//TEMP: Until the obsoletion time is taken as query parameter
 
-					return PartialView("_AssigningAuthoritySearchResultsPartial", collection.CollectionItem.Select(p => AssigningAuthorityUtil.ToAssigningAuthorityViewModel(p)));
+                    TempData["searchTerm"] = searchTerm;
+					return PartialView("_AssigningAuthoritySearchResultsPartial", filtered.Select(p => AssigningAuthorityUtil.ToAssigningAuthorityViewModel(p)));
 				}
 			}
 			catch (Exception e)
@@ -160,8 +161,7 @@ namespace OpenIZAdmin.Controllers
                     var singleAssigningAuthority = assigningAuthority.CollectionItem.SingleOrDefault();
 
                     singleAssigningAuthority.AssigningAuthority.ObsoletionTime = new DateTimeOffset(DateTime.Now);
-
-					this.client.UpdateAssigningAuthority(key, singleAssigningAuthority);
+					this.client.DeleteAssigningAuthority(key);
                     return RedirectToAction("Index");
                 }
                 catch (Exception e)
@@ -219,6 +219,8 @@ namespace OpenIZAdmin.Controllers
                     object model = null;
 
                     return View(assigningAuthority.CollectionItem.Select(p => AssigningAuthorityUtil.ToEditAssigningAuthorityModel(p)).SingleOrDefault());
+
+
                 }
                 catch (Exception e)
                 {
@@ -229,6 +231,41 @@ namespace OpenIZAdmin.Controllers
                 }
             }
 
+            TempData["error"] = "Assigning authority not found";
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public ActionResult Edit(EditAssigningAuthorityModel model)
+        {
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var assigningAuthority = this.client.GetAssigningAuthorities(m => m.Key == model.Key).CollectionItem.SingleOrDefault();
+
+                    assigningAuthority.AssigningAuthority.Url = model.Url;
+                    assigningAuthority.AssigningAuthority.DomainName = model.DomainName;
+                    assigningAuthority.AssigningAuthority.Description = model.Description;
+                    assigningAuthority.AssigningAuthority.Oid = model.Oid;
+                    assigningAuthority.AssigningAuthority.Name = model.Name;
+
+                    var key = assigningAuthority.AssigningAuthority.Key.Value.ToString();
+                    this.client.UpdateAssigningAuthority(key,  assigningAuthority);
+
+                    return View("Index");
+
+
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    Trace.TraceError("Unable to find assigning authority: {0}", e.StackTrace);
+#endif
+                    Trace.TraceError("Unable to find assigning authority: {0}", e.Message);
+                }
+            }
             TempData["error"] = "Assigning authority not found";
             return RedirectToAction("Index");
         }

@@ -86,7 +86,10 @@ namespace OpenIZAdmin.Util
             assigningAuthority.AssigningAuthority = new AssigningAuthority()
             {
                 Name = model.Name,
-                Oid = model.Oid
+                Oid = model.Oid,
+                DomainName = model.DomainName,
+                Description = model.Description,
+                Url = model.Url
             };
 
             return assigningAuthority;

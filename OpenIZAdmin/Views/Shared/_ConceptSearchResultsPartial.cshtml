@@ -43,13 +43,18 @@
                                             @Locale.View
                                             <span class="glyphicon glyphicon-eye-open"></span>
                                         </a>
-}
+                                        <a class="btn btn-primary text-white" href="/Concept/Edit?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
+                                            @Locale.Edit
+                                            <span class="glyphicon glyphicon-edit"></span>
+                                        </a>
+                                    }
                                     else if (item.ConceptSearchType == OpenIZAdmin.Models.ConceptModels.ConceptSearchType.ConceptSet)
                                     {
                                         <a class="btn btn-primary" href="/Concept/ViewConceptSet?key=@item.Key">
                                             @Locale.View
                                             <span class="glyphicon glyphicon-eye-open"></span>
                                         </a>
+
 }
                                 </span>
                             </td>

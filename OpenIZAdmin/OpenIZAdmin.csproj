@@ -256,6 +256,7 @@
     <Compile Include="Models\CertificateModels\ViewModels\CertificateViewModel.cs" />
     <Compile Include="Models\ConceptModels\ConceptSearchType.cs" />
     <Compile Include="Models\ConceptModels\CreateConceptModel.cs" />
+    <Compile Include="Models\ConceptModels\EditConceptModel.cs" />
     <Compile Include="Models\ConceptModels\SearchConceptModel.cs" />
     <Compile Include="Models\ConceptModels\ViewModels\ConceptSearchResultViewModel.cs" />
     <Compile Include="Models\ConceptModels\ViewModels\ConceptViewModel.cs" />
@@ -433,16 +434,14 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Role\Edit.cshtml" />
     <Content Include="Views\Shared\_LoadingBar.cshtml" />
-    
     <Content Include="Views\Shared\_ProviderSearchResultsPartial.cshtml" />
-
     <Content Include="Views\AssigningAuthority\Index.cshtml" />
     <Content Include="Views\Shared\_AssigningAuthoritySearchResultsPartial.cshtml" />
     <Content Include="Views\AssigningAuthority\Create.cshtml" />
     <Content Include="Views\AssigningAuthority\ViewAssigningAuthority.cshtml" />
     <Content Include="Views\AssigningAuthority\Edit.cshtml" />
     <Content Include="Views\Shared\_NotFound.cshtml" />
-
+    <Content Include="Views\Concept\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />

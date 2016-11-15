@@ -42,6 +42,7 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
         public string Url { get; set; }
 
         [Display(Name = "DomainName", ResourceType = typeof(Localization.Locale))]
+        [Required]
         public string DomainName { get; set; }
 
         [Display(Name = "Description", ResourceType = typeof(Localization.Locale))]

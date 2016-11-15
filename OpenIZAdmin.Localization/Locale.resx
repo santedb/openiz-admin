@@ -643,7 +643,7 @@
     <value>Edit Provider</value>
   </data>
   <data name="SearchProviders" xml:space="preserve">
-    <value>Search Providers</value>	
+    <value>Search Providers</value>
   </data>
   <data name="AssigningDeviceId" xml:space="preserve">
     <value>Assigning Device ID</value>
@@ -683,5 +683,8 @@
   </data>
   <data name="NotFound" xml:space="preserve">
     <value>Not Found</value>
+  </data>
+  <data name="HL7CX4" xml:space="preserve">
+    <value>HL7CX4</value>
   </data>
 </root>
