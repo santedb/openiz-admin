@@ -1,0 +1,44 @@
+﻿@model OpenIZAdmin.Models.AssigningAuthorityModels.ViewModels.AssigningAuthorityViewModel
+@{
+    ViewBag.Title = Locale.AssigningAuthorities;
+}
+
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        <span>@Locale.Policy</span>
+        <div class="pull-right">
+            @*<a href="~/Policy/Edit">
+                <span class="glyphicon glyphicon-edit"></span>
+                @Locale.Edit
+            </a>*@
+        </div>
+    </div>
+    <div class="panel panel-body panel-default">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.Oid, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Oid, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.Description, new { @class = "control-label" })
+                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.Url, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Url, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-3">
+                        @Html.LabelFor(m => m.DomainName, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.DomainName, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -32,6 +32,9 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
+	/// <summary>
+	/// Provides operations for managing devices.
+	/// </summary>
 	[TokenAuthorize]
 	public class DeviceController : Controller
 	{
@@ -110,7 +113,7 @@ namespace OpenIZAdmin.Controllers
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			var restClient = new RestClientService("AMI");
+			var restClient = new RestClientService(Constants.AMI);
 
 			restClient.Accept = "application/xml";
 			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);

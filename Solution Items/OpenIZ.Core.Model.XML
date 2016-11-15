@@ -776,6 +776,11 @@
             Entity collection
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Collection.SimpleAssociationCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Create simple assoc
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Model.Collection.SimpleAssociationCollection`1.#ctor(OpenIZ.Core.Model.Interfaces.IIdentifiedEntity)">
             <summary>
             Creates the specified entity collection in the specified context
@@ -934,6 +939,11 @@
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.Collection.VersionedAssociationCollection`1.#ctor">
+            <summary>
+            Entity collection
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Collection.VersionedAssociationCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
             <summary>
             Entity collection
             </summary>
@@ -4490,7 +4500,7 @@
         </member>
         <member name="P:OpenIZ.Core.Model.Security.SecurityApplication.Name">
             <summary>
-            Gets or sets the name of the security device/user/role/devie
+            Gets or sets the name of the security device/user/role/device.
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Security.SecurityDevice">
