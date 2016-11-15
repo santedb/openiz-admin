@@ -18,6 +18,7 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.AMI.DataTypes;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
@@ -86,12 +87,10 @@ namespace OpenIZAdmin.Controllers
             {
                 try
                 {
-                    /*var assigningAuthority = this.client.GetAssigningAuthorities(m => m.Key == assigningAuthorityKey);
-                    var singleAssigningAuthority = assigningAuthority.CollectionItem.SingleOrDefault();
+                    var test = "";
 
-                    singleAssigningAuthority.AssigningAuthority.ObsoletionTime = new DateTimeOffset(DateTime.Now);
+                    var results = this.client.CreateAssigningAuthority(AssigningAuthorityUtil.ToCreateAssigningAuthorityModel(model));
 
-                    this.client.CreateAssigningAuthority(singleAssigningAuthority);*/
                     return RedirectToAction("Index");
                 }
                 catch (Exception e)
