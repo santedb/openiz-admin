@@ -68,6 +68,10 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="OpenIZ.Core.Alert, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Solution Items\OpenIZ.Core.Alert.dll</HintPath>
+    </Reference>
     <Reference Include="OpenIZ.Core.Applets">
       <HintPath>..\Solution Items\OpenIZ.Core.Applets.dll</HintPath>
     </Reference>
@@ -199,6 +203,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Attributes\TokenAuthorize.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AlertController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\ConceptController.cs" />
     <Compile Include="Controllers\LocaleController.cs" />
@@ -232,6 +237,8 @@
     <Compile Include="Models\AccountModels\ChangePasswordModel.cs" />
     <Compile Include="Models\AccountModels\ManageModel.cs" />
     <Compile Include="Models\AccountModels\UpdateProfileModel.cs" />
+    <Compile Include="Models\AlertModels\AlertMessageFlags.cs" />
+    <Compile Include="Models\AlertModels\ViewModels\AlertViewModel.cs" />
     <Compile Include="Models\AppletModels\UploadAppletModel.cs" />
     <Compile Include="Models\ApplicationModels\CreateApplicationModel.cs" />
     <Compile Include="Models\AssigningAuthorityModels\CreateAssigningAuthorityModel.cs" />
@@ -296,6 +303,7 @@
     <Compile Include="Services\Http\ServiceClientEndpoint.cs" />
     <Compile Include="Services\Http\ServiceClientSecurity.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Util\AlertUtil.cs" />
     <Compile Include="Util\CertificateUtil.cs" />
     <Compile Include="Util\ConceptUtil.cs" />
     <Compile Include="Util\DeviceUtil.cs" />
@@ -432,10 +440,13 @@
     <Content Include="Views\AssigningAuthority\Create.cshtml" />
     <Content Include="Views\AssigningAuthority\ViewAssigningAuthority.cshtml" />
     <Content Include="Views\AssigningAuthority\Edit.cshtml" />
+    <Content Include="Views\Shared\_NotFound.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Alert\" />
+    <Folder Include="Views\Application\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

@@ -162,7 +162,7 @@ namespace OpenIZAdmin.Controllers
 
                     singleAssigningAuthority.AssigningAuthority.ObsoletionTime = new DateTimeOffset(DateTime.Now);
 
-                    this.client.UpdateAssigningAuthority(key, singleAssigningAuthority);
+					this.client.UpdateAssigningAuthority(key, singleAssigningAuthority);
                     return RedirectToAction("Index");
                 }
                 catch (Exception e)

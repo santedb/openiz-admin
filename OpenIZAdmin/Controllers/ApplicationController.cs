@@ -31,7 +31,7 @@ using System.Web.Mvc;
 namespace OpenIZAdmin.Controllers
 {
 	/// <summary>
-	/// Contains methods for managing security application.
+	/// Provides operations for managing security applications.
 	/// </summary>
 	[TokenAuthorize]
 	public class ApplicationController : Controller
