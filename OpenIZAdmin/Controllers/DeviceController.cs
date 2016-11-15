@@ -32,6 +32,9 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
+	/// <summary>
+	/// Provides operations for managing devices.
+	/// </summary>
 	[TokenAuthorize]
 	public class DeviceController : Controller
 	{
