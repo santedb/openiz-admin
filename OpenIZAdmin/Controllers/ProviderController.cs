@@ -21,24 +21,34 @@ using OpenIZ.Core.Model.Roles;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models.ProviderModels;
+using OpenIZAdmin.Models.ProviderModels.ViewModels;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
 using OpenIZAdmin.Util;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Web.Mvc;
+using System.Linq;
+using OpenIZAdmin.Localization;
+using OpenIZ.Messaging.AMI.Client;
 
 namespace OpenIZAdmin.Controllers
 {
 	[TokenAuthorize]
 	public class ProviderController : Controller
 	{
-		/// <summary>
-		/// The internal reference to the <see cref="OpenIZ.Messaging.IMSI.Client.ImsiServiceClient"/> instance.
+        /// <summary>
+		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
 		/// </summary>
-		private ImsiServiceClient client;
+		private AmiServiceClient amiClient;
 
-		[HttpGet]
+        /// <summary>
+        /// The internal reference to the <see cref="ImsiServiceClient"/> instance.
+        /// </summary>
+        private ImsiServiceClient imsiClient;
+
+        [HttpGet]
 		public ActionResult Create()
 		{
 			return View();
@@ -52,7 +62,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var provider = this.client.Create<Provider>(ProviderUtil.ToProvider(model));
+					var provider = this.imsiClient.Create<Provider>(ProviderUtil.ToProvider(model));
 
 					TempData["success"] = "Provider created successfully";
 					return RedirectToAction("ViewProvider", new { key = provider.Key, versionKey = provider.VersionKey });
@@ -71,10 +81,41 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult Edit()
+		public ActionResult Edit(string id)
 		{
-			return View();
-		}
+            Guid userId = Guid.Empty;
+
+            if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out userId))
+            {
+                var providerEntity = ProviderUtil.GetProviderEntity(this.imsiClient, userId.ToString());
+
+                if (providerEntity == null)
+                {
+                    TempData["error"] = Locale.UserNotFound;
+
+                    return RedirectToAction("Index");
+                }
+
+                EditProviderModel model = ProviderUtil.ToEditProviderModel(providerEntity);
+
+                //model.FacilityList.Add(new SelectListItem { Text = "", Value = "" });
+                //model.FacilityList.AddRange(PlaceUtil.GetPlaces(this.imsiClient).Select(p => new SelectListItem { Text = string.Join(" ", p.Names.SelectMany(n => n.Component).Select(c => c.Value)), Value = p.Key.ToString() }));
+
+                //model.FacilityList = model.FacilityList.OrderBy(p => p.Text).ToList();
+
+                //model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
+                //model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
+
+                //model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
+                //model.RolesList.AddRange(RoleUtil.GetAllRoles(this.amiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }));
+
+                return View(model);
+            }
+
+            TempData["error"] = Locale.UserNotFound;
+
+            return RedirectToAction("Index");
+        }
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -84,7 +125,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var provider = this.client.Update<Provider>(ProviderUtil.ToProvider(model));
+					var provider = this.imsiClient.Update<Provider>(ProviderUtil.ToProvider(model));
 
 					TempData["success"] = "Provider updated successfully";
 					return RedirectToAction("ViewProvider", new { key = provider.Key, versionKey = provider.VersionKey });
@@ -116,7 +157,7 @@ namespace OpenIZAdmin.Controllers
 			restClient.Accept = "application/xml";
 			restClient.Credentials = new ImsCredentials(this.User, HttpContext.Request);
 
-			this.client = new ImsiServiceClient(restClient);
+			this.imsiClient = new ImsiServiceClient(restClient);
 
 			base.OnActionExecuting(filterContext);
 		}
@@ -132,7 +173,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var provider = this.client.Get<Provider>(providerKey, providerVersioKey);
+					var provider = this.imsiClient.Get<Provider>(providerKey, providerVersioKey);
 
 					object model = null;
 
@@ -150,5 +191,38 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = "Provider not found";
 			return RedirectToAction("Index");
 		}
-	}
+
+
+        [HttpGet]
+        public ActionResult Search(string searchTerm)
+        {
+            IEnumerable<ProviderViewModel> provider = new List<ProviderViewModel>();
+
+            try
+            {
+                if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+                {                                        
+                    var collection = this.imsiClient.Query<Provider>(i => i.Names.Any(x => x.Component.Any(r => r.Value.Contains(searchTerm))));                    
+
+                    TempData["searchTerm"] = searchTerm;
+
+                    return PartialView("_ProviderSearchResultsPartial", collection.Item.OfType<Provider>().Select(u => ProviderUtil.ToProviderViewModel(u)));                    
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Trace.TraceError("Unable to search Providers: {0}", e.StackTrace);
+#endif
+                Trace.TraceError("Unable to search Providers: {0}", e.Message);
+            }
+
+            TempData["error"] = "Invalid search, please check your search criteria";
+            TempData["searchTerm"] = searchTerm;
+
+            return PartialView("_ProviderSearchResultsPartial", provider);
+        }
+        
+
+    }
 }

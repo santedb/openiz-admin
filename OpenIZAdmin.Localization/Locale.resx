@@ -636,4 +636,13 @@
   <data name="UserActivatedSuccessfully" xml:space="preserve">
     <value>User activated successfully</value>
   </data>
+  <data name="CreateProvider" xml:space="preserve">
+    <value>Create Provider</value>
+  </data>
+  <data name="EditProvider" xml:space="preserve">
+    <value>Edit Provider</value>
+  </data>
+  <data name="SearchProviders" xml:space="preserve">
+    <value>Search Providers</value>
+  </data>
 </root>

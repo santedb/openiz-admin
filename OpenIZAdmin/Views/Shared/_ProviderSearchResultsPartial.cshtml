@@ -1,0 +1,73 @@
+﻿@model IEnumerable<OpenIZAdmin.Models.ProviderModels.ViewModels.ProviderViewModel>
+@{
+    ViewBag.Title = Locale.Providers;
+}
+
+<h2>_ProviderSearchResultsPartial</h2>
+
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        @Locale.Providers;
+        <div class="pull-right">
+            <span>@Locale.New</span>
+            <a href="~/Provider/Create" class="glyphicon glyphicon-plus-sign"></a>
+        </div>
+    </div>
+    <div class="panel panel-body">
+        @if (Model.Count() > 0)
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Names)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.UserId)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.ProviderSpecialty)
+                        </th>                       
+                        <th>
+                            @Html.DisplayNameFor(m => m.CreationTime)
+                        </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><span class="glyphicon glyphicon-user pull-left" aria-hidden="true"></span></td>                            
+                            <td>@item.Name</td>                            
+                            <td>@item.UserId</td>
+                            <td>@item.ProviderSpecialty</td>                            
+                            <td>@item.CreationTime</td>
+                            <td>
+                                <a class="btn btn-primary" href="/Provider/ViewUser/@item.UserId">
+                                    @Locale.View
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a class="btn btn-warning" href="/Provider/Edit/@item.UserId">
+                                    @Locale.Edit
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                            </td>                            
+                        </tr>}
+                </tbody>
+            </table>
+        }
+        else
+        {
+            @*<p>@Locale.NoUsersAdded</p>*@
+            <p>No Providers Found - This is Satanic (oops...Static) Text!!!</p>
+        }
+
+
+    </div>
+</div>
+

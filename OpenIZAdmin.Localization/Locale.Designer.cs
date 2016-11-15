@@ -322,6 +322,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Provider.
+        /// </summary>
+        public static string CreateProvider {
+            get {
+                return ResourceManager.GetString("CreateProvider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Role.
         /// </summary>
         public static string CreateRole {
@@ -462,6 +471,15 @@ namespace OpenIZAdmin.Localization {
         public static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Provider.
+        /// </summary>
+        public static string EditProvider {
+            get {
+                return ResourceManager.GetString("EditProvider", resourceCulture);
             }
         }
         
@@ -1254,6 +1272,15 @@ namespace OpenIZAdmin.Localization {
         public static string Search {
             get {
                 return ResourceManager.GetString("Search", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Search Providers.
+        /// </summary>
+        public static string SearchProviders {
+            get {
+                return ResourceManager.GetString("SearchProviders", resourceCulture);
             }
         }
         

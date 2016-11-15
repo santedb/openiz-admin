@@ -624,4 +624,13 @@
   <data name="UserActivatedSuccessfully" xml:space="preserve">
     <value>Mtumiaji kuanzishwa kwa mafanikio</value>
   </data>
+  <data name="CreateProvider" xml:space="preserve">
+    <value>Kujenga Mtoa</value>
+  </data>
+  <data name="EditProvider" xml:space="preserve">
+    <value>Edit Mtoa</value>
+  </data>
+  <data name="SearchProviders" xml:space="preserve">
+    <value>Tafuta Watoa</value>
+  </data>
 </root>

@@ -417,6 +417,7 @@
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Role\Edit.cshtml" />
     <Content Include="Views\Shared\_LoadingBar.cshtml" />
+    <Content Include="Views\Shared\_ProviderSearchResultsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />
