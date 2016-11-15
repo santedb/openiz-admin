@@ -21,12 +21,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.DeviceModels
 {
+	/// <summary>
+	/// Represents a create device model.
+	/// </summary>
 	public class CreateDeviceModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CreateDeviceModel"/> class.
+		/// </summary>
 		public CreateDeviceModel()
 		{
 		}
 
+		/// <summary>
+		/// Gets or sets the name of the device.
+		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]

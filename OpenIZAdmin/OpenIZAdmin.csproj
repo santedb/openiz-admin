@@ -199,6 +199,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Attributes\TokenAuthorize.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\ConceptController.cs" />
     <Compile Include="Controllers\LocaleController.cs" />
     <Compile Include="Controllers\PlaceController.cs" />
@@ -232,6 +233,7 @@
     <Compile Include="Models\AccountModels\ManageModel.cs" />
     <Compile Include="Models\AccountModels\UpdateProfileModel.cs" />
     <Compile Include="Models\AppletModels\UploadAppletModel.cs" />
+    <Compile Include="Models\ApplicationModels\CreateApplicationModel.cs" />
     <Compile Include="Models\AssigningAuthorityModels\CreateAssigningAuthorityModel.cs" />
     <Compile Include="Models\AssigningAuthorityModels\EditAssigningAuthorityModel.cs" />
     <Compile Include="Models\AssigningAuthorityModels\ViewModels\AssigningAuthorityViewModel.cs" />
