@@ -1,0 +1,77 @@
+﻿@using OpenIZAdmin.Models.AlertModels
+@model IEnumerable<OpenIZAdmin.Models.AlertModels.ViewModels.AlertViewModel>
+@{
+    ViewBag.Title = Locale.Alerts;
+}
+
+<div id="alert-modal" class="modal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">@Locale.Alerts</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>
+                                @Locale.To
+                            </td>
+                            <td>
+                                @Locale.From
+                            </td>
+                            <td>
+                                @Locale.Subject
+                            </td>
+                            <td>
+                                @Locale.Time
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id="alert-results">
+                        @foreach (var item in Model)
+                        {
+                            var style = "";
+                            if (item.Flags == AlertMessageFlags.Alert)
+                            {
+                                style = "bg-danger";
+                            }
+                            if (item.Flags == AlertMessageFlags.HighPriority)
+                            {
+                                style = "bg-warning";
+                            }
+                            else if (item.Flags == AlertMessageFlags.System)
+                            {
+                                style = "bg-success";
+                            }
+                            <tr class="@style">
+                                <td>
+                                    @item.To
+                                </td>
+                                <td>
+                                    @item.From
+                                </td>
+                                <td>
+                                    @item.Subject
+                                </td>
+                                <td>
+                                    @item.Time
+                                </td>
+                                <td>
+                                    @Html.ActionLink(Locale.View, "ViewAlert", new { id = item.Id }, new { @class = "btn btn-primary" })
+                                </td>
+                            </tr>}
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <div class="form-group">
+                    <div class="col-md-offset-9 col-md-3">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">@Locale.Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -441,11 +441,12 @@
     <Content Include="Views\AssigningAuthority\ViewAssigningAuthority.cshtml" />
     <Content Include="Views\AssigningAuthority\Edit.cshtml" />
     <Content Include="Views\Shared\_NotFound.cshtml" />
+    <Content Include="Views\Alert\ViewAlert.cshtml" />
+    <Content Include="Views\Shared\_AlertsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Alert\" />
     <Folder Include="Views\Application\" />
   </ItemGroup>
   <ItemGroup>
