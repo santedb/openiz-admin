@@ -1840,6 +1840,13 @@
             <param name="password">The new password of the user.</param>
             <returns>Returns the updated user.</returns>
         </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.CreateApplication(OpenIZ.Core.Model.Security.SecurityApplication)">
+            <summary>
+            Creates a security application.
+            </summary>
+            <param name="application">The security application.</param>
+            <returns>Returns the newly created application.</returns>
+        </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.CreateDevice(OpenIZ.Core.Model.Security.SecurityDevice)">
             <summary>
             Creates a device.
@@ -1874,6 +1881,23 @@
             Creates the specified user entity
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindApplications(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityApplication,System.Boolean}})">
+            <summary>
+            Gets a list of applications based on a query.
+            </summary>
+            <param name="query">The query to use to match the application.</param>
+            <returns>Returns a list of applications.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindApplications(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityApplication,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Gets a list of applications based on a query.
+            </summary>
+            <param name="query">The filter to use to match the applications.</param>
+            <param name="offset">The offset of the search.</param>
+            <param name="count">The number of applications.</param>
+            <param name="totalResults">The total number of applications.</param>
+            <returns>Returns a list of applications.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.FindDevices(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityDevice,System.Boolean}})">
             <summary>
@@ -1958,6 +1982,13 @@
             <param name="totalResults">The total number of users.</param>
             <returns>Returns a list of roles.</returns>
         </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.GetApplication(System.Guid)">
+            <summary>
+            Gets a specific application.
+            </summary>
+            <param name="applicationId">The id of the application to be retrieved.</param>
+            <returns>Returns a application.</returns>
+        </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.GetDevice(System.Guid)">
             <summary>
             Gets a specific device.
@@ -2000,12 +2031,26 @@
             </summary>
             <param name="userId">The id of the user to lock.</param>
         </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.ObsoleteApplication(System.Guid)">
+            <summary>
+            Obsoletes an application.
+            </summary>
+            <param name="applicationId">The id of the application to be obsoleted.</param>
+            <returns>Returns the obsoleted application.</returns>
+        </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.ObsoleteDevice(System.Guid)">
             <summary>
             Obsoletes a device.
             </summary>
             <param name="deviceId">The id of the device to be obsoleted.</param>
             <returns>Returns the obsoleted device.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.ObsoletePolicy(System.Guid)">
+            <summary>
+            Obsoletes a policy.
+            </summary>
+            <param name="policyId">THe id of the policy to be obsoleted.</param>
+            <returns>Returns the obsoleted policy.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.ObsoleteRole(System.Guid)">
             <summary>
@@ -2025,6 +2070,13 @@
             <summary>
             Obsoletes the specfied user entity
             </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.SaveApplication(OpenIZ.Core.Model.Security.SecurityApplication)">
+            <summary>
+            Updates a security application.
+            </summary>
+            <param name="application">The security application containing the updated information.</param>
+            <returns>Returns the updated application.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.SavePolicy(OpenIZ.Core.Model.Security.SecurityPolicy)">
             <summary>
