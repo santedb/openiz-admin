@@ -282,7 +282,51 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-		[HttpGet]
+        [HttpGet]
+        public ActionResult Edit(string key, string versionKey)
+        {
+            if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
+            {
+                Guid conceptId = Guid.Empty;
+                Guid conceptVersion = Guid.Empty;
+
+                if (Guid.TryParse(key, out conceptId) && Guid.TryParse(versionKey, out conceptVersion))
+                {
+                    List<KeyValuePair<string, object>> query = new List<KeyValuePair<string, object>>();
+
+                    if (conceptVersion != Guid.Empty)
+                    {
+                        query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == conceptId && c.VersionKey == conceptVersion));
+                    }
+                    else
+                    {
+                        query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == conceptId));
+                    }
+
+                    var concept = this.amiClient.GetConcepts(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray()))).CollectionItem.SingleOrDefault();
+
+                    if (concept == null)
+                    {
+                        TempData["error"] = Locale.ConceptNotFound;
+
+                        return RedirectToAction("Index");
+                    }
+                    var editConceptModel = new EditConceptModel()
+                    {
+                        Mnemonic = concept.Mnemonic,
+                        Name = concept.ConceptNames.Select(c => c.Name).Aggregate((a, b) => (a + ", " + b)),
+                        Language = concept.ConceptNames.Select(c => c.Language).FirstOrDefault()
+                };
+                    return View(editConceptModel);
+                }
+            }
+
+            TempData["error"] = Locale.ConceptNotFound;
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
 		public ActionResult ViewConceptSet(string key)
 		{
 			if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))

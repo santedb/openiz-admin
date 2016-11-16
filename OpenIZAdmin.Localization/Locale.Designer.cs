@@ -745,6 +745,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to HL7CX4.
+        /// </summary>
+        public static string HL7CX4 {
+            get {
+                return ResourceManager.GetString("HL7CX4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Id.
         /// </summary>
         public static string Id {

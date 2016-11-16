@@ -29,19 +29,20 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
         public CreateAssigningAuthorityModel()
         {
         }
-
-        public Guid Key { get; set; }
-
+        
         [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+        [Required]
         public string Name { get; set; }
 
         [Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
+        [Required]
         public string Oid { get; set; }
 
         [Display(Name = "Url", ResourceType = typeof(Localization.Locale))]
         public string Url { get; set; }
 
         [Display(Name = "DomainName", ResourceType = typeof(Localization.Locale))]
+        [Required]
         public string DomainName { get; set; }
 
         [Display(Name = "Description", ResourceType = typeof(Localization.Locale))]

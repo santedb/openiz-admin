@@ -22,20 +22,35 @@ using System.Web;
 
 namespace OpenIZAdmin.Models.AppletModels
 {
+	/// <summary>
+	/// Represents a model to upload an applet.
+	/// </summary>
 	public class UploadAppletModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="UploadAppletModel"/> class.
+		/// </summary>
 		public UploadAppletModel()
 		{
 		}
 
+		/// <summary>
+		/// Gets or sets the description of the applet.
+		/// </summary>
 		[Required]
 		[StringLength(255)]
 		public string Description { get; set; }
 
+		/// <summary>
+		/// Gets or sets the applet content.
+		/// </summary>
 		[Required]
 		[FileExtensions(Extensions = ".pak.gz, .zip, .xml", ErrorMessage = "Unsupported file format, the allow file types are .pak.gz, .zip, .xml")]
 		public HttpPostedFileBase File { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name of the applet.
+		/// </summary>
 		[Required]
 		[StringLength(100)]
 		public string Name { get; set; }

@@ -19,6 +19,7 @@
 
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.AMI.DataTypes;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Models.AssigningAuthorityModels;
@@ -77,6 +78,21 @@ namespace OpenIZAdmin.Util
             viewModel.DomainName = assigningAuthority.AssigningAuthority.DomainName;
             viewModel.Description = assigningAuthority.AssigningAuthority.Description;
             return viewModel;
+        }
+
+        public static AssigningAuthorityInfo ToCreateAssigningAuthorityModel(CreateAssigningAuthorityModel model)
+        {
+            AssigningAuthorityInfo assigningAuthority = new AssigningAuthorityInfo();
+            assigningAuthority.AssigningAuthority = new AssigningAuthority()
+            {
+                Name = model.Name,
+                Oid = model.Oid,
+                DomainName = model.DomainName,
+                Description = model.Description,
+                Url = model.Url
+            };
+
+            return assigningAuthority;
         }
     }
 }

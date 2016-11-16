@@ -57,9 +57,10 @@
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="@Locale.Submit" class="btn btn-default" />
                 </div>
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="button" value="@Locale.Deactivate" class="btn btn-danger" href="/AssigningAuthority/Delete?key=@Model.Key"/>
-                </div>
+                <a class="btn btn-danger" href="/AssigningAuthority/Delete?key=@Model.Key">
+                    @Locale.Deactivate
+                    <span class="glyphicon glyphicon-edit"></span>
+                </a>
             </div>
         }
     </div>

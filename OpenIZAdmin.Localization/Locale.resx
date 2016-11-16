@@ -690,4 +690,7 @@
   <data name="ProviderSpecialty" xml:space="preserve">
     <value>Provider Specialty</value>
   </data>
+  <data name="HL7CX4" xml:space="preserve">
+    <value>HL7CX4</value>
+  </data>
 </root>
