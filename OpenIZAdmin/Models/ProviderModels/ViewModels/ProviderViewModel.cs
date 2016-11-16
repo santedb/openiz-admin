@@ -39,42 +39,46 @@ namespace OpenIZAdmin.Models.ProviderModels.ViewModels
         }
        
         /// <summary>
-        /// Gets or sets the last login time of the user.
-        /// </summary>
-        //[Display(Name = "LastLoginTime", ResourceType = typeof(Localization.Locale))]
+        /// Gets or sets the creation date/time of the provider.
+        /// </summary>        
         [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-        public DateTimeOffset? CreationTime { get; set; }       
+        public DateTimeOffset? CreationTime { get; set; }
 
         /// <summary>
-        /// Gets or sets the names of the user.
+        /// Gets or sets the key (GUID) of the provider.
         /// </summary>
-        [Display(Name = "Names", ResourceType = typeof(Localization.Locale))]
-        public List<EntityName> Names { get; set; }
+        [Display(Name = "Key", ResourceType = typeof(Localization.Locale))]
+        public Guid? Key { get; set; }       
 
         /// <summary>
-        /// Gets or sets the names of the user.
+        /// Gets or sets the name of the provider.
         /// </summary>
         [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the username of the user.
-        /// </summary>
-        //[Display(Name = "ProviderSpecialty", ResourceType = typeof(Localization.Locale))]
-        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        public Concept ProviderSpecialty { get; set; }
+        /// Gets or sets the specialty of the provider.
+        /// </summary>        
+        [Display(Name = "ProviderSpecialty", ResourceType = typeof(Localization.Locale))]
+        public string ProviderSpecialty { get; set; }
 
         /// <summary>
-        /// Gets or sets the id of the user.
+        /// Gets or sets the user id of the provider.
         /// </summary>
-        [Display(Name = "UserId", ResourceType = typeof(Localization.Locale))]
-        //public IdentifierBase<Entity> UserId { get; set; }
-        public string UserId { get; set; }
+        [Display(Name = "UserId", ResourceType = typeof(Localization.Locale))]        
+        public string UserId { get; set; }       
 
         /// <summary>
-        /// Gets or sets the username of the user.
+        /// Gets or sets the username of the provider.
         /// </summary>
         [Display(Name = "Username", ResourceType = typeof(Localization.Locale))]
         public string Username { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Version key (GUID) of the provider.
+        /// </summary>
+        [Display(Name = "VersionKey", ResourceType = typeof(Localization.Locale))]
+        public Guid? VersionKey { get; set; }
+        
     }
 }

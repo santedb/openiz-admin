@@ -46,11 +46,12 @@ namespace OpenIZAdmin.Util
 		public static ProviderViewModel ToProviderViewModel(Provider provider)
 		{
             ProviderViewModel viewModel = new ProviderViewModel();
-
-            viewModel.Name = provider.Names.FirstOrDefault().NameUse.ToString();            
-            //i => i.Names.Any(x => x.Component.Any(r => r.Value.Contains(searchTerm))));
+            
+            viewModel.Name = string.Join(" ", provider.Names.SelectMany(x => x.Component).Select(m => m.Value));
             viewModel.UserId = provider.Identifiers.FirstOrDefault().Value;
-            viewModel.ProviderSpecialty = provider.ProviderSpecialty;
+            viewModel.Key = provider.Identifiers.FirstOrDefault().Key;
+            viewModel.VersionKey = provider.VersionKey;
+            viewModel.ProviderSpecialty = (provider.ProviderSpecialty != null) ? string.Join(" ", provider.ProviderSpecialty.ConceptNames.Select(m => m.Name)) : string.Empty;
             viewModel.CreationTime = provider.CreationTime;
 
             return viewModel;            
@@ -60,16 +61,16 @@ namespace OpenIZAdmin.Util
 		/// Gets a user entity.
 		/// </summary>
 		/// <param name="client">The IMSI service client.</param>
-		/// <param name="userId">The user id of the user to retrieve.</param>
-		/// <returns>Returns a user entity or null if no user entity is found.</returns>
+		/// <param name="key">The GUID key of the provider to retrieve.</param>
+		/// <returns>Returns a provider entity or null if no provider entity is found.</returns>
 		//public static Provider GetProviderEntity(ImsiServiceClient client, Guid userId)
-        public static Provider GetProviderEntity(ImsiServiceClient client, string userId)
+        public static Provider GetProviderEntity(ImsiServiceClient client, string key, string versionKey)
         {
             Provider provider = null;
 
             try
             {
-                var bundle = client.Query<Provider>(u => u.Identifiers.FirstOrDefault().Value == userId);
+                var bundle = client.Query<Provider>(u => u.Identifiers.FirstOrDefault().Value == key);
 
                 bundle.Reconstitute();
 
@@ -78,9 +79,9 @@ namespace OpenIZAdmin.Util
             catch (Exception e)
             {
 #if DEBUG
-                Trace.TraceError("Unable to retrieve user entity: {0}", e.StackTrace);
+                Trace.TraceError("Unable to retrieve provider entity: {0}", e.StackTrace);
 #endif
-                Trace.TraceError("Unable to retrieve user entity: {0}", e.Message);
+                Trace.TraceError("Unable to retrieve provider entity: {0}", e.Message);
             }
 
             return provider;
@@ -90,8 +91,8 @@ namespace OpenIZAdmin.Util
 		/// Converts a provider entity to a edit provider model.
 		/// </summary>
 		/// <param name="providerEntity">The provider entity to convert to a provider user model.</param>
-		/// <returns>Returns a edit provider model.</returns>
-		public static EditProviderModel ToEditProviderModel(Provider provider)
+		/// <returns>Returns an edit provider model.</returns>
+		public static EditProviderModel ToEditProviderModel(Provider providerEntity)
         {
             EditProviderModel model = new EditProviderModel();
 
@@ -108,5 +109,15 @@ namespace OpenIZAdmin.Util
 
             return model;
         }
+
+        public static bool IsValidString(string key)
+        {
+            if (!string.IsNullOrEmpty(key) || !string.IsNullOrWhiteSpace(key))
+                return true;
+            else
+                return false;
+        }
+
+
     }
 }
