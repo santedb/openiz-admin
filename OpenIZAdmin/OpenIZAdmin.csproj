@@ -274,6 +274,7 @@
     <Compile Include="Models\PlaceModels\ViewModels\DetailedPlaceViewModel.cs" />
     <Compile Include="Models\PlaceModels\ViewModels\PlaceViewModel.cs" />
     <Compile Include="Models\PolicyModels\CreatePolicyModel.cs" />
+    <Compile Include="Models\PolicyModels\EditPolicyModel.cs" />
     <Compile Include="Models\PolicyModels\ViewModels\PolicyViewModel.cs" />
     <Compile Include="Models\ProviderModels\CreateProviderModel.cs" />
     <Compile Include="Models\ProviderModels\EditProviderModel.cs" />
@@ -442,6 +443,7 @@
     <Content Include="Views\AssigningAuthority\Edit.cshtml" />
     <Content Include="Views\Shared\_NotFound.cshtml" />
     <Content Include="Views\Concept\Edit.cshtml" />
+    <Content Include="Views\Policy\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />
