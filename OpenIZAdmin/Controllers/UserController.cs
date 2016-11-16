@@ -369,13 +369,12 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Search(string searchTerm)
 		{
 			IEnumerable<UserViewModel> users = new List<UserViewModel>();
-            Guid humanClassGuid = new Guid("33932B42-6F4B-4659-8849-6ACA54139D8E");            
 
 			try
 			{
 				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 				{
-					var collection = this.amiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == humanClassGuid);
+					var collection = this.amiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
 
 					TempData["searchTerm"] = searchTerm;
 
