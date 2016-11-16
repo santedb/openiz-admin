@@ -23,6 +23,7 @@ using OpenIZ.Core.Model.EntityLoader;
 using OpenIZAdmin.Services.Entity;
 using OpenIZAdmin.Services.Http.Configuration;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO.Compression;
@@ -38,14 +39,19 @@ namespace OpenIZAdmin.Services.Http
 		/// <summary>
 		/// The internal reference to the service client configuration section.
 		/// </summary>
-		private readonly ServiceClientConfigurationSection configuration = InternalConfiguration.GetServiceClientConfiguration();
+		//private readonly ServiceClientConfigurationSection configuration = InternalConfiguration.GetServiceClientConfiguration();
+
+		// Poor man's cache
+		private static readonly ConcurrentDictionary<string, Lazy<ServiceClientDescription>> endpoints = new ConcurrentDictionary<string, Lazy<ServiceClientDescription>>();
 
 		/// <summary>
 		/// Initializes a new instance <see cref="RestClientService"/> class
 		/// with a specified endpoint name.
 		/// </summary>
 		/// <param name="endpointName">The name of the endpoint to use in the configuration.</param>
-		public RestClientService(string endpointName) : base(InternalConfiguration.GetServiceClientConfiguration().Clients.Find(x => x.Name == endpointName))
+		public RestClientService(string endpointName) : base(endpoints.GetOrAdd(endpointName, 
+			(key) => new Lazy<ServiceClientDescription>(
+				() => InternalConfiguration.GetServiceClientConfiguration().Clients.Find(x => x.Name == key))).Value)
 		{
 			Trace.TraceInformation(string.Format("Current Entity Source: {0}", EntitySource.Current));
 		}
@@ -81,10 +87,10 @@ namespace OpenIZAdmin.Services.Http
 			}
 
 			// Proxy?
-			if (!string.IsNullOrEmpty(configuration.ProxyAddress))
-			{
-				request.Proxy = new WebProxy(configuration.ProxyAddress);
-			}
+			//if (!string.IsNullOrEmpty(configuration.ProxyAddress))
+			//{
+			//	request.Proxy = new WebProxy(configuration.ProxyAddress);
+			//}
 
 			return request;
 		}
