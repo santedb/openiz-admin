@@ -684,6 +684,12 @@
   <data name="NotFound" xml:space="preserve">
     <value>Not Found</value>
   </data>
+  <data name="NoProvidersFound" xml:space="preserve">
+    <value>No providers found</value>
+  </data>
+  <data name="ProviderSpecialty" xml:space="preserve">
+    <value>Provider Specialty</value>
+  </data>
   <data name="HL7CX4" xml:space="preserve">
     <value>HL7CX4</value>
   </data>

@@ -1069,6 +1069,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No providers found.
+        /// </summary>
+        public static string NoProvidersFound {
+            get {
+                return ResourceManager.GetString("NoProvidersFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No roles have been added.
         /// </summary>
         public static string NoRolesAdded {
@@ -1254,6 +1263,15 @@ namespace OpenIZAdmin.Localization {
         public static string Providers {
             get {
                 return ResourceManager.GetString("Providers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provider Specialty.
+        /// </summary>
+        public static string ProviderSpecialty {
+            get {
+                return ResourceManager.GetString("ProviderSpecialty", resourceCulture);
             }
         }
         

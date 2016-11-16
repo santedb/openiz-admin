@@ -13,38 +13,44 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  *
- * User: khannan
- * Date: 2016-8-14
+ * User: Nityan
+ * Date: 2016-11-15
  */
 
-using OpenIZ.Core.Model.DataTypes;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
+using System.Linq;
+using System.Web;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
-    public class EditConceptModel
-    {
-        public EditConceptModel()
-        {
-            this.LanguageList = new List<SelectListItem>();
-        }
+	/// <summary>
+	/// Represents a model to edit a concept.
+	/// </summary>
+	public class EditConceptModel
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EditConceptModel"/> class. 
+		/// </summary>
+		public EditConceptModel()
+		{
+			
+		}
 
-        [Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string Language { get; set; }
+		/// <summary>
+		/// Gets or sets the name of the concept.
+		/// </summary>
+		public string Name { get; set; }
 
-        public List<SelectListItem> LanguageList { get; set; }
 
-        [Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(255, ErrorMessageResourceName = "MnemonicTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string Mnemonic { get; set; }
+		/// <summary>
+		/// Gets or sets the mnemonic of the concept.
+		/// </summary>
+		public string Mnemonic { get; set; }
 
-        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string Name { get; set; }
-    }
+		/// <summary>
+		/// Gets or sets the language of the concept.
+		/// </summary>
+		public string Language { get; set; }
+	}
 }

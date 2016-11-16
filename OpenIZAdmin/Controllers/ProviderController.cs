@@ -81,13 +81,15 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult Edit(string id)
+		public ActionResult Edit(string key, string versionKey)
 		{
-            Guid userId = Guid.Empty;
+            Guid providerKey = Guid.Empty;
+            Guid providerVersionKey = Guid.Empty;
 
-            if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out userId))
+            //if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key) && Guid.TryParse(key, out userId))
+            if (ProviderUtil.IsValidString(key) && Guid.TryParse(key, out providerKey) && ProviderUtil.IsValidString(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
             {
-                var providerEntity = ProviderUtil.GetProviderEntity(this.imsiClient, userId.ToString());
+                var providerEntity = ProviderUtil.GetProviderEntity(this.imsiClient, key, versionKey);
 
                 if (providerEntity == null)
                 {
@@ -162,29 +164,31 @@ namespace OpenIZAdmin.Controllers
 			base.OnActionExecuting(filterContext);
 		}
 
-		[HttpGet]
-		public ActionResult ViewProvider(string key, string versionKey)
+		[HttpGet]        
+        public ActionResult ViewProvider(string key, string versionKey)
 		{
 			Guid providerKey = Guid.Empty;
-			Guid providerVersioKey = Guid.Empty;
+			Guid providerVersionKey = Guid.Empty;
 
-			if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key) && Guid.TryParse(key, out providerKey) &&
-				!string.IsNullOrEmpty(versionKey) && !string.IsNullOrWhiteSpace(versionKey) && Guid.TryParse(versionKey, out providerVersioKey))
-			{
+			//if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key) && Guid.TryParse(key, out providerKey) &&
+			//	!string.IsNullOrEmpty(versionKey) && !string.IsNullOrWhiteSpace(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
+            if (ProviderUtil.IsValidString(key) && Guid.TryParse(key, out providerKey) && ProviderUtil.IsValidString(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
+                {
 				try
 				{
-					var provider = this.imsiClient.Get<Provider>(providerKey, providerVersioKey);
+					//var provider = this.imsiClient.Get<Provider>(providerKey, providerVersionKey);
+                    var provider = this.imsiClient.Get<Provider>(providerKey, null);
 
-					object model = null;
+                    object model = null;
 
 					return View(model);
 				}
 				catch (Exception e)
 				{
 #if DEBUG
-					Trace.TraceError("Unable to update provider: {0}", e.StackTrace);
+					Trace.TraceError("Unable to view provider: {0}", e.StackTrace);
 #endif
-					Trace.TraceError("Unable to update provider: {0}", e.Message);
+					Trace.TraceError("Unable to view provider: {0}", e.Message);
 				}
 			}
 
