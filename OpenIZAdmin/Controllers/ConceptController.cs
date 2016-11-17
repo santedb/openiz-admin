@@ -91,8 +91,7 @@ namespace OpenIZAdmin.Controllers
 				try
 				{
 					var result = this.imsiClient.Create(ConceptUtil.ToConcept(model));
-
-					TempData["success"] = Locale.ConceptCreatedSuccessfully;
+                    TempData["success"] = Locale.ConceptCreatedSuccessfully;
 
 					return RedirectToAction("Index");
 				}
