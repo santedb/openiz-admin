@@ -33,13 +33,15 @@ namespace OpenIZAdmin.Util
 {
 	public static class PolicyUtil
 	{
-        public static SecurityPolicyInfo GetPolicy(AmiServiceClient client, string id)
-        {
-            SecurityPolicyInfo policyInfo = null;
-
+        public static SecurityPolicyInfo GetPolicy(AmiServiceClient client, Guid key)
+        {            
             try
-            {
-                policyInfo = client.GetPolicy(id);
+            {                
+                var result = client.GetPolicies(r => r.Key == key);                
+                if (result.CollectionItem.Count != 0)
+                {
+                    return result.CollectionItem.Single();
+                }             
             }
             catch (Exception e)
             {
@@ -49,7 +51,7 @@ namespace OpenIZAdmin.Util
                 Trace.TraceError("Unable to retrieve policy: {0}", e.Message);
             }
 
-            return policyInfo;
+            return null;
         }
 
         internal static IEnumerable<PolicyViewModel> GetAllPolicies(AmiServiceClient client)
@@ -73,6 +75,27 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
+        public static SecurityPolicyInfo ToSecurityPolicy(CreatePolicyModel model)
+        {
+            SecurityPolicyInfo policy = new SecurityPolicyInfo();
+
+            policy.CanOverride = model.CanOverride;
+            policy.Name = model.Name;
+            policy.Oid = model.Oid;
+
+            return policy;
+        }
+
+        public static SecurityPolicyInfo ToSecurityPolicy(EditPolicyModel model, SecurityPolicyInfo policyInfo)
+        {
+            policyInfo.Policy.Name = model.Name;
+            policyInfo.Policy.Oid = model.Oid;
+            policyInfo.Policy.CanOverride = model.CanOverride;
+            SecurityPolicyInfo policy = new SecurityPolicyInfo(new SecurityPolicyInstance(policyInfo.Policy, (PolicyGrantType)model.Grant));            
+            
+            return policy;
+        }
+
         public static EditPolicyModel ToEditPolicyModel(SecurityPolicyInfo policy)
         {
             EditPolicyModel viewModel = new EditPolicyModel();
@@ -82,16 +105,12 @@ namespace OpenIZAdmin.Util
             viewModel.GrantsList.Add(new SelectListItem { Text = Locale.Elevate, Value = "1" });
             viewModel.GrantsList.Add(new SelectListItem { Text = Locale.Grant, Value = "2" });
 
-            viewModel.CanOverride = policy.CanOverride;
-            //viewModel.Grant = Enum.GetName(typeof(PolicyGrantType), policy.Grant);
+            viewModel.CanOverride = policy.CanOverride;            
             viewModel.Grant = (int)policy.Grant;
             viewModel.IsPublic = policy.Policy.IsPublic;
             viewModel.Key = policy.Policy.Key.Value;
             viewModel.Name = policy.Name;
-            viewModel.Oid = policy.Oid;
-            
-            //viewModel.Grant = policy.Grant;
-            //model.Roles = userEntity.SecurityUser.Roles.Select(r => r.Name);
+            viewModel.Oid = policy.Oid;                              
 
             return viewModel;
         }
@@ -105,8 +124,14 @@ namespace OpenIZAdmin.Util
 			viewModel.IsPublic = policy.Policy.IsPublic;
 			viewModel.Key = policy.Policy.Key.Value;
 			viewModel.Name = policy.Name;
-			viewModel.Oid = policy.Oid;            
-            
+			viewModel.Oid = policy.Oid;
+
+            if (policy.Policy.ObsoletionTime == null)
+                viewModel.IsObsolete = false;
+            else
+                viewModel.IsObsolete = true;
+
+
             return viewModel;
 		}
 
@@ -129,17 +154,14 @@ namespace OpenIZAdmin.Util
 			PolicyViewModel viewModel = PolicyUtil.ToPolicyViewModel(policy.Policy);
 
 			return viewModel;
-		}
+		}		
 
-		public static SecurityPolicyInfo ToSecurityPolicy(CreatePolicyModel model)
-		{
-			SecurityPolicyInfo policy = new SecurityPolicyInfo();
-
-			policy.CanOverride = model.CanOverride;
-			policy.Name = model.Name;
-			policy.Oid = model.Oid;
-
-			return policy;
-		}
-	}
+        public static bool IsValidString(string key)
+        {
+            if (!string.IsNullOrEmpty(key) || !string.IsNullOrWhiteSpace(key))
+                return true;
+            else
+                return false;
+        }
+    }
 }

@@ -90,7 +90,7 @@ namespace OpenIZAdmin.Controllers
                     var test = "";
 
                     var results = this.client.CreateAssigningAuthority(AssigningAuthorityUtil.ToCreateAssigningAuthorityModel(model));
-
+                    TempData["success"] = "Assigning authority created successfully";
                     return RedirectToAction("Index");
                 }
                 catch (Exception e)
@@ -124,12 +124,12 @@ namespace OpenIZAdmin.Controllers
             IEnumerable<AssigningAuthorityViewModel> assigningAuthorities = new List<AssigningAuthorityViewModel>();
             try
 			{
-				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
-				{
-					var collection = this.client.GetAssigningAuthorities(p => p.Name.Contains(searchTerm) && p.ObsoletionTime==null);
+				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm)) {
+                    var collection = this.client.GetAssigningAuthorities(p => p.Name.Contains(searchTerm) && p.ObsoletionTime==null);
                     var filtered = collection.CollectionItem.FindAll(p => p.AssigningAuthority.ObsoletionTime == null);//TEMP: Until the obsoletion time is taken as query parameter
 
                     TempData["searchTerm"] = searchTerm;
+
 					return PartialView("_AssigningAuthoritySearchResultsPartial", filtered.Select(p => AssigningAuthorityUtil.ToAssigningAuthorityViewModel(p)));
 				}
 			}
@@ -162,6 +162,7 @@ namespace OpenIZAdmin.Controllers
 
                     singleAssigningAuthority.AssigningAuthority.ObsoletionTime = new DateTimeOffset(DateTime.Now);
 					this.client.DeleteAssigningAuthority(key);
+                    TempData["success"] = "Assigning authority deleted successfully";
                     return RedirectToAction("Index");
                 }
                 catch (Exception e)
@@ -253,7 +254,7 @@ namespace OpenIZAdmin.Controllers
 
                     var key = assigningAuthority.AssigningAuthority.Key.Value.ToString();
                     this.client.UpdateAssigningAuthority(key,  assigningAuthority);
-
+                    TempData["success"] = "Assigning authority edited successfully";
                     return View("Index");
 
 

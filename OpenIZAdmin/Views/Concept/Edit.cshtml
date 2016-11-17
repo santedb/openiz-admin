@@ -1,0 +1,30 @@
+﻿@model OpenIZAdmin.Models.ConceptModels.EditConceptModel
+@{
+    ViewBag.Title = Locale.Concept;
+}
+
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        <span class="text-white">@Locale.Concept</span>
+    </div>
+    <div class="panel panel-body panel-default">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-md-4">
+                        @Html.LabelFor(m => m.Mnemonic, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-4">
+                        @Html.LabelFor(m => m.Language, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Language, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
