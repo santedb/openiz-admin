@@ -17,6 +17,7 @@
  * Date: 2016-11-16
  */
 
+using OpenIZ.Core.Model.Security;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -43,6 +44,7 @@ namespace OpenIZAdmin.Models.PolicyModels
         [Display(Name = "IsPublic", ResourceType = typeof(Localization.Locale))]
         public bool IsPublic { get; set; }
 
+        [Required]
         public Guid Key { get; set; }
 
         [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
@@ -52,7 +54,8 @@ namespace OpenIZAdmin.Models.PolicyModels
 
         [Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
         [Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string Oid { get; set; }
+        public string Oid { get; set; }        
+        
     }
 
 }

@@ -38,7 +38,7 @@ namespace OpenIZAdmin.Models.PolicyModels.ViewModels
 		public string Grant { get; set; }
 
         /// <summary>
-		/// Gets or sets the obsolete status of the user.
+		/// Gets or sets the obsolete status of the policy.
 		/// </summary>
 		public bool IsObsolete { get; set; }
 

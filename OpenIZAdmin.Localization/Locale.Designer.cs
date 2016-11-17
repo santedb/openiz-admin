@@ -1699,6 +1699,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to update policy.
+        /// </summary>
+        public static string UnableToUpdatePolicy {
+            get {
+                return ResourceManager.GetString("UnableToUpdatePolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to update profile.
         /// </summary>
         public static string UnableToUpdateProfile {

@@ -63,12 +63,12 @@ namespace OpenIZAdmin.Controllers
         {
             Guid userKey = Guid.Empty;
             SecurityPolicyInfo policyInfo = null;
-
-            if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out userKey))
+            
+            if (PolicyUtil.IsValidString(id) && Guid.TryParse(id, out userKey))
             {
                 try
                 {
-                    policyInfo = PolicyUtil.GetPolicy(this.client, id);
+                    policyInfo = PolicyUtil.GetPolicy(this.client, userKey);
 
                     if (policyInfo == null)
                     {
@@ -160,16 +160,13 @@ namespace OpenIZAdmin.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(string id)
-		{
-			Guid userKey = Guid.Empty;
-
-			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
-			{
+		{			            
+            if (PolicyUtil.IsValidString(id))
+            {
 				try
 				{
 					this.client.DeletePolicy(id);
                     TempData["success"] = Locale.PolicyDeletedSuccessfully;
-
 
                     return RedirectToAction("Index");
 				}
@@ -205,24 +202,72 @@ namespace OpenIZAdmin.Controllers
         public ActionResult Edit(string key)
         {
             Guid policyId = Guid.Empty;
-
-            if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key) && Guid.TryParse(key, out policyId))
-            {
-                var result = this.client.GetPolicies(r => r.Key == policyId);
-
-                if (result.CollectionItem.Count == 0)
+            SecurityPolicyInfo policyInfo = null;
+            
+            if(PolicyUtil.IsValidString(key) && Guid.TryParse(key, out policyId))
+            {                
+                policyInfo = PolicyUtil.GetPolicy(this.client, policyId);
+                
+                if (policyInfo == null)
                 {
                     TempData["error"] = Localization.Locale.PolicyNotFound;
 
                     return RedirectToAction("Index");
                 }
 
-                return View(PolicyUtil.ToEditPolicyModel(result.CollectionItem.Single()));
+                return View(PolicyUtil.ToEditPolicyModel(policyInfo));
             }
 
             TempData["error"] = Locale.PolicyNotFound;
 
             return RedirectToAction("Index");
+        }
+
+        /// <summary>
+		/// Updates a policy.
+		/// </summary>
+		/// <param name="model">The model containing the updated policy information.</param>
+        /// <param name="key">The policy guid indentifier.</param>
+		/// <returns>Returns the index view.</returns>
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(EditPolicyModel model)
+        {            
+            if (ModelState.IsValid)
+            {                
+                try
+                {
+                    SecurityPolicyInfo policy = PolicyUtil.GetPolicy(this.client, model.Key);
+                   
+                    if(policy == null)
+                    { 
+                        TempData["error"] = Localization.Locale.PolicyNotFound;
+
+                        return RedirectToAction("Index");
+                    }
+
+
+                    SecurityPolicyInfo policyInfo = PolicyUtil.ToSecurityPolicy(model, policy);                    
+                                       
+                    this.client.UpdatePolicy(model.Key.ToString(), policyInfo);
+
+                    TempData["success"] = "Policy updated successfully";
+
+                    return RedirectToAction("Index");         
+                                                                     
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    Trace.TraceError("Unable to edit policy: {0}", e.StackTrace);
+#endif
+                    Trace.TraceError("Unable to edit policy: {0}", e.Message);
+                }
+            }
+
+            TempData["error"] = Locale.UnableToUpdatePolicy;
+
+            return View(model);
         }
 
         [HttpGet]
@@ -250,9 +295,9 @@ namespace OpenIZAdmin.Controllers
 			IEnumerable<PolicyViewModel> policies = new List<PolicyViewModel>();
 
 			try
-			{
-				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
-				{
+			{				
+                if(PolicyUtil.IsValidString(searchTerm))
+                {
 					var collection = this.client.GetPolicies(p => p.Name.Contains(searchTerm));
 
 					TempData["searchTerm"] = searchTerm;
@@ -278,9 +323,9 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult ViewPolicy(string key)
 		{
 			Guid policyId = Guid.Empty;
-
-			if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key) && Guid.TryParse(key, out policyId))
-			{
+			
+            if(PolicyUtil.IsValidString(key) && Guid.TryParse(key, out policyId))
+            {
 				var result = this.client.GetPolicies(r => r.Key == policyId);
 
 				if (result.CollectionItem.Count == 0)
