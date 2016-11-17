@@ -178,6 +178,12 @@ namespace OpenIZAdmin.Controllers
 
 			model.RolesList.AddRange(RoleUtil.GetAllRoles(this.amiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
 
+			var places = PlaceUtil.GetPlaces(this.imsiClient, 0, 200);
+
+			model.FacilityList.AddRange(places.Select(p => new SelectListItem { Text = string.Join(" ", p.Names.SelectMany(n => n.Component).Select(c => c.Value)), Value = p.Key.Value.ToString() }));
+
+			model.FacilityList = model.FacilityList.OrderBy(c => c.Text).ToList();
+
 			TempData["error"] = "Unable to create user";
 
 			return View(model);
