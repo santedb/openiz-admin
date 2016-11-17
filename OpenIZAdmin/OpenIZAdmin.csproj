@@ -235,7 +235,7 @@
     <Compile Include="Models\AccountModels\ChangePasswordModel.cs" />
     <Compile Include="Models\AccountModels\ManageModel.cs" />
     <Compile Include="Models\AccountModels\UpdateProfileModel.cs" />
-    <Compile Include="Models\AlertModels\AlertMessageFlags.cs" />
+    <Compile Include="Models\AlertModels\CreateAlertModel.cs" />
     <Compile Include="Models\AlertModels\ViewModels\AlertViewModel.cs" />
     <Compile Include="Models\AppletModels\UploadAppletModel.cs" />
     <Compile Include="Models\ApplicationModels\CreateApplicationModel.cs" />
@@ -444,6 +444,8 @@
     <Content Include="Views\Shared\_NotFound.cshtml" />
     <Content Include="Views\Concept\Edit.cshtml" />
     <Content Include="Views\Policy\Edit.cshtml" />
+    <Content Include="Views\Shared\_AlertsPartial.cshtml" />
+    <Content Include="Views\Shared\_CreateAlertPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />

@@ -70,6 +70,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Acknowledged.
+        /// </summary>
+        public static string Acknowledged {
+            get {
+                return ResourceManager.GetString("Acknowledged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Activate.
         /// </summary>
         public static string Activate {
@@ -102,6 +111,15 @@ namespace OpenIZAdmin.Localization {
         public static string AdministrativeContactName {
             get {
                 return ResourceManager.GetString("AdministrativeContactName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alert.
+        /// </summary>
+        public static string Alert {
+            get {
+                return ResourceManager.GetString("Alert", resourceCulture);
             }
         }
         
@@ -754,6 +772,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to High Priority.
+        /// </summary>
+        public static string HighPriority {
+            get {
+                return ResourceManager.GetString("HighPriority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HL7CX4.
         /// </summary>
         public static string HL7CX4 {
@@ -939,6 +966,24 @@ namespace OpenIZAdmin.Localization {
         public static string Manage {
             get {
                 return ResourceManager.GetString("Manage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message.
+        /// </summary>
+        public static string Message {
+            get {
+                return ResourceManager.GetString("Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a message.
+        /// </summary>
+        public static string MessageRequired {
+            get {
+                return ResourceManager.GetString("MessageRequired", resourceCulture);
             }
         }
         
@@ -1506,6 +1551,15 @@ namespace OpenIZAdmin.Localization {
         public static string Submit {
             get {
                 return ResourceManager.GetString("Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System.
+        /// </summary>
+        public static string System {
+            get {
+                return ResourceManager.GetString("System", resourceCulture);
             }
         }
         
