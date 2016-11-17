@@ -374,7 +374,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 				{
-					var collection = this.amiClient.GetUsers(u => u.UserName.Contains(searchTerm));
+					var collection = this.amiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
 
 					TempData["searchTerm"] = searchTerm;
 

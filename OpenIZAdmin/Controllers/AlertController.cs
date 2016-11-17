@@ -17,9 +17,11 @@
  * Date: 2016-11-14
  */
 using Microsoft.AspNet.Identity;
+using OpenIZ.Core.Alert.Alerting;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.AlertModels;
 using OpenIZAdmin.Models.AlertModels.ViewModels;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
@@ -51,6 +53,29 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
+		[HttpGet]
+		public ActionResult CreateAlert()
+		{
+			CreateAlertModel model = new CreateAlertModel();
+
+			model.PriorityList = AlertUtil.CreatePrioritySelectList();
+
+			return PartialView("_CreateAlertPartial", model);
+		}
+
+		public ActionResult CreateAlert(CreateAlertModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var alertMessageInfo = AlertUtil.ToAlertMessageInfo(model, Guid.Parse(User.Identity.GetUserId()));
+
+				this.client.CreateAlert(alertMessageInfo);
+
+				return Redirect(Request.Url.AbsoluteUri);
+			}
+
+			return PartialView("_CreateAlertPartial", model);
+		}
 		/// <summary>
 		/// Deletes an alert.
 		/// </summary>
@@ -97,7 +122,8 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult GetAlerts()
 		{
 			List<AlertViewModel> models = new List<AlertViewModel>();
-			var alerts = this.client.GetAlerts(a => a.ObsoletionTime == null);
+			var username = User.Identity.GetUserName();
+			var alerts = this.client.GetAlerts(a => a.RcptTo.Any(r => r.UserName == username) || a.From == "SYSTEM");
 
 			models.AddRange(alerts.CollectionItem.Select(a => AlertUtil.ToAlertViewModel(a)));
 			return PartialView("_AlertsPartial", models.OrderBy(x => x.Flags).ThenByDescending(a => a.Time));
@@ -131,7 +157,10 @@ namespace OpenIZAdmin.Controllers
 				//	}
 				//});
 
-				count = this.client.GetAlerts(a => a.Flags != OpenIZ.Core.Alert.Alerting.AlertMessageFlags.Acknowledged).Size;
+				var username = User.Identity.GetUserName();
+				var results = this.client.GetAlerts(a => a.RcptTo.Any(r => r.UserName == username) || a.From == "SYSTEM");
+
+				count = results.CollectionItem.Count(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged);
 			}
 			catch (Exception e)
 			{

@@ -37,7 +37,12 @@ namespace OpenIZAdmin.Models.PolicyModels.ViewModels
 		[Display(Name = "Grant", ResourceType = typeof(Localization.Locale))]
 		public string Grant { get; set; }
 
-		[Display(Name = "IsPublic", ResourceType = typeof(Localization.Locale))]
+        /// <summary>
+		/// Gets or sets the obsolete status of the user.
+		/// </summary>
+		public bool IsObsolete { get; set; }
+
+        [Display(Name = "IsPublic", ResourceType = typeof(Localization.Locale))]
 		public bool IsPublic { get; set; }
 
 		public Guid Key { get; set; }
@@ -45,7 +50,7 @@ namespace OpenIZAdmin.Models.PolicyModels.ViewModels
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
-		[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "OIDAllCaps", ResourceType = typeof(Localization.Locale))]
 		public string Oid { get; set; }
 	}
 }

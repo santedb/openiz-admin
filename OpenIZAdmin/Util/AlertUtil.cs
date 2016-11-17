@@ -23,6 +23,10 @@ using System.Linq;
 using System.Web;
 using OpenIZAdmin.Models.AlertModels.ViewModels;
 using OpenIZAdmin.Models.AlertModels;
+using System.Web.Mvc;
+using OpenIZAdmin.Localization;
+using OpenIZ.Core.Alert.Alerting;
+using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Util
 {
@@ -31,6 +35,22 @@ namespace OpenIZAdmin.Util
 	/// </summary>
 	public static class AlertUtil
 	{
+		/// <summary>
+		/// Gets a list of select list items for priorities.
+		/// </summary>
+		/// <returns>Returns a list of select list items.</returns>
+		public static List<SelectListItem> CreatePrioritySelectList()
+		{
+			var selectList = new List<SelectListItem>();
+
+			selectList.Add(new SelectListItem { Text = Locale.Acknowledged, Value = AlertMessageFlags.Acknowledged.ToString() });
+			selectList.Add(new SelectListItem { Text = Locale.Alert, Value = AlertMessageFlags.Alert.ToString() });
+			selectList.Add(new SelectListItem { Text = Locale.HighPriority, Value = AlertMessageFlags.HighPriority.ToString() });
+			selectList.Add(new SelectListItem { Text = Locale.System, Value = AlertMessageFlags.System.ToString() });
+
+			return selectList;
+		}
+
 		/// <summary>
 		/// Converts an alert model to an alert message info.
 		/// </summary>
@@ -47,36 +67,41 @@ namespace OpenIZAdmin.Util
 				Key = model.CreatedBy
 			};
 
-			switch (model.Flags)
-			{
-				case AlertMessageFlags.Alert:
-					alertMessageInfo.AlertMessage.Flags = OpenIZ.Core.Alert.Alerting.AlertMessageFlags.Alert;
-					break;
-				case AlertMessageFlags.HighPriority:
-					alertMessageInfo.AlertMessage.Flags = OpenIZ.Core.Alert.Alerting.AlertMessageFlags.HighPriority;
-					break;
-				case AlertMessageFlags.System:
-					alertMessageInfo.AlertMessage.Flags = OpenIZ.Core.Alert.Alerting.AlertMessageFlags.System;
-					break;
-				case AlertMessageFlags.Acknowledged:
-					alertMessageInfo.AlertMessage.Flags = OpenIZ.Core.Alert.Alerting.AlertMessageFlags.Acknowledged;
-					break;
-				case AlertMessageFlags.Transient:
-					alertMessageInfo.AlertMessage.Flags = OpenIZ.Core.Alert.Alerting.AlertMessageFlags.Transient;
-					break;
-				case AlertMessageFlags.None:
-					alertMessageInfo.AlertMessage.Flags = OpenIZ.Core.Alert.Alerting.AlertMessageFlags.None;
-					break;
-				default:
-					break;
-			}
-
+			alertMessageInfo.AlertMessage.Flags = model.Flags;
 			alertMessageInfo.AlertMessage.From = model.From;
+			alertMessageInfo.Id = model.Id;
 			alertMessageInfo.AlertMessage.Subject = model.Subject;
 			alertMessageInfo.AlertMessage.TimeStamp = model.Time;
 			alertMessageInfo.AlertMessage.To = model.To;
 
-			alertMessageInfo.Id = model.Id;
+			return alertMessageInfo;
+		}
+
+		/// <summary>
+		/// Converts an alert model to an alert message info.
+		/// </summary>
+		/// <returns>Returns the converted alert message info.</returns>
+		public static AlertMessageInfo ToAlertMessageInfo(CreateAlertModel model, Guid userId)
+		{
+			AlertMessageInfo alertMessageInfo = new AlertMessageInfo();
+
+			alertMessageInfo.AlertMessage = new AlertMessage();
+
+			alertMessageInfo.AlertMessage.Body = model.Message;
+
+			alertMessageInfo.AlertMessage.CreatedBy = new SecurityUser
+			{
+				Key = userId
+			};
+
+
+
+			alertMessageInfo.AlertMessage.Flags = (AlertMessageFlags)model.Priority;
+			alertMessageInfo.AlertMessage.Subject = model.Subject;
+			alertMessageInfo.AlertMessage.TimeStamp = DateTimeOffset.Now;
+			alertMessageInfo.AlertMessage.RcptTo = new List<SecurityUser>();
+
+			alertMessageInfo.AlertMessage.RcptTo.AddRange(model.To.Select(t => new SecurityUser { Key = Guid.Parse(t) }));
 
 			return alertMessageInfo;
 		}
@@ -92,34 +117,7 @@ namespace OpenIZAdmin.Util
 
 			viewModel.Body = alertMessageInfo.AlertMessage.Body;
 			viewModel.CreatedBy = alertMessageInfo.AlertMessage.CreatedBy?.Key.Value ?? Guid.Empty;
-
-			switch (alertMessageInfo.AlertMessage.Flags)
-			{
-				case OpenIZ.Core.Alert.Alerting.AlertMessageFlags.None:
-					viewModel.Flags = AlertMessageFlags.None;
-					break;
-				case OpenIZ.Core.Alert.Alerting.AlertMessageFlags.Alert:
-					viewModel.Flags = AlertMessageFlags.Alert;
-					break;
-				case OpenIZ.Core.Alert.Alerting.AlertMessageFlags.Acknowledged:
-					viewModel.Flags = AlertMessageFlags.Acknowledged;
-					break;
-				case OpenIZ.Core.Alert.Alerting.AlertMessageFlags.HighPriority:
-					viewModel.Flags = AlertMessageFlags.HighPriority;
-					break;
-				case OpenIZ.Core.Alert.Alerting.AlertMessageFlags.System:
-					viewModel.Flags = AlertMessageFlags.System;
-					break;
-				case OpenIZ.Core.Alert.Alerting.AlertMessageFlags.Transient:
-					viewModel.Flags = AlertMessageFlags.Transient;
-					break;
-				case OpenIZ.Core.Alert.Alerting.AlertMessageFlags.HighPriorityAlert:
-					viewModel.Flags = AlertMessageFlags.HighPriorityAlert;
-					break;
-				default:
-					break;
-			}
-
+			viewModel.Flags = alertMessageInfo.AlertMessage.Flags;
 			viewModel.From = alertMessageInfo.AlertMessage.From;
 			viewModel.Id = alertMessageInfo.Id;
 			viewModel.Subject = alertMessageInfo.AlertMessage.Subject;

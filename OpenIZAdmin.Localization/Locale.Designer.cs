@@ -70,6 +70,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Acknowledged.
+        /// </summary>
+        public static string Acknowledged {
+            get {
+                return ResourceManager.GetString("Acknowledged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Activate.
         /// </summary>
         public static string Activate {
@@ -102,6 +111,15 @@ namespace OpenIZAdmin.Localization {
         public static string AdministrativeContactName {
             get {
                 return ResourceManager.GetString("AdministrativeContactName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alert.
+        /// </summary>
+        public static string Alert {
+            get {
+                return ResourceManager.GetString("Alert", resourceCulture);
             }
         }
         
@@ -538,6 +556,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Policy.
+        /// </summary>
+        public static string EditPolicy {
+            get {
+                return ResourceManager.GetString("EditPolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Provider.
         /// </summary>
         public static string EditProvider {
@@ -745,6 +772,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to High Priority.
+        /// </summary>
+        public static string HighPriority {
+            get {
+                return ResourceManager.GetString("HighPriority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HL7CX4.
         /// </summary>
         public static string HL7CX4 {
@@ -930,6 +966,24 @@ namespace OpenIZAdmin.Localization {
         public static string Manage {
             get {
                 return ResourceManager.GetString("Manage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Message.
+        /// </summary>
+        public static string Message {
+            get {
+                return ResourceManager.GetString("Message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a message.
+        /// </summary>
+        public static string MessageRequired {
+            get {
+                return ResourceManager.GetString("MessageRequired", resourceCulture);
             }
         }
         
@@ -1123,6 +1177,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OID.
+        /// </summary>
+        public static string OIDAllCaps {
+            get {
+                return ResourceManager.GetString("OIDAllCaps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Oid field is required.
         /// </summary>
         public static string OidRequired {
@@ -1227,6 +1290,24 @@ namespace OpenIZAdmin.Localization {
         public static string Policy {
             get {
                 return ResourceManager.GetString("Policy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Policy activated successfully.
+        /// </summary>
+        public static string PolicyActivatedSuccessfully {
+            get {
+                return ResourceManager.GetString("PolicyActivatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Policy deleted successfully.
+        /// </summary>
+        public static string PolicyDeletedSuccessfully {
+            get {
+                return ResourceManager.GetString("PolicyDeletedSuccessfully", resourceCulture);
             }
         }
         
@@ -1474,6 +1555,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to System.
+        /// </summary>
+        public static string System {
+            get {
+                return ResourceManager.GetString("System", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Time.
         /// </summary>
         public static string Time {
@@ -1488,6 +1578,15 @@ namespace OpenIZAdmin.Localization {
         public static string To {
             get {
                 return ResourceManager.GetString("To", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to activate policy.
+        /// </summary>
+        public static string UnableToActivatePolicy {
+            get {
+                return ResourceManager.GetString("UnableToActivatePolicy", resourceCulture);
             }
         }
         
@@ -1542,6 +1641,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToDeactivateUser {
             get {
                 return ResourceManager.GetString("UnableToDeactivateUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to delete policy.
+        /// </summary>
+        public static string UnableToDeletePolicy {
+            get {
+                return ResourceManager.GetString("UnableToDeletePolicy", resourceCulture);
             }
         }
         

@@ -50,6 +50,13 @@
             <param name="appletManifestInfo">The applet manifest info to be created.</param>
             <returns>Returns the created applet manifest info.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateApplication(OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo)">
+            <summary>
+            Creates a security application.
+            </summary>
+            <param name="applicationInfo">The security application to be created.</param>
+            <returns>Returns the created security application.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateAssigningAuthority(OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo)">
             <summary>
             Creates an assigning authority.
@@ -98,6 +105,13 @@
             </summary>
             <param name="appletId">The id of the applet to be deleted.</param>
             <returns>Returns the deleted applet.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.DeleteApplication(System.String)">
+            <summary>
+            Deletes an application.
+            </summary>
+            <param name="applicationId">The id of the application to be deleted.</param>
+            <returns>Returns the deleted application.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.DeleteAssigningAuthority(System.String)">
             <summary>
@@ -174,6 +188,12 @@
             Gets a list of applets for a specific query.
             </summary>
             <returns>Returns a list of applet which match the specific query.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetApplications(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo,System.Boolean}})">
+            <summary>
+            Gets a list applications for a specific query.
+            </summary>
+            <returns>Returns a list of application which match the specific query.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetAssigningAuthorities(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.AssigningAuthority,System.Boolean}})">
             <summary>
@@ -295,6 +315,14 @@
             <param name="appletId">The id of the applet to be updated.</param>
             <param name="appletManifestInfo">The applet containing the updated information.</param>
             <returns>Returns the updated applet.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateApplication(System.String,OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo)">
+            <summary>
+            Updates an application.
+            </summary>
+            <param name="applicationId">The id of the application to be updated.</param>
+            <param name="applicationInfo">The application containing the updated information.</param>
+            <returns>Returns the updated application.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateAssigningAuthority(System.String,OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo)">
             <summary>

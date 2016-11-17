@@ -693,4 +693,40 @@
   <data name="HL7CX4" xml:space="preserve">
     <value>HL7CX4</value>
   </data>
+  <data name="EditPolicy" xml:space="preserve">
+    <value>Edit Policy</value>
+  </data>
+  <data name="OIDAllCaps" xml:space="preserve">
+    <value>OID</value>
+  </data>
+  <data name="PolicyActivatedSuccessfully" xml:space="preserve">
+    <value>Policy activated successfully</value>
+  </data>
+  <data name="PolicyDeletedSuccessfully" xml:space="preserve">
+    <value>Policy deleted successfully</value>
+  </data>
+  <data name="UnableToActivatePolicy" xml:space="preserve">
+    <value>Unable to activate policy</value>
+  </data>
+  <data name="UnableToDeletePolicy" xml:space="preserve">
+    <value>Unable to delete policy</value>
+  </data>
+  <data name="Message" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="MessageRequired" xml:space="preserve">
+    <value>Please enter a message</value>
+  </data>
+  <data name="Acknowledged" xml:space="preserve">
+    <value>Acknowledged</value>
+  </data>
+  <data name="Alert" xml:space="preserve">
+    <value>Alert</value>
+  </data>
+  <data name="HighPriority" xml:space="preserve">
+    <value>High Priority</value>
+  </data>
+  <data name="System" xml:space="preserve">
+    <value>System</value>
+  </data>
 </root>

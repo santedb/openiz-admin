@@ -52,11 +52,59 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
-		/// <summary>
-		/// Displays the create policy view.
+        /// <summary>
+		/// Activates a policy.
 		/// </summary>
-		/// <returns>Returns the create policy view.</returns>
-		[HttpGet]
+		/// <param name="id">The id of the policy to be activated.</param>
+		/// <returns>Returns the index view.</returns>
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Activate(string id)
+        {
+            Guid userKey = Guid.Empty;
+            SecurityPolicyInfo policyInfo = null;
+
+            if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out userKey))
+            {
+                try
+                {
+                    policyInfo = PolicyUtil.GetPolicy(this.client, id);
+
+                    if (policyInfo == null)
+                    {
+                        TempData["error"] = Locale.PolicyNotFound;
+
+                        return RedirectToAction("Index");
+                    }
+                    
+                    policyInfo.Policy.ObsoletedBy = null;
+                    policyInfo.Policy.ObsoletionTime = null;
+
+                    this.client.UpdatePolicy(id, policyInfo);
+
+                    TempData["success"] = Locale.PolicyActivatedSuccessfully;
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    Trace.TraceError("Unable to delete policy: {0}", e.StackTrace);
+#endif
+                    Trace.TraceError("Unable to delete policy: {0}", e.Message);
+                }
+            }
+
+            TempData["error"] = Locale.UnableToActivatePolicy;
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Displays the create policy view.
+        /// </summary>
+        /// <returns>Returns the create policy view.</returns>
+        [HttpGet]
 		public ActionResult Create()
 		{
 			CreatePolicyModel model = new CreatePolicyModel();
@@ -120,9 +168,10 @@ namespace OpenIZAdmin.Controllers
 				try
 				{
 					this.client.DeletePolicy(id);
-					TempData["success"] = "Policy deleted successfully";
+                    TempData["success"] = Locale.PolicyDeletedSuccessfully;
 
-					return RedirectToAction("Index");
+
+                    return RedirectToAction("Index");
 				}
 				catch (Exception e)
 				{
@@ -133,9 +182,10 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = "Unable to delete policy";
+            TempData["error"] = Locale.UnableToDeletePolicy;
 
-			return RedirectToAction("Index");
+
+            return RedirectToAction("Index");
 		}
 
 		/// <summary>
@@ -151,7 +201,31 @@ namespace OpenIZAdmin.Controllers
 			base.Dispose(disposing);
 		}
 
-		[HttpGet]
+        [HttpGet]
+        public ActionResult Edit(string key)
+        {
+            Guid policyId = Guid.Empty;
+
+            if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key) && Guid.TryParse(key, out policyId))
+            {
+                var result = this.client.GetPolicies(r => r.Key == policyId);
+
+                if (result.CollectionItem.Count == 0)
+                {
+                    TempData["error"] = Localization.Locale.PolicyNotFound;
+
+                    return RedirectToAction("Index");
+                }
+
+                return View(PolicyUtil.ToEditPolicyModel(result.CollectionItem.Single()));
+            }
+
+            TempData["error"] = Locale.PolicyNotFound;
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Policy";

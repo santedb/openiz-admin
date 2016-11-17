@@ -17,6 +17,7 @@
  * Date: 2016-11-14
  */
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenIZ.Core.Alert.Alerting;
 using OpenIZ.Core.Model.AMI.Alerting;
 using OpenIZAdmin.Models.AlertModels.ViewModels;
 using OpenIZAdmin.Util;
@@ -93,7 +94,7 @@ namespace OpenIZAdmin.Tests.Util
 			{
 				Body = "body",
 				CreatedBy = Guid.Parse("BCE8DC56-BCC5-4CBF-8649-C24F14606BF7"),
-				Flags = Models.AlertModels.AlertMessageFlags.Acknowledged,
+				Flags = AlertMessageFlags.Acknowledged,
 				From = "from",
 				Id = Guid.Parse("12186EC5-C5A7-4D6E-94B5-0F77C152790A"),
 				Subject = "subject",
@@ -123,7 +124,7 @@ namespace OpenIZAdmin.Tests.Util
 
 			Assert.AreEqual("this is some body text of an alert message", actual.Body);
 			Assert.AreEqual(Guid.Parse("3B4A85D4-9D4E-4D4F-A027-32B69648A6A9"), actual.CreatedBy);
-			Assert.AreEqual(Models.AlertModels.AlertMessageFlags.Alert, actual.Flags);
+			Assert.AreEqual(AlertMessageFlags.Alert, actual.Flags);
 			Assert.AreEqual("_UNIT_TEST_SYSTEM", actual.From);
 			Assert.AreEqual(Guid.Parse("B20878A9-1DF6-4687-81AA-B8AF7B695423"), actual.Id);
 			Assert.AreEqual("UNIT TEST ALERT", actual.Subject);
@@ -143,7 +144,7 @@ namespace OpenIZAdmin.Tests.Util
 
 			Assert.AreEqual(string.Empty, actual.Body);
 			Assert.AreEqual(Guid.Parse("3B4A85D4-9D4E-4D4F-A027-32B69648A6A9"), actual.CreatedBy);
-			Assert.AreEqual(Models.AlertModels.AlertMessageFlags.Alert, actual.Flags);
+			Assert.AreEqual(AlertMessageFlags.Alert, actual.Flags);
 			Assert.AreEqual("_UNIT_TEST_SYSTEM", actual.From);
 			Assert.AreEqual(Guid.Parse("B20878A9-1DF6-4687-81AA-B8AF7B695423"), actual.Id);
 			Assert.AreEqual("UNIT TEST ALERT", actual.Subject);

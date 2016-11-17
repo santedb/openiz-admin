@@ -20,18 +20,39 @@
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.PolicyModels;
 using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Util
 {
 	public static class PolicyUtil
 	{
-		internal static IEnumerable<PolicyViewModel> GetAllPolicies(AmiServiceClient client)
+        public static SecurityPolicyInfo GetPolicy(AmiServiceClient client, string id)
+        {
+            SecurityPolicyInfo policyInfo = null;
+
+            try
+            {
+                policyInfo = client.GetPolicy(id);
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Trace.TraceError("Unable to retrieve policy: {0}", e.StackTrace);
+#endif
+                Trace.TraceError("Unable to retrieve policy: {0}", e.Message);
+            }
+
+            return policyInfo;
+        }
+
+        internal static IEnumerable<PolicyViewModel> GetAllPolicies(AmiServiceClient client)
 		{
 			IEnumerable<PolicyViewModel> viewModels = new List<PolicyViewModel>();
 
@@ -52,7 +73,30 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
-		public static PolicyViewModel ToPolicyViewModel(SecurityPolicyInfo policy)
+        public static EditPolicyModel ToEditPolicyModel(SecurityPolicyInfo policy)
+        {
+            EditPolicyModel viewModel = new EditPolicyModel();
+
+            viewModel.GrantsList.Add(new SelectListItem { Text = Locale.Select, Value = "" });
+            viewModel.GrantsList.Add(new SelectListItem { Text = Locale.Deny, Value = "0" });
+            viewModel.GrantsList.Add(new SelectListItem { Text = Locale.Elevate, Value = "1" });
+            viewModel.GrantsList.Add(new SelectListItem { Text = Locale.Grant, Value = "2" });
+
+            viewModel.CanOverride = policy.CanOverride;
+            //viewModel.Grant = Enum.GetName(typeof(PolicyGrantType), policy.Grant);
+            viewModel.Grant = (int)policy.Grant;
+            viewModel.IsPublic = policy.Policy.IsPublic;
+            viewModel.Key = policy.Policy.Key.Value;
+            viewModel.Name = policy.Name;
+            viewModel.Oid = policy.Oid;
+            
+            //viewModel.Grant = policy.Grant;
+            //model.Roles = userEntity.SecurityUser.Roles.Select(r => r.Name);
+
+            return viewModel;
+        }
+
+        public static PolicyViewModel ToPolicyViewModel(SecurityPolicyInfo policy)
 		{
 			PolicyViewModel viewModel = new PolicyViewModel();
 
@@ -61,9 +105,9 @@ namespace OpenIZAdmin.Util
 			viewModel.IsPublic = policy.Policy.IsPublic;
 			viewModel.Key = policy.Policy.Key.Value;
 			viewModel.Name = policy.Name;
-			viewModel.Oid = policy.Oid;
-
-			return viewModel;
+			viewModel.Oid = policy.Oid;            
+            
+            return viewModel;
 		}
 
 		public static PolicyViewModel ToPolicyViewModel(SecurityPolicy policy)

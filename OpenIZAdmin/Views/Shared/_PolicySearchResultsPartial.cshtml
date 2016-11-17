@@ -20,6 +20,8 @@
                         <th>@Html.DisplayNameFor(m => m.Grant)</th>
                         <th>@Html.DisplayNameFor(m => m.CanOverride)</th>
                         <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -35,6 +37,39 @@
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
+                            </td>
+                            <td>
+                                <a class="btn btn-warning" href="/Policy/Edit/Edit?key=@item.Key">
+                                    @Locale.Edit
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                            </td>
+                            <td>
+                                @if (!item.IsObsolete)
+                                {
+                                    using (Html.BeginForm("Delete", "Policy", new { id = item.Key }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <button type="submit" class="btn btn-danger">
+                                            @Locale.Deactivate
+                                            <span class="glyphicon glyphicon-log-out"></span>
+                                        </button>
+                                    }
+                                }
+                                else
+                                {
+                                    using (Html.BeginForm("Activate", "Policy", new { id = item.Key }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <button type="submit" class="btn btn-success">
+                                            @Locale.Activate
+                                            <span class="glyphicon glyphicon-upload"></span>
+                                        </button>
+                                    }
+                                }
+
                             </td>
                         </tr>}
 
