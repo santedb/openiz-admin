@@ -759,4 +759,7 @@
   <data name="UpdatedSuccessfully" xml:space="preserve">
     <value>updated successfully</value>
   </data>
+  <data name="EditDevice" xml:space="preserve">
+    <value>Edit Device</value>
+  </data>
 </root>

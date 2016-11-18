@@ -40,7 +40,7 @@ namespace OpenIZAdmin.Util
                 var result = client.GetPolicies(r => r.Key == key);                
                 if (result.CollectionItem.Count != 0)
                 {
-                    return result.CollectionItem.Single();
+                    return result.CollectionItem.FirstOrDefault();
                 }             
             }
             catch (Exception e)
@@ -139,8 +139,7 @@ namespace OpenIZAdmin.Util
 		{
 			PolicyViewModel viewModel = new PolicyViewModel();
 
-			viewModel.CanOverride = policy.CanOverride;
-			//viewModel.Grant = Enum.GetName(typeof(PolicyGrantType), policy);
+			viewModel.CanOverride = policy.CanOverride;			
 			viewModel.IsPublic = policy.IsPublic;
 			viewModel.Key = policy.Key.Value;
 			viewModel.Name = policy.Name;
@@ -158,7 +157,7 @@ namespace OpenIZAdmin.Util
 
         public static bool IsValidString(string key)
         {
-            if (!string.IsNullOrEmpty(key) || !string.IsNullOrWhiteSpace(key))
+            if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
                 return true;
             else
                 return false;

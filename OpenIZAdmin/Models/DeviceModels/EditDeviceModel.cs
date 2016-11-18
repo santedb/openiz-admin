@@ -17,6 +17,10 @@
  * Date: 2016-8-14
  */
 
+using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Models.PolicyModels.ViewModels;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.DeviceModels
@@ -25,11 +29,30 @@ namespace OpenIZAdmin.Models.DeviceModels
 	{
 		public EditDeviceModel()
 		{
-		}
+            this.Policies = new List<PolicyViewModel>();
+        }
 
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string Name { get; set; }
-	}
+		public string Name { get; set; }        
+
+        [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+        public DateTime CreationTime { get; set; }
+
+        public Guid Key { get; set; }
+
+        public string Id { get; set; }
+
+        public bool IsObsolete { get; set; }
+
+        [Display(Name = "Password", ResourceType = typeof(Localization.Locale))]
+        public string Password { get; set; }
+
+        public List<PolicyViewModel> Policies { get; set; }
+
+        public List<SecurityPolicyInstance> DevicePolicies { get; set; }
+
+        public DateTime? UpdatedTime { get; set; }
+    }
 }

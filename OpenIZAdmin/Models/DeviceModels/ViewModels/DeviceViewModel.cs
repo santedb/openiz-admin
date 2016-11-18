@@ -36,7 +36,9 @@ namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 
 		public Guid Id { get; set; }
 
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+        public bool IsObsolete { get; set; }
+
+        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
 		public List<PolicyViewModel> Policies { get; set; }

@@ -189,6 +189,13 @@
             </summary>
             <returns>Returns a list of applet which match the specific query.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetApplication(System.String)">
+            <summary>
+            Gets a specific application.
+            </summary>
+            <param name="id">The id of the application to retrieve.</param>
+            <returns>Returns the application.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetApplications(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo,System.Boolean}})">
             <summary>
             Gets a list applications for a specific query.
@@ -201,6 +208,13 @@
             </summary>
             <param name="query">The query expression to use to find the assigning authorities.</param>
             <returns>Returns a collection of assigning authorities which match the specified criteria.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.AssigningAuthority(System.String)">
+            <summary>
+            Gets a specific assigning authority.
+            </summary>
+            <param name="id">The id of the assigning authority to retrieve.</param>
+            <returns>Returns the assigning authority.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetCertificates(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.AMI.Security.X509Certificate2Info,System.Boolean}})">
             <summary>
@@ -323,6 +337,14 @@
             <param name="applicationId">The id of the application to be updated.</param>
             <param name="applicationInfo">The application containing the updated information.</param>
             <returns>Returns the updated application.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateDevice(System.String,OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo)">
+            <summary>
+            Updates a device.
+            </summary>
+            <param name="deviceId">The id of the device to be updated.</param>
+            <param name="deviceInfo">The device containing the updated information.</param>
+            <returns>Returns the updated device.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateAssigningAuthority(System.String,OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo)">
             <summary>

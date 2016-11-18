@@ -17,6 +17,7 @@
  * Date: 2016-7-30
  */
 
+using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Models.DeviceModels;
@@ -33,6 +34,30 @@ namespace OpenIZAdmin.Util
 	/// </summary>
 	public static class DeviceUtil
 	{
+
+        public static SecurityDevice GetDevice(AmiServiceClient client, Guid key)
+        {
+            try
+            {
+                var result = client.GetDevices(r => r.Key == key);
+
+                if (result.CollectionItem.Count != 0)
+                {
+                    return result.CollectionItem.FirstOrDefault(); ;
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Trace.TraceError("Unable to retrieve device: {0}", e.StackTrace);
+#endif
+                Trace.TraceError("Unable to retrieve device: {0}", e.Message);
+            }
+
+            return null;
+        }
+        
+
 		/// <summary>
 		/// Gets a list of devices.
 		/// </summary>
@@ -74,16 +99,36 @@ namespace OpenIZAdmin.Util
 			viewModel.Name = device.Name;
 			viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
 			viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
+            viewModel.IsObsolete = IsActiveStatus(device.ObsoletionTime);            
 
-			return viewModel;
+            return viewModel;
 		}
 
-		/// <summary>
-		/// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.CreateDeviceModel"/> to a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/>.
+        /// <summary>
+		/// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/>.
 		/// </summary>
-		/// <param name="model">The create device model to convert.</param>
-		/// <returns>Returns a security device.</returns>
-		public static SecurityDevice ToSecurityDevice(CreateDeviceModel model)
+		/// <param name="device">The security device to convert.</param>
+		/// <returns>Returns a edit device view model.</returns>
+		public static EditDeviceModel ToEditDeviceModel(SecurityDevice device)
+        {
+            EditDeviceModel viewModel = new EditDeviceModel();
+
+            viewModel.CreationTime = device.CreationTime.DateTime;
+            viewModel.Key = device.Key.Value;
+            viewModel.Name = device.Name;
+            viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
+            viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
+            viewModel.IsObsolete = IsActiveStatus(device.ObsoletionTime);
+
+            return viewModel;
+        }
+
+        /// <summary>
+        /// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.CreateDeviceModel"/> to a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/>.
+        /// </summary>
+        /// <param name="model">The create device model to convert.</param>
+        /// <returns>Returns a security device.</returns>
+        public static SecurityDevice ToSecurityDevice(CreateDeviceModel model)
 		{
 			SecurityDevice device = new SecurityDevice();
 
@@ -92,5 +137,49 @@ namespace OpenIZAdmin.Util
 
 			return device;
 		}
+
+        /// <summary>
+        /// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth"/>
+        /// </summary>
+        /// <param name="model">The edit device model to convert.</param>
+        /// /// <param name="device">The device object to apply the changes to.</param>
+        /// <returns>Returns a security device info object.</returns>
+        public static SecurityDeviceInfo ToSecurityDeviceInfo(EditDeviceModel model, SecurityDevice device)
+        {
+            SecurityDeviceInfo deviceInfo = new SecurityDeviceInfo();
+            deviceInfo.Device = device;
+            
+            deviceInfo.Device.ObsoletedBy = null;
+            deviceInfo.Device.ObsoletionTime = null;
+
+            return deviceInfo;
+        }
+
+        /// <summary>
+        /// Verifies a valid string parameter
+        /// </summary>
+        /// <param name="key">The string to validate</param>        
+        /// <returns>Returns true if valid, false if empty or whitespace</returns>
+        public static bool IsValidString(string key)
+        {
+            if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
+                return true;
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Checks if a device is active or inactive
+        /// </summary>
+        /// <param name="date">A DateTimeOffset object</param>        
+        /// <returns>Returns true if active, false if inactive</returns>
+        private static bool IsActiveStatus(DateTimeOffset? date)
+        {
+            if (date != null)
+                return true;
+            else
+                return false;
+        }
+
 	}
 }
