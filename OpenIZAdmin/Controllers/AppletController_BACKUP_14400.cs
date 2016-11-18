@@ -29,8 +29,12 @@ using System.Web.UI.WebControls;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
+<<<<<<< HEAD
+using OpenIZAdmin.Localization;
+=======
 using OpenIZ.Core.Model.AMI.Applet;
 using OpenIZ.Core.Applets.Model;
+>>>>>>> ff452d46e422e1ffa10be2384573e05c2f7383fa
 
 namespace OpenIZAdmin.Controllers
 {
@@ -111,7 +115,7 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index");
 			}
 
-			TempData["error"] = "Unable to upload applet";
+            TempData["error"] = Locale.UnableToUploadApplet;
 
 			return View(model);
 		}

@@ -81,7 +81,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (user == null)
 					{
-						TempData["error"] = Locale.User + " " + Locale.NotFound;
+						TempData["error"] = Locale.UserNotFound;
 
 						return RedirectToAction("Index");
 					}
@@ -91,7 +91,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.amiClient.UpdateUser(userKey, user);
 
-					TempData["success"] = Locale.User + " " + Locale.ActivatedSuccessfully;
+					TempData["success"] = Locale.UserActivatedSuccessfully;
 
 					return RedirectToAction("Index");
 				}
@@ -104,7 +104,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = Locale.UnableToActivate + " " + Locale.User;
+			TempData["error"] = Locale.UnableToActivateUser;
 
 			return RedirectToAction("Index");
 		}
@@ -161,7 +161,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.imsiClient.Create<UserEntity>(userEntity);
 
-                    TempData["success"] = Locale.User + " " + Locale.CreatedSuccessfully;
+					TempData["success"] = "User created successfully";
 
 					return RedirectToAction("Index");
 				}
@@ -178,7 +178,13 @@ namespace OpenIZAdmin.Controllers
 
 			model.RolesList.AddRange(RoleUtil.GetAllRoles(this.amiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
 
-            TempData["error"] = Locale.UnableToCreate + " " + Locale.User;
+			var places = PlaceUtil.GetPlaces(this.imsiClient, 0, 200);
+
+			model.FacilityList.AddRange(places.Select(p => new SelectListItem { Text = string.Join(" ", p.Names.SelectMany(n => n.Component).Select(c => c.Value)), Value = p.Key.Value.ToString() }));
+
+			model.FacilityList = model.FacilityList.OrderBy(c => c.Text).ToList();
+
+			TempData["error"] = "Unable to create user";
 
 			return View(model);
 		}
@@ -198,7 +204,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					this.amiClient.DeleteUser(id);
 
-					TempData["success"] = Locale.User + " " + Locale.DeactivatedSuccessfully;
+					TempData["success"] = Locale.UserDeactivatedSuccessfully;
 
 					return RedirectToAction("Index");
 				}
@@ -211,7 +217,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = Locale.UnableToDeactivate + " " + Locale.User;
+			TempData["error"] = Locale.UnableToDeactivateUser;
 
 			return RedirectToAction("Index");
 		}
@@ -240,7 +246,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (userEntity == null)
 				{
-					TempData["error"] = Locale.User + " " + Locale.NotFound;
+					TempData["error"] = Locale.UserNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -261,7 +267,7 @@ namespace OpenIZAdmin.Controllers
 				return View(model);
 			}
 
-			TempData["error"] = Locale.User + " " + Locale.NotFound;
+			TempData["error"] = Locale.UserNotFound;
 
 			return RedirectToAction("Index");
 		}
@@ -283,9 +289,9 @@ namespace OpenIZAdmin.Controllers
 
 					if (userEntity == null)
 					{
-						TempData["error"] = Locale.User + " " + Locale.NotFound;
+						TempData["error"] = Locale.UserNotFound;
 
-                        return RedirectToAction("Index");
+						return RedirectToAction("Index");
 					}
 
 					EntityName name = new EntityName();
@@ -316,7 +322,7 @@ namespace OpenIZAdmin.Controllers
 					this.amiClient.UpdateUser(userEntity.SecurityUserKey.Value, new SecurityUserInfo(userEntity.SecurityUser));
 					this.imsiClient.Update<UserEntity>(userEntity);
 
-					TempData["success"] = Locale.User + " " + Locale.UpdatedSuccessfully;
+					TempData["success"] = Locale.UserUpdatedSuccessfully;
 
 					return Redirect("Index");
 				}
@@ -329,7 +335,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.User;
+			TempData["error"] = Locale.UnableToUpdateUser;
 
 			return View(model);
 		}
@@ -389,8 +395,8 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError("Unable to search users: {0}", e.Message);
 			}
 
-			TempData["error"] = Locale.User + " " + Locale.NotFound;
-            TempData["searchTerm"] = searchTerm;
+			TempData["error"] = Locale.UserNotFound;
+			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_UsersPartial", users);
 		}
@@ -406,9 +412,9 @@ namespace OpenIZAdmin.Controllers
 
 				if (result.CollectionItem.Count == 0)
 				{
-					TempData["error"] = Locale.User + " " + Locale.NotFound;
+					TempData["error"] = Locale.UserNotFound;
 
-                    return RedirectToAction("Index");
+					return RedirectToAction("Index");
 				}
 
 				var userViewModel = UserUtil.ToUserViewModel(result.CollectionItem.Single());
@@ -419,9 +425,9 @@ namespace OpenIZAdmin.Controllers
 
 					if (user == null)
 					{
-						TempData["error"] = Locale.User + " " + Locale.NotFound;
+						TempData["error"] = Locale.UserNotFound;
 
-                        return RedirectToAction("Index");
+						return RedirectToAction("Index");
 					}
 
 					userViewModel.Name = string.Join(" ", user.Names.SelectMany(n => n.Component).Select(c => c.Value));
@@ -450,9 +456,9 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = Locale.User + " " + Locale.NotFound;
+			TempData["error"] = Locale.UserNotFound;
 
-            return RedirectToAction("Index");
+			return RedirectToAction("Index");
 		}
 	}
 }
