@@ -29,11 +29,13 @@ using System.Web.UI.WebControls;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
+using OpenIZ.Core.Model.AMI.Applet;
+using OpenIZ.Core.Applets.Model;
 
 namespace OpenIZAdmin.Controllers
 {
 	/// <summary>
-	/// Contains operations for managing applets.
+	/// Provides operations for managing applets.
 	/// </summary>
 	[TokenAuthorize]
 	public class AppletController : Controller
@@ -50,16 +52,6 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Index()
 		{
-			try
-			{
-				
-			}
-			catch (Exception)
-			{
-
-				throw;
-			}
-
 			List<AppletViewModel> applets = new List<AppletViewModel>
 			{
 				new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.authentication", "0.5.0.0"),
@@ -82,24 +74,32 @@ namespace OpenIZAdmin.Controllers
 			base.OnActionExecuting(filterContext);
 		}
 
+		/// <summary>
+		/// Displays the upload view.
+		/// </summary>
+		/// <returns>Returns the upload view.</returns>
 		[HttpGet]
 		public ActionResult Upload()
 		{
 			return View();
 		}
 
+		/// <summary>
+		/// Uploads an applet.
+		/// </summary>
+		/// <param name="model">The model containing the applet.</param>
+		/// <returns>Returns the upload view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Upload(UploadAppletModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				string pathToSave = Server.MapPath("~/Applets/");
-				string filename = Path.GetFileName(Request.Files[0].FileName);
+				AppletManifestInfo manifestInfo = new AppletManifestInfo(AppletManifest.Load(Request.Files[0].InputStream));
 
-				Request.Files[0].SaveAs(Path.Combine(pathToSave, Guid.NewGuid().ToString() + "." + filename));
+				this.client.CreateApplet(manifestInfo);
 
-				TempData["success"] = string.Format("Applet {0} uploaded successfully", filename);
+				TempData["success"] = "Applet uploaded successfully";
 
 				if (model.UploadAnotherFile)
 				{
