@@ -29,9 +29,12 @@ using System.Web.UI.WebControls;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
+<<<<<<< HEAD
+using OpenIZAdmin.Localization;
+=======
 using OpenIZ.Core.Model.AMI.Applet;
 using OpenIZ.Core.Applets.Model;
-using OpenIZAdmin.Localization;
+>>>>>>> ff452d46e422e1ffa10be2384573e05c2f7383fa
 
 namespace OpenIZAdmin.Controllers
 {
@@ -100,7 +103,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.client.CreateApplet(manifestInfo);
 
-                TempData["success"] = Locale.AppletUploadedSuccessfully;
+				TempData["success"] = "Applet uploaded successfully";
 
 				if (model.UploadAnotherFile)
 				{

@@ -126,9 +126,6 @@
   <data name="PasswordRequired" xml:space="preserve">
     <value>The Password field is required</value>
   </data>
-  <data name="RoleNotFound" xml:space="preserve">
-    <value>Role not found</value>
-  </data>
   <data name="Username" xml:space="preserve">
     <value>Username</value>
   </data>
@@ -137,9 +134,6 @@
   </data>
   <data name="UsernameTooLong" xml:space="preserve">
     <value>The Username field must be between 1 and 255 characters</value>
-  </data>
-  <data name="UserNotFound" xml:space="preserve">
-    <value>User not found</value>
   </data>
   <data name="Certificates" xml:space="preserve">
     <value>Certificates</value>
@@ -228,9 +222,6 @@
   <data name="Cancel" xml:space="preserve">
     <value>Cancel</value>
   </data>
-  <data name="ConceptNotFound" xml:space="preserve">
-    <value>Concept not found</value>
-  </data>
   <data name="CurrentRealm" xml:space="preserve">
     <value>Current Realm</value>
   </data>
@@ -242,9 +233,6 @@
   </data>
   <data name="Logoff" xml:space="preserve">
     <value>Logoff</value>
-  </data>
-  <data name="PlaceNotFound" xml:space="preserve">
-    <value>Place not found</value>
   </data>
   <data name="Save" xml:space="preserve">
     <value>Save</value>
@@ -279,9 +267,6 @@
   <data name="View" xml:space="preserve">
     <value>View</value>
   </data>
-  <data name="NoConceptsFound" xml:space="preserve">
-    <value>No concepts found</value>
-  </data>
   <data name="JoinNewRealm" xml:space="preserve">
     <value>Join New Realm</value>
   </data>
@@ -311,9 +296,6 @@
   </data>
   <data name="Longitude" xml:space="preserve">
     <value>Longitude</value>
-  </data>
-  <data name="NoPlacesFound" xml:space="preserve">
-    <value>No places found</value>
   </data>
   <data name="NoRolesAdded" xml:space="preserve">
     <value>No roles have been added</value>
@@ -363,21 +345,6 @@
   <data name="User" xml:space="preserve">
     <value>User</value>
   </data>
-  <data name="UnableToUpdateDevice" xml:space="preserve">
-    <value>Unable to update device</value>
-  </data>
-  <data name="UnableToUpdatePlace" xml:space="preserve">
-    <value>Unable to update place</value>
-  </data>
-  <data name="UnableToUpdateProfile" xml:space="preserve">
-    <value>Unable to update profile</value>
-  </data>
-  <data name="UnableToUpdateUser" xml:space="preserve">
-    <value>Unable to update user</value>
-  </data>
-  <data name="UpdateToUpdateRole" xml:space="preserve">
-    <value>Unable to update role</value>
-  </data>
   <data name="UserView" xml:space="preserve">
     <value>User View</value>
   </data>
@@ -426,17 +393,11 @@
   <data name="RolesRequired" xml:space="preserve">
     <value>Please select a role</value>
   </data>
-  <data name="NoPoliciesFound" xml:space="preserve">
-    <value>No policies found</value>
-  </data>
   <data name="Policies" xml:space="preserve">
     <value>Policies</value>
   </data>
   <data name="Policy" xml:space="preserve">
     <value>Policy</value>
-  </data>
-  <data name="UnableToCreatePolicy" xml:space="preserve">
-    <value>Unable to create policy</value>
   </data>
   <data name="PolicySearchResults" xml:space="preserve">
     <value>Policy Search Results</value>
@@ -471,14 +432,8 @@
   <data name="Elevate" xml:space="preserve">
     <value>Elevate</value>
   </data>
-  <data name="PolicyNotFound" xml:space="preserve">
-    <value>Policy not found</value>
-  </data>
   <data name="IsPublic" xml:space="preserve">
     <value>Is Public</value>
-  </data>
-  <data name="DeviceNotFound" xml:space="preserve">
-    <value>Device not found</value>
   </data>
   <data name="ChangePassword" xml:space="preserve">
     <value>Change Password</value>
@@ -498,17 +453,11 @@
   <data name="JoinRealm" xml:space="preserve">
     <value>Join Realm</value>
   </data>
-  <data name="ConceptCreatedSuccessfully" xml:space="preserve">
-    <value>Concept created successfully</value>
-  </data>
   <data name="Language" xml:space="preserve">
     <value>Language</value>
   </data>
   <data name="LanguageRequired" xml:space="preserve">
     <value>Please select a language</value>
-  </data>
-  <data name="UnableToCreateConcept" xml:space="preserve">
-    <value>Unable to create concept</value>
   </data>
   <data name="CreateConcept" xml:space="preserve">
     <value>Create Concept</value>
@@ -555,9 +504,6 @@
   <data name="UpdateProfile" xml:space="preserve">
     <value>Update profile</value>
   </data>
-  <data name="ProfileUpdatedSuccessfully" xml:space="preserve">
-    <value>Profile Updated Successfully</value>
-  </data>
   <data name="FamilyNames" xml:space="preserve">
     <value>Family Names</value>
   </data>
@@ -591,26 +537,11 @@
   <data name="DescriptionTooLong" xml:space="preserve">
     <value>The description field must be not exceed 1000 characters</value>
   </data>
-  <data name="RoleCreatedSuccessfully" xml:space="preserve">
-    <value>Role created successfully</value>
-  </data>
-  <data name="RoleUpdatedSuccessfully" xml:space="preserve">
-    <value>Role updated successfully</value>
-  </data>
-  <data name="UnableToCreateRole" xml:space="preserve">
-    <value>Unable to create role</value>
-  </data>
-  <data name="UnableToUpdateRole" xml:space="preserve">
-    <value>Unable to update role</value>
-  </data>
   <data name="EditRole" xml:space="preserve">
     <value>Edit Role</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Loading</value>
-  </data>
-  <data name="UserUpdatedSuccessfully" xml:space="preserve">
-    <value>User updated successfully</value>
   </data>
   <data name="HealthFacility" xml:space="preserve">
     <value>Health Facility</value>
@@ -618,23 +549,11 @@
   <data name="Deactivate" xml:space="preserve">
     <value>Deactivate</value>
   </data>
-  <data name="UnableToDeactivateUser" xml:space="preserve">
-    <value>Unable to deactivate user</value>
-  </data>
-  <data name="UserDeactivatedSuccessfully" xml:space="preserve">
-    <value>User deactivated successfully</value>
-  </data>
   <data name="LastLoginTime" xml:space="preserve">
     <value>Last login time</value>
   </data>
   <data name="Activate" xml:space="preserve">
     <value>Activate</value>
-  </data>
-  <data name="UnableToActivateUser" xml:space="preserve">
-    <value>Unable to activate user</value>
-  </data>
-  <data name="UserActivatedSuccessfully" xml:space="preserve">
-    <value>User activated successfully</value>
   </data>
   <data name="CreateProvider" xml:space="preserve">
     <value>Create Provider</value>
@@ -684,9 +603,6 @@
   <data name="NotFound" xml:space="preserve">
     <value>Not Found</value>
   </data>
-  <data name="NoProvidersFound" xml:space="preserve">
-    <value>No providers found</value>
-  </data>
   <data name="ProviderSpecialty" xml:space="preserve">
     <value>Provider Specialty</value>
   </data>
@@ -698,18 +614,6 @@
   </data>
   <data name="OIDAllCaps" xml:space="preserve">
     <value>OID</value>
-  </data>
-  <data name="PolicyActivatedSuccessfully" xml:space="preserve">
-    <value>Policy activated successfully</value>
-  </data>
-  <data name="PolicyDeletedSuccessfully" xml:space="preserve">
-    <value>Policy deleted successfully</value>
-  </data>
-  <data name="UnableToActivatePolicy" xml:space="preserve">
-    <value>Unable to activate policy</value>
-  </data>
-  <data name="UnableToDeletePolicy" xml:space="preserve">
-    <value>Unable to delete policy</value>
   </data>
   <data name="Message" xml:space="preserve">
     <value>Message</value>
@@ -729,7 +633,130 @@
   <data name="System" xml:space="preserve">
     <value>System</value>
   </data>
-  <data name="UnableToUpdatePolicy" xml:space="preserve">
-    <value>Unable to update policy</value>
+  <data name="ActivatedSuccessfully" xml:space="preserve">
+    <value>activated successfully</value>
+  </data>
+  <data name="AppletUploadedSuccessfully" xml:space="preserve">
+    <value>Applet uploaded successfully</value>
+  </data>
+  <data name="AssigningAuthority" xml:space="preserve">
+    <value>Assigning authority</value>
+  </data>
+  <data name="Certificate" xml:space="preserve">
+    <value>Certificate</value>
+  </data>
+  <data name="CertificateSigningRequestAccepted" xml:space="preserve">
+    <value>Certificate signing request successfully accepted</value>
+  </data>
+  <data name="CertificateSigningRequestSuccessfullySubmitted" xml:space="preserve">
+    <value>Certificate signing request successfully submitted</value>
+  </data>
+  <data name="ConceptSets" xml:space="preserve">
+    <value>concept sets</value>
+  </data>
+  <data name="CreatedSuccessfully" xml:space="preserve">
+    <value>created successfully</value>
+  </data>
+  <data name="DeactivatedSuccessfully" xml:space="preserve">
+    <value>deactivated successfully</value>
+  </data>
+  <data name="DeletedSuccessfully" xml:space="preserve">
+    <value>deleted successfully</value>
+  </data>
+  <data name="EditedSuccessfully" xml:space="preserve">
+    <value>edited successfully</value>
+  </data>
+  <data name="InvalidSearch" xml:space="preserve">
+    <value>Invalid search, please check your search criteria</value>
+  </data>
+  <data name="NoPoliciesFound" xml:space="preserve">
+    <value>No policies found</value>
+  </data>
+  <data name="NoProvidersFound" xml:space="preserve">
+    <value>No providers found</value>
+  </data>
+  <data name="Profile" xml:space="preserve">
+    <value>Profile</value>
+  </data>
+  <data name="Provider" xml:space="preserve">
+    <value>Provider</value>
+  </data>
+  <data name="Realm" xml:space="preserve">
+    <value>Realm</value>
+  </data>
+  <data name="RealmJoinedSuccessfully" xml:space="preserve">
+    <value>Realm joined successfully</value>
+  </data>
+  <data name="RealmLeftSuccessfully" xml:space="preserve">
+    <value>Realm left successfully</value>
+  </data>
+  <data name="RealmSwitchedSuccessfully" xml:space="preserve">
+    <value>Realm switched successfully</value>
+  </data>
+  <data name="SecurityApplication" xml:space="preserve">
+    <value>security application</value>
+  </data>
+  <data name="Unable to upload applet" xml:space="preserve">
+    <value>Unable to upload applet</value>
+  </data>
+  <data name="UnableToAcceptCertificateSigningRequest" xml:space="preserve">
+    <value>Unable to accept certificate signing request</value>
+  </data>
+  <data name="UnableToActivate" xml:space="preserve">
+    <value>Unable to activate</value>
+  </data>
+  <data name="UnableToCreate" xml:space="preserve">
+    <value>Unable to create</value>
+  </data>
+  <data name="UnableToDeactivate" xml:space="preserve">
+    <value>Unable to deactivate</value>
+  </data>
+  <data name="UnableToDelete" xml:space="preserve">
+    <value>Unable to delete</value>
+  </data>
+  <data name="UnableToFindSpecifiedCertificate" xml:space="preserve">
+    <value>Unable to find specified certificate</value>
+  </data>
+  <data name="UnableToFindSpecifiedCertificateSigningRequest" xml:space="preserve">
+    <value>Unable to find specified certificate signing request</value>
+  </data>
+  <data name="UnableToJoinRealm" xml:space="preserve">
+    <value>Unable to join realm</value>
+  </data>
+  <data name="UnableToLeaveRealm" xml:space="preserve">
+    <value>Unable to leave realm</value>
+  </data>
+  <data name="UnableToRejectCertificateSigningRequest" xml:space="preserve">
+    <value>Unable to reject certificate signing request</value>
+  </data>
+  <data name="UnableToRetrieve" xml:space="preserve">
+    <value>Unable to retrieve</value>
+  </data>
+  <data name="UnableToRetrieveCertificateList" xml:space="preserve">
+    <value>Unable to retrieve certificate list</value>
+  </data>
+  <data name="UnableToRetrieveCertificateRevocationlist" xml:space="preserve">
+    <value>Unable to retrieve certificate revocation list</value>
+  </data>
+  <data name="UnableToRetrieveCertificateSigningRequestList" xml:space="preserve">
+    <value>Unable to retrieve certificate signing request list</value>
+  </data>
+  <data name="UnableToRetrievePlaceList" xml:space="preserve">
+    <value>Unable to retrieve place list</value>
+  </data>
+  <data name="UnableToSubmitCertificateSigningRequest" xml:space="preserve">
+    <value>Unable to submit certificate signing request</value>
+  </data>
+  <data name="UnableToSwitchRealm" xml:space="preserve">
+    <value>Unable to switch realm</value>
+  </data>
+  <data name="UnableToUpdate" xml:space="preserve">
+    <value>Unable to update</value>
+  </data>
+  <data name="UnableToUploadApplet" xml:space="preserve">
+    <value>Unable to upload applet</value>
+  </data>
+  <data name="UpdatedSuccessfully" xml:space="preserve">
+    <value>updated successfully</value>
   </data>
 </root>

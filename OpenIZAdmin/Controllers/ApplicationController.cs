@@ -19,6 +19,7 @@
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ApplicationModels;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
@@ -64,7 +65,7 @@ namespace OpenIZAdmin.Controllers
 
 			}
 
-			TempData["error"] = "Unable to create security application";
+            TempData["error"] = Locale.UnableToCreate + " " + Locale.SecurityApplication;
 
 			return View(model);
 		}

@@ -424,7 +424,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.imsiClient.Update<UserEntity>(userEntity);
 
-					TempData["success"] = Locale.ProfileUpdatedSuccessfully;
+					TempData["success"] = Locale.Profile + " " + Locale.UpdatedSuccessfully;
 
 					return RedirectToAction("Index", "Home");
 				}
@@ -437,7 +437,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = Locale.UnableToUpdateProfile;
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Profile;
 
 			return View(model);
 		}

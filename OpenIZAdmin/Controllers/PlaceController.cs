@@ -21,6 +21,7 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Query;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.PlaceModels;
 using OpenIZAdmin.Models.PlaceModels.ViewModels;
 using OpenIZAdmin.Services.Http;
@@ -69,7 +70,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = "Unable to create place";
+            TempData["error"] = Locale.UnableToCreate + " " + Locale.Place;
 			return View(model);
 		}
 
@@ -98,7 +99,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (place == null)
 					{
-						TempData["error"] = "Place not found";
+                        TempData["error"] = Locale.Place + " " + Locale.NotFound;
 						return RedirectToAction("Index");
 					}
 
@@ -106,8 +107,8 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = "Place not found";
-			return RedirectToAction("Index");
+			TempData["error"] = Locale.Place + " " + Locale.NotFound;
+            return RedirectToAction("Index");
 		}
 
 		[HttpPost]
@@ -132,7 +133,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = Localization.Locale.UnableToUpdatePlace;
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Place;
 			return View(model);
 		}
 
@@ -156,7 +157,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError("Unable to retrieve places: {0}", e.Message);
 			}
 
-			TempData["error"] = "Unable to retrieve place list";
+            TempData["error"] = Locale.UnableToRetrievePlaceList;
 
 			return View(new List<PlaceViewModel>());
 		}
@@ -223,7 +224,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (place == null)
 					{
-						TempData["error"] = "Place not found";
+                        TempData["error"] = Locale.Place + " " + Locale.NotFound;
 						return RedirectToAction("Index");
 					}
 
@@ -231,8 +232,8 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = "Place not found";
-			return RedirectToAction("Index");
+			TempData["error"] = Locale.Place + " " + Locale.NotFound;
+            return RedirectToAction("Index");
 		}
 	}
 }

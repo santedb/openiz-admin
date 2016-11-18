@@ -20,6 +20,7 @@
 using Microsoft.AspNet.Identity.Owin;
 using OpenIZAdmin.DAL;
 using OpenIZAdmin.Extensions;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.Domain;
 using OpenIZAdmin.Models.RealmModels;
@@ -239,8 +240,7 @@ namespace OpenIZAdmin.Controllers
 
 				switch (result)
 				{
-					case SignInStatus.Success:
-						//EntitySource.Current = new EntitySource(new WebEntitySourceProvider());
+					case SignInStatus.Success:						
 						Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
 						break;
 
@@ -253,16 +253,16 @@ namespace OpenIZAdmin.Controllers
 							unitOfWork.Save();
 						}
 
-						ModelState.AddModelError("", "Incorrect Username or Password");
+						ModelState.AddModelError("", Locale.IncorrectUsernameOrPassword);
 						return View(model);
 				}
 
-				TempData["success"] = "Realm joined successfully";
+                TempData["success"] = Locale.RealmJoinedSuccessfully;
 
 				return RedirectToAction("Index", "Home");
 			}
 
-			TempData["error"] = "Unable to join realm";
+			TempData["error"] = Locale.UnableToJoinRealm;
 
 			return View(model);
 		}
@@ -296,7 +296,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (realm == null)
 				{
-					TempData["error"] = "Realm not found";
+                    TempData["error"] = Locale.Realm + " " + Locale.NotFound;
 					return RedirectToAction("Index");
 				}
 
@@ -307,12 +307,12 @@ namespace OpenIZAdmin.Controllers
 
 				SignInManager.AuthenticationManager.SignOut();
 
-				TempData["success"] = "Realm left successfully";
+                TempData["success"] = Locale.RealmLeftSuccessfully;
 
 				return RedirectToAction("Index", "Home");
 			}
 
-			TempData["error"] = "Unable to leave realm";
+            TempData["error"] = Locale.UnableToLeaveRealm; 
 
 			return View(model);
 		}
@@ -332,7 +332,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (realm == null)
 				{
-					TempData["error"] = "Realm not found";
+                    TempData["error"] = Locale.Realm + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -347,13 +347,13 @@ namespace OpenIZAdmin.Controllers
 				unitOfWork.RealmRepository.Update(realm);
 				unitOfWork.Save();
 
-				TempData["success"] = "Realm switched successfully";
+                TempData["success"] = Locale.RealmSwitchedSuccessfully;
 				HttpContext.GetOwinContext().Authentication.SignOut();
 
 				return RedirectToAction("Login", "Account");
 			}
 
-			TempData["error"] = "Unable to switch realm";
+            TempData["error"] = Locale.UnableToSwitchRealm;
 
 			return View();
 		}

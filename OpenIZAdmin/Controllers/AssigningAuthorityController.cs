@@ -90,7 +90,7 @@ namespace OpenIZAdmin.Controllers
                     var test = "";
 
                     var results = this.client.CreateAssigningAuthority(AssigningAuthorityUtil.ToCreateAssigningAuthorityModel(model));
-                    TempData["success"] = "Assigning authority created successfully";
+                    TempData["success"] = Locale.AssigningAuthority + " " + Locale.CreatedSuccessfully;
                     return RedirectToAction("Index");
                 }
                 catch (Exception e)
@@ -102,7 +102,7 @@ namespace OpenIZAdmin.Controllers
                 }
             }
 
-            TempData["error"] = "Assigning authority not found";
+            TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
             return RedirectToAction("Index");
         }
 
@@ -141,7 +141,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError("Unable to search assigning authorities: {0}", e.Message);
 			}
 
-			TempData["error"] = "Invalid search, please check your search criteria";
+            TempData["error"] = Locale.InvalidSearch;
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_AssigningAuthoritySearchResultsPartial", assigningAuthorities);
@@ -162,7 +162,7 @@ namespace OpenIZAdmin.Controllers
 
                     singleAssigningAuthority.AssigningAuthority.ObsoletionTime = new DateTimeOffset(DateTime.Now);
 					this.client.DeleteAssigningAuthority(key);
-                    TempData["success"] = "Assigning authority deleted successfully";
+                    TempData["success"] = Locale.AssigningAuthority + " " + Locale.DeletedSuccessfully;
                     return RedirectToAction("Index");
                 }
                 catch (Exception e)
@@ -174,7 +174,7 @@ namespace OpenIZAdmin.Controllers
                 }
             }
 
-            TempData["error"] = "Assigning authority not found";
+            TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
             return RedirectToAction("Index");
         }
 
@@ -202,7 +202,7 @@ namespace OpenIZAdmin.Controllers
                 }
             }
 
-            TempData["error"] = "Assigning authority not found";
+            TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
             return RedirectToAction("Index");
         }
 
@@ -232,7 +232,7 @@ namespace OpenIZAdmin.Controllers
                 }
             }
 
-            TempData["error"] = "Assigning authority not found";
+            TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
             return RedirectToAction("Index");
         }
 
@@ -254,7 +254,7 @@ namespace OpenIZAdmin.Controllers
 
                     var key = assigningAuthority.AssigningAuthority.Key.Value.ToString();
                     this.client.UpdateAssigningAuthority(key,  assigningAuthority);
-                    TempData["success"] = "Assigning authority edited successfully";
+                    TempData["success"] = Locale.AssigningAuthority + " " + Locale.EditedSuccessfully;
                     return View("Index");
 
 
@@ -267,7 +267,7 @@ namespace OpenIZAdmin.Controllers
                     Trace.TraceError("Unable to find assigning authority: {0}", e.Message);
                 }
             }
-            TempData["error"] = "Assigning authority not found";
+            TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
             return RedirectToAction("Index");
         }
     }

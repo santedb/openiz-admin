@@ -64,7 +64,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					var provider = this.imsiClient.Create<Provider>(ProviderUtil.ToProvider(model));
 
-					TempData["success"] = "Provider created successfully";
+					TempData["success"] = Locale.Provider + " " + Locale.CreatedSuccessfully;
 					return RedirectToAction("ViewProvider", new { key = provider.Key, versionKey = provider.VersionKey });
 				}
 				catch (Exception e)
@@ -76,7 +76,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = "Unable to create provider";
+            TempData["error"] = Locale.UnableToCreate + " " + Locale.Provider;
 			return View(model);
 		}
 
@@ -85,36 +85,24 @@ namespace OpenIZAdmin.Controllers
 		{
             Guid providerKey = Guid.Empty;
             Guid providerVersionKey = Guid.Empty;
-
-            //if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key) && Guid.TryParse(key, out userId))
+            
             if (ProviderUtil.IsValidString(key) && Guid.TryParse(key, out providerKey) && ProviderUtil.IsValidString(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
             {
                 var providerEntity = ProviderUtil.GetProviderEntity(this.imsiClient, key, versionKey);
 
                 if (providerEntity == null)
                 {
-                    TempData["error"] = Locale.UserNotFound;
+                    TempData["error"] = Locale.Provider + " " + Locale.NotFound;
 
                     return RedirectToAction("Index");
                 }
 
-                EditProviderModel model = ProviderUtil.ToEditProviderModel(providerEntity);
-
-                //model.FacilityList.Add(new SelectListItem { Text = "", Value = "" });
-                //model.FacilityList.AddRange(PlaceUtil.GetPlaces(this.imsiClient).Select(p => new SelectListItem { Text = string.Join(" ", p.Names.SelectMany(n => n.Component).Select(c => c.Value)), Value = p.Key.ToString() }));
-
-                //model.FacilityList = model.FacilityList.OrderBy(p => p.Text).ToList();
-
-                //model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-                //model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-
-                //model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
-                //model.RolesList.AddRange(RoleUtil.GetAllRoles(this.amiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }));
+                EditProviderModel model = ProviderUtil.ToEditProviderModel(providerEntity);               
 
                 return View(model);
             }
 
-            TempData["error"] = Locale.UserNotFound;
+            TempData["error"] = Locale.Provider + " " + Locale.NotFound;
 
             return RedirectToAction("Index");
         }
@@ -129,7 +117,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					var provider = this.imsiClient.Update<Provider>(ProviderUtil.ToProvider(model));
 
-					TempData["success"] = "Provider updated successfully";
+                    TempData["success"] = Locale.Provider + " " + Locale.UpdatedSuccessfully;
 					return RedirectToAction("ViewProvider", new { key = provider.Key, versionKey = provider.VersionKey });
 				}
 				catch (Exception e)
@@ -141,14 +129,14 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = "Unable to update provider";
+            TempData["error"] = Locale.UnableToUpdate + " "  + Locale.Provider;
 			return View(model);
 		}
 
 		[HttpGet]
 		public ActionResult Index()
 		{
-			TempData["searchType"] = "Provider";
+            TempData["searchType"] = Locale.Provider;
 			return View();
 		}
 
@@ -169,14 +157,11 @@ namespace OpenIZAdmin.Controllers
 		{
 			Guid providerKey = Guid.Empty;
 			Guid providerVersionKey = Guid.Empty;
-
-			//if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key) && Guid.TryParse(key, out providerKey) &&
-			//	!string.IsNullOrEmpty(versionKey) && !string.IsNullOrWhiteSpace(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
+			
             if (ProviderUtil.IsValidString(key) && Guid.TryParse(key, out providerKey) && ProviderUtil.IsValidString(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
                 {
 				try
-				{
-					//var provider = this.imsiClient.Get<Provider>(providerKey, providerVersionKey);
+				{					
                     var provider = this.imsiClient.Get<Provider>(providerKey, null);
 
                     object model = null;
@@ -192,8 +177,8 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = "Provider not found";
-			return RedirectToAction("Index");
+			TempData["error"] = Locale.Provider + " " + Locale.NotFound;
+            return RedirectToAction("Index");
 		}
 
 
@@ -221,7 +206,7 @@ namespace OpenIZAdmin.Controllers
                 Trace.TraceError("Unable to search Providers: {0}", e.Message);
             }
 
-            TempData["error"] = "Invalid search, please check your search criteria";
+            TempData["error"] = Locale.InvalidSearch;
             TempData["searchTerm"] = searchTerm;
 
             return PartialView("_ProviderSearchResultsPartial", provider);
