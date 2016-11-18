@@ -31,6 +31,7 @@ using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
 using OpenIZ.Core.Model.AMI.Applet;
 using OpenIZ.Core.Applets.Model;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -99,7 +100,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.client.CreateApplet(manifestInfo);
 
-				TempData["success"] = "Applet uploaded successfully";
+                TempData["success"] = Locale.AppletUploadedSuccessfully;
 
 				if (model.UploadAnotherFile)
 				{
@@ -111,7 +112,7 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index");
 			}
 
-			TempData["error"] = "Unable to upload applet";
+            TempData["error"] = Locale.UnableToUploadApplet;
 
 			return View(model);
 		}

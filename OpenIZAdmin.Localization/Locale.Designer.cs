@@ -160,6 +160,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Applet uploaded successfully.
+        /// </summary>
+        public static string AppletUploadedSuccessfully {
+            get {
+                return ResourceManager.GetString("AppletUploadedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application Id.
         /// </summary>
         public static string ApplicationId {
@@ -1623,6 +1632,15 @@ namespace OpenIZAdmin.Localization {
         public static string To {
             get {
                 return ResourceManager.GetString("To", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to upload applet.
+        /// </summary>
+        public static string Unable_to_upload_applet {
+            get {
+                return ResourceManager.GetString("Unable to upload applet", resourceCulture);
             }
         }
         

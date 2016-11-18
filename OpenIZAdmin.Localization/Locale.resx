@@ -636,6 +636,9 @@
   <data name="ActivatedSuccessfully" xml:space="preserve">
     <value>activated successfully</value>
   </data>
+  <data name="AppletUploadedSuccessfully" xml:space="preserve">
+    <value>Applet uploaded successfully</value>
+  </data>
   <data name="AssigningAuthority" xml:space="preserve">
     <value>Assigning authority</value>
   </data>
@@ -692,6 +695,9 @@
   </data>
   <data name="SecurityApplication" xml:space="preserve">
     <value>security application</value>
+  </data>
+  <data name="Unable to upload applet" xml:space="preserve">
+    <value>Unable to upload applet</value>
   </data>
   <data name="UnableToAcceptCertificateSigningRequest" xml:space="preserve">
     <value>Unable to accept certificate signing request</value>
