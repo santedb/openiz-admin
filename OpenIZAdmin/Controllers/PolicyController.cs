@@ -72,7 +72,7 @@ namespace OpenIZAdmin.Controllers
 
                     if (policyInfo == null)
                     {
-                        TempData["error"] = Locale.PolicyNotFound;
+                        TempData["error"] = Locale.Policy + " " +  Locale.NotFound;
 
                         return RedirectToAction("Index");
                     }
@@ -82,7 +82,7 @@ namespace OpenIZAdmin.Controllers
 
                     this.client.UpdatePolicy(id, policyInfo);
 
-                    TempData["success"] = Locale.PolicyActivatedSuccessfully;
+                    TempData["success"] = Locale.Policy + " " + Locale.ActivatedSuccessfully;
 
                     return RedirectToAction("Index");
                 }
@@ -95,7 +95,7 @@ namespace OpenIZAdmin.Controllers
                 }
             }
 
-            TempData["error"] = Locale.UnableToActivatePolicy;
+            TempData["error"] = Locale.UnableToActivate + " " + Locale.Policy;
 
             return RedirectToAction("Index");
         }
@@ -134,7 +134,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					this.client.CreatePolicy(policy);
 
-					TempData["success"] = "Policy created successfully";
+					TempData["success"] = Locale.Policy + " " +  Locale.CreatedSuccessfully;
 
 					return RedirectToAction("Index");
 				}
@@ -166,7 +166,7 @@ namespace OpenIZAdmin.Controllers
 				try
 				{
 					this.client.DeletePolicy(id);
-                    TempData["success"] = Locale.PolicyDeletedSuccessfully;
+                    TempData["success"] = Locale.Policy + " " + Locale.DeletedSuccessfully;
 
                     return RedirectToAction("Index");
 				}
@@ -179,7 +179,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-            TempData["error"] = Locale.UnableToDeletePolicy;
+            TempData["error"] = Locale.UnableToDelete + " " + Locale.Policy;
 
 
             return RedirectToAction("Index");
@@ -210,7 +210,7 @@ namespace OpenIZAdmin.Controllers
                 
                 if (policyInfo == null)
                 {
-                    TempData["error"] = Localization.Locale.PolicyNotFound;
+                    TempData["error"] = Locale.Policy + " " + Locale.NotFound;
 
                     return RedirectToAction("Index");
                 }
@@ -218,7 +218,7 @@ namespace OpenIZAdmin.Controllers
                 return View(PolicyUtil.ToEditPolicyModel(policyInfo));
             }
 
-            TempData["error"] = Locale.PolicyNotFound;
+            TempData["error"] = Locale.Policy + " " + Locale.NotFound;
 
             return RedirectToAction("Index");
         }
@@ -241,7 +241,7 @@ namespace OpenIZAdmin.Controllers
                    
                     if(policy == null)
                     { 
-                        TempData["error"] = Localization.Locale.PolicyNotFound;
+                        TempData["error"] = Locale.Policy + " " + Locale.NotFound;
 
                         return RedirectToAction("Index");
                     }
@@ -251,7 +251,7 @@ namespace OpenIZAdmin.Controllers
                                        
                     this.client.UpdatePolicy(model.Key.ToString(), policyInfo);
 
-                    TempData["success"] = "Policy updated successfully";
+                    TempData["success"] = Locale.Policy + " " + Locale.UpdatedSuccessfully;
 
                     return RedirectToAction("Index");         
                                                                      
@@ -265,7 +265,7 @@ namespace OpenIZAdmin.Controllers
                 }
             }
 
-            TempData["error"] = Locale.UnableToUpdatePolicy;
+            TempData["error"] = Locale.UnableToUpdate + " " + Locale.Policy;
 
             return View(model);
         }
@@ -313,7 +313,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError("Unable to search policies: {0}", e.Message);
 			}
 
-			TempData["error"] = "Invalid search, please check your search criteria";
+            TempData["error"] = Locale.InvalidSearch;
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_PoliciesPartial", policies);
@@ -330,7 +330,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (result.CollectionItem.Count == 0)
 				{
-					TempData["error"] = Localization.Locale.PolicyNotFound;
+					TempData["error"] = Locale.Policy + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -338,9 +338,9 @@ namespace OpenIZAdmin.Controllers
 				return View(PolicyUtil.ToPolicyViewModel(result.CollectionItem.Single()));
 			}
 
-			TempData["error"] = Localization.Locale.PolicyNotFound;
+			TempData["error"] = Locale.Policy + " " + Locale.NotFound;
 
-			return RedirectToAction("Index");
+            return RedirectToAction("Index");
 		}
 	}
 }

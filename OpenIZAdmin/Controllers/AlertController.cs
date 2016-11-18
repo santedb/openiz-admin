@@ -89,7 +89,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (alert == null)
 			{
-				TempData["error"] = "Alert not found";
+                TempData["error"] = Locale.Alert + " " + Locale.NotFound;
 				return View("_NotFound", model: "Not Found");
 			}
 
@@ -200,7 +200,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (alert == null)
 				{
-					TempData["error"] = "Alert not found";
+                    TempData["error"] = Locale.Alert + " " + Locale.NotFound;
 					return RedirectToAction("Index", "Home");
 				}
 

@@ -70,7 +70,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					var result = this.client.CreateRole(role);
 
-					TempData["success"] = "Role created successfully";
+                    TempData["success"] = Locale.Role + " " + Locale.CreatedSuccessfully;
 
 					return RedirectToAction("Index");
 				}
@@ -83,7 +83,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = "Unable to create role";
+            TempData["error"] = Locale.UnableToCreate + " " + Locale.Role;
 
 			return View(model);
 		}
@@ -99,7 +99,7 @@ namespace OpenIZAdmin.Controllers
 				try
 				{
 					this.client.DeleteRole(id);
-					TempData["success"] = "Role deleted successfully";
+                    TempData["success"] = Locale.Role + " " + Locale.DeletedSuccessfully;
 
 					return RedirectToAction("Index");
 				}
@@ -112,7 +112,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = "Unable to delete role";
+            TempData["error"] = Locale.UnableToDelete + " " + Locale.Role;
 
 			return RedirectToAction("Index");
 		}
@@ -148,7 +148,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (role == null)
 					{
-						TempData["error"] = Locale.RoleNotFound;
+						TempData["error"] = Locale.Role + " " + Locale.NotFound;
 
 						return RedirectToAction("Index");
 					}
@@ -170,9 +170,9 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = Locale.RoleNotFound;
+			TempData["error"] = Locale.Role + " " + Locale.NotFound;
 
-			return RedirectToAction("Index");
+            return RedirectToAction("Index");
 		}
 
 		/// <summary>
@@ -192,9 +192,9 @@ namespace OpenIZAdmin.Controllers
 
 					if (role == null)
 					{
-						TempData["error"] = Locale.RoleNotFound;
+						TempData["error"] = Locale.Role + " " + Locale.NotFound;
 
-						return RedirectToAction("Index");
+                        return RedirectToAction("Index");
 					}
 
 					role.Role.Description = model.Description;
@@ -202,7 +202,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.client.UpdateRole(role.Id.ToString(), role);
 
-					TempData["success"] = Locale.RoleUpdatedSuccessfully;
+					TempData["success"] = Locale.Role + " " + Locale.UpdatedSuccessfully;
 
 					return RedirectToAction("Index");
 				}
@@ -215,7 +215,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = Locale.UnableToUpdateRole;
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Role;
 
 			return View(model);
 		}
@@ -263,7 +263,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError("Unable to search roles: {0}", e.Message);
 			}
 
-			TempData["error"] = "Invalid search, please check your search criteria";
+            TempData["error"] = Locale.InvalidSearch;
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_RolesPartial", roles);
@@ -280,17 +280,17 @@ namespace OpenIZAdmin.Controllers
 
 				if (result.CollectionItem.Count == 0)
 				{
-					TempData["error"] = Localization.Locale.RoleNotFound;
+					TempData["error"] = Locale.Role + " " + Locale.NotFound;
 
-					return RedirectToAction("Index");
+                    return RedirectToAction("Index");
 				}
 
 				return View(RoleUtil.ToRoleViewModel(result.CollectionItem.Single()));
 			}
 
-			TempData["error"] = Localization.Locale.RoleNotFound;
+			TempData["error"] = Locale.Role + " " + Locale.NotFound;
 
-			return RedirectToAction("Index");
+            return RedirectToAction("Index");
 		}
 	}
 }

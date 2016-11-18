@@ -91,7 +91,7 @@ namespace OpenIZAdmin.Controllers
 				try
 				{
 					var result = this.imsiClient.Create(ConceptUtil.ToConcept(model));
-                    TempData["success"] = Locale.ConceptCreatedSuccessfully;
+                    TempData["success"] = Locale.Concept + " " + Locale.CreatedSuccessfully;
 
 					return RedirectToAction("Index");
 				}
@@ -104,7 +104,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = Locale.UnableToCreateConcept;
+			TempData["error"] = Locale.UnableToCreate + " " + Locale.Concept;
 
 			var languages = LanguageUtil.GetLanguageList();
 
@@ -179,7 +179,7 @@ namespace OpenIZAdmin.Controllers
 				}
 				else
 				{
-					TempData["error"] = "Unable to retrieve concept sets";
+                    TempData["error"] = Locale.UnableToRetrieve + " " + Locale.ConceptSets;
 					return RedirectToAction("Index");
 				}
 
@@ -193,7 +193,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError("Unable to retrieve concepts", e.Message);
 			}
 
-			TempData["error"] = "Unable to retrieve concepts";
+            TempData["error"] = Locale.UnableToRetrieve + " " + Locale.Concepts;
 
 			return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
 		}
@@ -267,7 +267,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (concept == null)
 					{
-						TempData["error"] = Locale.ConceptNotFound;
+						TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 
 						return RedirectToAction("Index");
 					}
@@ -276,9 +276,9 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = Locale.ConceptNotFound;
+			TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 
-			return RedirectToAction("Index");
+            return RedirectToAction("Index");
 		}
 
         [HttpGet]
@@ -306,7 +306,7 @@ namespace OpenIZAdmin.Controllers
 
                     if (concept == null)
                     {
-                        TempData["error"] = Locale.ConceptNotFound;
+                        TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 
                         return RedirectToAction("Index");
                     }
@@ -320,7 +320,7 @@ namespace OpenIZAdmin.Controllers
                 }
             }
 
-            TempData["error"] = Locale.ConceptNotFound;
+            TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 
             return RedirectToAction("Index");
         }
@@ -342,9 +342,9 @@ namespace OpenIZAdmin.Controllers
 
 					if (conceptSet == null)
 					{
-						TempData["error"] = Locale.ConceptNotFound;
+						TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 
-						return RedirectToAction("Index");
+                        return RedirectToAction("Index");
 					}
 
 					ConceptViewModel viewModel = new ConceptViewModel(conceptSet);
@@ -360,9 +360,9 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = Locale.ConceptNotFound;
+			TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 
-			return RedirectToAction("Index");
+            return RedirectToAction("Index");
 		}
 	}
 }

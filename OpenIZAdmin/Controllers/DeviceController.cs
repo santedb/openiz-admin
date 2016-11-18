@@ -19,6 +19,7 @@
 
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.DeviceModels;
 using OpenIZAdmin.Models.DeviceModels.ViewModels;
 using OpenIZAdmin.Services.Http;
@@ -70,7 +71,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = "Unable to create device";
+            TempData["error"] = Locale.UnableToCreate + " " + Locale.Device;
 			return View(model);
 		}
 
@@ -85,7 +86,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (result.CollectionItem.Count == 0)
 				{
-					TempData["error"] = Localization.Locale.DeviceNotFound;
+					TempData["error"] = Locale.Device + " "  + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -93,7 +94,7 @@ namespace OpenIZAdmin.Controllers
 				return View(DeviceUtil.ToDeviceViewModel(result.CollectionItem.Single()));
 			}
 
-			TempData["error"] = Localization.Locale.DeviceNotFound;
+			TempData["error"] = Localization.Locale.Device + " " + Locale.NotFound;
 
 			return RedirectToAction("Index");
 		}
@@ -147,7 +148,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError("Unable to search devices: {0}", e.Message);
 			}
 
-			TempData["error"] = "Invalid search, please check your search criteria";
+            TempData["error"] = Locale.InvalidSearch;
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_DevicesPartial", devices);
@@ -164,7 +165,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (result.CollectionItem.Count == 0)
 				{
-					TempData["error"] = Localization.Locale.DeviceNotFound;
+					TempData["error"] = Locale.Device + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -172,9 +173,9 @@ namespace OpenIZAdmin.Controllers
 				return View(DeviceUtil.ToDeviceViewModel(result.CollectionItem.Single()));
 			}
 
-			TempData["error"] = Localization.Locale.DeviceNotFound;
+			TempData["error"] = Locale.Device + " " + Locale.NotFound;
 
-			return RedirectToAction("Index");
+            return RedirectToAction("Index");
 		}
 	}
 }
