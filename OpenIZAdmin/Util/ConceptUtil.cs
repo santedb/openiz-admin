@@ -18,6 +18,7 @@
  */
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Models.ConceptModels;
+using OpenIZAdmin.Models.ConceptModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -53,6 +54,24 @@ namespace OpenIZAdmin.Util
 
 			return concept;
 		}
-        
+
+        public static ConceptViewModel ToConceptViewModel(Concept concept)
+        {
+            ConceptViewModel viewModel = new ConceptViewModel();
+
+
+            viewModel.Name = new List<string>();
+            viewModel.Language = new List<string>();
+            for (var i = 0; i<concept.ConceptNames.Count; i++)
+            {
+                viewModel.Name.Add(concept.ConceptNames[i].Name);
+                viewModel.Language.Add(concept.ConceptNames[i].Language);
+            }
+            viewModel.Mnemonic = concept.Mnemonic;
+            viewModel.Key = concept.Key.Value;
+
+            return viewModel;
+        }
+
     }
 }
