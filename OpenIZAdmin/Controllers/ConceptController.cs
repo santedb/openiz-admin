@@ -92,7 +92,7 @@ namespace OpenIZAdmin.Controllers
 				try
 				{
 					var result = this.imsiClient.Create(ConceptUtil.ToConcept(model));
-                    TempData["success"] = Locale.ConceptCreatedSuccessfully;
+                    TempData["success"] = Locale.Concept + " " + Locale.CreatedSuccessfully;
 
 					return RedirectToAction("Index");
 				}
@@ -105,7 +105,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = Locale.UnableToCreateConcept;
+			TempData["error"] = Locale.UnableToCreate + " " + Locale.Concept;
 
 			var languages = LanguageUtil.GetLanguageList();
 
@@ -261,7 +261,7 @@ namespace OpenIZAdmin.Controllers
                     var referenceTerms = this.imsiClient.Query<ConceptReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ConceptReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ConceptReferenceTerm>();
                     if (concept == null)
 					{
-						TempData["error"] = Locale.ConceptNotFound;
+						TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 						return RedirectToAction("Index");
 					}
                     var conceptViewModel = ConceptUtil.ToConceptViewModel(concept as Concept);
@@ -269,7 +269,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = Locale.ConceptNotFound;
+			TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 
 			return RedirectToAction("Index");
 		}
@@ -298,9 +298,9 @@ namespace OpenIZAdmin.Controllers
                     var concept = this.imsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray()))).Item.FirstOrDefault() as Concept;
                     if (concept == null)
                     {
-                        TempData["error"] = Locale.ConceptNotFound;
+						TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 
-                        return RedirectToAction("Index");
+						return RedirectToAction("Index");
                     }
                     var editConceptModel = new EditConceptModel()
                     {
@@ -312,9 +312,9 @@ namespace OpenIZAdmin.Controllers
                 }
             }
 
-            TempData["error"] = Locale.ConceptNotFound;
+			TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 
-            return RedirectToAction("Index");
+			return RedirectToAction("Index");
         }
 	}
 }
