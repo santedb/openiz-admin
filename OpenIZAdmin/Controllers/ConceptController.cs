@@ -17,11 +17,9 @@
  * Date: 2016-7-23
  */
 
-using OpenIZ.Core.Model.AMI.Security;
 using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Query;
-using OpenIZ.Messaging.AMI.Client;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
@@ -44,11 +42,6 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public class ConceptController : Controller
 	{
-		/// <summary>
-		/// The internal reference to the <see cref="AmiServiceClient"/> instance.
-		/// </summary>
-		//private AmiServiceClient amiClient;
-
 		/// <summary>
 		/// The internal reference to the <see cref="ImsiServiceClient"/> instance.
 		/// </summary>
