@@ -49,7 +49,7 @@ namespace OpenIZAdmin.Util
 			// HACK
 			selectList.Add(new SelectListItem { Text = Locale.Alert, Value = ((int)AlertMessageFlags.Alert).ToString() });
 			selectList.Add(new SelectListItem { Text = Locale.HighPriority, Value = ((int)AlertMessageFlags.HighPriority).ToString() });
-			selectList.Add(new SelectListItem { Text = Locale.HighPriority, Value = ((int)AlertMessageFlags.System).ToString() });
+			selectList.Add(new SelectListItem { Text = Locale.System, Value = ((int)AlertMessageFlags.System).ToString() });
 
 			return selectList;
 		}

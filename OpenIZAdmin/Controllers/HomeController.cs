@@ -17,13 +17,10 @@
  * Date: 2016-5-31
  */
 
-using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.AppletModels.ViewModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
-using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Http.Security;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
@@ -33,13 +30,8 @@ using System.Web.Mvc;
 namespace OpenIZAdmin.Controllers
 {
 	[TokenAuthorize]
-	public class HomeController : Controller
+	public class HomeController : BaseController
 	{
-		/// <summary>
-		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
-		/// </summary>
-		private AmiServiceClient client;
-
 		public ActionResult Index()
 		{
 			if (!RealmConfig.IsJoinedToRealm())
@@ -56,24 +48,12 @@ namespace OpenIZAdmin.Controllers
 						new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientEncounters", "0.5.0.0"),
 					},
 				CertificateRequests = new List<CertificateSigningRequestViewModel>(), //CertificateUtil.GetAllCertificateSigningRequests(this.client),
-				Devices = DeviceUtil.GetAllDevices(this.client).OrderBy(d => d.CreationTime).ThenBy(d => d.Name).Take(15),
-				Roles = RoleUtil.GetAllRoles(this.client).OrderBy(r => r.Name).Take(15),
-				Users = UserUtil.GetAllUsers(this.client).OrderBy(u => u.Username).Take(15)
+				Devices = DeviceUtil.GetAllDevices(this.AmiClient).OrderBy(d => d.CreationTime).ThenBy(d => d.Name).Take(15),
+				Roles = RoleUtil.GetAllRoles(this.AmiClient).OrderBy(r => r.Name).Take(15),
+				Users = UserUtil.GetAllUsers(this.AmiClient).OrderBy(u => u.Username).Take(15)
 			};
 
 			return View(viewModel);
-		}
-
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var restClient = new RestClientService(Constants.AMI);
-
-			restClient.Accept = "application/xml";
-			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
-
-			this.client = new AmiServiceClient(restClient);
-
-			base.OnActionExecuting(filterContext);
 		}
 	}
 }

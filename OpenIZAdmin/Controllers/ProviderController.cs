@@ -36,18 +36,8 @@ using System.Web.Mvc;
 namespace OpenIZAdmin.Controllers
 {
 	[TokenAuthorize]
-	public class ProviderController : Controller
+	public class ProviderController : BaseController
 	{
-		/// <summary>
-		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
-		/// </summary>
-		private AmiServiceClient amiClient;
-
-		/// <summary>
-		/// The internal reference to the <see cref="ImsiServiceClient"/> instance.
-		/// </summary>
-		private ImsiServiceClient imsiClient;
-
 		[HttpGet]
 		public ActionResult Create()
 		{
@@ -62,7 +52,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var provider = this.imsiClient.Create<Provider>(ProviderUtil.ToProvider(model));
+					var provider = this.ImsiClient.Create<Provider>(ProviderUtil.ToProvider(model));
 
 					TempData["success"] = Locale.Provider + " " + Locale.CreatedSuccessfully;
 					return RedirectToAction("ViewProvider", new { key = provider.Key, versionKey = provider.VersionKey });
@@ -88,7 +78,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (ProviderUtil.IsValidString(key) && Guid.TryParse(key, out providerKey) && ProviderUtil.IsValidString(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
 			{
-				var providerEntity = ProviderUtil.GetProviderEntity(this.imsiClient, key, versionKey);
+				var providerEntity = ProviderUtil.GetProviderEntity(this.ImsiClient, key, versionKey);
 
 				if (providerEntity == null)
 				{
@@ -115,7 +105,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var provider = this.imsiClient.Update<Provider>(ProviderUtil.ToProvider(model));
+					var provider = this.ImsiClient.Update<Provider>(ProviderUtil.ToProvider(model));
 
 					TempData["success"] = Locale.Provider + " " + Locale.UpdatedSuccessfully;
 					return RedirectToAction("ViewProvider", new { key = provider.Key, versionKey = provider.VersionKey });
@@ -140,18 +130,6 @@ namespace OpenIZAdmin.Controllers
 			return View();
 		}
 
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var restClient = new RestClientService("IMSI");
-
-			restClient.Accept = "application/xml";
-			restClient.Credentials = new ImsCredentials(this.User, HttpContext.Request);
-
-			this.imsiClient = new ImsiServiceClient(restClient);
-
-			base.OnActionExecuting(filterContext);
-		}
-
 		[HttpGet]
 		public ActionResult ViewProvider(string key, string versionKey)
 		{
@@ -162,7 +140,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var provider = this.imsiClient.Get<Provider>(providerKey, null);
+					var provider = this.ImsiClient.Get<Provider>(providerKey, null);
 
 					object model = null;
 
@@ -190,7 +168,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 				{
-					var collection = this.imsiClient.Query<Provider>(i => i.Names.Any(x => x.Component.Any(r => r.Value.Contains(searchTerm))));
+					var collection = this.ImsiClient.Query<Provider>(i => i.Names.Any(x => x.Component.Any(r => r.Value.Contains(searchTerm))));
 
 					TempData["searchTerm"] = searchTerm;
 

@@ -127,7 +127,7 @@ namespace OpenIZAdmin.Services.Http
 			}
 			else
 			{
-				requestObj.ContentType = "application/xml";
+				requestObj.ContentType = Constants.ApplicationXml;
 			}
 
 			requestObj.Method = method;

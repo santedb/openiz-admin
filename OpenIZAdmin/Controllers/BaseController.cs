@@ -20,6 +20,7 @@
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
 using System.Web.Mvc;
@@ -49,6 +50,7 @@ namespace OpenIZAdmin.Controllers
 		protected override void Dispose(bool disposing)
 		{
 			this.AmiClient?.Dispose();
+			this.ImsiClient?.Dispose();
 			base.Dispose(disposing);
 		}
 
@@ -60,14 +62,14 @@ namespace OpenIZAdmin.Controllers
 		{
 			var amiRestClient = new RestClientService(Constants.AMI);
 
-			amiRestClient.Accept = "application/xml";
+			amiRestClient.Accept = Constants.ApplicationXml;
 			amiRestClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
 
 			this.AmiClient = new AmiServiceClient(amiRestClient);
 
 			var imsiRestClient = new RestClientService(Constants.IMSI);
 
-			imsiRestClient.Accept = "application/xml";
+			imsiRestClient.Accept = Constants.ApplicationXml;
 			imsiRestClient.Credentials = new ImsCredentials(this.User, HttpContext.Request);
 
 			this.ImsiClient = new ImsiServiceClient(imsiRestClient);

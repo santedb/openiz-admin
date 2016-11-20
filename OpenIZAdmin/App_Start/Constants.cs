@@ -42,5 +42,10 @@ namespace OpenIZAdmin
 		/// The IMSI endpoint name.
 		/// </summary>
 		public const string IMSI = "IMSI";
+
+		/// <summary>
+		/// The content type of application/xml.
+		/// </summary>
+		public const string ApplicationXml = "application/xml";
 	}
 }
