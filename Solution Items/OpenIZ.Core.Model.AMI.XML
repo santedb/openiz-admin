@@ -269,6 +269,11 @@
             Gets or sets the applet manifest.
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo.FileExtension">
+            <summary>
+            Gets or sets the file extension of the applet.
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo">
             <summary>
             Represents a wrapper for the <see cref="T:OpenIZ.Core.Model.Security.SecurityApplication"/> class.

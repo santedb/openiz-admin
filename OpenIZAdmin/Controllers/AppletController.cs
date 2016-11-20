@@ -23,6 +23,7 @@ using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AppletModels;
 using OpenIZAdmin.Models.AppletModels.ViewModels;
+using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -45,12 +46,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Index()
 		{
-			List<AppletViewModel> applets = new List<AppletViewModel>
-			{
-				new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.authentication", "0.5.0.0"),
-				new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientAdministration", "0.5.0.0"),
-				new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientEncounters", "0.5.0.0")
-			};
+			var applets = AppletUtil.GetApplets(this.AmiClient);
 
 			return View(applets);
 		}
@@ -74,10 +70,10 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Upload(UploadAppletModel model)
 		{
+			FileInfo fileInfo = new FileInfo(model.File.FileName);
+
 			if (ModelState.IsValid)
 			{
-				FileInfo fileInfo = new FileInfo(model.File.FileName);
-
 				XmlSerializer serializer;
 				AppletManifest manifest = null;
 
@@ -86,15 +82,15 @@ namespace OpenIZAdmin.Controllers
 					case ".pak":
 						AppletPackage package;
 
-						using (GZipStream df = new GZipStream(model.File.InputStream, CompressionMode.Decompress))
+						using (GZipStream stream = new GZipStream(model.File.InputStream, CompressionMode.Decompress))
 						{
 							serializer = new XmlSerializer(typeof(AppletPackage));
-							package = (AppletPackage)serializer.Deserialize(df);
+							package = (AppletPackage)serializer.Deserialize(stream);
 						}
 
-						using (MemoryStream memoryStream = new MemoryStream(package.Manifest))
+						using (MemoryStream stream = new MemoryStream(package.Manifest))
 						{
-							manifest = AppletManifest.Load(memoryStream);
+							manifest = AppletManifest.Load(stream);
 						}
 
 						break;
@@ -104,10 +100,10 @@ namespace OpenIZAdmin.Controllers
 						break;
 				}
 
-
 				if (ModelState.IsValid)
 				{
 					AppletManifestInfo manifestInfo = new AppletManifestInfo(manifest);
+					manifestInfo.FileExtension = fileInfo.Extension;
 
 					this.AmiClient.CreateApplet(manifestInfo);
 

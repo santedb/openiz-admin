@@ -305,6 +305,7 @@
     <Compile Include="Services\Http\ServiceClientSecurity.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Util\AlertUtil.cs" />
+    <Compile Include="Util\AppletUtil.cs" />
     <Compile Include="Util\CertificateUtil.cs" />
     <Compile Include="Util\ConceptUtil.cs" />
     <Compile Include="Util\DeviceUtil.cs" />
