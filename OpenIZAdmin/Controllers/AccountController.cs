@@ -260,20 +260,6 @@ namespace OpenIZAdmin.Controllers
 
 			var nameComponents = user.Names.SelectMany(n => n.Component);
 
-			List<SelectListItem> facilityList = new List<SelectListItem>();
-
-			facilityList.Add(new SelectListItem
-			{
-				Text = "",
-				Value = ""
-			});
-
-			var places = PlaceUtil.GetPlaces(this.ImsiClient, 0, 200);
-
-			facilityList.AddRange(places.Select(p => new SelectListItem { Text = string.Join(" ", p.Names.SelectMany(n => n.Component).Select(c => c.Value)), Value = p.Key.Value.ToString() }));
-
-			model.UpdateProfileModel.FacilityList = facilityList.OrderBy(c => c.Text).ToList();
-
 			model.UpdateProfileModel.FamilyNameList = nameComponents.Where(c => c.ComponentType.Key == NameComponentKeys.Family).Select(c => new SelectListItem { Text = c.Value, Value = c.Value, Selected = true }).ToList();
 			model.UpdateProfileModel.GivenNamesList = nameComponents.Where(c => c.ComponentType.Key == NameComponentKeys.Given).Select(c => new SelectListItem { Text = c.Value, Value = c.Value, Selected = true }).ToList();
 

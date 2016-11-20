@@ -36,6 +36,7 @@
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                 </div>
             </div>
+
             <div class="form-group">
                 @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
@@ -47,7 +48,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.FacilityId, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.ListBoxFor(m => m.FacilityId, Model.FacilityList, new { @class = "dynamic-dropdown-limited form-control" })
+                    @Html.ListBoxFor(m => m.FacilityId, Model.FacilityList, new { @class = "facility-ajax form-control" })
                     @Html.ValidationMessageFor(m => m.FacilityId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -80,18 +81,10 @@
     <script type="text/javascript">
         $(document).ready(function ()
         {
-
             $('.dynamic-dropdown').select2({
                 tags: true,
                 tokenSeparators: [','],
                 width: '100%'
-            });
-
-            $('.dynamic-dropdown-limited').select2({
-                tags: true,
-                tokenSeparators: [','],
-                width: '100%',
-                maximumSelectionLength: 1
             });
         });
     </script>

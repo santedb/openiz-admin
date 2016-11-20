@@ -25,7 +25,10 @@ using OpenIZAdmin.Models.AppletModels;
 using OpenIZAdmin.Models.AppletModels.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.IO.Compression;
 using System.Web.Mvc;
+using System.Xml.Serialization;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -73,20 +76,52 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				AppletManifestInfo manifestInfo = new AppletManifestInfo(AppletManifest.Load(Request.Files[0].InputStream));
+				FileInfo fileInfo = new FileInfo(model.File.FileName);
 
-				this.AmiClient.CreateApplet(manifestInfo);
+				XmlSerializer serializer;
+				AppletManifest manifest = null;
 
-				TempData["success"] = Locale.AppletUploadedSuccessfully;
-
-				if (model.UploadAnotherFile)
+				switch (fileInfo.Extension)
 				{
-					ModelState.Clear();
-					model.File = null;
-					return View(model);
+					case ".pak":
+						AppletPackage package;
+
+						using (GZipStream df = new GZipStream(model.File.InputStream, CompressionMode.Decompress))
+						{
+							serializer = new XmlSerializer(typeof(AppletPackage));
+							package = (AppletPackage)serializer.Deserialize(df);
+						}
+
+						using (MemoryStream memoryStream = new MemoryStream(package.Manifest))
+						{
+							manifest = AppletManifest.Load(memoryStream);
+						}
+
+						break;
+
+					default:
+						ModelState.AddModelError(nameof(model.File), Locale.GenericErrorMessage);
+						break;
 				}
 
-				return RedirectToAction("Index");
+
+				if (ModelState.IsValid)
+				{
+					AppletManifestInfo manifestInfo = new AppletManifestInfo(manifest);
+
+					this.AmiClient.CreateApplet(manifestInfo);
+
+					TempData["success"] = Locale.AppletUploadedSuccessfully;
+
+					if (model.UploadAnotherFile)
+					{
+						ModelState.Clear();
+						model.File = null;
+						return View(model);
+					}
+
+					return RedirectToAction("Index");
+				}
 			}
 
 			TempData["error"] = Locale.UnableToUploadApplet;

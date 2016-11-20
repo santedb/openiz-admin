@@ -102,23 +102,9 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Create()
 		{
 			CreateUserModel model = new CreateUserModel();
+
 			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
-
 			model.RolesList.AddRange(RoleUtil.GetAllRoles(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
-
-			List<SelectListItem> facilityList = new List<SelectListItem>();
-
-			facilityList.Add(new SelectListItem
-			{
-				Text = "",
-				Value = ""
-			});
-
-			var places = PlaceUtil.GetPlaces(this.ImsiClient, 0, 200);
-
-			facilityList.AddRange(places.Select(p => new SelectListItem { Text = string.Join(" ", p.Names.SelectMany(n => n.Component).Select(c => c.Value)), Value = p.Key.Value.ToString() }));
-
-			model.FacilityList = facilityList.OrderBy(c => c.Text).ToList();
 
 			return View(model);
 		}
@@ -162,12 +148,6 @@ namespace OpenIZAdmin.Controllers
 			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
 
 			model.RolesList.AddRange(RoleUtil.GetAllRoles(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
-
-			var places = PlaceUtil.GetPlaces(this.ImsiClient, 0, 200);
-
-			model.FacilityList.AddRange(places.Select(p => new SelectListItem { Text = string.Join(" ", p.Names.SelectMany(n => n.Component).Select(c => c.Value)), Value = p.Key.Value.ToString() }));
-
-			model.FacilityList = model.FacilityList.OrderBy(c => c.Text).ToList();
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.User;
 
@@ -224,11 +204,6 @@ namespace OpenIZAdmin.Controllers
 				}
 
 				EditUserModel model = UserUtil.ToEditUserModel(userEntity);
-
-				model.FacilityList.Add(new SelectListItem { Text = "", Value = "" });
-				model.FacilityList.AddRange(PlaceUtil.GetPlaces(this.ImsiClient).Select(p => new SelectListItem { Text = string.Join(" ", p.Names.SelectMany(n => n.Component).Select(c => c.Value)), Value = p.Key.ToString() }));
-
-				model.FacilityList = model.FacilityList.OrderBy(p => p.Text).ToList();
 
 				model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 				model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));

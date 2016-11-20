@@ -140,7 +140,22 @@ namespace OpenIZAdmin.Controllers
 				placeList = places.Item.OfType<Place>().Select(p => PlaceUtil.ToPlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 			}
 
-			return View("Index", placeList);
+			return PartialView("_PlaceSearchResultsPartial", placeList);
+		}
+
+		[HttpGet]
+		public ActionResult SearchAjax(string searchTerm)
+		{
+			var placeList = new List<PlaceViewModel>();
+
+			if (ModelState.IsValid)
+			{
+				var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))));
+
+				placeList = places.Item.OfType<Place>().Select(p => PlaceUtil.ToPlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+			}
+
+			return Json(placeList, JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpGet]

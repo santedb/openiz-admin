@@ -55,7 +55,7 @@
                             <td>
                                 @if (item.Roles.Count() > 0)
                                 {
-                                    item.Roles.Select(r => r.Name).OrderBy(r => r).Aggregate((a, b) => a + ", " + b);
+                                    string.Join(", ", item.Roles.Select(r => r.Name).OrderBy(r => r));
                                 }
                             </td>
                             <td>
