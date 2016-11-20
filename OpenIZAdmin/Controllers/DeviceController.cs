@@ -17,13 +17,10 @@
  * Date: 2016-7-8
  */
 
-using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.DeviceModels;
 using OpenIZAdmin.Models.DeviceModels.ViewModels;
-using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Http.Security;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
@@ -66,7 +63,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-            TempData["error"] = Locale.UnableToCreate + " " + Locale.Device;
+			TempData["error"] = Locale.UnableToCreate + " " + Locale.Device;
 			return View(model);
 		}
 
@@ -81,7 +78,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (result.CollectionItem.Count == 0)
 				{
-					TempData["error"] = Locale.Device + " "  + Locale.NotFound;
+					TempData["error"] = Locale.Device + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -131,7 +128,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError("Unable to search devices: {0}", e.Message);
 			}
 
-            TempData["error"] = Locale.InvalidSearch;
+			TempData["error"] = Locale.InvalidSearch;
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_DevicesPartial", devices);
@@ -158,7 +155,7 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = Locale.Device + " " + Locale.NotFound;
 
-            return RedirectToAction("Index");
+			return RedirectToAction("Index");
 		}
 	}
 }

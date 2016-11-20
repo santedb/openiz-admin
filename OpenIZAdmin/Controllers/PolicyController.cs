@@ -18,13 +18,10 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.PolicyModels;
 using OpenIZAdmin.Models.PolicyModels.ViewModels;
-using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Http.Security;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
@@ -47,59 +44,59 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Activates a policy.
 		/// </summary>
 		/// <param name="id">The id of the policy to be activated.</param>
 		/// <returns>Returns the index view.</returns>
 		[HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Activate(string id)
-        {
-            Guid userKey = Guid.Empty;
-            SecurityPolicyInfo policyInfo = null;
-            
-            if (PolicyUtil.IsValidString(id) && Guid.TryParse(id, out userKey))
-            {
-                try
-                {
-                    policyInfo = PolicyUtil.GetPolicy(this.AmiClient, userKey);
+		[ValidateAntiForgeryToken]
+		public ActionResult Activate(string id)
+		{
+			Guid userKey = Guid.Empty;
+			SecurityPolicyInfo policyInfo = null;
 
-                    if (policyInfo == null)
-                    {
-                        TempData["error"] = Locale.Policy + " " +  Locale.NotFound;
+			if (PolicyUtil.IsValidString(id) && Guid.TryParse(id, out userKey))
+			{
+				try
+				{
+					policyInfo = PolicyUtil.GetPolicy(this.AmiClient, userKey);
 
-                        return RedirectToAction("Index");
-                    }
-                    
-                    policyInfo.Policy.ObsoletedBy = null;
-                    policyInfo.Policy.ObsoletionTime = null;
+					if (policyInfo == null)
+					{
+						TempData["error"] = Locale.Policy + " " + Locale.NotFound;
 
-                    this.AmiClient.UpdatePolicy(id, policyInfo);
+						return RedirectToAction("Index");
+					}
 
-                    TempData["success"] = Locale.Policy + " " + Locale.ActivatedSuccessfully;
+					policyInfo.Policy.ObsoletedBy = null;
+					policyInfo.Policy.ObsoletionTime = null;
 
-                    return RedirectToAction("Index");
-                }
-                catch (Exception e)
-                {
+					this.AmiClient.UpdatePolicy(id, policyInfo);
+
+					TempData["success"] = Locale.Policy + " " + Locale.ActivatedSuccessfully;
+
+					return RedirectToAction("Index");
+				}
+				catch (Exception e)
+				{
 #if DEBUG
-                    Trace.TraceError("Unable to delete policy: {0}", e.StackTrace);
+					Trace.TraceError("Unable to delete policy: {0}", e.StackTrace);
 #endif
-                    Trace.TraceError("Unable to delete policy: {0}", e.Message);
-                }
-            }
+					Trace.TraceError("Unable to delete policy: {0}", e.Message);
+				}
+			}
 
-            TempData["error"] = Locale.UnableToActivate + " " + Locale.Policy;
+			TempData["error"] = Locale.UnableToActivate + " " + Locale.Policy;
 
-            return RedirectToAction("Index");
-        }
+			return RedirectToAction("Index");
+		}
 
-        /// <summary>
-        /// Displays the create policy view.
-        /// </summary>
-        /// <returns>Returns the create policy view.</returns>
-        [HttpGet]
+		/// <summary>
+		/// Displays the create policy view.
+		/// </summary>
+		/// <returns>Returns the create policy view.</returns>
+		[HttpGet]
 		public ActionResult Create()
 		{
 			CreatePolicyModel model = new CreatePolicyModel();
@@ -129,7 +126,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					this.AmiClient.CreatePolicy(policy);
 
-					TempData["success"] = Locale.Policy + " " +  Locale.CreatedSuccessfully;
+					TempData["success"] = Locale.Policy + " " + Locale.CreatedSuccessfully;
 
 					return RedirectToAction("Index");
 				}
@@ -155,15 +152,15 @@ namespace OpenIZAdmin.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(string id)
-		{			            
-            if (PolicyUtil.IsValidString(id))
-            {
+		{
+			if (PolicyUtil.IsValidString(id))
+			{
 				try
 				{
 					this.AmiClient.DeletePolicy(id);
-                    TempData["success"] = Locale.Policy + " " + Locale.DeletedSuccessfully;
+					TempData["success"] = Locale.Policy + " " + Locale.DeletedSuccessfully;
 
-                    return RedirectToAction("Index");
+					return RedirectToAction("Index");
 				}
 				catch (Exception e)
 				{
@@ -174,85 +171,82 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-            TempData["error"] = Locale.UnableToDelete + " " + Locale.Policy;
+			TempData["error"] = Locale.UnableToDelete + " " + Locale.Policy;
 
-
-            return RedirectToAction("Index");
+			return RedirectToAction("Index");
 		}
 
-        [HttpGet]
-        public ActionResult Edit(string key)
-        {
-            Guid policyId = Guid.Empty;
-            SecurityPolicyInfo policyInfo = null;
-            
-            if(PolicyUtil.IsValidString(key) && Guid.TryParse(key, out policyId))
-            {                
-                policyInfo = PolicyUtil.GetPolicy(this.AmiClient, policyId);
-                
-                if (policyInfo == null)
-                {
-                    TempData["error"] = Locale.Policy + " " + Locale.NotFound;
+		[HttpGet]
+		public ActionResult Edit(string key)
+		{
+			Guid policyId = Guid.Empty;
+			SecurityPolicyInfo policyInfo = null;
 
-                    return RedirectToAction("Index");
-                }
+			if (PolicyUtil.IsValidString(key) && Guid.TryParse(key, out policyId))
+			{
+				policyInfo = PolicyUtil.GetPolicy(this.AmiClient, policyId);
 
-                return View(PolicyUtil.ToEditPolicyModel(policyInfo));
-            }
+				if (policyInfo == null)
+				{
+					TempData["error"] = Locale.Policy + " " + Locale.NotFound;
 
-            TempData["error"] = Locale.Policy + " " + Locale.NotFound;
+					return RedirectToAction("Index");
+				}
 
-            return RedirectToAction("Index");
-        }
+				return View(PolicyUtil.ToEditPolicyModel(policyInfo));
+			}
 
-        /// <summary>
+			TempData["error"] = Locale.Policy + " " + Locale.NotFound;
+
+			return RedirectToAction("Index");
+		}
+
+		/// <summary>
 		/// Updates a policy.
 		/// </summary>
 		/// <param name="model">The model containing the updated policy information.</param>
-        /// <param name="key">The policy guid indentifier.</param>
+		/// <param name="key">The policy guid indentifier.</param>
 		/// <returns>Returns the index view.</returns>
 		[HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(EditPolicyModel model)
-        {            
-            if (ModelState.IsValid)
-            {                
-                try
-                {
-                    SecurityPolicyInfo policy = PolicyUtil.GetPolicy(this.AmiClient, model.Key);
-                   
-                    if(policy == null)
-                    { 
-                        TempData["error"] = Locale.Policy + " " + Locale.NotFound;
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(EditPolicyModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					SecurityPolicyInfo policy = PolicyUtil.GetPolicy(this.AmiClient, model.Key);
 
-                        return RedirectToAction("Index");
-                    }
+					if (policy == null)
+					{
+						TempData["error"] = Locale.Policy + " " + Locale.NotFound;
 
+						return RedirectToAction("Index");
+					}
 
-                    SecurityPolicyInfo policyInfo = PolicyUtil.ToSecurityPolicy(model, policy);                    
-                                       
-                    this.AmiClient.UpdatePolicy(model.Key.ToString(), policyInfo);
+					SecurityPolicyInfo policyInfo = PolicyUtil.ToSecurityPolicy(model, policy);
 
-                    TempData["success"] = Locale.Policy + " " + Locale.UpdatedSuccessfully;
+					this.AmiClient.UpdatePolicy(model.Key.ToString(), policyInfo);
 
-                    return RedirectToAction("Index");         
-                                                                     
-                }
-                catch (Exception e)
-                {
+					TempData["success"] = Locale.Policy + " " + Locale.UpdatedSuccessfully;
+
+					return RedirectToAction("Index");
+				}
+				catch (Exception e)
+				{
 #if DEBUG
-                    Trace.TraceError("Unable to edit policy: {0}", e.StackTrace);
+					Trace.TraceError("Unable to edit policy: {0}", e.StackTrace);
 #endif
-                    Trace.TraceError("Unable to edit policy: {0}", e.Message);
-                }
-            }
+					Trace.TraceError("Unable to edit policy: {0}", e.Message);
+				}
+			}
 
-            TempData["error"] = Locale.UnableToUpdate + " " + Locale.Policy;
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Policy;
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        [HttpGet]
+		[HttpGet]
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Policy";
@@ -265,9 +259,9 @@ namespace OpenIZAdmin.Controllers
 			IEnumerable<PolicyViewModel> policies = new List<PolicyViewModel>();
 
 			try
-			{				
-                if(PolicyUtil.IsValidString(searchTerm))
-                {
+			{
+				if (PolicyUtil.IsValidString(searchTerm))
+				{
 					var collection = this.AmiClient.GetPolicies(p => p.Name.Contains(searchTerm));
 
 					TempData["searchTerm"] = searchTerm;
@@ -283,7 +277,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError("Unable to search policies: {0}", e.Message);
 			}
 
-            TempData["error"] = Locale.InvalidSearch;
+			TempData["error"] = Locale.InvalidSearch;
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_PoliciesPartial", policies);
@@ -293,9 +287,9 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult ViewPolicy(string key)
 		{
 			Guid policyId = Guid.Empty;
-			
-            if(PolicyUtil.IsValidString(key) && Guid.TryParse(key, out policyId))
-            {
+
+			if (PolicyUtil.IsValidString(key) && Guid.TryParse(key, out policyId))
+			{
 				var result = this.AmiClient.GetPolicies(r => r.Key == policyId);
 
 				if (result.CollectionItem.Count == 0)
@@ -310,7 +304,7 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = Locale.Policy + " " + Locale.NotFound;
 
-            return RedirectToAction("Index");
+			return RedirectToAction("Index");
 		}
 	}
 }

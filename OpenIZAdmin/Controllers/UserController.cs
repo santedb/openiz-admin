@@ -17,19 +17,14 @@
  * Date: 2016-7-17
  */
 
-using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
-using OpenIZ.Messaging.AMI.Client;
-using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.UserModels;
 using OpenIZAdmin.Models.UserModels.ViewModels;
-using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Http.Security;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
@@ -151,7 +146,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.ImsiClient.Create<UserEntity>(userEntity);
 
-                    TempData["success"] = Locale.User + " " + Locale.CreatedSuccessfully;
+					TempData["success"] = Locale.User + " " + Locale.CreatedSuccessfully;
 
 					return RedirectToAction("Index");
 				}
@@ -174,7 +169,7 @@ namespace OpenIZAdmin.Controllers
 
 			model.FacilityList = model.FacilityList.OrderBy(c => c.Text).ToList();
 
-            TempData["error"] = Locale.UnableToCreate + " " + Locale.User;
+			TempData["error"] = Locale.UnableToCreate + " " + Locale.User;
 
 			return View(model);
 		}
@@ -225,7 +220,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-                    return RedirectToAction("Index");
+					return RedirectToAction("Index");
 				}
 
 				EditUserModel model = UserUtil.ToEditUserModel(userEntity);
@@ -246,7 +241,7 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-            return RedirectToAction("Index");
+			return RedirectToAction("Index");
 		}
 
 		/// <summary>
@@ -268,7 +263,7 @@ namespace OpenIZAdmin.Controllers
 					{
 						TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-                        return RedirectToAction("Index");
+						return RedirectToAction("Index");
 					}
 
 					EntityName name = new EntityName();
@@ -354,7 +349,7 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			TempData["error"] = Locale.User + " " + Locale.NotFound;
-            TempData["searchTerm"] = searchTerm;
+			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_UsersPartial", users);
 		}
@@ -372,7 +367,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-                    return RedirectToAction("Index");
+					return RedirectToAction("Index");
 				}
 
 				var userViewModel = UserUtil.ToUserViewModel(result.CollectionItem.Single());
@@ -385,7 +380,7 @@ namespace OpenIZAdmin.Controllers
 					{
 						TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-                        return RedirectToAction("Index");
+						return RedirectToAction("Index");
 					}
 
 					userViewModel.Name = string.Join(" ", user.Names.SelectMany(n => n.Component).Select(c => c.Value));
@@ -416,7 +411,7 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-            return RedirectToAction("Index");
+			return RedirectToAction("Index");
 		}
 	}
 }

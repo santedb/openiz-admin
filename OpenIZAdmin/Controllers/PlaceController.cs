@@ -19,13 +19,10 @@
 
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Query;
-using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.PlaceModels;
 using OpenIZAdmin.Models.PlaceModels.ViewModels;
-using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Http.Security;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;

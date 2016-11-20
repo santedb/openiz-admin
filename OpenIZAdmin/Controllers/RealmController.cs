@@ -240,7 +240,7 @@ namespace OpenIZAdmin.Controllers
 
 				switch (result)
 				{
-					case SignInStatus.Success:						
+					case SignInStatus.Success:
 						Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
 						break;
 
@@ -257,7 +257,7 @@ namespace OpenIZAdmin.Controllers
 						return View(model);
 				}
 
-                TempData["success"] = Locale.RealmJoinedSuccessfully;
+				TempData["success"] = Locale.RealmJoinedSuccessfully;
 
 				return RedirectToAction("Index", "Home");
 			}
@@ -296,7 +296,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (realm == null)
 				{
-                    TempData["error"] = Locale.Realm + " " + Locale.NotFound;
+					TempData["error"] = Locale.Realm + " " + Locale.NotFound;
 					return RedirectToAction("Index");
 				}
 
@@ -307,12 +307,12 @@ namespace OpenIZAdmin.Controllers
 
 				SignInManager.AuthenticationManager.SignOut();
 
-                TempData["success"] = Locale.RealmLeftSuccessfully;
+				TempData["success"] = Locale.RealmLeftSuccessfully;
 
 				return RedirectToAction("Index", "Home");
 			}
 
-            TempData["error"] = Locale.UnableToLeaveRealm; 
+			TempData["error"] = Locale.UnableToLeaveRealm;
 
 			return View(model);
 		}
@@ -332,7 +332,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (realm == null)
 				{
-                    TempData["error"] = Locale.Realm + " " + Locale.NotFound;
+					TempData["error"] = Locale.Realm + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -347,13 +347,13 @@ namespace OpenIZAdmin.Controllers
 				unitOfWork.RealmRepository.Update(realm);
 				unitOfWork.Save();
 
-                TempData["success"] = Locale.RealmSwitchedSuccessfully;
+				TempData["success"] = Locale.RealmSwitchedSuccessfully;
 				HttpContext.GetOwinContext().Authentication.SignOut();
 
 				return RedirectToAction("Login", "Account");
 			}
 
-            TempData["error"] = Locale.UnableToSwitchRealm;
+			TempData["error"] = Locale.UnableToSwitchRealm;
 
 			return View();
 		}

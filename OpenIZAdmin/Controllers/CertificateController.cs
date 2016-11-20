@@ -18,12 +18,9 @@
  */
 
 using OpenIZ.Core.Model.AMI.Security;
-using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.CertificateModels;
-using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Http.Security;
 using OpenIZAdmin.Util;
 using System;
 using System.Diagnostics;
@@ -59,7 +56,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					this.AmiClient.AcceptCertificateSigningRequest(model.CertificateId);
 
-                    TempData["success"] = Locale.CertificateSigningRequestAccepted;
+					TempData["success"] = Locale.CertificateSigningRequestAccepted;
 
 					return RedirectToAction("Index");
 				}
@@ -72,7 +69,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-            TempData["error"] = Locale.UnableToAcceptCertificateSigningRequest;
+			TempData["error"] = Locale.UnableToAcceptCertificateSigningRequest;
 
 			return RedirectToAction("Index");
 		}
@@ -81,7 +78,7 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteCertificate(DeleteCertificateModel model)
 		{
-            TempData["error"] = Locale.UnableToDelete + " " + Locale.Certificate;
+			TempData["error"] = Locale.UnableToDelete + " " + Locale.Certificate;
 
 			return RedirectToAction("Index");
 		}
@@ -95,7 +92,7 @@ namespace OpenIZAdmin.Controllers
 		[ActionName("Certificate")]
 		public ActionResult GetCertificate(string id)
 		{
-            TempData["error"] = Locale.UnableToFindSpecifiedCertificate;
+			TempData["error"] = Locale.UnableToFindSpecifiedCertificate;
 
 			return RedirectToAction("Index");
 		}
@@ -108,7 +105,7 @@ namespace OpenIZAdmin.Controllers
 		[ActionName("Certificates")]
 		public ActionResult GetCertificates()
 		{
-            TempData["error"] = Locale.UnableToRetrieveCertificateList;
+			TempData["error"] = Locale.UnableToRetrieveCertificateList;
 
 			return RedirectToAction("Index");
 		}
@@ -120,7 +117,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult GetCertificateSigningRequests()
 		{
-            TempData["error"] = Locale.UnableToRetrieveCertificateSigningRequestList;
+			TempData["error"] = Locale.UnableToRetrieveCertificateSigningRequestList;
 
 			return RedirectToAction("Index");
 		}
@@ -144,7 +141,7 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult RejectCertificateSigningRequest(RejectCertificateSigningRequestModel model)
 		{
-            TempData["error"] = Locale.UnableToRejectCertificateSigningRequest;
+			TempData["error"] = Locale.UnableToRejectCertificateSigningRequest;
 
 			return View(model);
 		}
@@ -169,7 +166,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					result = this.AmiClient.SubmitCertificateSigningRequest(submissionRequest);
 
-                    TempData["success"] = Locale.CertificateSigningRequestSuccessfullySubmitted;
+					TempData["success"] = Locale.CertificateSigningRequestSuccessfullySubmitted;
 
 					return RedirectToAction("Index");
 				}
@@ -194,7 +191,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult ViewCertificateRevocationList()
 		{
-            TempData["error"] = Locale.UnableToRetrieveCertificateRevocationlist;
+			TempData["error"] = Locale.UnableToRetrieveCertificateRevocationlist;
 
 			return RedirectToAction("Index");
 		}
