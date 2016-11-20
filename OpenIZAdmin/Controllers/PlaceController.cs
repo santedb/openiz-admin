@@ -39,13 +39,8 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing places.
 	/// </summary>
 	[TokenAuthorize]
-	public class PlaceController : Controller
+	public class PlaceController : BaseController
 	{
-		/// <summary>
-		/// The internal reference to the <see cref="ImsiServiceClient"/> instance.
-		/// </summary>
-		private ImsiServiceClient client;
-
 		[HttpGet]
 		public ActionResult Create()
 		{
@@ -60,7 +55,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var place = this.client.Create<Place>(PlaceUtil.ToPlace(model));
+					var place = this.ImsiClient.Create<Place>(PlaceUtil.ToPlace(model));
 
 					return RedirectToAction("ViewPlace", new { key = place.Key, versionKey = place.VersionKey });
 				}
@@ -98,7 +93,7 @@ namespace OpenIZAdmin.Controllers
 						query.AddRange(QueryExpressionBuilder.BuildQuery<Place>(c => c.Key == placeId));
 					}
 
-					var place = this.client.Query<Place>(QueryExpressionParser.BuildLinqExpression<Place>(new NameValueCollection(query.ToArray()))).Item.OfType<Place>().FirstOrDefault();
+					var place = this.ImsiClient.Query<Place>(QueryExpressionParser.BuildLinqExpression<Place>(new NameValueCollection(query.ToArray()))).Item.OfType<Place>().FirstOrDefault();
 
 					if (place == null)
 					{
@@ -120,7 +115,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var place = this.client.Update<Place>(PlaceUtil.ToPlace(model));
+				var place = this.ImsiClient.Update<Place>(PlaceUtil.ToPlace(model));
 
 				return RedirectToAction("ViewPlace", new { key = place.Key, versionKey = place.VersionKey });
 			}
@@ -136,18 +131,6 @@ namespace OpenIZAdmin.Controllers
 			return View(new List<PlaceViewModel>());
 		}
 
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var restClient = new RestClientService(Constants.IMSI);
-
-			restClient.Accept = "application/xml";
-			restClient.Credentials = new ImsCredentials(this.User, HttpContext.Request);
-
-			this.client = new ImsiServiceClient(restClient);
-
-			base.OnActionExecuting(filterContext);
-		}
-
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
@@ -155,7 +138,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (ModelState.IsValid)
 			{
-				var places = this.client.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))));
+				var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))));
 
 				placeList = places.Item.OfType<Place>().Select(p => PlaceUtil.ToPlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 			}
@@ -184,7 +167,7 @@ namespace OpenIZAdmin.Controllers
 						query.AddRange(QueryExpressionBuilder.BuildQuery<Place>(c => c.Key == placeId));
 					}
 
-					var place = this.client.Query<Place>(QueryExpressionParser.BuildLinqExpression<Place>(new NameValueCollection(query.ToArray()))).Item.OfType<Place>().FirstOrDefault();
+					var place = this.ImsiClient.Query<Place>(QueryExpressionParser.BuildLinqExpression<Place>(new NameValueCollection(query.ToArray()))).Item.OfType<Place>().FirstOrDefault();
 
 					if (place == null)
 					{

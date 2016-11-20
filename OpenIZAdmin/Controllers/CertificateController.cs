@@ -35,13 +35,8 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing certificates.
 	/// </summary>
 	[TokenAuthorize]
-	public class CertificateController : Controller
+	public class CertificateController : BaseController
 	{
-		/// <summary>
-		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
-		/// </summary>
-		private AmiServiceClient client;
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.CertificateController"/> class.
 		/// </summary>
@@ -62,7 +57,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					this.client.AcceptCertificateSigningRequest(model.CertificateId);
+					this.AmiClient.AcceptCertificateSigningRequest(model.CertificateId);
 
                     TempData["success"] = Locale.CertificateSigningRequestAccepted;
 
@@ -86,34 +81,9 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteCertificate(DeleteCertificateModel model)
 		{
-            //if (ModelState.IsValid)
-            //{
-            //	var response = await this.client.DeleteAsync(string.Format("/csr/{0}", model.CertificateId));
-
-            //	if (response.IsSuccessStatusCode)
-            //	{
-            //		TempData["success"] = "Certificate successfully deleted";
-
-            //		return RedirectToAction("Index");
-            //	}
-            //}
-
             TempData["error"] = Locale.UnableToDelete + " " + Locale.Certificate;
 
 			return RedirectToAction("Index");
-		}
-
-		/// <summary>
-		/// Dispose of any managed resources.
-		/// </summary>
-		/// <param name="disposing">Whether the current invocation is disposing.</param>
-		protected override void Dispose(bool disposing)
-		{
-			Trace.TraceInformation("{0} disposing", nameof(CertificateController));
-
-			this.client?.Dispose();
-
-			base.Dispose(disposing);
 		}
 
 		/// <summary>
@@ -125,18 +95,6 @@ namespace OpenIZAdmin.Controllers
 		[ActionName("Certificate")]
 		public ActionResult GetCertificate(string id)
 		{
-            //if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
-            //{
-            //	var response = await this.client.GetAsync(string.Format("/certificate/{0}", id));
-
-            //	if (response.IsSuccessStatusCode)
-            //	{
-            //		CertificateViewModel viewModel = new CertificateViewModel();
-
-            //		return View(viewModel);
-            //	}
-            //}
-
             TempData["error"] = Locale.UnableToFindSpecifiedCertificate;
 
 			return RedirectToAction("Index");
@@ -150,15 +108,6 @@ namespace OpenIZAdmin.Controllers
 		[ActionName("Certificates")]
 		public ActionResult GetCertificates()
 		{
-            //var response = await this.client.GetAsync(string.Format("/certificates/"));
-
-            //if (response.IsSuccessStatusCode)
-            //{
-            //	CertificateViewModel viewModel = new CertificateViewModel();
-
-            //	return View(viewModel);
-            //}
-
             TempData["error"] = Locale.UnableToRetrieveCertificateList;
 
 			return RedirectToAction("Index");
@@ -171,15 +120,6 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult GetCertificateSigningRequests()
 		{
-            //var response = await this.client.GetAsync(string.Format("/csrs/"));
-
-            //if (response.IsSuccessStatusCode)
-            //{
-            //	CertificateSigningRequestViewModel viewModel = new CertificateSigningRequestViewModel();
-
-            //	return View(viewModel);
-            //}
-
             TempData["error"] = Locale.UnableToRetrieveCertificateSigningRequestList;
 
 			return RedirectToAction("Index");
@@ -193,19 +133,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Certificate";
-			return View(CertificateUtil.GetAllCertificateSigningRequests(this.client));
-		}
-
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var restClient = new RestClientService(Constants.AMI);
-
-			restClient.Accept = "application/xml";
-			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
-
-			this.client = new AmiServiceClient(restClient);
-
-			base.OnActionExecuting(filterContext);
+			return View(CertificateUtil.GetAllCertificateSigningRequests(this.AmiClient));
 		}
 
 		/// <summary>
@@ -216,18 +144,6 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult RejectCertificateSigningRequest(RejectCertificateSigningRequestModel model)
 		{
-            //if (ModelState.IsValid)
-            //{
-            //	var response = await this.client.DeleteAsync(string.Format("/csr/{0}", model.CertificateId));
-
-            //	if (response.IsSuccessStatusCode)
-            //	{
-            //		TempData["success"] = "Certificate signing request sucessfully rejected";
-
-            //		return RedirectToAction("Index");
-            //	}
-            //}
-
             TempData["error"] = Locale.UnableToRejectCertificateSigningRequest;
 
 			return View(model);
@@ -251,7 +167,7 @@ namespace OpenIZAdmin.Controllers
 
 				try
 				{
-					result = this.client.SubmitCertificateSigningRequest(submissionRequest);
+					result = this.AmiClient.SubmitCertificateSigningRequest(submissionRequest);
 
                     TempData["success"] = Locale.CertificateSigningRequestSuccessfullySubmitted;
 
@@ -278,15 +194,6 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult ViewCertificateRevocationList()
 		{
-            //var response = await this.client.GetAsync(string.Format("/crl"));
-
-            //if (response.IsSuccessStatusCode)
-            //{
-            //	CertificateRevocationListViewModel viewModel = new CertificateRevocationListViewModel();
-
-            //	return View(viewModel);
-            //}
-
             TempData["error"] = Locale.UnableToRetrieveCertificateRevocationlist;
 
 			return RedirectToAction("Index");
@@ -300,18 +207,6 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult ViewCertificateSigningRequest(string id)
 		{
-			//if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
-			//{
-			//	var response = await this.client.GetAsync(string.Format("/csr/{0}", id));
-
-			//	if (response.IsSuccessStatusCode)
-			//	{
-			//		CertificateSigningRequestViewModel viewModel = new CertificateSigningRequestViewModel();
-
-			//		return View(viewModel);
-			//	}
-			//}
-
 			TempData["error"] = Locale.UnableToFindSpecifiedCertificateSigningRequest;
 
 			return RedirectToAction("Index");

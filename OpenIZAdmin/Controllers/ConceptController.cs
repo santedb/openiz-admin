@@ -40,13 +40,8 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing concepts.
 	/// </summary>
 	[TokenAuthorize]
-	public class ConceptController : Controller
+	public class ConceptController : BaseController
 	{
-		/// <summary>
-		/// The internal reference to the <see cref="ImsiServiceClient"/> instance.
-		/// </summary>
-		private ImsiServiceClient imsiClient;
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConceptController"/> class.
 		/// </summary>
@@ -84,7 +79,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var result = this.imsiClient.Create(ConceptUtil.ToConcept(model));
+					var result = this.ImsiClient.Create(ConceptUtil.ToConcept(model));
                     TempData["success"] = Locale.Concept + " " + Locale.CreatedSuccessfully;
 
 					return RedirectToAction("Index");
@@ -114,19 +109,6 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			return View();
-		}
-
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-            
-			var imsiRestClient = new RestClientService(Constants.IMSI);
-
-			imsiRestClient.Accept = "application/xml";
-			imsiRestClient.Credentials = new ImsCredentials(this.User, HttpContext.Request);
-
-			this.imsiClient = new ImsiServiceClient(imsiRestClient);
-
-			base.OnActionExecuting(filterContext);
 		}
 
 		/// <summary>
@@ -200,7 +182,7 @@ namespace OpenIZAdmin.Controllers
 				throw new ArgumentException(string.Format("{0} must not be empty", nameof(query)));
 			}
 
-			return this.imsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
+			return this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
 		}
 
 		private Bundle SearchConceptSets(SearchConceptModel model)
@@ -222,7 +204,7 @@ namespace OpenIZAdmin.Controllers
 				throw new ArgumentException(string.Format("{0} must not be empty", nameof(query)));
 			}
 
-			return this.imsiClient.Query<ConceptSet>(QueryExpressionParser.BuildLinqExpression<ConceptSet>(new NameValueCollection(query.ToArray())));
+			return this.ImsiClient.Query<ConceptSet>(QueryExpressionParser.BuildLinqExpression<ConceptSet>(new NameValueCollection(query.ToArray())));
 		}
 
 		[HttpGet]
@@ -250,8 +232,8 @@ namespace OpenIZAdmin.Controllers
 						query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == conceptId));
 					}
                     referenceTermQuery.AddRange(QueryExpressionBuilder.BuildQuery<ConceptReferenceTerm>(c => c.SourceEntityKey == conceptId));
-                    var concept = this.imsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray()))).Item.OfType<Concept>().FirstOrDefault();
-                    var referenceTerms = this.imsiClient.Query<ConceptReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ConceptReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ConceptReferenceTerm>();
+                    var concept = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray()))).Item.OfType<Concept>().FirstOrDefault();
+                    var referenceTerms = this.ImsiClient.Query<ConceptReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ConceptReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ConceptReferenceTerm>();
                     if (concept == null)
 					{
 						TempData["error"] = Locale.Concept + " " + Locale.NotFound;
@@ -288,7 +270,7 @@ namespace OpenIZAdmin.Controllers
                         query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == conceptId));
                     }
 
-                    var concept = this.imsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray()))).Item.FirstOrDefault() as Concept;
+                    var concept = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray()))).Item.FirstOrDefault() as Concept;
                     if (concept == null)
                     {
 						TempData["error"] = Locale.Concept + " " + Locale.NotFound;

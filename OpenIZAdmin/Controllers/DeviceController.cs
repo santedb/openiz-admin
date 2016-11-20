@@ -37,13 +37,8 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing devices.
 	/// </summary>
 	[TokenAuthorize]
-	public class DeviceController : Controller
+	public class DeviceController : BaseController
 	{
-		/// <summary>
-		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
-		/// </summary>
-		private AmiServiceClient client;
-
 		[HttpGet]
 		public ActionResult Create()
 		{
@@ -58,7 +53,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var device = this.client.CreateDevice(DeviceUtil.ToSecurityDevice(model));
+					var device = this.AmiClient.CreateDevice(DeviceUtil.ToSecurityDevice(model));
 
 					return RedirectToAction("ViewDevice", new { key = device.Key });
 				}
@@ -82,7 +77,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out deviceKey))
 			{
-				var result = this.client.GetDevices(r => r.Key == deviceKey);
+				var result = this.AmiClient.GetDevices(r => r.Key == deviceKey);
 
 				if (result.CollectionItem.Count == 0)
 				{
@@ -109,19 +104,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Device";
-			return View(DeviceUtil.GetAllDevices(this.client));
-		}
-
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var restClient = new RestClientService(Constants.AMI);
-
-			restClient.Accept = "application/xml";
-			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
-
-			this.client = new AmiServiceClient(restClient);
-
-			base.OnActionExecuting(filterContext);
+			return View(DeviceUtil.GetAllDevices(this.AmiClient));
 		}
 
 		[HttpGet]
@@ -133,7 +116,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 				{
-					var collection = this.client.GetDevices(d => d.Name.Contains(searchTerm));
+					var collection = this.AmiClient.GetDevices(d => d.Name.Contains(searchTerm));
 
 					TempData["searchTerm"] = searchTerm;
 
@@ -161,7 +144,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out deviceKey))
 			{
-				var result = this.client.GetDevices(r => r.Key == deviceKey);
+				var result = this.AmiClient.GetDevices(r => r.Key == deviceKey);
 
 				if (result.CollectionItem.Count == 0)
 				{

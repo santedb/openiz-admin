@@ -27,6 +27,9 @@ using System.Web.Mvc;
 using OpenIZAdmin.Localization;
 using OpenIZ.Core.Alert.Alerting;
 using OpenIZ.Core.Model.Security;
+using OpenIZ.Core.Model.AMI.Auth;
+using System.Security.Principal;
+using Microsoft.AspNet.Identity;
 
 namespace OpenIZAdmin.Util
 {
@@ -43,9 +46,10 @@ namespace OpenIZAdmin.Util
 		{
 			var selectList = new List<SelectListItem>();
 
-			selectList.Add(new SelectListItem { Text = Locale.Alert, Value = AlertMessageFlags.Alert.ToString() });
-			selectList.Add(new SelectListItem { Text = Locale.HighPriority, Value = AlertMessageFlags.HighPriority.ToString() });
-			selectList.Add(new SelectListItem { Text = Locale.System, Value = AlertMessageFlags.System.ToString() });
+			// HACK
+			selectList.Add(new SelectListItem { Text = Locale.Alert, Value = ((int)AlertMessageFlags.Alert).ToString() });
+			selectList.Add(new SelectListItem { Text = Locale.HighPriority, Value = ((int)AlertMessageFlags.HighPriority).ToString() });
+			selectList.Add(new SelectListItem { Text = Locale.HighPriority, Value = ((int)AlertMessageFlags.System).ToString() });
 
 			return selectList;
 		}
@@ -80,7 +84,7 @@ namespace OpenIZAdmin.Util
 		/// Converts an alert model to an alert message info.
 		/// </summary>
 		/// <returns>Returns the converted alert message info.</returns>
-		public static AlertMessageInfo ToAlertMessageInfo(CreateAlertModel model, Guid userId)
+		public static AlertMessageInfo ToAlertMessageInfo(CreateAlertModel model, IPrincipal user)
 		{
 			AlertMessageInfo alertMessageInfo = new AlertMessageInfo();
 
@@ -90,17 +94,24 @@ namespace OpenIZAdmin.Util
 
 			alertMessageInfo.AlertMessage.CreatedBy = new SecurityUser
 			{
-				Key = userId
+				Key = Guid.Parse(user.Identity.GetUserId()),
 			};
 
-
-
 			alertMessageInfo.AlertMessage.Flags = (AlertMessageFlags)model.Priority;
+
+			switch (alertMessageInfo.AlertMessage.Flags)
+			{
+				case AlertMessageFlags.System:
+					alertMessageInfo.AlertMessage.From = "SYSTEM";
+					break;
+				default:
+					alertMessageInfo.AlertMessage.From = user.Identity.GetUserName();
+					break;
+			}
+
 			alertMessageInfo.AlertMessage.Subject = model.Subject;
 			alertMessageInfo.AlertMessage.TimeStamp = DateTimeOffset.Now;
-			alertMessageInfo.AlertMessage.RcptTo = new List<SecurityUser>();
-
-			alertMessageInfo.AlertMessage.RcptTo.AddRange(model.To.Select(t => new SecurityUser { Key = Guid.Parse(t) }));
+			alertMessageInfo.AlertMessage.To = "SYSTEM";
 
 			return alertMessageInfo;
 		}

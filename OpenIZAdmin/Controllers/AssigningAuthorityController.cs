@@ -39,31 +39,13 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for administering policies.
 	/// </summary>
 	[TokenAuthorize]
-	public class AssigningAuthorityController : Controller
+	public class AssigningAuthorityController : BaseController
 	{
 		/// <summary>
-		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
-		/// </summary>
-		private AmiServiceClient client;
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.PolicyController"/> class.
+		/// Initializes a new instance of the <see cref="PolicyController"/> class.
 		/// </summary>
 		public AssigningAuthorityController()
 		{
-		}
-
-		/// <summary>
-		/// Dispose of any managed resources.
-		/// </summary>
-		/// <param name="disposing">Whether the current invocation is disposing.</param>
-		protected override void Dispose(bool disposing)
-		{
-			Trace.TraceInformation("{0} disposing", nameof(AssigningAuthorityController));
-
-			this.client?.Dispose();
-
-			base.Dispose(disposing);
 		}
 
 		[HttpGet]
@@ -89,7 +71,7 @@ namespace OpenIZAdmin.Controllers
                 {
                     var test = "";
 
-                    var results = this.client.CreateAssigningAuthority(AssigningAuthorityUtil.ToCreateAssigningAuthorityModel(model));
+                    var results = this.AmiClient.CreateAssigningAuthority(AssigningAuthorityUtil.ToCreateAssigningAuthorityModel(model));
                     TempData["success"] = Locale.AssigningAuthority + " " + Locale.CreatedSuccessfully;
                     return RedirectToAction("Index");
                 }
@@ -106,18 +88,6 @@ namespace OpenIZAdmin.Controllers
             return RedirectToAction("Index");
         }
 
-        protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var restClient = new RestClientService(Constants.AMI);
-
-			restClient.Accept = "application/xml";
-			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
-
-			this.client = new AmiServiceClient(restClient);
-
-			base.OnActionExecuting(filterContext);
-		}
-
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
@@ -125,7 +95,7 @@ namespace OpenIZAdmin.Controllers
             try
 			{
 				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm)) {
-                    var collection = this.client.GetAssigningAuthorities(p => p.Name.Contains(searchTerm) && p.ObsoletionTime==null);
+                    var collection = this.AmiClient.GetAssigningAuthorities(p => p.Name.Contains(searchTerm) && p.ObsoletionTime==null);
                     var filtered = collection.CollectionItem.FindAll(p => p.AssigningAuthority.ObsoletionTime == null);//TEMP: Until the obsoletion time is taken as query parameter
 
                     TempData["searchTerm"] = searchTerm;
@@ -157,11 +127,11 @@ namespace OpenIZAdmin.Controllers
             {
                 try
                 {
-                    var assigningAuthority = this.client.GetAssigningAuthorities(m => m.Key == assigningAuthorityKey);
+                    var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == assigningAuthorityKey);
                     var singleAssigningAuthority = assigningAuthority.CollectionItem.SingleOrDefault();
 
                     singleAssigningAuthority.AssigningAuthority.ObsoletionTime = new DateTimeOffset(DateTime.Now);
-					this.client.DeleteAssigningAuthority(key);
+					this.AmiClient.DeleteAssigningAuthority(key);
                     TempData["success"] = Locale.AssigningAuthority + " " + Locale.DeletedSuccessfully;
                     return RedirectToAction("Index");
                 }
@@ -187,7 +157,7 @@ namespace OpenIZAdmin.Controllers
             {
                 try
                 {
-                    var assigningAuthority = this.client.GetAssigningAuthorities(m => m.Key==assigningAuthorityKey);
+                    var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key==assigningAuthorityKey);
 
                     object model = null;
 
@@ -215,7 +185,7 @@ namespace OpenIZAdmin.Controllers
             {
                 try
                 {
-                    var assigningAuthority = this.client.GetAssigningAuthorities(m => m.Key == assigningAuthorityKey);
+                    var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == assigningAuthorityKey);
 
                     object model = null;
 
@@ -244,7 +214,7 @@ namespace OpenIZAdmin.Controllers
             {
                 try
                 {
-                    var assigningAuthority = this.client.GetAssigningAuthorities(m => m.Key == model.Key).CollectionItem.SingleOrDefault();
+                    var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == model.Key).CollectionItem.SingleOrDefault();
 
                     assigningAuthority.AssigningAuthority.Url = model.Url;
                     assigningAuthority.AssigningAuthority.DomainName = model.DomainName;
@@ -253,7 +223,7 @@ namespace OpenIZAdmin.Controllers
                     assigningAuthority.AssigningAuthority.Name = model.Name;
 
                     var key = assigningAuthority.AssigningAuthority.Key.Value.ToString();
-                    this.client.UpdateAssigningAuthority(key,  assigningAuthority);
+                    this.AmiClient.UpdateAssigningAuthority(key,  assigningAuthority);
                     TempData["success"] = Locale.AssigningAuthority + " " + Locale.EditedSuccessfully;
                     return View("Index");
 

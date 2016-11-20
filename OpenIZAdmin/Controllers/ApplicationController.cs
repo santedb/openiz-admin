@@ -35,13 +35,8 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing security applications.
 	/// </summary>
 	[TokenAuthorize]
-	public class ApplicationController : Controller
+	public class ApplicationController : BaseController
 	{
-		/// <summary>
-		/// The internal reference to the <see cref="AmiServiceClient"/> instance.
-		/// </summary>
-		private AmiServiceClient client;
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ApplicationController"/> class.
 		/// </summary>
@@ -70,16 +65,6 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-		/// <summary>
-		/// Dispose of any managed resources.
-		/// </summary>
-		/// <param name="disposing">Whether the current invocation is disposing.</param>
-		protected override void Dispose(bool disposing)
-		{
-			this.client?.Dispose();
-			base.Dispose(disposing);
-		}
-
 		[HttpGet]
 		public ActionResult Edit()
 		{
@@ -102,18 +87,6 @@ namespace OpenIZAdmin.Controllers
 		{
 			TempData["searchType"] = "Application";
 			return View();
-		}
-
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var restClient = new RestClientService(Constants.AMI);
-
-			restClient.Accept = "application/xml";
-			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
-
-			this.client = new AmiServiceClient(restClient);
-
-			base.OnActionExecuting(filterContext);
 		}
 
 		[HttpGet]

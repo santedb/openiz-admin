@@ -38,13 +38,8 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for administering policies.
 	/// </summary>
 	[TokenAuthorize]
-	public class PolicyController : Controller
+	public class PolicyController : BaseController
 	{
-		/// <summary>
-		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
-		/// </summary>
-		private AmiServiceClient client;
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.PolicyController"/> class.
 		/// </summary>
@@ -68,7 +63,7 @@ namespace OpenIZAdmin.Controllers
             {
                 try
                 {
-                    policyInfo = PolicyUtil.GetPolicy(this.client, userKey);
+                    policyInfo = PolicyUtil.GetPolicy(this.AmiClient, userKey);
 
                     if (policyInfo == null)
                     {
@@ -80,7 +75,7 @@ namespace OpenIZAdmin.Controllers
                     policyInfo.Policy.ObsoletedBy = null;
                     policyInfo.Policy.ObsoletionTime = null;
 
-                    this.client.UpdatePolicy(id, policyInfo);
+                    this.AmiClient.UpdatePolicy(id, policyInfo);
 
                     TempData["success"] = Locale.Policy + " " + Locale.ActivatedSuccessfully;
 
@@ -132,7 +127,7 @@ namespace OpenIZAdmin.Controllers
 
 				try
 				{
-					this.client.CreatePolicy(policy);
+					this.AmiClient.CreatePolicy(policy);
 
 					TempData["success"] = Locale.Policy + " " +  Locale.CreatedSuccessfully;
 
@@ -165,7 +160,7 @@ namespace OpenIZAdmin.Controllers
             {
 				try
 				{
-					this.client.DeletePolicy(id);
+					this.AmiClient.DeletePolicy(id);
                     TempData["success"] = Locale.Policy + " " + Locale.DeletedSuccessfully;
 
                     return RedirectToAction("Index");
@@ -185,19 +180,6 @@ namespace OpenIZAdmin.Controllers
             return RedirectToAction("Index");
 		}
 
-		/// <summary>
-		/// Dispose of any managed resources.
-		/// </summary>
-		/// <param name="disposing">Whether the current invocation is disposing.</param>
-		protected override void Dispose(bool disposing)
-		{
-			Trace.TraceInformation("{0} disposing", nameof(PolicyController));
-
-			this.client?.Dispose();
-
-			base.Dispose(disposing);
-		}
-
         [HttpGet]
         public ActionResult Edit(string key)
         {
@@ -206,7 +188,7 @@ namespace OpenIZAdmin.Controllers
             
             if(PolicyUtil.IsValidString(key) && Guid.TryParse(key, out policyId))
             {                
-                policyInfo = PolicyUtil.GetPolicy(this.client, policyId);
+                policyInfo = PolicyUtil.GetPolicy(this.AmiClient, policyId);
                 
                 if (policyInfo == null)
                 {
@@ -237,7 +219,7 @@ namespace OpenIZAdmin.Controllers
             {                
                 try
                 {
-                    SecurityPolicyInfo policy = PolicyUtil.GetPolicy(this.client, model.Key);
+                    SecurityPolicyInfo policy = PolicyUtil.GetPolicy(this.AmiClient, model.Key);
                    
                     if(policy == null)
                     { 
@@ -249,7 +231,7 @@ namespace OpenIZAdmin.Controllers
 
                     SecurityPolicyInfo policyInfo = PolicyUtil.ToSecurityPolicy(model, policy);                    
                                        
-                    this.client.UpdatePolicy(model.Key.ToString(), policyInfo);
+                    this.AmiClient.UpdatePolicy(model.Key.ToString(), policyInfo);
 
                     TempData["success"] = Locale.Policy + " " + Locale.UpdatedSuccessfully;
 
@@ -274,19 +256,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Policy";
-			return View(PolicyUtil.GetAllPolicies(this.client));
-		}
-
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var restClient = new RestClientService(Constants.AMI);
-
-			restClient.Accept = "application/xml";
-			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
-
-			this.client = new AmiServiceClient(restClient);
-
-			base.OnActionExecuting(filterContext);
+			return View(PolicyUtil.GetAllPolicies(this.AmiClient));
 		}
 
 		[HttpGet]
@@ -298,7 +268,7 @@ namespace OpenIZAdmin.Controllers
 			{				
                 if(PolicyUtil.IsValidString(searchTerm))
                 {
-					var collection = this.client.GetPolicies(p => p.Name.Contains(searchTerm));
+					var collection = this.AmiClient.GetPolicies(p => p.Name.Contains(searchTerm));
 
 					TempData["searchTerm"] = searchTerm;
 
@@ -326,7 +296,7 @@ namespace OpenIZAdmin.Controllers
 			
             if(PolicyUtil.IsValidString(key) && Guid.TryParse(key, out policyId))
             {
-				var result = this.client.GetPolicies(r => r.Key == policyId);
+				var result = this.AmiClient.GetPolicies(r => r.Key == policyId);
 
 				if (result.CollectionItem.Count == 0)
 				{

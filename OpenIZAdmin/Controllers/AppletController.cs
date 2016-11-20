@@ -17,21 +17,15 @@
  * Date: 2016-7-8
  */
 
+using OpenIZ.Core.Applets.Model;
+using OpenIZ.Core.Model.AMI.Applet;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AppletModels;
 using OpenIZAdmin.Models.AppletModels.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using OpenIZ.Messaging.AMI.Client;
-using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Http.Security;
-using OpenIZ.Core.Model.AMI.Applet;
-using OpenIZ.Core.Applets.Model;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -39,13 +33,8 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing applets.
 	/// </summary>
 	[TokenAuthorize]
-	public class AppletController : Controller
+	public class AppletController : BaseController
 	{
-		/// <summary>
-		/// The internal reference to the <see cref="AmiServiceClient"/> instance.
-		/// </summary>
-		private AmiServiceClient client;
-
 		/// <summary>
 		/// Displays the index view.
 		/// </summary>
@@ -61,18 +50,6 @@ namespace OpenIZAdmin.Controllers
 			};
 
 			return View(applets);
-		}
-
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var restClient = new RestClientService(Constants.AMI);
-
-			restClient.Accept = "application/xml";
-			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
-
-			this.client = new AmiServiceClient(restClient);
-
-			base.OnActionExecuting(filterContext);
 		}
 
 		/// <summary>
@@ -98,9 +75,9 @@ namespace OpenIZAdmin.Controllers
 			{
 				AppletManifestInfo manifestInfo = new AppletManifestInfo(AppletManifest.Load(Request.Files[0].InputStream));
 
-				this.client.CreateApplet(manifestInfo);
+				this.AmiClient.CreateApplet(manifestInfo);
 
-                TempData["success"] = Locale.AppletUploadedSuccessfully;
+				TempData["success"] = Locale.AppletUploadedSuccessfully;
 
 				if (model.UploadAnotherFile)
 				{
@@ -112,7 +89,7 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index");
 			}
 
-            TempData["error"] = Locale.UnableToUploadApplet;
+			TempData["error"] = Locale.UnableToUploadApplet;
 
 			return View(model);
 		}
