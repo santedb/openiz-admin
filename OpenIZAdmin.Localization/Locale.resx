@@ -780,4 +780,7 @@
   <data name="UnableToUpload" xml:space="preserve">
     <value>UnableToUpload</value>
   </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
 </root>
