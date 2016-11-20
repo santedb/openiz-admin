@@ -34,7 +34,7 @@ namespace OpenIZAdmin.Util
 		{
 			var applets = client.GetApplets();
 
-			return applets.CollectionItem.Select(a => new AppletViewModel(a.AppletManifest.Info.GetGroupName("en"), a.AppletManifest.Info.Id, string.Join(", ", a.AppletManifest.Info.Names.Select(l => l.Value)), a.AppletManifest.Info.Version)).ToList();
+			return applets.CollectionItem.Select(a => new AppletViewModel(a.AppletManifest.Info.Author, a.AppletManifest.Info.GetGroupName("en"), a.AppletManifest.Info.Id, string.Join(", ", a.AppletManifest.Info.Names.Select(l => l.Value)), a.AppletManifest.Info.Version)).ToList();
 		}
 
 	}

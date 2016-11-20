@@ -39,6 +39,29 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public class AppletController : BaseController
 	{
+
+		/// <summary>
+		/// Downloads an applet.
+		/// </summary>
+		/// <param name="appletId">The id of the applet to download.</param>
+		/// <returns>Returns the applet.</returns>
+		[HttpGet]
+		public ActionResult Download(string appletId)
+		{
+			var applet = this.AmiClient.GetApplet(appletId);
+
+			var stream = new MemoryStream();
+
+			using (var gzipStream = new GZipStream(stream, CompressionMode.Compress))
+			{
+				var package = applet.AppletManifest.CreatePackage();
+				var serializer = new XmlSerializer(typeof(AppletPackage));
+
+				serializer.Serialize(gzipStream, package);
+			}
+
+			return File(stream.ToArray(), "application/pak", applet.AppletManifest.Info.Id + applet.FileExtension);
+		}
 		/// <summary>
 		/// Displays the index view.
 		/// </summary>
@@ -70,11 +93,10 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Upload(UploadAppletModel model)
 		{
-			FileInfo fileInfo = new FileInfo(model.File.FileName);
+			var fileInfo = new FileInfo(model.File.FileName);
 
 			if (ModelState.IsValid)
 			{
-				XmlSerializer serializer;
 				AppletManifest manifest = null;
 
 				switch (fileInfo.Extension)
@@ -82,13 +104,13 @@ namespace OpenIZAdmin.Controllers
 					case ".pak":
 						AppletPackage package;
 
-						using (GZipStream stream = new GZipStream(model.File.InputStream, CompressionMode.Decompress))
+						using (var stream = new GZipStream(model.File.InputStream, CompressionMode.Decompress))
 						{
-							serializer = new XmlSerializer(typeof(AppletPackage));
+							var serializer = new XmlSerializer(typeof(AppletPackage));
 							package = (AppletPackage)serializer.Deserialize(stream);
 						}
 
-						using (MemoryStream stream = new MemoryStream(package.Manifest))
+						using (var stream = new MemoryStream(package.Manifest))
 						{
 							manifest = AppletManifest.Load(stream);
 						}
@@ -102,19 +124,12 @@ namespace OpenIZAdmin.Controllers
 
 				if (ModelState.IsValid)
 				{
-					AppletManifestInfo manifestInfo = new AppletManifestInfo(manifest);
+					var manifestInfo = new AppletManifestInfo(manifest);
 					manifestInfo.FileExtension = fileInfo.Extension;
 
 					this.AmiClient.CreateApplet(manifestInfo);
 
 					TempData["success"] = Locale.AppletUploadedSuccessfully;
-
-					if (model.UploadAnotherFile)
-					{
-						ModelState.Clear();
-						model.File = null;
-						return View(model);
-					}
 
 					return RedirectToAction("Index");
 				}

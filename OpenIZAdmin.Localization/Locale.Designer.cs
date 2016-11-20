@@ -142,6 +142,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Applet.
+        /// </summary>
+        public static string Applet {
+            get {
+                return ResourceManager.GetString("Applet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Applet Id.
         /// </summary>
         public static string AppletId {
@@ -201,6 +210,15 @@ namespace OpenIZAdmin.Localization {
         public static string AssigningDeviceId {
             get {
                 return ResourceManager.GetString("AssigningDeviceId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Author.
+        /// </summary>
+        public static string Author {
+            get {
+                return ResourceManager.GetString("Author", resourceCulture);
             }
         }
         
@@ -1672,15 +1690,6 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to upload applet.
-        /// </summary>
-        public static string Unable_to_upload_applet {
-            get {
-                return ResourceManager.GetString("Unable to upload applet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Unable to accept certificate signing request.
         /// </summary>
         public static string UnableToAcceptCertificateSigningRequest {
@@ -1879,6 +1888,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to UnableToUpload.
+        /// </summary>
+        public static string UnableToUpload {
+            get {
+                return ResourceManager.GetString("UnableToUpload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to upload applet.
         /// </summary>
         public static string UnableToUploadApplet {
@@ -1911,6 +1929,15 @@ namespace OpenIZAdmin.Localization {
         public static string UpdateProfile {
             get {
                 return ResourceManager.GetString("UpdateProfile", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload.
+        /// </summary>
+        public static string Upload {
+            get {
+                return ResourceManager.GetString("Upload", resourceCulture);
             }
         }
         

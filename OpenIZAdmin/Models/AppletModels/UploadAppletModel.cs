@@ -35,27 +35,10 @@ namespace OpenIZAdmin.Models.AppletModels
 		}
 
 		/// <summary>
-		/// Gets or sets the description of the applet.
-		/// </summary>
-		[Required]
-		[StringLength(255)]
-		public string Description { get; set; }
-
-		/// <summary>
 		/// Gets or sets the applet content.
 		/// </summary>
 		[Required]
 		//[FileExtensions(Extensions = ".pak.gz, .pak, .gz", ErrorMessage = "Unsupported file format, the allow file types are .pak.gz, .gz, .pak")]
 		public HttpPostedFileBase File { get; set; }
-
-		/// <summary>
-		/// Gets or sets the name of the applet.
-		/// </summary>
-		[Required]
-		[StringLength(100)]
-		public string Name { get; set; }
-
-		[Display(Name = "Upload another file?")]
-		public bool UploadAnotherFile { get; set; }
 	}
 }

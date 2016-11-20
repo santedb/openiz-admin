@@ -171,6 +171,13 @@
             <param name="query">The query expression to use to find the alerts.</param>
             <returns>Returns a collection of alerts which match the specified criteria.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetApplet(System.String)">
+            <summary>
+            Gets a specific applet.
+            </summary>
+            <param name="id">The id of the applet to retrieve.</param>
+            <returns>Returns the applet.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetApplets">
             <summary>
             Gets a list of applets for a specific query.

@@ -29,7 +29,7 @@ namespace OpenIZAdmin.Models.AppletModels.ViewModels
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AppletViewModel"/> class.
 		/// </summary>
-		public AppletViewModel() : this(null, null, null, null)
+		public AppletViewModel() : this(null, null, null, null, null)
 		{
 		}
 
@@ -41,13 +41,19 @@ namespace OpenIZAdmin.Models.AppletModels.ViewModels
 		/// <param name="id">The id of the applet.</param>
 		/// <param name="name">The name of the applet.</param>
 		/// <param name="version">The version of the applet.</param>
-		public AppletViewModel(string group, string id, string name, string version)
+		public AppletViewModel(string author, string group, string id, string name, string version)
 		{
+			this.Author = author;
 			this.Group = group;
 			this.Id = id;
 			this.Name = name;
 			this.Version = version;
 		}
+
+		/// <summary>
+		/// Gets or sets the author of the applet.
+		/// </summary>
+		public string Author { get; set; }
 
 		/// <summary>
 		/// Gets or sets the group of the applet.

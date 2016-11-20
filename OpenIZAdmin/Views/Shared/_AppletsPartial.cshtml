@@ -16,6 +16,9 @@
             <thead>
                 <tr>
                     <th>
+                        @Locale.Author
+                    </th>
+                    <th>
                         @Locale.Group
                     </th>
                     <th>
@@ -25,23 +28,30 @@
                         @Locale.Version
                     </th>
                     <th></th>
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
+                        <td>@item.Author</td>
                         <td>@item.Group</td>
                         <td>@item.Name</td>
                         <td>@item.Version</td>
                         <td>
-                            <a class="btn btn-primary" href="/Applet/Applet?appletId=@item.Id">
+                            <a class="btn btn-primary" href="/Applet/ViewApplet?appletId=@item.Id">
                                 @Locale.View
                                 <span class="glyphicon glyphicon-eye-open"></span>
                             </a>
                         </td>
-                    </tr>
-}
+                        <td>
+                            <a class="btn btn-primary" href="/Applet/Download?appletId=@item.Id">
+                                @Locale.View
+                                <span class="glyphicon glyphicon-download"></span>
+                            </a>
+                        </td>
+                    </tr>}
             </tbody>
         </table>
 
