@@ -759,4 +759,16 @@
   <data name="UpdatedSuccessfully" xml:space="preserve">
     <value>updated successfully</value>
   </data>
+  <data name="Priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="PriorityRequired" xml:space="preserve">
+    <value>Please select a priority</value>
+  </data>
+  <data name="SubjectRequired" xml:space="preserve">
+    <value>Please enter a subject</value>
+  </data>
+  <data name="ToRequired" xml:space="preserve">
+    <value>Please select a recipient</value>
+  </data>
 </root>

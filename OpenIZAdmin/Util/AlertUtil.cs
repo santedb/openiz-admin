@@ -43,7 +43,6 @@ namespace OpenIZAdmin.Util
 		{
 			var selectList = new List<SelectListItem>();
 
-			selectList.Add(new SelectListItem { Text = Locale.Acknowledged, Value = AlertMessageFlags.Acknowledged.ToString() });
 			selectList.Add(new SelectListItem { Text = Locale.Alert, Value = AlertMessageFlags.Alert.ToString() });
 			selectList.Add(new SelectListItem { Text = Locale.HighPriority, Value = AlertMessageFlags.HighPriority.ToString() });
 			selectList.Add(new SelectListItem { Text = Locale.System, Value = AlertMessageFlags.System.ToString() });

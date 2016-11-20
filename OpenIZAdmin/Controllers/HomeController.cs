@@ -18,6 +18,7 @@
  */
 
 using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.AppletModels.ViewModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
@@ -31,7 +32,7 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
-	[AllowAnonymous]
+	[TokenAuthorize]
 	public class HomeController : Controller
 	{
 		/// <summary>
@@ -46,26 +47,21 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("JoinRealm", "Realm");
 			}
 
-			if (User.Identity.IsAuthenticated)
+			DashboardViewModel viewModel = new DashboardViewModel
 			{
-				DashboardViewModel viewModel = new DashboardViewModel
-				{
-					Applets = new List<AppletViewModel>
+				Applets = new List<AppletViewModel>
 					{
 						new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.authentication", "0.5.0.0"),
 						new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientAdministration", "0.5.0.0"),
 						new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientEncounters", "0.5.0.0"),
 					},
-					CertificateRequests = new List<CertificateSigningRequestViewModel>(), //CertificateUtil.GetAllCertificateSigningRequests(this.client),
-					Devices = DeviceUtil.GetAllDevices(this.client).OrderBy(d => d.CreationTime).ThenBy(d => d.Name).Take(15),
-					Roles = RoleUtil.GetAllRoles(this.client).OrderBy(r => r.Name).Take(15),
-					Users = UserUtil.GetAllUsers(this.client).OrderBy(u => u.Username).Take(15)
-				};
+				CertificateRequests = new List<CertificateSigningRequestViewModel>(), //CertificateUtil.GetAllCertificateSigningRequests(this.client),
+				Devices = DeviceUtil.GetAllDevices(this.client).OrderBy(d => d.CreationTime).ThenBy(d => d.Name).Take(15),
+				Roles = RoleUtil.GetAllRoles(this.client).OrderBy(r => r.Name).Take(15),
+				Users = UserUtil.GetAllUsers(this.client).OrderBy(u => u.Username).Take(15)
+			};
 
-				return View(viewModel);
-			}
-
-			return RedirectToAction("Login", "Account", new { returnUrl = Request.UrlReferrer?.ToString() });
+			return View(viewModel);
 		}
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)

@@ -1357,6 +1357,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Priority.
+        /// </summary>
+        public static string Priority {
+            get {
+                return ResourceManager.GetString("Priority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a priority.
+        /// </summary>
+        public static string PriorityRequired {
+            get {
+                return ResourceManager.GetString("PriorityRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Profile.
         /// </summary>
         public static string Profile {
@@ -1591,6 +1609,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a subject.
+        /// </summary>
+        public static string SubjectRequired {
+            get {
+                return ResourceManager.GetString("SubjectRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Submission Time.
         /// </summary>
         public static string SubmissionTime {
@@ -1632,6 +1659,15 @@ namespace OpenIZAdmin.Localization {
         public static string To {
             get {
                 return ResourceManager.GetString("To", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a recipient.
+        /// </summary>
+        public static string ToRequired {
+            get {
+                return ResourceManager.GetString("ToRequired", resourceCulture);
             }
         }
         

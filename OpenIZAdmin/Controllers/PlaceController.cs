@@ -19,7 +19,7 @@
 
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Query;
-using OpenIZ.Messaging.AMI.Client;
+using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.PlaceModels;
@@ -35,13 +35,16 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
+	/// <summary>
+	/// Provides operations for managing places.
+	/// </summary>
 	[TokenAuthorize]
 	public class PlaceController : Controller
 	{
 		/// <summary>
-		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
+		/// The internal reference to the <see cref="ImsiServiceClient"/> instance.
 		/// </summary>
-		private AmiServiceClient client;
+		private ImsiServiceClient client;
 
 		[HttpGet]
 		public ActionResult Create()
@@ -57,7 +60,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var place = this.client.CreatePlace(PlaceUtil.ToPlace(model));
+					var place = this.client.Create<Place>(PlaceUtil.ToPlace(model));
 
 					return RedirectToAction("ViewPlace", new { key = place.Key, versionKey = place.VersionKey });
 				}
@@ -70,7 +73,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-            TempData["error"] = Locale.UnableToCreate + " " + Locale.Place;
+			TempData["error"] = Locale.UnableToCreate + " " + Locale.Place;
 			return View(model);
 		}
 
@@ -95,11 +98,11 @@ namespace OpenIZAdmin.Controllers
 						query.AddRange(QueryExpressionBuilder.BuildQuery<Place>(c => c.Key == placeId));
 					}
 
-					var place = this.client.GetPlaces(QueryExpressionParser.BuildLinqExpression<Place>(new NameValueCollection(query.ToArray()))).CollectionItem.SingleOrDefault();
+					var place = this.client.Query<Place>(QueryExpressionParser.BuildLinqExpression<Place>(new NameValueCollection(query.ToArray()))).Item.OfType<Place>().FirstOrDefault();
 
 					if (place == null)
 					{
-                        TempData["error"] = Locale.Place + " " + Locale.NotFound;
+						TempData["error"] = Locale.Place + " " + Locale.NotFound;
 						return RedirectToAction("Index");
 					}
 
@@ -108,7 +111,7 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			TempData["error"] = Locale.Place + " " + Locale.NotFound;
-            return RedirectToAction("Index");
+			return RedirectToAction("Index");
 		}
 
 		[HttpPost]
@@ -117,20 +120,9 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				try
-				{
-					var placeToUpdate = PlaceUtil.ToPlace(model);
-					var place = this.client.UpdatePlace(placeToUpdate.Key.Value.ToString(), placeToUpdate);
+				var place = this.client.Update<Place>(PlaceUtil.ToPlace(model));
 
-					return RedirectToAction("ViewPlace", new { key = place.Key, versionKey = place.VersionKey });
-				}
-				catch (Exception e)
-				{
-#if DEBUG
-					Trace.TraceError("Unable to update place: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to update place: {0}", e.Message);
-				}
+				return RedirectToAction("ViewPlace", new { key = place.Key, versionKey = place.VersionKey });
 			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Place;
@@ -142,34 +134,16 @@ namespace OpenIZAdmin.Controllers
 			TempData["searchType"] = "Place";
 
 			return View(new List<PlaceViewModel>());
-
-			try
-			{
-				var places = this.client.GetPlaces(p => p.IsMobile == false);
-
-				return View(places.CollectionItem.Select(p => PlaceUtil.ToPlaceViewModel(p)).OrderBy(p => p.Name));
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve places: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve places: {0}", e.Message);
-			}
-
-            TempData["error"] = Locale.UnableToRetrievePlaceList;
-
-			return View(new List<PlaceViewModel>());
 		}
 
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			var restClient = new RestClientService(Constants.AMI);
+			var restClient = new RestClientService(Constants.IMSI);
 
 			restClient.Accept = "application/xml";
-			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
+			restClient.Credentials = new ImsCredentials(this.User, HttpContext.Request);
 
-			this.client = new AmiServiceClient(restClient);
+			this.client = new ImsiServiceClient(restClient);
 
 			base.OnActionExecuting(filterContext);
 		}
@@ -177,26 +151,16 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
+			var placeList = new List<PlaceViewModel>();
+
 			if (ModelState.IsValid)
 			{
-				try
-				{
-					var places = this.client.GetPlaces(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))));
+				var places = this.client.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))));
 
-					return PartialView("_PlaceSearchResultsPartial", places.CollectionItem.Select(p => PlaceUtil.ToPlaceViewModel(p)).OrderBy(p => p.Name));
-				}
-				catch (Exception e)
-				{
-#if DEBUG
-					Trace.TraceError("Unable to retrieve places: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to retrieve places: {0}", e.Message);
-				}
-
-				return PartialView("_PlaceSearchResultsPartial", new List<PlaceViewModel>());
+				placeList = places.Item.OfType<Place>().Select(p => PlaceUtil.ToPlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 			}
 
-			return View("Index");
+			return View("Index", placeList);
 		}
 
 		[HttpGet]
@@ -220,11 +184,11 @@ namespace OpenIZAdmin.Controllers
 						query.AddRange(QueryExpressionBuilder.BuildQuery<Place>(c => c.Key == placeId));
 					}
 
-					var place = this.client.GetPlaces(QueryExpressionParser.BuildLinqExpression<Place>(new NameValueCollection(query.ToArray()))).CollectionItem.SingleOrDefault();
+					var place = this.client.Query<Place>(QueryExpressionParser.BuildLinqExpression<Place>(new NameValueCollection(query.ToArray()))).Item.OfType<Place>().FirstOrDefault();
 
 					if (place == null)
 					{
-                        TempData["error"] = Locale.Place + " " + Locale.NotFound;
+						TempData["error"] = Locale.Place + " " + Locale.NotFound;
 						return RedirectToAction("Index");
 					}
 
@@ -233,7 +197,7 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			TempData["error"] = Locale.Place + " " + Locale.NotFound;
-            return RedirectToAction("Index");
+			return RedirectToAction("Index");
 		}
 	}
 }

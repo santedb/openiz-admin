@@ -69,7 +69,7 @@ namespace OpenIZAdmin.Models.AlertModels
 		/// Gets or set the recipients of the alert.
 		/// </summary>
 		[Display(Name = "To", ResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "To", ErrorMessageResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "ToRequired", ErrorMessageResourceType = typeof(Locale))]
 		public List<string> To { get; set; }
 
 		/// <summary>

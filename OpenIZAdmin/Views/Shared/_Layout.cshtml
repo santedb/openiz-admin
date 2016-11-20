@@ -33,12 +33,12 @@
                 @if (Request.IsAuthenticated && RealmConfig.IsJoinedToRealm())
                 {
                     <ul class="nav navbar-nav pull-right">
-                        @*<li>
-                            <a href="#" class="create-alert-modal-toggle" id="create-alert-modal-button" data-toggle="modal" data-target="#alert-modal" role="button">
+                        <li>
+                            <a href="#" class="create-alert-modal-toggle" id="create-alert-modal-button" data-toggle="modal" data-target="#create-alert-modal" role="button">
                                 <span class="glyphicon glyphicon-plus">
                                 </span><span id="create-alert"></span>
                             </a>
-                        </li>*@
+                        </li>
                         <li>
                             <a href="#" class="alert-modal-toggle" id="alert-modal-button" data-toggle="modal" data-target="#alert-modal" role="button">
                                 <span class="glyphicon glyphicon-bell">
@@ -174,7 +174,7 @@
                 {
                     $('.modal-backdrop').first().remove();
                     $('#alert-partial-container').html(data);
-                    $('#alert-modal').modal("show");
+                    $('#create-alert-modal').modal("show");
                 },
                 error: function (error)
                 {

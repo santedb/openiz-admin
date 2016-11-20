@@ -1140,6 +1140,23 @@
             <param name="totalCount">The total count of the search results.</param>
             <returns>Returns a list of concept classes who match the specified query.</returns>
         </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptReferenceTerms(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptReferenceTerm,System.Boolean}})">
+            <summary>
+            Queries for concept reference terms.
+            </summary>
+            <param name="query">The query to use to search for concept reference terms.</param>
+            <returns>Returns a list of concept reference terms.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptReferenceTerms(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptReferenceTerm,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Queries for concept reference terms.
+            </summary>
+            <param name="query">The query to use to search for concept reference terms.</param>
+            <param name="offset">The offset of the query.</param>
+            <param name="count">The count of the query.</param>
+            <param name="totalCount">The total count of the query.</param>
+            <returns>Returns a list of concept reference terms.</returns>
+        </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConcepts(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.Concept,System.Boolean}})">
             <summary>
             Searches for a concept using a given query.
@@ -1211,10 +1228,19 @@
             <param name="id">The id of the concept class to retrieve.</param>
             <returns>Returns the concept class.</returns>
         </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConceptReferenceTerm(System.Guid)">
+            <summary>
+            Gets a concept reference term by id.
+            </summary>
+            <param name="id">The id of the concept reference term.</param>
+            <returns>Returns the concept reference term.</returns>
+        </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConceptSet(System.Guid)">
             <summary>
-            Gets the specified concept set.
+            Gets a concept set.
             </summary>
+            <param name="id">The id of the concept set to retrieve.</param>
+            <returns>Returns the concept set.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConceptSet(System.String)">
             <summary>
@@ -1245,6 +1271,13 @@
             <param name="conceptClass">The concept class to be inserted.</param>
             <returns>Returns the newly inserted concept class.</returns>
         </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.InsertConceptReferenceTerm(OpenIZ.Core.Model.DataTypes.ConceptReferenceTerm)">
+            <summary>
+            Inserts a concept reference term.
+            </summary>
+            <param name="conceptReferenceTerm">The concept reference term to be inserted.</param>
+            <returns>Returns the inserted concept reference term.</returns>
+        </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.InsertConceptSet(OpenIZ.Core.Model.DataTypes.ConceptSet)">
             <summary>
             Inserts a concept set.
@@ -1271,6 +1304,13 @@
             <param name="key">The key of the concept class to obsolete.</param>
             <returns>Returns the obsoleted concept class.</returns>
         </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.ObsoleteConceptReferenceTerm(System.Guid)">
+            <summary>
+            Obsoletes a concept reference term.
+            </summary>
+            <param name="key">The key of the concept reference term to obsolete.</param>
+            <returns>Returns the obsoleted concept reference term.</returns>
+        </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.ObsoleteConceptSet(System.Guid)">
             <summary>
             Obsoletes a concept set.
@@ -1289,8 +1329,15 @@
             <summary>
             Inserts or updates a concept class.
             </summary>
-            <param name="clazz">The concept class to be saved.</param>
+            <param name="conceptClass">The concept class to be saved.</param>
             <returns>Returns the saved concept class.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.SaveConceptReferenceTerm(OpenIZ.Core.Model.DataTypes.ConceptReferenceTerm)">
+            <summary>
+            Inserts or updates a concept reference term.
+            </summary>
+            <param name="conceptReferenceTerm">The concept reference term to be saved.</param>
+            <returns>Returns the saved concept reference term.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.SaveConceptSet(OpenIZ.Core.Model.DataTypes.ConceptSet)">
             <summary>
@@ -1326,6 +1373,39 @@
             <summary>
             Adds the specified item to the cache
             </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Services.IRepositoryService`1">
+            <summary>
+            Represents a repository service base
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IRepositoryService`1.Get(System.Guid)">
+            <summary>
+            Gets the specified data
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IRepositoryService`1.Find(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
+            <summary>
+            Finds the specified data
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IRepositoryService`1.Insert(`0)">
+            <summary>
+            Inserts the specified data
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IRepositoryService`1.Save(`0)">
+            <summary>
+            Saves the specified data
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IRepositoryService`1.Obsolete(System.Guid)">
+            <summary>
+            Obsoletes the specified data
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
         </member>
         <member name="T:OpenIZ.Core.Services.IEntityRepositoryService">
             <summary>
@@ -1723,6 +1803,22 @@
             Validate the specified patient, or rather ensure the patient is valid
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Services.IPersistableQueryProvider">
+            <summary>
+            Persistable query provider is an extensable interface which can perform a query with state
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IPersistableQueryProvider.Query``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@,System.Guid)">
+            <summary>
+            Performs a query which 
+            </summary>
+            <typeparam name="TEntity">The underlying entity type which is being queried</typeparam>
+            <param name="query">The query to be executed</param>
+            <param name="offset">The offset</param>
+            <param name="count">The number of results</param>
+            <param name="totalResults">The total results in the query</param>
+            <param name="queryId">The unique identifier for the query</param>
+        </member>
         <member name="T:OpenIZ.Core.Services.IPhoneticAlgorithmHandler">
             <summary>
             Phonetic algorithm handler
@@ -1826,6 +1922,46 @@
             </summary>
             <param name="provider">The provider to save.</param>
             <returns>Returns the saved provider.</returns>
+        </member>
+        <member name="T:OpenIZ.Core.Services.IQueryPersistenceService">
+            <summary>
+            Query persistence service
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IQueryPersistenceService.RegisterQuerySet(System.Guid,System.Collections.Generic.IEnumerable{System.Guid},System.Object)">
+            <summary>
+            Register a query set 
+            </summary>
+            <param name="queryId">The unique identifier for the query</param>
+            <param name="results">The results to be stored in the query</param>
+            <param name="tag">A user tag for the query result set. Can be used to determine
+            the type of data being returned</param>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IQueryPersistenceService.IsRegistered(System.Guid)">
+            <summary>
+            Returns true if the query identifier is already registered
+            </summary>
+            <param name="queryId"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IQueryPersistenceService.GetQueryResults(System.Guid,System.Int32,System.Int32)">
+            <summary>
+            Get query results from the query set result store
+            </summary>
+            <param name="queryId">The identifier for the query</param>
+            <param name="offset">The query offset</param>
+            <param name="count">The number of records to pop</param>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IQueryPersistenceService.GetQueryTag(System.Guid)">
+            <summary>
+            Get the query tag value from the result store
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IQueryPersistenceService.QueryResultTotalQuantity(System.Guid)">
+            <summary>
+            Count the number of remaining query results
+            </summary>
+            <param name="queryId">Unique identifier for the query to count remaining results</param>
         </member>
         <member name="T:OpenIZ.Core.Services.ISecurityRepositoryService">
             <summary>
@@ -1996,6 +2132,13 @@
             <param name="deviceId">The id of the device to be retrieved.</param>
             <returns>Returns the device.</returns>
         </member>
+        <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.GetPolicy(System.Guid)">
+            <summary>
+            Gets a specific policy.
+            </summary>
+            <param name="policyId">The id of the policy to be retrieved.</param>
+            <returns>Returns the policy.</returns>
+        </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.GetRole(System.Guid)">
             <summary>
             Gets a specific role.
@@ -2068,7 +2211,7 @@
         </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.ObsoleteUserEntity(System.Guid)">
             <summary>
-            Obsoletes the specfied user entity
+            Obsoletes the specified user entity
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.ISecurityRepositoryService.SaveApplication(OpenIZ.Core.Model.Security.SecurityApplication)">

@@ -59,6 +59,7 @@ namespace OpenIZAdmin.Controllers
 			CreateAlertModel model = new CreateAlertModel();
 
 			model.PriorityList = AlertUtil.CreatePrioritySelectList();
+			model.ToList = new List<SelectListItem>();
 
 			return PartialView("_CreateAlertPartial", model);
 		}
@@ -73,6 +74,9 @@ namespace OpenIZAdmin.Controllers
 
 				return Redirect(Request.Url.AbsoluteUri);
 			}
+
+			model.PriorityList = AlertUtil.CreatePrioritySelectList();
+			model.ToList = new List<SelectListItem>();
 
 			return PartialView("_CreateAlertPartial", model);
 		}

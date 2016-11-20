@@ -16,11 +16,6 @@
             </summary>
             <param name="client">The <see cref="T:OpenIZ.Core.Http.IRestClient"/> instance.</param>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.SubmitDiagnosticReport(OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticReport)">
-            <summary>
-            Submits a diagnostics report
-            </summary>
-        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.AcceptCertificateSigningRequest(System.String)">
             <summary>
             Accepts a certificate signing request.
@@ -71,13 +66,6 @@
             <param name="device">The device to be created.</param>
             <returns>Returns the newly created device.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreatePlace(OpenIZ.Core.Model.Entities.Place)">
-            <summary>
-            Creates a place in the IMS.
-            </summary>
-            <param name="place">The place to be created.</param>
-            <returns>Returns the newly created place.</returns>
-        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreatePolicy(OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo)">
             <summary>
             Creates a policy in the IMS.
@@ -127,13 +115,6 @@
             <param name="id">The id of the device to be deleted.</param>
             <returns>Returns the deleted device.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.DeletePlace(System.String)">
-            <summary>
-            Deletes a place.
-            </summary>
-            <param name="id">The id of the place to be deleted.</param>
-            <returns>Returns the deleted place.</returns>
-        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.DeletePolicy(System.String)">
             <summary>
             Deletes a security policy.
@@ -176,6 +157,13 @@
             Retrieves the specified role from the AMI
             </summary>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetAlert(System.String)">
+            <summary>
+            Gets a specific alert.
+            </summary>
+            <param name="id">The id of the alert to retrieve.</param>
+            <returns>Returns the alert.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetAlerts(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Alert.Alerting.AlertMessage,System.Boolean}})">
             <summary>
             Gets a list of alerts.
@@ -189,6 +177,13 @@
             </summary>
             <returns>Returns a list of applet which match the specific query.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetApplication(System.String)">
+            <summary>
+            Gets a specific application.
+            </summary>
+            <param name="id">The id of the application to retrieve.</param>
+            <returns>Returns the application.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetApplications(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo,System.Boolean}})">
             <summary>
             Gets a list applications for a specific query.
@@ -201,6 +196,13 @@
             </summary>
             <param name="query">The query expression to use to find the assigning authorities.</param>
             <returns>Returns a collection of assigning authorities which match the specified criteria.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.AssigningAuthority(System.String)">
+            <summary>
+            Gets a specific assigning authority.
+            </summary>
+            <param name="id">The id of the assigning authority to retrieve.</param>
+            <returns>Returns the assigning authority.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetCertificates(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.AMI.Security.X509Certificate2Info,System.Boolean}})">
             <summary>
@@ -243,13 +245,6 @@
             </summary>
             <param name="query">The query expression to use to find the devices.</param>
             <returns>Returns a collection of devices which match the specified query.</returns>
-        </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetPlaces(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.Place,System.Boolean}})">
-            <summary>
-            Gets a list of places.
-            </summary>
-            <param name="query">The query expression to use to find the places.</param>
-            <returns>Returns a collection of places which match the specified query.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetPolicies(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityPolicy,System.Boolean}})">
             <summary>
@@ -324,6 +319,14 @@
             <param name="applicationInfo">The application containing the updated information.</param>
             <returns>Returns the updated application.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateDevice(System.String,OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo)">
+            <summary>
+            Updates a device.
+            </summary>
+            <param name="deviceId">The id of the device to be updated.</param>
+            <param name="deviceInfo">The device containing the updated information.</param>
+            <returns>Returns the updated device.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateAssigningAuthority(System.String,OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo)">
             <summary>
             Updates an assigning authority.
@@ -339,14 +342,6 @@
             <param name="conceptId">The id of the concept to be updated.</param>
             <param name="concept">The concept containing the updated information.</param>
             <returns>Returns the updated concept.</returns>
-        </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdatePlace(System.String,OpenIZ.Core.Model.Entities.Place)">
-            <summary>
-            Updates a place.
-            </summary>
-            <param name="placeId">The id of the place to be updated.</param>
-            <param name="place">The place containing the updated information.</param>
-            <returns>Returns the updated place.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdatePolicy(System.String,OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo)">
             <summary>
@@ -381,6 +376,13 @@
             <summary>
             Create security password reset request
             </summary>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.SubmitDiagnosticReport(OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticReport)">
+            <summary>
+            Submits a diagnostic report.
+            </summary>
+            <param name="report">The diagnostic report.</param>
+            <returns>Returns the submitted diagnostic report.</returns>
         </member>
     </members>
 </doc>
