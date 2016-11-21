@@ -169,16 +169,12 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Displays the login view.
 		/// </summary>
-		/// <param name="returnUrl">The return url for an unauthenticated user.</param>
+		/// <param name="returnUrl">The return URL for an unauthenticated user.</param>
 		/// <returns></returns>
 		[AllowAnonymous]
 		public ActionResult Login(string returnUrl)
 		{
-			if (User.Identity.IsAuthenticated && RealmConfig.IsJoinedToRealm())
-			{
-				return RedirectToAction("Index", "Home");
-			}
-			else if (!RealmConfig.IsJoinedToRealm())
+			if (!RealmConfig.IsJoinedToRealm())
 			{
 				return RedirectToAction("JoinRealm", "Realm");
 			}
