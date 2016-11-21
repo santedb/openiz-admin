@@ -17,12 +17,10 @@
  * Date: 2016-5-31
  */
 
-using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.AppletModels.ViewModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
-using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Http.Security;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
@@ -31,14 +29,9 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
-	[AllowAnonymous]
-	public class HomeController : Controller
+	[TokenAuthorize]
+	public class HomeController : BaseController
 	{
-		/// <summary>
-		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
-		/// </summary>
-		private AmiServiceClient client;
-
 		public ActionResult Index()
 		{
 			if (!RealmConfig.IsJoinedToRealm())
@@ -46,38 +39,16 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("JoinRealm", "Realm");
 			}
 
-			if (User.Identity.IsAuthenticated)
+			DashboardViewModel viewModel = new DashboardViewModel
 			{
-				DashboardViewModel viewModel = new DashboardViewModel
-				{
-					Applets = new List<AppletViewModel>
-					{
-						new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.authentication", "0.5.0.0"),
-						new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientAdministration", "0.5.0.0"),
-						new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientEncounters", "0.5.0.0"),
-					},
-					CertificateRequests = new List<CertificateSigningRequestViewModel>(), //CertificateUtil.GetAllCertificateSigningRequests(this.client),
-					Devices = DeviceUtil.GetAllDevices(this.client).OrderBy(d => d.CreationTime).ThenBy(d => d.Name).Take(15),
-					Roles = RoleUtil.GetAllRoles(this.client).OrderBy(r => r.Name).Take(15),
-					Users = UserUtil.GetAllUsers(this.client).OrderBy(u => u.Username).Take(15)
-				};
+				Applets = AppletUtil.GetApplets(this.AmiClient),
+				CertificateRequests = new List<CertificateSigningRequestViewModel>(), //CertificateUtil.GetAllCertificateSigningRequests(this.client),
+				Devices = DeviceUtil.GetAllDevices(this.AmiClient).OrderBy(d => d.CreationTime).ThenBy(d => d.Name).Take(15),
+				Roles = RoleUtil.GetAllRoles(this.AmiClient).OrderBy(r => r.Name).Take(15),
+				Users = UserUtil.GetAllUsers(this.AmiClient).OrderBy(u => u.Username).Take(15)
+			};
 
-				return View(viewModel);
-			}
-
-			return RedirectToAction("Login", "Account", new { returnUrl = Request.UrlReferrer?.ToString() });
-		}
-
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var restClient = new RestClientService(Constants.AMI);
-
-			restClient.Accept = "application/xml";
-			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
-
-			this.client = new AmiServiceClient(restClient);
-
-			base.OnActionExecuting(filterContext);
+			return View(viewModel);
 		}
 	}
 }

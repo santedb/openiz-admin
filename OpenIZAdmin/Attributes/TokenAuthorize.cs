@@ -22,6 +22,7 @@ using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Routing;
 
 namespace OpenIZAdmin.Attributes
 {
@@ -76,6 +77,15 @@ namespace OpenIZAdmin.Attributes
 			}
 
 			return base.AuthorizeCore(httpContext) && isAuthorized;
+		}
+
+		protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
+		{
+			filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary
+			{
+				{ "action", "Login" },
+				{ "controller", "Account" }
+			});
 		}
 	}
 }

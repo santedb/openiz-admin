@@ -67,6 +67,16 @@ namespace OpenIZAdmin.Util
 		}
 
 		/// <summary>
+		/// Gets the SYSTEM user.
+		/// </summary>
+		/// <param name="client">The AMI service client.</param>
+		/// <returns>Returns the system user.</returns>
+		internal static SecurityUserInfo GetSystemUser(AmiServiceClient client)
+		{
+			return client.GetUsers(u => u.UserName == "SYSTEM").CollectionItem.FirstOrDefault();
+		}
+
+		/// <summary>
 		/// Gets a security user info.
 		/// </summary>
 		/// <param name="client">The AMI service client.</param>

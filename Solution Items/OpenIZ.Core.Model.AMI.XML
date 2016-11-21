@@ -34,22 +34,34 @@
         </member>
         <member name="T:OpenIZ.Core.Model.AMI.Security.AmiCollection`1">
             <summary>
-            AMI collection base
+            Represents an administrative collection item.
+            </summary>
+            <typeparam name="T">The type of collection of the collection items.</typeparam>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Security.AmiCollection`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.Security.AmiCollection`1"/> class.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Security.AmiCollection`1.#ctor(System.Collections.Generic.List{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.Security.AmiCollection`1"/> class
+            with a specific list of collection items.
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.AMI.Security.AmiCollection`1.CollectionItem">
             <summary>
-            Collection item
+            Gets or sets a list of collection items.
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.AMI.Security.AmiCollection`1.Offset">
             <summary>
-            Total offset
+            Gets or sets the total offset.
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.AMI.Security.AmiCollection`1.Size">
             <summary>
-            Total collection size
+            Gets or sets the total collection size.
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.AMI.Security.RevokeReason">
@@ -237,7 +249,7 @@
         </member>
         <member name="T:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo">
             <summary>
-            Represents a wrapper for the <see cref="P:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo.AppletManifest"/> class.
+            Represents a wrapper for the <see cref="T:OpenIZ.Core.Applets.Model.AppletManifest"/> class.
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo.#ctor">
@@ -255,6 +267,11 @@
         <member name="P:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo.AppletManifest">
             <summary>
             Gets or sets the applet manifest.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo.FileExtension">
+            <summary>
+            Gets or sets the file extension of the applet.
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo">
@@ -533,7 +550,14 @@
             Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.BusinessRules.BusinessRuleInfo"/> class.
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.AMI.BusinessRules.BusinessRuleInfo.EncodedContent">
+        <member name="M:OpenIZ.Core.Model.AMI.BusinessRules.BusinessRuleInfo.#ctor(System.Byte[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.BusinessRules.BusinessRuleInfo"/> class
+            with specific content.
+            </summary>
+            <param name="content">The content of the business rule.</param>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.BusinessRules.BusinessRuleInfo.Content">
             <summary>
             Gets or sets the encoded content of the business rule.
             </summary>

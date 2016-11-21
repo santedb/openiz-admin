@@ -33,12 +33,12 @@
                 @if (Request.IsAuthenticated && RealmConfig.IsJoinedToRealm())
                 {
                     <ul class="nav navbar-nav pull-right">
-                        @*<li>
-                            <a href="#" class="create-alert-modal-toggle" id="create-alert-modal-button" data-toggle="modal" data-target="#alert-modal" role="button">
+                        <li>
+                            <a href="@Url.Action("Create", "Alert")">
                                 <span class="glyphicon glyphicon-plus">
                                 </span><span id="create-alert"></span>
                             </a>
-                        </li>*@
+                        </li>
                         <li>
                             <a href="#" class="alert-modal-toggle" id="alert-modal-button" data-toggle="modal" data-target="#alert-modal" role="button">
                                 <span class="glyphicon glyphicon-bell">
@@ -112,7 +112,7 @@
 
     <input type="hidden" id="success" value="@TempData["success"]" />
     <input type="hidden" id="info" value="@TempData["info"]" />
-    <input type="hidden" id="info" value="@TempData["warning"]" />
+    <input type="hidden" id="warning" value="@TempData["warning"]" />
     <input type="hidden" id="error" value="@TempData["error"]" />
 
     @Scripts.Render("~/bundles/jquery")
@@ -122,6 +122,7 @@
     @Scripts.Render("~/bundles/toastr")
     @Scripts.Render("~/bundles/moment")
     @Scripts.Render("~/bundles/select2")
+    @Scripts.Render("~/bundles/ajax-search")
 
     @RenderSection("scripts", required: false)
     <script type="text/javascript">
@@ -174,7 +175,7 @@
                 {
                     $('.modal-backdrop').first().remove();
                     $('#alert-partial-container').html(data);
-                    $('#alert-modal').modal("show");
+                    $('#create-alert-modal').modal("show");
                 },
                 error: function (error)
                 {

@@ -18,13 +18,10 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.RoleModels;
 using OpenIZAdmin.Models.RoleModels.ViewModels;
-using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Http.Security;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
@@ -38,15 +35,10 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for administering roles.
 	/// </summary>
 	[TokenAuthorize]
-	public class RoleController : Controller
+	public class RoleController : BaseController
 	{
 		/// <summary>
-		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
-		/// </summary>
-		private AmiServiceClient client;
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.RoleController"/> class.
+		/// Initializes a new instance of the <see cref="RoleController"/> class.
 		/// </summary>
 		public RoleController()
 		{
@@ -68,9 +60,9 @@ namespace OpenIZAdmin.Controllers
 
 				try
 				{
-					var result = this.client.CreateRole(role);
+					var result = this.AmiClient.CreateRole(role);
 
-                    TempData["success"] = Locale.Role + " " + Locale.CreatedSuccessfully;
+					TempData["success"] = Locale.Role + " " + Locale.CreatedSuccessfully;
 
 					return RedirectToAction("Index");
 				}
@@ -83,7 +75,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-            TempData["error"] = Locale.UnableToCreate + " " + Locale.Role;
+			TempData["error"] = Locale.UnableToCreate + " " + Locale.Role;
 
 			return View(model);
 		}
@@ -98,8 +90,8 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					this.client.DeleteRole(id);
-                    TempData["success"] = Locale.Role + " " + Locale.DeletedSuccessfully;
+					this.AmiClient.DeleteRole(id);
+					TempData["success"] = Locale.Role + " " + Locale.DeletedSuccessfully;
 
 					return RedirectToAction("Index");
 				}
@@ -112,22 +104,9 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-            TempData["error"] = Locale.UnableToDelete + " " + Locale.Role;
+			TempData["error"] = Locale.UnableToDelete + " " + Locale.Role;
 
 			return RedirectToAction("Index");
-		}
-
-		/// <summary>
-		/// Dispose of any managed resources.
-		/// </summary>
-		/// <param name="disposing">Whether the current invocation is disposing.</param>
-		protected override void Dispose(bool disposing)
-		{
-			Trace.TraceInformation("{0} disposing", nameof(RoleController));
-
-			this.client?.Dispose();
-
-			base.Dispose(disposing);
 		}
 
 		/// <summary>
@@ -144,7 +123,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var role = this.client.GetRole(roleId.ToString());
+					var role = this.AmiClient.GetRole(roleId.ToString());
 
 					if (role == null)
 					{
@@ -172,7 +151,7 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = Locale.Role + " " + Locale.NotFound;
 
-            return RedirectToAction("Index");
+			return RedirectToAction("Index");
 		}
 
 		/// <summary>
@@ -188,19 +167,19 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var role = this.client.GetRole(model.Id);
+					var role = this.AmiClient.GetRole(model.Id);
 
 					if (role == null)
 					{
 						TempData["error"] = Locale.Role + " " + Locale.NotFound;
 
-                        return RedirectToAction("Index");
+						return RedirectToAction("Index");
 					}
 
 					role.Role.Description = model.Description;
 					role.Name = model.Name;
 
-					this.client.UpdateRole(role.Id.ToString(), role);
+					this.AmiClient.UpdateRole(role.Id.ToString(), role);
 
 					TempData["success"] = Locale.Role + " " + Locale.UpdatedSuccessfully;
 
@@ -224,19 +203,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Role";
-			return View(RoleUtil.GetAllRoles(this.client));
-		}
-
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var restClient = new RestClientService(Constants.AMI);
-
-			restClient.Accept = "application/xml";
-			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
-
-			this.client = new AmiServiceClient(restClient);
-
-			base.OnActionExecuting(filterContext);
+			return View(RoleUtil.GetAllRoles(this.AmiClient));
 		}
 
 		[HttpGet]
@@ -248,7 +215,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 				{
-					var collection = this.client.GetRoles(r => r.Name.Contains(searchTerm));
+					var collection = this.AmiClient.GetRoles(r => r.Name.Contains(searchTerm));
 
 					TempData["searchTerm"] = searchTerm;
 
@@ -263,7 +230,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError("Unable to search roles: {0}", e.Message);
 			}
 
-            TempData["error"] = Locale.InvalidSearch;
+			TempData["error"] = Locale.InvalidSearch;
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_RolesPartial", roles);
@@ -276,13 +243,13 @@ namespace OpenIZAdmin.Controllers
 
 			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out roleId))
 			{
-				var result = this.client.GetRoles(r => r.Key == roleId);
+				var result = this.AmiClient.GetRoles(r => r.Key == roleId);
 
 				if (result.CollectionItem.Count == 0)
 				{
 					TempData["error"] = Locale.Role + " " + Locale.NotFound;
 
-                    return RedirectToAction("Index");
+					return RedirectToAction("Index");
 				}
 
 				return View(RoleUtil.ToRoleViewModel(result.CollectionItem.Single()));
@@ -290,7 +257,7 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = Locale.Role + " " + Locale.NotFound;
 
-            return RedirectToAction("Index");
+			return RedirectToAction("Index");
 		}
 	}
 }

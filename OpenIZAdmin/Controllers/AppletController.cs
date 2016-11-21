@@ -17,21 +17,19 @@
  * Date: 2016-7-8
  */
 
+using OpenIZ.Core.Applets.Model;
+using OpenIZ.Core.Model.AMI.Applet;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AppletModels;
 using OpenIZAdmin.Models.AppletModels.ViewModels;
+using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Web;
+using System.IO.Compression;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
-using OpenIZ.Messaging.AMI.Client;
-using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Http.Security;
-using OpenIZ.Core.Model.AMI.Applet;
-using OpenIZ.Core.Applets.Model;
-using OpenIZAdmin.Localization;
+using System.Xml.Serialization;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -39,13 +37,31 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing applets.
 	/// </summary>
 	[TokenAuthorize]
-	public class AppletController : Controller
+	public class AppletController : BaseController
 	{
-		/// <summary>
-		/// The internal reference to the <see cref="AmiServiceClient"/> instance.
-		/// </summary>
-		private AmiServiceClient client;
 
+		/// <summary>
+		/// Downloads an applet.
+		/// </summary>
+		/// <param name="appletId">The id of the applet to download.</param>
+		/// <returns>Returns the applet.</returns>
+		[HttpGet]
+		public ActionResult Download(string appletId)
+		{
+			var applet = this.AmiClient.GetApplet(appletId);
+
+			var stream = new MemoryStream();
+
+			using (var gzipStream = new GZipStream(stream, CompressionMode.Compress))
+			{
+				var package = applet.AppletManifest.CreatePackage();
+				var serializer = new XmlSerializer(typeof(AppletPackage));
+
+				serializer.Serialize(gzipStream, package);
+			}
+
+			return File(stream.ToArray(), "application/pak", applet.AppletManifest.Info.Id + applet.FileExtension);
+		}
 		/// <summary>
 		/// Displays the index view.
 		/// </summary>
@@ -53,26 +69,9 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Index()
 		{
-			List<AppletViewModel> applets = new List<AppletViewModel>
-			{
-				new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.authentication", "0.5.0.0"),
-				new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientAdministration", "0.5.0.0"),
-				new AppletViewModel("org.openiz.core", Guid.NewGuid(), "org.openiz.patientEncounters", "0.5.0.0")
-			};
+			var applets = AppletUtil.GetApplets(this.AmiClient);
 
 			return View(applets);
-		}
-
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var restClient = new RestClientService(Constants.AMI);
-
-			restClient.Accept = "application/xml";
-			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
-
-			this.client = new AmiServiceClient(restClient);
-
-			base.OnActionExecuting(filterContext);
 		}
 
 		/// <summary>
@@ -94,25 +93,49 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Upload(UploadAppletModel model)
 		{
+			var fileInfo = new FileInfo(model.File.FileName);
+
 			if (ModelState.IsValid)
 			{
-				AppletManifestInfo manifestInfo = new AppletManifestInfo(AppletManifest.Load(Request.Files[0].InputStream));
+				AppletManifest manifest = null;
 
-				this.client.CreateApplet(manifestInfo);
-
-                TempData["success"] = Locale.AppletUploadedSuccessfully;
-
-				if (model.UploadAnotherFile)
+				switch (fileInfo.Extension)
 				{
-					ModelState.Clear();
-					model.File = null;
-					return View(model);
+					case ".pak":
+						AppletPackage package;
+
+						using (var stream = new GZipStream(model.File.InputStream, CompressionMode.Decompress))
+						{
+							var serializer = new XmlSerializer(typeof(AppletPackage));
+							package = (AppletPackage)serializer.Deserialize(stream);
+						}
+
+						using (var stream = new MemoryStream(package.Manifest))
+						{
+							manifest = AppletManifest.Load(stream);
+						}
+
+						break;
+
+					default:
+						ModelState.AddModelError(nameof(model.File), Locale.GenericErrorMessage);
+						break;
 				}
 
-				return RedirectToAction("Index");
+				if (ModelState.IsValid)
+				{
+					var manifestInfo = new AppletManifestInfo(manifest);
+					manifestInfo.FileExtension = fileInfo.Extension;
+
+					this.AmiClient.CreateApplet(manifestInfo);
+
+					TempData["success"] = Locale.AppletUploadedSuccessfully;
+
+					return RedirectToAction("Index");
+				}
 			}
 
-            TempData["error"] = Locale.UnableToUploadApplet;
+			TempData["error"] = Locale.UnableToUploadApplet;
 
 			return View(model);
 		}

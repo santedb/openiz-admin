@@ -696,8 +696,8 @@
   <data name="SecurityApplication" xml:space="preserve">
     <value>security application</value>
   </data>
-  <data name="Unable to upload applet" xml:space="preserve">
-    <value>Unable to upload applet</value>
+  <data name="Upload" xml:space="preserve">
+    <value>Upload</value>
   </data>
   <data name="UnableToAcceptCertificateSigningRequest" xml:space="preserve">
     <value>Unable to accept certificate signing request</value>
@@ -761,5 +761,32 @@
   </data>
   <data name="EditDevice" xml:space="preserve">
     <value>Edit Device</value>
+  </data>
+  <data name="Priority" xml:space="preserve">
+    <value>Priority</value>
+  </data>
+  <data name="PriorityRequired" xml:space="preserve">
+    <value>Please select a priority</value>
+  </data>
+  <data name="SubjectRequired" xml:space="preserve">
+    <value>Please enter a subject</value>
+  </data>
+  <data name="ToRequired" xml:space="preserve">
+    <value>Please select a recipient</value>
+  </data>
+  <data name="Author" xml:space="preserve">
+    <value>Author</value>
+  </data>
+  <data name="Applet" xml:space="preserve">
+    <value>Applet</value>
+  </data>
+  <data name="UnableToUpload" xml:space="preserve">
+    <value>UnableToUpload</value>
+  </data>
+  <data name="Download" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="Create" xml:space="preserve">
+    <value>Create</value>  
   </data>
 </root>

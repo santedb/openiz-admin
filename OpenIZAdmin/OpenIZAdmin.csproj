@@ -203,6 +203,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Attributes\TokenAuthorize.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AlertController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\ConceptController.cs" />
@@ -304,6 +305,7 @@
     <Compile Include="Services\Http\ServiceClientSecurity.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="Util\AlertUtil.cs" />
+    <Compile Include="Util\AppletUtil.cs" />
     <Compile Include="Util\CertificateUtil.cs" />
     <Compile Include="Util\ConceptUtil.cs" />
     <Compile Include="Util\DeviceUtil.cs" />
@@ -317,8 +319,6 @@
     <Compile Include="Util\UserUtil.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap-theme.css" />
-    <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\select2.css" />
@@ -339,8 +339,6 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap.min.css.map" />
     <Content Include="Content\bootstrap.css.map" />
-    <Content Include="Content\bootstrap-theme.min.css.map" />
-    <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Properties\PublishProfiles\MARC_HI_khannan_OpenIZAdmin.pubxml" />
     <None Include="Properties\PublishProfiles\MARC_HI_khannan_TImRAdmin.pubxml" />
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
@@ -360,6 +358,8 @@
     <Content Include="Scripts\moment-with-locales.min.js" />
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\user-search.js" />
+    <Content Include="Scripts\place-search.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.js" />
     <Content Include="Scripts\respond.matchmedia.addListener.min.js" />
@@ -447,10 +447,12 @@
     <Content Include="Views\Shared\_AlertsPartial.cshtml" />
     <Content Include="Views\Shared\_CreateAlertPartial.cshtml" />
     <Content Include="Views\Device\Edit.cshtml" />
+    <Content Include="Views\Alert\Create.cshtml" />
+    <Content Include="Views\Shared\_Error.cshtml" />
+    <Content Include="Views\Alert\ViewAlert.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />
-    <Folder Include="Views\Alert\" />
     <Folder Include="Views\Application\" />
   </ItemGroup>
   <ItemGroup>

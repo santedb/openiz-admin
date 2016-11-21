@@ -865,6 +865,11 @@
             Whether to retrieve all children
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Applets.ViewModel.Description.PropertyContainerDescription.Ref">
+            <summary>
+            Gets the reference to use
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Applets.ViewModel.Description.PropertyModelDescription">
             <summary>
             Property model description
@@ -923,6 +928,11 @@
         <member name="M:OpenIZ.Core.Applets.ViewModel.Description.ViewModelDescription.Initialize">
             <summary>
             Initialize
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Applets.ViewModel.Description.ViewModelDescription.FindDescription(System.String)">
+            <summary>
+            Find description based on name
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Applets.ViewModel.Description.ViewModelDescription.FindDescription(System.Type)">
@@ -1183,12 +1193,12 @@
             Delay loads the specified collection association
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Applets.ViewModel.Json.JsonViewModelSerializer.LoadRelated``1(System.Guid)">
+        <member name="M:OpenIZ.Core.Applets.ViewModel.Json.JsonViewModelSerializer.LoadRelated``1(System.Nullable{System.Guid})">
             <summary>
             Load the related information
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Applets.ViewModel.Json.JsonViewModelSerializer.WritePropertyUtil(Newtonsoft.Json.JsonWriter,System.String,System.Object,OpenIZ.Core.Applets.ViewModel.SerializationContext)">
+        <member name="M:OpenIZ.Core.Applets.ViewModel.Json.JsonViewModelSerializer.WritePropertyUtil(Newtonsoft.Json.JsonWriter,System.String,System.Object,OpenIZ.Core.Applets.ViewModel.SerializationContext,System.Boolean)">
             <summary>
             Write property utility
             </summary>
@@ -1272,7 +1282,7 @@
             Loads the associations for the specified object
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Applets.ViewModel.IViewModelSerializer.LoadRelated``1(System.Guid)">
+        <member name="M:OpenIZ.Core.Applets.ViewModel.IViewModelSerializer.LoadRelated``1(System.Nullable{System.Guid})">
             <summary>
             Loads the specified related object
             </summary>
@@ -1327,7 +1337,7 @@
             Gets the root context
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Applets.ViewModel.SerializationContext.ShouldForceLoad(System.String)">
+        <member name="M:OpenIZ.Core.Applets.ViewModel.SerializationContext.ShouldForceLoad(System.String,System.Guid)">
             <summary>
             Returns true when child property information should be force loaded
             </summary>

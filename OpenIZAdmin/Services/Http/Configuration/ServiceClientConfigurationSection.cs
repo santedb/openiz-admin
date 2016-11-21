@@ -135,7 +135,8 @@ namespace OpenIZAdmin.Services.Http.Configuration
 						{
 							new ServiceClientEndpoint
 							{
-								Address = string.Format("{0}/auth/oauth2_token", realm.Address)
+								Address = $"{realm.Address}/auth/oauth2_token",
+								Timeout = 5000
 							}
 						},
 						Name = Constants.ACS
@@ -153,7 +154,8 @@ namespace OpenIZAdmin.Services.Http.Configuration
 						{
 							new ServiceClientEndpoint
 							{
-								Address = string.Format("{0}/ami", realm.Address)
+								Address = $"{realm.Address}/ami",
+								Timeout = 5000
 							}
 						},
 						Name = Constants.AMI
@@ -171,7 +173,8 @@ namespace OpenIZAdmin.Services.Http.Configuration
 						{
 							new ServiceClientEndpoint
 							{
-								Address = string.Format("{0}/imsi", realm.Address)
+								Address = $"{realm.Address}/imsi",
+								Timeout = 5000
 							}
 						},
 						Name = Constants.IMSI

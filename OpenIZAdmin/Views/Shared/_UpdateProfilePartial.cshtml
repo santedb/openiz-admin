@@ -30,7 +30,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.FacilityId, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.ListBoxFor(m => m.FacilityId, Model.FacilityList, new { @class = "dynamic-dropdown-limited form-control" })
+                    @Html.ListBoxFor(m => m.FacilityId, Model.FacilityList, new { @class = "facility-ajax form-control" })
                     @Html.ValidationMessageFor(m => m.FacilityId, "", new { @class = "text-danger" })
                 </div>
             </div>

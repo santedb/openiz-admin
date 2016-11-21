@@ -44,18 +44,8 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations to manage an account.
 	/// </summary>
 	[Authorize]
-	public class AccountController : Controller
+	public class AccountController : BaseController
 	{
-		/// <summary>
-		/// The internal reference to the <see cref="AmiServiceClient"/> instance.
-		/// </summary>
-		private AmiServiceClient amiClient;
-
-		/// <summary>
-		/// The internal reference to the <see cref="ImsiServiceClient"/> instance.
-		/// </summary>
-		private ImsiServiceClient imsiClient;
-
 		/// <summary>
 		/// The internal reference to the <see cref="ApplicationUserManager"/> instance.
 		/// </summary>
@@ -130,12 +120,12 @@ namespace OpenIZAdmin.Controllers
 
 				try
 				{
-					var user = this.amiClient.GetUser(userId.ToString());
+					var user = this.AmiClient.GetUser(userId.ToString());
 
 					if (user != null && !user.Lockout.GetValueOrDefault(false))
 					{
 						user.Password = model.Password;
-						user = this.amiClient.UpdateUser(userId, user);
+						user = this.AmiClient.UpdateUser(userId, user);
 					}
 
 					TempData["success"] = Locale.PasswordChangedSuccessfully;
@@ -249,7 +239,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				var bundle = this.imsiClient.Query<UserEntity>(u => u.SecurityUserKey.Value == userId);
+				var bundle = this.ImsiClient.Query<UserEntity>(u => u.SecurityUserKey.Value == userId);
 
 				bundle.Reconstitute();
 
@@ -269,20 +259,6 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			var nameComponents = user.Names.SelectMany(n => n.Component);
-
-			List<SelectListItem> facilityList = new List<SelectListItem>();
-
-			facilityList.Add(new SelectListItem
-			{
-				Text = "",
-				Value = ""
-			});
-
-			var places = PlaceUtil.GetPlaces(this.imsiClient, 0, 200);
-
-			facilityList.AddRange(places.Select(p => new SelectListItem { Text = string.Join(" ", p.Names.SelectMany(n => n.Component).Select(c => c.Value)), Value = p.Key.Value.ToString() }));
-
-			model.UpdateProfileModel.FacilityList = facilityList.OrderBy(c => c.Text).ToList();
 
 			model.UpdateProfileModel.FamilyNameList = nameComponents.Where(c => c.ComponentType.Key == NameComponentKeys.Family).Select(c => new SelectListItem { Text = c.Value, Value = c.Value, Selected = true }).ToList();
 			model.UpdateProfileModel.GivenNamesList = nameComponents.Where(c => c.ComponentType.Key == NameComponentKeys.Given).Select(c => new SelectListItem { Text = c.Value, Value = c.Value, Selected = true }).ToList();
@@ -313,25 +289,6 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var amiRestClient = new RestClientService(Constants.AMI);
-
-			amiRestClient.Accept = "application/xml";
-			amiRestClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
-
-			this.amiClient = new AmiServiceClient(amiRestClient);
-
-			var imsiRestClient = new RestClientService(Constants.IMSI);
-
-			imsiRestClient.Accept = "application/xml";
-			imsiRestClient.Credentials = new ImsCredentials(this.User, HttpContext.Request);
-
-			this.imsiClient = new ImsiServiceClient(imsiRestClient);
-
-			base.OnActionExecuting(filterContext);
-		}
-
 		private ActionResult RedirectToLocal(string returnUrl)
 		{
 			if (Url.IsLocalUrl(returnUrl))
@@ -359,7 +316,7 @@ namespace OpenIZAdmin.Controllers
 
 					UserEntity userEntity = null;
 
-					var bundle = this.imsiClient.Query<UserEntity>(u => u.SecurityUserKey.Value == userId);
+					var bundle = this.ImsiClient.Query<UserEntity>(u => u.SecurityUserKey.Value == userId);
 
 					bundle.Reconstitute();
 
@@ -422,7 +379,7 @@ namespace OpenIZAdmin.Controllers
 
 					userEntity.SecurityUserKey = Guid.Parse(User.Identity.GetUserId());
 
-					this.imsiClient.Update<UserEntity>(userEntity);
+					this.ImsiClient.Update<UserEntity>(userEntity);
 
 					TempData["success"] = Locale.Profile + " " + Locale.UpdatedSuccessfully;
 

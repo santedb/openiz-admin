@@ -18,8 +18,10 @@
  */
 
 using OpenIZ.Core.Model.Roles;
+using OpenIZ.Messaging.AMI.Client;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ProviderModels;
 using OpenIZAdmin.Models.ProviderModels.ViewModels;
 using OpenIZAdmin.Services.Http;
@@ -28,27 +30,15 @@ using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Web.Mvc;
 using System.Linq;
-using OpenIZAdmin.Localization;
-using OpenIZ.Messaging.AMI.Client;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
 	[TokenAuthorize]
-	public class ProviderController : Controller
+	public class ProviderController : BaseController
 	{
-        /// <summary>
-		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
-		/// </summary>
-		private AmiServiceClient amiClient;
-
-        /// <summary>
-        /// The internal reference to the <see cref="ImsiServiceClient"/> instance.
-        /// </summary>
-        private ImsiServiceClient imsiClient;
-
-        [HttpGet]
+		[HttpGet]
 		public ActionResult Create()
 		{
 			return View();
@@ -62,7 +52,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var provider = this.imsiClient.Create<Provider>(ProviderUtil.ToProvider(model));
+					var provider = this.ImsiClient.Create<Provider>(ProviderUtil.ToProvider(model));
 
 					TempData["success"] = Locale.Provider + " " + Locale.CreatedSuccessfully;
 					return RedirectToAction("ViewProvider", new { key = provider.Key, versionKey = provider.VersionKey });
@@ -76,36 +66,36 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-            TempData["error"] = Locale.UnableToCreate + " " + Locale.Provider;
+			TempData["error"] = Locale.UnableToCreate + " " + Locale.Provider;
 			return View(model);
 		}
 
 		[HttpGet]
 		public ActionResult Edit(string key, string versionKey)
 		{
-            Guid providerKey = Guid.Empty;
-            Guid providerVersionKey = Guid.Empty;
-            
-            if (ProviderUtil.IsValidString(key) && Guid.TryParse(key, out providerKey) && ProviderUtil.IsValidString(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
-            {
-                var providerEntity = ProviderUtil.GetProviderEntity(this.imsiClient, key, versionKey);
+			Guid providerKey = Guid.Empty;
+			Guid providerVersionKey = Guid.Empty;
 
-                if (providerEntity == null)
-                {
-                    TempData["error"] = Locale.Provider + " " + Locale.NotFound;
+			if (ProviderUtil.IsValidString(key) && Guid.TryParse(key, out providerKey) && ProviderUtil.IsValidString(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
+			{
+				var providerEntity = ProviderUtil.GetProviderEntity(this.ImsiClient, key, versionKey);
 
-                    return RedirectToAction("Index");
-                }
+				if (providerEntity == null)
+				{
+					TempData["error"] = Locale.Provider + " " + Locale.NotFound;
 
-                EditProviderModel model = ProviderUtil.ToEditProviderModel(providerEntity);               
+					return RedirectToAction("Index");
+				}
 
-                return View(model);
-            }
+				EditProviderModel model = ProviderUtil.ToEditProviderModel(providerEntity);
 
-            TempData["error"] = Locale.Provider + " " + Locale.NotFound;
+				return View(model);
+			}
 
-            return RedirectToAction("Index");
-        }
+			TempData["error"] = Locale.Provider + " " + Locale.NotFound;
+
+			return RedirectToAction("Index");
+		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -115,9 +105,9 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var provider = this.imsiClient.Update<Provider>(ProviderUtil.ToProvider(model));
+					var provider = this.ImsiClient.Update<Provider>(ProviderUtil.ToProvider(model));
 
-                    TempData["success"] = Locale.Provider + " " + Locale.UpdatedSuccessfully;
+					TempData["success"] = Locale.Provider + " " + Locale.UpdatedSuccessfully;
 					return RedirectToAction("ViewProvider", new { key = provider.Key, versionKey = provider.VersionKey });
 				}
 				catch (Exception e)
@@ -129,42 +119,30 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-            TempData["error"] = Locale.UnableToUpdate + " "  + Locale.Provider;
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Provider;
 			return View(model);
 		}
 
 		[HttpGet]
 		public ActionResult Index()
 		{
-            TempData["searchType"] = Locale.Provider;
+			TempData["searchType"] = Locale.Provider;
 			return View();
 		}
 
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var restClient = new RestClientService("IMSI");
-
-			restClient.Accept = "application/xml";
-			restClient.Credentials = new ImsCredentials(this.User, HttpContext.Request);
-
-			this.imsiClient = new ImsiServiceClient(restClient);
-
-			base.OnActionExecuting(filterContext);
-		}
-
-		[HttpGet]        
-        public ActionResult ViewProvider(string key, string versionKey)
+		[HttpGet]
+		public ActionResult ViewProvider(string key, string versionKey)
 		{
 			Guid providerKey = Guid.Empty;
 			Guid providerVersionKey = Guid.Empty;
-			
-            if (ProviderUtil.IsValidString(key) && Guid.TryParse(key, out providerKey) && ProviderUtil.IsValidString(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
-                {
-				try
-				{					
-                    var provider = this.imsiClient.Get<Provider>(providerKey, null);
 
-                    object model = null;
+			if (ProviderUtil.IsValidString(key) && Guid.TryParse(key, out providerKey) && ProviderUtil.IsValidString(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
+			{
+				try
+				{
+					var provider = this.ImsiClient.Get<Provider>(providerKey, null);
+
+					object model = null;
 
 					return View(model);
 				}
@@ -178,40 +156,37 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			TempData["error"] = Locale.Provider + " " + Locale.NotFound;
-            return RedirectToAction("Index");
+			return RedirectToAction("Index");
 		}
 
+		[HttpGet]
+		public ActionResult Search(string searchTerm)
+		{
+			IEnumerable<ProviderViewModel> provider = new List<ProviderViewModel>();
 
-        [HttpGet]
-        public ActionResult Search(string searchTerm)
-        {
-            IEnumerable<ProviderViewModel> provider = new List<ProviderViewModel>();
+			try
+			{
+				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+				{
+					var collection = this.ImsiClient.Query<Provider>(i => i.Names.Any(x => x.Component.Any(r => r.Value.Contains(searchTerm))));
 
-            try
-            {
-                if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
-                {                                        
-                    var collection = this.imsiClient.Query<Provider>(i => i.Names.Any(x => x.Component.Any(r => r.Value.Contains(searchTerm))));                    
+					TempData["searchTerm"] = searchTerm;
 
-                    TempData["searchTerm"] = searchTerm;
-
-                    return PartialView("_ProviderSearchResultsPartial", collection.Item.OfType<Provider>().Select(u => ProviderUtil.ToProviderViewModel(u)));                    
-                }
-            }
-            catch (Exception e)
-            {
+					return PartialView("_ProviderSearchResultsPartial", collection.Item.OfType<Provider>().Select(u => ProviderUtil.ToProviderViewModel(u)));
+				}
+			}
+			catch (Exception e)
+			{
 #if DEBUG
-                Trace.TraceError("Unable to search Providers: {0}", e.StackTrace);
+				Trace.TraceError("Unable to search Providers: {0}", e.StackTrace);
 #endif
-                Trace.TraceError("Unable to search Providers: {0}", e.Message);
-            }
+				Trace.TraceError("Unable to search Providers: {0}", e.Message);
+			}
 
-            TempData["error"] = Locale.InvalidSearch;
-            TempData["searchTerm"] = searchTerm;
+			TempData["error"] = Locale.InvalidSearch;
+			TempData["searchTerm"] = searchTerm;
 
-            return PartialView("_ProviderSearchResultsPartial", provider);
-        }
-        
-
-    }
+			return PartialView("_ProviderSearchResultsPartial", provider);
+		}
+	}
 }

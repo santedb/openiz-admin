@@ -13,39 +13,29 @@
  * License for the specific language governing permissions and limitations under 
  * the License.
  * 
- * User: Nityan
- * Date: 2016-9-5
+ * User: khannan
+ * Date: 2016-11-19
  */
+using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Models.AppletModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace OpenIZAdmin
+namespace OpenIZAdmin.Util
 {
 	/// <summary>
-	/// Represents constants for the application.
+	/// Represents a utility for managing applets.
 	/// </summary>
-	public static class Constants
+	public static class AppletUtil
 	{
-		/// <summary>
-		/// The OAuth endpoint name.
-		/// </summary>
-		public const string ACS = "ACS";
+		public static List<AppletViewModel> GetApplets(AmiServiceClient client)
+		{
+			var applets = client.GetApplets();
 
-		/// <summary>
-		/// The AMI endpoint name.
-		/// </summary>
-		public const string AMI = "AMI";
+			return applets.CollectionItem.Select(a => new AppletViewModel(a.AppletManifest.Info.Author, a.AppletManifest.Info.GetGroupName("en"), a.AppletManifest.Info.Id, string.Join(", ", a.AppletManifest.Info.Names.Select(l => l.Value)), a.AppletManifest.Info.Version)).ToList();
+		}
 
-		/// <summary>
-		/// The IMSI endpoint name.
-		/// </summary>
-		public const string IMSI = "IMSI";
-
-		/// <summary>
-		/// The content type of application/xml.
-		/// </summary>
-		public const string ApplicationXml = "application/xml";
 	}
 }

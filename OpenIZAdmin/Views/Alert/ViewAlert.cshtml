@@ -1,7 +1,7 @@
 ﻿@using OpenIZAdmin.Models.AlertModels
 @model OpenIZAdmin.Models.AlertModels.ViewModels.AlertViewModel
 @{
-    ViewBag.Title = "ViewAlert";
+    ViewBag.Title = Locale.View + " " + Locale.Alert;
 }
 
 <div class="panel panel-default">
@@ -13,35 +13,36 @@
     <div class="panel panel-body panel-default">
         <div class="form-group">
             <div class="col-md-10">
-                <strong>@Model.From</strong>
+                @Locale.From <strong>@Model.From</strong>
             </div>
         </div>
 
+        <hr />
+
         <div class="col-md-10">
-            <div class="form-group min-height-200 grey">
-                <div class="col-md-10">
-                    <p>
+            <div class="form-group">
+                <div class="col-md-10 grey rounded-corners">
+                    <div>
                         @Model.Body
-                    </p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="form-group">
-            <div class="col-md-3">
-                @using (Html.BeginForm("DeleteAlert", "Alert", new { id = Model.Id }, FormMethod.Post, new { role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-danger">@Locale.Delete</button>}
-            </div>
-        </div>
-
-        <div class="form-group">
-            <div class="col-md-3">
-                @using (Html.BeginForm("ReadAlert", "Alert", new { id = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-                    <button type="submit" class="btn btn-primary">@Locale.Acknowledge</button>}
+        <div class="btn-group">
+            <div class="form-group">
+                <div class="col-md-3">
+                    @using (Html.BeginForm("Delete", "Alert", new { id = Model.Id }, FormMethod.Post, new { role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-alert"></span>@Locale.Delete</button>}
+                </div>
+                <div class="col-md-3">
+                    @using (Html.BeginForm("Read", "Alert", new { id = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span>@Locale.Acknowledge</button>}
+                </div>
             </div>
         </div>
     </div>

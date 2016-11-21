@@ -24,8 +24,6 @@ using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.DeviceModels;
 using OpenIZAdmin.Models.DeviceModels.ViewModels;
-using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Http.Security;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
@@ -39,14 +37,9 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing devices.
 	/// </summary>
 	[TokenAuthorize]
-	public class DeviceController : Controller
-	{
-		/// <summary>
-		/// The internal reference to the <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.
-		/// </summary>
-		private AmiServiceClient client;        
-
-        [HttpGet]
+	public class DeviceController : BaseController
+	{		 
+		[HttpGet]
 		public ActionResult Create()
 		{
 			return View();
@@ -68,7 +61,7 @@ namespace OpenIZAdmin.Controllers
             {
                 try
                 {
-                    device = DeviceUtil.GetDevice(this.client, deviceKey);
+                    device = DeviceUtil.GetDevice(this.AmiClient, deviceKey);
 
                     if (device == null)
                     {
@@ -79,7 +72,7 @@ namespace OpenIZAdmin.Controllers
                                         
                     SecurityDeviceInfo deviceInfo = DeviceUtil.ToSecurityDeviceInfo(model, device);
 
-                    this.client.UpdateDevice(model.Id, deviceInfo);
+                    this.AmiClient.UpdateDevice(model.Id, deviceInfo);
 
                     TempData["success"] = Locale.Device + " " + Locale.ActivatedSuccessfully;
 
@@ -107,7 +100,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var device = this.client.CreateDevice(DeviceUtil.ToSecurityDevice(model));
+					var device = this.AmiClient.CreateDevice(DeviceUtil.ToSecurityDevice(model));
 
 					return RedirectToAction("ViewDevice", new { key = device.Key });
 				}
@@ -120,7 +113,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-            TempData["error"] = Locale.UnableToCreate + " " + Locale.Device;
+			TempData["error"] = Locale.UnableToCreate + " " + Locale.Device;
 			return View(model);
 		}
 
@@ -137,7 +130,7 @@ namespace OpenIZAdmin.Controllers
             {
                 try
                 {
-                    this.client.DeleteDevice(id);
+                    this.AmiClient.DeleteDevice(id);
                     TempData["success"] = Locale.Device + " " + Locale.DeletedSuccessfully;
 
                     return RedirectToAction("Index");
@@ -165,11 +158,17 @@ namespace OpenIZAdmin.Controllers
 
 			if (DeviceUtil.IsValidString(key) && Guid.TryParse(key, out deviceKey))
 			{
-                device = DeviceUtil.GetDevice(this.client, deviceKey);
+                device = DeviceUtil.GetDevice(this.AmiClient, deviceKey);
 
                 if (device == null)
                 {
                     TempData["error"] = Locale.Device + " "  + Locale.NotFound;
+				}
+				var result = this.AmiClient.GetDevices(r => r.Key == deviceKey);
+
+				if (result.CollectionItem.Count == 0)
+				{
+					TempData["error"] = Locale.Device + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -192,19 +191,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Device";
-			return View(DeviceUtil.GetAllDevices(this.client));
-		}
-
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var restClient = new RestClientService(Constants.AMI);
-
-			restClient.Accept = "application/xml";
-			restClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
-
-			this.client = new AmiServiceClient(restClient);
-
-			base.OnActionExecuting(filterContext);
+			return View(DeviceUtil.GetAllDevices(this.AmiClient));
 		}
 
 		[HttpGet]
@@ -216,7 +203,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (DeviceUtil.IsValidString(searchTerm))
 				{
-					var collection = this.client.GetDevices(d => d.Name.Contains(searchTerm));
+					var collection = this.AmiClient.GetDevices(d => d.Name.Contains(searchTerm));
 
 					TempData["searchTerm"] = searchTerm;
 
@@ -231,7 +218,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError("Unable to search devices: {0}", e.Message);
 			}
 
-            TempData["error"] = Locale.InvalidSearch;
+			TempData["error"] = Locale.InvalidSearch;
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_DevicesPartial", devices);
@@ -244,7 +231,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (DeviceUtil.IsValidString(id) && Guid.TryParse(id, out deviceKey))
 			{                
-                var result = DeviceUtil.GetDevice(this.client, deviceKey);
+                var result = DeviceUtil.GetDevice(this.AmiClient, deviceKey);
 
                 if(result == null)
                 { 
@@ -258,7 +245,7 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = Locale.Device + " " + Locale.NotFound;
 
-            return RedirectToAction("Index");
+			return RedirectToAction("Index");
 		}
 	}
 }
