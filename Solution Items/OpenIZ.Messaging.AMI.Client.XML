@@ -295,6 +295,12 @@
             <param name="query">The query expression to use to find the user.</param>
             <returns>Returns a collection of users which match the specified query parameters.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.Options">
+            <summary>
+            Gets the options for the AMI.
+            </summary>
+            <returns>Return the service options for the AMI.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.SubmitCertificateSigningRequest(OpenIZ.Core.Model.AMI.Security.SubmissionRequest)">
             <summary>
             Submits a certificate signing request to the AMI.

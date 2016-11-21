@@ -1000,13 +1000,26 @@
         </member>
         <member name="P:OpenIZ.Core.Interop.ServiceOptions.ModifiedOn">
             <summary>
-            Modified on
+            Gets or sets the modified on date time of the service options.
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Interop.ServiceResourceOptions">
             <summary>
             Service resource options
             </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Interop.ServiceResourceOptions.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Interop.ServiceOptions"/> class.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Interop.ServiceResourceOptions.#ctor(System.String,System.Collections.Generic.List{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Interop.ServiceResourceOptions"/> class
+            with a specific resource name, and verbs.
+            </summary>
+            <param name="resourceName">The name of the resource of the service resource options.</param>
+            <param name="verbs">The list of HTTP verbs of the resource option.</param>
         </member>
         <member name="P:OpenIZ.Core.Interop.ServiceResourceOptions.ResourceName">
             <summary>
@@ -1342,8 +1355,7 @@
         </member>
         <member name="T:OpenIZ.Core.Services.IConceptRepositoryService">
             <summary>
-            Represents a service which is responsible for the
-            maintenance of concepts
+            Represents a service which is responsible for the maintenance of concepts.
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptClasses(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptClass,System.Boolean}})">
@@ -1440,9 +1452,10 @@
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConcept(System.String)">
             <summary>
-            Get a concept by its mnemonic
+            Gets a concept by mnemonic.
             </summary>
-            <param name="mnemonic">The concept mnemonic to get</param>
+            <param name="mnemonic">The mnemonic of the concept.</param>
+            <returns>Returns the concept.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConceptClass(System.Guid)">
             <summary>
@@ -1467,18 +1480,26 @@
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConceptSet(System.String)">
             <summary>
-            Get the concept set by mnemonic
+            Gets a concept set by mnemonic.
             </summary>
+            <param name="mnemonic">The mnemonic of the concept set.</param>
+            <returns>Returns the concept set.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetReferenceTerm(OpenIZ.Core.Model.DataTypes.Concept,System.String)">
             <summary>
             Gets the specified reference term from <paramref name="concept"/> in <paramref name="codeSystemOid"/>
             </summary>
+            <param name="concept">The concept of the reference term.</param>
+            <param name="codeSystemOid">The code system OID of the concept.</param>
+            <returns>Returns the reference term.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.Implies(OpenIZ.Core.Model.DataTypes.Concept,OpenIZ.Core.Model.DataTypes.Concept)">
             <summary>
             Returns a value which indicates whether <paramref name="a"/> implies <paramref name="b"/>
             </summary>
+            <param name="a">The left hand concept.</param>
+            <param name="b">The right hand concept.</param>
+            <returns>Returns true if the first concept implies the second concept.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.InsertConcept(OpenIZ.Core.Model.DataTypes.Concept)">
             <summary>
