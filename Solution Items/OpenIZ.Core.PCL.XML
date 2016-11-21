@@ -120,6 +120,26 @@
             Gets or sets the data of the notification.
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Exceptions.DataPersistenceException">
+            <summary>
+            Represents an exception related to data persistence
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Exceptions.DataPersistenceException.#ctor">
+            <summary>
+            Creates a new data persistence exception
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Exceptions.DataPersistenceException.#ctor(System.String)">
+            <summary>
+            Creates a new data persistence exception
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Exceptions.DataPersistenceException.#ctor(System.String,System.Exception)">
+            <summary>
+            Creates a new data persistence exception
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Exceptions.DetectedIssueException">
             <summary>
             Represents an exception which contains a series of detected issue events
@@ -148,6 +168,51 @@
         <member name="M:OpenIZ.Core.Exceptions.DetectedIssueException.#ctor(System.Collections.Generic.List{OpenIZ.Core.Services.DetectedIssue})">
             <summary>
             Creates a new detected issue exception with the specified issue list
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Exceptions.PatchException">
+            <summary>
+            Patch exception
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Exceptions.PatchException.Operation">
+            <summary>
+            The patch operation which failed
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Exceptions.PatchException.#ctor">
+            <summary>
+            Creates a new patch exception
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Exceptions.PatchException.#ctor(System.String)">
+            <summary>
+            Creates a new patch exception with the specified <paramref name="message"/>
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Exceptions.PatchException.#ctor(System.String,OpenIZ.Core.Model.Patch.PatchOperation)">
+            <summary>
+            Represents a patch exception
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Exceptions.PatchAssertionException">
+            <summary>
+            Represents an exceptional condition for the application of a patch with assertion
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Exceptions.PatchAssertionException.#ctor">
+            <summary>
+            Creates a new patch assertion exception
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Exceptions.PatchAssertionException.#ctor(System.String)">
+            <summary>
+            Creates a new patch assertion
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Exceptions.PatchAssertionException.#ctor(System.Object,System.Object,OpenIZ.Core.Model.Patch.PatchOperation)">
+            <summary>
+            Creates a new patch operation
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Http.Credentials">
@@ -466,6 +531,15 @@
             <typeparam name="TBody">The 1st type parameter.</typeparam>
             <typeparam name="TResult">The 2nd type parameter.</typeparam>
         </member>
+        <member name="M:OpenIZ.Core.Http.IRestClient.Patch``1(System.String,System.String,System.String,``0)">
+            <summary>
+            Instructs the server to perform a PATCH operation
+            </summary>
+            <typeparam name="TPatch">The type of patch being applied</typeparam>
+            <param name="url">The URL</param>
+            <param name="contentType">The content type</param>
+            <param name="ifMatch">Target version/etag to patch</param>
+        </member>
         <member name="M:OpenIZ.Core.Http.IRestClient.Post``2(System.String,System.String,``0)">
             <summary>
             Executes a post against the url
@@ -677,7 +751,7 @@
             <param name="query"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenIZ.Core.Http.RestClientBase.InvokeInternal``2(System.String,System.String,System.String,System.Net.WebHeaderCollection,``0,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
+        <member name="M:OpenIZ.Core.Http.RestClientBase.InvokeInternal``2(System.String,System.String,System.String,System.Net.WebHeaderCollection,System.Net.WebHeaderCollection@,``0,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
             <summary>
             Invokes the specified method against the url provided
             </summary>
@@ -758,6 +832,11 @@
             state. After calling <see cref="M:OpenIZ.Core.Http.RestClientBase.Dispose"/>, you must release all references to the
             <see cref="T:OpenIZ.Core.Http.RestClientBase"/> so the garbage collector can reclaim the memory that the
             <see cref="T:OpenIZ.Core.Http.RestClientBase"/> was occupying.</remarks>
+        </member>
+        <member name="M:OpenIZ.Core.Http.RestClientBase.Patch``1(System.String,System.String,System.String,``0)">
+            <summary>
+            Patches the specified <paramref name="patch"/>
+            </summary>
         </member>
         <member name="M:OpenIZ.Core.Http.RestClientBase.Head(System.String,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
             <summary>
@@ -898,6 +977,150 @@
             Initializes a new instance of the <see cref="!:OpenIZ.Mobile.Core.Interop.Clients.ServiceClientBase"/> class.
             </summary>
             <param name="clientName">Client name.</param>
+        </member>
+        <member name="T:OpenIZ.Core.Interop.ServiceOptions">
+            <summary>
+            Service options
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Interop.ServiceOptions.#ctor">
+            <summary>
+            Services offered
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Interop.ServiceOptions.InterfaceVersion">
+            <summary>
+            Gets or sets the version of the service interface
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Interop.ServiceOptions.Services">
+            <summary>
+            Gets the service resource options
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Interop.ServiceOptions.ModifiedOn">
+            <summary>
+            Modified on
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Interop.ServiceResourceOptions">
+            <summary>
+            Service resource options
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Interop.ServiceResourceOptions.ResourceName">
+            <summary>
+            Gets the name of the resource
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Interop.ServiceResourceOptions.Verbs">
+            <summary>
+            Gets the verbs supported on the specified resource
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Services.Impl.SimplePatchService">
+            <summary>
+            Represents a simple patch service which can calculate patches and apply them
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.SimplePatchService.Diff(OpenIZ.Core.Model.IdentifiedData,OpenIZ.Core.Model.IdentifiedData)">
+            <summary>
+            Perform a diff using a simple .compare() method
+            </summary>
+            <remarks>This method only performs a diff on the root object passed and does not cascade to collections</remarks>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.SimplePatchService.DiffInternal(OpenIZ.Core.Model.IdentifiedData,OpenIZ.Core.Model.IdentifiedData,System.String)">
+            <summary>
+            Difference internal
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.SimplePatchService.BuildRemoveQuery(System.String,OpenIZ.Core.Model.IdentifiedData)">
+            <summary>
+            Build removal query
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.SimplePatchService.GenerateTests(System.Object,System.String)">
+            <summary>
+            Generate a test operation in the patch
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.SimplePatchService.Patch(OpenIZ.Core.Model.Patch.Patch,OpenIZ.Core.Model.IdentifiedData)">
+            <summary>
+            Applies the specified <paramref name="patch"/> onto <paramref name="data"/> to derive the return value.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.SimplePatchService.ExecuteLambda(System.String,System.Object,System.Reflection.PropertyInfo,System.String,OpenIZ.Core.Model.Patch.PatchOperation)">
+            <summary>
+            Execute a lambda
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1">
+            <summary>
+            Represents a business rules service with no behavior, but intended to help in the implementation of another
+            business rules service
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.AfterInsert(`0)">
+            <summary>
+            After insert
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.AfterObsolete(`0)">
+            <summary>
+            After obsolete
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.AfterQuery(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            After query
+            </summary>
+            <param name="results"></param>
+            <returns></returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.AfterRetrieve(`0)">
+            <summary>
+            Fired after retrieve
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.AfterUpdate(`0)">
+            <summary>
+            After update
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.BeforeInsert(`0)">
+            <summary>
+            Before insert complete
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.BeforeObsolete(`0)">
+            <summary>
+            Before obselete
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.BeforeUpdate(`0)">
+            <summary>
+            Before update
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.Validate(`0)">
+            <summary>
+            Validate the specified object
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Services.Impl.NullPhoneticAlgorithmHandler">
+            <summary>
+            null algorithm phonetic algorithm
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Services.Impl.NullPhoneticAlgorithmHandler.AlgorithmId">
+            <summary>
+            Gets the algorithm id
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.NullPhoneticAlgorithmHandler.GenerateCode(System.String)">
+            <summary>
+            Generate the phonetic code
+            </summary>
         </member>
         <member name="T:OpenIZ.Core.Services.IActRepositoryService">
             <summary>
@@ -1374,6 +1597,22 @@
             Adds the specified item to the cache
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Services.IPatchService">
+            <summary>
+            Represents a patch service which can calculate and apply patches
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IPatchService.Diff(OpenIZ.Core.Model.IdentifiedData,OpenIZ.Core.Model.IdentifiedData)">
+            <summary>
+            Performs a DIFF and creates the related patch which can be used to update <paramref name="existing"/>
+            to <paramref name="updated"/>
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IPatchService.Patch(OpenIZ.Core.Model.Patch.Patch,OpenIZ.Core.Model.IdentifiedData)">
+            <summary>
+            Apples the specified <paramref name="patch"/> onto <paramref name="data"/> returning the updated object
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Services.IRepositoryService`1">
             <summary>
             Represents a repository service base
@@ -1594,74 +1833,6 @@
         <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.GetAssigningAuthority(System.Guid)">
             <summary>
             Gets an assigning authority
-            </summary>
-        </member>
-        <member name="T:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1">
-            <summary>
-            Represents a business rules service with no behavior, but intended to help in the implementation of another
-            business rules service
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.AfterInsert(`0)">
-            <summary>
-            After insert
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.AfterObsolete(`0)">
-            <summary>
-            After obsolete
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.AfterQuery(System.Collections.Generic.IEnumerable{`0})">
-            <summary>
-            After query
-            </summary>
-            <param name="results"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.AfterRetrieve(`0)">
-            <summary>
-            Fired after retrieve
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.AfterUpdate(`0)">
-            <summary>
-            After update
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.BeforeInsert(`0)">
-            <summary>
-            Before insert complete
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.BeforeObsolete(`0)">
-            <summary>
-            Before obselete
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.BeforeUpdate(`0)">
-            <summary>
-            Before update
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1.Validate(`0)">
-            <summary>
-            Validate the specified object
-            </summary>
-        </member>
-        <member name="T:OpenIZ.Core.Services.Impl.NullPhoneticAlgorithmHandler">
-            <summary>
-            null algorithm phonetic algorithm
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Services.Impl.NullPhoneticAlgorithmHandler.AlgorithmId">
-            <summary>
-            Gets the algorithm id
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Services.Impl.NullPhoneticAlgorithmHandler.GenerateCode(System.String)">
-            <summary>
-            Generate the phonetic code
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Services.IClientRegistryNotificationService">
@@ -2309,6 +2480,11 @@
         <member name="M:OpenIZ.Core.Services.IThreadPoolService.QueueUserWorkItem(System.Action{System.Object},System.Object)">
             <summary>
             Queues the specified action into the worker pool
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IThreadPoolService.QueueUserWorkItem(System.TimeSpan,System.Action{System.Object},System.Object)">
+            <summary>
+            Queue a user work item
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Protocol.IClinicalProtocol">
