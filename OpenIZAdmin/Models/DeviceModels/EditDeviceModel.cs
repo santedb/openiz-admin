@@ -46,8 +46,8 @@ namespace OpenIZAdmin.Models.DeviceModels
 
         public bool IsObsolete { get; set; }
 
-        [Display(Name = "Password", ResourceType = typeof(Localization.Locale))]
-        public string Password { get; set; }
+        [Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
+        public string DeviceSecret { get; set; }
 
         public List<PolicyViewModel> Policies { get; set; }
 

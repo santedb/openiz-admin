@@ -7,7 +7,7 @@
     <div class="panel panel-heading">
         <span>@Locale.Device</span>
         <div class="pull-right">
-            <a href="~/Device/Edit">
+            <a href="~/Device/Edit/Edit?key=@Model.Id">
                 <span class="glyphicon glyphicon-edit"></span>
                 @Locale.Edit
             </a>
@@ -21,13 +21,7 @@
                     <div class="col-md-3">
                         <label class="control-label">@Html.DisplayNameFor(m => m.CreationTime)</label>
                         @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                    @*<div class="col-md-3">
-                        <label class="control-label">
-                            @Html.DisplayNameFor(m => m.Id)
-                        </label>
-                        @Html.TextBoxFor(m => m.Id, new { @class = "form-control", @readonly = "readonly" })
-                    </div>*@
+                    </div>                    
                     <div class="col-md-3">
                         <label class="control-label">
                             @Html.DisplayNameFor(m => m.Name)

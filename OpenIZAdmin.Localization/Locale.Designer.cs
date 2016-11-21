@@ -97,6 +97,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Policy.
+        /// </summary>
+        public static string AddPolicy {
+            get {
+                return ResourceManager.GetString("AddPolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string Address {
@@ -615,6 +624,15 @@ namespace OpenIZAdmin.Localization {
         public static string Devices {
             get {
                 return ResourceManager.GetString("Devices", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device Secret.
+        /// </summary>
+        public static string DeviceSecret {
+            get {
+                return ResourceManager.GetString("DeviceSecret", resourceCulture);
             }
         }
         

@@ -35,6 +35,12 @@ namespace OpenIZAdmin.Util
 	public static class DeviceUtil
 	{
 
+        /// <summary>
+        /// Queries for a specific device by device key
+        /// </summary>
+        /// <param name="client">The AMI service client</param>        
+        /// /// <param name="key">The device guid identifier key </param>        
+        /// <returns>Returns device object, null if not found</returns>
         public static SecurityDevice GetDevice(AmiServiceClient client, Guid key)
         {
             try
@@ -115,6 +121,7 @@ namespace OpenIZAdmin.Util
 
             viewModel.CreationTime = device.CreationTime.DateTime;
             viewModel.Key = device.Key.Value;
+            viewModel.DeviceSecret = device.DeviceSecret;
             viewModel.Name = device.Name;
             viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
             viewModel.UpdatedTime = device.UpdatedTime?.DateTime;

@@ -163,15 +163,9 @@ namespace OpenIZAdmin.Controllers
                 if (device == null)
                 {
                     TempData["error"] = Locale.Device + " "  + Locale.NotFound;
-				}
-				var result = this.AmiClient.GetDevices(r => r.Key == deviceKey);
 
-				if (result.CollectionItem.Count == 0)
-				{
-					TempData["error"] = Locale.Device + " " + Locale.NotFound;
-
-					return RedirectToAction("Index");
-				}
+                    return RedirectToAction("Index");
+                }				
 
 				return View(DeviceUtil.ToEditDeviceModel(device));
 			}

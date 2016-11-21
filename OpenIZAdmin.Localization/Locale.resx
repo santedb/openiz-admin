@@ -787,6 +787,12 @@
     <value>Download</value>
   </data>
   <data name="Create" xml:space="preserve">
-    <value>Create</value>  
+    <value>Create</value>
+  </data>
+  <data name="AddPolicy" xml:space="preserve">
+    <value>Add Policy</value>
+  </data>
+  <data name="DeviceSecret" xml:space="preserve">
+    <value>Device Secret</value>
   </data>
 </root>
