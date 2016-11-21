@@ -54,7 +54,7 @@ namespace OpenIZAdmin.Attributes
 			{
 				try
 				{
-					JwtSecurityToken securityToken = new JwtSecurityToken(accessToken);
+					var securityToken = new JwtSecurityToken(accessToken);
 
 					// is the token expired?
 					if (securityToken.ValidTo <= DateTime.UtcNow)
@@ -79,6 +79,10 @@ namespace OpenIZAdmin.Attributes
 			return base.AuthorizeCore(httpContext) && isAuthorized;
 		}
 
+		/// <summary>
+		/// Handles an unauthorized request.
+		/// </summary>
+		/// <param name="filterContext">The filter context of the request.</param>
 		protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
 		{
 			filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary

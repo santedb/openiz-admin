@@ -190,6 +190,8 @@
             newAlerts();
         });
 
+        window.setInterval(newAlerts(), 5000);
+
         function newAlerts()
         {
             $.ajax({
