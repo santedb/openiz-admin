@@ -44,34 +44,43 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
+		/// <summary>
+		/// Displays the create alert view.
+		/// </summary>
+		/// <returns>Returns the create alert view.</returns>
 		[HttpGet]
-		public ActionResult CreateAlert()
+		public ActionResult Create()
 		{
-			CreateAlertModel model = new CreateAlertModel();
+			var model = new CreateAlertModel { PriorityList = AlertUtil.CreatePrioritySelectList() };
 
-			model.PriorityList = AlertUtil.CreatePrioritySelectList();
-
-			return PartialView("_CreateAlertPartial", model);
+			return View(model);
 		}
 
+		/// <summary>
+		/// Creates an alert.
+		/// </summary>
+		/// <param name="model">The model containing the create alert information.</param>
+		/// <returns>Returns the create alert view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult CreateAlert(CreateAlertModel model)
+		public ActionResult Create(CreateAlertModel model)
 		{
 			if (ModelState.IsValid)
 			{
-				var systemUser = UserUtil.GetSystemUser(this.AmiClient);
-
 				var alertMessageInfo = AlertUtil.ToAlertMessageInfo(model, User);
 
 				this.AmiClient.CreateAlert(alertMessageInfo);
 
-				return Redirect(Request.Url.AbsoluteUri);
+				TempData["success"] = Locale.Alert + " " + Locale.CreatedSuccessfully;
+
+				return RedirectToAction("Index", "Home");
 			}
 
 			model.PriorityList = AlertUtil.CreatePrioritySelectList();
 
-			return PartialView("_CreateAlertPartial", model);
+			TempData["error"] = Locale.UnableToCreate + " " + Locale.Alert;
+
+			return View(model);
 		}
 
 		/// <summary>
@@ -81,7 +90,7 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult DeleteAlert(Guid id)
+		public ActionResult Delete(Guid id)
 		{
 			var alert = this.AmiClient.GetAlerts(a => a.Key == id).CollectionItem.FirstOrDefault();
 
@@ -99,6 +108,8 @@ namespace OpenIZAdmin.Controllers
 
 			this.AmiClient.UpdateAlert(alert.Id.ToString(), alert);
 
+			TempData["success"] = Locale.Alert + " " + Locale.UpdatedSuccessfully;
+
 			return RedirectToAction("Index", "Home");
 		}
 
@@ -109,11 +120,13 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult GetAlerts()
 		{
-			List<AlertViewModel> models = new List<AlertViewModel>();
-			var username = User.Identity.GetUserName();
-			var alerts = this.AmiClient.GetAlerts(a => a.From == "SYSTEM");
+			var models = new List<AlertViewModel>();
 
-			models.AddRange(alerts.CollectionItem.Where(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged).Select(a => AlertUtil.ToAlertViewModel(a)));
+			var username = User.Identity.GetUserName();
+
+			var alerts = this.AmiClient.GetAlerts(a => a.To == username);
+
+			models.AddRange(alerts.CollectionItem.Where(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged && a.AlertMessage.ObsoletionTime == null).Select(AlertUtil.ToAlertViewModel));
 
 			return PartialView("_AlertsPartial", models.OrderBy(x => x.Flags).ThenByDescending(a => a.Time));
 		}
@@ -125,9 +138,10 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ContentResult NewAlerts()
 		{
-			var results = this.AmiClient.GetAlerts(a => a.From == "SYSTEM");
+			var username = User.Identity.GetUserName();
+			var results = this.AmiClient.GetAlerts(a => a.To == username);
 
-			int count = results.CollectionItem.Count(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged);
+			var count = results.CollectionItem.Count(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged && a.AlertMessage.ObsoletionTime == null);
 
 			return Content(count.ToString());
 		}
@@ -139,7 +153,7 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the list of alerts.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult ReadAlert(Guid id)
+		public ActionResult Read(Guid id)
 		{
 			var alert = this.AmiClient.GetAlerts(a => a.Key == id).CollectionItem.FirstOrDefault();
 
@@ -153,6 +167,8 @@ namespace OpenIZAdmin.Controllers
 
 			this.AmiClient.UpdateAlert(alert.Id.ToString(), alert);
 
+			TempData["success"] = Locale.Alert + " " + Locale.UpdatedSuccessfully;
+
 			return RedirectToAction("Index", "Home");
 		}
 
@@ -162,22 +178,15 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The id of the alert to be viewed.</param>
 		/// <returns>Returns the alert view.</returns>
 		[HttpGet]
-		public ActionResult ViewAlert(string id)
+		public ActionResult ViewAlert(Guid id)
 		{
-			Guid key = Guid.Empty;
+			var viewModel = new AlertViewModel();
 
-			if (!Guid.TryParse(id, out key))
-			{
-				return Redirect(Request.UrlReferrer.ToString());
-			}
-
-			AlertViewModel viewModel = new AlertViewModel();
-
-			var alert = this.AmiClient.GetAlerts(a => a.Key == key).CollectionItem.FirstOrDefault();
+			var alert = this.AmiClient.GetAlerts(a => a.Key == id).CollectionItem.FirstOrDefault();
 
 			if (alert == null)
 			{
-				return Redirect(Request.UrlReferrer.ToString());
+				return Redirect(Request.UrlReferrer?.ToString());
 			}
 
 			viewModel = AlertUtil.ToAlertViewModel(alert);

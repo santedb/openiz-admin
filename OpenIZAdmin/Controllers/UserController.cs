@@ -304,29 +304,34 @@ namespace OpenIZAdmin.Controllers
 		{
 			IEnumerable<UserViewModel> users = new List<UserViewModel>();
 
-			try
+			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 			{
-				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
-				{
-					var collection = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
+				var collection = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
 
-					TempData["searchTerm"] = searchTerm;
+				TempData["searchTerm"] = searchTerm;
 
-					return PartialView("_UsersPartial", collection.CollectionItem.Select(u => UserUtil.ToUserViewModel(u)));
-				}
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to search users: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to search users: {0}", e.Message);
+				return PartialView("_UsersPartial", collection.CollectionItem.Select(UserUtil.ToUserViewModel));
 			}
 
 			TempData["error"] = Locale.User + " " + Locale.NotFound;
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_UsersPartial", users);
+		}
+
+		[HttpGet]
+		public ActionResult SearchAjax(string searchTerm)
+		{
+			var userList = new List<UserViewModel>();
+
+			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+			{
+				var users = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
+
+				userList = users.CollectionItem.Select(UserUtil.ToUserViewModel).ToList();
+			}
+
+			return Json(userList, JsonRequestBehavior.AllowGet);
 		}
 
 		[HttpGet]

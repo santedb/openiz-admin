@@ -51,8 +51,9 @@ namespace OpenIZAdmin
 						"~/Scripts/toastr.min.js",
 						"~/Scripts/toastr-logic.js"));
 
-			bundles.Add(new ScriptBundle("~/bundles/place-search").Include(
-						"~/Scripts/place-search.js"));
+			bundles.Add(new ScriptBundle("~/bundles/ajax-search").Include(
+						"~/Scripts/place-search.js",
+						"~/Scripts/user-search.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
 					  "~/Scripts/bootstrap.js",

@@ -13,3 +13,4 @@
 /// <reference path="select2.min.js" />
 /// <reference path="toastr.min.js" />
 /// <reference path="toastr-logic.js" />
+/// <reference path="user-search.js" />

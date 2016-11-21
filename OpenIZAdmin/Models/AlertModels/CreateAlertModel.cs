@@ -36,7 +36,8 @@ namespace OpenIZAdmin.Models.AlertModels
 		/// </summary>
 		public CreateAlertModel()
 		{
-
+			this.PriorityList = new List<SelectListItem>();
+			this.ToList = new List<SelectListItem>();
 		}
 
 		/// <summary>
@@ -64,5 +65,17 @@ namespace OpenIZAdmin.Models.AlertModels
 		[Display(Name = "Subject", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "SubjectRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string Subject { get; set; }
+
+		/// <summary>
+		/// Gets or sets the recipient of the alert.
+		/// </summary>
+		[Display(Name = "To", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "ToRequired", ErrorMessageResourceType = typeof(Locale))]
+		public string To { get; set; }
+
+		/// <summary>
+		/// Gets or sets the list of recipients.
+		/// </summary>
+		public List<SelectListItem> ToList { get; set; }
 	}
 }

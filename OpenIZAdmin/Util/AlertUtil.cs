@@ -86,18 +86,18 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns the converted alert message info.</returns>
 		public static AlertMessageInfo ToAlertMessageInfo(CreateAlertModel model, IPrincipal user)
 		{
-			AlertMessageInfo alertMessageInfo = new AlertMessageInfo();
-
-			alertMessageInfo.AlertMessage = new AlertMessage();
-
-			alertMessageInfo.AlertMessage.Body = model.Message;
-
-			alertMessageInfo.AlertMessage.CreatedBy = new SecurityUser
+			var alertMessageInfo = new AlertMessageInfo
 			{
-				Key = Guid.Parse(user.Identity.GetUserId()),
+				AlertMessage = new AlertMessage
+				{
+					Body = model.Message,
+					CreatedBy = new SecurityUser
+					{
+						Key = Guid.Parse(user.Identity.GetUserId()),
+					},
+					Flags = (AlertMessageFlags)model.Priority
+				}
 			};
-
-			alertMessageInfo.AlertMessage.Flags = (AlertMessageFlags)model.Priority;
 
 			switch (alertMessageInfo.AlertMessage.Flags)
 			{
@@ -111,7 +111,7 @@ namespace OpenIZAdmin.Util
 
 			alertMessageInfo.AlertMessage.Subject = model.Subject;
 			alertMessageInfo.AlertMessage.TimeStamp = DateTimeOffset.Now;
-			alertMessageInfo.AlertMessage.To = "SYSTEM";
+			alertMessageInfo.AlertMessage.To = model.To;
 
 			return alertMessageInfo;
 		}
