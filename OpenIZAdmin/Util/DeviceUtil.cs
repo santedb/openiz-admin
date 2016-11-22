@@ -22,10 +22,12 @@ using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Models.DeviceModels;
 using OpenIZAdmin.Models.DeviceModels.ViewModels;
+using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Util
 {
@@ -91,12 +93,125 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
-		/// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.ViewModels.DeviceViewModel"/>.
-		/// </summary>
-		/// <param name="device">The security device to convert.</param>
-		/// <returns>Returns a device view model.</returns>
-		public static DeviceViewModel ToDeviceViewModel(SecurityDevice device)
+
+        /// <summary>
+        /// Gets all the Security Policies that can be applied to a device
+        /// </summary>
+        /// <param name="client">The Ami Service Client.</param>        
+        /// <returns>Returns a list of device policies</returns>
+        internal static IEnumerable<SecurityPolicyInfo> GetAllPolicies(AmiServiceClient client)
+        {
+            IEnumerable<SecurityPolicyInfo> policyList = new List<SecurityPolicyInfo>();
+
+            try
+            {
+                var policies = client.GetPolicies(p => p.ObsoletionTime != null);
+                if(policies != null)
+                {
+                    //policyList = policies.CollectionItem.Select(p => DeviceUtil.ToEditDeviceModel(p));
+                    policyList = policies.CollectionItem.ToList();
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Trace.TraceError("Unable to retrieve policies: {0}", e.StackTrace);
+#endif
+                Trace.TraceError("Unable to retrieve policies: {0}", e.Message);
+            }
+
+            return policyList;
+        }
+
+        /// <summary>
+        /// Gets the new policies to add to a device
+        /// </summary>
+        /// <param name="client">The Ami Service Client.</param> 
+        /// <param name="pList">The string list with selected policy names.</param>         
+        /// <returns>Returns a list of device SecurityPolicyInfo objects</returns>
+        internal static List<SecurityPolicy> GetNewPolicies(AmiServiceClient client, IEnumerable<string> pList)
+        {
+            List<SecurityPolicy> policyList = new List<SecurityPolicy>();
+
+            try
+            {
+                foreach (string name in pList)
+                {
+                    if (IsValidString(name))
+                    {
+                        //SecurityPolicyInfo result = DeviceUtil.GetPolicy(client, name);
+                        var result = client.GetPolicies(r => r.Name == name);
+                        if (result.CollectionItem.Count != 0)
+                        {
+                            SecurityPolicyInfo infoResult =  result.CollectionItem.FirstOrDefault();
+                            if(infoResult.Policy != null)
+                            {
+                                policyList.Add(infoResult.Policy);
+                            }
+                        }                        
+                    }
+                }               
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Trace.TraceError("Unable to retrieve policies: {0}", e.StackTrace);
+#endif
+                Trace.TraceError("Unable to retrieve policies: {0}", e.Message);
+            }
+
+            return policyList;
+        }
+
+
+        private static SecurityPolicyInfo GetPolicy(AmiServiceClient client, string name)
+        {
+            try
+            {
+                var result = client.GetPolicies(r => r.Name == name);
+                if (result.CollectionItem.Count != 0)
+                {
+                    return result.CollectionItem.FirstOrDefault();
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Trace.TraceError("Unable to retrieve policy: {0}", e.StackTrace);
+#endif
+                Trace.TraceError("Unable to retrieve policy: {0}", e.Message);
+            }
+
+            return null;
+        }
+
+        //        private static SecurityPolicyInfo GetPolicy(AmiServiceClient client, Guid key)
+        //        {
+        //            try
+        //            {
+        //                var result = client.GetPolicies(r => r.Key == key);
+        //                if (result.CollectionItem.Count != 0)
+        //                {
+        //                    return result.CollectionItem.FirstOrDefault();
+        //                }
+        //            }
+        //            catch (Exception e)
+        //            {
+        //#if DEBUG
+        //                Trace.TraceError("Unable to retrieve policy: {0}", e.StackTrace);
+        //#endif
+        //                Trace.TraceError("Unable to retrieve policy: {0}", e.Message);
+        //            }
+
+        //            return null;
+        //        }
+
+        /// <summary>
+        /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.ViewModels.DeviceViewModel"/>.
+        /// </summary>
+        /// <param name="device">The security device to convert.</param>
+        /// <returns>Returns a DeviceViewModel model.</returns>
+        public static DeviceViewModel ToDeviceViewModel(SecurityDevice device)
 		{
 			DeviceViewModel viewModel = new DeviceViewModel();
 
@@ -111,21 +226,27 @@ namespace OpenIZAdmin.Util
 		}
 
         /// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/>.
-		/// </summary>
-		/// <param name="device">The security device to convert.</param>
-		/// <returns>Returns a edit device view model.</returns>
-		public static EditDeviceModel ToEditDeviceModel(SecurityDevice device)
+        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/>
+        /// </summary>
+        /// <param name="client">The Ami Service Client.</param>
+        /// /// <param name="device">The device object to convert to a EditDeviceModel.</param>
+        /// <returns>Returns a EditDeviceModel object.</returns>
+		public static EditDeviceModel ToEditDeviceModel(AmiServiceClient client, SecurityDevice device)
         {
             EditDeviceModel viewModel = new EditDeviceModel();
 
+            viewModel.Device = device;
             viewModel.CreationTime = device.CreationTime.DateTime;
-            viewModel.Key = device.Key.Value;
+            viewModel.Id = device.Key.Value;
             viewModel.DeviceSecret = device.DeviceSecret;
             viewModel.Name = device.Name;
-            viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
+            //viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
+            viewModel.DevicePolicies = device.Policies.ToList();
             viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
-            viewModel.IsObsolete = IsActiveStatus(device.ObsoletionTime);
+            //viewModel.IsObsolete = IsActiveStatus(device.ObsoletionTime);
+
+            viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
+            viewModel.PoliciesList.AddRange(DeviceUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
 
             return viewModel;
         }
@@ -149,15 +270,42 @@ namespace OpenIZAdmin.Util
         /// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth"/>
         /// </summary>
         /// <param name="model">The edit device model to convert.</param>
-        /// /// <param name="device">The device object to apply the changes to.</param>
+        /// /// <param name="device">The device object to activate.</param>
         /// <returns>Returns a security device info object.</returns>
-        public static SecurityDeviceInfo ToSecurityDeviceInfo(EditDeviceModel model, SecurityDevice device)
+        public static SecurityDeviceInfo ToActivateSecurityDeviceInfo(EditDeviceModel model, SecurityDevice device)
         {
             SecurityDeviceInfo deviceInfo = new SecurityDeviceInfo();
             deviceInfo.Device = device;
-            
+
             deviceInfo.Device.ObsoletedBy = null;
             deviceInfo.Device.ObsoletionTime = null;
+
+            return deviceInfo;
+        }
+
+        /// <summary>
+        /// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth"/>
+        /// </summary>
+        /// <param name="model">The edit device model to convert.</param>
+        /// <param name="device">The device object to apply the changes to.</param>
+        /// <param name="addPolicies">The property that contains the selected policies to add to the device.</param>
+        /// <returns>Returns a security device info object.</returns>
+        public static SecurityDeviceInfo ToSecurityDeviceInfo(EditDeviceModel model, SecurityDevice device, List<SecurityPolicy> addPolicies)
+        {
+            SecurityDeviceInfo deviceInfo = new SecurityDeviceInfo();
+            deviceInfo.Device = device;
+
+            deviceInfo.Id = model.Id;
+            deviceInfo.Device.Name = model.Name;
+            deviceInfo.Device.DeviceSecret = model.DeviceSecret;
+            deviceInfo.Policies = (model.Policies != null) ? model.Policies : new List<SecurityPolicyInstance>();
+
+            //add the new policies
+            foreach(SecurityPolicy p in addPolicies)
+            {                
+                SecurityPolicyInstance policy = new SecurityPolicyInstance(p, (PolicyGrantType)2);
+                deviceInfo.Policies.Add(policy);
+            }            
 
             return deviceInfo;
         }

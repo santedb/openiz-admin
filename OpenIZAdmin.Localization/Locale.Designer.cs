@@ -97,6 +97,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Policies.
+        /// </summary>
+        public static string AddPolicies {
+            get {
+                return ResourceManager.GetString("AddPolicies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Policy.
         /// </summary>
         public static string AddPolicy {

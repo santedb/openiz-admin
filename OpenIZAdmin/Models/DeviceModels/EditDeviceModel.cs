@@ -22,36 +22,48 @@ using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.DeviceModels
 {
 	public class EditDeviceModel
 	{
 		public EditDeviceModel()
-		{
-            this.Policies = new List<PolicyViewModel>();
+		{            
+            this.PoliciesList = new List<SelectListItem>();            
         }
 
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string Name { get; set; }        
+        //policies added by the user
+        [Display(Name = "AddPolicies", ResourceType = typeof(Localization.Locale))]
+        //[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public IEnumerable<string> AddPoliciesList { get; set; }
 
         [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-        public DateTime CreationTime { get; set; }
+        public DateTimeOffset CreationTime { get; set; }
 
-        public Guid Key { get; set; }
-
-        public string Id { get; set; }
-
-        public bool IsObsolete { get; set; }
+        //holds the original device object
+        public SecurityDevice Device { get; set; }
 
         [Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
         public string DeviceSecret { get; set; }
 
-        public List<PolicyViewModel> Policies { get; set; }
-
         public List<SecurityPolicyInstance> DevicePolicies { get; set; }
+
+        [Required]
+        public Guid Id { get; set; }
+
+        //public bool IsObsolete { get; set; }        
+
+        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string Name { get; set; }
+
+        //Holds the device policies that are assigned
+        public List<SecurityPolicyInstance> Policies { get; set; }   
+                     
+        //policies autopopulate
+        public List<SelectListItem> PoliciesList { get; set; }
 
         public DateTime? UpdatedTime { get; set; }
     }

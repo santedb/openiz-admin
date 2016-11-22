@@ -795,4 +795,7 @@
   <data name="DeviceSecret" xml:space="preserve">
     <value>Device Secret</value>
   </data>
+  <data name="AddPolicies" xml:space="preserve">
+    <value>Add Policies</value>
+  </data>
 </root>

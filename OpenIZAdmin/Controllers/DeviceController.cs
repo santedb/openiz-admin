@@ -38,17 +38,11 @@ namespace OpenIZAdmin.Controllers
 	/// </summary>
 	[TokenAuthorize]
 	public class DeviceController : BaseController
-	{		 
-		[HttpGet]
-		public ActionResult Create()
-		{
-			return View();
-		}
-
+	{		 		
         /// <summary>
 		/// Activates a device.
 		/// </summary>
-		/// <param name="id">The id of the device to be activated.</param>
+		/// <param name="model">The edit device model of the device to be activated.</param>
 		/// <returns>Returns the index view.</returns>
 		[HttpPost]
         [ValidateAntiForgeryToken]
@@ -57,7 +51,8 @@ namespace OpenIZAdmin.Controllers
             Guid deviceKey = Guid.Empty;
             SecurityDevice device = null;
 
-            if (PolicyUtil.IsValidString(model.Id) && Guid.TryParse(model.Id, out deviceKey))
+            //if (PolicyUtil.IsValidString(model.Id) && Guid.TryParse(model.Id, out deviceKey))            
+            if(ModelState.IsValid)
             {
                 try
                 {
@@ -70,9 +65,9 @@ namespace OpenIZAdmin.Controllers
                         return RedirectToAction("Index");
                     }                                       
                                         
-                    SecurityDeviceInfo deviceInfo = DeviceUtil.ToSecurityDeviceInfo(model, device);
+                    SecurityDeviceInfo deviceInfo = DeviceUtil.ToActivateSecurityDeviceInfo(model, device);
 
-                    this.AmiClient.UpdateDevice(model.Id, deviceInfo);
+                    this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
 
                     TempData["success"] = Locale.Device + " " + Locale.ActivatedSuccessfully;
 
@@ -92,6 +87,17 @@ namespace OpenIZAdmin.Controllers
             return RedirectToAction("Index");
         }
 
+        [HttpGet]
+        public ActionResult Create()
+        {
+            return View();
+        }
+
+        /// <summary>
+		/// Creates a new device.
+		/// </summary>
+		/// <param name="id">The id of the device to be deleted.</param>
+		/// <returns>Returns the index view.</returns>
         [HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateDeviceModel model)
@@ -150,6 +156,47 @@ namespace OpenIZAdmin.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+		/// Deletes a policy associate to a device.
+		/// </summary>
+		/// <param name="key">The policy guid key of the policy to be deleted.</param>
+		/// <returns>Returns the index view.</returns>
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePolicy(Guid key)
+        {
+            //---TO DO!!!
+            //apply and update to the device with the policies removed from the property
+            string id = string.Empty;
+            if (DeviceUtil.IsValidString(id))
+            {
+                try
+                {
+                    this.AmiClient.DeleteDevice(id);
+                    TempData["success"] = Locale.Device + " " + Locale.DeletedSuccessfully;
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    Trace.TraceError("Unable to delete device: {0}", e.StackTrace);
+#endif
+                    Trace.TraceError("Unable to delete device: {0}", e.Message);
+                }
+            }
+
+            TempData["error"] = Locale.UnableToDelete + " " + Locale.Device;
+
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Gets the device object to edit
+        /// </summary>
+        /// <param name="key">The id of the device to be edited.</param>
+        /// <returns>Returns the index view.</returns>
         [HttpGet]
 		public ActionResult Edit(string key)
 		{
@@ -165,29 +212,94 @@ namespace OpenIZAdmin.Controllers
                     TempData["error"] = Locale.Device + " "  + Locale.NotFound;
 
                     return RedirectToAction("Index");
-                }				
-
-				return View(DeviceUtil.ToEditDeviceModel(device));
-			}
+                }
+                
+                return View(DeviceUtil.ToEditDeviceModel(this.AmiClient, device));                
+            }
 
 			TempData["error"] = Localization.Locale.Device + " " + Locale.NotFound;
 
 			return RedirectToAction("Index");
 		}
 
+        /// <summary>
+        /// Appies the changes to the device object
+        /// </summary>
+        /// <param name="model">The model containing the updated device information.</param>
+        /// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditDeviceModel model)
 		{
-			throw new NotImplementedException();
-		}
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    //Guid deviceKey = Guid.Empty;
 
+                    //if (DeviceUtil.IsValidString(model.Id) && Guid.TryParse(model.Id, out deviceKey))
+                    if(ModelState.IsValid)
+                    {
+
+                        var deviceEntity = DeviceUtil.GetDevice(this.AmiClient, model.Id);
+
+                        if (deviceEntity == null)
+                        {
+                            TempData["error"] = Locale.Device + " " + Locale.NotFound;
+
+                            return RedirectToAction("Index");
+                        }
+
+                        List<SecurityPolicy> newPolicies = new List<SecurityPolicy>();
+
+                        if (model.AddPoliciesList != null && model.AddPoliciesList.Count() > 0)
+                        {                            
+                            newPolicies = DeviceUtil.GetNewPolicies(this.AmiClient, model.AddPoliciesList);                           
+                        }                                                
+
+                        SecurityDeviceInfo deviceInfo = DeviceUtil.ToSecurityDeviceInfo(this.AmiClient, model, deviceEntity, newPolicies);
+
+                        this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
+
+                        TempData["success"] = Locale.Device + " " + Locale.UpdatedSuccessfully;
+
+                        return Redirect("Index");
+                    }
+                    else
+                    {
+                        return View(model);
+                    }
+                                                       
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    Trace.TraceError("Unable to edit device: {0}", e.StackTrace);
+#endif
+                    Trace.TraceError("Unable to edit device: {0}", e.Message);
+                }
+            }
+
+            TempData["error"] = Locale.UnableToUpdate + " " + Locale.Device;
+
+            return View(model);            
+        }
+
+        /// <summary>
+        /// Gets all device objects
+        /// </summary>        
+        /// <returns>Returns the index view.</returns>
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Device";
 			return View(DeviceUtil.GetAllDevices(this.AmiClient));
 		}
 
+        /// <summary>
+        /// Gets a device list based on the search parameter applied to the Name field
+        /// </summary>
+        /// <param name="searchTerm">The search parameter to apply to the query.</param>
+        /// <returns>Returns the index view.</returns>
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
@@ -218,7 +330,12 @@ namespace OpenIZAdmin.Controllers
 			return PartialView("_DevicesPartial", devices);
 		}
 
-		[HttpGet]
+        /// <summary>
+        /// Searches for a device object with the supplied device id.
+        /// </summary>
+        /// <param name="id">The device identifier search parameter to apply to the query.</param>
+        /// <returns>Returns the ViewDevice view.</returns>
+        [HttpGet]
 		public ActionResult ViewDevice(string id)
 		{
 			Guid deviceKey = Guid.Empty;
