@@ -1,0 +1,51 @@
+﻿@model OpenIZAdmin.Models.DebugModels.ViewModels.VersionViewModel
+
+@{
+    ViewBag.Title = Locale.Version + " " + Locale.Information;
+}
+
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        @Model.Title
+    </div>
+
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-10">
+                <h4>@Model.Product</h4>
+                <h4>@Model.Company</h4>
+                <h4>@Model.Copyright</h4>
+            </div>
+        </div>  
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        @(Locale.Version + " " + Locale.Information)
+    </div>
+
+    <div class="panel panel-body">
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>@Locale.Name</th>
+                    <th>@Locale.Description</th>
+                    <th>@Locale.Version</th>
+                </tr>
+            </thead>
+            <tbody id="alert-results">
+                @foreach (var item in Model.Assemblies)
+                {
+                    <tr>
+                        <td>@item.Title</td>
+                        <td>@item.Description</td>
+                        <td>@item.Version</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+</div>

@@ -139,5 +139,11 @@ namespace OpenIZAdmin.Controllers
 
 			return View(model);
 		}
+
+		[HttpGet]
+		public ActionResult ViewApplet(Guid id)
+		{
+			return View();
+		}
 	}
 }
