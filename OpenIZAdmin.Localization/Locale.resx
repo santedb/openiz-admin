@@ -795,4 +795,10 @@
   <data name="DeviceSecret" xml:space="preserve">
     <value>Device Secret</value>
   </data>
+  <data name="Information" xml:space="preserve">
+    <value>Information</value>
+  </data>
+  <data name="About" xml:space="preserve">
+    <value>About</value>
+  </data>
 </root>

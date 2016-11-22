@@ -37,7 +37,7 @@ namespace OpenIZAdmin.Controllers
 	public class AssigningAuthorityController : BaseController
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PolicyController"/> class.
+		/// Initializes a new instance of the <see cref="AssigningAuthorityController"/> class.
 		/// </summary>
 		public AssigningAuthorityController()
 		{

@@ -2339,7 +2339,7 @@
             Gets or sets the value of the extension
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.DataTypes.Extension`1.ExtesionValue">
+        <member name="P:OpenIZ.Core.Model.DataTypes.Extension`1.ExtensionValue">
             <summary>
             Gets or sets the ignore value
             </summary>
