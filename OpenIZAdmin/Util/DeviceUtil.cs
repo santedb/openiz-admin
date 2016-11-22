@@ -36,6 +36,29 @@ namespace OpenIZAdmin.Util
 	/// </summary>
 	public static class DeviceUtil
 	{
+        /// <summary>
+        /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.ViewModels.DeviceViewModel"/>.
+        /// </summary>
+        /// <param name="device">The security device to apply the policy change to.</param>
+        /// <returns>Returns a DeviceViewModel model.</returns>
+        public static DeviceViewModel DeletePolicy(SecurityDevice device)
+        {
+            DeviceViewModel viewModel = new DeviceViewModel();
+
+            viewModel.CreationTime = device.CreationTime.DateTime;
+            viewModel.Id = device.Key.Value;
+            viewModel.Name = device.Name;            
+            viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
+            viewModel.IsObsolete = IsActiveStatus(device.ObsoletionTime);
+
+            //if(viewModel.Policies != null && viewModel.Policies.Count() > 0)
+            //{
+            //    viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
+            //}
+            
+
+            return viewModel;
+        }
 
         /// <summary>
         /// Queries for a specific device by device key
@@ -183,28 +206,7 @@ namespace OpenIZAdmin.Util
             }
 
             return null;
-        }
-
-        //        private static SecurityPolicyInfo GetPolicy(AmiServiceClient client, Guid key)
-        //        {
-        //            try
-        //            {
-        //                var result = client.GetPolicies(r => r.Key == key);
-        //                if (result.CollectionItem.Count != 0)
-        //                {
-        //                    return result.CollectionItem.FirstOrDefault();
-        //                }
-        //            }
-        //            catch (Exception e)
-        //            {
-        //#if DEBUG
-        //                Trace.TraceError("Unable to retrieve policy: {0}", e.StackTrace);
-        //#endif
-        //                Trace.TraceError("Unable to retrieve policy: {0}", e.Message);
-        //            }
-
-        //            return null;
-        //        }
+        }      
 
         /// <summary>
         /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.ViewModels.DeviceViewModel"/>.
@@ -239,16 +241,47 @@ namespace OpenIZAdmin.Util
             viewModel.CreationTime = device.CreationTime.DateTime;
             viewModel.Id = device.Key.Value;
             viewModel.DeviceSecret = device.DeviceSecret;
-            viewModel.Name = device.Name;
-            //viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
-            viewModel.DevicePolicies = device.Policies.ToList();
+            viewModel.Name = device.Name;                        
             viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
-            //viewModel.IsObsolete = IsActiveStatus(device.ObsoletionTime);
+
+            viewModel.DevicePolicies = (device.Policies != null) ? GetDevicePolicies(device.Policies) : null;
+
+            //viewModel.DevicePolicies = (device.Policies != null) ? device.Policies : new List<SecurityPolicyInstance>();
+
+            //needed to be able to display additional data for the policies
+            //viewModel.DevicePoliciesViewModel = new List<SecurityPolicyInfoViewModel>();
+
+            //foreach(SecurityPolicyInstance p in device.Policies)
+            //{
+            //    viewModel.DevicePoliciesViewModel.Add(new SecurityPolicyInfoViewModel(p));
+            //}           
 
             viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
             viewModel.PoliciesList.AddRange(DeviceUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
 
             return viewModel;
+        }
+
+        internal static IEnumerable<PolicyViewModel> GetDevicePolicies(List<SecurityPolicyInstance> pList)
+        {
+            IEnumerable<PolicyViewModel> viewModels = new List<PolicyViewModel>();
+
+            try
+            {
+                //var policies = client.GetPolicies(p => p.IsPublic == true);
+
+                //viewModels = policies.CollectionItem.Select(p => PolicyUtil.ToPolicyViewModel(p));
+                return viewModels = pList.Select(p => PolicyUtil.ToPolicyViewModel(p));               
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Trace.TraceError("Unable to retrieve policies: {0}", e.StackTrace);
+#endif
+                Trace.TraceError("Unable to retrieve policies: {0}", e.Message);
+            }
+
+            return viewModels;
         }
 
         /// <summary>
@@ -260,10 +293,10 @@ namespace OpenIZAdmin.Util
 		{
 			SecurityDevice device = new SecurityDevice();
 
-			device.Name = model.Name;
-			device.DeviceSecret = Guid.NewGuid().ToString();
+			device.Name = model.Name;            
+            device.DeviceSecret = model.DeviceSecret;
 
-			return device;
+            return device;
 		}
 
         /// <summary>

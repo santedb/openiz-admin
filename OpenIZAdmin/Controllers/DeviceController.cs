@@ -90,7 +90,9 @@ namespace OpenIZAdmin.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            return View();
+            CreateDeviceModel viewModel = new CreateDeviceModel();
+            viewModel.DeviceSecret = Guid.NewGuid().ToString();
+            return View(viewModel);
         }
 
         /// <summary>
@@ -108,8 +110,8 @@ namespace OpenIZAdmin.Controllers
 				{
 					var device = this.AmiClient.CreateDevice(DeviceUtil.ToSecurityDevice(model));
 
-					return RedirectToAction("ViewDevice", new { key = device.Key });
-				}
+                    return RedirectToAction("ViewDevice", new { key = device.Key.ToString() });                    
+                }
 				catch (Exception e)
 				{
 #if DEBUG
@@ -139,7 +141,9 @@ namespace OpenIZAdmin.Controllers
                     this.AmiClient.DeleteDevice(id);
                     TempData["success"] = Locale.Device + " " + Locale.DeletedSuccessfully;
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("ViewDevice", new { key = id });
+
+                    //return RedirectToAction("Index");
                 }
                 catch (Exception e)
                 {
@@ -175,7 +179,9 @@ namespace OpenIZAdmin.Controllers
                     this.AmiClient.DeleteDevice(id);
                     TempData["success"] = Locale.Device + " " + Locale.DeletedSuccessfully;
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("ViewDevice", new { key = id });
+
+                    //return RedirectToAction("Index");
                 }
                 catch (Exception e)
                 {
@@ -233,11 +239,8 @@ namespace OpenIZAdmin.Controllers
 		{
             if (ModelState.IsValid)
             {
-                try
-                {
-                    //Guid deviceKey = Guid.Empty;
-
-                    //if (DeviceUtil.IsValidString(model.Id) && Guid.TryParse(model.Id, out deviceKey))
+                //try
+                //{                    
                     if(ModelState.IsValid)
                     {
 
@@ -250,34 +253,36 @@ namespace OpenIZAdmin.Controllers
                             return RedirectToAction("Index");
                         }
 
-                        List<SecurityPolicy> newPolicies = new List<SecurityPolicy>();
+                        List<SecurityPolicy> addPolicies = new List<SecurityPolicy>();
 
                         if (model.AddPoliciesList != null && model.AddPoliciesList.Count() > 0)
-                        {                            
-                            newPolicies = DeviceUtil.GetNewPolicies(this.AmiClient, model.AddPoliciesList);                           
+                        {
+                            addPolicies = DeviceUtil.GetNewPolicies(this.AmiClient, model.AddPoliciesList);                           
                         }                                                
 
-                        SecurityDeviceInfo deviceInfo = DeviceUtil.ToSecurityDeviceInfo(this.AmiClient, model, deviceEntity, newPolicies);
+                        SecurityDeviceInfo deviceInfo = DeviceUtil.ToSecurityDeviceInfo(model, deviceEntity, addPolicies);
 
                         this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
 
                         TempData["success"] = Locale.Device + " " + Locale.UpdatedSuccessfully;
 
-                        return Redirect("Index");
+                        return RedirectToAction("ViewDevice", new { key = model.Id });
+
+                    //return Redirect("Index");
                     }
                     else
                     {
                         return View(model);
                     }
                                                        
-                }
-                catch (Exception e)
-                {
-#if DEBUG
-                    Trace.TraceError("Unable to edit device: {0}", e.StackTrace);
-#endif
-                    Trace.TraceError("Unable to edit device: {0}", e.Message);
-                }
+//                }
+//                catch (Exception e)
+//                {
+//#if DEBUG
+//                    Trace.TraceError("Unable to edit device: {0}", e.StackTrace);
+//#endif
+//                    Trace.TraceError("Unable to edit device: {0}", e.Message);
+//                }
             }
 
             TempData["error"] = Locale.UnableToUpdate + " " + Locale.Device;
@@ -336,11 +341,11 @@ namespace OpenIZAdmin.Controllers
         /// <param name="id">The device identifier search parameter to apply to the query.</param>
         /// <returns>Returns the ViewDevice view.</returns>
         [HttpGet]
-		public ActionResult ViewDevice(string id)
+		public ActionResult ViewDevice(string key)
 		{
 			Guid deviceKey = Guid.Empty;
 
-			if (DeviceUtil.IsValidString(id) && Guid.TryParse(id, out deviceKey))
+			if (DeviceUtil.IsValidString(key) && Guid.TryParse(key, out deviceKey))
 			{                
                 var result = DeviceUtil.GetDevice(this.AmiClient, deviceKey);
 

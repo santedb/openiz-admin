@@ -33,10 +33,18 @@ namespace OpenIZAdmin.Models.DeviceModels
 		{
 		}
 
-		/// <summary>
-		/// Gets or sets the name of the device.
+        /// <summary>
+		/// Gets or sets the device secret.
 		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
+        //[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        //[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string DeviceSecret { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the device.
+        /// </summary>
+        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }

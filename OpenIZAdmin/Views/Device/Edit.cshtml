@@ -76,15 +76,15 @@
                                         @foreach (var item in Model.DevicePolicies)
                                         {
                                             <tr>
-                                                <td>@*@item.Policy.CreationTime*@</td>
-                                                <td>@item.Policy.Name</td>
-                                                <td>@*@item.Policy.Grant*@</td>
-                                                <td>@item.Policy.IsPublic</td>
-                                                <td>@item.Policy.Oid</td>
+                                                <td></td>
+                                                <td>@item.Name</td>
+                                                <td>@item.Grant</td>
+                                                <td>@item.IsPublic</td>
+                                                <td>@item.Oid</td>
                                                 <td>
-                                                    @if (true)
+                                                    @if (item.IsObsolete)
                                                     {
-                                                        @*using (Html.BeginForm("DeletePolicy", "Device", new { id = item.Policy.Key }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                                        using (Html.BeginForm("DeletePolicy", "Device", new { id = item.Key }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                                                         {
                                                             @Html.AntiForgeryToken()
 
@@ -92,7 +92,7 @@
                                                                 @Locale.Delete
                                                                 <span class="glyphicon glyphicon-log-out"></span>
                                                             </button>
-                                                        }*@
+                                                        }
                                                     }
                                                 </td>
                                             </tr> }
@@ -109,7 +109,7 @@
             <div class="panel panel-body">
                 <div class="form-group">
                     @Html.LabelFor(m => m.AddPoliciesList, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
+                    <div class="col-md-8">
                         @Html.DropDownListFor(m => m.AddPoliciesList, Model.PoliciesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
                         @Html.ValidationMessageFor(m => m.AddPoliciesList, "", new { @class = "text-danger" })
                     </div>
