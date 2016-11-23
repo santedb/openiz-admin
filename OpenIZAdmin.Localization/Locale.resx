@@ -807,4 +807,7 @@
   <data name="HasPolicies" xml:space="preserve">
     <value>Has Policies</value>
   </data>
+  <data name="Successfully" xml:space="preserve">
+    <value>Successfully</value>
+  </data>
 </root>

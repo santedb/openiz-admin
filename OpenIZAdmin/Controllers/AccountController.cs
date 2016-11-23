@@ -392,7 +392,7 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Profile;
 
-			return View(model);
+			return View("Manage", new ManageModel { ChangePasswordModel = new ChangePasswordModel(), UpdateProfileModel = model });
 		}
 	}
 }

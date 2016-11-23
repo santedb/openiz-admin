@@ -234,6 +234,7 @@
     <Compile Include="Logging\RollOverTextWriterTraceListener.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels\ChangePasswordModel.cs" />
+    <Compile Include="Models\UserModels\ResetPasswordModel.cs" />
     <Compile Include="Models\AccountModels\ManageModel.cs" />
     <Compile Include="Models\AccountModels\UpdateProfileModel.cs" />
     <Compile Include="Models\AlertModels\CreateAlertModel.cs" />
@@ -454,6 +455,7 @@
     <Content Include="Views\Alert\ViewAlert.cshtml" />
     <Content Include="Views\Applet\ViewApplet.cshtml" />
     <Content Include="Views\Home\VersionInformation.cshtml" />
+    <Content Include="Views\User\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />
