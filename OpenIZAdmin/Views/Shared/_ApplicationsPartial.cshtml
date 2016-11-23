@@ -1,37 +1,34 @@
-﻿@model IEnumerable<OpenIZAdmin.Models.UserModels.ViewModels.UserViewModel>
+﻿@model IEnumerable<OpenIZAdmin.Models.ApplicationModels.ViewModels.ApplicationViewModel>
 @{
-    ViewBag.Title = Locale.Users;
+    ViewBag.Title = Locale.Applications;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Locale.Users
+        @Locale.Applications
         <div class="pull-right">
             <span>@Locale.New</span>
-            <a href="~/User/Create" class="glyphicon glyphicon-plus-sign"></a>
+            <a href="~/Application/Create" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
-    <div class="panel panel-body">
-        @if (Model.Any())
+    <div class="panel panel-body">        
+        @if (Model.Count() > 0)
         {
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th></th>
                         <th>
-                            @Html.DisplayNameFor(m => m.Username)
+                            @Locale.CreationTime
                         </th>
                         <th>
-                            @Html.DisplayNameFor(m => m.Email)
+                            @Locale.ApplicationId
                         </th>
                         <th>
-                            @Html.DisplayNameFor(m => m.IsLockedOut)
-                        </th>
+                            @Locale.ApplicationName
+                        </th>                        
                         <th>
-                            @Html.DisplayNameFor(m => m.Roles)
-                        </th>
-                        <th></th>
-                        <th></th>
+                            @Locale.HasPolicies
+                        </th>                        
                         <th></th>
                         <th></th>
                     </tr>
@@ -40,47 +37,36 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td><span class="glyphicon glyphicon-user pull-left" aria-hidden="true"></span></td>
-                            <td>@item.Username</td>
-                            <td>@item.Email</td>
+                            <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>
+                            <td>@item.CreationTime.ToLocalTime()</td>
+                            <td>@item.ApplicationId</td>
+                            <td>@item.ApplicationName</td>
                             <td>
-                                @if (item.IsLockedOut)
+                                @if (item.HasPolicies)
                                 {
                                     <text>@Locale.Yes</text>
-}
+                                }
                                 else
                                 {
                                     <text>@Locale.No</text>
-}
-                            </td>
-                            <td>
-                                @if (item.Roles.Any())
-                                {
-                                    string.Join(", ", item.Roles.Select(r => r.Name).OrderBy(r => r));
                                 }
-                            </td>
+                            </td>                            
                             <td>
-                                <a class="btn btn-primary" href="/User/ViewUser/@item.UserId">
+                                <a class="btn btn-primary" href="/Application/ViewApplication/@item.Id">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
                             </td>
                             <td>
-                                <a class="btn btn-warning" href="/User/Edit/@item.UserId">
+                                <a class="btn btn-warning" href="/Application/Edit/Edit?key=@item.Id">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
                             </td>
-                            <td>
-                                <a class="btn btn-danger" href="/User/ResetPassword/@item.UserId">
-                                    @(Locale.Reset + " " + Locale.Password)
-                                    <span class="glyphicon glyphicon-alert"></span>
-                                </a>
-                            </td>
-                            <td>
+                            @*<td>
                                 @if (!item.IsObsolete)
                                 {
-                                    using (Html.BeginForm("Delete", "User", new { id = item.UserId }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    using (Html.BeginForm("Delete", "Device", new { id = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
 
@@ -88,11 +74,11 @@
                                             @Locale.Deactivate
                                             <span class="glyphicon glyphicon-log-out"></span>
                                         </button>
-}
+                                    }
                                 }
                                 else
                                 {
-                                    using (Html.BeginForm("Activate", "User", new { id = item.UserId }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    using (Html.BeginForm("Activate", "Device", new { id = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
 
@@ -100,20 +86,18 @@
                                             @Locale.Activate
                                             <span class="glyphicon glyphicon-upload"></span>
                                         </button>
-}
+                                    }
                                 }
 
-                            </td>
-                    </tr>}
+                            </td>*@
+                        </tr>}
                 </tbody>
             </table>
         }
         else
         {
-            <p>@Locale.NoUsersAdded</p>
+            <p>@Locale.NoApplicationsFound</p>
         }
-
-
     </div>
 </div>
 

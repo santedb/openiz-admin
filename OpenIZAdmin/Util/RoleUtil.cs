@@ -53,7 +53,49 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
-		public static RoleViewModel ToRoleViewModel(SecurityRoleInfo roleInfo)
+        public static SecurityRoleInfo GetRole(AmiServiceClient client, Guid roleId)
+        {
+            try
+            {                
+                var roles = client.GetRoles(r => r.Key == roleId);
+                if (roles.CollectionItem.Count != 0)
+                {
+                    return roles.CollectionItem.FirstOrDefault();
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Trace.TraceError("Unable to retrieve role: {0}", e.StackTrace);
+#endif
+                Trace.TraceError("Unable to retrieve role: {0}", e.Message);
+            }
+
+            return null;
+        }
+
+        public static SecurityRoleInfo GetRole(AmiServiceClient client, string id)
+        {
+            try
+            {
+                var role = client.GetRole(id);
+                if (role != null)
+                {
+                    return role;
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Trace.TraceError("Unable to retrieve role: {0}", e.StackTrace);
+#endif
+                Trace.TraceError("Unable to retrieve role: {0}", e.Message);
+            }
+
+            return null;
+        }
+
+        public static RoleViewModel ToRoleViewModel(SecurityRoleInfo roleInfo)
 		{
 			RoleViewModel viewModel = new RoleViewModel();
 
@@ -87,5 +129,18 @@ namespace OpenIZAdmin.Util
 
 			return roleInfo;
 		}
-	}
+
+        /// <summary>
+        /// Verifies a valid string parameter
+        /// </summary>
+        /// <param name="key">The string to validate</param>        
+        /// <returns>Returns true if valid, false if empty or whitespace</returns>
+        public static bool IsValidString(string key)
+        {
+            if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
+                return true;
+            else
+                return false;
+        }
+    }
 }

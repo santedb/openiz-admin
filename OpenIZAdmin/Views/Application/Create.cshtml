@@ -1,0 +1,39 @@
+﻿@model OpenIZAdmin.Models.ApplicationModels.CreateApplicationModel
+@{
+    ViewBag.Title = Locale.CreateApplication;
+}
+
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        @Locale.CreateApplication
+    </div>
+    <div class="panel panel-body panel-default">
+        @using (Html.BeginForm("Create", "Application", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ApplicationName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.ApplicationName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ApplicationName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ApplicationSecret, new { @class = "col-md-2 control-label" })
+                <div class="col-md-10">
+                    @Html.TextBoxFor(m => m.ApplicationSecret, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ApplicationSecret, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="@Locale.Submit" class="btn btn-default" />
+                </div>
+            </div>}
+    </div>
+</div>
+

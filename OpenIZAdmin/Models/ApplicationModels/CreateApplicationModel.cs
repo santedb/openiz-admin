@@ -41,14 +41,22 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		/// <summary>
 		/// Gets or sets the id of the application.
 		/// </summary>
-		[Required]
+		//[Required]
 		public string ApplicationId { get; set; }
 
-		/// <summary>
-		/// Gets or sets the secret of the application.
+        /// <summary>
+		/// Gets or sets the name of the application.
 		/// </summary>
 		[Required]
-		public string ApplicationSecret { get; set; }
+        [Display(Name = "ApplicationName", ResourceType = typeof(Localization.Locale))]
+        public string ApplicationName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the secret of the application.
+        /// </summary>
+        [Required]
+        [Display(Name = "ApplicationSecret", ResourceType = typeof(Localization.Locale))]
+        public string ApplicationSecret { get; set; }
 
 		/// <summary>
 		/// Gets or sets a list of policies associated with the application.

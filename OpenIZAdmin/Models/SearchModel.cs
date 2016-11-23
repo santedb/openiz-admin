@@ -21,12 +21,21 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models
 {
+	/// <summary>
+	/// Represents a search model.
+	/// </summary>
 	public class SearchModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SearchModel"/> class.
+		/// </summary>
 		public SearchModel()
 		{
 		}
 
+		/// <summary>
+		/// Gets or sets the search term of the search model.
+		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]

@@ -11,6 +11,7 @@
         </div>
     </div>
     <div class="panel panel-body">
+        @*@Html.HiddenFor(m => m.SearchString)*@
         @if (Model.Count() > 0)
         {
             <table class="table table-bordered">
@@ -24,9 +25,11 @@
                             @Locale.Name
                         </th>
                         <th>
-                            @Locale.UpdatedTime
+                            @Locale.HasPolicies
                         </th>
-                        <th></th>
+                        <th>
+                            @Locale.UpdatedTime
+                        </th>                                                                        
                         <th></th>                        
                         <th></th>                        
                     </tr>
@@ -38,7 +41,18 @@
                             <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>
                             <td>@item.CreationTime.ToLocalTime()</td>
                             <td>@item.Name</td>
-                            <td>@item.UpdatedTime</td>
+                            <td>                                
+                                @if (item.HasPolicies)
+                                {
+                                    <text>@Locale.Yes</text>
+                                }
+                                else
+                                {
+                                    <text>@Locale.No</text>
+                                }                                
+                            </td>
+
+                            <td>@item.UpdatedTime</td>                            
                             <td>
                                 <a class="btn btn-primary" href="/Device/ViewDevice/@item.Id">
                                     @Locale.View

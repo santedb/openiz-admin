@@ -34,7 +34,10 @@ namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime CreationTime { get; set; }
 
-		public Guid Id { get; set; }
+        [Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
+        public bool HasPolicies { get; set; }        
+
+        public Guid Id { get; set; }
 
         public bool IsObsolete { get; set; }
 
@@ -43,6 +46,8 @@ namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 
 		public List<PolicyViewModel> Policies { get; set; }
 
-		public DateTime? UpdatedTime { get; set; }
+        //public string SearchString { get; set; }
+
+        public DateTime? UpdatedTime { get; set; }
 	}
 }

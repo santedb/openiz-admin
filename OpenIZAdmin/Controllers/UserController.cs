@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.AccountModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -292,6 +293,60 @@ namespace OpenIZAdmin.Controllers
 		{
 			TempData["searchType"] = Locale.User;
 			return View(UserUtil.GetAllUsers(this.AmiClient));
+		}
+
+		/// <summary>
+		/// Displays the reset password view.
+		/// </summary>
+		/// <returns>Returns the reset password view.</returns>
+		[HttpGet]
+		public ActionResult ResetPassword(Guid id)
+		{
+			var user = this.AmiClient.GetUser(id.ToString());
+
+			if (user == null)
+			{
+				TempData["error"] = Locale.User + " " + Locale.NotFound;
+				return Redirect(Request.UrlReferrer?.ToString());
+			}
+
+			var model = new ResetPasswordModel
+			{
+				UserId = id
+			};
+
+			return View(model);
+		}
+
+		/// <summary>
+		/// Resets the password of a user.
+		/// </summary>
+		/// <param name="model">The reset password model containing the updated information.</param>
+		/// <returns>Returns the reset password view.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult ResetPassword(ResetPasswordModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var user = this.AmiClient.GetUser(model.UserId.ToString());
+
+				if (user == null)
+				{
+					TempData["error"] = Locale.User + " " + Locale.NotFound;
+					return Redirect(Request.UrlReferrer?.ToString());
+				}
+
+				user.Password = model.Password;
+
+				this.AmiClient.UpdateUser(model.UserId, user);
+
+				TempData["success"] = Locale.Password + " " + Locale.Reset + " " + Locale.Successfully;
+
+				return RedirectToAction("Index", "Home");
+			}
+
+			return View(model);
 		}
 
 		/// <summary>

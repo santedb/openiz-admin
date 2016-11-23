@@ -206,7 +206,7 @@ namespace OpenIZAdmin.Util
             }
 
             return null;
-        }      
+        }
 
         /// <summary>
         /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.ViewModels.DeviceViewModel"/>.
@@ -214,6 +214,26 @@ namespace OpenIZAdmin.Util
         /// <param name="device">The security device to convert.</param>
         /// <returns>Returns a DeviceViewModel model.</returns>
         public static DeviceViewModel ToDeviceViewModel(SecurityDevice device)
+        {
+            DeviceViewModel viewModel = new DeviceViewModel();
+
+            viewModel.CreationTime = device.CreationTime.DateTime;
+            viewModel.Id = device.Key.Value;
+            viewModel.Name = device.Name;
+            viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
+            viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
+            viewModel.IsObsolete = IsActiveStatus(device.ObsoletionTime);
+            viewModel.HasPolicies = IsPolicy(device.Policies);
+
+            return viewModel;
+        }
+
+        /// <summary>
+        /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.ViewModels.DeviceViewModel"/>.
+        /// </summary>
+        /// <param name="device">The security device to convert.</param>
+        /// <returns>Returns a DeviceViewModel model.</returns>
+        public static DeviceViewModel ToDeviceViewModel(SecurityDevice device, string searchTerm)
 		{
 			DeviceViewModel viewModel = new DeviceViewModel();
 
@@ -222,7 +242,8 @@ namespace OpenIZAdmin.Util
 			viewModel.Name = device.Name;
 			viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
 			viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
-            viewModel.IsObsolete = IsActiveStatus(device.ObsoletionTime);            
+            viewModel.IsObsolete = IsActiveStatus(device.ObsoletionTime);
+            //viewModel.SearchTerm = searchTerm;
 
             return viewModel;
 		}
@@ -301,15 +322,17 @@ namespace OpenIZAdmin.Util
 
         /// <summary>
         /// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth"/>
-        /// </summary>
-        /// <param name="model">The edit device model to convert.</param>
+        /// </summary>        
         /// /// <param name="device">The device object to activate.</param>
-        /// <returns>Returns a security device info object.</returns>
-        public static SecurityDeviceInfo ToActivateSecurityDeviceInfo(EditDeviceModel model, SecurityDevice device)
+        /// <returns>Returns a security device info object.</returns>        
+        public static SecurityDeviceInfo ToActivateSecurityDeviceInfo(SecurityDevice device)
         {
             SecurityDeviceInfo deviceInfo = new SecurityDeviceInfo();
             deviceInfo.Device = device;
 
+            deviceInfo.DeviceSecret = device.DeviceSecret;
+            deviceInfo.Name = device.Name;
+            deviceInfo.Id = device.Key.Value;
             deviceInfo.Device.ObsoletedBy = null;
             deviceInfo.Device.ObsoletionTime = null;
 
@@ -369,5 +392,19 @@ namespace OpenIZAdmin.Util
                 return false;
         }
 
-	}
+        /// <summary>
+        /// Checks if a device has policies
+        /// </summary>
+        /// <param name="pList">A list with the policies applied to the device</param>        
+        /// <returns>Returns true if policies exist, false if no policies exist</returns>
+        private static bool IsPolicy(List<SecurityPolicyInstance> pList)
+        {
+            if (pList != null && pList.Count() > 0)
+                return true;
+            else
+                return false;
+        }
+
+        
+    }
 }
