@@ -23,6 +23,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Microsoft.AspNet.Identity;
 
 namespace OpenIZAdmin.Attributes
 {
@@ -85,6 +86,8 @@ namespace OpenIZAdmin.Attributes
 		/// <param name="filterContext">The filter context of the request.</param>
 		protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
 		{
+			filterContext.HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
 			filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary
 			{
 				{ "action", "Login" },
