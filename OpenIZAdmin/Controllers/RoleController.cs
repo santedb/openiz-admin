@@ -50,6 +50,11 @@ namespace OpenIZAdmin.Controllers
 			return View();
 		}
 
+        /// <summary>
+		/// Displays the create view.
+		/// </summary>
+		/// <param name="model">The model containing the new role information.</param>
+		/// <returns>Returns the Index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateRoleModel model)
@@ -80,13 +85,16 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+        /// <summary>
+		/// Displays the edit view.
+		/// </summary>
+		/// <param name="id">The id of the role to delete.</param>
+		/// <returns>Returns the Index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(string id)
 		{
-			Guid userKey = Guid.Empty;
-
-			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
+            if (RoleUtil.IsValidString(id))
 			{
 				try
 				{
@@ -119,7 +127,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			Guid roleId = Guid.Empty;
 
-			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out roleId))
+			if (RoleUtil.IsValidString(id) && Guid.TryParse(id, out roleId))
 			{
 				try
 				{
@@ -167,7 +175,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var role = this.AmiClient.GetRole(model.Id);
+					var role = RoleUtil.GetRole(this.AmiClient, model.Id);
 
 					if (role == null)
 					{
@@ -213,7 +221,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+				if (RoleUtil.IsValidString(searchTerm))
 				{
 					var collection = this.AmiClient.GetRoles(r => r.Name.Contains(searchTerm));
 
@@ -236,23 +244,28 @@ namespace OpenIZAdmin.Controllers
 			return PartialView("_RolesPartial", roles);
 		}
 
+        /// <summary>
+		/// Retrieves the selected role
+		/// </summary>
+		/// <param name="id">The identifier of the role object</param>
+		/// <returns>Returns the ViewRole view.</returns>
 		[HttpGet]
 		public ActionResult ViewRole(string id)
 		{
 			Guid roleId = Guid.Empty;
 
-			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out roleId))
-			{
-				var result = this.AmiClient.GetRoles(r => r.Key == roleId);
+			if (RoleUtil.IsValidString(id) && Guid.TryParse(id, out roleId))
+			{                
+                SecurityRoleInfo role = RoleUtil.GetRole(this.AmiClient, roleId);
 
-				if (result.CollectionItem.Count == 0)
+                if (role == null)
 				{
 					TempData["error"] = Locale.Role + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
 
-				return View(RoleUtil.ToRoleViewModel(result.CollectionItem.Single()));
+				return View(RoleUtil.ToRoleViewModel(role));
 			}
 
 			TempData["error"] = Locale.Role + " " + Locale.NotFound;

@@ -1,37 +1,36 @@
-﻿@model IEnumerable<OpenIZAdmin.Models.DeviceModels.ViewModels.DeviceViewModel>
+﻿@model IEnumerable<OpenIZAdmin.Models.ApplicationModels.ViewModels.ApplicationViewModel>
 @{
-    ViewBag.Title = Locale.Devices;
+    ViewBag.Title = Locale.Applications;
 }
+
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Locale.Devices
+        @Locale.Applications
         <div class="pull-right">
             <span>@Locale.New</span>
-            <a href="~/Device/Create" class="glyphicon glyphicon-plus-sign"></a>
+            <a href="~/Application/Create" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
-    <div class="panel panel-body">
-        @*@Html.HiddenFor(m => m.SearchString)*@
+    <div class="panel panel-body">        
         @if (Model.Count() > 0)
         {
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th></th>
                         <th>
                             @Locale.CreationTime
                         </th>
                         <th>
-                            @Locale.Name
+                            @Locale.ApplicationId
                         </th>
+                        <th>
+                            @Locale.ApplicationName
+                        </th>                        
                         <th>
                             @Locale.HasPolicies
-                        </th>
-                        <th>
-                            @Locale.UpdatedTime
-                        </th>                                                                        
-                        <th></th>                        
-                        <th></th>                        
+                        </th>                        
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -40,8 +39,9 @@
                         <tr>
                             <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>
                             <td>@item.CreationTime.ToLocalTime()</td>
-                            <td>@item.Name</td>
-                            <td>                                
+                            <td>@item.ApplicationId</td>
+                            <td>@item.ApplicationName</td>
+                            <td>
                                 @if (item.HasPolicies)
                                 {
                                     <text>@Locale.Yes</text>
@@ -49,23 +49,21 @@
                                 else
                                 {
                                     <text>@Locale.No</text>
-                                }                                
-                            </td>
-
-                            <td>@item.UpdatedTime</td>                            
+                                }
+                            </td>                            
                             <td>
-                                <a class="btn btn-primary" href="/Device/ViewDevice/@item.Id">
+                                <a class="btn btn-primary" href="/Application/ViewApplication/@item.Id">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
                             </td>
                             <td>
-                                <a class="btn btn-warning" href="/Device/Edit/Edit?key=@item.Id">
+                                <a class="btn btn-warning" href="/Application/Edit/Edit?key=@item.Id">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
                             </td>
-                            <td>
+                            @*<td>
                                 @if (!item.IsObsolete)
                                 {
                                     using (Html.BeginForm("Delete", "Device", new { id = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -91,16 +89,15 @@
                                     }
                                 }
 
-                            </td>
+                            </td>*@
                         </tr>}
                 </tbody>
             </table>
         }
         else
         {
-            <p>@Locale.NoDevicesAdded</p>
+            <p>@Locale.NoApplicationsFound</p>
         }
-
-
     </div>
 </div>
+

@@ -147,9 +147,9 @@ namespace OpenIZAdmin.Controllers
                     this.AmiClient.DeleteDevice(id);
                     TempData["success"] = Locale.Device + " " + Locale.DeletedSuccessfully;
 
-                    return RedirectToAction("ViewDevice", new { key = id });
+                    //return RedirectToAction("ViewDevice", new { key = id });
 
-                    //return RedirectToAction("Index");
+                    return RedirectToAction("Index");
                 }
                 catch (Exception e)
                 {
@@ -183,11 +183,9 @@ namespace OpenIZAdmin.Controllers
                 try
                 {
                     this.AmiClient.DeleteDevice(id);
-                    TempData["success"] = Locale.Device + " " + Locale.DeletedSuccessfully;
+                    TempData["success"] = Locale.Device + " " + Locale.DeletedSuccessfully;                    
 
-                    return RedirectToAction("ViewDevice", new { key = id });
-
-                    //return RedirectToAction("Index");
+                    return RedirectToAction("Index");
                 }
                 catch (Exception e)
                 {
@@ -272,9 +270,9 @@ namespace OpenIZAdmin.Controllers
 
                         TempData["success"] = Locale.Device + " " + Locale.UpdatedSuccessfully;
 
-                        return RedirectToAction("ViewDevice", new { key = model.Id });
+                        //return RedirectToAction("ViewDevice", new { key = model.Id });
 
-                    //return Redirect("Index");
+                        return Redirect("Index");
                     }
                     else
                     {

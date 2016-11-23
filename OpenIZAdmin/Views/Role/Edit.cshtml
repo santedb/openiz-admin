@@ -7,27 +7,90 @@
     <div class="panel panel-heading">
         @Locale.EditRole
     </div>
-    <div class="panel panel-body panel-default">
-        @using (Html.BeginForm("Edit", "Role", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-        {
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+@using (Html.BeginForm("Edit", "Role", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    <div class="panel panel-body panel-default">    
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
-                <div class="col-md-3">
-                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
-                </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
             </div>
+        </div>
 
             <div class="form-group">
                 @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
-                <div class="col-md-3">
-                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control", cols = "10", rows = "10" })
+                <div class="col-md-10">
+                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control", cols = "20", rows = "3" })
                     @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
                 </div>
             </div>
+        </div>
+
+
+            <div class="panel panel-default">
+                <div class="panel panel-heading">
+                    <span>@Locale.Users</span>
+                    <div class="pull-right">
+                        <a href="~/Role/Edit">
+                            <span class="glyphicon glyphicon-edit"></span>
+                            @Locale.AddUsers
+                        </a>
+                    </div>
+                </div>
+                <div class="panel panel-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    @*<label class="control-label">@Html.DisplayNameFor(m => m.Policies)</label>*@
+                                    <table class="table table-striped table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>@Locale.Username</th>
+                                                <th>@Locale.Email</th>
+                                                <th>@*@Locale.IsLockedOut*@</th>
+                                                <th></th>                                                
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @*@foreach (var item in Model.DevicePolicies)
+                                            {
+                                                <tr>                                                    
+                                                    <td>@item.Name</td>
+                                                    <td>@item.Grant</td>
+                                                    <td>@item.IsPublic</td>                                                    
+                                                    <td>
+                                                        @if (item.IsObsolete)
+                                                        {
+                                                            using (Html.BeginForm("DeleteUser", "User", new { id = item.Key }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                                            {
+                                                                @Html.AntiForgeryToken()
+
+                                                                <button type="submit" class="btn btn-danger">
+                                                                    @Locale.Delete
+                                                                    <span class="glyphicon glyphicon-log-out"></span>
+                                                                </button>
+                                                            }
+                                                        }
+                                                    </td>
+                                                </tr> }*@
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
@@ -35,5 +98,7 @@
                 </div>
             </div>
         }
-    </div>
+    
 </div>
+
+

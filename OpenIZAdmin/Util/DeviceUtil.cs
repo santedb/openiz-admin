@@ -393,10 +393,10 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Checks if a device is active or inactive
+        /// Checks if a device has policies
         /// </summary>
         /// <param name="pList">A list with the policies applied to the device</param>        
-        /// <returns>Returns true if policies exist, false if no plocies exist</returns>
+        /// <returns>Returns true if policies exist, false if no policies exist</returns>
         private static bool IsPolicy(List<SecurityPolicyInstance> pList)
         {
             if (pList != null && pList.Count() > 0)

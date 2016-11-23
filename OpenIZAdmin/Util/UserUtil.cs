@@ -66,12 +66,40 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
-		/// <summary>
-		/// Gets the SYSTEM user.
+        /// <summary>
+		/// Gets a list of users by assigned role.
 		/// </summary>
-		/// <param name="client">The AMI service client.</param>
-		/// <returns>Returns the system user.</returns>
-		internal static SecurityUserInfo GetSystemUser(AmiServiceClient client)
+		/// <param name="client">The IMSI service client.</param>
+        /// <param name="id">The role identifier.</param>
+		/// <returns>Returns a list of users.</returns>
+		internal static IEnumerable<UserViewModel> GetAllUsersByRole(AmiServiceClient client, string id)
+        {
+            IEnumerable<UserViewModel> viewModels = new List<UserViewModel>();
+
+            try
+            {
+                // HACK
+                var users = client.GetUsers(u => u.Email != null);
+
+                viewModels = users.CollectionItem.Select(u => UserUtil.ToUserViewModel(u));
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Trace.TraceError("Unable to retrieve users: {0}", e.StackTrace);
+#endif
+                Trace.TraceError("Unable to retrieve users: {0}", e.Message);
+            }
+
+            return viewModels;
+        }
+
+        /// <summary>
+        /// Gets the SYSTEM user.
+        /// </summary>
+        /// <param name="client">The AMI service client.</param>
+        /// <returns>Returns the system user.</returns>
+        internal static SecurityUserInfo GetSystemUser(AmiServiceClient client)
 		{
 			return client.GetUsers(u => u.UserName == "SYSTEM").CollectionItem.FirstOrDefault();
 		}

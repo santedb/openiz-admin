@@ -810,4 +810,40 @@
   <data name="Successfully" xml:space="preserve">
     <value>Successfully</value>
   </data>
+  <data name="DeviceSecretRequired" xml:space="preserve">
+    <value>Device Secret required</value>
+  </data>
+  <data name="DeviceSecretTooLong" xml:space="preserve">
+    <value>The device secret field must not exceed 255 characters</value>
+  </data>
+  <data name="AddUsers" xml:space="preserve">
+    <value>Add Users</value>
+  </data>
+  <data name="ApplicationName" xml:space="preserve">
+    <value>Application Name</value>
+  </data>
+  <data name="Applications" xml:space="preserve">
+    <value>Applications</value>
+  </data>
+  <data name="NoApplicationsFound" xml:space="preserve">
+    <value>No applications found</value>
+  </data>
+  <data name="SoftwareName" xml:space="preserve">
+    <value>Software Name</value>
+  </data>
+  <data name="VendorName" xml:space="preserve">
+    <value>Vendor Name</value>
+  </data>
+  <data name="VersionName" xml:space="preserve">
+    <value>Version Name</value>
+  </data>
+  <data name="CreateApplication" xml:space="preserve">
+    <value>Create application</value>
+  </data>
+  <data name="Application" xml:space="preserve">
+    <value>Application</value>
+  </data>
+  <data name="ApplicationSecret" xml:space="preserve">
+    <value>Application Secret</value>
+  </data>
 </root>

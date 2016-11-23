@@ -133,6 +133,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Users.
+        /// </summary>
+        public static string AddUsers {
+            get {
+                return ResourceManager.GetString("AddUsers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Administrative contact email.
         /// </summary>
         public static string AdministrativeContactEmail {
@@ -205,11 +214,47 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Application.
+        /// </summary>
+        public static string Application {
+            get {
+                return ResourceManager.GetString("Application", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application Id.
         /// </summary>
         public static string ApplicationId {
             get {
                 return ResourceManager.GetString("ApplicationId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application Name.
+        /// </summary>
+        public static string ApplicationName {
+            get {
+                return ResourceManager.GetString("ApplicationName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Applications.
+        /// </summary>
+        public static string Applications {
+            get {
+                return ResourceManager.GetString("Applications", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application Secret.
+        /// </summary>
+        public static string ApplicationSecret {
+            get {
+                return ResourceManager.GetString("ApplicationSecret", resourceCulture);
             }
         }
         
@@ -439,6 +484,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create application.
+        /// </summary>
+        public static string CreateApplication {
+            get {
+                return ResourceManager.GetString("CreateApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Assigning Authority.
         /// </summary>
         public static string CreateAssigningAuthority {
@@ -651,6 +705,24 @@ namespace OpenIZAdmin.Localization {
         public static string DeviceSecret {
             get {
                 return ResourceManager.GetString("DeviceSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device Secret required.
+        /// </summary>
+        public static string DeviceSecretRequired {
+            get {
+                return ResourceManager.GetString("DeviceSecretRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The device secret field must not exceed 255 characters.
+        /// </summary>
+        public static string DeviceSecretTooLong {
+            get {
+                return ResourceManager.GetString("DeviceSecretTooLong", resourceCulture);
             }
         }
         
@@ -1258,6 +1330,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No applications found.
+        /// </summary>
+        public static string NoApplicationsFound {
+            get {
+                return ResourceManager.GetString("NoApplicationsFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No devices have been added.
         /// </summary>
         public static string NoDevicesAdded {
@@ -1699,6 +1780,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Software Name.
+        /// </summary>
+        public static string SoftwareName {
+            get {
+                return ResourceManager.GetString("SoftwareName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Subject.
         /// </summary>
         public static string Subject {
@@ -2113,11 +2203,29 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Vendor Name.
+        /// </summary>
+        public static string VendorName {
+            get {
+                return ResourceManager.GetString("VendorName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Version.
         /// </summary>
         public static string Version {
             get {
                 return ResourceManager.GetString("Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version Name.
+        /// </summary>
+        public static string VersionName {
+            get {
+                return ResourceManager.GetString("VersionName", resourceCulture);
             }
         }
         

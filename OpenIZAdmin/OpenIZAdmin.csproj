@@ -234,6 +234,8 @@
     <Compile Include="Logging\RollOverTextWriterTraceListener.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels\ChangePasswordModel.cs" />
+    <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
+    <Compile Include="Models\ApplicationModels\ViewModels\ApplicationViewModel.cs" />
     <Compile Include="Models\UserModels\ResetPasswordModel.cs" />
     <Compile Include="Models\AccountModels\ManageModel.cs" />
     <Compile Include="Models\AccountModels\UpdateProfileModel.cs" />
@@ -309,6 +311,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Util\AlertUtil.cs" />
     <Compile Include="Util\AppletUtil.cs" />
+    <Compile Include="Util\ApplicationUtil.cs" />
     <Compile Include="Util\CertificateUtil.cs" />
     <Compile Include="Util\ConceptUtil.cs" />
     <Compile Include="Util\DeviceUtil.cs" />
@@ -456,10 +459,14 @@
     <Content Include="Views\Applet\ViewApplet.cshtml" />
     <Content Include="Views\Home\VersionInformation.cshtml" />
     <Content Include="Views\User\ResetPassword.cshtml" />
+    <Content Include="Views\Application\Create.cshtml" />
+    <Content Include="Views\Application\Index.cshtml" />
+    <Content Include="Views\Application\Edit.cshtml" />
+    <Content Include="Views\Application\ViewApplication.cshtml" />
+    <Content Include="Views\Shared\_ApplicationsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />
-    <Folder Include="Views\Application\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
