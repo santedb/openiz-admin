@@ -17,10 +17,14 @@
  * Date: 2016-11-15
  */
 
+using OpenIZAdmin.Models.ConceptModels.ViewModels;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using System.Web.UI.WebControls;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
@@ -34,23 +38,37 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		public EditConceptModel()
 		{
-			
+            this.LanguageList = new List<SelectListItem>();
 		}
 
-		/// <summary>
-		/// Gets or sets the name of the concept.
-		/// </summary>
-		public string Name { get; set; }
+        [Display(Name = "Created By")]
+        public string CreatedBy { get; set; }
 
+        [Display(Name = "Creation Time")]
+        public DateTime CreationTime { get; set; }
 
-		/// <summary>
-		/// Gets or sets the mnemonic of the concept.
-		/// </summary>
-		public string Mnemonic { get; set; }
+        [Display(Name = "Concept Details")]
+        public List<DetailedConceptViewModel> Details { get; set; }
 
-		/// <summary>
-		/// Gets or sets the language of the concept.
-		/// </summary>
-		public string Language { get; set; }
-	}
+        [Display(Name = "Is Read Only?")]
+        public bool IsReadOnly { get; set; }
+
+        public Guid Key { get; set; }
+
+        public List<string> Languages { get; set; }
+
+        public string Mnemonic { get; set; }
+
+        public string Language { get; set; }
+
+        public List<ReferenceTermModel> ReferenceTerms { get; set; }
+        
+        public List<SelectListItem> LanguageList { get; set; }
+
+        public string SelectedLanguage { get; set; }
+
+        public string Class { get; set; }
+
+        public List<string> Name { get; set; }
+    }
 }

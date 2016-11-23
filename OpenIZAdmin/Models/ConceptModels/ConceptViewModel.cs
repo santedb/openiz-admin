@@ -23,38 +23,19 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace OpenIZAdmin.Models.ConceptModels.ViewModels
+namespace OpenIZAdmin.Models.ConceptModels
 {
-	public class ConceptViewModel
+	public class ReferenceTermModel
 	{
-		public ConceptViewModel()
+		public ReferenceTermModel()
 		{
 
 		}
-
-		[Display(Name = "Created By")]
-		public string CreatedBy { get; set; }
-
-		[Display(Name = "Creation Time")]
-		public DateTime CreationTime { get; set; }
-
-		[Display(Name = "Concept Details")]
-		public List<DetailedConceptViewModel> Details { get; set; }
-
-		[Display(Name = "Is Read Only?")]
-		public bool IsReadOnly { get; set; }
-
+        
 		public Guid Key { get; set; }
 
-		public List<string> Languages { get; set; }
-
 		public string Mnemonic { get; set; }
-
-        public string Language { get; set; }
-
-        public List<ReferenceTermModel> ReferenceTerms { get; set; }
-
-        public string Class { get; set; }
-		public List<string> Name { get; set; }
+        
+		public string Name { get; set; }
 	}
 }

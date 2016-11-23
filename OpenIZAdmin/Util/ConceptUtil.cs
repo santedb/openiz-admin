@@ -61,14 +61,44 @@ namespace OpenIZAdmin.Util
 
 
             viewModel.Name = new List<string>();
-            viewModel.Language = new List<string>();
+            viewModel.Languages = new List<string>();
             for (var i = 0; i<concept.ConceptNames.Count; i++)
             {
                 viewModel.Name.Add(concept.ConceptNames[i].Name);
-                viewModel.Language.Add(concept.ConceptNames[i].Language);
+                viewModel.Languages.Add(concept.ConceptNames[i].Language);
             }
+            viewModel.Class = concept.Class.Name;
             viewModel.Mnemonic = concept.Mnemonic;
             viewModel.Key = concept.Key.Value;
+            viewModel.CreationTime = concept.CreationTime.DateTime;
+
+            return viewModel;
+        }
+
+        public static EditConceptModel ToEditConceptModel(Concept concept)
+        {
+            EditConceptModel viewModel = new EditConceptModel();
+
+
+            viewModel.Name = new List<string>();
+            viewModel.Languages = new List<string>();
+            for (var i = 0; i < concept.ConceptNames.Count; i++)
+            {
+                viewModel.Name.Add(concept.ConceptNames[i].Name);
+                viewModel.Languages.Add(concept.ConceptNames[i].Language);
+            }
+            if (!viewModel.Languages.Contains("en")){
+                viewModel.Languages.Add("en");
+                viewModel.Name.Add("");
+            }
+            if (!viewModel.Languages.Contains("sw")){
+                viewModel.Languages.Add("sw");
+                viewModel.Name.Add("");
+            }
+            viewModel.Class = concept.Class.Name;
+            viewModel.Mnemonic = concept.Mnemonic;
+            viewModel.Key = concept.Key.Value;
+            viewModel.CreationTime = concept.CreationTime.DateTime;
 
             return viewModel;
         }

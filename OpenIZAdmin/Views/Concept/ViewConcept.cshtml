@@ -16,18 +16,18 @@
                 {
                     <ul class="nav nav-tabs">
                         @{int i = 0;}
-                        @foreach (var language in Model.Language)
+                        @foreach (var language in Model.Languages)
                         {
                             if (i == 0)
                             {
                                 <li class="active">
-                                    <a href="#@language" data-toggle="tab">@Model.Language[i]</a>
+                                    <a href="#@language" data-toggle="tab">@Model.Languages[i]</a>
                                 </li>
                             }
                             else
                             {
                                 <li>
-                                    <a href="#@language" data-toggle="tab">@Model.Language[i]</a>
+                                    <a href="#@language" data-toggle="tab">@Model.Languages[i]</a>
                                 </li>
                             }
                             i++;
@@ -35,7 +35,7 @@
                     </ul>
                     <div class="tab-content">
                         @{i = 0;}
-                        @foreach (var language in Model.Language)
+                        @foreach (var language in Model.Languages)
                         {
                             if (i == 0)
                             {
@@ -56,7 +56,44 @@
                     </div>
                     }
                 </div>
+
             </div>
         </div>
     </div>
+
+    <div class="panel panel-body panel-default">
+        @Html.LabelFor(m => m.Class, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.Class, new { @class = "form-control", @readonly = "readonly" })
+        @Html.LabelFor(m => m.Language, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.Language, new { @class = "form-control", @readonly = "readonly" })
+        @Html.LabelFor(m => m.CreationTime, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Mnemonic)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Name)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var referenceTerm in Model.ReferenceTerms)
+            {
+                <tr>
+                    <td>
+                        @referenceTerm.Mnemonic
+                    </td>
+
+                    <td>
+                        @referenceTerm.Name
+                    </td>
+                </tr>
+            }
+        </tbody>
+
+    </table>
 </div>

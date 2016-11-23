@@ -256,6 +256,7 @@
     <Compile Include="Models\CertificateModels\ViewModels\CertificateSigningRequestViewModel.cs" />
     <Compile Include="Models\CertificateModels\ViewModels\CertificateViewModel.cs" />
     <Compile Include="Models\ConceptModels\ConceptSearchType.cs" />
+    <Compile Include="Models\ConceptModels\ConceptViewModel.cs" />
     <Compile Include="Models\ConceptModels\CreateConceptModel.cs" />
     <Compile Include="Models\ConceptModels\EditConceptModel.cs" />
     <Compile Include="Models\ConceptModels\SearchConceptModel.cs" />
