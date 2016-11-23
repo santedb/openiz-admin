@@ -907,6 +907,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Has Policies.
+        /// </summary>
+        public static string HasPolicies {
+            get {
+                return ResourceManager.GetString("HasPolicies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Health Facility.
         /// </summary>
         public static string HealthFacility {

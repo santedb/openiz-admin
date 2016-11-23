@@ -797,11 +797,14 @@
   </data>
   <data name="AddPolicies" xml:space="preserve">
     <value>Add Policies</value>
- </data>
+  </data>
   <data name="Information" xml:space="preserve">
     <value>Information</value>
   </data>
   <data name="About" xml:space="preserve">
     <value>About</value>
+  </data>
+  <data name="HasPolicies" xml:space="preserve">
+    <value>Has Policies</value>
   </data>
 </root>

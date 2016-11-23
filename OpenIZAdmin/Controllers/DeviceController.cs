@@ -46,32 +46,38 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the index view.</returns>
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Activate(EditDeviceModel model)
+        public ActionResult Activate(string id)
         {
             Guid deviceKey = Guid.Empty;
             SecurityDevice device = null;
-
-            //if (PolicyUtil.IsValidString(model.Id) && Guid.TryParse(model.Id, out deviceKey))            
-            if(ModelState.IsValid)
-            {
+                       
+            //if(ModelState.IsValid)
+            //{
                 try
                 {
-                    device = DeviceUtil.GetDevice(this.AmiClient, deviceKey);
-
-                    if (device == null)
+                    if (DeviceUtil.IsValidString(id) && Guid.TryParse(id, out deviceKey))
                     {
-                        TempData["error"] = Locale.Device + " " + Locale.NotFound;
+
+                        device = DeviceUtil.GetDevice(this.AmiClient, deviceKey);
+
+                        if (device == null)
+                        {
+                            TempData["error"] = Locale.Device + " " + Locale.NotFound;
+
+                            return RedirectToAction("Index");
+                        }
+
+                        SecurityDeviceInfo deviceInfo = DeviceUtil.ToActivateSecurityDeviceInfo(device);
+
+                        this.AmiClient.UpdateDevice(id, deviceInfo);
+
+                        TempData["success"] = Locale.Device + " " + Locale.ActivatedSuccessfully;
 
                         return RedirectToAction("Index");
-                    }                                       
-                                        
-                    SecurityDeviceInfo deviceInfo = DeviceUtil.ToActivateSecurityDeviceInfo(model, device);
 
-                    this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
-
-                    TempData["success"] = Locale.Device + " " + Locale.ActivatedSuccessfully;
-
-                    return RedirectToAction("Index");
+                    //return RedirectToAction("Search", new { id = device.Key.ToString(), searchString = searchTerm });
+                    
+                    }
                 }
                 catch (Exception e)
                 {
@@ -80,7 +86,7 @@ namespace OpenIZAdmin.Controllers
 #endif
                     Trace.TraceError("Unable to activate device: {0}", e.Message);
                 }
-            }
+            //}
 
             TempData["error"] = Locale.UnableToActivate + " " + Locale.Device;
 
@@ -98,8 +104,8 @@ namespace OpenIZAdmin.Controllers
         /// <summary>
 		/// Creates a new device.
 		/// </summary>
-		/// <param name="id">The id of the device to be deleted.</param>
-		/// <returns>Returns the index view.</returns>
+		/// <param name="model">The model with the name and device secret of the device to be created.</param>
+		/// <returns>Returns the ViewDevice view.</returns>
         [HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateDeviceModel model)
@@ -129,7 +135,7 @@ namespace OpenIZAdmin.Controllers
 		/// Deletes a device.
 		/// </summary>
 		/// <param name="id">The id of the device to be deleted.</param>
-		/// <returns>Returns the index view.</returns>
+		/// <returns>Returns the ViewDevice view.</returns>
 		[HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Delete(string id)
@@ -164,7 +170,7 @@ namespace OpenIZAdmin.Controllers
 		/// Deletes a policy associate to a device.
 		/// </summary>
 		/// <param name="key">The policy guid key of the policy to be deleted.</param>
-		/// <returns>Returns the index view.</returns>
+		/// <returns>Returns the ViewDevice view.</returns>
 		[HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeletePolicy(Guid key)
@@ -202,7 +208,7 @@ namespace OpenIZAdmin.Controllers
         /// Gets the device object to edit
         /// </summary>
         /// <param name="key">The id of the device to be edited.</param>
-        /// <returns>Returns the index view.</returns>
+        /// <returns>Returns the Edit view.</returns>
         [HttpGet]
 		public ActionResult Edit(string key)
 		{
@@ -232,7 +238,7 @@ namespace OpenIZAdmin.Controllers
         /// Appies the changes to the device object
         /// </summary>
         /// <param name="model">The model containing the updated device information.</param>
-        /// <returns>Returns the index view.</returns>
+        /// <returns>Returns the ViewDevice view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditDeviceModel model)
@@ -363,5 +369,7 @@ namespace OpenIZAdmin.Controllers
 
 			return RedirectToAction("Index");
 		}
+
+
 	}
 }

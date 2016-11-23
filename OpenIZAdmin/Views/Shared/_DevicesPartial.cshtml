@@ -24,9 +24,11 @@
                             @Locale.Name
                         </th>
                         <th>
-                            @Locale.UpdatedTime
+                            @Locale.HasPolicies
                         </th>
-                        <th></th>
+                        <th>
+                            @Locale.UpdatedTime
+                        </th>                                                                        
                         <th></th>                        
                         <th></th>                        
                     </tr>
@@ -39,6 +41,14 @@
                             <td>@item.CreationTime.ToLocalTime()</td>
                             <td>@item.Name</td>
                             <td>@item.UpdatedTime</td>
+                            <td>                                
+                                @*<div class="form-group">
+                                    @Html.LabelFor(m => m.HasPolicies, new { @class = "col-md-2 control-label" })
+                                    <div class="col-md-10">
+                                        @Html.CheckBoxFor(m => m.HasPolicies)
+                                    </div>
+                                </div>*@   
+                            </td>
                             <td>
                                 <a class="btn btn-primary" href="/Device/ViewDevice/@item.Id">
                                     @Locale.View
