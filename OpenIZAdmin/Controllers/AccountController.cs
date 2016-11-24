@@ -146,6 +146,11 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Manage");
 		}
 
+        /// <summary>
+		/// Disposes of any managed resources
+		/// </summary>
+		/// <param name="disposing">Parameter that acts as a logic switch</param>
+		/// <returns>Returns a dispose object result.</returns>
 		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
@@ -214,9 +219,13 @@ namespace OpenIZAdmin.Controllers
 			}
 		}
 
-		//
-		// POST: /Account/LogOff
-		[HttpPost]
+        //
+        // POST: /Account/LogOff
+        /// <summary>
+        /// Logs off the user.
+        /// </summary>        
+        /// <returns>Returns an Index view.</returns>
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult LogOff()
 		{
@@ -224,6 +233,10 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
+        /// <summary>
+		/// Retrieve the user entity.
+		/// </summary>		
+		/// <returns>Returns a manage model.</returns>
 		[HttpGet]
 		public ActionResult Manage()
 		{
@@ -285,6 +298,11 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+        /// <summary>
+		/// Redirects based on the supplied url
+		/// </summary>
+		/// <param name="returnUrl">The return url for redirect.</param>
+		/// <returns>Returns an action result.</returns>
 		private ActionResult RedirectToLocal(string returnUrl)
 		{
 			if (Url.IsLocalUrl(returnUrl))

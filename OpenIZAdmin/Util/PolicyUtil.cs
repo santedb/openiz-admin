@@ -90,7 +90,7 @@ namespace OpenIZAdmin.Util
 		}
 
         /// <summary>
-        /// Converts a <see cref="OpenIZAdmin.Models.PolicyModels.CreatePolicyModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth"/>.
+        /// Converts a <see cref="OpenIZAdmin.Models.PolicyModels.CreatePolicyModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo"/>.
         /// </summary>
         /// <param name="model">The CreatePolicyModel object to convert.</param>
         /// <returns>Returns a SecurityPolicyInfo model.</returns>
@@ -106,7 +106,7 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Converts a <see cref="OpenIZAdmin.Models.PolicyModels.EditPolicyModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth"/>.
+        /// Converts a <see cref="OpenIZAdmin.Models.PolicyModels.EditPolicyModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo"/>.
         /// </summary>
         /// <param name="model">The CreatePolicyModel object to convert.</param>
         /// <param name="policyInfo">The SecurityPolicyInfo object to convert.</param>
@@ -122,7 +122,7 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.EditPolicyModel"/>.
+        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.EditPolicyModel"/>.
         /// </summary>        
         /// <param name="policy">The SecurityPolicyInfo object to convert.</param>
         /// <returns>Returns a EditPolicyModel model.</returns>
@@ -146,7 +146,7 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel"/>.
+        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel"/>.
         /// </summary>        
         /// <param name="policy">The SecurityPolicyInfo object to convert.</param>
         /// <returns>Returns a PolicyViewModel model.</returns>
@@ -171,7 +171,7 @@ namespace OpenIZAdmin.Util
 		}
 
         /// <summary>
-        /// Converts a <see cref="OpenIZ.Core.Model.Security"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel"/>.
+        /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityPolicy"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel"/>.
         /// </summary>        
         /// <param name="policy">The SecurityPolicy object to convert.</param>
         /// <returns>Returns a PolicyViewModel model.</returns>
@@ -189,7 +189,7 @@ namespace OpenIZAdmin.Util
 		}
 
         /// <summary>
-        /// Converts a <see cref="OpenIZ.Core.Model.Security"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel"/>.
+        /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityPolicyInstance"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel"/>.
         /// </summary>        
         /// <param name="policy">The SecurityPolicyInstance object to convert.</param>
         /// <returns>Returns a PolicyViewModel model.</returns>

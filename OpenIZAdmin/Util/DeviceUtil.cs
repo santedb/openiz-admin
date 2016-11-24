@@ -253,7 +253,7 @@ namespace OpenIZAdmin.Util
 		}
 
         /// <summary>
-        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/>
+        /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/>
         /// </summary>
         /// <param name="client">The Ami Service Client.</param>
         /// /// <param name="device">The device object to convert to a EditDeviceModel.</param>
@@ -315,7 +315,7 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.CreateDeviceModel"/> to a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/>.
+        /// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.CreateDeviceModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo"/>.
         /// </summary>
         /// <param name="model">The create device model to convert.</param>
         /// <returns>Returns a SecurityDeviceInfo object.</returns>
@@ -331,7 +331,7 @@ namespace OpenIZAdmin.Util
 		}
 
         /// <summary>
-        /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth"/>
+        /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo"/>
         /// </summary>        
         /// /// <param name="device">The device object to activate.</param>
         /// <returns>Returns a security device info object.</returns>        
@@ -350,7 +350,7 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth"/>
+        /// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo"/>
         /// </summary>
         /// <param name="model">The edit device model to convert.</param>
         /// <param name="device">The device object to apply the changes to.</param>
