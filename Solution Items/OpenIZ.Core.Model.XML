@@ -615,6 +615,11 @@
             Identifies where the serialization information can be found
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Attributes.SerializationReferenceAttribute.GetProperty(System.Type)">
+            <summary>
+            Get property from the type
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Attributes.SimpleValueAttribute">
             <summary>
             Identifies the simple value
@@ -4507,6 +4512,46 @@
         <member name="F:OpenIZ.Core.Model.Patch.PatchOperationType.Test">
             <summary>
             Patch should test value before proceeding
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.Patch.PatchTarget">
+            <summary>
+            Represents a target of a patch
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Patch.PatchTarget.#ctor">
+            <summary>
+            Default ctor
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Patch.PatchTarget.#ctor(OpenIZ.Core.Model.IdentifiedData)">
+            <summary>
+            Construct a new patch target
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Patch.PatchTarget.TypeXml">
+            <summary>
+            Identifies the target type
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Patch.PatchTarget.Type">
+            <summary>
+            Represents the type
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Patch.PatchTarget.Key">
+            <summary>
+            Gets or sets the key
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Patch.PatchTarget.VersionKey">
+            <summary>
+            Gets or sets the key
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Patch.PatchTarget.Tag">
+            <summary>
+            Gets or sets the tag of the item
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Query.NameValueCollection">

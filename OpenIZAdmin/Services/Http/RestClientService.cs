@@ -32,6 +32,7 @@ using System.Threading.Tasks;
 using System.IO.Compression;
 using System.Net;
 using OpenIZ.Core.Model;
+using OpenIZ.Core.Model.Query;
 
 namespace OpenIZAdmin.Services.Http
 {
@@ -76,9 +77,9 @@ namespace OpenIZAdmin.Services.Http
 		/// <param name="resourceName">The name of the resource being accessed.</param>
 		/// <param name="query">The query parameters.</param>
 		/// <returns></returns>
-		protected override WebRequest CreateHttpRequest(string resourceName, params KeyValuePair<string, object>[] query)
+		protected WebRequest CreateHttpRequest(string resourceName, params KeyValuePair<string, object>[] query)
 		{
-			var request = (HttpWebRequest)base.CreateHttpRequest(resourceName, query);
+			var request = (HttpWebRequest)base.CreateHttpRequest(resourceName, new NameValueCollection(query));
 
 			// Certs?
 			//if (this.ClientCertificates != null)
@@ -111,7 +112,7 @@ namespace OpenIZAdmin.Services.Http
 		/// <param name="body">The body of the request.</param>
 		/// <param name="query">The query parameters of the request.</param>
 		/// <returns>Returns the response of the request.</returns>
-		protected override TResult InvokeInternal<TBody, TResult>(string method, string url, string contentType, WebHeaderCollection requestHeaders, out WebHeaderCollection responseHeaders, TBody body, params KeyValuePair<string, object>[] query)
+		protected override TResult InvokeInternal<TBody, TResult>(string method, string url, string contentType, WebHeaderCollection requestHeaders, out WebHeaderCollection responseHeaders, TBody body, NameValueCollection query)
 		{
 
 			if (String.IsNullOrEmpty(method))

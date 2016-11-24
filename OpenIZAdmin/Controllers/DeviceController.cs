@@ -116,7 +116,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					var device = this.AmiClient.CreateDevice(DeviceUtil.ToSecurityDevice(model));
 
-                    return RedirectToAction("ViewDevice", new { key = device.Key.ToString() });                    
+                    return RedirectToAction("ViewDevice", new { key = device.Id.ToString() });                    
                 }
 				catch (Exception e)
 				{

@@ -310,14 +310,15 @@ namespace OpenIZAdmin.Util
         /// </summary>
         /// <param name="model">The create device model to convert.</param>
         /// <returns>Returns a security device.</returns>
-        public static SecurityDevice ToSecurityDevice(CreateDeviceModel model)
+        public static SecurityDeviceInfo ToSecurityDevice(CreateDeviceModel model)
 		{
-			SecurityDevice device = new SecurityDevice();
+	        var device = new SecurityDeviceInfo
+	        {
+		        Name = model.Name,
+		        DeviceSecret = model.DeviceSecret
+	        };
 
-			device.Name = model.Name;            
-            device.DeviceSecret = model.DeviceSecret;
-
-            return device;
+	        return device;
 		}
 
         /// <summary>
