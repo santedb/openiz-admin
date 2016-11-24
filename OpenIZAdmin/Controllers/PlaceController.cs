@@ -38,12 +38,21 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public class PlaceController : BaseController
 	{
+        /// <summary>
+		/// Displays the create policy view.
+		/// </summary>
+		/// <returns>Returns the create policy view.</returns>
 		[HttpGet]
 		public ActionResult Create()
 		{
 			return View();
 		}
 
+        /// <summary>
+		/// Creates a place.
+		/// </summary>
+		/// <param name="model">The model containing the information about the place.</param>
+		/// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreatePlaceModel model)
@@ -69,6 +78,12 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+        /// <summary>
+		/// Retrieves the place entity by id and version key
+		/// </summary>
+		/// <param name="key">The place identifier.</param>
+        /// <param name="versionKey">The place version identifier.</param>
+		/// <returns>Returns the place edit view.</returns>
 		[HttpGet]
 		public ActionResult Edit(string key, string versionKey)
 		{
@@ -106,6 +121,11 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
+        /// <summary>
+		/// Updates a place.
+		/// </summary>
+		/// <param name="model">The model containing the place information.</param>
+		/// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditPlaceModel model)
@@ -128,6 +148,11 @@ namespace OpenIZAdmin.Controllers
 			return View(new List<PlaceViewModel>());
 		}
 
+        /// <summary>
+		/// Searches for a place.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns a list of places which match the search term.</returns>
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
@@ -143,6 +168,11 @@ namespace OpenIZAdmin.Controllers
 			return PartialView("_PlaceSearchResultsPartial", placeList);
 		}
 
+        /// <summary>
+		/// Searches for a place.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns a list of places which match the search term.</returns>
 		[HttpGet]
 		public ActionResult SearchAjax(string searchTerm)
 		{
@@ -158,6 +188,12 @@ namespace OpenIZAdmin.Controllers
 			return Json(placeList, JsonRequestBehavior.AllowGet);
 		}
 
+        /// <summary>
+		/// Searches for a place to view details.
+		/// </summary>
+		/// <param name="key">The place identifier search string.</param>
+        /// <param name="versionKey">The place version identifier.</param>
+		/// <returns>Returns a place view that matches the search term.</returns>
 		[HttpGet]
 		public ActionResult ViewPlace(string key, string versionKey)
 		{
