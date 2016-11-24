@@ -452,7 +452,6 @@
     <Content Include="Views\Concept\Edit.cshtml" />
     <Content Include="Views\Policy\Edit.cshtml" />
     <Content Include="Views\Shared\_AlertsPartial.cshtml" />
-    <Content Include="Views\Shared\_CreateAlertPartial.cshtml" />
     <Content Include="Views\Device\Edit.cshtml" />
     <Content Include="Views\Alert\Create.cshtml" />
     <Content Include="Views\Shared\_Error.cshtml" />
