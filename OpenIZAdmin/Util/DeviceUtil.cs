@@ -66,15 +66,15 @@ namespace OpenIZAdmin.Util
         /// <param name="client">The AMI service client</param>        
         /// /// <param name="key">The device guid identifier key </param>        
         /// <returns>Returns device object, null if not found</returns>
-        public static SecurityDevice GetDevice(AmiServiceClient client, Guid key)
+        public static SecurityDeviceInfo GetDevice(AmiServiceClient client, Guid key)
         {
             try
             {
-                var result = client.GetDevices(r => r.Key == key);
+                var result = client.GetDevices(r => r.Device.Key == key);
 
                 if (result.CollectionItem.Count != 0)
                 {
-                    return result.CollectionItem.FirstOrDefault(); ;
+                    return result.CollectionItem.FirstOrDefault();
                 }
             }
             catch (Exception e)
@@ -215,21 +215,22 @@ namespace OpenIZAdmin.Util
         /// <summary>
         /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.ViewModels.DeviceViewModel"/>.
         /// </summary>
-        /// <param name="device">The security device to convert.</param>
+        /// <param name="deviceInfo">The security device to convert.</param>
         /// <returns>Returns a DeviceViewModel model.</returns>
-        public static DeviceViewModel ToDeviceViewModel(SecurityDevice device)
+        public static DeviceViewModel ToDeviceViewModel(SecurityDeviceInfo deviceInfo)
         {
-            DeviceViewModel viewModel = new DeviceViewModel();
+	        var viewModel = new DeviceViewModel
+	        {
+		        CreationTime = deviceInfo.Device.CreationTime.DateTime,
+		        Id = deviceInfo.Device.Key.Value,
+		        Name = deviceInfo.Name,
+		        Policies = deviceInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList(),
+		        UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime,
+		        IsObsolete = IsActiveStatus(deviceInfo.Device.ObsoletionTime),
+		        HasPolicies = IsPolicy(deviceInfo.Policies)
+	        };
 
-            viewModel.CreationTime = device.CreationTime.DateTime;
-            viewModel.Id = device.Key.Value;
-            viewModel.Name = device.Name;
-            viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
-            viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
-            viewModel.IsObsolete = IsActiveStatus(device.ObsoletionTime);
-            viewModel.HasPolicies = IsPolicy(device.Policies);
-
-            return viewModel;
+	        return viewModel;
         }
 
         /// <summary>
@@ -256,22 +257,22 @@ namespace OpenIZAdmin.Util
         /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/>
         /// </summary>
         /// <param name="client">The Ami Service Client.</param>
-        /// /// <param name="device">The device object to convert to a EditDeviceModel.</param>
+        /// /// <param name="deviceInfo">The device object to convert to a EditDeviceModel.</param>
         /// <returns>Returns a EditDeviceModel object.</returns>
-		public static EditDeviceModel ToEditDeviceModel(AmiServiceClient client, SecurityDevice device)
+		public static EditDeviceModel ToEditDeviceModel(AmiServiceClient client, SecurityDeviceInfo deviceInfo)
         {
-            EditDeviceModel viewModel = new EditDeviceModel();
+	        var viewModel = new EditDeviceModel
+	        {
+		        Device = deviceInfo.Device,
+		        CreationTime = deviceInfo.Device.CreationTime.DateTime,
+		        Id = deviceInfo.Device.Key.Value,
+		        DeviceSecret = deviceInfo.DeviceSecret,
+		        Name = deviceInfo.Name,
+		        UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime,
+		        DevicePolicies = (deviceInfo.Policies != null) ? GetDevicePolicies(deviceInfo.Policies) : null
+	        };
 
-            viewModel.Device = device;
-            viewModel.CreationTime = device.CreationTime.DateTime;
-            viewModel.Id = device.Key.Value;
-            viewModel.DeviceSecret = device.DeviceSecret;
-            viewModel.Name = device.Name;                        
-            viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
-
-            viewModel.DevicePolicies = (device.Policies != null) ? GetDevicePolicies(device.Policies) : null;
-
-            //viewModel.DevicePolicies = (device.Policies != null) ? device.Policies : new List<SecurityPolicyInstance>();
+	        //viewModel.DevicePolicies = (device.Policies != null) ? device.Policies : new List<SecurityPolicyInstance>();
 
             //needed to be able to display additional data for the policies
             //viewModel.DevicePoliciesViewModel = new List<SecurityPolicyInfoViewModel>();
@@ -353,24 +354,20 @@ namespace OpenIZAdmin.Util
         /// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth"/>
         /// </summary>
         /// <param name="model">The edit device model to convert.</param>
-        /// <param name="device">The device object to apply the changes to.</param>
+        /// <param name="deviceInfo">The device object to apply the changes to.</param>
         /// <param name="addPolicies">The property that contains the selected policies to add to the device.</param>
-        /// <returns>Returns a SecurityDeviceInfo object.</returns>
-        public static SecurityDeviceInfo ToSecurityDeviceInfo(EditDeviceModel model, SecurityDevice device, List<SecurityPolicy> addPolicies)
+        /// <returns>Returns a security device info object.</returns>
+        public static SecurityDeviceInfo ToSecurityDeviceInfo(EditDeviceModel model, SecurityDeviceInfo deviceInfo, List<SecurityPolicy> addPolicies)
         {
-            SecurityDeviceInfo deviceInfo = new SecurityDeviceInfo();
-            deviceInfo.Device = device;
-
-            deviceInfo.Id = model.Id;
-            deviceInfo.Device.Name = model.Name;
+	        deviceInfo.Device.Key = model.Id;
+	        deviceInfo.Device.Name = model.Name;
             deviceInfo.Device.DeviceSecret = model.DeviceSecret;
-            deviceInfo.Policies = (model.Policies != null) ? model.Policies : new List<SecurityPolicyInstance>();
+            deviceInfo.Device.Policies = model.Policies ?? new List<SecurityPolicyInstance>();
 
             //add the new policies
-            foreach(SecurityPolicy p in addPolicies)
-            {                
-                SecurityPolicyInstance policy = new SecurityPolicyInstance(p, (PolicyGrantType)2);
-                deviceInfo.Policies.Add(policy);
+            foreach (var policy in addPolicies.Select(p => new SecurityPolicyInstance(p, (PolicyGrantType)2)))
+            {
+	            deviceInfo.Device.Policies.Add(policy);
             }            
 
             return deviceInfo;
