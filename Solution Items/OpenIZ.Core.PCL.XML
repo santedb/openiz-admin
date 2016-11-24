@@ -1375,23 +1375,6 @@
             <param name="totalCount">The total count of the search results.</param>
             <returns>Returns a list of concept classes who match the specified query.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptNames(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptName,System.Boolean}})">
-            <summary>
-            Queries for concept names.
-            </summary>
-            <param name="query">The query to use to search for concept names.</param>
-            <returns>Returns a list of concept names.</returns>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptNames(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptName,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
-            <summary>
-            Queries for concept names.
-            </summary>
-            <param name="query">The query to use to search for concept names.</param>
-            <param name="offset">The offset of the query.</param>
-            <param name="count">The count of the query.</param>
-            <param name="totalCount">The total count of the query.</param>
-            <returns>Returns a list of concept names.</returns>
-        </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptReferenceTerms(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptReferenceTerm,System.Boolean}})">
             <summary>
             Queries for concept reference terms.
@@ -1476,23 +1459,6 @@
             <param name="totalCount">The total count of the search results.</param>
             <returns>Returns a list of reference terms who match the specified query.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindReferenceTermNames(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ReferenceTermName,System.Boolean}})">
-            <summary>
-            Searches for a reference term name using a given query.
-            </summary>
-            <param name="query">The query to use for searching for the reference term name.</param>
-            <returns>Returns a list of reference term names who match the specified query.</returns>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindReferenceTermNames(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ReferenceTermName,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
-            <summary>
-            Searches for a reference term names using a given query.
-            </summary>
-            <param name="query">The query to use for searching for the reference term names.</param>
-            <param name="count">The count of the reference term names to return.</param>
-            <param name="offset">The offset for the search results.</param>
-            <param name="totalCount">The total count of the search results.</param>
-            <returns>Returns a list of reference term names who match the specified query.</returns>
-        </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConcept(System.Guid,System.Guid)">
             <summary>
             Gets the specified concept.
@@ -1514,13 +1480,6 @@
             </summary>
             <param name="id">The id of the concept class to retrieve.</param>
             <returns>Returns the concept class.</returns>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConceptName(System.Guid)">
-            <summary>
-            Gets a concept name.
-            </summary>
-            <param name="id">The id of the concept name to retrieve.</param>
-            <returns>Returns the concept name.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConceptReferenceTerm(System.Guid)">
             <summary>
@@ -1550,13 +1509,6 @@
             <param name="id">The id of the reference term to retrieve.</param>
             <returns>Returns the reference term.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetReferenceTermName(System.Guid)">
-            <summary>
-            Gets a reference term name.
-            </summary>
-            <param name="id">The id of the reference term name to retrieve.</param>
-            <returns>Returns the reference term name.</returns>
-        </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.Implies(OpenIZ.Core.Model.DataTypes.Concept,OpenIZ.Core.Model.DataTypes.Concept)">
             <summary>
             Returns a value which indicates whether <paramref name="a"/> implies <paramref name="b"/>
@@ -1579,13 +1531,6 @@
             <param name="conceptClass">The concept class to be inserted.</param>
             <returns>Returns the newly inserted concept class.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.InsertConceptName(OpenIZ.Core.Model.DataTypes.ConceptName)">
-            <summary>
-            Inserts a concept name.
-            </summary>
-            <param name="conceptName">The concept name to be inserted.</param>
-            <returns>Returns the newly inserted concept name.</returns>
-        </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.InsertConceptReferenceTerm(OpenIZ.Core.Model.DataTypes.ConceptReferenceTerm)">
             <summary>
             Inserts a concept reference term.
@@ -1606,13 +1551,6 @@
             </summary>
             <param name="referenceTerm">The reference term to be inserted.</param>
             <returns>Returns the inserted reference term.</returns>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.InsertReferenceTermName(OpenIZ.Core.Model.DataTypes.ReferenceTermName)">
-            <summary>
-            Inserts a reference term name.
-            </summary>
-            <param name="referenceTermName">The reference term name to be inserted.</param>
-            <returns>Returns the inserted reference term name.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.IsMember(OpenIZ.Core.Model.DataTypes.ConceptSet,OpenIZ.Core.Model.DataTypes.Concept)">
             <summary>
@@ -1661,13 +1599,6 @@
             <param name="conceptClass">The concept class to be saved.</param>
             <returns>Returns the saved concept class.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.SaveConceptName(OpenIZ.Core.Model.DataTypes.ConceptName)">
-            <summary>
-            Inserts or updates a concept name.
-            </summary>
-            <param name="conceptName">The concept name to be saved.</param>
-            <returns>Returns the saved concept name.</returns>
-        </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.SaveConceptReferenceTerm(OpenIZ.Core.Model.DataTypes.ConceptReferenceTerm)">
             <summary>
             Inserts or updates a concept reference term.
@@ -1688,13 +1619,6 @@
             </summary>
             <param name="referenceTerm">The reference term to be saved.</param>
             <returns>Returns a reference term.</returns>
-        </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.SaveReferenceTermName(OpenIZ.Core.Model.DataTypes.ReferenceTermName)">
-            <summary>
-            Inserts or updates a reference term name.
-            </summary>
-            <param name="referenceTermName">The reference term name to be saved.</param>
-            <returns>Returns a reference term name.</returns>
         </member>
         <member name="T:OpenIZ.Core.Services.IDataCachingService">
             <summary>
