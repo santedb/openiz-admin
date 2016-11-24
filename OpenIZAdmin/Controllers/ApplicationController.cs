@@ -218,7 +218,7 @@ namespace OpenIZAdmin.Controllers
             {
                 if (ApplicationUtil.IsValidString(searchTerm))
                 {
-                    var collection = this.AmiClient.GetApplications(d => d.Application.Name.Contains(searchTerm));
+                    var collection = this.AmiClient.GetApplications(d => d.Name.Contains(searchTerm));
 
                     TempData["searchTerm"] = searchTerm;
                     

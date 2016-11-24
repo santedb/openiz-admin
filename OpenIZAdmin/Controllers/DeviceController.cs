@@ -301,7 +301,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (DeviceUtil.IsValidString(searchTerm))
 				{
-					var collection = this.AmiClient.GetDevices(d => d.Device.Name.Contains(searchTerm));
+					var collection = this.AmiClient.GetDevices(d => d.Name.Contains(searchTerm));
 
 					TempData["searchTerm"] = searchTerm;
 
@@ -328,11 +328,11 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The device identifier search parameter to apply to the query.</param>
 		/// <returns>Returns the ViewDevice view.</returns>
 		[HttpGet]
-		public ActionResult ViewDevice(string key)
+		public ActionResult ViewDevice(string id)
 		{
 			Guid deviceKey = Guid.Empty;
 
-			if (DeviceUtil.IsValidString(key) && Guid.TryParse(key, out deviceKey))
+			if (DeviceUtil.IsValidString(id) && Guid.TryParse(id, out deviceKey))
 			{
 				var result = DeviceUtil.GetDevice(this.AmiClient, deviceKey);
 

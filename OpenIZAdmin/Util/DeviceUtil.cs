@@ -70,7 +70,7 @@ namespace OpenIZAdmin.Util
         {
             try
             {
-                var result = client.GetDevices(r => r.Device.Key == key);
+                var result = client.GetDevices(r => r.Id == key);
 
                 if (result.CollectionItem.Count != 0)
                 {
