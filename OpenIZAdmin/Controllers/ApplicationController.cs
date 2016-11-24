@@ -218,11 +218,11 @@ namespace OpenIZAdmin.Controllers
             {
                 if (ApplicationUtil.IsValidString(searchTerm))
                 {
-                    var collection = this.AmiClient.GetApplications(d => d.Name.Contains(searchTerm));                    
+                    var collection = this.AmiClient.GetApplications(d => d.Name.Contains(searchTerm));
 
                     TempData["searchTerm"] = searchTerm;
                     
-                    return PartialView("_ApplicationsPartial", collection.CollectionItem.Select(d => ApplicationUtil.ToApplicationViewModel(d)));
+                    return PartialView("_ApplicationsPartial", collection.CollectionItem.Select(ApplicationUtil.ToApplicationViewModel));
                 }
             }
             catch (Exception e)
