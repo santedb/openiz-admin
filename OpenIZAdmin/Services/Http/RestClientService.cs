@@ -72,35 +72,6 @@ namespace OpenIZAdmin.Services.Http
 		}
 
 		/// <summary>
-		/// Creates and HTTP request.
-		/// </summary>
-		/// <param name="resourceName">The name of the resource being accessed.</param>
-		/// <param name="query">The query parameters.</param>
-		/// <returns></returns>
-		protected WebRequest CreateHttpRequest(string resourceName, params KeyValuePair<string, object>[] query)
-		{
-			var request = (HttpWebRequest)base.CreateHttpRequest(resourceName, new NameValueCollection(query));
-
-			// Certs?
-			//if (this.ClientCertificates != null)
-			//	request.ClientCertificates.AddRange(configuration.Client.cli);
-
-			// Compress?
-			if (this.Description.Binding.Optimize)
-			{
-				request.Headers.Add(HttpRequestHeader.ContentEncoding, "deflate");
-			}
-
-			// Proxy?
-			//if (!string.IsNullOrEmpty(configuration.ProxyAddress))
-			//{
-			//	request.Proxy = new WebProxy(configuration.ProxyAddress);
-			//}
-
-			return request;
-		}
-
-		/// <summary>
 		/// Invokes a request.
 		/// </summary>
 		/// <typeparam name="TBody">The type of the body of the request.</typeparam>
