@@ -39,7 +39,7 @@ namespace OpenIZAdmin.Util
         /// <summary>
         /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.ViewModels.DeviceViewModel"/>.
         /// </summary>
-        /// <param name="device">The security device to apply the policy change to.</param>
+        /// <param name="device">The security device to delete the policy from.</param>
         /// <returns>Returns a DeviceViewModel model.</returns>
         public static DeviceViewModel DeletePolicy(SecurityDevice device)
         {
@@ -90,7 +90,7 @@ namespace OpenIZAdmin.Util
         
 
 		/// <summary>
-		/// Gets a list of devices.
+		/// Gets a list of all devices.
 		/// </summary>
 		/// <param name="client">The <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.</param>
 		/// <returns>Returns a list of devices.</returns>
@@ -116,12 +116,11 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
-
         /// <summary>
         /// Gets all the Security Policies that can be applied to a device
         /// </summary>
         /// <param name="client">The Ami Service Client.</param>        
-        /// <returns>Returns a list of device policies</returns>
+        /// <returns>Returns a list of policies</returns>
         internal static IEnumerable<SecurityPolicyInfo> GetAllPolicies(AmiServiceClient client)
         {
             IEnumerable<SecurityPolicyInfo> policyList = new List<SecurityPolicyInfo>();
@@ -147,7 +146,7 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Gets the new policies to add to a device
+        /// Gets the policy objects that have been selected to be added to a device
         /// </summary>
         /// <param name="client">The Ami Service Client.</param> 
         /// <param name="pList">The string list with selected policy names.</param>         
@@ -186,7 +185,12 @@ namespace OpenIZAdmin.Util
             return policyList;
         }
 
-
+        /// <summary>
+        /// Gets a policy that matches the search parameter
+        /// </summary>
+        /// <param name="client">The Ami Service Client.</param> 
+        /// <param name="name">The search string parameter applied to the Name field.</param>         
+        /// <returns>Returns a SecurityPolicyInfo object that matches the search parameter</returns>
         private static SecurityPolicyInfo GetPolicy(AmiServiceClient client, string name)
         {
             try
@@ -232,6 +236,7 @@ namespace OpenIZAdmin.Util
         /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.ViewModels.DeviceViewModel"/>.
         /// </summary>
         /// <param name="device">The security device to convert.</param>
+        /// <param name="searchTerm">The string search parameter.</param>
         /// <returns>Returns a DeviceViewModel model.</returns>
         public static DeviceViewModel ToDeviceViewModel(SecurityDevice device, string searchTerm)
 		{
@@ -242,8 +247,7 @@ namespace OpenIZAdmin.Util
 			viewModel.Name = device.Name;
 			viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
 			viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
-            viewModel.IsObsolete = IsActiveStatus(device.ObsoletionTime);
-            //viewModel.SearchTerm = searchTerm;
+            viewModel.IsObsolete = IsActiveStatus(device.ObsoletionTime);            
 
             return viewModel;
 		}
@@ -283,6 +287,11 @@ namespace OpenIZAdmin.Util
             return viewModel;
         }
 
+        /// <summary>
+        /// Gets the list of policies that a device has - used for UI display purposes
+        /// </summary>
+        /// <param name="pList">A list of SecurityPolicyInstance objects.</param>        
+        /// <returns>Returns a IEnumerable<PolicyViewModel> model.</returns>
         internal static IEnumerable<PolicyViewModel> GetDevicePolicies(List<SecurityPolicyInstance> pList)
         {
             IEnumerable<PolicyViewModel> viewModels = new List<PolicyViewModel>();
@@ -309,7 +318,7 @@ namespace OpenIZAdmin.Util
         /// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.CreateDeviceModel"/> to a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/>.
         /// </summary>
         /// <param name="model">The create device model to convert.</param>
-        /// <returns>Returns a security device.</returns>
+        /// <returns>Returns a SecurityDeviceInfo object.</returns>
         public static SecurityDeviceInfo ToSecurityDevice(CreateDeviceModel model)
 		{
 	        var device = new SecurityDeviceInfo
@@ -322,7 +331,7 @@ namespace OpenIZAdmin.Util
 		}
 
         /// <summary>
-        /// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth"/>
+        /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth"/>
         /// </summary>        
         /// /// <param name="device">The device object to activate.</param>
         /// <returns>Returns a security device info object.</returns>        
@@ -346,7 +355,7 @@ namespace OpenIZAdmin.Util
         /// <param name="model">The edit device model to convert.</param>
         /// <param name="device">The device object to apply the changes to.</param>
         /// <param name="addPolicies">The property that contains the selected policies to add to the device.</param>
-        /// <returns>Returns a security device info object.</returns>
+        /// <returns>Returns a SecurityDeviceInfo object.</returns>
         public static SecurityDeviceInfo ToSecurityDeviceInfo(EditDeviceModel model, SecurityDevice device, List<SecurityPolicy> addPolicies)
         {
             SecurityDeviceInfo deviceInfo = new SecurityDeviceInfo();

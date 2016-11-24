@@ -33,6 +33,11 @@ namespace OpenIZAdmin.Util
 {
 	public static class AssigningAuthorityUtil
 	{
+        /// <summary>
+        /// Queries for all AssigningAuthorityInfo objects
+        /// </summary>
+        /// <param name="client">The AMI service client</param>                      
+        /// <returns>Returns IEnumerable AssigningAuthorityViewModel objects.</returns>
 		internal static IEnumerable<AssigningAuthorityViewModel> GetAllAssigningAuthorities(AmiServiceClient client)
 		{
 			IEnumerable<AssigningAuthorityViewModel> viewModels = new List<AssigningAuthorityViewModel>();
@@ -54,7 +59,12 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
-		public static AssigningAuthorityViewModel ToAssigningAuthorityViewModel(AssigningAuthorityInfo assigningAuthority)
+        /// <summary>
+        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth"/> to a <see cref="OpenIZAdmin.Models.AssigningAuthorityModels.ViewModels.AssigningAuthorityViewModel"/>.
+        /// </summary>
+        /// <param name="assigningAuthority">The AssigningAuthorityInfo object to convert.</param>
+        /// <returns>Returns an AssigningAuthorityViewModel.</returns>
+        public static AssigningAuthorityViewModel ToAssigningAuthorityViewModel(AssigningAuthorityInfo assigningAuthority)
 		{
             AssigningAuthorityViewModel viewModel = new AssigningAuthorityViewModel();
             
@@ -67,6 +77,11 @@ namespace OpenIZAdmin.Util
             return viewModel;
 		}
 
+        /// <summary>
+        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth"/> to a <see cref="OpenIZAdmin.Models.AssigningAuthorityModels.EditAssigningAuthorityModel"/>.
+        /// </summary>
+        /// <param name="assigningAuthority">The AssigningAuthorityInfo object to convert.</param>
+        /// <returns>Returns an EditAssigningAuthorityModel.</returns>
         public static EditAssigningAuthorityModel ToEditAssigningAuthorityModel(AssigningAuthorityInfo assigningAuthority)
         {
             EditAssigningAuthorityModel viewModel = new EditAssigningAuthorityModel();
@@ -80,6 +95,11 @@ namespace OpenIZAdmin.Util
             return viewModel;
         }
 
+        /// <summary>
+        /// Converts a <see cref="OpenIZAdmin.Models.AssigningAuthorityModels.CreateAssigningAuthorityModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth"/>.
+        /// </summary>
+        /// <param name="model">The CreateAssigningAuthorityModel object to convert.</param>
+        /// <returns>Returns an AssigningAuthorityInfo.</returns>
         public static AssigningAuthorityInfo ToCreateAssigningAuthorityModel(CreateAssigningAuthorityModel model)
         {
             AssigningAuthorityInfo assigningAuthority = new AssigningAuthorityInfo();

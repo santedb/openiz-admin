@@ -93,6 +93,10 @@ namespace OpenIZAdmin.Controllers
             return RedirectToAction("Index");
         }
 
+        /// <summary>
+        /// Initialization method for Create action.
+        /// </summary>        
+        /// <returns>Returns the Create view.</returns>
         [HttpGet]
         public ActionResult Create()
         {

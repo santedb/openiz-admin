@@ -71,10 +71,10 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityApplication"/> to a <see cref="OpenIZAdmin.Models.ApplicationModels.ViewModels.ApplicationViewModel"/>.
+        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth"/> to a <see cref="OpenIZAdmin.Models.ApplicationModels.ViewModels.ApplicationViewModel"/>.
         /// </summary>
-        /// <param name="appInfo">The security application info to convert.</param>
-        /// <returns>Returns a DeviceViewModel model.</returns>
+        /// <param name="appInfo">The SecurityApplicationInfo to convert.</param>
+        /// <returns>Returns a ApplicationViewModel model.</returns>
         public static ApplicationViewModel ToApplicationViewModel(SecurityApplicationInfo appInfo)
         {
             ApplicationViewModel viewModel = new ApplicationViewModel();
@@ -92,8 +92,8 @@ namespace OpenIZAdmin.Util
         /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth"/> to a <see cref="OpenIZAdmin.Models.ApplicationModels.EditApplicationModel"/>
         /// </summary>
         /// <param name="client">The Ami Service Client.</param>
-        /// /// <param name="device">The device object to convert to a EditDeviceModel.</param>
-        /// <returns>Returns a EditDeviceModel object.</returns>
+        /// /// <param name="device">The SecurityApplicationInfo object to convert to a EditApplicationModel.</param>
+        /// <returns>Returns a EditApplicationModel object.</returns>
         public static EditApplicationModel ToEditApplicationModel(AmiServiceClient client, SecurityApplicationInfo appInfo)
         {
             EditApplicationModel viewModel = new EditApplicationModel();
@@ -114,10 +114,10 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Converts a <see cref="OpenIZAdmin.Models.ApplicationModels.CreateApplicationModel"/> to a <see cref="OpenIZ.Core.Model.Security.SecurityApplication"/>.
+        /// Converts a <see cref="OpenIZAdmin.Models.ApplicationModels.CreateApplicationModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth"/>.
         /// </summary>
-        /// <param name="model">The create device model to convert.</param>
-        /// <returns>Returns a security device.</returns>
+        /// <param name="model">The CreateApplicationModel to convert.</param>
+        /// <returns>Returns a SecurityApplicationInfo object.</returns>
         public static SecurityApplicationInfo ToSecurityApplication(CreateApplicationModel model)
         {
             SecurityApplicationInfo appInfo = new SecurityApplicationInfo();
@@ -136,7 +136,7 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Checks if an applications has policies
+        /// Checks if an application has policies. Used with boolean property in Model for UI purposes
         /// </summary>
         /// <param name="pList">A list with the policies associated with the application</param>        
         /// <returns>Returns true if policies exist, false if no policies exist</returns>

@@ -25,12 +25,16 @@ using System.Web;
 
 namespace OpenIZAdmin.Util
 {
-	/// <summary>
-	/// Represents a utility for managing applets.
-	/// </summary>
-	public static class AppletUtil
+    /// <summary>
+    /// Represents a utility for managing applets.
+    /// </summary>          
+    public static class AppletUtil
 	{
-		public static List<AppletViewModel> GetApplets(AmiServiceClient client)
+        /// <summary>
+        /// Retrieves the list of applets.
+        /// </summary>
+        /// <param name="client">The AMI service client</param>    
+        public static List<AppletViewModel> GetApplets(AmiServiceClient client)
 		{
 			var applets = client.GetApplets();
 
