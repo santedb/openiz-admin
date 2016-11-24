@@ -177,13 +177,16 @@ namespace OpenIZAdmin.Controllers
         {
             //---TO DO!!!
             //apply and update to the device with the policies removed from the property
-            string id = string.Empty;
-            if (DeviceUtil.IsValidString(id))
+            //string id = string.Empty;
+            //Guid appKey = new Guid();
+
+            //if (DeviceUtil.IsValidString(id) && Guid.TryParse(id, out appKey))
+            if (DeviceUtil.IsValidString(key.ToString()))
             {
                 try
                 {
-                    this.AmiClient.DeleteDevice(id);
-                    TempData["success"] = Locale.Device + " " + Locale.DeletedSuccessfully;                    
+                    this.AmiClient.DeletePolicy(key.ToString());
+                    TempData["success"] = Locale.Policy + " " + Locale.DeletedSuccessfully;                    
 
                     return RedirectToAction("Index");
                 }

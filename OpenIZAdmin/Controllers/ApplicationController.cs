@@ -78,6 +78,39 @@ namespace OpenIZAdmin.Controllers
 		}
 
         /// <summary>
+		/// Deletes an application.
+		/// </summary>
+		/// <param name="id">The id of the application to be deleted.</param>
+		/// <returns>Returns the Index view.</returns>
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(string id)
+        {
+            if (ApplicationUtil.IsValidString(id))
+            {
+                try
+                {
+                    this.AmiClient.DeleteApplication(id);
+                    TempData["success"] = Locale.Application + " " + Locale.DeletedSuccessfully;                    
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    Trace.TraceError("Unable to delete application: {0}", e.StackTrace);
+#endif
+                    Trace.TraceError("Unable to delete application: {0}", e.Message);
+                }
+            }
+
+            TempData["error"] = Locale.UnableToDelete + " " + Locale.Application;
+
+
+            return RedirectToAction("Index");
+        }        
+
+        /// <summary>
         /// Gets the application object to edit
         /// </summary>
         /// <param name="key">The id of the application to be edited.</param>
@@ -185,7 +218,7 @@ namespace OpenIZAdmin.Controllers
             {
                 if (ApplicationUtil.IsValidString(searchTerm))
                 {
-                    var collection = this.AmiClient.GetApplications(d => d.Name.Contains(searchTerm));
+                    var collection = this.AmiClient.GetApplications(d => d.Name.Contains(searchTerm));                    
 
                     TempData["searchTerm"] = searchTerm;
                     
