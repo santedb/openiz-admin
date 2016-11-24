@@ -188,6 +188,11 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
+        /// <summary>
+		/// Retrieves the user entity by id
+		/// </summary>
+		/// <param name="id">The user identifier.</param>
+		/// <returns>Returns the user edit view.</returns>
 		[HttpGet]
 		public ActionResult Edit(string id)
 		{
@@ -288,6 +293,10 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+        /// <summary>
+		/// Displays the Index view
+		/// </summary>
+		/// <returns>Returns the index view.</returns>
 		[HttpGet]
 		public ActionResult Index()
 		{
@@ -374,6 +383,11 @@ namespace OpenIZAdmin.Controllers
 			return PartialView("_UsersPartial", users);
 		}
 
+        /// <summary>
+		/// Searches for a user.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns a list of users which match the search term.</returns>
 		[HttpGet]
 		public ActionResult SearchAjax(string searchTerm)
 		{
@@ -389,6 +403,11 @@ namespace OpenIZAdmin.Controllers
 			return Json(userList, JsonRequestBehavior.AllowGet);
 		}
 
+        /// <summary>
+		/// Searches for a user to view details.
+		/// </summary>
+		/// <param name="id">The user identifier search string.</param>
+		/// <returns>Returns a user view that matches the search term.</returns>
 		[HttpGet]
 		public ActionResult ViewUser(string id)
 		{

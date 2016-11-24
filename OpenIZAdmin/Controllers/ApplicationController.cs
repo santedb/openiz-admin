@@ -45,7 +45,10 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
-		[HttpGet]
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApplicationController"/> class.
+        /// </summary>
+        [HttpGet]
 		public ActionResult Create()
 		{
 			return View();

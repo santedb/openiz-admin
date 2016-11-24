@@ -43,6 +43,9 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
+        /// <summary>
+		/// Returns an action result index view
+		/// </summary>
 		[HttpGet]
 		public ActionResult Index()
 		{
@@ -50,12 +53,19 @@ namespace OpenIZAdmin.Controllers
 			return View();
 		}
 
+        /// <summary>
+		/// Returns an action result create view
+		/// </summary>
 		[HttpGet]
 		public ActionResult Create()
 		{
 			return View();
 		}
 
+        /// <summary>
+        /// Displays the create view.
+        /// </summary>
+        /// <returns>Returns the create view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateAssigningAuthorityModel model)
@@ -83,7 +93,11 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-		[HttpGet]
+        /// <summary>
+        /// Displays the search view.
+        /// </summary>
+        /// <returns>Returns the search view.</returns>
+        [HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
 			IEnumerable<AssigningAuthorityViewModel> assigningAuthorities = new List<AssigningAuthorityViewModel>();
@@ -113,6 +127,11 @@ namespace OpenIZAdmin.Controllers
 			return PartialView("_AssigningAuthoritySearchResultsPartial", assigningAuthorities);
 		}
 
+        /// <summary>
+		/// Deletes an assigning authority.
+		/// </summary>
+		/// <param name="key">The id of the assigning authority to be deleted.</param>
+		/// <returns>Returns the index view.</returns>
 		[HttpGet]
 		public ActionResult Delete(string key)
 		{

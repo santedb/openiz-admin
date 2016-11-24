@@ -44,6 +44,10 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
+        /// <summary>
+		/// Displays the create role view.
+		/// </summary>
+		/// <returns>Returns the create role view.</returns>
 		[HttpGet]
 		public ActionResult Create()
 		{
@@ -207,6 +211,10 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+        /// <summary>
+		/// Displays the Index view
+		/// </summary>
+		/// <returns>Returns the index view.</returns>
 		[HttpGet]
 		public ActionResult Index()
 		{
@@ -214,6 +222,11 @@ namespace OpenIZAdmin.Controllers
 			return View(RoleUtil.GetAllRoles(this.AmiClient));
 		}
 
+        /// <summary>
+		/// Searches for a role.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns a list of roles which match the search term.</returns>
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
