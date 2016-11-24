@@ -763,6 +763,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Application.
+        /// </summary>
+        public static string EditApplication {
+            get {
+                return ResourceManager.GetString("EditApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Device.
         /// </summary>
         public static string EditDevice {

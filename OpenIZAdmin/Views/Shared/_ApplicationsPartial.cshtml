@@ -17,14 +17,15 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th></th>
+                        <th>                            
+                            @Locale.ApplicationName
+                        </th>
+                        @*<th>
+                            @Locale.ApplicationId
+                        </th>*@
                         <th>
                             @Locale.CreationTime
-                        </th>
-                        <th>
-                            @Locale.ApplicationId
-                        </th>
-                        <th>
-                            @Locale.ApplicationName
                         </th>                        
                         <th>
                             @Locale.HasPolicies
@@ -38,9 +39,9 @@
                     {
                         <tr>
                             <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>
-                            <td>@item.CreationTime.ToLocalTime()</td>
-                            <td>@item.ApplicationId</td>
                             <td>@item.ApplicationName</td>
+                            <td>@item.CreationTime.ToLocalTime()</td>
+                            @*<td>@item.ApplicationId</td>*@                            
                             <td>
                                 @if (item.HasPolicies)
                                 {

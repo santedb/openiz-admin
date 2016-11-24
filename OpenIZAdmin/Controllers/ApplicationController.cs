@@ -144,10 +144,10 @@ namespace OpenIZAdmin.Controllers
         }
 
         /// <summary>
-        /// Appies the changes to the device object
+        /// Appies the changes to the application object
         /// </summary>
-        /// <param name="model">The model containing the updated device information.</param>
-        /// <returns>Returns the ViewDevice view.</returns>
+        /// <param name="model">The model containing the updated application information.</param>
+        /// <returns>Returns the application view.</returns>
 		[HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(EditApplicationModel model)
@@ -155,43 +155,35 @@ namespace OpenIZAdmin.Controllers
             if (ModelState.IsValid)
             {
                 //try
-                //{                    
-                if (ModelState.IsValid)
+                //{                                   
+                    var appEntity = ApplicationUtil.GetApplication(this.AmiClient, model.Id);
+
+                    if (appEntity == null)
+                    {
+                        TempData["error"] = Locale.Application + " " + Locale.NotFound;
+
+                        return RedirectToAction("Index");
+                    }
+
+                List<SecurityPolicy> addPolicies = new List<SecurityPolicy>();
+
+                if (model.AddPoliciesList != null && model.AddPoliciesList.Count() > 0)
                 {
-
-                    //var deviceEntity = DeviceUtil.GetDevice(this.AmiClient, model.Id);
-
-                    //if (deviceEntity == null)
-                    //{
-                    //    TempData["error"] = Locale.Device + " " + Locale.NotFound;
-
-                    //    return RedirectToAction("Index");
-                    //}
-
-                    //List<SecurityPolicy> addPolicies = new List<SecurityPolicy>();
-
-                    //if (model.AddPoliciesList != null && model.AddPoliciesList.Count() > 0)
-                    //{
-                    //    addPolicies = DeviceUtil.GetNewPolicies(this.AmiClient, model.AddPoliciesList);
-                    //}
-
-                    //SecurityDeviceInfo deviceInfo = DeviceUtil.ToSecurityDeviceInfo(model, deviceEntity, addPolicies);
-
-                    //this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
-
-                    //TempData["success"] = Locale.Device + " " + Locale.UpdatedSuccessfully;
-
-                    TempData["error"] = Locale.UnableToUpdate + " " + Locale.Device;
-
-                    return Redirect("Index");
+                    addPolicies = ApplicationUtil.GetNewPolicies(this.AmiClient, model.AddPoliciesList);
                 }
-                else
-                {
-                    return View(model);
-                }
+
+                SecurityApplicationInfo appInfo = ApplicationUtil.ToSecurityApplicationInfo(model, appEntity, addPolicies);
+
+                this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
+
+                TempData["success"] = Locale.Application + " " + Locale.UpdatedSuccessfully;
+
+                    //TempData["error"] = Locale.UnableToUpdate + " " + Locale.Device;
+
+                    //return Redirect("Index");                
             }
 
-            TempData["error"] = Locale.UnableToUpdate + " " + Locale.Device;
+            TempData["error"] = Locale.UnableToUpdate + " " + Locale.Application;
 
             return View(model);
         }

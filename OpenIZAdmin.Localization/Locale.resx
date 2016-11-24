@@ -846,4 +846,7 @@
   <data name="ApplicationSecret" xml:space="preserve">
     <value>Application Secret</value>
   </data>
+  <data name="EditApplication" xml:space="preserve">
+    <value>Edit Application</value>
+  </data>
 </root>
