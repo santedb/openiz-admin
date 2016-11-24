@@ -59,7 +59,7 @@
             <param name="assigningAuthorityInfo">The assigning authority to be created.</param>
             <returns>Returns the created assigning authority.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateDevice(OpenIZ.Core.Model.Security.SecurityDevice)">
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateDevice(OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo)">
             <summary>
             Creates a device in the IMS.
             </summary>
@@ -245,6 +245,13 @@
             </summary>
             <param name="query">The query expression to use to find the concept sets.</param>
             <returns>Returns a collection of concept sets which match the specified query.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetDevice(System.String)">
+            <summary>
+            Gets a specific device.
+            </summary>
+            <param name="))">The id of the security device to be retrieved.</param>
+            <returns>Returns the security device.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetDevices(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityDevice,System.Boolean}})">
             <summary>
