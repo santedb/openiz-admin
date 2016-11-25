@@ -59,6 +59,19 @@ namespace OpenIZAdmin.Controllers
 
             model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
 
+            var conceptClasses = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime==null);
+            
+            for (var i = 0; i<conceptClasses.Count; i++)
+            {
+                model.ConceptClassList.Add(new SelectListItem()
+                {
+                    Text = (conceptClasses.Item[i] as ConceptClass).Mnemonic,
+                    Value = (conceptClasses.Item[i] as ConceptClass).Key.Value.ToString(),
+                });
+            }
+            
+            model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
+
             return View(model);
         }
 
@@ -98,6 +111,31 @@ namespace OpenIZAdmin.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public ActionResult Delete(Guid key, Guid versionKey)
+        {
+            Guid conceptKey = Guid.Empty;
+                try
+                {
+                    var concept = this.ImsiClient.Get<Concept>(key, versionKey) as Concept;
+
+                    concept.ObsoletionTime = new DateTimeOffset(DateTime.Now);
+                    this.ImsiClient.Obsolete<Concept>(concept); 
+                    TempData["success"] = Locale.Concept + " " + Locale.DeletedSuccessfully;
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    Trace.TraceError("Unable to delete assigning authority: {0}", e.StackTrace);
+#endif
+                    Trace.TraceError("Unable to delete assigning authority: {0}", e.Message);
+                }
+            
+            TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+            return RedirectToAction("Index");
+        }
+        
         /// <summary>
         /// Displays the index view.
         /// </summary>
@@ -321,6 +359,23 @@ namespace OpenIZAdmin.Controllers
 
                     }
 
+                    var conceptClasses = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
+
+                    for (var i = 0; i < conceptClasses.Count; i++)
+                    {
+                        var selected = false;
+                        if (concept.Class.Key == (conceptClasses.Item[i] as ConceptClass).Key)
+                        {
+                            selected = true;
+                        }
+                        editConceptModel.ConceptClassList.Add(new SelectListItem()
+                        {
+                            Text = (conceptClasses.Item[i] as ConceptClass).Mnemonic,
+                            Value = (conceptClasses.Item[i] as ConceptClass).Key.Value.ToString(),
+                            Selected = selected
+                        });
+                    }
+
 
                     var languages = LanguageUtil.GetLanguageList();
 
@@ -354,21 +409,42 @@ namespace OpenIZAdmin.Controllers
 
                 for(var i = 0; i<model.Languages.Count(); i++)
                 {
-                    if (model.Name[i] != null)
-                    {
-                        if ((concept.ConceptNames.Count() - 1) < i)
+                    if (model.Name[i] != "") { 
+                        if (concept.ConceptNames.Count>i)
                         {
-                            ConceptName conceptName = new ConceptName
+                            if (concept.ConceptNames[i].Language == model.Languages[i])
                             {
-                                Name = model.Name[i],
+                                concept.ConceptNames[i].Name = model.Name[i];
+                            }
+                        }
+                        else
+                        {
+                            concept.ConceptNames.Add(new ConceptName()
+                            {
                                 Language = model.Languages[i],
-                                SourceEntityKey = model.Key,
-                                Key = Guid.NewGuid()
-                            };
-                            this.ImsiClient.Create<ConceptName>(conceptName);
+                                Name = model.Name[i]
+                            });
                         }
                     }
                 }
+                var conceptClasses = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
+                List<SelectListItem> conceptClassList = new List<SelectListItem>();
+                for (var i = 0; i < conceptClasses.Count; i++)
+                {
+                    conceptClassList.Add(new SelectListItem()
+                    {
+                        Text = (conceptClasses.Item[i] as ConceptClass).Mnemonic,
+                        Value = (conceptClasses.Item[i] as ConceptClass).Key.Value.ToString(),
+                    });
+                }
+
+                SelectListItem conceptClass = conceptClassList.Find(c => c.Value == model.ConceptClass);
+                concept.Class = new ConceptClass()
+                {
+                    Mnemonic = conceptClass.Text,
+                    Key = Guid.Parse(conceptClass.Value)
+                };
+                this.ImsiClient.Update<Concept>(concept);
                 
 
             }

@@ -846,4 +846,10 @@
   <data name="ApplicationSecret" xml:space="preserve">
     <value>Application Secret</value>
   </data>
+  <data name="ConceptClass" xml:space="preserve">
+    <value>Concept Class</value>
+  </data>
+  <data name="ConceptClassRequired" xml:space="preserve">
+    <value>The Concept Class field required</value>
+  </data>
 </root>

@@ -7,89 +7,94 @@
     <div class="panel panel-heading">
         <span class="text-white">@Locale.Edit @Locale.Concept @Model.Mnemonic</span>
     </div>
-    <div class="panel panel-body panel-default">
-        @using (Html.BeginForm("Edit", "Concept", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-        {
-            <a href="#" id="btnAdd"><i class="glyphicon-plus-sign"></i>Add Language</a>
+
+    @using (Html.BeginForm("Edit", "Concept", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        <div class="panel panel-body panel-default">
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 @Html.LabelFor(m => m.SelectedLanguage, new { @class = "col-md-2 control-label" })
                 <div class="col-md-4">
-                    @Html.DropDownListFor(m => m.SelectedLanguage, Model.LanguageList, new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.SelectedLanguage, Model.LanguageList, new { @class = "form-control", @id = "languageList" })
                     @Html.ValidationMessageFor(m => m.SelectedLanguage, "", new { @class = "text-danger" })
                 </div>
+                <a href="#" id="btnAdd"><i class="glyphicon-plus-sign"></i>Add Language</a>
             </div>
             @Html.HiddenFor(m => m.Key)
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    @if (Model != null)
-                    {
-                        <ul class="nav nav-tabs" id="tabs">
-                            @{int i = 0;}
-                            @foreach (var language in Model.Languages)
-                            {
-                                if (i == 0)
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        @if (Model != null)
+                        {
+                            <ul class="nav nav-tabs" id="tabs">
+                                @{int i = 0;}
+                                @foreach (var language in Model.Languages)
                                 {
-                                    <li class="active">
-                                        <a href="#@language" data-toggle="tab">@Model.Languages[i]</a>
-                                    </li>
+                                    if (i == 0)
+                                    {
+                                        <li class="active">
+                                            <a href="#@language" data-toggle="tab">@Model.Languages[i]</a>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <a href="#@language" data-toggle="tab">@Model.Languages[i]</a>
+                                        </li>
+                                    }
+                                    i++;
                                 }
-                                else
-                                {
-                                    <li>
-                                        <a href="#@language" data-toggle="tab">@Model.Languages[i]</a>
-                                    </li>
-                                }
-                                i++;
-                            }
-                        </ul>
-                        <div class="tab-content">
-                            @{i = 0;}
-                            @foreach (var language in Model.Languages)
-                            {
-                                if (i == 0)
-                                {
-                                    <div id="@language" class="tab-pane active">
-                                        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
-                                        @Html.TextBoxFor(m => m.Name[i], new { @class = "form-control" })
-                                        @Html.LabelFor(m => m.Languages, new { @class = "control-label" })
-                                        @Html.TextBoxFor(m => m.Languages[i], new { @class = "form-control", @readonly = "readonly" })
-                                    </div>
-                                }
-                                else
-                                {
-                                    <div id="@language" class="tab-pane">
-                                        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
-                                        @Html.TextBoxFor(m => m.Name[i], new { @class = "form-control" })
-                                        @Html.LabelFor(m => m.Languages, new { @class = "control-label" })
-                                        @Html.TextBoxFor(m => m.Languages[i], new { @class = "form-control", @readonly = "readonly" })
-                                    </div>
-                                }
-                                i++;
-                            }
-                        </div>
-                                }
+                            </ul>
+                                <div class="tab-content">
+                                    @{i = 0;}
+                                    @foreach (var language in Model.Languages)
+                                    {
+                                        if (i == 0)
+                                        {
+                                            <div id="@language" class="tab-pane active">
+                                                @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                                                @Html.TextBoxFor(m => m.Name[i], new { @class = "form-control" })
+                                                @Html.LabelFor(m => m.Languages, new { @class = "control-label" })
+                                                @Html.TextBoxFor(m => m.Languages[i], new { @class = "form-control", @readonly = "readonly" })
+                                            </div>
+                                        }
+                                        else
+                                        {
+                                            <div id="@language" class="tab-pane">
+                                                @Html.LabelFor(m => m.Name, new { @class = "control-label" })
+                                                @Html.TextBoxFor(m => m.Name[i], new { @class = "form-control" })
+                                                @Html.LabelFor(m => m.Languages, new { @class = "control-label" })
+                                                @Html.TextBoxFor(m => m.Languages[i], new { @class = "form-control", @readonly = "readonly" })
+                                            </div>
+                                        }
+                                        i++;
+                                    }
+                                </div>
+                                        }
+
+                        @Html.LabelFor(m => m.ConceptClass, new { @class = "control-label" })
+                        @Html.DropDownListFor(m => m.ConceptClass, Model.ConceptClassList, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ConceptClass, "", new { @class = "text-danger" })
+                        @Html.LabelFor(m => m.CreationTime, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
 
                 </div>
 
             </div>
         </div>
-        <button type="submit">
-            @Locale.Submit
-        </button>
-                                }
-    </div>
+                <button type="submit">
+                    @Locale.Submit
+                </button>
+                                        }
+</div>
 
-    <div class="panel panel-body panel-default">
-        @Html.LabelFor(m => m.Class, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.Class, new { @class = "form-control", @readonly = "readonly" })
-        @Html.LabelFor(m => m.Language, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.Language, new { @class = "form-control", @readonly = "readonly" })
-        @Html.LabelFor(m => m.CreationTime, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
-    </div>
+
+
+
+
+
 
     <table class="table">
         <thead>
@@ -124,10 +129,10 @@
     <script>
         $('#btnAdd').click(function (e) {
             var nextTab = $('#tabs li').size() + 1;
+            var selectedLanguage = $('#languageList option:selected').val();
+            $('<li><a href="#' + selectedLanguage + '" data-toggle="tab">' + selectedLanguage + '</a></li>').appendTo('#tabs');
 
-            $('<li><a href="#tab' + nextTab + '" data-toggle="tab">Tab ' + nextTab + '</a></li>').appendTo('#tabs');
-
-            $('<div class="tab-pane" id="tab' + nextTab + '">tab' + nextTab + ' content</div>').appendTo('.tab-content');
+            $('<div class="tab-pane" id="' + selectedLanguage + '">' + '<label class="control-label" for="Name">Name</label><input class="form-control" id="Name_' + (nextTab - 1) + '_" name="Name[' + (nextTab - 1) + ']" type="text" value="">' + '<label class="control-label" for="Languages">Languages</label><input class="form-control" id="Languages_' + (nextTab - 1) + '_" name="Languages[' + (nextTab - 1) + ']" readonly="readonly" type="text" value=' + selectedLanguage + '></div>').appendTo('.tab-content');
 
             $('#tabs a:last').tab('show');
         });

@@ -412,6 +412,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Concept Class.
+        /// </summary>
+        public static string ConceptClass {
+            get {
+                return ResourceManager.GetString("ConceptClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Concept Class field required.
+        /// </summary>
+        public static string ConceptClassRequired {
+            get {
+                return ResourceManager.GetString("ConceptClassRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Concept Name.
         /// </summary>
         public static string ConceptName {

@@ -28,7 +28,8 @@ namespace OpenIZAdmin.Models.ConceptModels
 		public CreateConceptModel()
 		{
 			this.LanguageList = new List<SelectListItem>();
-		}
+            this.ConceptClassList = new List<SelectListItem>();
+        }
 
 		[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
@@ -36,7 +37,13 @@ namespace OpenIZAdmin.Models.ConceptModels
 
 		public List<SelectListItem> LanguageList { get; set; }
 
-		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
+        [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string ConceptClass { get; set; }
+
+        public List<SelectListItem> ConceptClassList { get; set; }
+
+        [Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "MnemonicTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Mnemonic { get; set; }
