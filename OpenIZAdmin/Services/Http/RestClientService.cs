@@ -59,6 +59,11 @@ namespace OpenIZAdmin.Services.Http
 				() => InternalConfiguration.GetServiceClientConfiguration().Clients.Find(x => x.Name == key))).Value)
 		{
 			Trace.TraceInformation("Current Entity Source: {0}", EntitySource.Current);
+
+			this.Requesting += (o, e) =>
+			{
+				e.Query.Add("_all", "true")
+			};
 		}
 
 		/// <summary>
