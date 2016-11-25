@@ -148,8 +148,7 @@ namespace OpenIZAdmin.Services.Http.Configuration
 							Security = new ServiceClientSecurity
 							{
 								Mode = SecurityScheme.Bearer
-							},
-							Optimize = true
+							}
 						},
 						Endpoint = new List<ServiceClientEndpoint>
 						{
