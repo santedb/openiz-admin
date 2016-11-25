@@ -8,9 +8,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using OpenIZAdmin.Models.PolicyModels.ViewModels;
 
 namespace OpenIZAdmin.Util
 {
+    /// <summary>
+	/// Provides a utility for managing applications.
+	/// </summary>
     public static class ApplicationUtil
     {
 
@@ -71,41 +75,89 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityApplication"/> to a <see cref="OpenIZAdmin.Models.ApplicationModels.ViewModels.ApplicationViewModel"/>.
+        /// Gets the policy objects that have been selected to be added to a device
         /// </summary>
-        /// <param name="appInfo">The security application info to convert.</param>
-        /// <returns>Returns a DeviceViewModel model.</returns>
+        /// <param name="client">The Ami Service Client.</param> 
+        /// <param name="pList">The string list with selected policy names.</param>         
+        /// <returns>Returns a list of application SecurityPolicy objects</returns>
+        internal static List<SecurityPolicy> GetNewPolicies(AmiServiceClient client, IEnumerable<string> pList)
+        {
+            List<SecurityPolicy> policyList = new List<SecurityPolicy>();
+
+            try
+            {
+                foreach (string name in pList)
+                {
+                    if (IsValidString(name))
+                    {
+                        //SecurityPolicyInfo result = DeviceUtil.GetPolicy(client, name);
+                        var result = client.GetPolicies(r => r.Name == name);
+                        if (result.CollectionItem.Count != 0)
+                        {
+                            SecurityPolicyInfo infoResult = result.CollectionItem.FirstOrDefault();
+                            if (infoResult.Policy != null)
+                            {
+                                policyList.Add(infoResult.Policy);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Trace.TraceError("Unable to retrieve policies: {0}", e.StackTrace);
+#endif
+                Trace.TraceError("Unable to retrieve policies: {0}", e.Message);
+            }
+
+            return policyList;
+        }
+
+        /// <summary>
+        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo"/> to a <see cref="OpenIZAdmin.Models.ApplicationModels.ViewModels.ApplicationViewModel"/>.
+        /// </summary>
+        /// <param name="appInfo">The SecurityApplicationInfo to convert.</param>
+        /// <returns>Returns a ApplicationViewModel model.</returns>
         public static ApplicationViewModel ToApplicationViewModel(SecurityApplicationInfo appInfo)
         {
             ApplicationViewModel viewModel = new ApplicationViewModel();
 
             viewModel.Id = appInfo.Id.Value;
             viewModel.ApplicationName = appInfo.Name;
+            viewModel.ApplicationSecret = appInfo.ApplicationSecret;
             viewModel.CreationTime = appInfo.Application.CreationTime.DateTime;
             viewModel.HasPolicies = IsPolicy(appInfo.Policies);
+            viewModel.IsObsolete = IsObsolete(appInfo.Application.ObsoletionTime);         
+
+            if(appInfo.Policies != null)
+                viewModel.Policies = appInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
+            else
+                viewModel.Policies = new List<PolicyViewModel>();
 
             return viewModel;
         }
-
-
+       
         /// <summary>
-        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth"/> to a <see cref="OpenIZAdmin.Models.ApplicationModels.EditApplicationModel"/>
+        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo"/> to a <see cref="OpenIZAdmin.Models.ApplicationModels.EditApplicationModel"/>
         /// </summary>
         /// <param name="client">The Ami Service Client.</param>
-        /// /// <param name="device">The device object to convert to a EditDeviceModel.</param>
-        /// <returns>Returns a EditDeviceModel object.</returns>
+        /// /// <param name="appInfo">The SecurityApplicationInfo object to convert to a EditApplicationModel.</param>
+        /// <returns>Returns a edit application object.</returns>
         public static EditApplicationModel ToEditApplicationModel(AmiServiceClient client, SecurityApplicationInfo appInfo)
         {
             EditApplicationModel viewModel = new EditApplicationModel();
 
-            //viewModel.Device = device;
-            //viewModel.CreationTime = device.CreationTime.DateTime;
-            //viewModel.Id = device.Key.Value;
-            //viewModel.DeviceSecret = device.DeviceSecret;
-            //viewModel.Name = device.Name;
-            //viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
+            viewModel.Id = appInfo.Id.Value;
+            viewModel.ApplicationName = appInfo.Name;
+            viewModel.ApplicationSecret = appInfo.ApplicationSecret;
+            viewModel.CreationTime = appInfo.Application.CreationTime.DateTime;
+            //viewModel.HasPolicies = IsPolicy(appInfo.Policies);
 
-            //viewModel.DevicePolicies = (device.Policies != null) ? GetDevicePolicies(device.Policies) : null;                 
+            if (appInfo.Policies != null && appInfo.Policies.Count() > 0)
+                viewModel.ApplicationPolicies = appInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
+            else
+                viewModel.ApplicationPolicies = new List<PolicyViewModel>();            
 
             //viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
             //viewModel.PoliciesList.AddRange(DeviceUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
@@ -114,10 +166,10 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Converts a <see cref="OpenIZAdmin.Models.ApplicationModels.CreateApplicationModel"/> to a <see cref="OpenIZ.Core.Model.Security.SecurityApplication"/>.
+        /// Converts a <see cref="OpenIZAdmin.Models.ApplicationModels.CreateApplicationModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo"/>.
         /// </summary>
-        /// <param name="model">The create device model to convert.</param>
-        /// <returns>Returns a security device.</returns>
+        /// <param name="model">The CreateApplicationModel to convert.</param>
+        /// <returns>Returns a security application object.</returns>
         public static SecurityApplicationInfo ToSecurityApplication(CreateApplicationModel model)
         {
             SecurityApplicationInfo appInfo = new SecurityApplicationInfo();
@@ -136,7 +188,33 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Checks if an applications has policies
+        /// Converts a <see cref="OpenIZAdmin.Models.ApplicationModels.EditApplicationModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo"/>
+        /// </summary>
+        /// <param name="model">The edit device model to convert.</param>
+        /// <param name="appInfo">The device object to apply the changes to.</param>
+        /// <param name="addPolicies">The property that contains the selected policies to add to the device.</param>
+        /// <returns>Returns a security device info object.</returns>
+        public static SecurityApplicationInfo ToSecurityApplicationInfo(EditApplicationModel model, SecurityApplicationInfo appInfo, List<SecurityPolicy> addPolicies)
+        {
+            appInfo.Application.Key = model.Id;
+            appInfo.Id = model.Id;
+            appInfo.Application.Name = model.ApplicationName;
+            appInfo.Name = model.ApplicationName;
+            appInfo.Application.ApplicationSecret = model.ApplicationSecret;
+            appInfo.ApplicationSecret = model.ApplicationSecret;
+
+            appInfo.Application.Policies = model.Policies ?? new List<SecurityPolicyInstance>();
+            //add the new policies
+            foreach (var policy in addPolicies.Select(p => new SecurityPolicyInstance(p, (PolicyGrantType)2)))
+            {
+                appInfo.Application.Policies.Add(policy);
+            }
+
+            return appInfo;
+        }
+
+        /// <summary>
+        /// Checks if an application has policies. Used with boolean property in Model for UI purposes
         /// </summary>
         /// <param name="pList">A list with the policies associated with the application</param>        
         /// <returns>Returns true if policies exist, false if no policies exist</returns>
@@ -146,6 +224,32 @@ namespace OpenIZAdmin.Util
                 return true;
             else
                 return false;
+        }
+
+        /// <summary>
+        /// Checks if a device is active or inactive
+        /// </summary>
+        /// <param name="date">A DateTimeOffset object</param>        
+        /// <returns>Returns true if active, false if inactive</returns>
+        private static bool IsActiveStatus(DateTimeOffset? date)
+        {
+            if (date != null)
+                return true;
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Checks if an application is active or inactive
+        /// </summary>
+        /// <param name="date">A DateTimeOffset object</param>        
+        /// <returns>Returns true if active, false if inactive</returns>
+        private static bool IsObsolete(DateTimeOffset? date)
+        {
+            if (date == null)
+                return false;
+            else
+                return true;
         }
 
         /// <summary>

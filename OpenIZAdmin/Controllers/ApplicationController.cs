@@ -45,7 +45,59 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
-		[HttpGet]
+        /// <summary>
+		/// Activates an application.
+		/// </summary>
+		/// <param name="id">The id of the application to be activated.</param>
+		/// <returns>Returns the index view.</returns>
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Activate(string id)
+        {
+            Guid appKey = Guid.Empty;
+            SecurityApplicationInfo appInfo = null;
+
+            if (ApplicationUtil.IsValidString(id) && Guid.TryParse(id, out appKey))
+            {
+                try
+                {
+                    appInfo = ApplicationUtil.GetApplication(this.AmiClient, appKey);
+
+                    if (appInfo == null)
+                    {
+                        TempData["error"] = Locale.Policy + " " + Locale.NotFound;
+
+                        return RedirectToAction("Index");
+                    }
+
+                    appInfo.Id = appKey;
+                    appInfo.Application.ObsoletedBy = null;
+                    appInfo.Application.ObsoletionTime = null;
+
+                    this.AmiClient.UpdateApplication(id, appInfo);
+
+                    TempData["success"] = Locale.Policy + " " + Locale.ActivatedSuccessfully;
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    Trace.TraceError("Unable to delete policy: {0}", e.StackTrace);
+#endif
+                    Trace.TraceError("Unable to delete policy: {0}", e.Message);
+                }
+            }
+
+            TempData["error"] = Locale.UnableToActivate + " " + Locale.Policy;
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ApplicationController"/> class.
+        /// </summary>
+        [HttpGet]
 		public ActionResult Create()
 		{
 			return View();
@@ -78,6 +130,76 @@ namespace OpenIZAdmin.Controllers
 		}
 
         /// <summary>
+		/// Deletes an application.
+		/// </summary>
+		/// <param name="id">The id of the application to be deleted.</param>
+		/// <returns>Returns the Index view.</returns>
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(string id)
+        {
+            if (ApplicationUtil.IsValidString(id))
+            {
+                try
+                {
+                    this.AmiClient.DeleteApplication(id);
+                    TempData["success"] = Locale.Application + " " + Locale.DeletedSuccessfully;                    
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    Trace.TraceError("Unable to delete application: {0}", e.StackTrace);
+#endif
+                    Trace.TraceError("Unable to delete application: {0}", e.Message);
+                }
+            }
+
+            TempData["error"] = Locale.UnableToDelete + " " + Locale.Application;
+
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Deletes a policy associate to a device.
+        /// </summary>
+        /// <param name="key">The policy guid key of the policy to be deleted.</param>
+        /// <returns>Returns the ViewDevice view.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePolicy(Guid key)
+        {
+            //---TO DO!!!
+            //apply and update to the device with the policies removed from the property
+            //string id = string.Empty;
+            string id = string.Empty;
+            if (ApplicationUtil.IsValidString(id))
+            {
+                try
+                {
+                    //this.AmiClient.UpdateApplication(id);
+                    TempData["success"] = Locale.Application + " " + Locale.UpdatedSuccessfully;
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    Trace.TraceError("Unable to delete policy from application: {0}", e.StackTrace);
+#endif
+                    Trace.TraceError("Unable to delete policy from application: {0}", e.Message);
+                }
+            }
+
+            TempData["error"] = Locale.UnableToDelete + " " + Locale.Policy;
+
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
         /// Gets the application object to edit
         /// </summary>
         /// <param name="key">The id of the application to be edited.</param>
@@ -108,10 +230,10 @@ namespace OpenIZAdmin.Controllers
         }
 
         /// <summary>
-        /// Appies the changes to the device object
+        /// Appies the changes to the application object
         /// </summary>
-        /// <param name="model">The model containing the updated device information.</param>
-        /// <returns>Returns the ViewDevice view.</returns>
+        /// <param name="model">The model containing the updated application information.</param>
+        /// <returns>Returns the application view.</returns>
 		[HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Edit(EditApplicationModel model)
@@ -119,43 +241,35 @@ namespace OpenIZAdmin.Controllers
             if (ModelState.IsValid)
             {
                 //try
-                //{                    
-                if (ModelState.IsValid)
+                //{                                   
+                    var appEntity = ApplicationUtil.GetApplication(this.AmiClient, model.Id);
+
+                    if (appEntity == null)
+                    {
+                        TempData["error"] = Locale.Application + " " + Locale.NotFound;
+
+                        return RedirectToAction("Index");
+                    }
+
+                List<SecurityPolicy> addPolicies = new List<SecurityPolicy>();
+
+                if (model.AddPoliciesList != null && model.AddPoliciesList.Count() > 0)
                 {
-
-                    //var deviceEntity = DeviceUtil.GetDevice(this.AmiClient, model.Id);
-
-                    //if (deviceEntity == null)
-                    //{
-                    //    TempData["error"] = Locale.Device + " " + Locale.NotFound;
-
-                    //    return RedirectToAction("Index");
-                    //}
-
-                    //List<SecurityPolicy> addPolicies = new List<SecurityPolicy>();
-
-                    //if (model.AddPoliciesList != null && model.AddPoliciesList.Count() > 0)
-                    //{
-                    //    addPolicies = DeviceUtil.GetNewPolicies(this.AmiClient, model.AddPoliciesList);
-                    //}
-
-                    //SecurityDeviceInfo deviceInfo = DeviceUtil.ToSecurityDeviceInfo(model, deviceEntity, addPolicies);
-
-                    //this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
-
-                    //TempData["success"] = Locale.Device + " " + Locale.UpdatedSuccessfully;
-
-                    TempData["error"] = Locale.UnableToUpdate + " " + Locale.Device;
-
-                    return Redirect("Index");
+                    addPolicies = ApplicationUtil.GetNewPolicies(this.AmiClient, model.AddPoliciesList);
                 }
-                else
-                {
-                    return View(model);
-                }
+
+                SecurityApplicationInfo appInfo = ApplicationUtil.ToSecurityApplicationInfo(model, appEntity, addPolicies);
+
+                this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
+
+                TempData["success"] = Locale.Application + " " + Locale.UpdatedSuccessfully;
+
+                    //TempData["error"] = Locale.UnableToUpdate + " " + Locale.Device;
+
+                return Redirect("Index");                
             }
 
-            TempData["error"] = Locale.UnableToUpdate + " " + Locale.Device;
+            TempData["error"] = Locale.UnableToUpdate + " " + Locale.Application;
 
             return View(model);
         }
@@ -189,7 +303,7 @@ namespace OpenIZAdmin.Controllers
 
                     TempData["searchTerm"] = searchTerm;
                     
-                    return PartialView("_ApplicationsPartial", collection.CollectionItem.Select(d => ApplicationUtil.ToApplicationViewModel(d)));
+                    return PartialView("_ApplicationsPartial", collection.CollectionItem.Select(ApplicationUtil.ToApplicationViewModel));
                 }
             }
             catch (Exception e)

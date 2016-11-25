@@ -31,8 +31,17 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Util
 {
+    /// <summary>
+	/// Provides a utility for managing policies.
+	/// </summary>
 	public static class PolicyUtil
 	{
+        /// <summary>
+        /// Queries for a policy by key
+        /// </summary>
+        /// <param name="client">The AMI service client</param>        
+        /// /// <param name="key">The policy guid identifier key </param>        
+        /// <returns>Returns SecurityPolicyInfo object, null if not found</returns>
         public static SecurityPolicyInfo GetPolicy(AmiServiceClient client, Guid key)
         {            
             try
@@ -54,6 +63,11 @@ namespace OpenIZAdmin.Util
             return null;
         }
 
+        /// <summary>
+		/// Gets a list of all policies.
+		/// </summary>
+		/// <param name="client">The <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.</param>
+		/// <returns>Returns a IEnumerable PolicyViewModel list.</returns>
         internal static IEnumerable<PolicyViewModel> GetAllPolicies(AmiServiceClient client)
 		{
 			IEnumerable<PolicyViewModel> viewModels = new List<PolicyViewModel>();
@@ -75,6 +89,11 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
+        /// <summary>
+        /// Converts a <see cref="OpenIZAdmin.Models.PolicyModels.CreatePolicyModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo"/>.
+        /// </summary>
+        /// <param name="model">The CreatePolicyModel object to convert.</param>
+        /// <returns>Returns a SecurityPolicyInfo model.</returns>
         public static SecurityPolicyInfo ToSecurityPolicy(CreatePolicyModel model)
         {
             SecurityPolicyInfo policy = new SecurityPolicyInfo();
@@ -86,6 +105,12 @@ namespace OpenIZAdmin.Util
             return policy;
         }
 
+        /// <summary>
+        /// Converts a <see cref="OpenIZAdmin.Models.PolicyModels.EditPolicyModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo"/>.
+        /// </summary>
+        /// <param name="model">The CreatePolicyModel object to convert.</param>
+        /// <param name="policyInfo">The SecurityPolicyInfo object to convert.</param>
+        /// <returns>Returns a SecurityPolicyInfo model.</returns>
         public static SecurityPolicyInfo ToSecurityPolicy(EditPolicyModel model, SecurityPolicyInfo policyInfo)
         {
             policyInfo.Policy.Name = model.Name;
@@ -96,6 +121,11 @@ namespace OpenIZAdmin.Util
             return policy;
         }
 
+        /// <summary>
+        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.EditPolicyModel"/>.
+        /// </summary>        
+        /// <param name="policy">The SecurityPolicyInfo object to convert.</param>
+        /// <returns>Returns a EditPolicyModel model.</returns>
         public static EditPolicyModel ToEditPolicyModel(SecurityPolicyInfo policy)
         {
             EditPolicyModel viewModel = new EditPolicyModel();
@@ -115,6 +145,11 @@ namespace OpenIZAdmin.Util
             return viewModel;
         }
 
+        /// <summary>
+        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel"/>.
+        /// </summary>        
+        /// <param name="policy">The SecurityPolicyInfo object to convert.</param>
+        /// <returns>Returns a PolicyViewModel model.</returns>
         public static PolicyViewModel ToPolicyViewModel(SecurityPolicyInfo policy)
 		{
 			PolicyViewModel viewModel = new PolicyViewModel();
@@ -135,6 +170,11 @@ namespace OpenIZAdmin.Util
             return viewModel;
 		}
 
+        /// <summary>
+        /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityPolicy"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel"/>.
+        /// </summary>        
+        /// <param name="policy">The SecurityPolicy object to convert.</param>
+        /// <returns>Returns a PolicyViewModel model.</returns>
 		public static PolicyViewModel ToPolicyViewModel(SecurityPolicy policy)
 		{
 			PolicyViewModel viewModel = new PolicyViewModel();
@@ -146,15 +186,33 @@ namespace OpenIZAdmin.Util
 			viewModel.Oid = policy.Oid;
 
 			return viewModel;
-		}
+		}        
 
+        /// <summary>
+        /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityPolicyInstance"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel"/>.
+        /// </summary>        
+        /// <param name="policy">The SecurityPolicyInstance object to convert.</param>
+        /// <returns>Returns a PolicyViewModel model.</returns>
 		public static PolicyViewModel ToPolicyViewModel(SecurityPolicyInstance policy)
 		{
 			PolicyViewModel viewModel = PolicyUtil.ToPolicyViewModel(policy.Policy);
 
-			return viewModel;
-		}		
+            viewModel.CanOverride = policy.Policy.CanOverride;
+            viewModel.IsPublic = policy.Policy.IsPublic;
+            viewModel.Key = policy.Policy.Key.Value;
+            viewModel.Name = policy.Policy.Name;
+            viewModel.Oid = policy.Policy.Oid;
+            viewModel.Grant = Enum.GetName(typeof(PolicyGrantType), policy.GrantType);
+            viewModel.IsObsolete = (policy.Policy.ObsoletionTime != null) ? true : false;            
 
+            return viewModel;
+		}
+
+        /// <summary>
+        /// Verifies a valid string parameter
+        /// </summary>
+        /// <param name="key">The string to validate</param>        
+        /// <returns>Returns true if valid, false if empty or whitespace</returns>
         public static bool IsValidString(string key)
         {
             if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))

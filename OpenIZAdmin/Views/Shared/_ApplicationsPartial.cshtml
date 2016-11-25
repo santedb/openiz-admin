@@ -17,14 +17,15 @@
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th></th>
+                        <th>                            
+                            @Locale.ApplicationName
+                        </th>
+                        @*<th>
+                            @Locale.ApplicationId
+                        </th>*@
                         <th>
                             @Locale.CreationTime
-                        </th>
-                        <th>
-                            @Locale.ApplicationId
-                        </th>
-                        <th>
-                            @Locale.ApplicationName
                         </th>                        
                         <th>
                             @Locale.HasPolicies
@@ -38,9 +39,9 @@
                     {
                         <tr>
                             <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>
-                            <td>@item.CreationTime.ToLocalTime()</td>
-                            <td>@item.ApplicationId</td>
                             <td>@item.ApplicationName</td>
+                            <td>@item.CreationTime.ToLocalTime()</td>
+                            @*<td>@item.ApplicationId</td>*@                            
                             <td>
                                 @if (item.HasPolicies)
                                 {
@@ -63,10 +64,10 @@
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
                             </td>
-                            @*<td>
+                            <td>
                                 @if (!item.IsObsolete)
                                 {
-                                    using (Html.BeginForm("Delete", "Device", new { id = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    using (Html.BeginForm("Delete", "Application", new { id = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
 
@@ -78,7 +79,7 @@
                                 }
                                 else
                                 {
-                                    using (Html.BeginForm("Activate", "Device", new { id = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    using (Html.BeginForm("Activate", "Application", new { id = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
 
@@ -89,7 +90,7 @@
                                     }
                                 }
 
-                            </td>*@
+                            </td>
                         </tr>}
                 </tbody>
             </table>

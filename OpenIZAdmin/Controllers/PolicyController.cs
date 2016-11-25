@@ -53,14 +53,14 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Activate(string id)
 		{
-			Guid userKey = Guid.Empty;
+			Guid policyKey = Guid.Empty;
 			SecurityPolicyInfo policyInfo = null;
 
-			if (PolicyUtil.IsValidString(id) && Guid.TryParse(id, out userKey))
+			if (PolicyUtil.IsValidString(id) && Guid.TryParse(id, out policyKey))
 			{
 				try
 				{
-					policyInfo = PolicyUtil.GetPolicy(this.AmiClient, userKey);
+					policyInfo = PolicyUtil.GetPolicy(this.AmiClient, policyKey);
 
 					if (policyInfo == null)
 					{
@@ -176,6 +176,11 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
+        /// <summary>
+		/// Retrieves the policy entity by id
+		/// </summary>
+		/// <param name="key">The policy identifier.</param>
+		/// <returns>Returns the policy edit view.</returns>
 		[HttpGet]
 		public ActionResult Edit(string key)
 		{
@@ -204,8 +209,7 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Updates a policy.
 		/// </summary>
-		/// <param name="model">The model containing the updated policy information.</param>
-		/// <param name="key">The policy guid indentifier.</param>
+		/// <param name="model">The model containing the updated policy information.</param>		
 		/// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -246,6 +250,10 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+        /// <summary>
+		/// Displays the Index view
+		/// </summary>
+		/// <returns>Returns the index view.</returns>
 		[HttpGet]
 		public ActionResult Index()
 		{
@@ -253,6 +261,11 @@ namespace OpenIZAdmin.Controllers
 			return View(PolicyUtil.GetAllPolicies(this.AmiClient));
 		}
 
+        /// <summary>
+		/// Searches for a policy.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns a list of policies which match the search term.</returns>
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
@@ -283,6 +296,11 @@ namespace OpenIZAdmin.Controllers
 			return PartialView("_PoliciesPartial", policies);
 		}
 
+        /// <summary>
+		/// Searches for a policy to view details.
+		/// </summary>
+		/// <param name="key">The policy identifier search string.</param>
+		/// <returns>Returns a policy view that matches the search term.</returns>
 		[HttpGet]
 		public ActionResult ViewPolicy(string key)
 		{

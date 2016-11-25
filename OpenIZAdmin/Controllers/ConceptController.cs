@@ -176,6 +176,11 @@ namespace OpenIZAdmin.Controllers
                     concepts = this.SearchConcepts(model);
                     viewModels.AddRange(concepts.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
                 }
+				else if (model.SearchType == ConceptSearchType.ConceptSet)
+				{
+					concepts = this.SearchConceptSets(model);
+					viewModels.AddRange(concepts.Item.OfType<ConceptSet>().Select(c => new ConceptSearchResultViewModel(c)));
+				}
                 else
                 {
                     TempData["error"] = "Unable to retrieve concept sets";

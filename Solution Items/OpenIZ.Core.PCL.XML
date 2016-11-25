@@ -693,14 +693,14 @@
             </summary>
             <param name="binder">The serialization binder to use.</param>
         </member>
-        <member name="M:OpenIZ.Core.Http.RestClientBase.CreateQueryString(System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
+        <member name="M:OpenIZ.Core.Http.RestClientBase.CreateQueryString(OpenIZ.Core.Model.Query.NameValueCollection)">
             <summary>
             Create the query string from a list of query parameters
             </summary>
             <param name="query"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenIZ.Core.Http.RestClientBase.CreateHttpRequest(System.String,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
+        <member name="M:OpenIZ.Core.Http.RestClientBase.CreateHttpRequest(System.String,OpenIZ.Core.Model.Query.NameValueCollection)">
             <summary>
             Create the HTTP request
             </summary>
@@ -751,7 +751,7 @@
             <param name="query"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenIZ.Core.Http.RestClientBase.InvokeInternal``2(System.String,System.String,System.String,System.Net.WebHeaderCollection,System.Net.WebHeaderCollection@,``0,System.Collections.Generic.KeyValuePair{System.String,System.Object}[])">
+        <member name="M:OpenIZ.Core.Http.RestClientBase.InvokeInternal``2(System.String,System.String,System.String,System.Net.WebHeaderCollection,System.Net.WebHeaderCollection@,``0,OpenIZ.Core.Model.Query.NameValueCollection)">
             <summary>
             Invokes the specified method against the url provided
             </summary>
@@ -1057,7 +1057,7 @@
             Generate a test operation in the patch
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.Impl.SimplePatchService.Patch(OpenIZ.Core.Model.Patch.Patch,OpenIZ.Core.Model.IdentifiedData)">
+        <member name="M:OpenIZ.Core.Services.Impl.SimplePatchService.Patch(OpenIZ.Core.Model.Patch.Patch,OpenIZ.Core.Model.IdentifiedData,System.Boolean)">
             <summary>
             Applies the specified <paramref name="patch"/> onto <paramref name="data"/> to derive the return value.
             </summary>
@@ -1442,6 +1442,23 @@
             <param name="totalCount">The total count of the search results.</param>
             <returns>Returns a list of concept sets who match the specified query.</returns>
         </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindReferenceTerms(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ReferenceTerm,System.Boolean}})">
+            <summary>
+            Searches for a reference term using a given query.
+            </summary>
+            <param name="query">The query to use for searching for the reference term.</param>
+            <returns>Returns a list of concept sets who match the specified query.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindReferenceTerms(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ReferenceTerm,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Searches for a reference terms using a given query.
+            </summary>
+            <param name="query">The query to use for searching for the reference terms.</param>
+            <param name="count">The count of the reference terms to return.</param>
+            <param name="offset">The offset for the search results.</param>
+            <param name="totalCount">The total count of the search results.</param>
+            <returns>Returns a list of reference terms who match the specified query.</returns>
+        </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetConcept(System.Guid,System.Guid)">
             <summary>
             Gets the specified concept.
@@ -1485,12 +1502,11 @@
             <param name="mnemonic">The mnemonic of the concept set.</param>
             <returns>Returns the concept set.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetReferenceTerm(OpenIZ.Core.Model.DataTypes.Concept,System.String)">
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.GetReferenceTerm(System.Guid)">
             <summary>
-            Gets the specified reference term from <paramref name="concept"/> in <paramref name="codeSystemOid"/>
+            Gets a reference term.
             </summary>
-            <param name="concept">The concept of the reference term.</param>
-            <param name="codeSystemOid">The code system OID of the concept.</param>
+            <param name="id">The id of the reference term to retrieve.</param>
             <returns>Returns the reference term.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.Implies(OpenIZ.Core.Model.DataTypes.Concept,OpenIZ.Core.Model.DataTypes.Concept)">
@@ -1528,6 +1544,13 @@
             </summary>
             <param name="set">The concept set to be inserted.</param>
             <returns>Returns the inserted concept set.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.InsertReferenceTerm(OpenIZ.Core.Model.DataTypes.ReferenceTerm)">
+            <summary>
+            Inserts a reference term.
+            </summary>
+            <param name="referenceTerm">The reference term to be inserted.</param>
+            <returns>Returns the inserted reference term.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.IsMember(OpenIZ.Core.Model.DataTypes.ConceptSet,OpenIZ.Core.Model.DataTypes.Concept)">
             <summary>
@@ -1594,8 +1617,8 @@
             <summary>
             Inserts or updates a concept reference term.
             </summary>
-            <param name="term">The reference term to be saved.</param>
-            <returns>Returns a concept.</returns>
+            <param name="referenceTerm">The reference term to be saved.</param>
+            <returns>Returns a reference term.</returns>
         </member>
         <member name="T:OpenIZ.Core.Services.IDataCachingService">
             <summary>
@@ -1629,7 +1652,7 @@
             to <paramref name="updated"/>
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IPatchService.Patch(OpenIZ.Core.Model.Patch.Patch,OpenIZ.Core.Model.IdentifiedData)">
+        <member name="M:OpenIZ.Core.Services.IPatchService.Patch(OpenIZ.Core.Model.Patch.Patch,OpenIZ.Core.Model.IdentifiedData,System.Boolean)">
             <summary>
             Apples the specified <paramref name="patch"/> onto <paramref name="data"/> returning the updated object
             </summary>

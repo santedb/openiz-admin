@@ -35,15 +35,27 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
+    /// <summary>
+	/// Provides operations for administering providers.
+	/// </summary>
 	[TokenAuthorize]
 	public class ProviderController : BaseController
 	{
+        /// <summary>
+		/// Displays the create provider view.
+		/// </summary>
+		/// <returns>Returns the create provider view.</returns>
 		[HttpGet]
 		public ActionResult Create()
 		{
 			return View();
 		}
 
+        /// <summary>
+		/// Displays the create view.
+		/// </summary>
+		/// <param name="model">The model containing the new provider information.</param>
+		/// <returns>Returns the Index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateProviderModel model)
@@ -70,6 +82,12 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+        /// <summary>
+		/// Retrieves the provider entity by id and version key
+		/// </summary>
+		/// <param name="key">The provider identifier.</param>
+        /// <param name="versionKey">The provider version identifier.</param>
+		/// <returns>Returns the provider edit view.</returns>
 		[HttpGet]
 		public ActionResult Edit(string key, string versionKey)
 		{
@@ -97,6 +115,11 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
+        /// <summary>
+		/// Updates a provider.
+		/// </summary>
+		/// <param name="model">The model containing the provider information.</param>
+		/// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditProviderModel model)
@@ -123,6 +146,10 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+        /// <summary>
+		/// Displays the Index view
+		/// </summary>
+		/// <returns>Returns the index view.</returns>
 		[HttpGet]
 		public ActionResult Index()
 		{
@@ -130,6 +157,12 @@ namespace OpenIZAdmin.Controllers
 			return View();
 		}
 
+        /// <summary>
+		/// Searches for a provider to view details.
+		/// </summary>
+		/// <param name="key">The provider identifier search string.</param>
+        /// <param name="versionKey">The provider version identifier.</param>
+		/// <returns>Returns a provider view that matches the search term.</returns>
 		[HttpGet]
 		public ActionResult ViewProvider(string key, string versionKey)
 		{
@@ -159,6 +192,11 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
+        /// <summary>
+		/// Searches for a provider.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns a list of providers which match the search term.</returns>
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{

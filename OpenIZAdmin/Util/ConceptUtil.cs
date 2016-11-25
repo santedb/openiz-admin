@@ -58,6 +58,11 @@ namespace OpenIZAdmin.Util
 			return concept;
 		}
 
+        /// <summary>
+        /// Converts a <see cref="OpenIZ.Core.Model.DataTypes"/> to a <see cref="OpenIZAdmin.Models.ConceptModels.ViewModels.ConceptViewModel"/>.
+        /// </summary>
+        /// <param name="concept">The concept object to convert.</param>        
+        /// <returns>Returns a ConceptViewModel.</returns>
         public static ConceptViewModel ToConceptViewModel(Concept concept)
         {
             ConceptViewModel viewModel = new ConceptViewModel();
@@ -78,6 +83,11 @@ namespace OpenIZAdmin.Util
             return viewModel;
         }
 
+        /// <summary>
+        /// Converts a <see cref="OpenIZ.Core.Model.DataTypes"/> to a <see cref="OpenIZAdmin.Models.ConceptModels.EditConceptModel"/>.
+        /// </summary>
+        /// <param name="concept">The concept object to convert.</param>        
+        /// <returns>Returns a EditConceptModel.</returns>
         public static EditConceptModel ToEditConceptModel(Concept concept)
         {
             EditConceptModel viewModel = new EditConceptModel();

@@ -44,9 +44,7 @@ namespace OpenIZAdmin.Models.DeviceModels.ViewModels
         [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
-		public List<PolicyViewModel> Policies { get; set; }
-
-        //public string SearchString { get; set; }
+		public List<PolicyViewModel> Policies { get; set; }        
 
         public DateTime? UpdatedTime { get; set; }
 	}

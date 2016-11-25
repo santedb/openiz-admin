@@ -32,6 +32,7 @@ using System.Threading.Tasks;
 using System.IO.Compression;
 using System.Net;
 using OpenIZ.Core.Model;
+using OpenIZ.Core.Model.Query;
 
 namespace OpenIZAdmin.Services.Http
 {
@@ -58,6 +59,11 @@ namespace OpenIZAdmin.Services.Http
 				() => InternalConfiguration.GetServiceClientConfiguration().Clients.Find(x => x.Name == key))).Value)
 		{
 			Trace.TraceInformation("Current Entity Source: {0}", EntitySource.Current);
+
+			this.Requesting += (o, e) =>
+			{
+				e.Query.Add("_all", "true");
+			};
 		}
 
 		/// <summary>
@@ -68,35 +74,6 @@ namespace OpenIZAdmin.Services.Http
 		public RestClientService(IRestClientDescription configuration) : base(configuration)
 		{
 			Trace.TraceInformation("Current Entity Source: {0}", EntitySource.Current);
-		}
-
-		/// <summary>
-		/// Creates and HTTP request.
-		/// </summary>
-		/// <param name="resourceName">The name of the resource being accessed.</param>
-		/// <param name="query">The query parameters.</param>
-		/// <returns></returns>
-		protected override WebRequest CreateHttpRequest(string resourceName, params KeyValuePair<string, object>[] query)
-		{
-			var request = (HttpWebRequest)base.CreateHttpRequest(resourceName, query);
-
-			// Certs?
-			//if (this.ClientCertificates != null)
-			//	request.ClientCertificates.AddRange(configuration.Client.cli);
-
-			// Compress?
-			if (this.Description.Binding.Optimize)
-			{
-				request.Headers.Add(HttpRequestHeader.ContentEncoding, "deflate");
-			}
-
-			// Proxy?
-			//if (!string.IsNullOrEmpty(configuration.ProxyAddress))
-			//{
-			//	request.Proxy = new WebProxy(configuration.ProxyAddress);
-			//}
-
-			return request;
 		}
 
 		/// <summary>
@@ -111,7 +88,7 @@ namespace OpenIZAdmin.Services.Http
 		/// <param name="body">The body of the request.</param>
 		/// <param name="query">The query parameters of the request.</param>
 		/// <returns>Returns the response of the request.</returns>
-		protected override TResult InvokeInternal<TBody, TResult>(string method, string url, string contentType, WebHeaderCollection requestHeaders, out WebHeaderCollection responseHeaders, TBody body, params KeyValuePair<string, object>[] query)
+		protected override TResult InvokeInternal<TBody, TResult>(string method, string url, string contentType, WebHeaderCollection requestHeaders, out WebHeaderCollection responseHeaders, TBody body, NameValueCollection query)
 		{
 
 			if (String.IsNullOrEmpty(method))

@@ -28,21 +28,36 @@ using System.Web;
 
 namespace OpenIZAdmin.Util
 {
-	public static class ProviderUtil
+    /// <summary>
+    /// Provides a utility for managing providers.
+    /// </summary>
+    public static class ProviderUtil
 	{
-		public static Provider ToProvider(CreateProviderModel model)
-		{
-			throw new NotImplementedException();
-		}
-
-		public static Provider ToProvider(EditProviderModel model)
+        /// <summary>
+        /// Converts a <see cref="OpenIZAdmin.Models.ProviderModels.CreateProviderModel"/> to a <see cref="OpenIZ.Core.Model.Roles.Provider"/>.
+        /// </summary>
+        /// <param name="model">The CreateProviderModel object to convert.</param>
+        /// <returns>Returns a Provider object.</returns>
+        public static Provider ToProvider(CreateProviderModel model)
 		{
 			throw new NotImplementedException();
 		}
 
         /// <summary>
-        /// Extract object data and bind to view model
+        /// Converts a <see cref="OpenIZAdmin.Models.ProviderModels.EditProviderModel"/> to a <see cref="OpenIZ.Core.Model.Roles.Provider"/>.
         /// </summary>
+        /// <param name="model">The EditProviderModel object to convert.</param>
+        /// <returns>Returns a Provider object.</returns>
+        public static Provider ToProvider(EditProviderModel model)
+		{
+			throw new NotImplementedException();
+		}
+
+        /// <summary>
+        /// Converts a <see cref="OpenIZ.Core.Model.Roles.Provider"/> to a <see cref="OpenIZAdmin.Models.ProviderModels.ViewModels.ProviderViewModel"/>.
+        /// </summary>
+        /// <param name="provider">The Provider object to convert.</param>
+        /// <returns>Returns a ProviderViewModel object.</returns>
 		public static ProviderViewModel ToProviderViewModel(Provider provider)
 		{
             ProviderViewModel viewModel = new ProviderViewModel();
@@ -58,12 +73,12 @@ namespace OpenIZAdmin.Util
 		}
 
         /// <summary>
-		/// Gets a user entity.
+		/// Gets a provider entity.
 		/// </summary>
 		/// <param name="client">The IMSI service client.</param>
 		/// <param name="key">The GUID key of the provider to retrieve.</param>
-		/// <returns>Returns a provider entity or null if no provider entity is found.</returns>
-		//public static Provider GetProviderEntity(ImsiServiceClient client, Guid userId)
+        /// <param name="versionKey">The version id of the provider entry to retrieve.</param>
+		/// <returns>Returns a provider entity or null if no provider entity is found.</returns>		
         public static Provider GetProviderEntity(ImsiServiceClient client, string key, string versionKey)
         {
             Provider provider = null;
@@ -88,10 +103,10 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-		/// Converts a provider entity to a edit provider model.
+		/// Converts a <see cref="OpenIZ.Core.Model.Roles.Provider"/> to a <see cref="OpenIZAdmin.Models.ProviderModels.EditProviderModel"/>.
 		/// </summary>
 		/// <param name="providerEntity">The provider entity to convert to a provider user model.</param>
-		/// <returns>Returns an edit provider model.</returns>
+		/// <returns>Returns an EditProviderModel model.</returns>
 		public static EditProviderModel ToEditProviderModel(Provider providerEntity)
         {
             EditProviderModel model = new EditProviderModel();
@@ -110,6 +125,11 @@ namespace OpenIZAdmin.Util
             return model;
         }
 
+        /// <summary>
+        /// Verifies a valid string parameter
+        /// </summary>
+        /// <param name="key">The string to validate</param>        
+        /// <returns>Returns true if valid, false if empty or whitespace</returns>
         public static bool IsValidString(string key)
         {
             if (!string.IsNullOrEmpty(key) || !string.IsNullOrWhiteSpace(key))

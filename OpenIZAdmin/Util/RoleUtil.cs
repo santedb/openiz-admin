@@ -29,8 +29,16 @@ using System.Linq;
 
 namespace OpenIZAdmin.Util
 {
+    /// <summary>
+    /// Provides a utility for managing roles.
+    /// </summary>
 	public static class RoleUtil
 	{
+        /// <summary>
+		/// Gets a list of all roles.
+		/// </summary>
+		/// <param name="client">The <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.</param>
+		/// <returns>Returns a IEnumerable RoleViewModel list.</returns>
 		internal static IEnumerable<RoleViewModel> GetAllRoles(AmiServiceClient client)
 		{
 			IEnumerable<RoleViewModel> viewModels = new List<RoleViewModel>();
@@ -53,6 +61,12 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
+        /// <summary>
+        /// Queries for a role by key
+        /// </summary>
+        /// <param name="client">The AMI service client</param>        
+        /// /// <param name="roleId">The role guid identifier</param>        
+        /// <returns>Returns SecurityRoleInfo object, null if not found</returns>
         public static SecurityRoleInfo GetRole(AmiServiceClient client, Guid roleId)
         {
             try
@@ -74,6 +88,12 @@ namespace OpenIZAdmin.Util
             return null;
         }
 
+        /// <summary>
+        /// Queries for a specific role by role id
+        /// </summary>
+        /// <param name="client">The AMI service client</param>        
+        /// /// <param name="id">The role identifier</param>        
+        /// <returns>Returns SecurityRoleInfo object, null if not found</returns>
         public static SecurityRoleInfo GetRole(AmiServiceClient client, string id)
         {
             try
@@ -95,6 +115,11 @@ namespace OpenIZAdmin.Util
             return null;
         }
 
+        /// <summary>
+        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo"/> to a <see cref="OpenIZAdmin.Models.RoleModels.ViewModels.RoleViewModel"/>.
+        /// </summary>
+        /// <param name="roleInfo">The SecurityRoleInfo object to convert.</param>
+        /// <returns>Returns a RoleViewModel model.</returns>
         public static RoleViewModel ToRoleViewModel(SecurityRoleInfo roleInfo)
 		{
 			RoleViewModel viewModel = new RoleViewModel();
@@ -106,6 +131,11 @@ namespace OpenIZAdmin.Util
 			return viewModel;
 		}
 
+        /// <summary>
+        /// Converts a <see cref="OpenIZAdmin.Models.RoleModels.CreateRoleModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo"/>.
+        /// </summary>
+        /// <param name="roleInfo">The SecurityRoleInfo object to convert.</param>
+        /// <returns>Returns a SecurityRoleInfo model.</returns>
 		public static SecurityRoleInfo ToSecurityRoleInfo(CreateRoleModel model)
 		{
 			SecurityRoleInfo roleInfo = new SecurityRoleInfo();
@@ -118,6 +148,11 @@ namespace OpenIZAdmin.Util
 			return roleInfo;
 		}
 
+        /// <summary>
+        /// Converts a <see cref="OpenIZAdmin.Models.RoleModels.EditRoleModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo"/>.
+        /// </summary>
+        /// <param name="model">The EditRoleModel object to convert.</param>
+        /// <returns>Returns a SecurityRoleInfo model.</returns>
 		public static SecurityRoleInfo ToSecurityRoleInfo(EditRoleModel model)
 		{
 			SecurityRoleInfo roleInfo = new SecurityRoleInfo();

@@ -22,13 +22,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Models.PolicyModels.ViewModels;
 
 namespace OpenIZAdmin.Models.ApplicationModels.ViewModels
 {
     public class ApplicationViewModel
     {
         public ApplicationViewModel()
-        {           
+        {
+            this.Policies = new List<PolicyViewModel>();
         }
 
         [Display(Name = "ApplicationId", ResourceType = typeof(Localization.Locale))]
@@ -43,18 +45,16 @@ namespace OpenIZAdmin.Models.ApplicationModels.ViewModels
         [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
         public DateTime CreationTime { get; set; }
 
-        public string EntityVersionId { get; set; }
-
         [Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
         public bool HasPolicies { get; set; }
 
-        public Guid Id { get; set; }        
-        
-        [Display(Name = "VendorName", ResourceType = typeof(Localization.Locale))]
-        public string VendorName { get; set; }
+        public Guid Id { get; set; }
 
-        [Display(Name = "VersionName", ResourceType = typeof(Localization.Locale))]
-        public string VersionName { get; set; }
+        public bool IsObsolete { get; set; }        
+
+        public List<PolicyViewModel> Policies { get; set; }
+
+        public DateTime? UpdatedTime { get; set; }
 
 
     }

@@ -179,6 +179,11 @@ namespace OpenIZAdmin.Util
 			return model;
 		}
 
+        /// <summary>
+		/// Converts a create user a user entity.
+		/// </summary>
+		/// <param name="model">The create user entity to convert to a user entity model.</param>
+		/// <returns>Returns a user entity model.</returns>
 		public static UserEntity ToUserEntity(CreateUserModel model)
 		{
 			UserEntity userEntity = new UserEntity();
@@ -225,6 +230,11 @@ namespace OpenIZAdmin.Util
 			return userEntity;
 		}
 
+        /// <summary>
+        /// Converts a <see cref="OpenIZAdmin.Models.UserModels.CreateUserModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/>.
+        /// </summary>
+        /// <param name="model">The create user object to convert.</param>
+        /// <returns>Returns a SecurityUserInfo model.</returns>
 		public static SecurityUserInfo ToSecurityUserInfo(CreateUserModel model)
 		{
 			SecurityUserInfo userInfo = new SecurityUserInfo
@@ -241,6 +251,11 @@ namespace OpenIZAdmin.Util
 			return userInfo;
 		}
 
+        /// <summary>
+        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/> to a <see cref="OpenIZAdmin.Models.UserModels.ViewModels.UserViewModel"/>.
+        /// </summary>
+        /// <param name="userInfo">The security user info object to convert.</param>
+        /// <returns>Returns a user entity model.</returns>
 		public static UserViewModel ToUserViewModel(SecurityUserInfo userInfo)
 		{
 			UserViewModel viewModel = new UserViewModel();

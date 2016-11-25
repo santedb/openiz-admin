@@ -140,6 +140,11 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+        /// <summary>
+		/// Views an applet.
+		/// </summary>
+		/// <param name="id">The applet identifier.</param>
+		/// <returns>Returns the applet view.</returns>
 		[HttpGet]
 		public ActionResult ViewApplet(Guid id)
 		{

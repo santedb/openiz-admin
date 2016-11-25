@@ -59,7 +59,7 @@
             <param name="assigningAuthorityInfo">The assigning authority to be created.</param>
             <returns>Returns the created assigning authority.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateDevice(OpenIZ.Core.Model.Security.SecurityDevice)">
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateDevice(OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo)">
             <summary>
             Creates a device in the IMS.
             </summary>
@@ -232,21 +232,14 @@
             <param name="query">The query expression to use to find the certificate signing requests.</param>
             <returns>Returns a collection of certificate signing requests which match the specified query.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetConcepts(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.Concept,System.Boolean}})">
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetDevice(System.String)">
             <summary>
-            Gets a list of concepts.
+            Gets a specific device.
             </summary>
-            <param name="query">The query expression to use to find the concepts.</param>
-            <returns>Returns a collection of concepts which match the specified query.</returns>
+            <param name="))">The id of the security device to be retrieved.</param>
+            <returns>Returns the security device.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetConceptSets(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptSet,System.Boolean}})">
-            <summary>
-            Gets a list of concept sets.
-            </summary>
-            <param name="query">The query expression to use to find the concept sets.</param>
-            <returns>Returns a collection of concept sets which match the specified query.</returns>
-        </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetDevices(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityDevice,System.Boolean}})">
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetDevices(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo,System.Boolean}})">
             <summary>
             Gets a list of devices.
             </summary>
