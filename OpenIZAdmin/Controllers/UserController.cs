@@ -127,12 +127,6 @@ namespace OpenIZAdmin.Controllers
 				{
 					var result = this.AmiClient.CreateUser(user);
 
-					UserEntity userEntity = UserUtil.ToUserEntity(model);
-
-					userEntity.SecurityUser = result.User;
-
-					this.ImsiClient.Create<UserEntity>(userEntity);
-
 					TempData["success"] = Locale.User + " " + Locale.CreatedSuccessfully;
 
 					return RedirectToAction("Index");
