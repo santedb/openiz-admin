@@ -851,6 +851,7 @@
   </data>
   <data name="ConceptClassRequired" xml:space="preserve">
     <value>The Concept Class field required</value>
+    </data>
   <data name="EditApplication" xml:space="preserve">
     <value>Edit Application</value>
   </data>
