@@ -16,12 +16,13 @@
             </summary>
             <param name="client">The <see cref="T:OpenIZ.Core.Http.IRestClient"/> instance.</param>
         </member>
-        <member name="M:OpenIZ.Messaging.IMSI.Client.ImsiServiceClient.Create``1(``0)">
+        <member name="M:OpenIZ.Messaging.IMSI.Client.ImsiServiceClient.Create``1(``0,System.Boolean)">
             <summary>
             Creates specified data.
             </summary>
             <typeparam name="TModel">The type of data to be created.</typeparam>
             <param name="data">The data to be created.</param>
+            <param name="bundled">Whether the data should be submitted as a bundle.</param>
             <returns>Returns the newly created data.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.IMSI.Client.ImsiServiceClient.Get``1(System.Guid,System.Nullable{System.Guid})">
