@@ -62,7 +62,7 @@ namespace OpenIZAdmin.Services.Http
 
 			this.Requesting += (o, e) =>
 			{
-				e.Query.Add("_all", "true")
+				e.Query.Add("_all", "true");
 			};
 		}
 
