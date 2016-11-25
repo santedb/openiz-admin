@@ -1,4 +1,4 @@
-﻿@model OpenIZAdmin.Models.ConceptModels.SearchConceptModel
+﻿@model OpenIZAdmin.Models.MaterialModels.SearchMaterialModel
 @{
     ViewBag.Title = Locale.Search;
 
@@ -15,30 +15,15 @@
         @Locale.Search
         <div class="pull-right">
             <span>@Locale.New</span>
-            <a href="~/Concept/Create" class="glyphicon glyphicon-plus-sign"></a>
+            <a href="~/Material/Create" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
     <div class="panel panel-body">
-        @using (Ajax.BeginForm("Search", "Concept", options, new { @class = "form-horizontal", role = "form" }))
+        @using (Ajax.BeginForm("Search", "Material", options, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.SearchType, new { @class = "col-md-2 control-label" })
-                <div class="col-md-3">
-                    @Html.DropDownListFor(m => m.SearchType, new List<SelectListItem> { new SelectListItem { Text = "Concept", Value = "0" }}, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.SearchType, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Mnemonic, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Mnemonic, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+            
                 <div class="form-group">
                     @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
                     <div class="col-md-8">
