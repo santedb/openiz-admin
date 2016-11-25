@@ -111,7 +111,44 @@ namespace OpenIZAdmin.Controllers
 
 
             return RedirectToAction("Index");
-        }        
+        }
+
+        /// <summary>
+        /// Deletes a policy associate to a device.
+        /// </summary>
+        /// <param name="key">The policy guid key of the policy to be deleted.</param>
+        /// <returns>Returns the ViewDevice view.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePolicy(Guid key)
+        {
+            //---TO DO!!!
+            //apply and update to the device with the policies removed from the property
+            //string id = string.Empty;
+            string id = string.Empty;
+            if (ApplicationUtil.IsValidString(id))
+            {
+                try
+                {
+                    //this.AmiClient.UpdateApplication(id);
+                    TempData["success"] = Locale.Application + " " + Locale.UpdatedSuccessfully;
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    Trace.TraceError("Unable to delete policy from application: {0}", e.StackTrace);
+#endif
+                    Trace.TraceError("Unable to delete policy from application: {0}", e.Message);
+                }
+            }
+
+            TempData["error"] = Locale.UnableToDelete + " " + Locale.Policy;
+
+
+            return RedirectToAction("Index");
+        }
 
         /// <summary>
         /// Gets the application object to edit
