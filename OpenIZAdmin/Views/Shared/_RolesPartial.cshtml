@@ -24,6 +24,9 @@
                         <th>
                             @Html.DisplayNameFor(m => m.Description)
                         </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.HasPolicies)
+                        </th>
                         <th></th>
                         <th></th>
                     </tr>
@@ -35,6 +38,16 @@
                             <td><span class="glyphicon glyphicon-user pull-left" aria-hidden="true"></span></td>
                             <td>@item.Name</td>
                             <td>@item.Description</td>
+                            <td>
+                                @if (item.HasPolicies)
+                                {
+                                    <text>@Locale.Yes</text>
+                                }
+                                else
+                                {
+                                    <text>@Locale.No</text>
+                                }
+                            </td> 
                             <td>
                                 <a class="btn btn-primary" href="/Role/ViewRole/@item.Id">
                                     @Locale.View

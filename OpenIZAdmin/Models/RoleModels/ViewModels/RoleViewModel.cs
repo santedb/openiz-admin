@@ -17,7 +17,9 @@
  * Date: 2016-7-10
  */
 
+using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.RoleModels.ViewModels
@@ -31,10 +33,17 @@ namespace OpenIZAdmin.Models.RoleModels.ViewModels
 		[Display(Name = "Description", ResourceType = typeof(Localization.Locale))]
 		public string Description { get; set; }
 
-		[Display(Name = "Id", ResourceType = typeof(Localization.Locale))]
+        [Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
+        public bool HasPolicies { get; set; }
+
+        [Display(Name = "Id", ResourceType = typeof(Localization.Locale))]
 		public Guid Id { get; set; }
 
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		public string Name { get; set; }
-	}
+        public bool IsObsolete { get; set; }
+
+        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		public string Name { get; set; }                        
+
+        public List<PolicyViewModel> Policies { get; set; }
+    }
 }
