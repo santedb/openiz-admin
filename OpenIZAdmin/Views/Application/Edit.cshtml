@@ -7,9 +7,12 @@
     <div class="panel panel-heading">
         @Locale.EditApplication
     </div>
+
+    @using (Html.BeginForm("Edit", "Application", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
     <div class="panel panel-body panel-default">
-        @using (Html.BeginForm("Edit", "Application", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-        {
+        
+            @Html.HiddenFor(m => m.Id)
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
@@ -29,11 +32,82 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            @*<div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <input type="submit" value="@Locale.Submit" class="btn btn-default" />
                 </div>
-            </div>}
+            </div>*@
     </div>
+
+    <div class="panel panel-default">
+        <div class="panel panel-heading">
+            <span>@Locale.Details</span>
+            @*<div class="pull-right">
+                <a href="~/Application/Edit">
+                    <span class="glyphicon glyphicon-edit"></span>
+                    @Locale.AddPolicy
+                </a>
+            </div>*@
+        </div>
+        <div class="panel panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <label class="control-label">@Html.DisplayNameFor(m => m.Policies)</label>
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>@Locale.CreationTime</th>
+                                        <th>@Locale.Name</th>
+                                        <th>@Locale.Grant</th>
+                                        <th>@Locale.IsPublic</th>
+                                        <th>@Locale.Oid</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.ApplicationPolicies)
+                                    {
+                                        <tr>
+                                            <td></td>
+                                            <td>@item.Name</td>
+                                            <td>@item.Grant</td>
+                                            <td>@item.IsPublic</td>
+                                            <td>@item.Oid</td>
+                                            <td>
+                                                @if (!item.IsObsolete)
+                                                {
+                                                    using (Html.BeginForm("DeletePolicy", "Application", new { id = item.Key }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                                    {
+                                                        @Html.AntiForgeryToken()
+
+                                                        <button type="submit" class="btn btn-danger">
+                                                            @Locale.Delete
+                                                            <span class="glyphicon glyphicon-log-out"></span>
+                                                        </button>
+                                                    }
+                                                }
+                                            </td>
+                                        </tr> }
+
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="@Locale.Submit" class="btn btn-default" />
+        </div>
+    </div>
+
+
+    }
+
 </div>
 

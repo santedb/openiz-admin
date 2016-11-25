@@ -180,7 +180,7 @@ namespace OpenIZAdmin.Controllers
 
                     //TempData["error"] = Locale.UnableToUpdate + " " + Locale.Device;
 
-                    //return Redirect("Index");                
+                return Redirect("Index");                
             }
 
             TempData["error"] = Locale.UnableToUpdate + " " + Locale.Application;

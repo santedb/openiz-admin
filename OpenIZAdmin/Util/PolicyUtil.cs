@@ -186,7 +186,7 @@ namespace OpenIZAdmin.Util
 			viewModel.Oid = policy.Oid;
 
 			return viewModel;
-		}
+		}        
 
         /// <summary>
         /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityPolicyInstance"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel"/>.
@@ -197,7 +197,15 @@ namespace OpenIZAdmin.Util
 		{
 			PolicyViewModel viewModel = PolicyUtil.ToPolicyViewModel(policy.Policy);
 
-			return viewModel;
+            viewModel.CanOverride = policy.Policy.CanOverride;
+            viewModel.IsPublic = policy.Policy.IsPublic;
+            viewModel.Key = policy.Policy.Key.Value;
+            viewModel.Name = policy.Policy.Name;
+            viewModel.Oid = policy.Policy.Oid;
+            viewModel.Grant = Enum.GetName(typeof(PolicyGrantType), policy.GrantType);
+            viewModel.IsObsolete = (policy.Policy.ObsoletionTime != null) ? true : false;            
+
+            return viewModel;
 		}
 
         /// <summary>

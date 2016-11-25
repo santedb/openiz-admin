@@ -1,4 +1,5 @@
 ﻿using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -23,6 +24,8 @@ namespace OpenIZAdmin.Models.ApplicationModels
         //[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         public IEnumerable<string> AddPoliciesList { get; set; }
 
+        public IEnumerable<PolicyViewModel> ApplicationPolicies { get; set; }
+
         [Display(Name = "ApplicationId", ResourceType = typeof(Localization.Locale))]
         public string ApplicationId { get; set; }
 
@@ -40,7 +43,8 @@ namespace OpenIZAdmin.Models.ApplicationModels
         //[Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
         //public bool HasPolicies { get; set; }
 
-        public Guid Id { get; set; }
+        [Required]
+        public Guid Id { get; set; }        
 
         //policies autopopulate
         //public List<SelectListItem> PoliciesList { get; set; }

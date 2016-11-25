@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web;
+using OpenIZAdmin.Models.PolicyModels.ViewModels;
 
 namespace OpenIZAdmin.Util
 {
@@ -124,13 +125,18 @@ namespace OpenIZAdmin.Util
 
             viewModel.Id = appInfo.Id.Value;
             viewModel.ApplicationName = appInfo.Name;
+            viewModel.ApplicationSecret = appInfo.ApplicationSecret;
             viewModel.CreationTime = appInfo.Application.CreationTime.DateTime;
-            viewModel.HasPolicies = IsPolicy(appInfo.Policies);
+            viewModel.HasPolicies = IsPolicy(appInfo.Policies);            
+
+            if(appInfo.Policies != null)
+                viewModel.Policies = appInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
+            else
+                viewModel.Policies = new List<PolicyViewModel>();
 
             return viewModel;
         }
-
-
+       
         /// <summary>
         /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo"/> to a <see cref="OpenIZAdmin.Models.ApplicationModels.EditApplicationModel"/>
         /// </summary>
@@ -147,7 +153,10 @@ namespace OpenIZAdmin.Util
             viewModel.CreationTime = appInfo.Application.CreationTime.DateTime;
             //viewModel.HasPolicies = IsPolicy(appInfo.Policies);
 
-            //viewModel.DevicePolicies = (device.Policies != null) ? GetDevicePolicies(device.Policies) : null;                 
+            if (appInfo.Policies != null && appInfo.Policies.Count() > 0)
+                viewModel.ApplicationPolicies = appInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
+            else
+                viewModel.ApplicationPolicies = new List<PolicyViewModel>();            
 
             //viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
             //viewModel.PoliciesList.AddRange(DeviceUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
@@ -187,10 +196,13 @@ namespace OpenIZAdmin.Util
         public static SecurityApplicationInfo ToSecurityApplicationInfo(EditApplicationModel model, SecurityApplicationInfo appInfo, List<SecurityPolicy> addPolicies)
         {
             appInfo.Application.Key = model.Id;
+            appInfo.Id = model.Id;
             appInfo.Application.Name = model.ApplicationName;
+            appInfo.Name = model.ApplicationName;
             appInfo.Application.ApplicationSecret = model.ApplicationSecret;
-            appInfo.Application.Policies = model.Policies ?? new List<SecurityPolicyInstance>();
+            appInfo.ApplicationSecret = model.ApplicationSecret;
 
+            appInfo.Application.Policies = model.Policies ?? new List<SecurityPolicyInstance>();
             //add the new policies
             foreach (var policy in addPolicies.Select(p => new SecurityPolicyInstance(p, (PolicyGrantType)2)))
             {
@@ -208,6 +220,19 @@ namespace OpenIZAdmin.Util
         private static bool IsPolicy(List<SecurityPolicyInstance> pList)
         {
             if (pList != null && pList.Count() > 0)
+                return true;
+            else
+                return false;
+        }
+
+        /// <summary>
+        /// Checks if a device is active or inactive
+        /// </summary>
+        /// <param name="date">A DateTimeOffset object</param>        
+        /// <returns>Returns true if active, false if inactive</returns>
+        private static bool IsActiveStatus(DateTimeOffset? date)
+        {
+            if (date != null)
                 return true;
             else
                 return false;
