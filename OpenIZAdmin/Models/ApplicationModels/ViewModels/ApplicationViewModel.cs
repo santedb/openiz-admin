@@ -50,8 +50,8 @@ namespace OpenIZAdmin.Models.ApplicationModels.ViewModels
 
         public Guid Id { get; set; }
 
-        //public bool IsObsolete { get; set; }
-               
+        public bool IsObsolete { get; set; }        
+
         public List<PolicyViewModel> Policies { get; set; }
 
         public DateTime? UpdatedTime { get; set; }

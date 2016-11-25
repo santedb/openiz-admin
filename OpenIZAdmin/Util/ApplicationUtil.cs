@@ -127,7 +127,8 @@ namespace OpenIZAdmin.Util
             viewModel.ApplicationName = appInfo.Name;
             viewModel.ApplicationSecret = appInfo.ApplicationSecret;
             viewModel.CreationTime = appInfo.Application.CreationTime.DateTime;
-            viewModel.HasPolicies = IsPolicy(appInfo.Policies);            
+            viewModel.HasPolicies = IsPolicy(appInfo.Policies);
+            viewModel.IsObsolete = IsObsolete(appInfo.Application.ObsoletionTime);         
 
             if(appInfo.Policies != null)
                 viewModel.Policies = appInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
@@ -236,6 +237,19 @@ namespace OpenIZAdmin.Util
                 return true;
             else
                 return false;
+        }
+
+        /// <summary>
+        /// Checks if an application is active or inactive
+        /// </summary>
+        /// <param name="date">A DateTimeOffset object</param>        
+        /// <returns>Returns true if active, false if inactive</returns>
+        private static bool IsObsolete(DateTimeOffset? date)
+        {
+            if (date == null)
+                return false;
+            else
+                return true;
         }
 
         /// <summary>

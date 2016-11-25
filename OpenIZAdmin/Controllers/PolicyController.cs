@@ -53,14 +53,14 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Activate(string id)
 		{
-			Guid userKey = Guid.Empty;
+			Guid policyKey = Guid.Empty;
 			SecurityPolicyInfo policyInfo = null;
 
-			if (PolicyUtil.IsValidString(id) && Guid.TryParse(id, out userKey))
+			if (PolicyUtil.IsValidString(id) && Guid.TryParse(id, out policyKey))
 			{
 				try
 				{
-					policyInfo = PolicyUtil.GetPolicy(this.AmiClient, userKey);
+					policyInfo = PolicyUtil.GetPolicy(this.AmiClient, policyKey);
 
 					if (policyInfo == null)
 					{

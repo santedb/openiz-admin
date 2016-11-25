@@ -46,6 +46,55 @@ namespace OpenIZAdmin.Controllers
 		}
 
         /// <summary>
+		/// Activates an application.
+		/// </summary>
+		/// <param name="id">The id of the application to be activated.</param>
+		/// <returns>Returns the index view.</returns>
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Activate(string id)
+        {
+            Guid appKey = Guid.Empty;
+            SecurityApplicationInfo appInfo = null;
+
+            if (ApplicationUtil.IsValidString(id) && Guid.TryParse(id, out appKey))
+            {
+                try
+                {
+                    appInfo = ApplicationUtil.GetApplication(this.AmiClient, appKey);
+
+                    if (appInfo == null)
+                    {
+                        TempData["error"] = Locale.Policy + " " + Locale.NotFound;
+
+                        return RedirectToAction("Index");
+                    }
+
+                    appInfo.Id = appKey;
+                    appInfo.Application.ObsoletedBy = null;
+                    appInfo.Application.ObsoletionTime = null;
+
+                    this.AmiClient.UpdateApplication(id, appInfo);
+
+                    TempData["success"] = Locale.Policy + " " + Locale.ActivatedSuccessfully;
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    Trace.TraceError("Unable to delete policy: {0}", e.StackTrace);
+#endif
+                    Trace.TraceError("Unable to delete policy: {0}", e.Message);
+                }
+            }
+
+            TempData["error"] = Locale.UnableToActivate + " " + Locale.Policy;
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ApplicationController"/> class.
         /// </summary>
         [HttpGet]

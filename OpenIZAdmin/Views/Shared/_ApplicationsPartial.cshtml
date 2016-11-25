@@ -64,10 +64,10 @@
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
                             </td>
-                            @*<td>
+                            <td>
                                 @if (!item.IsObsolete)
                                 {
-                                    using (Html.BeginForm("Delete", "Device", new { id = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    using (Html.BeginForm("Delete", "Application", new { id = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
 
@@ -79,7 +79,7 @@
                                 }
                                 else
                                 {
-                                    using (Html.BeginForm("Activate", "Device", new { id = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    using (Html.BeginForm("Activate", "Application", new { id = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
 
@@ -90,7 +90,7 @@
                                     }
                                 }
 
-                            </td>*@
+                            </td>
                         </tr>}
                 </tbody>
             </table>
