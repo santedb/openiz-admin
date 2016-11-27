@@ -26,12 +26,7 @@
                         @Model.Body
                     </div>
                 </div>
-            </div>
-        </div>
-
-        <div class="btn-group">
-            <div class="form-group">
-                <div class="col-md-3">
+                <div class="col-md-2">
                     @using (Html.BeginForm("Read", "Alert", new { id = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                     {
                         @Html.AntiForgeryToken()
