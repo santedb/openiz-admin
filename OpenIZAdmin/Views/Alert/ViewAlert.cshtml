@@ -32,12 +32,6 @@
         <div class="btn-group">
             <div class="form-group">
                 <div class="col-md-3">
-                    @using (Html.BeginForm("Delete", "Alert", new { id = Model.Id }, FormMethod.Post, new { role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-alert"></span>@Locale.Delete</button>}
-                </div>
-                <div class="col-md-3">
                     @using (Html.BeginForm("Read", "Alert", new { id = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                     {
                         @Html.AntiForgeryToken()
