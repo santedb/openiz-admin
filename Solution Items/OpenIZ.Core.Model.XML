@@ -547,6 +547,21 @@
             Auto load attribute
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Attributes.AutoLoadAttribute.#ctor">
+            <summary>
+            Auto load
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Attributes.AutoLoadAttribute.#ctor(System.String)">
+            <summary>
+            Load on attribute
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Attributes.AutoLoadAttribute.ClassCode">
+            <summary>
+            Gets or sets the value when the class code is true to auto-load
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Attributes.BindingAttribute">
             <summary>
             Binding attributes to suggest what values can be used in a property
@@ -1628,6 +1643,111 @@
             instance
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Model.Constants.EntityClassKeyStrings">
+            <summary>
+            Entity class concept keys
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.Animal">
+            <summary>
+            Animal
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.ChemicalSubstance">
+            <summary>
+            Chemical Substance
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.CityOrTown">
+            <summary>
+            City or town
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.Container">
+            <summary>
+            Container
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.Country">
+            <summary>
+            Country or nation
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.CountyOrParish">
+            <summary>
+            County or parish
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.Device">
+            <summary>
+            Device
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.Entity">
+            <summary>
+            Entity
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.Food">
+            <summary>
+            Food
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.LivingSubject">
+            <summary>
+            Living Subject
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.ManufacturedMaterial">
+            <summary>
+            Manufactured material
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.Material">
+            <summary>
+            Material
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.NonLivingSubject">
+            <summary>
+            Non living subject
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.Organization">
+            <summary>
+            Organization
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.Patient">
+            <summary>
+            Patient
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.Person">
+            <summary>
+            Person
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.Place">
+            <summary>
+            Place
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.Provider">
+            <summary>
+            Service delivery location
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.ServiceDeliveryLocation">
+            <summary>
+            Service delivery location
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityClassKeyStrings.State">
+            <summary>
+            State
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Constants.EntityClassKeys">
             <summary>
             Entity class concept keys
@@ -2344,6 +2464,11 @@
             Gets or sets the value of the extension
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.DataTypes.Extension`1.ExtensionValueString">
+            <summary>
+            Value as string of bytes
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.DataTypes.Extension`1.ExtensionValue">
             <summary>
             Gets or sets the ignore value
@@ -2688,6 +2813,11 @@
         <member name="P:OpenIZ.Core.Model.DataTypes.ReferenceTermName.ReferenceTermKey">
             <summary>
             Back-reference to reference term
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.ReferenceTermName.ShouldSerializeReferenceTermKey">
+            <summary>
+            Should serialize reference term key
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.DataTypes.ReferenceTermName.Language">
@@ -4661,7 +4791,7 @@
             <returns>The path.</returns>
             <param name="access">Access.</param>
         </member>
-        <member name="M:OpenIZ.Core.Model.Query.QueryExpressionBuilder.BuildQuery``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}})">
+        <member name="M:OpenIZ.Core.Model.Query.QueryExpressionBuilder.BuildQuery``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Boolean)">
             <summary>
             Builds the query dictionary .
             </summary>

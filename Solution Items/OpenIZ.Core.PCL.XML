@@ -859,6 +859,11 @@
             </summary>
             <value>The result.</value>
         </member>
+        <member name="M:OpenIZ.Core.Http.RestClientException`1.#ctor(System.String,System.Exception)">
+            <summary>
+            Create a new rest client exception
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Http.RestClientException`1.#ctor(`0,System.Exception,System.Net.WebExceptionStatus,System.Net.WebResponse)">
             <summary>
             Create the client exception
