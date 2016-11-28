@@ -21,16 +21,30 @@ using OpenIZ.Core.Model.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 {
+	/// <summary>
+	/// Represents a material search result view model.
+	/// </summary>
 	public class MaterialSearchResultViewModel
     {
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MaterialSearchResultViewModel"/> class.
+		/// </summary>
 		public MaterialSearchResultViewModel()
 		{
 
 		}
-        
+
+		public MaterialSearchResultViewModel(Material material)
+		{
+			this.CreationTime = material.CreationTime.DateTime;
+			this.Key = material.Key.Value;
+			this.Name = string.Join(" ", material.Names.SelectMany(m => m.Component).Select(c => c.Value));
+			this.VersionKey = material.VersionKey;
+		}
 
 		public string Name { get; set; }
         

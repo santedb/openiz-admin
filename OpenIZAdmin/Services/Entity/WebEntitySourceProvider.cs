@@ -25,6 +25,7 @@ using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Services.Http;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 
@@ -101,7 +102,19 @@ namespace OpenIZAdmin.Services.Entity
 		/// <returns>Returns the object.</returns>
 		public TObject Get<TObject>(Guid? key) where TObject : IdentifiedData, new()
 		{
-			var response = this.serviceClient.Get<TObject>(key.GetValueOrDefault(Guid.Empty), null);
+			IdentifiedData response = null;
+
+			try
+			{
+				response = this.serviceClient.Get<TObject>(key.GetValueOrDefault(Guid.Empty), null);
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Error: {0}", e);
+#endif
+				Trace.TraceError("Error: {0}", e.Message);
+			}
 
 			return response as TObject;
 		}
@@ -115,7 +128,19 @@ namespace OpenIZAdmin.Services.Entity
 		/// <returns>Returns the object.</returns>
 		public TObject Get<TObject>(Guid? key, Guid? versionKey) where TObject : IdentifiedData, IVersionedEntity, new()
 		{
-			var response = this.serviceClient.Get<TObject>(key.GetValueOrDefault(Guid.Empty), versionKey);
+			IdentifiedData response = null;
+
+			try
+			{
+				response = this.serviceClient.Get<TObject>(key.GetValueOrDefault(Guid.Empty), versionKey);
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Error: {0}", e);
+#endif
+				Trace.TraceError("Error: {0}", e.Message);
+			}
 
 			return response as TObject;
 		}
@@ -128,7 +153,22 @@ namespace OpenIZAdmin.Services.Entity
 		/// <returns>Returns a list of relations for the entity.</returns>
 		public IEnumerable<TObject> GetRelations<TObject>(Guid? sourceKey) where TObject : IdentifiedData, ISimpleAssociation, new()
 		{
-			return this.Query<TObject>(o => sourceKey == o.SourceEntityKey).ToList();
+			IEnumerable<IdentifiedData> response = new List<IdentifiedData>();
+
+			try
+			{
+				response = this.Query<TObject>(o => sourceKey == o.SourceEntityKey).ToList();
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Error: {0}", e);
+#endif
+				Trace.TraceError("Error: {0}", e.Message);
+			}
+
+			return response as List<TObject>;
+
 		}
 
 		/// <summary>
@@ -140,7 +180,21 @@ namespace OpenIZAdmin.Services.Entity
 		/// <returns>Returns a list of relations for the entity.</returns>
 		public IEnumerable<TObject> GetRelations<TObject>(Guid? sourceKey, decimal? sourceVersionSequence) where TObject : IdentifiedData, IVersionedAssociation, new()
 		{
-			return this.Query<TObject>(o => sourceKey == o.SourceEntityKey && sourceVersionSequence >= o.EffectiveVersionSequenceId && (o.ObsoleteVersionSequenceId == null || sourceVersionSequence < o.ObsoleteVersionSequenceId)).ToList();
+			IEnumerable<IdentifiedData> response = new List<IdentifiedData>();
+
+			try
+			{
+				response = this.Query<TObject>(o => sourceKey == o.SourceEntityKey && sourceVersionSequence >= o.EffectiveVersionSequenceId && (o.ObsoleteVersionSequenceId == null || sourceVersionSequence < o.ObsoleteVersionSequenceId)).ToList();
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Error: {0}", e);
+#endif
+				Trace.TraceError("Error: {0}", e.Message);
+			}
+
+			return response as List<TObject>;
 		}
 
 		/// <summary>
@@ -151,14 +205,21 @@ namespace OpenIZAdmin.Services.Entity
 		/// <returns>Returns a list of entities.</returns>
 		public IEnumerable<TObject> Query<TObject>(Expression<Func<TObject, bool>> query) where TObject : IdentifiedData, new()
 		{
-			var response = this.serviceClient.Query<TObject>(query);
+			IEnumerable<IdentifiedData> response = new List<IdentifiedData>();
 
-			if (response == null)
+			try
 			{
-				return new List<TObject>().AsEnumerable();
+				response = this.serviceClient.Query<TObject>(query).Item.OfType<TObject>();
+			}
+			catch (Exception e)
+			{
+#if DEBUG
+				Trace.TraceError("Error: {0}", e);
+#endif
+				Trace.TraceError("Error: {0}", e.Message);
 			}
 
-			return response as IEnumerable<TObject>;
+			return response as List<TObject>;
 		}
 	}
 }

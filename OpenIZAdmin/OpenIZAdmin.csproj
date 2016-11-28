@@ -238,7 +238,6 @@
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ViewModels\ApplicationViewModel.cs" />
     <Compile Include="Models\MaterialModels\CreateMaterialModel.cs" />
-    <Compile Include="Models\MaterialModels\SearchMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\ViewModels\MaterialSearchResultViewModel.cs" />
     <Compile Include="Models\UserModels\ResetPasswordModel.cs" />
     <Compile Include="Models\AccountModels\ManageModel.cs" />
@@ -472,6 +471,7 @@
     <Content Include="Views\Material\Create.cshtml" />
     <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Material\Search.cshtml" />
+    <Content Include="Views\Shared\_MaterialSearchResultsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />

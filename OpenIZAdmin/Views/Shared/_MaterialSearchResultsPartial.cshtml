@@ -1,0 +1,60 @@
+﻿@model IEnumerable<OpenIZAdmin.Models.MaterialModels.ViewModels.MaterialSearchResultViewModel>
+@{
+    ViewBag.Title = Locale.Materials;
+}
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        @Locale.Materials
+        <div class="pull-right">
+            <span>@Locale.New</span>
+            <a href="~/Material/Create" class="glyphicon glyphicon-plus-sign"></a>
+        </div>
+    </div>
+    <div class="panel panel-body">
+        @if (Model.Any())
+        {
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>
+                            @Locale.CreationTime
+                        </th>
+                        <th>
+                            @Locale.Name
+                        </th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>
+                            <td>@item.CreationTime.ToLocalTime()</td>
+                            <td>@item.Name</td>
+                            <td>
+                                <a class="btn btn-primary" href="/Material/ViewDevice/@item.Key">
+                                    @Locale.View
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a class="btn btn-warning" href="/Material/Edit/Edit?key=@item.Key">
+                                    @Locale.Edit
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                            </td>
+                        </tr>}
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>@(Locale.No + " " + Locale.Materials + " " + Locale.Found)</p>
+        }
+
+
+    </div>
+</div>

@@ -952,6 +952,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Found.
+        /// </summary>
+        public static string Found {
+            get {
+                return ResourceManager.GetString("Found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to From.
         /// </summary>
         public static string From {
@@ -1254,6 +1263,15 @@ namespace OpenIZAdmin.Localization {
         public static string Material {
             get {
                 return ResourceManager.GetString("Material", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Materials.
+        /// </summary>
+        public static string Materials {
+            get {
+                return ResourceManager.GetString("Materials", resourceCulture);
             }
         }
         

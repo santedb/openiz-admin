@@ -66,40 +66,40 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Gets a list of users by assigned role.
 		/// </summary>
 		/// <param name="client">The IMSI service client.</param>
-        /// <param name="id">The role identifier.</param>
+		/// <param name="id">The role identifier.</param>
 		/// <returns>Returns a list of users.</returns>
 		internal static IEnumerable<UserViewModel> GetAllUsersByRole(AmiServiceClient client, string id)
-        {
-            IEnumerable<UserViewModel> viewModels = new List<UserViewModel>();
+		{
+			IEnumerable<UserViewModel> viewModels = new List<UserViewModel>();
 
-            try
-            {
-                // HACK
-                var users = client.GetUsers(u => u.Email != null);
+			try
+			{
+				// HACK
+				var users = client.GetUsers(u => u.Email != null);
 
-                viewModels = users.CollectionItem.Select(u => UserUtil.ToUserViewModel(u));
-            }
-            catch (Exception e)
-            {
+				viewModels = users.CollectionItem.Select(u => UserUtil.ToUserViewModel(u));
+			}
+			catch (Exception e)
+			{
 #if DEBUG
-                Trace.TraceError("Unable to retrieve users: {0}", e.StackTrace);
+				Trace.TraceError("Unable to retrieve users: {0}", e.StackTrace);
 #endif
-                Trace.TraceError("Unable to retrieve users: {0}", e.Message);
-            }
+				Trace.TraceError("Unable to retrieve users: {0}", e.Message);
+			}
 
-            return viewModels;
-        }
+			return viewModels;
+		}
 
-        /// <summary>
-        /// Gets the SYSTEM user.
-        /// </summary>
-        /// <param name="client">The AMI service client.</param>
-        /// <returns>Returns the system user.</returns>
-        internal static SecurityUserInfo GetSystemUser(AmiServiceClient client)
+		/// <summary>
+		/// Gets the SYSTEM user.
+		/// </summary>
+		/// <param name="client">The AMI service client.</param>
+		/// <returns>Returns the system user.</returns>
+		internal static SecurityUserInfo GetSystemUser(AmiServiceClient client)
 		{
 			return client.GetUsers(u => u.UserName == "SYSTEM").CollectionItem.FirstOrDefault();
 		}
@@ -112,21 +112,7 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a security user.</returns>
 		public static SecurityUserInfo GetSecurityUserInfo(AmiServiceClient client, Guid userId)
 		{
-			SecurityUserInfo user = null;
-
-			try
-			{
-				user = client.GetUser(userId.ToString());
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve security user: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve security user: {0}", e.Message);
-			}
-
-			return user;
+			return client.GetUser(userId.ToString());
 		}
 
 		/// <summary>
@@ -137,23 +123,11 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a user entity or null if no user entity is found.</returns>
 		public static UserEntity GetUserEntity(ImsiServiceClient client, Guid userId)
 		{
-			UserEntity user = null;
+			var bundle = client.Query<UserEntity>(u => u.SecurityUserKey == userId);
 
-			try
-			{
-				var bundle = client.Query<UserEntity>(u => u.SecurityUserKey == userId);
+			bundle.Reconstitute();
 
-				bundle.Reconstitute();
-
-				user = bundle.Item.OfType<UserEntity>().Cast<UserEntity>().FirstOrDefault();
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve user entity: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve user entity: {0}", e.Message);
-			}
+			var user = bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.SecurityUserKey == userId);
 
 			return user;
 		}
@@ -165,55 +139,18 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a edit user model.</returns>
 		public static EditUserModel ToEditUserModel(UserEntity userEntity)
 		{
-			EditUserModel model = new EditUserModel();
-
-			model.Email = userEntity.SecurityUser.Email;
-			model.FacilityId = userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString();
-			model.FamilyNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentType.Key == NameComponentKeys.Family).Select(c => c.Value).ToList();
-			model.GivenNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentType.Key == NameComponentKeys.Given).Select(c => c.Value).ToList();
-
-			model.Roles = userEntity.SecurityUser.Roles.Select(r => r.Name);
-			model.Username = userEntity.SecurityUser.UserName;
-			model.UserId = userEntity.SecurityUserKey.GetValueOrDefault(Guid.Empty);
-
-			return model;
-		}
-
-        /// <summary>
-		/// Converts a create user a user entity.
-		/// </summary>
-		/// <param name="model">The create user entity to convert to a user entity model.</param>
-		/// <returns>Returns a user entity model.</returns>
-		public static UserEntity ToUserEntity(CreateUserModel model)
-		{
-			UserEntity userEntity = new UserEntity();
-
-			EntityName name = new EntityName();
-
-			name.NameUse = new Concept
+			var model = new EditUserModel
 			{
-				Key = NameUseKeys.OfficialRecord
+				Email = userEntity.SecurityUser.Email,
+				FacilityId = userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString(),
+				FamilyNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList(),
+				GivenNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList(),
+				Roles = userEntity.SecurityUser.Roles.Select(r => r.Name),
+				Username = userEntity.SecurityUser.UserName,
+				UserId = userEntity.SecurityUserKey.GetValueOrDefault(Guid.Empty)
 			};
 
-			name.Component = new List<EntityNameComponent>();
-
-			if (model.FamilyNames != null && model.FamilyNames.Count > 0)
-			{
-				name.Component.AddRange(model.FamilyNames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
-			}
-
-			if (model.GivenNames != null && model.GivenNames.Count > 0)
-			{
-				name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
-			}
-
-			userEntity.Names = new List<EntityName>();
-
-			userEntity.Names.Add(name);
-
-			userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.FacilityId)));
-
-			return userEntity;
+			return model;
 		}
 
 		/// <summary>
@@ -223,51 +160,58 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a user entity.</returns>
 		public static UserEntity ToUserEntity(UpdateProfileModel model)
 		{
-			UserEntity userEntity = new UserEntity();
+			var userEntity = new UserEntity
+			{
+				SecurityUser =
+				{
+					PhoneNumber = model.PhoneNumber
+				}
+			};
 
-			userEntity.SecurityUser.PhoneNumber = model.PhoneNumber;
 
 			return userEntity;
 		}
 
-        /// <summary>
-        /// Converts a <see cref="OpenIZAdmin.Models.UserModels.CreateUserModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/>.
-        /// </summary>
-        /// <param name="model">The create user object to convert.</param>
-        /// <returns>Returns a SecurityUserInfo model.</returns>
+		/// <summary>
+		/// Converts a <see cref="OpenIZAdmin.Models.UserModels.CreateUserModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/>.
+		/// </summary>
+		/// <param name="model">The create user object to convert.</param>
+		/// <returns>Returns a SecurityUserInfo model.</returns>
 		public static SecurityUserInfo ToSecurityUserInfo(CreateUserModel model)
 		{
-			SecurityUserInfo userInfo = new SecurityUserInfo
+			var userInfo = new SecurityUserInfo
 			{
 				Email = model.Email,
 				Password = model.Password,
-				UserName = model.Username
+				UserName = model.Username,
+				Roles = new List<SecurityRoleInfo>()
 			};
 
-			userInfo.Roles = new List<SecurityRoleInfo>();
 
 			userInfo.Roles.AddRange(model.Roles.Select(r => new SecurityRoleInfo { Name = r }));
 
 			return userInfo;
 		}
 
-        /// <summary>
-        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/> to a <see cref="OpenIZAdmin.Models.UserModels.ViewModels.UserViewModel"/>.
-        /// </summary>
-        /// <param name="userInfo">The security user info object to convert.</param>
-        /// <returns>Returns a user entity model.</returns>
+		/// <summary>
+		/// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/> to a <see cref="OpenIZAdmin.Models.UserModels.ViewModels.UserViewModel"/>.
+		/// </summary>
+		/// <param name="userInfo">The security user info object to convert.</param>
+		/// <returns>Returns a user entity model.</returns>
 		public static UserViewModel ToUserViewModel(SecurityUserInfo userInfo)
 		{
-			UserViewModel viewModel = new UserViewModel();
+			var viewModel = new UserViewModel
+			{
+				Email = userInfo.Email,
+				IsLockedOut = userInfo.Lockout.GetValueOrDefault(false),
+				IsObsolete = userInfo.User.ObsoletedBy != null,
+				LastLoginTime = userInfo.User.LastLoginTime?.DateTime,
+				PhoneNumber = userInfo.User.PhoneNumber,
+				Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel),
+				UserId = userInfo.UserId.Value,
+				Username = userInfo.UserName
+			};
 
-			viewModel.Email = userInfo.Email;
-			viewModel.IsLockedOut = userInfo.Lockout.GetValueOrDefault(false);
-			viewModel.IsObsolete = userInfo.User.ObsoletedBy != null;
-			viewModel.LastLoginTime = userInfo.User.LastLoginTime?.DateTime;
-			viewModel.PhoneNumber = userInfo.User.PhoneNumber;
-			viewModel.Roles = userInfo.Roles.Select(r => RoleUtil.ToRoleViewModel(r));
-			viewModel.UserId = userInfo.UserId.Value;
-			viewModel.Username = userInfo.UserName;
 
 			return viewModel;
 		}

@@ -31,6 +31,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Models;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -107,52 +108,35 @@ namespace OpenIZAdmin.Controllers
         
         public ActionResult Index()
         {
-            return View();
+			TempData["searchType"] = "Material";
+			return View();
         }
 
-        /// <summary>
-        /// Displays the search view.
-        /// </summary>
-        /// <returns>Returns the search view.</returns>
-        [HttpGet]
-        public ActionResult Search()
-        {
-            return View();
-        }
 
-        /// <summary>
-        /// Searches the IMS for a concept.
-        /// </summary>
-        /// <param name="model">The search model containing the search parameters.</param>
-        /// <returns>Returns a list of concepts matching the specified query.</returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Search(SearchMaterialModel model)
-        {
-            List<MaterialSearchResultViewModel> viewModels = new List<MaterialSearchResultViewModel>();
+		/// <summary>
+		/// Searches for a user.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns a list of users which match the search term.</returns>
+		[HttpGet]
+		public ActionResult Search(string searchTerm)
+		{
+			IEnumerable<MaterialSearchResultViewModel> users = new List<MaterialSearchResultViewModel>();
 
-            Bundle materials = new Bundle();
+			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+			{
+				var bundle = this.ImsiClient.Query<Material>(m => m.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))));
 
-            try
-            {
-                    materials = this.ImsiClient.Query<Material>(m => m.ObsoletionTime != null);
-                    viewModels.AddRange(MaterialUtil.ToMaterialList(materials));
+				TempData["searchTerm"] = searchTerm;
 
+				return PartialView("_MaterialSearchResultsPartial", bundle.Item.OfType<Material>().Select(MaterialUtil.ToMaterialSearchResultViewModel));
+			}
 
-                return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Name).ToList());
-            }
-            catch (Exception e)
-            {
-#if DEBUG
-                Trace.TraceError("Unable to retrieve concepts", e.StackTrace);
-#endif
-                Trace.TraceError("Unable to retrieve concepts", e.Message);
-            }
+			TempData["error"] = Locale.Material + " " + Locale.NotFound;
+			TempData["searchTerm"] = searchTerm;
 
-            TempData["error"] = "Unable to retrieve concepts";
+			return PartialView("_MaterialSearchResultsPartial", users);
+		}
 
-            return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Name).ToList());
-        }
-
-    }
+	}
 }

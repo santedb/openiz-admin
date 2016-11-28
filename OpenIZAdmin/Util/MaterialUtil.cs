@@ -35,11 +35,7 @@ namespace OpenIZAdmin.Util
 	/// </summary>
 	public static class MaterialUtil
 	{
-		/// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.DataTypes.Material"/> to a <see cref="OpenIZAdmin.Models.ConceptModels.CreateMaterialModel"/>.
-		/// </summary>
-		/// <param name="model">The materials to convert.</param>
-		/// <returns>Returns a material list.</returns>
+
 		public static List<MaterialSearchResultViewModel> ToMaterialList(Bundle bundle)
 		{
 			List<MaterialSearchResultViewModel> materialList = new List<MaterialSearchResultViewModel>();
@@ -54,6 +50,20 @@ namespace OpenIZAdmin.Util
                     });
             }
 			return materialList;
+		}
+
+		public static MaterialSearchResultViewModel ToMaterialSearchResultViewModel(Material material)
+		{
+			var viewModel = new MaterialSearchResultViewModel
+			{
+				CreationTime = material.CreationTime.DateTime,
+				Key = material.Key.Value,
+				Name = string.Join(" ", material.Names.SelectMany(m => m.Component).Select(c => c.Value)),
+				VersionKey = material.VersionKey
+			};
+
+			return viewModel;
+
 		}
 
     }

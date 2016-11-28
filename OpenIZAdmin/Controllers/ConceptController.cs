@@ -13,11 +13,10 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  *
- * User: Nityan
+ * User: yendtr
  * Date: 2016-7-23
  */
 
-using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Query;
 using OpenIZAdmin.Attributes;
@@ -33,427 +32,345 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
-    /// <summary>
-    /// Provides operations for managing concepts.
-    /// </summary>
-    [TokenAuthorize]
-    public class ConceptController : BaseController
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConceptController"/> class.
-        /// </summary>
-        public ConceptController()
-        {
-        }
+	/// <summary>
+	/// Provides operations for managing concepts.
+	/// </summary>
+	[TokenAuthorize]
+	public class ConceptController : BaseController
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ConceptController"/> class.
+		/// </summary>
+		public ConceptController()
+		{
+		}
 
-        /// <summary>
-        /// Displays the create view.
-        /// </summary>
-        /// <returns>Returns the create view.</returns>
-        [HttpGet]
-        public ActionResult Create()
-        {
-            CreateConceptModel model = new CreateConceptModel();
+		/// <summary>
+		/// Displays the create view.
+		/// </summary>
+		/// <returns>Returns the create view.</returns>
+		[HttpGet]
+		public ActionResult Create()
+		{
+			CreateConceptModel model = new CreateConceptModel();
 
-            var languages = LanguageUtil.GetLanguageList();
+			var languages = LanguageUtil.GetLanguageList();
 
-            model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
+			model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
 
-            var conceptClasses = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime==null);
-            
-            for (var i = 0; i<conceptClasses.Count; i++)
-            {
-                model.ConceptClassList.Add(new SelectListItem()
-                {
-                    Text = (conceptClasses.Item[i] as ConceptClass).Mnemonic,
-                    Value = (conceptClasses.Item[i] as ConceptClass).Key.Value.ToString(),
-                });
-            }
-            
-            model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
+			var conceptClasses = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
 
-            return View(model);
-        }
-
-        /// <summary>
-        /// Creates a concept.
-        /// </summary>
-        /// <param name="model">The model containing the information to create a concept.</param>
-        /// <returns>Returns the created concept.</returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateConceptModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    var result = this.ImsiClient.Create(ConceptUtil.ToConcept(model));
-                    TempData["success"] = Locale.Concept + " " + Locale.CreatedSuccessfully;
-
-                    return RedirectToAction("Index");
-                }
-                catch (Exception e)
-                {
-#if DEBUG
-                    Trace.TraceError("Unable to create concept: {0}", e.StackTrace);
-#endif
-                    Trace.TraceError("Unable to create concept: {0}", e.Message);
-                }
-            }
-
-            TempData["error"] = Locale.UnableToCreate + " " + Locale.Concept;
-
-            var languages = LanguageUtil.GetLanguageList();
-
-            model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
-
-            return View(model);
-        }
-
-        [HttpGet]
-        public ActionResult Delete(Guid key, Guid versionKey)
-        {
-            Guid conceptKey = Guid.Empty;
-                try
-                {
-                    var concept = this.ImsiClient.Get<Concept>(key, versionKey) as Concept;
-
-                    concept.ObsoletionTime = new DateTimeOffset(DateTime.Now);
-                    this.ImsiClient.Obsolete<Concept>(concept); 
-                    TempData["success"] = Locale.Concept + " " + Locale.DeletedSuccessfully;
-                    return RedirectToAction("Index");
-                }
-                catch (Exception e)
-                {
-#if DEBUG
-                    Trace.TraceError("Unable to delete assigning authority: {0}", e.StackTrace);
-#endif
-                    Trace.TraceError("Unable to delete assigning authority: {0}", e.Message);
-                }
-            
-            TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-            return RedirectToAction("Index");
-        }
-        
-        /// <summary>
-        /// Displays the index view.
-        /// </summary>
-        /// <returns>Returns the index view.</returns>
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// Displays the search view.
-        /// </summary>
-        /// <returns>Returns the search view.</returns>
-        [HttpGet]
-        public ActionResult Search()
-        {
-            return View();
-        }
-
-        /// <summary>
-        /// Searches the IMS for a concept.
-        /// </summary>
-        /// <param name="model">The search model containing the search parameters.</param>
-        /// <returns>Returns a list of concepts matching the specified query.</returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Search(SearchConceptModel model)
-        {
-            List<ConceptSearchResultViewModel> viewModels = new List<ConceptSearchResultViewModel>();
-
-            Bundle concepts = new Bundle();
-            //AmiCollection<ConceptSet> conceptSets = new AmiCollection<ConceptSet>();
-
-            try
-            {
-                if (model.SearchType == ConceptSearchType.Concept)
-                {
-                    concepts = this.SearchConcepts(model);
-                    viewModels.AddRange(concepts.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
-                }
-				else if (model.SearchType == ConceptSearchType.ConceptSet)
+			for (var i = 0; i < conceptClasses.Count; i++)
+			{
+				model.ConceptClassList.Add(new SelectListItem()
 				{
-					concepts = this.SearchConceptSets(model);
-					viewModels.AddRange(concepts.Item.OfType<ConceptSet>().Select(c => new ConceptSearchResultViewModel(c)));
+					Text = (conceptClasses.Item[i] as ConceptClass).Mnemonic,
+					Value = (conceptClasses.Item[i] as ConceptClass).Key.Value.ToString(),
+				});
+			}
+
+			model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
+
+			return View(model);
+		}
+
+		/// <summary>
+		/// Creates a concept.
+		/// </summary>
+		/// <param name="model">The model containing the information to create a concept.</param>
+		/// <returns>Returns the created concept.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Create(CreateConceptModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var result = this.ImsiClient.Create(ConceptUtil.ToConcept(model));
+					TempData["success"] = Locale.Concept + " " + Locale.CreatedSuccessfully;
+
+					return RedirectToAction("Index");
 				}
-                else
-                {
-                    TempData["error"] = "Unable to retrieve concept sets";
-                    return RedirectToAction("Index");
-                }
-
-                return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
-            }
-            catch (Exception e)
-            {
+				catch (Exception e)
+				{
 #if DEBUG
-                Trace.TraceError("Unable to retrieve concepts", e.StackTrace);
+					Trace.TraceError("Unable to create concept: {0}", e.StackTrace);
 #endif
-                Trace.TraceError("Unable to retrieve concepts", e.Message);
-            }
+					Trace.TraceError("Unable to create concept: {0}", e.Message);
+				}
+			}
 
-            TempData["error"] = "Unable to retrieve concepts";
+			TempData["error"] = Locale.UnableToCreate + " " + Locale.Concept;
 
-            return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
-        }
+			var languages = LanguageUtil.GetLanguageList();
 
-        private Bundle SearchConcepts(SearchConceptModel model)
-        {
-            List<KeyValuePair<string, object>> query = new List<KeyValuePair<string, object>>();
+			model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
 
-            if (!string.IsNullOrEmpty(model.Mnemonic) && !string.IsNullOrWhiteSpace(model.Mnemonic))
-            {
-                query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(model.Mnemonic)));
-            }
+			return View(model);
+		}
 
-            if (!string.IsNullOrEmpty(model.Name) && !string.IsNullOrWhiteSpace(model.Name))
-            {
-                query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ConceptNames.Any(cn => cn.Name.Contains(model.Name))));
-            }
+		[HttpGet]
+		public ActionResult Delete(Guid key, Guid versionKey)
+		{
+			var concept = this.ImsiClient.Get<Concept>(key, versionKey) as Concept;
 
-            if (query.Count == 0)
-            {
-                throw new ArgumentException(string.Format("{0} must not be empty", nameof(query)));
-            }
+			if (concept == null)
+			{
+				TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+				return RedirectToAction("Index");
+			}
 
-            return this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
-        }
+			concept.ObsoletionTime = new DateTimeOffset(DateTime.Now);
 
-        private Bundle SearchConceptSets(SearchConceptModel model)
-        {
-            List<KeyValuePair<string, object>> query = new List<KeyValuePair<string, object>>();
+			this.ImsiClient.Obsolete<Concept>(concept);
 
-            if (!string.IsNullOrEmpty(model.Mnemonic) && !string.IsNullOrWhiteSpace(model.Mnemonic))
-            {
-                query.AddRange(QueryExpressionBuilder.BuildQuery<ConceptSet>(c => c.Mnemonic.Contains(model.Mnemonic)));
-            }
+			TempData["success"] = Locale.Concept + " " + Locale.DeletedSuccessfully;
+			return RedirectToAction("Index");
+		}
 
-            if (!string.IsNullOrEmpty(model.Name) && !string.IsNullOrWhiteSpace(model.Name))
-            {
-                query.AddRange(QueryExpressionBuilder.BuildQuery<ConceptSet>(c => c.Name.Contains(model.Name)));
-            }
+		/// <summary>
+		/// Displays the index view.
+		/// </summary>
+		/// <returns>Returns the index view.</returns>
+		public ActionResult Index()
+		{
+			return View();
+		}
 
-            if (query.Count == 0)
-            {
-                throw new ArgumentException(string.Format("{0} must not be empty", nameof(query)));
-            }
+		/// <summary>
+		/// Displays the search view.
+		/// </summary>
+		/// <returns>Returns the search view.</returns>
+		[HttpGet]
+		public ActionResult Search()
+		{
+			return View();
+		}
 
-            return this.ImsiClient.Query<ConceptSet>(QueryExpressionParser.BuildLinqExpression<ConceptSet>(new NameValueCollection(query.ToArray())));
-        }
+		/// <summary>
+		/// Searches the IMS for a concept.
+		/// </summary>
+		/// <param name="model">The search model containing the search parameters.</param>
+		/// <returns>Returns a list of concepts matching the specified query.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Search(SearchConceptModel model)
+		{
+			var viewModels = new List<ConceptSearchResultViewModel>();
 
-        [HttpGet]
-        public ActionResult ViewConcept(string key, string versionKey)
-        {
-            if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
-            {
-                Guid conceptId = Guid.Empty;
-                Guid conceptVersion = Guid.Empty;
+			var query = new List<KeyValuePair<string, object>>();
 
-                if (Guid.TryParse(key, out conceptId) && Guid.TryParse(versionKey, out conceptVersion))
-                {
-                    List<KeyValuePair<string, object>> query = new List<KeyValuePair<string, object>>();
-                    List<KeyValuePair<string, object>> referenceTermQuery = new List<KeyValuePair<string, object>>();
+			if (!string.IsNullOrEmpty(model.Mnemonic) && !string.IsNullOrWhiteSpace(model.Mnemonic))
+			{
+				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(model.Mnemonic)));
+			}
 
-                    if (conceptVersion != Guid.Empty)
-                    {
-                        query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == conceptId && c.VersionKey == conceptVersion));
-                    }
-                    else
-                    {
-                        query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == conceptId));
-                    }
-                    var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
+			if (!string.IsNullOrEmpty(model.Name) && !string.IsNullOrWhiteSpace(model.Name))
+			{
+				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ConceptNames.Any(cn => cn.Name.Contains(model.Name))));
+			}
 
-                    bundle.Reconstitute();
+			var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
 
-                    var concept = bundle.Item.OfType<Concept>().FirstOrDefault();
+			viewModels.AddRange(bundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
 
-                    concept.SetDelayLoad(true);
+			return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
+		}
 
-                    for (var i = 0; i < concept.ReferenceTerms.Count; i++)
-                    {
-                        var referenceTermKey = concept.ReferenceTerms[0].ReferenceTerm.Key;
-                        referenceTermQuery.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.Key == referenceTermKey));
-                    }
-                    var referenceTerms = this.ImsiClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ReferenceTerm>();
-                    if (concept == null)
-                    {
-                        TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-                        return RedirectToAction("Index");
-                    }
-                    var conceptViewModel = ConceptUtil.ToConceptViewModel(concept as Concept);
-                    conceptViewModel.ReferenceTerms = new List<ReferenceTermModel>();
-                    for (var i = 0; i < referenceTerms.Count(); i++)
-                    {
+		[HttpGet]
+		public ActionResult ViewConcept(Guid key, Guid versionKey)
+		{
+			var query = new List<KeyValuePair<string, object>>();
+			var referenceTermQuery = new List<KeyValuePair<string, object>>();
 
-                        conceptViewModel.ReferenceTerms.Add(new ReferenceTermModel()
-                        {
-                            Mnemonic = referenceTerms.ElementAt(i).Mnemonic,
-                            Name = referenceTerms.ElementAt(i).DisplayNames[0].Name,
-                            Key = referenceTerms.ElementAt(i).Key.Value
+			if (versionKey != Guid.Empty)
+			{
+				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == key && c.VersionKey == versionKey));
+			}
+			else
+			{
+				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == key));
+			}
 
-                        });
+			var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
 
-                    }
-                    return View(conceptViewModel);
-                }
-            }
+			bundle.Reconstitute();
 
-            TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+			var concept = bundle.Item.OfType<Concept>().FirstOrDefault();
 
-            return RedirectToAction("Index");
-        }
+			if (concept == null)
+			{
+				TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+				return RedirectToAction("Index");
+			}
 
-        [HttpGet]
-        public ActionResult Edit(string key, string versionKey)
-        {
-            if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
-            {
-                Guid conceptId = Guid.Empty;
-                Guid conceptVersion = Guid.Empty;
+			concept.SetDelayLoad(true);
 
-                if (Guid.TryParse(key, out conceptId) && Guid.TryParse(versionKey, out conceptVersion))
-                {
-                    List<KeyValuePair<string, object>> query = new List<KeyValuePair<string, object>>();
-                    List<KeyValuePair<string, object>> referenceTermQuery = new List<KeyValuePair<string, object>>();
+			foreach (var conceptReferenceTerm in concept.ReferenceTerms)
+			{
+				referenceTermQuery.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.Key == conceptReferenceTerm.ReferenceTerm.Key));
+			}
 
-                    if (conceptVersion != Guid.Empty)
-                    {
-                        query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == conceptId && c.VersionKey == conceptVersion));
-                    }
-                    else
-                    {
-                        query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == conceptId));
-                    }
-                    var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
+			var referenceTerms = this.ImsiClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ReferenceTerm>();
 
-                    bundle.Reconstitute();
+			var conceptViewModel = ConceptUtil.ToConceptViewModel(concept);
 
-                    var concept = bundle.Item.OfType<Concept>().FirstOrDefault();
+			conceptViewModel.ReferenceTerms = new List<ReferenceTermModel>();
 
-                    concept.SetDelayLoad(true);
+			conceptViewModel.ReferenceTerms.AddRange(referenceTerms.Select(r => new ReferenceTermModel
+			{
+				Mnemonic = r.Mnemonic,
+				Name = string.Join(" ", r.DisplayNames.Select(d => d.Name)),
+				Key = r.Key.Value
+			}));
 
-                    for (var i = 0; i < concept.ReferenceTerms.Count; i++)
-                    {
-                        var referenceTermKey = concept.ReferenceTerms[0].ReferenceTerm.Key;
-                        referenceTermQuery.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.Key == referenceTermKey));
-                    }
-                    var referenceTerms = this.ImsiClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ReferenceTerm>();
-                    if (concept == null)
-                    {
-                        TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-                        return RedirectToAction("Index");
-                    }
-                    var editConceptModel = ConceptUtil.ToEditConceptModel(concept as Concept);
-                    editConceptModel.ReferenceTerms = new List<ReferenceTermModel>();
-                    for (var i = 0; i < referenceTerms.Count(); i++)
-                    {
+			return View(conceptViewModel);
+		}
 
-                        editConceptModel.ReferenceTerms.Add(new ReferenceTermModel()
-                        {
-                            Mnemonic = referenceTerms.ElementAt(i).Mnemonic,
-                            Name = referenceTerms.ElementAt(i).DisplayNames[0].Name,
-                            Key = referenceTerms.ElementAt(i).Key.Value
+		[HttpGet]
+		public ActionResult Edit(Guid key, Guid versionKey)
+		{
+			var query = new List<KeyValuePair<string, object>>();
+			var referenceTermQuery = new List<KeyValuePair<string, object>>();
 
-                        });
+			if (versionKey != Guid.Empty)
+			{
+				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == key && c.VersionKey == versionKey));
+			}
+			else
+			{
+				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == key));
+			}
+			var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
 
-                    }
+			bundle.Reconstitute();
 
-                    var conceptClasses = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
+			var concept = bundle.Item.OfType<Concept>().FirstOrDefault();
 
-                    for (var i = 0; i < conceptClasses.Count; i++)
-                    {
-                        var selected = false;
-                        if (concept.Class.Key == (conceptClasses.Item[i] as ConceptClass).Key)
-                        {
-                            selected = true;
-                        }
-                        editConceptModel.ConceptClassList.Add(new SelectListItem()
-                        {
-                            Text = (conceptClasses.Item[i] as ConceptClass).Mnemonic,
-                            Value = (conceptClasses.Item[i] as ConceptClass).Key.Value.ToString(),
-                            Selected = selected
-                        });
-                    }
+			if (concept == null)
+			{
+				TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+				return RedirectToAction("Index");
+			}
 
+			concept.SetDelayLoad(true);
 
-                    var languages = LanguageUtil.GetLanguageList();
+			foreach (var conceptReferenceTerm in concept.ReferenceTerms)
+			{
+				referenceTermQuery.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.Key == conceptReferenceTerm.ReferenceTerm.Key));
+			}
 
-                    editConceptModel.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
-                    
-                    return View(editConceptModel);
-                }
-            }
+			var referenceTerms = this.ImsiClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ReferenceTerm>();
 
-            TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+			var editConceptModel = ConceptUtil.ToEditConceptModel(concept);
 
-            return RedirectToAction("Index");
-        }
+			editConceptModel.ReferenceTerms = new List<ReferenceTermModel>();
 
-        [HttpPost]
-        public ActionResult Edit(EditConceptModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                List<KeyValuePair<string, object>> query = new List<KeyValuePair<string, object>>();
+			editConceptModel.ReferenceTerms.AddRange(referenceTerms.Select(r => new ReferenceTermModel
+			{
+				Mnemonic = r.Mnemonic,
+				Name = string.Join(" ", r.DisplayNames.Select(d => d.Name)),
+				Key = r.Key.Value
+			}));
 
-                query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == model.Key));
+			var conceptClasses = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
 
-                var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
+			for (var i = 0; i < conceptClasses.Count; i++)
+			{
+				var selected = concept.Class.Key == (conceptClasses.Item[i] as ConceptClass).Key;
 
-                bundle.Reconstitute();
+				editConceptModel.ConceptClassList.Add(new SelectListItem()
+				{
+					Text = (conceptClasses.Item[i] as ConceptClass)?.Mnemonic,
+					Value = (conceptClasses.Item[i] as ConceptClass)?.Key.Value.ToString(),
+					Selected = selected
+				});
+			}
 
-                var concept = bundle.Item.OfType<Concept>().FirstOrDefault();
+			var languages = LanguageUtil.GetLanguageList();
 
-                concept.SetDelayLoad(true);
+			editConceptModel.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
 
-                for(var i = 0; i<model.Languages.Count(); i++)
-                {
-                    if (model.Name[i] != "") { 
-                        if (concept.ConceptNames.Count>i)
-                        {
-                            if (concept.ConceptNames[i].Language == model.Languages[i])
-                            {
-                                concept.ConceptNames[i].Name = model.Name[i];
-                            }
-                        }
-                        else
-                        {
-                            concept.ConceptNames.Add(new ConceptName()
-                            {
-                                Language = model.Languages[i],
-                                Name = model.Name[i]
-                            });
-                        }
-                    }
-                }
-                var conceptClasses = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
-                List<SelectListItem> conceptClassList = new List<SelectListItem>();
-                for (var i = 0; i < conceptClasses.Count; i++)
-                {
-                    conceptClassList.Add(new SelectListItem()
-                    {
-                        Text = (conceptClasses.Item[i] as ConceptClass).Mnemonic,
-                        Value = (conceptClasses.Item[i] as ConceptClass).Key.Value.ToString(),
-                    });
-                }
+			return View(editConceptModel);
+		}
 
-                SelectListItem conceptClass = conceptClassList.Find(c => c.Value == model.ConceptClass);
-                concept.Class = new ConceptClass()
-                {
-                    Mnemonic = conceptClass.Text,
-                    Key = Guid.Parse(conceptClass.Value)
-                };
-                this.ImsiClient.Update<Concept>(concept);
-                
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(EditConceptModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var query = new List<KeyValuePair<string, object>>();
 
-            }
-            return RedirectToAction("Index");
-        }
-    }
+				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == model.Key));
+
+				var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
+
+				bundle.Reconstitute();
+
+				var concept = bundle.Item.OfType<Concept>().FirstOrDefault();
+
+				if (concept == null)
+				{
+					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+
+					return RedirectToAction("Index");
+				}
+
+				concept.SetDelayLoad(true);
+
+				for (var i = 0; i < model.Languages.Count(); i++)
+				{
+					if (model.Name[i] != "")
+					{
+						if (concept.ConceptNames.Count > i)
+						{
+							if (concept.ConceptNames[i].Language == model.Languages[i])
+							{
+								concept.ConceptNames[i].Name = model.Name[i];
+							}
+						}
+						else
+						{
+							concept.ConceptNames.Add(new ConceptName()
+							{
+								Language = model.Languages[i],
+								Name = model.Name[i]
+							});
+						}
+					}
+				}
+
+				var conceptClasses = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
+				var conceptClassList = new List<SelectListItem>();
+
+				for (var i = 0; i < conceptClasses.Count; i++)
+				{
+					conceptClassList.Add(new SelectListItem()
+					{
+						Text = (conceptClasses.Item[i] as ConceptClass).Mnemonic,
+						Value = (conceptClasses.Item[i] as ConceptClass).Key.Value.ToString(),
+					});
+				}
+
+				var conceptClass = conceptClassList.Find(c => c.Value == model.ConceptClass);
+
+				concept.Class = new ConceptClass
+				{
+					Mnemonic = conceptClass.Text,
+					Key = Guid.Parse(conceptClass.Value)
+				};
+
+				this.ImsiClient.Update<Concept>(concept);
+
+				TempData["success"] = Locale.Concept + " " + Locale.UpdatedSuccessfully;
+				return RedirectToAction("Index");
+			}
+
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Concept;
+
+			return View(model);
+		}
+	}
 }

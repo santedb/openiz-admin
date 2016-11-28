@@ -6,6 +6,12 @@
 <div class="panel panel-default">
     <div class="panel panel-heading">
         <span class="text-white">@Locale.Concept @Model.Mnemonic</span>
+        <div class="pull-right">
+            <a href="~/Concept/Edit/Edit?key=@Model.Key">
+                <span class="glyphicon glyphicon-edit"></span>
+                @Locale.Edit
+            </a>
+        </div>
     </div>
     <div class="panel panel-body panel-default">
         <div class="row">

@@ -27,7 +27,6 @@ namespace OpenIZAdmin.Models.UserModels
 	{
 		public CreateUserModel()
 		{
-			this.FacilityList = new List<SelectListItem>();
 			this.RolesList = new List<SelectListItem>();
 		}
 
@@ -35,30 +34,6 @@ namespace OpenIZAdmin.Models.UserModels
 		[Required(ErrorMessageResourceName = "EmailRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[EmailAddress(ErrorMessage = null, ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Email { get; set; }
-
-		/// <summary>
-		/// Gets or sets the id of the facility of the user.
-		/// </summary>
-		[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "FacilityRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string FacilityId { get; set; }
-
-		/// <summary>
-		/// Gets or sets the list of facilities.
-		/// </summary>
-		public List<SelectListItem> FacilityList { get; set; }
-
-		/// <summary>
-		/// Gets or sets the family names of the user.
-		/// </summary>
-		[Display(Name = "FamilyNames", ResourceType = typeof(Localization.Locale))]
-		public List<string> FamilyNames { get; set; }
-
-		/// <summary>
-		/// Gets or sets the givens names of the user.
-		/// </summary>
-		[Display(Name = "Names", ResourceType = typeof(Localization.Locale))]
-		public List<string> GivenNames { get; set; }
 
 		[DataType(DataType.Password)]
 		[Display(Name = "Password", ResourceType = typeof(Localization.Locale))]
