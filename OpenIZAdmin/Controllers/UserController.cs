@@ -362,16 +362,27 @@ namespace OpenIZAdmin.Controllers
 		{
 			IEnumerable<UserViewModel> users = new List<UserViewModel>();
 
-			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
-			{
-				var collection = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
+            try
+            {
+                //if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+                if (UserUtil.IsValidString(searchTerm))
+                {
+				    var collection = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
 
-				TempData["searchTerm"] = searchTerm;
+				    TempData["searchTerm"] = searchTerm;
 
-				return PartialView("_UsersPartial", collection.CollectionItem.Select(UserUtil.ToUserViewModel));
-			}
+				    return PartialView("_UsersPartial", collection.CollectionItem.Select(UserUtil.ToUserViewModel));
+			    }
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Trace.TraceError("Unable to search roles: {0}", e.StackTrace);
+#endif
+                Trace.TraceError("Unable to search roles: {0}", e.Message);
+            }
 
-			TempData["error"] = Locale.User + " " + Locale.NotFound;
+            TempData["error"] = Locale.User + " " + Locale.NotFound;
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_UsersPartial", users);

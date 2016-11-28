@@ -236,9 +236,9 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (RoleUtil.IsValidString(searchTerm))
 				{
-					var collection = this.AmiClient.GetRoles(r => r.Name.Contains(searchTerm));
+					var collection = this.AmiClient.GetRoles(r => r.Name.Contains(searchTerm));                    
 
-					TempData["searchTerm"] = searchTerm;
+                    TempData["searchTerm"] = searchTerm;
 
 					return PartialView("_RolesPartial", collection.CollectionItem.Select(r => RoleUtil.ToRoleViewModel(r)));
 				}

@@ -215,5 +215,18 @@ namespace OpenIZAdmin.Util
 
 			return viewModel;
 		}
-	}
+
+        /// <summary>
+        /// Verifies a valid string parameter
+        /// </summary>
+        /// <param name="key">The string to validate</param>        
+        /// <returns>Returns true if valid, false if empty or whitespace</returns>
+        public static bool IsValidString(string key)
+        {
+            if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
+                return true;
+            else
+                return false;
+        }
+    }
 }

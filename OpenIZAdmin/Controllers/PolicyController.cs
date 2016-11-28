@@ -293,7 +293,7 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.InvalidSearch;
 			TempData["searchTerm"] = searchTerm;
 
-			return PartialView("_PoliciesPartial", policies);
+			return PartialView("_PolicySearchResultsPartial", policies);
 		}
 
         /// <summary>
