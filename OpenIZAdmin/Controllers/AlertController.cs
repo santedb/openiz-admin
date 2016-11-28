@@ -33,7 +33,7 @@ namespace OpenIZAdmin.Controllers
 {
 	/// <summary>
 	/// Provides operations for managing alerts.
-	/// </summary>
+	/// </summary> 
 	[TokenAuthorize]
 	public class AlertController : BaseController
 	{
