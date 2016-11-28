@@ -245,16 +245,19 @@ namespace OpenIZAdmin.Util
         /// <returns>Returns a EditDeviceModel object.</returns>
 		public static EditDeviceModel ToEditDeviceModel(AmiServiceClient client, SecurityDeviceInfo deviceInfo)
         {
-	        var viewModel = new EditDeviceModel
-	        {
-		        Device = deviceInfo.Device,
-		        CreationTime = deviceInfo.Device.CreationTime.DateTime,
-		        Id = deviceInfo.Device.Key.Value,
-		        DeviceSecret = deviceInfo.DeviceSecret,
-		        Name = deviceInfo.Name,
-		        UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime,
-		        DevicePolicies = (deviceInfo.Policies != null) ? GetDevicePolicies(deviceInfo.Policies) : null
-	        };    
+            EditDeviceModel viewModel = new EditDeviceModel();
+
+            viewModel.Device = deviceInfo.Device;
+            viewModel.CreationTime = deviceInfo.Device.CreationTime.DateTime;
+            viewModel.Id = deviceInfo.Device.Key.Value;
+            viewModel.DeviceSecret = deviceInfo.DeviceSecret;
+            viewModel.Name = deviceInfo.Name;
+            viewModel.UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime;            
+
+            if (deviceInfo.Policies != null && deviceInfo.Policies.Count() > 0)
+                viewModel.Policies = deviceInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
+            else
+                viewModel.Policies = new List<PolicyViewModel>();        
 
             viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
             viewModel.PoliciesList.AddRange(DeviceUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));

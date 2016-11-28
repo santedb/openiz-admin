@@ -71,8 +71,9 @@ namespace OpenIZAdmin.Controllers
                     }
 
                     appInfo.Id = appKey;
-                    appInfo.Application.ObsoletedBy = null;
+                    appInfo.Application.ObsoletedBy = null;                    
                     appInfo.Application.ObsoletionTime = null;
+                    appInfo.Application.ObsoletionTimeXml = null;
 
                     this.AmiClient.UpdateApplication(id, appInfo);
 

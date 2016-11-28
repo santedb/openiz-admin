@@ -119,8 +119,9 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.Device + " " + Locale.CreatedSuccessfully;
 
-					return RedirectToAction("ViewDevice", new { key = device.Id.ToString() });
-				}
+					//return RedirectToAction("ViewDevice", new { key = device.Id.ToString() });
+                    return RedirectToAction("Index");
+                }
 				catch (Exception e)
 				{
 #if DEBUG

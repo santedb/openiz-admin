@@ -67,8 +67,9 @@ namespace OpenIZAdmin.Controllers
 					var provider = this.ImsiClient.Create<Provider>(ProviderUtil.ToProvider(model));
 
 					TempData["success"] = Locale.Provider + " " + Locale.CreatedSuccessfully;
-					return RedirectToAction("ViewProvider", new { key = provider.Key, versionKey = provider.VersionKey });
-				}
+                    //return RedirectToAction("ViewProvider", new { key = provider.Key, versionKey = provider.VersionKey });
+                    return RedirectToAction("Index");
+                }
 				catch (Exception e)
 				{
 #if DEBUG

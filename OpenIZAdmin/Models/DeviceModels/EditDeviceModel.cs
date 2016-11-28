@@ -46,18 +46,10 @@ namespace OpenIZAdmin.Models.DeviceModels
         public SecurityDevice Device { get; set; }
 
         [Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
-        public string DeviceSecret { get; set; }
-
-        //public List<SecurityPolicyInstance> DevicePolicies { get; set; }
-
-        //public List<SecurityPolicyInfoViewModel> DevicePoliciesViewModel { get; set; }
-
-        public IEnumerable<PolicyViewModel> DevicePolicies { get; set; }
+        public string DeviceSecret { get; set; }        
 
         [Required]
-        public Guid Id { get; set; }
-
-        //public bool IsObsolete { get; set; }        
+        public Guid Id { get; set; }             
 
         [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
         [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
@@ -65,24 +57,12 @@ namespace OpenIZAdmin.Models.DeviceModels
         public string Name { get; set; }
 
         //Holds the device policies that are assigned
-        public List<SecurityPolicyInstance> Policies { get; set; }   
+        public List<PolicyViewModel> Policies { get; set; }   
                      
         //policies autopopulate
         public List<SelectListItem> PoliciesList { get; set; }
 
         public DateTime? UpdatedTime { get; set; }
     }
-
-    //public class SecurityPolicyInfoViewModel : SecurityPolicyInfo
-    //{
-
-    //    public SecurityPolicyInfoViewModel(SecurityPolicyInstance pInstance)
-    //    {            
-    //        this.PolicyGrantText = Enum.GetName(typeof(PolicyGrantType), pInstance.GrantType);
-    //        this.PolicyGrant = (int)pInstance.GrantType;
-    //    }
-
-    //    public int PolicyGrant { get; set; }
-    //    public string PolicyGrantText { get; set; }
-    //}
+   
 }

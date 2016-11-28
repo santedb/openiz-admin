@@ -864,4 +864,10 @@
   <data name="Found" xml:space="preserve">
     <value>Found</value>
   </data>
+  <data name="NoDevicesFound" xml:space="preserve">
+    <value>No devices found</value>
+  </data>
+  <data name="NoPoliciesAdded" xml:space="preserve">
+    <value>No policies added</value>
+  </data>
 </root>

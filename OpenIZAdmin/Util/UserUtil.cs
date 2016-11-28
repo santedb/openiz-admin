@@ -217,6 +217,38 @@ namespace OpenIZAdmin.Util
 		}
 
         /// <summary>
+		/// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/> to a <see cref="OpenIZAdmin.Models.UserModels.ViewModels.UserViewModel"/>.
+		/// </summary>
+		/// <param name="userInfo">The security user info object to convert.</param>
+		/// <returns>Returns a user entity model.</returns>
+		public static UserViewModel ToUserViewModel(ImsiServiceClient client, SecurityUserInfo userInfo)
+        {
+            UserViewModel viewModel = new UserViewModel();
+
+            viewModel.Email = userInfo.Email;
+            viewModel.IsLockedOut = userInfo.Lockout.GetValueOrDefault(false);
+            viewModel.IsObsolete = userInfo.User.ObsoletedBy != null;
+            viewModel.LastLoginTime = userInfo.User.LastLoginTime?.DateTime;
+            viewModel.PhoneNumber = userInfo.User.PhoneNumber;
+            viewModel.Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel);
+            viewModel.UserId = userInfo.UserId.Value;
+            viewModel.Username = userInfo.UserName;
+
+            UserEntity user = UserUtil.GetUserEntity(client, (Guid)userInfo.UserId);
+
+            if (user != null)
+            {
+                viewModel.Name = string.Join(" ", user.Names.SelectMany(n => n.Component).Select(c => c.Value));
+
+                var healthFacility = user.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).FirstOrDefault();
+
+                viewModel.HealthFacility = "N/A";
+            }
+
+            return viewModel;
+        }
+
+        /// <summary>
         /// Verifies a valid string parameter
         /// </summary>
         /// <param name="key">The string to validate</param>        
