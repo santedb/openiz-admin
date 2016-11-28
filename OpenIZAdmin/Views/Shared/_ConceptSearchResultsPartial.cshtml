@@ -19,6 +19,7 @@
                         <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
                         <th>@Html.DisplayNameFor(m => m.ConceptNames)</th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,27 +37,16 @@
                                 <td>@string.Join(", ", item.ConceptNames)</td>
                             }
                             <td>
-                                <span class="btn-group">
-                                    @if (item.ConceptSearchType == OpenIZAdmin.Models.ConceptModels.ConceptSearchType.Concept)
-                                    {
-                                        <a class="btn btn-primary text-white" href="/Concept/ViewConcept?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
-                                            @Locale.View
-                                            <span class="glyphicon glyphicon-eye-open"></span>
-                                        </a>
-                                        <a class="btn btn-primary text-white" href="/Concept/Edit?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
-                                            @Locale.Edit
-                                            <span class="glyphicon glyphicon-edit"></span>
-                                        </a>
-                                    }
-                                    else if (item.ConceptSearchType == OpenIZAdmin.Models.ConceptModels.ConceptSearchType.ConceptSet)
-                                    {
-                                        <a class="btn btn-primary" href="/Concept/ViewConceptSet?key=@item.Key">
-                                            @Locale.View
-                                            <span class="glyphicon glyphicon-eye-open"></span>
-                                        </a>
-
-}
-                                </span>
+                                <a class="btn btn-primary text-white" href="/Concept/ViewConcept?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
+                                    @Locale.View
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a class="btn btn-warning text-white" href="/Concept/Edit?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
+                                    @Locale.Edit
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </a>
                             </td>
                         </tr>}
 

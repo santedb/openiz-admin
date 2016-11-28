@@ -846,7 +846,22 @@
   <data name="ApplicationSecret" xml:space="preserve">
     <value>Application Secret</value>
   </data>
+  <data name="ConceptClass" xml:space="preserve">
+    <value>Concept Class</value>
+  </data>
+  <data name="ConceptClassRequired" xml:space="preserve">
+    <value>The Concept Class field required</value>
+  </data>
   <data name="EditApplication" xml:space="preserve">
     <value>Edit Application</value>
+  </data>
+  <data name="Material" xml:space="preserve">
+    <value>Material</value>
+  </data>
+  <data name="Materials" xml:space="preserve">
+    <value>Materials</value>
+  </data>
+  <data name="Found" xml:space="preserve">
+    <value>Found</value>
   </data>
 </root>

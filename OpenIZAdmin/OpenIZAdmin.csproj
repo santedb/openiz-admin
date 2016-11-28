@@ -206,6 +206,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AlertController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\ConceptController.cs" />
     <Compile Include="Controllers\LocaleController.cs" />
     <Compile Include="Controllers\PlaceController.cs" />
@@ -236,6 +237,8 @@
     <Compile Include="Models\AccountModels\ChangePasswordModel.cs" />
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ViewModels\ApplicationViewModel.cs" />
+    <Compile Include="Models\MaterialModels\CreateMaterialModel.cs" />
+    <Compile Include="Models\MaterialModels\ViewModels\MaterialSearchResultViewModel.cs" />
     <Compile Include="Models\UserModels\ResetPasswordModel.cs" />
     <Compile Include="Models\AccountModels\ManageModel.cs" />
     <Compile Include="Models\AccountModels\UpdateProfileModel.cs" />
@@ -314,6 +317,7 @@
     <Compile Include="Util\AppletUtil.cs" />
     <Compile Include="Util\ApplicationUtil.cs" />
     <Compile Include="Util\CertificateUtil.cs" />
+    <Compile Include="Util\MaterialUtil.cs" />
     <Compile Include="Util\ConceptUtil.cs" />
     <Compile Include="Util\DeviceUtil.cs" />
     <Compile Include="Util\LanguageUtil.cs" />
@@ -464,6 +468,10 @@
     <Content Include="Views\Application\Edit.cshtml" />
     <Content Include="Views\Application\ViewApplication.cshtml" />
     <Content Include="Views\Shared\_ApplicationsPartial.cshtml" />
+    <Content Include="Views\Material\Create.cshtml" />
+    <Content Include="Views\Material\Index.cshtml" />
+    <Content Include="Views\Material\Search.cshtml" />
+    <Content Include="Views\Shared\_MaterialSearchResultsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />

@@ -59,6 +59,30 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
+		/// <summary>
+		/// Converts a <see cref="EditAssigningAuthorityModel"/> instance to an <see cref="AssigningAuthorityInfo"/> instance.
+		/// </summary>
+		/// <param name="model">The edit assigning authority view model.</param>
+		/// <returns>Returns the assigning authority info.</returns>
+		public static AssigningAuthorityInfo ToAssigningAuthorityInfo(EditAssigningAuthorityModel model)
+		{
+			var assigningAuthorityInfo = new AssigningAuthorityInfo
+			{
+				Id = model.Key,
+				AssigningAuthority =
+				{
+					Key = model.Key,
+					Url = model.Url,
+					DomainName = model.DomainName,
+					Description = model.Description,
+					Oid = model.Oid,
+					Name = model.Name
+				}
+			};
+
+			return assigningAuthorityInfo;
+		}
+
         /// <summary>
         /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth"/> to a <see cref="OpenIZAdmin.Models.AssigningAuthorityModels.ViewModels.AssigningAuthorityViewModel"/>.
         /// </summary>

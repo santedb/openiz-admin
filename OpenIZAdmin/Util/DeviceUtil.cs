@@ -153,36 +153,20 @@ namespace OpenIZAdmin.Util
         /// <returns>Returns a list of device SecurityPolicyInfo objects</returns>
         internal static List<SecurityPolicy> GetNewPolicies(AmiServiceClient client, IEnumerable<string> pList)
         {
-            List<SecurityPolicy> policyList = new List<SecurityPolicy>();
+            var policies = new List<SecurityPolicy>();
 
-            try
-            {
-                foreach (string name in pList)
-                {
-                    if (IsValidString(name))
-                    {
-                        //SecurityPolicyInfo result = DeviceUtil.GetPolicy(client, name);
-                        var result = client.GetPolicies(r => r.Name == name);
-                        if (result.CollectionItem.Count != 0)
-                        {
-                            SecurityPolicyInfo infoResult =  result.CollectionItem.FirstOrDefault();
-                            if(infoResult.Policy != null)
-                            {
-                                policyList.Add(infoResult.Policy);
-                            }
-                        }                        
-                    }
-                }               
-            }
-            catch (Exception e)
-            {
-#if DEBUG
-                Trace.TraceError("Unable to retrieve policies: {0}", e.StackTrace);
-#endif
-                Trace.TraceError("Unable to retrieve policies: {0}", e.Message);
-            }
+			policies.AddRange(from name
+								in pList
+								where IsValidString(name)
+								select client.GetPolicies(r => r.Name == name)
+								into result
+								where result.CollectionItem.Count != 0
+								select result.CollectionItem.FirstOrDefault()
+								into infoResult
+								where infoResult.Policy != null
+								select infoResult.Policy);
 
-            return policyList;
+	        return policies;
         }
 
         /// <summary>
@@ -270,17 +254,7 @@ namespace OpenIZAdmin.Util
 		        Name = deviceInfo.Name,
 		        UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime,
 		        DevicePolicies = (deviceInfo.Policies != null) ? GetDevicePolicies(deviceInfo.Policies) : null
-	        };
-
-	        //viewModel.DevicePolicies = (device.Policies != null) ? device.Policies : new List<SecurityPolicyInstance>();
-
-            //needed to be able to display additional data for the policies
-            //viewModel.DevicePoliciesViewModel = new List<SecurityPolicyInfoViewModel>();
-
-            //foreach(SecurityPolicyInstance p in device.Policies)
-            //{
-            //    viewModel.DevicePoliciesViewModel.Add(new SecurityPolicyInfoViewModel(p));
-            //}           
+	        };    
 
             viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
             viewModel.PoliciesList.AddRange(DeviceUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
@@ -291,29 +265,12 @@ namespace OpenIZAdmin.Util
         /// <summary>
         /// Gets the list of policies that a device has - used for UI display purposes
         /// </summary>
-        /// <param name="pList">A list of SecurityPolicyInstance objects.</param>        
+        /// <param name="policyInstances">A list of SecurityPolicyInstance objects.</param>        
         /// <returns>Returns a IEnumerable<PolicyViewModel> model.</returns>
-        internal static IEnumerable<PolicyViewModel> GetDevicePolicies(List<SecurityPolicyInstance> pList)
+        internal static IEnumerable<PolicyViewModel> GetDevicePolicies(List<SecurityPolicyInstance> policyInstances)
         {
-            IEnumerable<PolicyViewModel> viewModels = new List<PolicyViewModel>();
-
-            try
-            {
-                //var policies = client.GetPolicies(p => p.IsPublic == true);
-
-                //viewModels = policies.CollectionItem.Select(p => PolicyUtil.ToPolicyViewModel(p));
-                return viewModels = pList.Select(p => PolicyUtil.ToPolicyViewModel(p));               
-            }
-            catch (Exception e)
-            {
-#if DEBUG
-                Trace.TraceError("Unable to retrieve policies: {0}", e.StackTrace);
-#endif
-                Trace.TraceError("Unable to retrieve policies: {0}", e.Message);
-            }
-
-            return viewModels;
-        }
+			return policyInstances.Select(PolicyUtil.ToPolicyViewModel);
+		}
 
         /// <summary>
         /// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.CreateDeviceModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo"/>.
@@ -322,13 +279,14 @@ namespace OpenIZAdmin.Util
         /// <returns>Returns a SecurityDeviceInfo object.</returns>
         public static SecurityDeviceInfo ToSecurityDevice(CreateDeviceModel model)
 		{
-	        var device = new SecurityDeviceInfo
+	        return new SecurityDeviceInfo
 	        {
-		        Name = model.Name,
-		        DeviceSecret = model.DeviceSecret
+				Device = new SecurityDevice
+				{
+					DeviceSecret = model.DeviceSecret,
+					Name = model.Name
+				}
 	        };
-
-	        return device;
 		}
 
         /// <summary>
@@ -338,13 +296,15 @@ namespace OpenIZAdmin.Util
         /// <returns>Returns a security device info object.</returns>        
         public static SecurityDeviceInfo ToActivateSecurityDeviceInfo(SecurityDevice device)
         {
-            SecurityDeviceInfo deviceInfo = new SecurityDeviceInfo();
-            deviceInfo.Device = device;
+	        var deviceInfo = new SecurityDeviceInfo
+	        {
+		        Device = device,
+		        DeviceSecret = device.DeviceSecret,
+		        Name = device.Name,
+		        Id = device.Key.Value
+	        };
 
-            deviceInfo.DeviceSecret = device.DeviceSecret;
-            deviceInfo.Name = device.Name;
-            deviceInfo.Id = device.Key.Value;
-            deviceInfo.Device.ObsoletedBy = null;
+	        deviceInfo.Device.ObsoletedBy = null;
             deviceInfo.Device.ObsoletionTime = null;
 
             return deviceInfo;
@@ -362,15 +322,10 @@ namespace OpenIZAdmin.Util
 	        deviceInfo.Device.Key = model.Id;
 	        deviceInfo.Device.Name = model.Name;
             deviceInfo.Device.DeviceSecret = model.DeviceSecret;
-            deviceInfo.Device.Policies = model.Policies ?? new List<SecurityPolicyInstance>();
 
-            //add the new policies
-            foreach (var policy in addPolicies.Select(p => new SecurityPolicyInstance(p, (PolicyGrantType)2)))
-            {
-	            deviceInfo.Device.Policies.Add(policy);
-            }            
+	        deviceInfo.Policies.AddRange(addPolicies.Select(p => new SecurityPolicyInstance(p, PolicyGrantType.Grant)));
 
-            return deviceInfo;
+	        return deviceInfo;
         }
 
         /// <summary>

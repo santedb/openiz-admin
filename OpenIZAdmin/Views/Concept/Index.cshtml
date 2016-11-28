@@ -27,7 +27,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.SearchType, new { @class = "col-md-2 control-label" })
                 <div class="col-md-3">
-                    @Html.DropDownListFor(m => m.SearchType, new List<SelectListItem> { new SelectListItem { Text = "Please Select a Search Type", Value = "" }, new SelectListItem { Text = "Concept", Value = "0" }, new SelectListItem { Text = "Concept Set", Value = "1" } }, new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.SearchType, new List<SelectListItem> { new SelectListItem { Text = "Concept", Value = "0" }}, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.SearchType, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -49,9 +49,6 @@
 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <button type="button" class="btn btn-warning" id="reset">
-                            <span class="glyphicon glyphicon-refresh"></span>@Locale.Reset
-                        </button>
                         <input type="submit" value="@Locale.Search" class="btn btn-default" />
                     </div>
                 </div>

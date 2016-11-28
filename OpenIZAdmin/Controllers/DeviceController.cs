@@ -87,17 +87,20 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-        /// <summary>
-        /// Initialization method for Create action.
-        /// </summary>        
-        /// <returns>Returns the Create view.</returns>
-        [HttpGet]
-        public ActionResult Create()
-        {
-            CreateDeviceModel viewModel = new CreateDeviceModel();
-            viewModel.DeviceSecret = Guid.NewGuid().ToString();
-            return View(viewModel);
-        }
+		/// <summary>
+		/// Initialization method for Create action.
+		/// </summary>        
+		/// <returns>Returns the Create view.</returns>
+		[HttpGet]
+		public ActionResult Create()
+		{
+			var viewModel = new CreateDeviceModel
+			{
+				DeviceSecret = Guid.NewGuid().ToString()
+			};
+
+			return View(viewModel);
+		}
 
 		/// <summary>
 		/// Creates a new device.
@@ -113,6 +116,8 @@ namespace OpenIZAdmin.Controllers
 				try
 				{
 					var device = this.AmiClient.CreateDevice(DeviceUtil.ToSecurityDevice(model));
+
+					TempData["success"] = Locale.Device + " " + Locale.CreatedSuccessfully;
 
 					return RedirectToAction("ViewDevice", new { key = device.Id.ToString() });
 				}
@@ -145,8 +150,6 @@ namespace OpenIZAdmin.Controllers
 					this.AmiClient.DeleteDevice(id);
 					TempData["success"] = Locale.Device + " " + Locale.DeletedSuccessfully;
 
-					//return RedirectToAction("ViewDevice", new { key = id });
-
 					return RedirectToAction("Index");
 				}
 				catch (Exception e)
@@ -170,12 +173,12 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="key">The policy guid key of the policy to be deleted.</param>
 		/// <returns>Returns the ViewDevice view.</returns>
 		[HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeletePolicy(Guid key)
-        {
-            //---TO DO!!!
-            //apply and update to the device with the policies removed from the property
-            //string id = string.Empty;
+		[ValidateAntiForgeryToken]
+		public ActionResult DeletePolicy(Guid key)
+		{
+			//---TO DO!!!
+			//apply and update to the device with the policies removed from the property
+			//string id = string.Empty;
 			string id = string.Empty;
 			if (DeviceUtil.IsValidString(id))
 			{

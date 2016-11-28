@@ -58,11 +58,11 @@ namespace OpenIZAdmin.Services.Http
 			(key) => new Lazy<ServiceClientDescription>(
 				() => InternalConfiguration.GetServiceClientConfiguration().Clients.Find(x => x.Name == key))).Value)
 		{
-			Trace.TraceInformation("Current Entity Source: {0}", EntitySource.Current);
+			Trace.TraceInformation("Current Entity Source: {0}", EntitySource.Current.Provider.GetType().Name);
 
 			this.Requesting += (o, e) =>
 			{
-				e.Query.Add("_all", "true");
+				EntitySource.Current = new EntitySource(new WebEntitySourceProvider(this.Credentials));
 			};
 		}
 
@@ -73,7 +73,7 @@ namespace OpenIZAdmin.Services.Http
 		/// <param name="configuration">The configuration instance.</param>
 		public RestClientService(IRestClientDescription configuration) : base(configuration)
 		{
-			Trace.TraceInformation("Current Entity Source: {0}", EntitySource.Current);
+			Trace.TraceInformation("Current Entity Source: {0}", EntitySource.Current.Provider.GetType().Name);
 		}
 
 		/// <summary>

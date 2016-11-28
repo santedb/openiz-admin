@@ -49,9 +49,12 @@ namespace OpenIZAdmin.Util
 				Language = model.Language,
 				Name = model.Name
 			});
-
+            var list = model.ConceptClassList;
+            concept.Class = new ConceptClass()
+            {
+                Key = Guid.Parse(model.ConceptClass)
+            };
 			concept.Mnemonic = model.Mnemonic;
-
 			return concept;
 		}
 
@@ -105,7 +108,7 @@ namespace OpenIZAdmin.Util
                 viewModel.Languages.Add("sw");
                 viewModel.Name.Add("");
             }
-            viewModel.Class = concept.Class.Name;
+            //viewModel.Class = concept.Class.Name;
             viewModel.Mnemonic = concept.Mnemonic;
             viewModel.Key = concept.Key.Value;
             viewModel.CreationTime = concept.CreationTime.DateTime;

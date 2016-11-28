@@ -60,17 +60,20 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="filterContext">The filter context of the action executing.</param>
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			var amiRestClient = new RestClientService(Constants.AMI);
+			var amiRestClient = new RestClientService(Constants.AMI)
+			{
+				Accept = Constants.ApplicationXml,
+				Credentials = new AmiCredentials(this.User, HttpContext.Request)
+			};
 
-			amiRestClient.Accept = Constants.ApplicationXml;
-			amiRestClient.Credentials = new AmiCredentials(this.User, HttpContext.Request);
 
 			this.AmiClient = new AmiServiceClient(amiRestClient);
 
-			var imsiRestClient = new RestClientService(Constants.IMSI);
-
-			imsiRestClient.Accept = Constants.ApplicationXml;
-			imsiRestClient.Credentials = new ImsCredentials(this.User, HttpContext.Request);
+			var imsiRestClient = new RestClientService(Constants.IMSI)
+			{
+				Accept = Constants.ApplicationXml,
+				Credentials = new ImsCredentials(this.User, HttpContext.Request)
+			};
 
 			this.ImsiClient = new ImsiServiceClient(imsiRestClient);
 

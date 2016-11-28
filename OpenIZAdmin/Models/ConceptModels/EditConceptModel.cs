@@ -39,7 +39,8 @@ namespace OpenIZAdmin.Models.ConceptModels
 		public EditConceptModel()
 		{
             this.LanguageList = new List<SelectListItem>();
-		}
+            this.ConceptClassList = new List<SelectListItem>();
+        }
 
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
@@ -59,15 +60,17 @@ namespace OpenIZAdmin.Models.ConceptModels
 
         public string Mnemonic { get; set; }
 
-        public string Language { get; set; }
-
         public List<ReferenceTermModel> ReferenceTerms { get; set; }
         
         public List<SelectListItem> LanguageList { get; set; }
 
         public string SelectedLanguage { get; set; }
 
-        public string Class { get; set; }
+        [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string ConceptClass { get; set; }
+
+        public List<SelectListItem> ConceptClassList { get; set; }
 
         public List<string> Name { get; set; }
     }

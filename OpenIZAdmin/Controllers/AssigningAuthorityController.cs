@@ -24,14 +24,13 @@ using OpenIZAdmin.Models.AssigningAuthorityModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
 	/// <summary>
-	/// Provides operations for administering policies.
+	/// Provides operations for managing assigning authorities.
 	/// </summary>
 	[TokenAuthorize]
 	public class AssigningAuthorityController : BaseController
@@ -43,7 +42,93 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
-        /// <summary>
+		/// <summary>
+		/// Returns an action result create view
+		/// </summary>
+		[HttpGet]
+		public ActionResult Create()
+		{
+			return View();
+		}
+
+		/// <summary>
+		/// Displays the create view.
+		/// </summary>
+		/// <returns>Returns the create view.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Create(CreateAssigningAuthorityModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				this.AmiClient.CreateAssigningAuthority(AssigningAuthorityUtil.ToCreateAssigningAuthorityModel(model));
+
+				TempData["success"] = Locale.AssigningAuthority + " " + Locale.CreatedSuccessfully;
+
+				return RedirectToAction("Index");
+			}
+
+			TempData["error"] = Locale.UnableToCreate + " " + Locale.AssigningAuthority;
+
+			return View(model);
+		}
+
+		/// <summary>
+		/// Deletes an assigning authority.
+		/// </summary>
+		/// <param name="key">The id of the assigning authority to be deleted.</param>
+		/// <returns>Returns the index view.</returns>
+		[HttpGet]
+		public ActionResult Delete(Guid key)
+		{
+			var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == key).CollectionItem.FirstOrDefault();
+
+			if (assigningAuthority == null)
+			{
+				TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+				return RedirectToAction("Index");
+			}
+
+			this.AmiClient.DeleteAssigningAuthority(key.ToString());
+
+			TempData["success"] = Locale.AssigningAuthority + " " + Locale.DeletedSuccessfully;
+
+			return RedirectToAction("Index");
+		}
+
+		[HttpGet]
+		public ActionResult Edit(Guid key)
+		{
+			var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == key).CollectionItem.FirstOrDefault();
+
+			if (assigningAuthority == null)
+			{
+				TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+				return RedirectToAction("Index");
+			}
+
+			return View(AssigningAuthorityUtil.ToEditAssigningAuthorityModel(assigningAuthority));
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(EditAssigningAuthorityModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				this.AmiClient.UpdateAssigningAuthority(model.Key.ToString(), AssigningAuthorityUtil.ToAssigningAuthorityInfo(model));
+
+				TempData["success"] = Locale.AssigningAuthority + " " + Locale.EditedSuccessfully;
+
+				return RedirectToAction("Index");
+			}
+
+			TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+
+			return RedirectToAction("Index");
+		}
+
+		/// <summary>
 		/// Returns an action result index view
 		/// </summary>
 		[HttpGet]
@@ -53,72 +138,22 @@ namespace OpenIZAdmin.Controllers
 			return View();
 		}
 
-        /// <summary>
-		/// Returns an action result create view
+		/// <summary>
+		/// Displays the search view.
 		/// </summary>
+		/// <returns>Returns the search view.</returns>
 		[HttpGet]
-		public ActionResult Create()
-		{
-			return View();
-		}
-
-        /// <summary>
-        /// Displays the create view.
-        /// </summary>
-        /// <returns>Returns the create view.</returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Create(CreateAssigningAuthorityModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				try
-				{
-					var test = "";
-
-					var results = this.AmiClient.CreateAssigningAuthority(AssigningAuthorityUtil.ToCreateAssigningAuthorityModel(model));
-					TempData["success"] = Locale.AssigningAuthority + " " + Locale.CreatedSuccessfully;
-					return RedirectToAction("Index");
-				}
-				catch (Exception e)
-				{
-#if DEBUG
-					Trace.TraceError("Unable to delete assigning authority: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to delete assigning authority: {0}", e.Message);
-				}
-			}
-
-			TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
-			return RedirectToAction("Index");
-		}
-
-        /// <summary>
-        /// Displays the search view.
-        /// </summary>
-        /// <returns>Returns the search view.</returns>
-        [HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
-			IEnumerable<AssigningAuthorityViewModel> assigningAuthorities = new List<AssigningAuthorityViewModel>();
-			try
-			{
-				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
-				{
-					var collection = this.AmiClient.GetAssigningAuthorities(p => p.Name.Contains(searchTerm) && p.ObsoletionTime == null);
-					var filtered = collection.CollectionItem.FindAll(p => p.AssigningAuthority.ObsoletionTime == null);//TEMP: Until the obsoletion time is taken as query parameter
+			var assigningAuthorities = new List<AssigningAuthorityViewModel>();
 
-					TempData["searchTerm"] = searchTerm;
-
-					return PartialView("_AssigningAuthoritySearchResultsPartial", filtered.Select(p => AssigningAuthorityUtil.ToAssigningAuthorityViewModel(p)));
-				}
-			}
-			catch (Exception e)
+			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 			{
-#if DEBUG
-				Trace.TraceError("Unable to search assigning authorities: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to search assigning authorities: {0}", e.Message);
+				var results = this.AmiClient.GetAssigningAuthorities(p => p.Name.Contains(searchTerm)).CollectionItem.Where(a => a.AssigningAuthority.ObsoletionTime == null);
+
+				TempData["searchTerm"] = searchTerm;
+
+				return PartialView("_AssigningAuthoritySearchResultsPartial", results.Select(AssigningAuthorityUtil.ToAssigningAuthorityViewModel));
 			}
 
 			TempData["error"] = Locale.InvalidSearch;
@@ -127,126 +162,18 @@ namespace OpenIZAdmin.Controllers
 			return PartialView("_AssigningAuthoritySearchResultsPartial", assigningAuthorities);
 		}
 
-        /// <summary>
-		/// Deletes an assigning authority.
-		/// </summary>
-		/// <param name="key">The id of the assigning authority to be deleted.</param>
-		/// <returns>Returns the index view.</returns>
 		[HttpGet]
-		public ActionResult Delete(string key)
+		public ActionResult ViewAssigningAuthority(Guid key)
 		{
-			Guid assigningAuthorityKey = Guid.Empty;
-			if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key) && Guid.TryParse(key, out assigningAuthorityKey))
-			{
-				try
-				{
-					var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == assigningAuthorityKey);
-					var singleAssigningAuthority = assigningAuthority.CollectionItem.SingleOrDefault();
+			var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == key).CollectionItem.FirstOrDefault();
 
-					singleAssigningAuthority.AssigningAuthority.ObsoletionTime = new DateTimeOffset(DateTime.Now);
-					this.AmiClient.DeleteAssigningAuthority(key);
-					TempData["success"] = Locale.AssigningAuthority + " " + Locale.DeletedSuccessfully;
-					return RedirectToAction("Index");
-				}
-				catch (Exception e)
-				{
-#if DEBUG
-					Trace.TraceError("Unable to delete assigning authority: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to delete assigning authority: {0}", e.Message);
-				}
+			if (assigningAuthority == null)
+			{
+				TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+				return RedirectToAction("Index");
 			}
 
-			TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
-			return RedirectToAction("Index");
-		}
-
-		[HttpGet]
-		public ActionResult ViewAssigningAuthority(string key)
-		{
-			Guid assigningAuthorityKey = Guid.Empty;
-
-			if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key) && Guid.TryParse(key, out assigningAuthorityKey))
-			{
-				try
-				{
-					var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == assigningAuthorityKey);
-
-					object model = null;
-
-					return View(assigningAuthority.CollectionItem.Select(p => AssigningAuthorityUtil.ToAssigningAuthorityViewModel(p)).SingleOrDefault());
-				}
-				catch (Exception e)
-				{
-#if DEBUG
-					Trace.TraceError("Unable to find assigning authority: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to find assigning authority: {0}", e.Message);
-				}
-			}
-
-			TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
-			return RedirectToAction("Index");
-		}
-
-		[HttpGet]
-		public ActionResult Edit(string key)
-		{
-			Guid assigningAuthorityKey = Guid.Empty;
-
-			if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key) && Guid.TryParse(key, out assigningAuthorityKey))
-			{
-				try
-				{
-					var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == assigningAuthorityKey);
-
-					object model = null;
-
-					return View(assigningAuthority.CollectionItem.Select(p => AssigningAuthorityUtil.ToEditAssigningAuthorityModel(p)).SingleOrDefault());
-				}
-				catch (Exception e)
-				{
-#if DEBUG
-					Trace.TraceError("Unable to find assigning authority: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to find assigning authority: {0}", e.Message);
-				}
-			}
-
-			TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
-			return RedirectToAction("Index");
-		}
-
-		[HttpPost]
-		public ActionResult Edit(EditAssigningAuthorityModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				try
-				{
-					var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == model.Key).CollectionItem.SingleOrDefault();
-
-					assigningAuthority.AssigningAuthority.Url = model.Url;
-					assigningAuthority.AssigningAuthority.DomainName = model.DomainName;
-					assigningAuthority.AssigningAuthority.Description = model.Description;
-					assigningAuthority.AssigningAuthority.Oid = model.Oid;
-					assigningAuthority.AssigningAuthority.Name = model.Name;
-
-					var key = assigningAuthority.AssigningAuthority.Key.Value.ToString();
-					this.AmiClient.UpdateAssigningAuthority(key, assigningAuthority);
-					TempData["success"] = Locale.AssigningAuthority + " " + Locale.EditedSuccessfully;
-					return View("Index");
-				}
-				catch (Exception e)
-				{
-#if DEBUG
-					Trace.TraceError("Unable to find assigning authority: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to find assigning authority: {0}", e.Message);
-				}
-			}
-			TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
-			return RedirectToAction("Index");
+			return View(AssigningAuthorityUtil.ToAssigningAuthorityViewModel(assigningAuthority));
 		}
 	}
 }
