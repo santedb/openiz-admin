@@ -56,37 +56,27 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Activate(string id)
 		{
-			Guid userKey = Guid.Empty;
+			var userKey = Guid.Empty;
 
 			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out userKey))
 			{
-				try
+				var user = UserUtil.GetSecurityUserInfo(this.AmiClient, userKey);
+
+				if (user == null)
 				{
-					var user = UserUtil.GetSecurityUserInfo(this.AmiClient, userKey);
-
-					if (user == null)
-					{
-						TempData["error"] = Locale.User + " " + Locale.NotFound;
-
-						return RedirectToAction("Index");
-					}
-
-					user.User.ObsoletedBy = null;
-					user.User.ObsoletionTime = null;
-
-					this.AmiClient.UpdateUser(userKey, user);
-
-					TempData["success"] = Locale.User + " " + Locale.ActivatedSuccessfully;
+					TempData["error"] = Locale.User + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
-				catch (Exception e)
-				{
-#if DEBUG
-					Trace.TraceError("Unable to delete user: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to delete user: {0}", e.Message);
-				}
+
+				user.User.ObsoletedBy = null;
+				user.User.ObsoletionTime = null;
+
+				this.AmiClient.UpdateUser(userKey, user);
+
+				TempData["success"] = Locale.User + " " + Locale.ActivatedSuccessfully;
+
+				return RedirectToAction("Index");
 			}
 
 			TempData["error"] = Locale.UnableToActivate + " " + Locale.User;
@@ -101,7 +91,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			CreateUserModel model = new CreateUserModel();
+			var model = new CreateUserModel();
 
 			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
 			model.RolesList.AddRange(RoleUtil.GetAllRoles(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
@@ -120,23 +110,13 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				SecurityUserInfo user = UserUtil.ToSecurityUserInfo(model);
+				var user = UserUtil.ToSecurityUserInfo(model);
 
-				try
-				{
-					var result = this.AmiClient.CreateUser(user);
+				this.AmiClient.CreateUser(user);
 
-					TempData["success"] = Locale.User + " " + Locale.CreatedSuccessfully;
+				TempData["success"] = Locale.User + " " + Locale.CreatedSuccessfully;
 
-					return RedirectToAction("Index");
-				}
-				catch (Exception e)
-				{
-#if DEBUG
-					Trace.TraceError("Unable to create user: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to create user: {0}", e.Message);
-				}
+				return RedirectToAction("Index");
 			}
 
 			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
@@ -159,21 +139,11 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
 			{
-				try
-				{
-					this.AmiClient.DeleteUser(id);
+				this.AmiClient.DeleteUser(id);
 
-					TempData["success"] = Locale.User + " " + Locale.DeactivatedSuccessfully;
+				TempData["success"] = Locale.User + " " + Locale.DeactivatedSuccessfully;
 
-					return RedirectToAction("Index");
-				}
-				catch (Exception e)
-				{
-#if DEBUG
-					Trace.TraceError("Unable to delete user: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to delete user: {0}", e.Message);
-				}
+				return RedirectToAction("Index");
 			}
 
 			TempData["error"] = Locale.UnableToDeactivate + " " + Locale.User;
@@ -189,7 +159,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Edit(string id)
 		{
-			Guid userId = Guid.Empty;
+			var userId = Guid.Empty;
 
 			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out userId))
 			{
@@ -202,7 +172,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				EditUserModel model = UserUtil.ToEditUserModel(userEntity);
+				var model = UserUtil.ToEditUserModel(userEntity);
 
 				model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 				model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
@@ -229,56 +199,45 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				try
+				var userEntity = UserUtil.GetUserEntity(this.ImsiClient, model.UserId);
+
+				if (userEntity == null)
 				{
-					var userEntity = UserUtil.GetUserEntity(this.ImsiClient, model.UserId);
+					TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-					if (userEntity == null)
-					{
-						TempData["error"] = Locale.User + " " + Locale.NotFound;
+					return RedirectToAction("Index");
+				}
 
-						return RedirectToAction("Index");
-					}
-
-					EntityName name = new EntityName();
-
-					name.NameUse = new Concept
+				var name = new EntityName
+				{
+					NameUse = new Concept
 					{
 						Key = NameUseKeys.OfficialRecord
-					};
+					},
+					Component = new List<EntityNameComponent>()
+				};
 
-					name.Component = new List<EntityNameComponent>();
-
-					if (model.FamilyNames != null && model.FamilyNames.Count > 0)
-					{
-						name.Component.AddRange(model.FamilyNames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
-					}
-
-					if (model.GivenNames != null && model.GivenNames.Count > 0)
-					{
-						name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
-					}
-
-					userEntity.Names = new List<EntityName>();
-
-					userEntity.Names.Add(name);
-
-					userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.FacilityId)));
-
-					this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, new SecurityUserInfo(userEntity.SecurityUser));
-					this.ImsiClient.Update<UserEntity>(userEntity);
-
-					TempData["success"] = Locale.User + " " + Locale.UpdatedSuccessfully;
-
-					return Redirect("Index");
-				}
-				catch (Exception e)
+				if (model.FamilyNames != null && model.FamilyNames.Count > 0)
 				{
-#if DEBUG
-					Trace.TraceError("Unable to edit user: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to edit user: {0}", e.Message);
+					name.Component.AddRange(model.FamilyNames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
 				}
+
+				if (model.GivenNames != null && model.GivenNames.Count > 0)
+				{
+					name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
+				}
+
+				userEntity.Names = new List<EntityName> { name };
+
+
+				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.FacilityId)));
+
+				this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, new SecurityUserInfo(userEntity.SecurityUser));
+				this.ImsiClient.Update<UserEntity>(userEntity);
+
+				TempData["success"] = Locale.User + " " + Locale.UpdatedSuccessfully;
+
+				return Redirect("Index");
 			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.User;
@@ -359,26 +318,17 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
-			IEnumerable<UserViewModel> users = new List<UserViewModel>();
+			var users = new List<UserViewModel>();
 
-			try
+			if (UserUtil.IsValidString(searchTerm))
 			{
-				//if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
-				if (UserUtil.IsValidString(searchTerm))
-				{
-					var collection = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
+				var collection = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
 
-					TempData["searchTerm"] = searchTerm;
+				TempData["searchTerm"] = searchTerm;
 
-					return PartialView("_UsersPartial", collection.CollectionItem.Select(UserUtil.ToUserViewModel));
-				}
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to search roles: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to search roles: {0}", e.Message);
+				users.AddRange(collection.CollectionItem.Select(UserUtil.ToUserViewModel));
+
+				return PartialView("_UsersPartial", users);
 			}
 
 			TempData["error"] = Locale.User + " " + Locale.NotFound;
@@ -415,7 +365,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult ViewUser(string id)
 		{
-			Guid userId = Guid.Empty;
+			var userId = Guid.Empty;
 
 			try
 			{
