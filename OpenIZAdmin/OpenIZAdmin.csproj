@@ -237,7 +237,10 @@
     <Compile Include="Models\AccountModels\ChangePasswordModel.cs" />
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ViewModels\ApplicationViewModel.cs" />
+    <Compile Include="Models\MaterialModels\SearchMaterialModel.cs" />
+    <Compile Include="Models\MaterialModels\EditMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\CreateMaterialModel.cs" />
+    <Compile Include="Models\MaterialModels\ViewModels\ViewMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\ViewModels\MaterialSearchResultViewModel.cs" />
     <Compile Include="Models\UserModels\ResetPasswordModel.cs" />
     <Compile Include="Models\AccountModels\ManageModel.cs" />
@@ -472,6 +475,11 @@
     <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Material\Search.cshtml" />
     <Content Include="Views\Shared\_MaterialSearchResultsPartial.cshtml" />
+    <Content Include="Views\Material\Edit.cshtml" />
+    <Content Include="Views\BusinessRule\Index.cshtml" />
+    <Content Include="Views\BusinessRule\Upload.cshtml" />
+    <Content Include="Views\BusinessRule\ViewBusinessRules.cshtml" />
+    <Content Include="Views\Shared\_BusinessRulesPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />

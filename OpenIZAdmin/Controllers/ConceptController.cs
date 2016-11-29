@@ -90,8 +90,8 @@ namespace OpenIZAdmin.Controllers
 					var result = this.ImsiClient.Create(ConceptUtil.ToConcept(model));
 					TempData["success"] = Locale.Concept + " " + Locale.CreatedSuccessfully;
 
-					return RedirectToAction("Index");
-				}
+                    return RedirectToAction("ViewConcept", new { key = result.Key, versionKey = result.VersionKey });
+                }
 				catch (Exception e)
 				{
 #if DEBUG
@@ -106,7 +106,7 @@ namespace OpenIZAdmin.Controllers
 			var languages = LanguageUtil.GetLanguageList();
 
 			model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
-
+            
 			return View(model);
 		}
 
