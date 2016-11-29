@@ -34,6 +34,16 @@ namespace OpenIZAdmin.Models
 		}
 
 		/// <summary>
+		/// Initializes a new instance of the <see cref="SearchModel"/> class
+		/// with a specific search term.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		public SearchModel(string searchTerm)
+		{
+			this.SearchTerm = searchTerm;
+		}
+
+		/// <summary>
 		/// Gets or sets the search term of the search model.
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
