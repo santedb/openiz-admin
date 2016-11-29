@@ -1402,11 +1402,29 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No devices found.
+        /// </summary>
+        public static string NoDevicesFound {
+            get {
+                return ResourceManager.GetString("NoDevicesFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No new certificate signing requests have been submitted.
         /// </summary>
         public static string NoNewCertificateSigningRequestsSubmitted {
             get {
                 return ResourceManager.GetString("NoNewCertificateSigningRequestsSubmitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No policies added.
+        /// </summary>
+        public static string NoPoliciesAdded {
+            get {
+                return ResourceManager.GetString("NoPoliciesAdded", resourceCulture);
             }
         }
         

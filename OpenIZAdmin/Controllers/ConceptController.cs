@@ -17,6 +17,7 @@
  * Date: 2016-7-23
  */
 
+using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Query;
 using OpenIZAdmin.Attributes;
@@ -87,7 +88,15 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var result = this.ImsiClient.Create(ConceptUtil.ToConcept(model));
+					var concept = ConceptUtil.ToConcept(model);
+
+					concept.CreatedBy = new OpenIZ.Core.Model.Security.SecurityUser
+					{
+						Key = Guid.Parse(User.Identity.GetUserId())
+					};
+
+					this.ImsiClient.Create<Concept>(concept);
+
 					TempData["success"] = Locale.Concept + " " + Locale.CreatedSuccessfully;
 
                     return RedirectToAction("ViewConcept", new { key = result.Key, versionKey = result.VersionKey });

@@ -38,7 +38,7 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public class PlaceController : BaseController
 	{
-        /// <summary>
+		/// <summary>
 		/// Displays the create policy view.
 		/// </summary>
 		/// <returns>Returns the create policy view.</returns>
@@ -48,7 +48,7 @@ namespace OpenIZAdmin.Controllers
 			return View();
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Creates a place.
 		/// </summary>
 		/// <param name="model">The model containing the information about the place.</param>
@@ -78,11 +78,11 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Retrieves the place entity by id and version key
 		/// </summary>
 		/// <param name="key">The place identifier.</param>
-        /// <param name="versionKey">The place version identifier.</param>
+		/// <param name="versionKey">The place version identifier.</param>
 		/// <returns>Returns the place edit view.</returns>
 		[HttpGet]
 		public ActionResult Edit(string key, string versionKey)
@@ -121,7 +121,7 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Updates a place.
 		/// </summary>
 		/// <param name="model">The model containing the place information.</param>
@@ -148,7 +148,7 @@ namespace OpenIZAdmin.Controllers
 			return View(new List<PlaceViewModel>());
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Searches for a place.
 		/// </summary>
 		/// <param name="searchTerm">The search term.</param>
@@ -168,7 +168,7 @@ namespace OpenIZAdmin.Controllers
 			return PartialView("_PlaceSearchResultsPartial", placeList);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Searches for a place.
 		/// </summary>
 		/// <param name="searchTerm">The search term.</param>
@@ -188,11 +188,11 @@ namespace OpenIZAdmin.Controllers
 			return Json(placeList, JsonRequestBehavior.AllowGet);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Searches for a place to view details.
 		/// </summary>
 		/// <param name="key">The place identifier search string.</param>
-        /// <param name="versionKey">The place version identifier.</param>
+		/// <param name="versionKey">The place version identifier.</param>
 		/// <returns>Returns a place view that matches the search term.</returns>
 		[HttpGet]
 		public ActionResult ViewPlace(string key, string versionKey)
