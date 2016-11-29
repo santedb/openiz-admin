@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -87,7 +88,15 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var result = this.ImsiClient.Create(ConceptUtil.ToConcept(model));
+					var concept = ConceptUtil.ToConcept(model);
+
+					concept.CreatedBy = new OpenIZ.Core.Model.Security.SecurityUser
+					{
+						Key = Guid.Parse(User.Identity.GetUserId())
+					};
+
+					this.ImsiClient.Create<Concept>(concept);
+
 					TempData["success"] = Locale.Concept + " " + Locale.CreatedSuccessfully;
 
 					return RedirectToAction("Index");

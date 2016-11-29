@@ -38,9 +38,11 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		public EditConceptModel()
 		{
-            this.LanguageList = new List<SelectListItem>();
-            this.ConceptClassList = new List<SelectListItem>();
-        }
+			this.ConceptClassList = new List<SelectListItem>();
+			this.LanguageList = new List<SelectListItem>();
+			this.Name = new List<string>();
+			this.ReferenceTerms = new List<ReferenceTermModel>();
+		}
 
         [Display(Name = "Created By")]
         public string CreatedBy { get; set; }
