@@ -114,7 +114,7 @@ namespace OpenIZAdmin.Util
             }
 
             return null;
-        }
+        }       
 
         /// <summary>
         /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo"/> to a <see cref="OpenIZAdmin.Models.RoleModels.ViewModels.RoleViewModel"/>.
@@ -128,9 +128,9 @@ namespace OpenIZAdmin.Util
 			viewModel.Description = roleInfo.Role.Description;
 			viewModel.Id = roleInfo.Id.Value;
 			viewModel.Name = roleInfo.Name;
-            viewModel.HasPolicies = HasPolicies(roleInfo.Role.Policies);
+            viewModel.HasPolicies = CommonUtil.HasPolicies(roleInfo.Role.Policies);
 
-            viewModel.IsObsolete = IsObsolete(roleInfo.Role.ObsoletionTime);
+            viewModel.IsObsolete = CommonUtil.IsObsolete(roleInfo.Role.ObsoletionTime);
 
             if (roleInfo.Role.Policies != null)
                 viewModel.Policies = roleInfo.Role.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
@@ -174,56 +174,56 @@ namespace OpenIZAdmin.Util
 			return roleInfo;
 		}
 
-        /// <summary>
-        /// Checks if a device has policies
-        /// </summary>
-        /// <param name="pList">A list with the policies applied to the role</param>        
-        /// <returns>Returns true if policies exist, false if no policies exist</returns>
-        private static bool HasPolicies(List<SecurityPolicyInstance> pList)
-        {
-            if (pList != null && pList.Count() > 0)
-                return true;
-            else
-                return false;
-        }
+        ///// <summary>
+        ///// Checks if a device has policies
+        ///// </summary>
+        ///// <param name="pList">A list with the policies applied to the role</param>        
+        ///// <returns>Returns true if policies exist, false if no policies exist</returns>
+        //private static bool HasPolicies(List<SecurityPolicyInstance> pList)
+        //{
+        //    if (pList != null && pList.Count() > 0)
+        //        return true;
+        //    else
+        //        return false;
+        //}
 
-        /// <summary>
-        /// Checks if a device is active or inactive
-        /// </summary>
-        /// <param name="date">A DateTimeOffset object</param>        
-        /// <returns>Returns true if active, false if inactive</returns>
-        private static bool IsActiveStatus(DateTimeOffset? date)
-        {
-            if (date != null)
-                return true;
-            else
-                return false;
-        }
+        ///// <summary>
+        ///// Checks if a device is active or inactive
+        ///// </summary>
+        ///// <param name="date">A DateTimeOffset object</param>        
+        ///// <returns>Returns true if active, false if inactive</returns>
+        //private static bool IsActiveStatus(DateTimeOffset? date)
+        //{
+        //    if (date != null)
+        //        return true;
+        //    else
+        //        return false;
+        //}
 
-        /// <summary>
-        /// Checks if an application is active or inactive
-        /// </summary>
-        /// <param name="date">A DateTimeOffset object</param>        
-        /// <returns>Returns true if active, false if inactive</returns>
-        private static bool IsObsolete(DateTimeOffset? date)
-        {
-            if (date == null)
-                return false;
-            else
-                return true;
-        }
+        ///// <summary>
+        ///// Checks if an application is active or inactive
+        ///// </summary>
+        ///// <param name="date">A DateTimeOffset object</param>        
+        ///// <returns>Returns true if active, false if inactive</returns>
+        //private static bool IsObsolete(DateTimeOffset? date)
+        //{
+        //    if (date == null)
+        //        return false;
+        //    else
+        //        return true;
+        //}
 
-        /// <summary>
-        /// Verifies a valid string parameter
-        /// </summary>
-        /// <param name="key">The string to validate</param>        
-        /// <returns>Returns true if valid, false if empty or whitespace</returns>
-        public static bool IsValidString(string key)
-        {
-            if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
-                return true;
-            else
-                return false;
-        }       
+        ///// <summary>
+        ///// Verifies a valid string parameter
+        ///// </summary>
+        ///// <param name="key">The string to validate</param>        
+        ///// <returns>Returns true if valid, false if empty or whitespace</returns>
+        //public static bool IsValidString(string key)
+        //{
+        //    if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
+        //        return true;
+        //    else
+        //        return false;
+        //}       
     }
 }

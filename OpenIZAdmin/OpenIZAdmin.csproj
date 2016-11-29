@@ -317,6 +317,7 @@
     <Compile Include="Util\AppletUtil.cs" />
     <Compile Include="Util\ApplicationUtil.cs" />
     <Compile Include="Util\CertificateUtil.cs" />
+    <Compile Include="Util\CommonUtil.cs" />
     <Compile Include="Util\MaterialUtil.cs" />
     <Compile Include="Util\ConceptUtil.cs" />
     <Compile Include="Util\DeviceUtil.cs" />

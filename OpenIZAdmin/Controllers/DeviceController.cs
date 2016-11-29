@@ -50,7 +50,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (DeviceUtil.IsValidString(id) && Guid.TryParse(id, out deviceKey))
+				if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out deviceKey))
 				{
 					var deviceInfo = DeviceUtil.GetDevice(this.AmiClient, deviceKey);
 
@@ -141,7 +141,7 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(string id)
 		{
-			if (DeviceUtil.IsValidString(id))
+			if (CommonUtil.IsValidString(id))
 			{
 				try
 				{
@@ -177,7 +177,7 @@ namespace OpenIZAdmin.Controllers
 			//apply and update to the device with the policies removed from the property
 			//string id = string.Empty;
 			string id = string.Empty;
-			if (DeviceUtil.IsValidString(id))
+			if (CommonUtil.IsValidString(id))
 			{
 				try
 				{
@@ -210,7 +210,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			var deviceKey = Guid.Empty;
 
-			if (DeviceUtil.IsValidString(key) && Guid.TryParse(key, out deviceKey))
+			if (CommonUtil.IsValidString(key) && Guid.TryParse(key, out deviceKey))
 			{
 				var device = DeviceUtil.GetDevice(this.AmiClient, deviceKey);
 
@@ -265,11 +265,7 @@ namespace OpenIZAdmin.Controllers
 				//return RedirectToAction("ViewDevice", new { key = model.Id });
 
 				return Redirect("Index");
-			}
-			else
-			{
-				return View(model);
-			}
+			}			
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Device;
 
@@ -298,7 +294,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (DeviceUtil.IsValidString(searchTerm))
+				if (CommonUtil.IsValidString(searchTerm))
 				{
 					var collection = this.AmiClient.GetDevices(d => d.Name.Contains(searchTerm));
 
@@ -331,7 +327,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			Guid deviceKey = Guid.Empty;
 
-			if (DeviceUtil.IsValidString(id) && Guid.TryParse(id, out deviceKey))
+			if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out deviceKey))
 			{
 				var result = DeviceUtil.GetDevice(this.AmiClient, deviceKey);
 

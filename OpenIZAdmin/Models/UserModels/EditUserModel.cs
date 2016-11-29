@@ -48,7 +48,7 @@ namespace OpenIZAdmin.Models.UserModels
 		/// Gets or sets the id of the facility of the user.
 		/// </summary>
 		[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "FacilityRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		//[Required(ErrorMessageResourceName = "FacilityRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string FacilityId { get; set; }
 
 		/// <summary>
@@ -75,9 +75,9 @@ namespace OpenIZAdmin.Models.UserModels
 		/// <summary>
 		/// Gets or sets the password of the user.
 		/// </summary>
-		[DataType(DataType.Password)]
-		[Display(Name = "Password", ResourceType = typeof(Localization.Locale))]
-		public string Password { get; set; }
+		//[DataType(DataType.Password)]
+		//[Display(Name = "Password", ResourceType = typeof(Localization.Locale))]
+		//public string Password { get; set; }
 
 		/// <summary>
 		/// Gets or sets the roles of the user.

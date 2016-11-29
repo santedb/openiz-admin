@@ -88,7 +88,7 @@ namespace OpenIZAdmin.Util
             {
                 foreach (string name in pList)
                 {
-                    if (IsValidString(name))
+                    if (CommonUtil.IsValidString(name))
                     {
                         //SecurityPolicyInfo result = DeviceUtil.GetPolicy(client, name);
                         var result = client.GetPolicies(r => r.Name == name);
@@ -127,8 +127,8 @@ namespace OpenIZAdmin.Util
             viewModel.ApplicationName = appInfo.Name;
             viewModel.ApplicationSecret = appInfo.ApplicationSecret;
             viewModel.CreationTime = appInfo.Application.CreationTime.DateTime;
-            viewModel.HasPolicies = IsPolicy(appInfo.Policies);
-            viewModel.IsObsolete = IsObsolete(appInfo.Application.ObsoletionTime);         
+            viewModel.HasPolicies = CommonUtil.IsPolicy(appInfo.Policies);
+            viewModel.IsObsolete = CommonUtil.IsObsolete(appInfo.Application.ObsoletionTime);         
 
             if(appInfo.Policies != null)
                 viewModel.Policies = appInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
@@ -211,58 +211,6 @@ namespace OpenIZAdmin.Util
             }
 
             return appInfo;
-        }
-
-        /// <summary>
-        /// Checks if an application has policies. Used with boolean property in Model for UI purposes
-        /// </summary>
-        /// <param name="pList">A list with the policies associated with the application</param>        
-        /// <returns>Returns true if policies exist, false if no policies exist</returns>
-        private static bool IsPolicy(List<SecurityPolicyInstance> pList)
-        {
-            if (pList != null && pList.Count() > 0)
-                return true;
-            else
-                return false;
-        }
-
-        /// <summary>
-        /// Checks if a device is active or inactive
-        /// </summary>
-        /// <param name="date">A DateTimeOffset object</param>        
-        /// <returns>Returns true if active, false if inactive</returns>
-        private static bool IsActiveStatus(DateTimeOffset? date)
-        {
-            if (date != null)
-                return true;
-            else
-                return false;
-        }
-
-        /// <summary>
-        /// Checks if an application is active or inactive
-        /// </summary>
-        /// <param name="date">A DateTimeOffset object</param>        
-        /// <returns>Returns true if active, false if inactive</returns>
-        private static bool IsObsolete(DateTimeOffset? date)
-        {
-            if (date == null)
-                return false;
-            else
-                return true;
-        }
-
-        /// <summary>
-        /// Verifies a valid string parameter
-        /// </summary>
-        /// <param name="key">The string to validate</param>        
-        /// <returns>Returns true if valid, false if empty or whitespace</returns>
-        public static bool IsValidString(string key)
-        {
-            if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
-                return true;
-            else
-                return false;
-        }
+        }       
     }
 }

@@ -57,7 +57,7 @@ namespace OpenIZAdmin.Controllers
 			Guid appKey = Guid.Empty;
 			SecurityApplicationInfo appInfo = null;
 
-			if (ApplicationUtil.IsValidString(id) && Guid.TryParse(id, out appKey))
+			if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out appKey))
 			{
 				try
 				{
@@ -139,7 +139,7 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(string id)
 		{
-			if (ApplicationUtil.IsValidString(id))
+			if (CommonUtil.IsValidString(id))
 			{
 				try
 				{
@@ -175,7 +175,7 @@ namespace OpenIZAdmin.Controllers
 			//apply and update to the device with the policies removed from the property
 			//string id = string.Empty;
 			string id = string.Empty;
-			if (ApplicationUtil.IsValidString(id))
+			if (CommonUtil.IsValidString(id))
 			{
 				try
 				{
@@ -209,7 +209,7 @@ namespace OpenIZAdmin.Controllers
 			Guid appKey = Guid.Empty;
 			SecurityApplicationInfo application = null;
 
-			if (ApplicationUtil.IsValidString(key) && Guid.TryParse(key, out appKey))
+			if (CommonUtil.IsValidString(key) && Guid.TryParse(key, out appKey))
 			{
 				application = ApplicationUtil.GetApplication(this.AmiClient, appKey);
 
@@ -296,7 +296,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (ApplicationUtil.IsValidString(searchTerm))
+				if (CommonUtil.IsValidString(searchTerm))
 				{
 					var collection = this.AmiClient.GetApplications(d => d.Name.Contains(searchTerm));
 
@@ -327,7 +327,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult ViewApplication(string id)
 		{
-			if (ApplicationUtil.IsValidString(id))
+			if (CommonUtil.IsValidString(id))
 			{
 				var result = ApplicationUtil.GetApplication(this.AmiClient, id);
 
