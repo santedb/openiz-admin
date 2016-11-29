@@ -98,7 +98,7 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(string id)
 		{
-			if (RoleUtil.IsValidString(id))
+			if (CommonUtil.IsValidString(id))
 			{
 				try
 				{
@@ -131,7 +131,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			Guid roleId = Guid.Empty;
 
-			if (RoleUtil.IsValidString(id) && Guid.TryParse(id, out roleId))
+			if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out roleId))
 			{
 				try
 				{
@@ -234,7 +234,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (RoleUtil.IsValidString(searchTerm))
+				if (CommonUtil.IsValidString(searchTerm))
 				{
 					var collection = this.AmiClient.GetRoles(r => r.Name.Contains(searchTerm));
 
@@ -267,7 +267,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			Guid roleId = Guid.Empty;
 
-			if (RoleUtil.IsValidString(id) && Guid.TryParse(id, out roleId))
+			if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out roleId))
 			{
 				SecurityRoleInfo role = RoleUtil.GetRole(this.AmiClient, roleId);
 

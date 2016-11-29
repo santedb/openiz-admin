@@ -49,7 +49,7 @@ namespace OpenIZAdmin.Util
             viewModel.Id = device.Key.Value;
             viewModel.Name = device.Name;            
             viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
-            viewModel.IsObsolete = IsActiveStatus(device.ObsoletionTime);
+            viewModel.IsObsolete = CommonUtil.IsActiveStatus(device.ObsoletionTime);
 
             //if(viewModel.Policies != null && viewModel.Policies.Count() > 0)
             //{
@@ -157,7 +157,7 @@ namespace OpenIZAdmin.Util
 
 			policies.AddRange(from name
 								in pList
-								where IsValidString(name)
+								where CommonUtil.IsValidString(name)
 								select client.GetPolicies(r => r.Name == name)
 								into result
 								where result.CollectionItem.Count != 0
@@ -210,8 +210,8 @@ namespace OpenIZAdmin.Util
 		        Name = deviceInfo.Name,
 		        Policies = deviceInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList(),
 		        UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime,
-		        IsObsolete = IsActiveStatus(deviceInfo.Device.ObsoletionTime),
-		        HasPolicies = IsPolicy(deviceInfo.Policies)
+		        IsObsolete = CommonUtil.IsActiveStatus(deviceInfo.Device.ObsoletionTime),
+		        HasPolicies = CommonUtil.IsPolicy(deviceInfo.Policies)
 	        };
 
 	        return viewModel;
@@ -232,7 +232,7 @@ namespace OpenIZAdmin.Util
 			viewModel.Name = device.Name;
 			viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
 			viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
-            viewModel.IsObsolete = IsActiveStatus(device.ObsoletionTime);            
+            viewModel.IsObsolete = CommonUtil.IsActiveStatus(device.ObsoletionTime);            
 
             return viewModel;
 		}
@@ -329,47 +329,6 @@ namespace OpenIZAdmin.Util
 	        deviceInfo.Policies.AddRange(addPolicies.Select(p => new SecurityPolicyInstance(p, PolicyGrantType.Grant)));
 
 	        return deviceInfo;
-        }
-
-        /// <summary>
-        /// Verifies a valid string parameter
-        /// </summary>
-        /// <param name="key">The string to validate</param>        
-        /// <returns>Returns true if valid, false if empty or whitespace</returns>
-        public static bool IsValidString(string key)
-        {
-            if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
-                return true;
-            else
-                return false;
-        }
-
-        /// <summary>
-        /// Checks if a device is active or inactive
-        /// </summary>
-        /// <param name="date">A DateTimeOffset object</param>        
-        /// <returns>Returns true if active, false if inactive</returns>
-        private static bool IsActiveStatus(DateTimeOffset? date)
-        {
-            if (date != null)
-                return true;
-            else
-                return false;
-        }
-
-        /// <summary>
-        /// Checks if a device has policies
-        /// </summary>
-        /// <param name="pList">A list with the policies applied to the device</param>        
-        /// <returns>Returns true if policies exist, false if no policies exist</returns>
-        private static bool IsPolicy(List<SecurityPolicyInstance> pList)
-        {
-            if (pList != null && pList.Count() > 0)
-                return true;
-            else
-                return false;
-        }
-
-        
+        }                
     }
 }

@@ -58,7 +58,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			var userKey = Guid.Empty;
 
-			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out userKey))
+			if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out userKey))
 			{
 				var user = UserUtil.GetSecurityUserInfo(this.AmiClient, userKey);
 
@@ -69,10 +69,13 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
+                user.UserId = userKey;
 				user.User.ObsoletedBy = null;
-				user.User.ObsoletionTime = null;
+                user.User.ObsoletedByKey = null;
+                user.User.ObsoletionTime = null;
+                user.User.ObsoletionTimeXml = null;
 
-				this.AmiClient.UpdateUser(userKey, user);
+                this.AmiClient.UpdateUser(userKey, user);
 
 				TempData["success"] = Locale.User + " " + Locale.ActivatedSuccessfully;
 
@@ -137,7 +140,7 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(string id)
 		{
-			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id))
+			if (CommonUtil.IsValidString(id))
 			{
 				this.AmiClient.DeleteUser(id);
 
@@ -172,13 +175,13 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var model = UserUtil.ToEditUserModel(userEntity);
+				var model = UserUtil.ToEditUserModel(this.AmiClient, userEntity);
 
-				model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-				model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
+				//model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
+				//model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));                
 
-				model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
-				model.RolesList.AddRange(RoleUtil.GetAllRoles(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }));
+    //            model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
+				//model.RolesList.AddRange(RoleUtil.GetAllRoles(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }));
 
 				return View(model);
 			}
@@ -217,6 +220,7 @@ namespace OpenIZAdmin.Controllers
 					Component = new List<EntityNameComponent>()
 				};
 
+                //--specific to the UserEntity
 				if (model.FamilyNames != null && model.FamilyNames.Count > 0)
 				{
 					name.Component.AddRange(model.FamilyNames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
@@ -228,12 +232,14 @@ namespace OpenIZAdmin.Controllers
 				}
 
 				userEntity.Names = new List<EntityName> { name };
-
-
 				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.FacilityId)));
+                //--specific to the UserEntity
 
-				this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, new SecurityUserInfo(userEntity.SecurityUser));
-				this.ImsiClient.Update<UserEntity>(userEntity);
+                var userInfo = UserUtil.ToSecurityUserInfo(model, userEntity, this.AmiClient);
+
+                //this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, new SecurityUserInfo(userEntity.SecurityUser));
+                this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, userInfo);
+                this.ImsiClient.Update<UserEntity>(userEntity);
 
 				TempData["success"] = Locale.User + " " + Locale.UpdatedSuccessfully;
 
@@ -320,7 +326,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			var users = new List<UserViewModel>();
 
-			if (UserUtil.IsValidString(searchTerm))
+			if (CommonUtil.IsValidString(searchTerm))
 			{
 				var collection = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
 
@@ -369,57 +375,50 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (UserUtil.IsValidString(id) && Guid.TryParse(id, out userId))
+				if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out userId))
 				{
 					var result = this.AmiClient.GetUsers(u => u.Key == userId);
 
-					if (result.CollectionItem.Count == 0)
-					{
-						TempData["error"] = Locale.User + " " + Locale.NotFound;
+                    if (result.CollectionItem.Count == 0)
+                    {
+                        TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-						return RedirectToAction("Index");
-					}
+                        return RedirectToAction("Index");
+                    }					
 
-					//var user = UserUtil.GetUserEntity(this.ImsiClient, userId);
+					var viewModel = UserUtil.ToUserViewModel(this.ImsiClient, result.CollectionItem.FirstOrDefault());
 
-					var userViewModel = UserUtil.ToUserViewModel(this.ImsiClient, result.CollectionItem.FirstOrDefault());
+                    var user = UserUtil.GetUserEntity(this.ImsiClient, userId);
 
-					return View(userViewModel);
-				}
-				//var user = UserUtil.GetUserEntity(this.ImsiClient, userViewModel.UserId);
+                    if (user == null)
+                    {
+                        TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-				//if (user == null)
-				//{
-				//	TempData["error"] = Locale.User + " " + Locale.NotFound;
+                        return RedirectToAction("Index");                        
+                    }
+                    else
+                    {
+                        viewModel.Name = string.Join(" ", user.Names.SelectMany(n => n.Component).Select(c => c.Value));
 
-				//	return RedirectToAction("Index");
-				//}
+                        var healthFacility = user.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).FirstOrDefault();
 
-				//userViewModel.Name = string.Join(" ", user.Names.SelectMany(n => n.Component).Select(c => c.Value));
+                        if (healthFacility != null)
+                            viewModel.HealthFacility = string.Join(" ", healthFacility.TargetEntity.Names.SelectMany(n => n.Component).Select(c => c.Value));
+                        else
+                            viewModel.HealthFacility = "N/A";
+                    }
 
-				//var healthFacility = user.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).FirstOrDefault();
-
-				//userViewModel.HealthFacility = "N/A";
-
-				//if (healthFacility == null)
-				//{
-				//	userViewModel.HealthFacility = "N/A";
-				//}
-				//else
-				//{
-				//	userViewModel.HealthFacility = string.Join(" ", healthFacility.TargetEntity.Names.SelectMany(n => n.Component).Select(c => c.Value));
-				//}
-
-				//return View(userViewModel);
-			}
+                    return View(viewModel);
+                }
+                
+            }
 			catch (Exception e)
 			{
 #if DEBUG
 				Trace.TraceError("Unable to retrieve user {0}", e.StackTrace);
 #endif
 				Trace.TraceError("Unable to retrieve user: {0}", e.Message);
-			}
-			//}
+			}			
 
 			TempData["error"] = Locale.User + " " + Locale.NotFound;
 

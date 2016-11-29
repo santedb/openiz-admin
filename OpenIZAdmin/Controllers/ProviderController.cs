@@ -91,7 +91,7 @@ namespace OpenIZAdmin.Controllers
 			Guid providerKey = Guid.Empty;
 			Guid providerVersionKey = Guid.Empty;
 
-			if (ProviderUtil.IsValidString(key) && Guid.TryParse(key, out providerKey) && ProviderUtil.IsValidString(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
+			if (CommonUtil.IsValidString(key) && Guid.TryParse(key, out providerKey) && CommonUtil.IsValidString(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
 			{
 				var providerEntity = ProviderUtil.GetProviderEntity(this.ImsiClient, key, versionKey);
 
@@ -166,7 +166,7 @@ namespace OpenIZAdmin.Controllers
 			Guid providerKey = Guid.Empty;
 			Guid providerVersionKey = Guid.Empty;
 
-			if (ProviderUtil.IsValidString(key) && Guid.TryParse(key, out providerKey) && ProviderUtil.IsValidString(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
+			if (CommonUtil.IsValidString(key) && Guid.TryParse(key, out providerKey) && CommonUtil.IsValidString(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
 			{
 				try
 				{
