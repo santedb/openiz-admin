@@ -44,7 +44,7 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Displays the create role view.
 		/// </summary>
 		/// <returns>Returns the create role view.</returns>
@@ -54,7 +54,7 @@ namespace OpenIZAdmin.Controllers
 			return View();
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Displays the create view.
 		/// </summary>
 		/// <param name="model">The model containing the new role information.</param>
@@ -89,7 +89,7 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Displays the edit view.
 		/// </summary>
 		/// <param name="id">The id of the role to delete.</param>
@@ -98,7 +98,7 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(string id)
 		{
-            if (RoleUtil.IsValidString(id))
+			if (RoleUtil.IsValidString(id))
 			{
 				try
 				{
@@ -211,7 +211,7 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Displays the Index view
 		/// </summary>
 		/// <returns>Returns the index view.</returns>
@@ -222,7 +222,7 @@ namespace OpenIZAdmin.Controllers
 			return View(RoleUtil.GetAllRoles(this.AmiClient));
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Searches for a role.
 		/// </summary>
 		/// <param name="searchTerm">The search term.</param>
@@ -236,9 +236,9 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (RoleUtil.IsValidString(searchTerm))
 				{
-					var collection = this.AmiClient.GetRoles(r => r.Name.Contains(searchTerm));                    
+					var collection = this.AmiClient.GetRoles(r => r.Name.Contains(searchTerm));
 
-                    TempData["searchTerm"] = searchTerm;
+					TempData["searchTerm"] = searchTerm;
 
 					return PartialView("_RolesPartial", collection.CollectionItem.Select(r => RoleUtil.ToRoleViewModel(r)));
 				}
@@ -257,7 +257,7 @@ namespace OpenIZAdmin.Controllers
 			return PartialView("_RolesPartial", roles);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Retrieves the selected role
 		/// </summary>
 		/// <param name="id">The identifier of the role object</param>
@@ -268,10 +268,10 @@ namespace OpenIZAdmin.Controllers
 			Guid roleId = Guid.Empty;
 
 			if (RoleUtil.IsValidString(id) && Guid.TryParse(id, out roleId))
-			{                
-                SecurityRoleInfo role = RoleUtil.GetRole(this.AmiClient, roleId);
+			{
+				SecurityRoleInfo role = RoleUtil.GetRole(this.AmiClient, roleId);
 
-                if (role == null)
+				if (role == null)
 				{
 					TempData["error"] = Locale.Role + " " + Locale.NotFound;
 

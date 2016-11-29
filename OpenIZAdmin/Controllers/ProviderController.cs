@@ -18,14 +18,10 @@
  */
 
 using OpenIZ.Core.Model.Roles;
-using OpenIZ.Messaging.AMI.Client;
-using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ProviderModels;
 using OpenIZAdmin.Models.ProviderModels.ViewModels;
-using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Http.Security;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
@@ -35,13 +31,13 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
-    /// <summary>
+	/// <summary>
 	/// Provides operations for administering providers.
 	/// </summary>
 	[TokenAuthorize]
 	public class ProviderController : BaseController
 	{
-        /// <summary>
+		/// <summary>
 		/// Displays the create provider view.
 		/// </summary>
 		/// <returns>Returns the create provider view.</returns>
@@ -51,7 +47,7 @@ namespace OpenIZAdmin.Controllers
 			return View();
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Displays the create view.
 		/// </summary>
 		/// <param name="model">The model containing the new provider information.</param>
@@ -67,9 +63,9 @@ namespace OpenIZAdmin.Controllers
 					var provider = this.ImsiClient.Create<Provider>(ProviderUtil.ToProvider(model));
 
 					TempData["success"] = Locale.Provider + " " + Locale.CreatedSuccessfully;
-                    //return RedirectToAction("ViewProvider", new { key = provider.Key, versionKey = provider.VersionKey });
-                    return RedirectToAction("Index");
-                }
+					//return RedirectToAction("ViewProvider", new { key = provider.Key, versionKey = provider.VersionKey });
+					return RedirectToAction("Index");
+				}
 				catch (Exception e)
 				{
 #if DEBUG
@@ -83,11 +79,11 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Retrieves the provider entity by id and version key
 		/// </summary>
 		/// <param name="key">The provider identifier.</param>
-        /// <param name="versionKey">The provider version identifier.</param>
+		/// <param name="versionKey">The provider version identifier.</param>
 		/// <returns>Returns the provider edit view.</returns>
 		[HttpGet]
 		public ActionResult Edit(string key, string versionKey)
@@ -116,7 +112,7 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Updates a provider.
 		/// </summary>
 		/// <param name="model">The model containing the provider information.</param>
@@ -147,7 +143,7 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Displays the Index view
 		/// </summary>
 		/// <returns>Returns the index view.</returns>
@@ -158,11 +154,11 @@ namespace OpenIZAdmin.Controllers
 			return View();
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Searches for a provider to view details.
 		/// </summary>
 		/// <param name="key">The provider identifier search string.</param>
-        /// <param name="versionKey">The provider version identifier.</param>
+		/// <param name="versionKey">The provider version identifier.</param>
 		/// <returns>Returns a provider view that matches the search term.</returns>
 		[HttpGet]
 		public ActionResult ViewProvider(string key, string versionKey)
@@ -193,7 +189,7 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Searches for a provider.
 		/// </summary>
 		/// <param name="searchTerm">The search term.</param>

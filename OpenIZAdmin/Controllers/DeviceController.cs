@@ -17,9 +17,7 @@
  * Date: 2016-7-8
  */
 
-using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
-using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.DeviceModels;
@@ -54,7 +52,6 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (DeviceUtil.IsValidString(id) && Guid.TryParse(id, out deviceKey))
 				{
-
 					var deviceInfo = DeviceUtil.GetDevice(this.AmiClient, deviceKey);
 
 					if (deviceInfo == null)
@@ -89,7 +86,7 @@ namespace OpenIZAdmin.Controllers
 
 		/// <summary>
 		/// Initialization method for Create action.
-		/// </summary>        
+		/// </summary>
 		/// <returns>Returns the Create view.</returns>
 		[HttpGet]
 		public ActionResult Create()
@@ -120,8 +117,8 @@ namespace OpenIZAdmin.Controllers
 					TempData["success"] = Locale.Device + " " + Locale.CreatedSuccessfully;
 
 					//return RedirectToAction("ViewDevice", new { key = device.Id.ToString() });
-                    return RedirectToAction("Index");
-                }
+					return RedirectToAction("Index");
+				}
 				catch (Exception e)
 				{
 #if DEBUG
@@ -164,7 +161,6 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = Locale.UnableToDelete + " " + Locale.Device;
 
-
 			return RedirectToAction("Index");
 		}
 
@@ -200,7 +196,6 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			TempData["error"] = Locale.UnableToDelete + " " + Locale.Device;
-
 
 			return RedirectToAction("Index");
 		}
@@ -283,7 +278,7 @@ namespace OpenIZAdmin.Controllers
 
 		/// <summary>
 		/// Gets all device objects
-		/// </summary>        
+		/// </summary>
 		/// <returns>Returns the index view.</returns>
 		public ActionResult Index()
 		{
@@ -354,7 +349,5 @@ namespace OpenIZAdmin.Controllers
 
 			return RedirectToAction("Index");
 		}
-
-
 	}
 }

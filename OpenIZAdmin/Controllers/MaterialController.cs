@@ -17,10 +17,8 @@
  * Date: 2016-7-23
  */
 
-using OpenIZ.Core.Model.Collection;
-using OpenIZ.Core.Model.DataTypes;
+using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
-using OpenIZ.Core.Model.Query;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.MaterialModels;
@@ -28,90 +26,76 @@ using OpenIZAdmin.Models.MaterialModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Models;
 
 namespace OpenIZAdmin.Controllers
 {
-    /// <summary>
-    /// Provides operations for managing concepts.
-    /// </summary>
-    [TokenAuthorize]
-    public class MaterialController : BaseController
-    {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MaterialController"/> class.
-        /// </summary>
-        public MaterialController()
-        {
-        }
+	/// <summary>
+	/// Provides operations for managing materials.
+	/// </summary>
+	[TokenAuthorize]
+	public class MaterialController : BaseController
+	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MaterialController"/> class.
+		/// </summary>
+		public MaterialController()
+		{
+		}
 
-        /// <summary>
-        /// Displays the create view.
-        /// </summary>
-        /// <returns>Returns the create view.</returns>
-        [HttpGet]
-        public ActionResult Create()
-        {
-            return View();
-        }
+		/// <summary>
+		/// Displays the create view.
+		/// </summary>
+		/// <returns>Returns the create view.</returns>
+		[HttpGet]
+		public ActionResult Create()
+		{
+			return View();
+		}
 
-        /// <summary>
-        /// Creates a concept.
-        /// </summary>
-        /// <param name="model">The model containing the information to create a concept.</param>
-        /// <returns>Returns the created concept.</returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateMaterialModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    Material material = new Material()
-                    {
-                        Names = new List<EntityName>()
-                        {
-                            new EntityName()
-                            {
-                                Component = new List<EntityNameComponent>()
-                                {
-                                    new EntityNameComponent()
-                                    {
-                                        Value = model.Name
-                                    }
-                                }
-                            }
-                        }
-                    };
-                    var result = this.ImsiClient.Create(material);
-                    TempData["success"] = Locale.Concept + " " + Locale.CreatedSuccessfully;
+		/// <summary>
+		/// Creates a concept.
+		/// </summary>
+		/// <param name="model">The model containing the information to create a concept.</param>
+		/// <returns>Returns the created concept.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Create(CreateMaterialModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var material = new Material
+				{
+					Key = Guid.NewGuid(),
+					Names = new List<EntityName>
+					{
+						new EntityName(NameUseKeys.OfficialRecord, model.Name)
+					}
+				};
 
-                    return RedirectToAction("Index");
-                }
-                catch (Exception e)
-                {
-#if DEBUG
-                    Trace.TraceError("Unable to create concept: {0}", e.StackTrace);
-#endif
-                    Trace.TraceError("Unable to create concept: {0}", e.Message);
-                }
-            }
+				this.ImsiClient.Create(material);
 
-            TempData["error"] = Locale.UnableToCreate + " " + Locale.Concept;
+				TempData["success"] = Locale.Material + " " + Locale.CreatedSuccessfully;
 
-            return View(model);
-        }
-        
-        public ActionResult Index()
-        {
+				return RedirectToAction("Index");
+			}
+
+			TempData["error"] = Locale.UnableToCreate + " " + Locale.Material;
+
+			return View(model);
+		}
+
+		/// <summary>
+		/// Displays the index view.
+		/// </summary>
+		/// <returns>Returns the index view.</returns>
+		[HttpGet]
+		public ActionResult Index()
+		{
 			TempData["searchType"] = "Material";
 			return View();
-        }
-
+		}
 
 		/// <summary>
 		/// Searches for a user.
@@ -137,6 +121,5 @@ namespace OpenIZAdmin.Controllers
 
 			return PartialView("_MaterialSearchResultsPartial", users);
 		}
-
 	}
 }

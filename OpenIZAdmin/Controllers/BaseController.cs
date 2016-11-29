@@ -20,7 +20,6 @@
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Attributes;
-using OpenIZAdmin.Localization;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
 using System.Web.Mvc;
@@ -65,7 +64,6 @@ namespace OpenIZAdmin.Controllers
 				Accept = Constants.ApplicationXml,
 				Credentials = new AmiCredentials(this.User, HttpContext.Request)
 			};
-
 
 			this.AmiClient = new AmiServiceClient(amiRestClient);
 

@@ -17,16 +17,15 @@
  * Date: 2016-5-31
  */
 
-using System;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
+using OpenIZAdmin.Models.DebugModels.ViewModels;
 using OpenIZAdmin.Util;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Models.DebugModels;
-using OpenIZAdmin.Models.DebugModels.ViewModels;
 
 namespace OpenIZAdmin.Controllers
 {

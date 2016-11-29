@@ -31,7 +31,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Models.AccountModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -182,7 +181,7 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Retrieves the user entity by id
 		/// </summary>
 		/// <param name="id">The user identifier.</param>
@@ -287,7 +286,7 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Displays the Index view
 		/// </summary>
 		/// <returns>Returns the index view.</returns>
@@ -362,33 +361,33 @@ namespace OpenIZAdmin.Controllers
 		{
 			IEnumerable<UserViewModel> users = new List<UserViewModel>();
 
-            try
-            {
-                //if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
-                if (UserUtil.IsValidString(searchTerm))
-                {
-				    var collection = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
+			try
+			{
+				//if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+				if (UserUtil.IsValidString(searchTerm))
+				{
+					var collection = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
 
-				    TempData["searchTerm"] = searchTerm;
+					TempData["searchTerm"] = searchTerm;
 
-				    return PartialView("_UsersPartial", collection.CollectionItem.Select(UserUtil.ToUserViewModel));
-			    }
-            }
-            catch (Exception e)
-            {
+					return PartialView("_UsersPartial", collection.CollectionItem.Select(UserUtil.ToUserViewModel));
+				}
+			}
+			catch (Exception e)
+			{
 #if DEBUG
-                Trace.TraceError("Unable to search roles: {0}", e.StackTrace);
+				Trace.TraceError("Unable to search roles: {0}", e.StackTrace);
 #endif
-                Trace.TraceError("Unable to search roles: {0}", e.Message);
-            }
+				Trace.TraceError("Unable to search roles: {0}", e.Message);
+			}
 
-            TempData["error"] = Locale.User + " " + Locale.NotFound;
+			TempData["error"] = Locale.User + " " + Locale.NotFound;
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_UsersPartial", users);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Searches for a user.
 		/// </summary>
 		/// <param name="searchTerm">The search term.</param>
@@ -408,7 +407,7 @@ namespace OpenIZAdmin.Controllers
 			return Json(userList, JsonRequestBehavior.AllowGet);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Searches for a user to view details.
 		/// </summary>
 		/// <param name="id">The user identifier search string.</param>
@@ -416,62 +415,60 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult ViewUser(string id)
 		{
-		    Guid userId = Guid.Empty;			
+			Guid userId = Guid.Empty;
 
-				try
+			try
+			{
+				if (UserUtil.IsValidString(id) && Guid.TryParse(id, out userId))
 				{
-                    if (UserUtil.IsValidString(id) && Guid.TryParse(id, out userId))
-                    {
-                        var result = this.AmiClient.GetUsers(u => u.Key == userId);
+					var result = this.AmiClient.GetUsers(u => u.Key == userId);
 
-                        if (result.CollectionItem.Count == 0)
-                        {
-                            TempData["error"] = Locale.User + " " + Locale.NotFound;
+					if (result.CollectionItem.Count == 0)
+					{
+						TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-                            return RedirectToAction("Index");
-                        }
+						return RedirectToAction("Index");
+					}
 
-                        //var user = UserUtil.GetUserEntity(this.ImsiClient, userId);
+					//var user = UserUtil.GetUserEntity(this.ImsiClient, userId);
 
-                        var userViewModel = UserUtil.ToUserViewModel( this.ImsiClient, result.CollectionItem.FirstOrDefault());
+					var userViewModel = UserUtil.ToUserViewModel(this.ImsiClient, result.CollectionItem.FirstOrDefault());
 
-
-
-                        return View(userViewModel);
-                    }
-                    //var user = UserUtil.GetUserEntity(this.ImsiClient, userViewModel.UserId);
-
-                    //if (user == null)
-                    //{
-                    //	TempData["error"] = Locale.User + " " + Locale.NotFound;
-
-                    //	return RedirectToAction("Index");
-                    //}
-
-                    //userViewModel.Name = string.Join(" ", user.Names.SelectMany(n => n.Component).Select(c => c.Value));
-
-                    //var healthFacility = user.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).FirstOrDefault();
-
-                    //userViewModel.HealthFacility = "N/A";
-
-                    //if (healthFacility == null)
-                    //{
-                    //	userViewModel.HealthFacility = "N/A";
-                    //}
-                    //else
-                    //{
-                    //	userViewModel.HealthFacility = string.Join(" ", healthFacility.TargetEntity.Names.SelectMany(n => n.Component).Select(c => c.Value));
-                    //}
-
-                    //return View(userViewModel);
+					return View(userViewModel);
 				}
-				catch (Exception e)
-				{
+				//var user = UserUtil.GetUserEntity(this.ImsiClient, userViewModel.UserId);
+
+				//if (user == null)
+				//{
+				//	TempData["error"] = Locale.User + " " + Locale.NotFound;
+
+				//	return RedirectToAction("Index");
+				//}
+
+				//userViewModel.Name = string.Join(" ", user.Names.SelectMany(n => n.Component).Select(c => c.Value));
+
+				//var healthFacility = user.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).FirstOrDefault();
+
+				//userViewModel.HealthFacility = "N/A";
+
+				//if (healthFacility == null)
+				//{
+				//	userViewModel.HealthFacility = "N/A";
+				//}
+				//else
+				//{
+				//	userViewModel.HealthFacility = string.Join(" ", healthFacility.TargetEntity.Names.SelectMany(n => n.Component).Select(c => c.Value));
+				//}
+
+				//return View(userViewModel);
+			}
+			catch (Exception e)
+			{
 #if DEBUG
-					Trace.TraceError("Unable to retrieve user {0}", e.StackTrace);
+				Trace.TraceError("Unable to retrieve user {0}", e.StackTrace);
 #endif
-					Trace.TraceError("Unable to retrieve user: {0}", e.Message);
-				}
+				Trace.TraceError("Unable to retrieve user: {0}", e.Message);
+			}
 			//}
 
 			TempData["error"] = Locale.User + " " + Locale.NotFound;

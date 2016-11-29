@@ -22,10 +22,8 @@ using OpenIZ.Core.Model.AMI.Applet;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AppletModels;
-using OpenIZAdmin.Models.AppletModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Web.Mvc;
@@ -39,7 +37,6 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public class AppletController : BaseController
 	{
-
 		/// <summary>
 		/// Downloads an applet.
 		/// </summary>
@@ -62,6 +59,7 @@ namespace OpenIZAdmin.Controllers
 
 			return File(stream.ToArray(), "application/pak", applet.AppletManifest.Info.Id + applet.FileExtension);
 		}
+
 		/// <summary>
 		/// Displays the index view.
 		/// </summary>
@@ -140,7 +138,7 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Views an applet.
 		/// </summary>
 		/// <param name="id">The applet identifier.</param>

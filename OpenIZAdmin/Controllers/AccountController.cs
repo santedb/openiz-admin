@@ -22,14 +22,9 @@ using Microsoft.AspNet.Identity.Owin;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
-using OpenIZ.Messaging.AMI.Client;
-using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.DAL;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AccountModels;
-using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Http.Security;
-using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -146,7 +141,7 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Manage");
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Disposes of any managed resources
 		/// </summary>
 		/// <param name="disposing">Parameter that acts as a logic switch</param>
@@ -219,13 +214,13 @@ namespace OpenIZAdmin.Controllers
 			}
 		}
 
-        //
-        // POST: /Account/LogOff
-        /// <summary>
-        /// Logs off the user.
-        /// </summary>        
-        /// <returns>Returns an Index view.</returns>
-        [HttpPost]
+		//
+		// POST: /Account/LogOff
+		/// <summary>
+		/// Logs off the user.
+		/// </summary>
+		/// <returns>Returns an Index view.</returns>
+		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult LogOff()
 		{
@@ -233,9 +228,9 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index", "Home");
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Retrieve the user entity.
-		/// </summary>		
+		/// </summary>
 		/// <returns>Returns a manage model.</returns>
 		[HttpGet]
 		public ActionResult Manage()
@@ -298,7 +293,7 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Redirects based on the supplied url
 		/// </summary>
 		/// <param name="returnUrl">The return url for redirect.</param>

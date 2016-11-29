@@ -17,6 +17,7 @@
  * Date: 2016-7-23
  */
 
+using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Query;
 using OpenIZAdmin.Attributes;
@@ -29,7 +30,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
 
 namespace OpenIZAdmin.Controllers
 {

@@ -176,7 +176,7 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Retrieves the policy entity by id
 		/// </summary>
 		/// <param name="key">The policy identifier.</param>
@@ -209,7 +209,7 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Updates a policy.
 		/// </summary>
-		/// <param name="model">The model containing the updated policy information.</param>		
+		/// <param name="model">The model containing the updated policy information.</param>
 		/// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -250,7 +250,7 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Displays the Index view
 		/// </summary>
 		/// <returns>Returns the index view.</returns>
@@ -261,7 +261,7 @@ namespace OpenIZAdmin.Controllers
 			return View(PolicyUtil.GetAllPolicies(this.AmiClient));
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Searches for a policy.
 		/// </summary>
 		/// <param name="searchTerm">The search term.</param>
@@ -296,7 +296,7 @@ namespace OpenIZAdmin.Controllers
 			return PartialView("_PolicySearchResultsPartial", policies);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Searches for a policy to view details.
 		/// </summary>
 		/// <param name="key">The policy identifier search string.</param>

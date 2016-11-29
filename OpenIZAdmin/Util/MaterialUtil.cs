@@ -31,40 +31,26 @@ using System.Web.Mvc;
 namespace OpenIZAdmin.Util
 {
 	/// <summary>
-	/// Provides a utility for managing concepts.
+	/// Provides a utility for managing materials.
 	/// </summary>
 	public static class MaterialUtil
 	{
-
-		public static List<MaterialSearchResultViewModel> ToMaterialList(Bundle bundle)
-		{
-			List<MaterialSearchResultViewModel> materialList = new List<MaterialSearchResultViewModel>();
-            
-            for( var i = 0; i<bundle.Count; i++)
-            {
-                materialList.Add(
-                    new MaterialSearchResultViewModel()
-                    {
-                        Key = (bundle.Item[i] as Material).Key.Value,
-                        Name = (bundle.Item[i] as Material).Names.FirstOrDefault().Component.FirstOrDefault().Value,
-                    });
-            }
-			return materialList;
-		}
-
+		/// <summary>
+		/// Converts a <see cref="Material"/> instance to a <see cref="MaterialSearchResultViewModel"/> instance.
+		/// </summary>
+		/// <param name="material">The material to convert.</param>
+		/// <returns>Returns a material search result view model.</returns>
 		public static MaterialSearchResultViewModel ToMaterialSearchResultViewModel(Material material)
 		{
 			var viewModel = new MaterialSearchResultViewModel
 			{
 				CreationTime = material.CreationTime.DateTime,
-				Key = material.Key.Value,
+				Key = material.Key.GetValueOrDefault(Guid.Empty),
 				Name = string.Join(" ", material.Names.SelectMany(m => m.Component).Select(c => c.Value)),
 				VersionKey = material.VersionKey
 			};
 
 			return viewModel;
-
 		}
-
     }
 }
