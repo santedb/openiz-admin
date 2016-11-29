@@ -35,18 +35,25 @@
                             <td>@item.CreationTime.ToLocalTime()</td>
                             <td>@item.Name</td>
                             <td>
-                                <a class="btn btn-primary" href="/Material/ViewDevice/@item.Key">
+                                <a class="btn btn-primary" href="/Material/ViewMaterial?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
                             </td>
                             <td>
-                                <a class="btn btn-warning" href="/Material/Edit/Edit?key=@item.Key">
+                                <a class="btn btn-warning" href="/Material/Edit?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
                             </td>
-                        </tr>}
+                            <td>
+                                <a class="btn btn-danger" href="/Material/Delete?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
+                                    @Locale.Delete
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         }

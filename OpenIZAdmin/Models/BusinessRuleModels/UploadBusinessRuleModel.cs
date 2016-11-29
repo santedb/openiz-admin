@@ -14,31 +14,31 @@
  * the License.
  *
  * User: Nityan
- * Date: 2016-8-1
+ * Date: 2016-7-13
  */
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
+using System.Web;
 
-namespace OpenIZAdmin.Models.MaterialModels
+namespace OpenIZAdmin.Models.BusinessRuleModels
 {
-	public class EditMaterialModel
+	/// <summary>
+	/// Represents a model to upload an applet.
+	/// </summary>
+	public class UploadBusinessRuleModel
 	{
-		public EditMaterialModel()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UploadBusinessRuleModel"/> class.
+        /// </summary>
+        public UploadBusinessRuleModel()
 		{
+		}
 
-        }
-
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string Name { get; set; }
-
-        public Guid Key { get; set; }
-
-        public Guid? VersionKey { get; set; }
-
-    }
+		/// <summary>
+		/// Gets or sets the applet content.
+		/// </summary>
+		[Required]
+		//[FileExtensions(Extensions = ".pak.gz, .pak, .gz", ErrorMessage = "Unsupported file format, the allow file types are .pak.gz, .gz, .pak")]
+		public HttpPostedFileBase File { get; set; }
+	}
 }

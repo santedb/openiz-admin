@@ -11,7 +11,8 @@
     {
         @Html.AntiForgeryToken()
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
+        @Html.HiddenFor(m =>m.Key)
+        @Html.HiddenFor(m => m.VersionKey)
         <div class="form-group">
             @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
@@ -25,4 +26,5 @@
                 <input type="submit" value="@Locale.Submit" class="btn btn-default" />
             </div>
         </div>
-</div>}
+    }
+</div>

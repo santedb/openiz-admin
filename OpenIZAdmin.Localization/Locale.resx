@@ -870,4 +870,7 @@
   <data name="NoPoliciesAdded" xml:space="preserve">
     <value>No policies added</value>
   </data>
+  <data name="BusinessRules" xml:space="preserve">
+    <value>Business Rules</value>
+  </data>
 </root>

@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
-namespace OpenIZAdmin.Models.ViewModels.MaterialModels
+namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 {
 	public class ViewMaterialModel
 	{

@@ -1,0 +1,17 @@
+﻿@model OpenIZAdmin.Models.MaterialModels.ViewModels.ViewMaterialModel
+@{
+    ViewBag.Title = Locale.View + Locale.Material;
+}
+
+<div class="panel panel-heading">
+    @Locale.View @Locale.Material
+</div>
+<div class="panel panel-body panel-default">
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly="readonly" })
+            </div>
+        </div>
+</div>

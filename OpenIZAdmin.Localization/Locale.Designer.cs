@@ -295,6 +295,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Business Rules.
+        /// </summary>
+        public static string BusinessRules {
+            get {
+                return ResourceManager.GetString("BusinessRules", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel.
         /// </summary>
         public static string Cancel {

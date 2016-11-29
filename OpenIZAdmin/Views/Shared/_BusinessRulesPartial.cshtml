@@ -1,14 +1,14 @@
-﻿@model IEnumerable<OpenIZAdmin.Models.AppletModels.ViewModels.AppletViewModel>
+﻿@model IEnumerable<OpenIZAdmin.Models.BusinessRuleModels.ViewModels.BusinessRuleViewModel>
 @{
-    ViewBag.Title = Locale.Applets;
+    ViewBag.Title = Locale.BusinessRules;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Locale.Applets
+        @Locale.BusinessRules
         <div class="pull-right">
             <span>@Locale.New</span>
-            <a href="~/Applet/Upload" class="glyphicon glyphicon-plus-sign"></a>
+            <a href="~/BusinessRules/Upload" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
     <div class="panel panel-body">

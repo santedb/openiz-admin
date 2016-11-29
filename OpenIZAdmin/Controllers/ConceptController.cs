@@ -95,7 +95,7 @@ namespace OpenIZAdmin.Controllers
 						Key = Guid.Parse(User.Identity.GetUserId())
 					};
 
-					this.ImsiClient.Create<Concept>(concept);
+					var result = this.ImsiClient.Create<Concept>(concept);
 
 					TempData["success"] = Locale.Concept + " " + Locale.CreatedSuccessfully;
 
@@ -170,21 +170,34 @@ namespace OpenIZAdmin.Controllers
 
 			var query = new List<KeyValuePair<string, object>>();
 
-			if (!string.IsNullOrEmpty(model.Mnemonic) && !string.IsNullOrWhiteSpace(model.Mnemonic))
-			{
-				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(model.Mnemonic)));
-			}
+            if (!string.IsNullOrEmpty(model.Mnemonic) && !string.IsNullOrWhiteSpace(model.Mnemonic))
+            {
+                query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(model.Mnemonic)));
+            }
 
-			if (!string.IsNullOrEmpty(model.Name) && !string.IsNullOrWhiteSpace(model.Name))
-			{
-				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ConceptNames.Any(cn => cn.Name.Contains(model.Name))));
-			}
+            if (!string.IsNullOrEmpty(model.Name) && !string.IsNullOrWhiteSpace(model.Name))
+            {
+                query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ConceptNames.Any(cn => cn.Name.Contains(model.Name))));
+            }
 
-			var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
+            if (model.SearchType == 0)
+            {
 
-			viewModels.AddRange(bundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
 
-			return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
+                var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
+
+                viewModels.AddRange(bundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
+
+                return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
+            }
+            else
+            {
+                var bundle = this.ImsiClient.Query<ConceptSet>(QueryExpressionParser.BuildLinqExpression<ConceptSet>(new NameValueCollection(query.ToArray())));
+
+                viewModels.AddRange(bundle.Item.OfType<ConceptSet>().Select(c => new ConceptSearchResultViewModel(c)));
+
+                return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
+            }
 		}
 
 		[HttpGet]
