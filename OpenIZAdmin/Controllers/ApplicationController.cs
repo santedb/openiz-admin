@@ -59,38 +59,28 @@ namespace OpenIZAdmin.Controllers
 
 			if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out appKey))
 			{
-				try
+				appInfo = ApplicationUtil.GetApplication(this.AmiClient, appKey);
+
+				if (appInfo == null)
 				{
-					appInfo = ApplicationUtil.GetApplication(this.AmiClient, appKey);
-
-					if (appInfo == null)
-					{
-						TempData["error"] = Locale.Policy + " " + Locale.NotFound;
-
-						return RedirectToAction("Index");
-					}
-
-					appInfo.Id = appKey;
-					appInfo.Application.ObsoletedBy = null;
-					appInfo.Application.ObsoletionTime = null;
-					appInfo.Application.ObsoletionTimeXml = null;
-
-					this.AmiClient.UpdateApplication(id, appInfo);
-
-					TempData["success"] = Locale.Policy + " " + Locale.ActivatedSuccessfully;
+					TempData["error"] = Locale.Policy + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
-				catch (Exception e)
-				{
-#if DEBUG
-					Trace.TraceError("Unable to delete policy: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to delete policy: {0}", e.Message);
-				}
+
+				appInfo.Id = appKey;
+				appInfo.Application.ObsoletedBy = null;
+				appInfo.Application.ObsoletionTime = null;
+				appInfo.Application.ObsoletionTimeXml = null;
+
+				this.AmiClient.UpdateApplication(id, appInfo);
+
+				TempData["success"] = Locale.Policy + " " + Locale.ActivatedSuccessfully;
+
+				return RedirectToAction("Index");
 			}
 
-			TempData["error"] = Locale.UnableToActivate + " " + Locale.Policy;
+			TempData["error"] = Locale.UnableToActivate + " " + Locale.Application;
 
 			return RedirectToAction("Index");
 		}
@@ -110,22 +100,14 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				try
-				{
-					var application = this.AmiClient.CreateApplication(ApplicationUtil.ToSecurityApplication(model));
+				var application = this.AmiClient.CreateApplication(ApplicationUtil.ToSecurityApplication(model));
 
-					return RedirectToAction("ViewApplication", new { key = application.Id.ToString() });
-				}
-				catch (Exception e)
-				{
-#if DEBUG
-					Trace.TraceError("Unable to create application: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to create application: {0}", e.Message);
-				}
+				TempData["success"] = Locale.Application + " " + Locale.CreatedSuccessfully;
+
+				return RedirectToAction("ViewApplication", new { key = application.Id.ToString() });
 			}
 
-			TempData["error"] = Locale.UnableToCreate + " " + Locale.SecurityApplication;
+			TempData["error"] = Locale.UnableToCreate + " " + Locale.Application;
 
 			return View(model);
 		}
@@ -141,20 +123,11 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (CommonUtil.IsValidString(id))
 			{
-				try
-				{
-					this.AmiClient.DeleteApplication(id);
-					TempData["success"] = Locale.Application + " " + Locale.DeletedSuccessfully;
+				this.AmiClient.DeleteApplication(id);
 
-					return RedirectToAction("Index");
-				}
-				catch (Exception e)
-				{
-#if DEBUG
-					Trace.TraceError("Unable to delete application: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to delete application: {0}", e.Message);
-				}
+				TempData["success"] = Locale.Application + " " + Locale.DeletedSuccessfully;
+
+				return RedirectToAction("Index");
 			}
 
 			TempData["error"] = Locale.UnableToDelete + " " + Locale.Application;
@@ -252,7 +225,7 @@ namespace OpenIZAdmin.Controllers
 
 				List<SecurityPolicy> addPolicies = new List<SecurityPolicy>();
 
-				if (model.AddPoliciesList != null && model.AddPoliciesList.Count() > 0)
+				if (model.AddPoliciesList != null && model.AddPoliciesList.Any())
 				{
 					addPolicies = ApplicationUtil.GetNewPolicies(this.AmiClient, model.AddPoliciesList);
 				}
