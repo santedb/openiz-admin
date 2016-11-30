@@ -187,16 +187,19 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a SecurityUserInfo model.</returns>
 		public static SecurityUserInfo ToSecurityUserInfo(CreateUserModel model)
 		{
-			var userInfo = new SecurityUserInfo
-			{
-				Email = model.Email,
-				Password = model.Password,
-				UserName = model.Username,
-				Roles = new List<SecurityRoleInfo>()
-			};
+            SecurityUserInfo userInfo = new SecurityUserInfo();            
 
+            userInfo.Email = model.Email;
+            userInfo.Password = model.Password;
+            userInfo.UserName = model.Username;
+            userInfo.Roles = new List<SecurityRoleInfo>();
 
-			userInfo.Roles.AddRange(model.Roles.Select(r => new SecurityRoleInfo { Name = r }));
+            //userInfo.User.Email = model.Email;
+            //userInfo.User.PasswordHash = model.Password; 
+            //userInfo.User.UserName = model.Username;
+            //userInfo.User.Roles.AddRange(model.Roles.Select(r => new SecurityRole { Name = r }));
+
+            userInfo.Roles.AddRange(model.Roles.Select(r => new SecurityRoleInfo { Name = r }));
 
 			return userInfo;
 		}
