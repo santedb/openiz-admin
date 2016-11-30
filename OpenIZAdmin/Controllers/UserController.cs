@@ -235,9 +235,16 @@ namespace OpenIZAdmin.Controllers
 				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.FacilityId)));
                 //--specific to the UserEntity
 
+				var user = this.AmiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
+
+				if (user == null)
+				{
+					TempData["error"] = Locale.User + " " + Locale.NotFound;
+					return RedirectToAction("Index");
+				}
+
                 var userInfo = UserUtil.ToSecurityUserInfo(model, userEntity, this.AmiClient);
 
-                //this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, new SecurityUserInfo(userEntity.SecurityUser));
                 this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, userInfo);
                 this.ImsiClient.Update<UserEntity>(userEntity);
 

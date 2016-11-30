@@ -48,22 +48,10 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a list of users.</returns>
 		internal static IEnumerable<UserViewModel> GetAllUsers(AmiServiceClient client)
 		{
-			IEnumerable<UserViewModel> viewModels = new List<UserViewModel>();
+			// HACK
+			var users = client.GetUsers(u => u.Email != null);
 
-			try
-			{
-				// HACK
-				var users = client.GetUsers(u => u.Email != null);
-
-				viewModels = users.CollectionItem.Select(u => UserUtil.ToUserViewModel(u));
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve users: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve users: {0}", e.Message);
-			}
+			var viewModels = users.CollectionItem.Select(UserUtil.ToUserViewModel);
 
 			return viewModels;
 		}
@@ -72,26 +60,13 @@ namespace OpenIZAdmin.Util
 		/// Gets a list of users by assigned role.
 		/// </summary>
 		/// <param name="client">The IMSI service client.</param>
-		/// <param name="id">The role identifier.</param>
+		/// <param name="roleId">The role identifier.</param>
 		/// <returns>Returns a list of users.</returns>
-		internal static IEnumerable<UserViewModel> GetAllUsersByRole(AmiServiceClient client, string id)
+		internal static IEnumerable<UserViewModel> GetAllUsersByRole(AmiServiceClient client, Guid roleId)
 		{
-			IEnumerable<UserViewModel> viewModels = new List<UserViewModel>();
+			var users = client.GetUsers(u => u.Roles.Any(r => r.Key == roleId));
 
-			try
-			{
-				// HACK
-				var users = client.GetUsers(u => u.Email != null);
-
-				viewModels = users.CollectionItem.Select(u => UserUtil.ToUserViewModel(u));
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve users: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve users: {0}", e.Message);
-			}
+			var viewModels = users.CollectionItem.Select(UserUtil.ToUserViewModel);
 
 			return viewModels;
 		}
@@ -129,36 +104,35 @@ namespace OpenIZAdmin.Util
 
 			bundle.Reconstitute();
 
-			var user = bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.SecurityUserKey == userId);
-
-			return user;
+			// get the user with the most recent creation time, since user entities are versioned entities
+			return bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.SecurityUserKey == userId);
 		}
 
         /// <summary>
         /// Converts a user entity to a edit user model.
         /// </summary>
-        /// /// <param name="client">The Ami service client.</param
+        /// /// <param name="client">The Ami service client.</param>
         /// <param name="userEntity">The user entity to convert to a edit user model.</param>
         /// <returns>Returns a edit user model.</returns>
         public static EditUserModel ToEditUserModel(AmiServiceClient client, UserEntity userEntity)
 		{
-            EditUserModel model = new EditUserModel();
+	        var model = new EditUserModel
+	        {
+		        Email = userEntity.SecurityUser.Email,
+		        FacilityId = userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString(),
+		        FamilyNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList(),
+		        GivenNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList(),
+		        Roles = userEntity.SecurityUser.Roles.Select(r => r.Name),
+		        UserId = userEntity.SecurityUserKey.GetValueOrDefault(Guid.Empty)
+	        };
 
-            model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-            model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
+	        model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
+			model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 
-            model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
-            model.RolesList.AddRange(RoleUtil.GetAllRoles(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }));
+			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
+			model.RolesList.AddRange(RoleUtil.GetAllRoles(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }));
 
-            model.Email = userEntity.SecurityUser.Email;
-            model.FacilityId = userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString();
-            model.FamilyNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
-            model.GivenNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
-            model.Roles = userEntity.SecurityUser.Roles.Select(r => r.Name);
-            model.Username = userEntity.SecurityUser.UserName;
-            model.UserId = userEntity.SecurityUserKey.GetValueOrDefault(Guid.Empty);		            
-
-            return model;
+			return model;
 		}
 
 		/// <summary>
@@ -175,7 +149,6 @@ namespace OpenIZAdmin.Util
 					PhoneNumber = model.PhoneNumber
 				}
 			};
-
 
 			return userEntity;
 		}
@@ -195,46 +168,43 @@ namespace OpenIZAdmin.Util
 				Roles = new List<SecurityRoleInfo>()
 			};
 
-
 			userInfo.Roles.AddRange(model.Roles.Select(r => new SecurityRoleInfo { Name = r }));
 
 			return userInfo;
 		}
 
 
-        /// <summary>
-		/// Converts a <see cref="OpenIZAdmin.Models.UserModels.EditUserModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/>.
+		/// <summary>
+		/// Converts a <see cref="EditUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
 		/// </summary>
 		/// <param name="model">The create user object to convert.</param>
-		/// <returns>Returns a SecurityUserInfo model.</returns>
+		/// <param name="user">The user entity instance.</param>
+		/// <param name="client">The AMI service client instance. </param>
+		/// <returns>Returns a security user info model.</returns>
 		public static SecurityUserInfo ToSecurityUserInfo(EditUserModel model, UserEntity user, AmiServiceClient client)
         {
-            SecurityUserInfo userInfo = new SecurityUserInfo();
+	        var userInfo = new SecurityUserInfo
+	        {
+		        User = user.SecurityUser,
+		        UserId = model.UserId
+	        };
 
-            userInfo.User = user.SecurityUser;
-            userInfo.UserId = model.UserId;
+	        userInfo.User.Email = model.Email;
 
-            userInfo.User.Email = model.Email;            
-            userInfo.User.UserName = model.Username;                        
-
-            if(model.Roles != null)
+            if (model.Roles.Any())
             {
-                if(userInfo.User.Roles == null)
-                {
+	            if (userInfo.User.Roles == null)
+                { 
                     userInfo.User.Roles = new List<SecurityRole>();
-                }              
-                
-                foreach (string roleId in model.Roles)
-                {
-                    var role = RoleUtil.GetRole(client, roleId);
-                    if (role != null && role.Role != null)
-                    {
-                        userInfo.User.Roles.Add(role.Role);
-                    }
-                }                
-            }                            
-            
-            return userInfo;
+                }
+
+	            foreach (var role in model.Roles.Select(roleId => RoleUtil.GetRole(client, roleId)).Where(role => role?.Role != null))
+	            {
+		            userInfo.User.Roles.Add(role.Role);
+	            }
+            }
+
+	        return userInfo;
         }
 
         /// <summary>
@@ -244,18 +214,19 @@ namespace OpenIZAdmin.Util
         /// <returns>Returns a user entity model.</returns>
         public static UserViewModel ToUserViewModel(SecurityUserInfo userInfo)
 		{
-            UserViewModel viewModel = new UserViewModel();
+	        var viewModel = new UserViewModel
+	        {
+		        Email = userInfo.Email,
+		        IsLockedOut = userInfo.Lockout.GetValueOrDefault(false),
+		        IsObsolete = CommonUtil.IsObsolete(userInfo.User.ObsoletionTime),
+		        LastLoginTime = userInfo.User.LastLoginTime?.DateTime,
+		        PhoneNumber = userInfo.User.PhoneNumber,
+		        Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel),
+		        UserId = userInfo.UserId.Value,
+		        Username = userInfo.UserName
+	        };
 
-            viewModel.Email = userInfo.Email;
-			viewModel.IsLockedOut = userInfo.Lockout.GetValueOrDefault(false);
-            viewModel.IsObsolete = CommonUtil.IsObsolete(userInfo.User.ObsoletionTime);
-			viewModel.LastLoginTime = userInfo.User.LastLoginTime?.DateTime;
-			viewModel.PhoneNumber = userInfo.User.PhoneNumber;
-			viewModel.Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel);
-			viewModel.UserId = userInfo.UserId.Value;
-			viewModel.Username = userInfo.UserName;
-
-			return viewModel;
+	        return viewModel;
 		}
 
         /// <summary>
@@ -266,18 +237,19 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a user entity model.</returns>
 		public static UserViewModel ToUserViewModel(ImsiServiceClient client, SecurityUserInfo userInfo)
         {
-            UserViewModel viewModel = new UserViewModel();
+	        var viewModel = new UserViewModel
+	        {
+		        Email = userInfo.Email,
+		        IsLockedOut = userInfo.Lockout.GetValueOrDefault(false),
+		        IsObsolete = userInfo.User.ObsoletedBy != null,
+		        LastLoginTime = userInfo.User.LastLoginTime?.DateTime,
+		        PhoneNumber = userInfo.User.PhoneNumber,
+		        Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel),
+		        UserId = userInfo.UserId.Value,
+		        Username = userInfo.UserName
+	        };
 
-            viewModel.Email = userInfo.Email;
-            viewModel.IsLockedOut = userInfo.Lockout.GetValueOrDefault(false);
-            viewModel.IsObsolete = userInfo.User.ObsoletedBy != null;
-            viewModel.LastLoginTime = userInfo.User.LastLoginTime?.DateTime;
-            viewModel.PhoneNumber = userInfo.User.PhoneNumber;
-            viewModel.Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel);
-            viewModel.UserId = userInfo.UserId.Value;
-            viewModel.Username = userInfo.UserName;                                   
-
-            return viewModel;
+	        return viewModel;
         }       
     }
 }
