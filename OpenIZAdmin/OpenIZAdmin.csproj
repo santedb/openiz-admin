@@ -237,7 +237,13 @@
     <Compile Include="Models\AccountModels\ChangePasswordModel.cs" />
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ViewModels\ApplicationViewModel.cs" />
+    <Compile Include="Models\BusinessRuleModels\UploadBusinessRuleModel.cs" />
+    <Compile Include="Models\BusinessRuleModels\ViewModels\BusinessRuleViewModel.cs" />
+    <Compile Include="Models\ConceptModels\ReferenceTermModel.cs" />
+    <Compile Include="Models\MaterialModels\SearchMaterialModel.cs" />
+    <Compile Include="Models\MaterialModels\EditMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\CreateMaterialModel.cs" />
+    <Compile Include="Models\MaterialModels\ViewModels\ViewMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\ViewModels\MaterialSearchResultViewModel.cs" />
     <Compile Include="Models\UserModels\ResetPasswordModel.cs" />
     <Compile Include="Models\AccountModels\ManageModel.cs" />
@@ -262,7 +268,6 @@
     <Compile Include="Models\CertificateModels\ViewModels\CertificateSigningRequestViewModel.cs" />
     <Compile Include="Models\CertificateModels\ViewModels\CertificateViewModel.cs" />
     <Compile Include="Models\ConceptModels\ConceptSearchType.cs" />
-    <Compile Include="Models\ConceptModels\ConceptViewModel.cs" />
     <Compile Include="Models\ConceptModels\CreateConceptModel.cs" />
     <Compile Include="Models\ConceptModels\EditConceptModel.cs" />
     <Compile Include="Models\ConceptModels\SearchConceptModel.cs" />
@@ -473,6 +478,11 @@
     <Content Include="Views\Material\Index.cshtml" />
     <Content Include="Views\Material\Search.cshtml" />
     <Content Include="Views\Shared\_MaterialSearchResultsPartial.cshtml" />
+    <Content Include="Views\Material\Edit.cshtml" />
+    <Content Include="Views\BusinessRule\Index.cshtml" />
+    <Content Include="Views\BusinessRule\Upload.cshtml" />
+    <Content Include="Views\BusinessRule\ViewBusinessRules.cshtml" />
+    <Content Include="Views\Shared\_BusinessRulesPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />

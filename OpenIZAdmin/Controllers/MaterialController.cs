@@ -55,10 +55,10 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Creates a concept.
+		/// Creates a material.
 		/// </summary>
-		/// <param name="model">The model containing the information to create a concept.</param>
-		/// <returns>Returns the created concept.</returns>
+		/// <param name="model">The model containing the information to create a material.</param>
+		/// <returns>Returns the created material.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateMaterialModel model)
@@ -86,11 +86,88 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-		/// <summary>
-		/// Displays the index view.
-		/// </summary>
-		/// <returns>Returns the index view.</returns>
-		[HttpGet]
+
+        /// <summary>
+        /// Deletion of a material.
+        /// </summary>
+        /// <param name="key">The key of the material.</param>
+        /// <param name="versionKey">The version key of the material.</param>
+        /// <returns>Returns the to the material search page.</returns>
+        [HttpGet]
+        public ActionResult Delete(Guid key, Guid versionKey)
+        {
+            if (key != Guid.Empty)
+            {
+                var material = this.ImsiClient.Get<Material>(key, versionKey) as Material;
+                this.ImsiClient.Obsolete<Material>(material);
+                return View("Index");
+            }
+
+            TempData["error"] = Locale.UnableToDelete + " " + Locale.Material;
+
+            return View("Index");
+        }
+
+
+        /// <summary>
+        /// Edit for material.
+        /// </summary>
+        /// <param name="key">The key of the material.</param>
+        /// <param name="versionKey">The version key of the material.</param>
+        /// <returns>Returns the edited material.</returns>
+        [HttpGet]
+        public ActionResult Edit(Guid key, Guid versionKey)
+        {
+            if (key != Guid.Empty)
+            {
+
+
+                var material = this.ImsiClient.Get<Material>(key, versionKey) as Material;
+                EditMaterialModel model = new EditMaterialModel()
+                {
+                    Name = material.Names.FirstOrDefault().Component.FirstOrDefault().Value
+                };
+                return View(model);
+            }
+
+            TempData["error"] = Locale.UnableToCreate + " " + Locale.Material;
+
+            return View("Index");
+        }
+
+        /// <summary>
+        /// Edit for material.
+        /// </summary>
+        /// <param name="model">The model containing the information of the edit material.</param>
+        /// <returns>Returns the edit for a material.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(EditMaterialModel model)
+        {
+            if (ModelState.IsValid)
+            {
+
+
+                var material = this.ImsiClient.Get<Material>(model.Key, model.VersionKey) as Material;
+                material.Names = new List<EntityName>
+                    {
+                        new EntityName(NameUseKeys.OfficialRecord, model.Name)
+                    };
+                this.ImsiClient.Update<Material>(material);
+                return View("Index");
+            }
+
+            TempData["error"] = Locale.UnableToCreate + " " + Locale.Material;
+
+            return View("Index");
+        }
+
+
+        /// <summary>
+        /// Displays the index view.
+        /// </summary>
+        /// <returns>Returns the index view.</returns>
+        [HttpGet]
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Material";
@@ -105,7 +182,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
-			IEnumerable<MaterialSearchResultViewModel> users = new List<MaterialSearchResultViewModel>();
+			IEnumerable<MaterialSearchResultViewModel> results = new List<MaterialSearchResultViewModel>();
 
 			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 			{
@@ -119,7 +196,29 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.Material + " " + Locale.NotFound;
 			TempData["searchTerm"] = searchTerm;
 
-			return PartialView("_MaterialSearchResultsPartial", users);
+			return PartialView("_MaterialSearchResultsPartial", results);
 		}
-	}
+
+        /// <summary>
+        /// View for material.
+        /// </summary>
+        /// <param name="model">The model containing the information of the view material.</param>
+        /// <returns>Returns the view for a material.</returns>
+        [HttpGet]
+        public ActionResult ViewMaterial(Guid key, Guid versionKey)
+        {
+            if (key != Guid.Empty)
+            {
+                var material = this.ImsiClient.Get<Material>(key, versionKey) as Material;
+                ViewMaterialModel model = new ViewMaterialModel()
+                {
+                    Name = material.Names.FirstOrDefault().Component.FirstOrDefault().Value
+                };
+                return View(model);
+            }
+            
+
+            return View("Index");
+        }
+    }
 }

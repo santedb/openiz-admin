@@ -29,7 +29,7 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 	{
 		public ConceptViewModel()
 		{
-
+			this.ReferenceTerms = new List<ReferenceTermModel>();
 		}
 
 		[Display(Name = "Created By")]
@@ -52,9 +52,9 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 
         public string Language { get; set; }
 
-        public List<ReferenceTermModel> ReferenceTerms { get; set; }
+		public List<ReferenceTermModel> ReferenceTerms { get; set; }
 
-        public string Class { get; set; }
+		public string Class { get; set; }
 		public List<string> Name { get; set; }
 	}
 }

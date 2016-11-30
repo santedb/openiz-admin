@@ -1,0 +1,33 @@
+﻿@model OpenIZAdmin.Models.BusinessRuleModels.UploadBusinessRuleModel
+@{
+    ViewBag.Title = "Upload";
+}
+
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        @Locale.Upload
+    </div>
+    <div class="panel panel-body panel-default">
+        @using (Html.BeginForm("Upload", "BusinessRules", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.File, new {@class = "col-md-2 control-label"})
+                <div class="col-md-6">
+                    <input type="file" id="@Html.IdFor(m => m.File)" name="@Html.NameFor(m => m.File)"/>
+                    @Html.ValidationMessageFor(m => m.File, "", new {@class = "text-danger"})
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Submit" class="btn btn-default" />
+                </div>
+            </div>}
+    </div>
+</div>
+
+
+
