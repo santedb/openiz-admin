@@ -102,7 +102,7 @@ namespace OpenIZAdmin.Util
 		{
 			var bundle = client.Query<UserEntity>(u => u.SecurityUserKey == userId);
 
-			bundle.Reconstitute();
+			bundle.Reconstitute();            
 
 			// get the user with the most recent creation time, since user entities are versioned entities
 			return bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.SecurityUserKey == userId);
@@ -237,17 +237,16 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a user entity model.</returns>
 		public static UserViewModel ToUserViewModel(ImsiServiceClient client, SecurityUserInfo userInfo)
         {
-	        var viewModel = new UserViewModel
-	        {
-		        Email = userInfo.Email,
-		        IsLockedOut = userInfo.Lockout.GetValueOrDefault(false),
-		        IsObsolete = userInfo.User.ObsoletedBy != null,
-		        LastLoginTime = userInfo.User.LastLoginTime?.DateTime,
-		        PhoneNumber = userInfo.User.PhoneNumber,
-		        Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel),
-		        UserId = userInfo.UserId.Value,
-		        Username = userInfo.UserName
-	        };
+            UserViewModel viewModel = new UserViewModel();
+
+            viewModel.Email = userInfo.Email;
+            viewModel.IsLockedOut = userInfo.Lockout.GetValueOrDefault(false);
+            viewModel.IsObsolete = CommonUtil.IsObsolete(userInfo.User.ObsoletionTime);
+            viewModel.LastLoginTime = userInfo.User.LastLoginTime?.DateTime;
+            viewModel.PhoneNumber = userInfo.User.PhoneNumber;
+            viewModel.Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel);
+            viewModel.UserId = userInfo.UserId.Value;
+            viewModel.Username = userInfo.UserName;
 
 	        return viewModel;
         }       

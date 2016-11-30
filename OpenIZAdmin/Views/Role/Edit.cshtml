@@ -28,16 +28,22 @@
                     @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
                 </div>
             </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="@Locale.Submit" class="btn btn-default" />
+                </div>
+            </div>
         </div>
 
 
             <div class="panel panel-default">
                 <div class="panel panel-heading">
-                    <span>@Locale.Users</span>
+                    <span>@Locale.Policies</span>
                     <div class="pull-right">
                         <a href="~/Role/Edit">
                             <span class="glyphicon glyphicon-edit"></span>
-                            @Locale.AddUsers
+                            @Locale.AddPolicy
                         </a>
                     </div>
                 </div>
@@ -47,26 +53,32 @@
                             <div class="form-group">
                                 <div class="col-md-12">
                                     @*<label class="control-label">@Html.DisplayNameFor(m => m.Policies)</label>*@
+                                    @if (Model.Policies.Any())
+                                    {
                                     <table class="table table-striped table-bordered">
                                         <thead>
                                             <tr>
-                                                <th>@Locale.Username</th>
-                                                <th>@Locale.Email</th>
-                                                <th>@*@Locale.IsLockedOut*@</th>
-                                                <th></th>                                                
+                                                <th>@Locale.CreationTime</th>
+                                                <th>@Locale.Name</th>
+                                                <th>@Locale.Grant</th>
+                                                <th>@Locale.IsPublic</th>
+                                                <th>@Locale.Oid</th>
+                                                <th></th>                                              
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @*@foreach (var item in Model.DevicePolicies)
+                                            @foreach (var item in Model.Policies)
                                             {
-                                                <tr>                                                    
+                                                <tr>
+                                                    <td>@item.CreationTime</td>
                                                     <td>@item.Name</td>
                                                     <td>@item.Grant</td>
-                                                    <td>@item.IsPublic</td>                                                    
+                                                    <td>@item.IsPublic</td>
+                                                    <td>@item.Oid</td>
                                                     <td>
-                                                        @if (item.IsObsolete)
+                                                        @if (!item.IsObsolete)
                                                         {
-                                                            using (Html.BeginForm("DeleteUser", "User", new { id = item.Key }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                                            using (Html.BeginForm("DeletePolicy", "Role", new { id = item.Key }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                                                             {
                                                                 @Html.AntiForgeryToken()
 
@@ -77,26 +89,22 @@
                                                             }
                                                         }
                                                     </td>
-                                                </tr> }*@
-
+                                                </tr>
+                                            }
                                         </tbody>
                                     </table>
+                                    }
+                                    else
+                                    {
+                                        <p>@Locale.NoPoliciesFound</p>
+                                    }
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
-
-
-
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="@Locale.Submit" class="btn btn-default" />
-                </div>
-            </div>
+           
         }
     
 </div>

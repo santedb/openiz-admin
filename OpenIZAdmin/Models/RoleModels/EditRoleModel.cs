@@ -16,6 +16,7 @@
  * User: Nityan
  * Date: 2016-9-5
  */
+using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -54,5 +55,7 @@ namespace OpenIZAdmin.Models.RoleModels
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
-	}
+       
+        public List<PolicyViewModel> Policies { get; set; }
+    }
 }

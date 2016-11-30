@@ -144,13 +144,14 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
-					EditRoleModel model = new EditRoleModel();
+                    //EditRoleModel model = new EditRoleModel();
 
-					model.Description = role.Role.Description;
-					model.Id = role.Id.ToString();
-					model.Name = role.Name;
+                    //model.Description = role.Role.Description;
+                    //model.Id = role.Id.ToString();
+                    //model.Name = role.Name;
 
-					return View(model);
+                    //return View(model);
+                    return View(RoleUtil.ToEditPolicyModel(role));
 				}
 				catch (Exception e)
 				{
@@ -166,12 +167,48 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-		/// <summary>
-		/// Updates a role.
+        /// <summary>
+		/// Deletes a policy associate to a device.
 		/// </summary>
-		/// <param name="model">The model containing the updated role information.</param>
-		/// <returns>Returns the edit view.</returns>
+		/// <param name="key">The policy guid key of the policy to be deleted.</param>
+		/// <returns>Returns the ViewRole view.</returns>
 		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePolicy(Guid key)
+        {
+            //---TO DO!!!
+            //apply and update to the device with the policies removed from the property
+            //string id = string.Empty;
+            string id = string.Empty;
+            if (CommonUtil.IsValidString(id))
+            {
+                try
+                {
+                    //this.AmiClient.UpdateRole(id);
+                    TempData["success"] = Locale.Role + " " + Locale.UpdatedSuccessfully;
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    Trace.TraceError("Unable to delete policy from role: {0}", e.StackTrace);
+#endif
+                    Trace.TraceError("Unable to delete policy from role: {0}", e.Message);
+                }
+            }
+
+            TempData["error"] = Locale.UnableToDelete + " " + Locale.Policy;
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Updates a role.
+        /// </summary>
+        /// <param name="model">The model containing the updated role information.</param>
+        /// <returns>Returns the edit view.</returns>
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditRoleModel model)
 		{

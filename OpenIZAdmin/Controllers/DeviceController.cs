@@ -61,6 +61,7 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
+                    deviceInfo.Id = deviceKey;
 					deviceInfo.Device.ObsoletedBy = null;
 					deviceInfo.Device.ObsoletionTime = null;
 
@@ -181,7 +182,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					this.AmiClient.DeleteDevice(id);
+					//this.AmiClient.DeleteDevice(id);
 					TempData["success"] = Locale.Device + " " + Locale.DeletedSuccessfully;
 
 					return RedirectToAction("Index");

@@ -164,7 +164,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			var userId = Guid.Empty;
 
-			if (!string.IsNullOrEmpty(id) && !string.IsNullOrWhiteSpace(id) && Guid.TryParse(id, out userId))
+			if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out userId))
 			{
 				var userEntity = UserUtil.GetUserEntity(this.ImsiClient, userId);
 
@@ -360,7 +360,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			var userList = new List<UserViewModel>();
 
-			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+			if (CommonUtil.IsValidString(searchTerm))
 			{
 				var users = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
 

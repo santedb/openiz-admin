@@ -234,9 +234,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
 
-				TempData["success"] = Locale.Application + " " + Locale.UpdatedSuccessfully;
-
-				//TempData["error"] = Locale.UnableToUpdate + " " + Locale.Device;
+				TempData["success"] = Locale.Application + " " + Locale.UpdatedSuccessfully;				
 
 				return Redirect("Index");
 			}

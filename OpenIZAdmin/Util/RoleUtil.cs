@@ -114,7 +114,24 @@ namespace OpenIZAdmin.Util
             }
 
             return null;
-        }       
+        }
+
+        /// <summary>
+        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo"/> to a <see cref="OpenIZAdmin.Models.RoleModels.EditRoleModel"/>.
+        /// </summary>        
+        /// <param name="role">The SecurityRoleInfo object to convert.</param>
+        /// <returns>Returns a EditRoleModel model.</returns>
+        public static EditRoleModel ToEditPolicyModel(SecurityRoleInfo role)
+        {
+            EditRoleModel viewModel = new EditRoleModel();           
+
+            viewModel.Description = role.Role.Description;
+            viewModel.Id = role.Id.ToString();
+            viewModel.Name = role.Role.Name;            
+            viewModel.Policies = role.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
+
+            return viewModel;
+        }
 
         /// <summary>
         /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo"/> to a <see cref="OpenIZAdmin.Models.RoleModels.ViewModels.RoleViewModel"/>.
