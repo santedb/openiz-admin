@@ -211,9 +211,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Edit(EditApplicationModel model)
 		{
 			if (ModelState.IsValid)
-			{
-				//try
-				//{
+			{				
 				var appEntity = ApplicationUtil.GetApplication(this.AmiClient, model.Id);
 
 				if (appEntity == null)
@@ -223,14 +221,14 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				List<SecurityPolicy> addPolicies = new List<SecurityPolicy>();
+				List<SecurityPolicy> addPoliciesList = new List<SecurityPolicy>();
+				
+                foreach (string id in model.AddPolicies)
+                {                      
+                    addPoliciesList.Add(ApplicationUtil.GetPolicy(this.AmiClient, id));                     
+                }                                        
 
-				if (model.AddPoliciesList != null && model.AddPoliciesList.Any())
-				{
-					addPolicies = ApplicationUtil.GetNewPolicies(this.AmiClient, model.AddPoliciesList);
-				}
-
-				SecurityApplicationInfo appInfo = ApplicationUtil.ToSecurityApplicationInfo(model, appEntity, addPolicies);
+				SecurityApplicationInfo appInfo = ApplicationUtil.ToSecurityApplicationInfo(model, appEntity, addPoliciesList);
 
 				this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
 

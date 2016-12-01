@@ -190,13 +190,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var model = UserUtil.ToEditUserModel(this.AmiClient, userEntity);
-
-				//model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-				//model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));                
-
-				//            model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
-				//model.RolesList.AddRange(RoleUtil.GetAllRoles(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }));
+				var model = UserUtil.ToEditUserModel(this.AmiClient, userEntity);				
 
 				return View(model);
 			}

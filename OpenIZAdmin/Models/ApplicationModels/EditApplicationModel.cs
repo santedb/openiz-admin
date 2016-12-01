@@ -16,13 +16,13 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		/// </summary>
 		public EditApplicationModel()
         {
-            //this.PoliciesList = new List<SelectListItem>();
+            this.PoliciesList = new List<SelectListItem>();
+            this.AddPolicies = new List<string>();         
         }
 
         //policies added by the user
-        [Display(Name = "AddPolicies", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public IEnumerable<string> AddPoliciesList { get; set; }
+        [Display(Name = "AddPolicies", ResourceType = typeof(Localization.Locale))]        
+        public List<string> AddPolicies { get; set; }
 
         public IEnumerable<PolicyViewModel> ApplicationPolicies { get; set; }
 
@@ -36,29 +36,17 @@ namespace OpenIZAdmin.Models.ApplicationModels
         public string ApplicationSecret { get; set; }
 
         [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-        public DateTime CreationTime { get; set; }
+        public DateTime CreationTime { get; set; }        
 
-        //public string EntityVersionId { get; set; }
-
-        //[Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
-        //public bool HasPolicies { get; set; }
+        [Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
+        public bool HasPolicies { get; set; }
 
         [Required]
-        public Guid Id { get; set; }        
+        public Guid Id { get; set; }                
+
+        public List<SecurityPolicyInstance> Policies { get; set; }        
 
         //policies autopopulate
-        //public List<SelectListItem> PoliciesList { get; set; }
-
-        public List<SecurityPolicyInstance> Policies { get; set; }
-
-        /// <summary>
-        /// Gets or sets a list of policies associated with the application.
-        /// </summary>
-        //public List<Guid> Policies { get; set; }
-
-        /// <summary>
-        /// Gets or sets a list of policies assocated with the application.
-        /// </summary>
-        public List<SelectListItem> PolicyList { get; set; }
+        public List<SelectListItem> PoliciesList { get; set; }
     }
 }

@@ -121,29 +121,20 @@ namespace OpenIZAdmin.Util
         /// </summary>
         /// <param name="client">The Ami Service Client.</param>        
         /// <returns>Returns a list of policies</returns>
-        internal static IEnumerable<SecurityPolicyInfo> GetAllPolicies(AmiServiceClient client)
+        internal static IEnumerable<PolicyViewModel> GetAllPolicies(AmiServiceClient client)
         {
-            IEnumerable<SecurityPolicyInfo> policyList = new List<SecurityPolicyInfo>();
-
-            try
-            {
-                var policies = client.GetPolicies(p => p.ObsoletionTime != null);
-                if(policies != null)
-                {
-                    //policyList = policies.CollectionItem.Select(p => DeviceUtil.ToEditDeviceModel(p));
-                    policyList = policies.CollectionItem.ToList();
-                }
-            }
-            catch (Exception e)
-            {
-#if DEBUG
-                Trace.TraceError("Unable to retrieve policies: {0}", e.StackTrace);
-#endif
-                Trace.TraceError("Unable to retrieve policies: {0}", e.Message);
-            }
-
-            return policyList;
+            return client.GetPolicies(r => r.ObsoletionTime == null).CollectionItem.Select(PolicyUtil.ToPolicyViewModel);
         }
+
+        ///// <summary>
+        ///// Gets a list of all roles.
+        ///// </summary>
+        ///// <param name="client">The <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.</param>
+        ///// <returns>Returns a IEnumerable RoleViewModel list.</returns>
+        //internal static IEnumerable<RoleViewModel> GetAllRoles(AmiServiceClient client)
+        //{
+        //    return client.GetRoles(r => r.ObsoletionTime == null).CollectionItem.Select(RoleUtil.ToRoleViewModel);
+        //}
 
         /// <summary>
         /// Gets the policy objects that have been selected to be added to a device

@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using OpenIZAdmin.Models.PolicyModels.ViewModels;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Util
 {
@@ -16,8 +17,7 @@ namespace OpenIZAdmin.Util
 	/// Provides a utility for managing applications.
 	/// </summary>
     public static class ApplicationUtil
-    {
-
+    {        
         /// <summary>
         /// Queries for a specific device by device key
         /// </summary>
@@ -75,43 +75,25 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Gets the policy objects that have been selected to be added to a device
+        /// Queries for a specific device by device key
         /// </summary>
-        /// <param name="client">The Ami Service Client.</param> 
-        /// <param name="pList">The string list with selected policy names.</param>         
-        /// <returns>Returns a list of application SecurityPolicy objects</returns>
-        internal static List<SecurityPolicy> GetNewPolicies(AmiServiceClient client, IEnumerable<string> pList)
+        /// <param name="client">The AMI service client</param>        
+        /// /// <param name="key">The application identifier key </param>        
+        /// <returns>Returns application object, null if not found</returns>
+        public static SecurityPolicy GetPolicy(AmiServiceClient client, string id)
         {
-            List<SecurityPolicy> policyList = new List<SecurityPolicy>();
-
-            try
+            Guid appKey = Guid.Empty;
+            if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out appKey))
             {
-                foreach (string name in pList)
+                var policyInfo = PolicyUtil.GetPolicy(client, appKey);
+
+                if (policyInfo != null && policyInfo.Policy != null)
                 {
-                    if (CommonUtil.IsValidString(name))
-                    {
-                        //SecurityPolicyInfo result = DeviceUtil.GetPolicy(client, name);
-                        var result = client.GetPolicies(r => r.Name == name);
-                        if (result.CollectionItem.Count != 0)
-                        {
-                            SecurityPolicyInfo infoResult = result.CollectionItem.FirstOrDefault();
-                            if (infoResult.Policy != null)
-                            {
-                                policyList.Add(infoResult.Policy);
-                            }
-                        }
-                    }
+                    return policyInfo.Policy;
                 }
             }
-            catch (Exception e)
-            {
-#if DEBUG
-                Trace.TraceError("Unable to retrieve policies: {0}", e.StackTrace);
-#endif
-                Trace.TraceError("Unable to retrieve policies: {0}", e.Message);
-            }
 
-            return policyList;
+            return null;
         }
 
         /// <summary>
@@ -152,15 +134,15 @@ namespace OpenIZAdmin.Util
             viewModel.ApplicationName = appInfo.Name;
             viewModel.ApplicationSecret = appInfo.ApplicationSecret;
             viewModel.CreationTime = appInfo.Application.CreationTime.DateTime;
-            //viewModel.HasPolicies = IsPolicy(appInfo.Policies);
+            viewModel.HasPolicies = CommonUtil.IsPolicy(appInfo.Policies);
 
             if (appInfo.Policies != null && appInfo.Policies.Count() > 0)
                 viewModel.ApplicationPolicies = appInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
             else
-                viewModel.ApplicationPolicies = new List<PolicyViewModel>();            
+                viewModel.ApplicationPolicies = new List<PolicyViewModel>();
 
-            //viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
-            //viewModel.PoliciesList.AddRange(DeviceUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
+            viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
+            viewModel.PoliciesList.AddRange(DeviceUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }));            
 
             return viewModel;
         }
@@ -194,7 +176,7 @@ namespace OpenIZAdmin.Util
         /// <param name="appInfo">The device object to apply the changes to.</param>
         /// <param name="addPolicies">The property that contains the selected policies to add to the device.</param>
         /// <returns>Returns a security device info object.</returns>
-        public static SecurityApplicationInfo ToSecurityApplicationInfo(EditApplicationModel model, SecurityApplicationInfo appInfo, List<SecurityPolicy> addPolicies)
+        public static SecurityApplicationInfo ToSecurityApplicationInfo(EditApplicationModel model, SecurityApplicationInfo appInfo, List<SecurityPolicy> addPoliciesList)
         {
             appInfo.Application.Key = model.Id;
             appInfo.Id = model.Id;
@@ -205,9 +187,9 @@ namespace OpenIZAdmin.Util
 
             appInfo.Application.Policies = model.Policies ?? new List<SecurityPolicyInstance>();
             //add the new policies
-            foreach (var policy in addPolicies.Select(p => new SecurityPolicyInstance(p, (PolicyGrantType)2)))
+            foreach (var policy in addPoliciesList.Select(p => new SecurityPolicyInstance(p, (PolicyGrantType)2)))
             {
-                appInfo.Application.Policies.Add(policy);
+                appInfo.Policies.Add(policy);
             }
 
             return appInfo;
