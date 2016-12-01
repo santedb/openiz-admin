@@ -42,24 +42,7 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a IEnumerable RoleViewModel list.</returns>
 		internal static IEnumerable<RoleViewModel> GetAllRoles(AmiServiceClient client)
 		{
-			IEnumerable<RoleViewModel> viewModels = new List<RoleViewModel>();
-
-			try
-			{
-				// HACK
-				var roles = client.GetRoles(r => r.Name != null);
-
-				viewModels = roles.CollectionItem.Select(r => RoleUtil.ToRoleViewModel(r));
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve roles: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve roles: {0}", e.Message);
-			}
-
-			return viewModels;
+			return client.GetRoles(r => r.ObsoletionTime == null).CollectionItem.Select(RoleUtil.ToRoleViewModel);
 		}
 
         /// <summary>

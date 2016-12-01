@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Constants;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -162,7 +163,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))));
 
-				placeList = places.Item.OfType<Place>().Select(p => PlaceUtil.ToPlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+				placeList = places.Item.OfType<Place>().Select(PlaceUtil.ToPlaceViewModel).OrderBy(p => p.Name).ToList();
 			}
 
 			return PartialView("_PlaceSearchResultsPartial", placeList);
@@ -182,7 +183,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))));
 
-				placeList = places.Item.OfType<Place>().Select(p => PlaceUtil.ToPlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+				placeList = places.Item.OfType<Place>().Select(PlaceUtil.ToPlaceViewModel).OrderBy(p => p.Name).ToList();
 			}
 
 			return Json(placeList, JsonRequestBehavior.AllowGet);

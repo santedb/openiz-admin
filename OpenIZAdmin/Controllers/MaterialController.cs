@@ -186,7 +186,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 			{
-				var bundle = this.ImsiClient.Query<Material>(m => m.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))));
+				var bundle = this.ImsiClient.Query<Material>(m => m.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && m.ClassConceptKey == EntityClassKeys.Material);
 
 				TempData["searchTerm"] = searchTerm;
 
@@ -202,23 +202,27 @@ namespace OpenIZAdmin.Controllers
         /// <summary>
         /// View for material.
         /// </summary>
-        /// <param name="model">The model containing the information of the view material.</param>
+        /// <param name="key">The key of the material.</param>
+        /// <param name="versionKey">The version key of the material.</param>
         /// <returns>Returns the view for a material.</returns>
         [HttpGet]
         public ActionResult ViewMaterial(Guid key, Guid versionKey)
         {
-            if (key != Guid.Empty)
-            {
-                var material = this.ImsiClient.Get<Material>(key, versionKey) as Material;
-                ViewMaterialModel model = new ViewMaterialModel()
-                {
-                    Name = material.Names.FirstOrDefault().Component.FirstOrDefault().Value
-                };
-                return View(model);
-            }
-            
+			var material = this.ImsiClient.Get<Material>(key, versionKey) as Material;
 
-            return View("Index");
+	        if (material == null)
+	        {
+		        TempData["error"] = Locale.Material + " " + Locale.NotFound;
+
+		        return RedirectToAction("Index");
+	        }
+
+			var model = new ViewMaterialModel
+			{
+				Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value))
+			};
+
+			return View(model);
         }
     }
 }

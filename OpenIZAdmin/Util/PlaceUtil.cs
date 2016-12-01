@@ -99,10 +99,13 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a place.</returns>
 		public static Place ToPlace(CreatePlaceModel model)
 		{
-			Place place = new Place();
+			var place = new Place
+			{
+				Key = Guid.NewGuid(),
+				Lat = model.Latitude,
+				Lng = model.Longitude
+			};
 
-			place.Lat = model.Latitude;
-			place.Lng = model.Longitude;
 			place.Names.Add(new EntityName(NameUseKeys.OfficialRecord, model.Name));
 
 			return place;

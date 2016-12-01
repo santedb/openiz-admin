@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Constants;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -203,11 +204,11 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 				{
-					var collection = this.ImsiClient.Query<Provider>(i => i.Names.Any(x => x.Component.Any(r => r.Value.Contains(searchTerm))));
+					var collection = this.ImsiClient.Query<Provider>(i => i.Names.Any(x => x.Component.Any(r => r.Value.Contains(searchTerm)) && i.ClassConceptKey == EntityClassKeys.Provider));
 
 					TempData["searchTerm"] = searchTerm;
 
-					return PartialView("_ProviderSearchResultsPartial", collection.Item.OfType<Provider>().Select(u => ProviderUtil.ToProviderViewModel(u)));
+					return PartialView("_ProviderSearchResultsPartial", collection.Item.OfType<Provider>().Select(ProviderUtil.ToProviderViewModel));
 				}
 			}
 			catch (Exception e)

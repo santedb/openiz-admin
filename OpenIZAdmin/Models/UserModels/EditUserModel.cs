@@ -28,6 +28,7 @@ namespace OpenIZAdmin.Models.UserModels
 	{
 		public EditUserModel()
 		{
+			this.Facilities = new List<string>();
 			this.FacilityList = new List<SelectListItem>();
 			this.FamilyNameList = new List<SelectListItem>();
 			this.FamilyNames = new List<string>();
@@ -48,7 +49,7 @@ namespace OpenIZAdmin.Models.UserModels
 		/// Gets or sets the id of the facility of the user.
 		/// </summary>
 		[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
-		public string FacilityId { get; set; }
+		public List<string> Facilities { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of facilities.

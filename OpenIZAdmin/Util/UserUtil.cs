@@ -100,11 +100,10 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a user entity or null if no user entity is found.</returns>
 		public static UserEntity GetUserEntity(ImsiServiceClient client, Guid userId)
 		{
-			var bundle = client.Query<UserEntity>(u => u.SecurityUserKey == userId);
+			var bundle = client.Query<UserEntity>(u => u.SecurityUserKey == userId && u.ObsoletionTime == null);
 
-			bundle.Reconstitute();            
+			bundle.Reconstitute();
 
-			// get the user with the most recent creation time, since user entities are versioned entities
 			return bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.SecurityUserKey == userId);
 		}
 
@@ -115,14 +114,19 @@ namespace OpenIZAdmin.Util
         /// <param name="userEntity">The user entity to convert to a edit user model.</param>
         /// <returns>Returns a edit user model.</returns>
         public static EditUserModel ToEditUserModel(AmiServiceClient client, UserEntity userEntity)
-		{
+        {
+	        var securityUserInfo = client.GetUser(userEntity.SecurityUser.Key.Value.ToString());
+
 	        var model = new EditUserModel
 	        {
 		        Email = userEntity.SecurityUser.Email,
-		        FacilityId = userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString(),
+		        Facilities =
+		        {
+					userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString()
+				},
 		        FamilyNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList(),
 		        GivenNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList(),
-		        Roles = userEntity.SecurityUser.Roles.Select(r => r.Name),
+		        Roles = securityUserInfo.Roles.Select(r => r.Name).AsEnumerable(),
 		        UserId = userEntity.SecurityUserKey.GetValueOrDefault(Guid.Empty)
 	        };
 
@@ -185,26 +189,25 @@ namespace OpenIZAdmin.Util
         {
 	        var userInfo = new SecurityUserInfo
 	        {
+				Email = model.Email,
+				Roles = new List<SecurityRoleInfo>(),
 		        User = user.SecurityUser,
 		        UserId = model.UserId
 	        };
 
 	        userInfo.User.Email = model.Email;
 
-            if (model.Roles.Any())
-            {
-	            if (userInfo.User.Roles == null)
-                { 
-                    userInfo.User.Roles = new List<SecurityRole>();
-                }
+			if (!model.Roles.Any())
+			{
+				return userInfo;
+			}
 
-	            foreach (var role in model.Roles.Select(roleId => RoleUtil.GetRole(client, roleId)).Where(role => role?.Role != null))
-	            {
-		            userInfo.User.Roles.Add(role.Role);
-	            }
-            }
+			foreach (var role in model.Roles.Select(roleId => RoleUtil.GetRole(client, roleId)).Where(role => role?.Role != null))
+			{
+				userInfo.Roles.Add(role);
+			}
 
-	        return userInfo;
+			return userInfo;
         }
 
         /// <summary>
