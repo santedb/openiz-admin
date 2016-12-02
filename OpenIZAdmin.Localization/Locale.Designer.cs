@@ -466,6 +466,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Concept Set.
+        /// </summary>
+        public static string ConceptSet {
+            get {
+                return ResourceManager.GetString("ConceptSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to concept sets.
         /// </summary>
         public static string ConceptSets {
@@ -534,6 +543,15 @@ namespace OpenIZAdmin.Localization {
         public static string CreateConcept {
             get {
                 return ResourceManager.GetString("CreateConcept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Concept Set.
+        /// </summary>
+        public static string CreateConceptSet {
+            get {
+                return ResourceManager.GetString("CreateConceptSet", resourceCulture);
             }
         }
         
@@ -957,6 +975,15 @@ namespace OpenIZAdmin.Localization {
         public static string FirstNameTooLong {
             get {
                 return ResourceManager.GetString("FirstNameTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For.
+        /// </summary>
+        public static string For {
+            get {
+                return ResourceManager.GetString("For", resourceCulture);
             }
         }
         

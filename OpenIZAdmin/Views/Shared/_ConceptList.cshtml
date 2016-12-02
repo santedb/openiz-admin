@@ -1,0 +1,42 @@
+﻿@model OpenIZAdmin.Models.ConceptSetModels.EditConceptSetModel
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <span>@Locale.Concepts @Locale.For @Model.Mnemonic</span>
+        </h3>
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(m => m.Mnemonic)
+                </th>
+                <th>
+                    @Locale.ConceptClass
+                </th>
+                <th>
+                    @Locale.Delete
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @{int i = 0;}
+            @foreach (var concept in Model.Concepts)
+            {
+                <tr>
+                    <td>
+                        @concept.Mnemonic
+                    </td>
+                    <td>
+                        @concept.Class.Mnemonic
+                    </td>
+                    <td>
+                        @Html.CheckBoxFor(m => m.ConceptDeletion[i])
+                    </td>
+                </tr>
+                i++;
+            }
+        </tbody>
+    </table>
+</div>

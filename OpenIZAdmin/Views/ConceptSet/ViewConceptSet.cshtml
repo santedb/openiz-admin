@@ -1,0 +1,58 @@
+﻿@model OpenIZAdmin.Models.ConceptSetModels.ViewModels.ConceptSetViewModel
+@{
+    ViewBag.Title = Locale.ConceptSet;
+}
+
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        <span class="text-white">@Locale.ConceptSet @Model.Mnemonic</span>
+        <div class="pull-right">
+            <a href="~/ConceptSet/Edit/Edit?key=@Model.Key">
+                <span class="glyphicon glyphicon-edit"></span>
+                @Locale.Edit
+            </a>
+        </div>
+    </div>
+    <div class="panel panel-body panel-default">
+        @Html.HiddenFor(m => m.Key)
+        @Html.LabelFor(m => m.Mnemonic, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", @readonly = "readonly" })
+        @Html.LabelFor(m => m.Oid, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.Oid, new { @class = "form-control", @readonly = "readonly" })
+        @Html.LabelFor(m => m.CreationTime, new { @class = "control-label" })
+        @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
+    </div>
+    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <span>@Locale.Concepts @Locale.For @Model.Mnemonic</span>
+            </h3>
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Mnemonic)
+                    </th>
+                    <th>
+                        @Locale.ConceptClass
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var concept in Model.Concepts)
+                {
+                    <tr>
+                        <td>
+                            @concept.Mnemonic
+                        </td>
+
+                        <td>
+                            @concept.Class.Mnemonic
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        </div>

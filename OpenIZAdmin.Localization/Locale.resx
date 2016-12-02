@@ -873,4 +873,13 @@
   <data name="BusinessRules" xml:space="preserve">
     <value>Business Rules</value>
   </data>
+  <data name="ConceptSet" xml:space="preserve">
+    <value>Concept Set</value>
+  </data>
+  <data name="For" xml:space="preserve">
+    <value>For</value>
+  </data>
+  <data name="CreateConceptSet" xml:space="preserve">
+    <value>Create Concept Set</value>
+  </data>
 </root>

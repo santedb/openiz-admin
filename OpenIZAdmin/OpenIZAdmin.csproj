@@ -207,6 +207,7 @@
     <Compile Include="Controllers\AlertController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\BusinessRulesController.cs" />
+    <Compile Include="Controllers\ConceptSetController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\ConceptController.cs" />
     <Compile Include="Controllers\LocaleController.cs" />
@@ -241,6 +242,9 @@
     <Compile Include="Models\BusinessRuleModels\UploadBusinessRuleModel.cs" />
     <Compile Include="Models\BusinessRuleModels\ViewModels\BusinessRuleViewModel.cs" />
     <Compile Include="Models\ConceptModels\ReferenceTermModel.cs" />
+    <Compile Include="Models\ConceptSetModels\CreateConceptSetModel.cs" />
+    <Compile Include="Models\ConceptSetModels\EditConceptSetModel.cs" />
+    <Compile Include="Models\ConceptSetModels\ViewModels\ConceptSetViewModel.cs" />
     <Compile Include="Models\MaterialModels\SearchMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\EditMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\CreateMaterialModel.cs" />
@@ -324,6 +328,7 @@
     <Compile Include="Util\ApplicationUtil.cs" />
     <Compile Include="Util\CertificateUtil.cs" />
     <Compile Include="Util\CommonUtil.cs" />
+    <Compile Include="Util\ConceptSetUtil.cs" />
     <Compile Include="Util\MaterialUtil.cs" />
     <Compile Include="Util\ConceptUtil.cs" />
     <Compile Include="Util\DeviceUtil.cs" />
@@ -484,6 +489,10 @@
     <Content Include="Views\BusinessRules\Index.cshtml" />
     <Content Include="Views\BusinessRules\Upload.cshtml" />
     <Content Include="Views\BusinessRules\ViewBusinessRules.cshtml" />
+    <Content Include="Views\ConceptSet\Create.cshtml" />
+    <Content Include="Views\ConceptSet\Edit.cshtml" />
+    <Content Include="Views\ConceptSet\ViewConceptSet.cshtml" />
+    <Content Include="Views\Shared\_ConceptList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />

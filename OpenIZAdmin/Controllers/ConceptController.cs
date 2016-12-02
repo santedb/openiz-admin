@@ -130,7 +130,6 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index");
 			}
 
-			concept.ObsoletionTime = new DateTimeOffset(DateTime.Now);
 
 			this.ImsiClient.Obsolete<Concept>(concept);
 
@@ -179,7 +178,7 @@ namespace OpenIZAdmin.Controllers
             {
                 query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ConceptNames.Any(cn => cn.Name.Contains(model.Name))));
             }
-
+            query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ObsoletionTime==null));
             if (model.SearchType == 0)
             {
 

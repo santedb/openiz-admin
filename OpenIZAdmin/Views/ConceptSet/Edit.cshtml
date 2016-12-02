@@ -1,0 +1,109 @@
+﻿@model OpenIZAdmin.Models.ConceptSetModels.EditConceptSetModel
+@{
+    ViewBag.Title = Locale.ConceptSet;
+}
+
+<div>
+    @using (Html.BeginForm("Edit", "ConceptSet", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                <span class="text-white">@Locale.ConceptSet @Model.Mnemonic</span>
+            </div>
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="panel panel-body panel-default">
+                @Html.HiddenFor(m => m.Key)
+                @Html.LabelFor(m => m.Mnemonic, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control" })
+                @Html.LabelFor(m => m.Oid, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.Oid, new { @class = "form-control" })
+            </div>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <span>@Locale.Concepts @Locale.For @Model.Mnemonic</span>
+                </h3>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Mnemonic)
+                        </th>
+                        <th>
+                            @Locale.ConceptClass
+                        </th>
+                        <th>
+                            @Locale.Delete
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int i = 0;}
+                    @foreach (var concept in Model.Concepts)
+                    {
+                        <tr>
+                            <td>
+                                @concept.Mnemonic
+                            </td>
+                            <td>
+                                @concept.Class.Mnemonic
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.ConceptDeletion[i])
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    <span>@Locale.Concepts @Locale.For @Model.Mnemonic</span>
+                </h3>
+            </div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Mnemonic)
+                        </th>
+                        <th>
+                            @Locale.ConceptClass
+                        </th>
+                        <th>
+                            @Locale.Delete
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{int i = 0;}
+                    @foreach (var concept in Model.Concepts)
+                    {
+                        <tr>
+                            <td>
+                                @concept.Mnemonic
+                            </td>
+                            <td>
+                                @concept.Class.Mnemonic
+                            </td>
+                            <td>
+                                @Html.CheckBoxFor(m => m.ConceptDeletion[i])
+                            </td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+            </table>
+        </div>
+        }
+        <input type="submit" value="@Locale.Save" class="btn btn-default" />
+    }
+
+</div>

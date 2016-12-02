@@ -25,6 +25,8 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
+                        if (item.ConceptSearchType == 0)
+                        {
                         <tr>
                             <td>@item.CreationTime</td>
                             <td>@item.Mnemonic</td>
@@ -48,7 +50,47 @@
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </a>
                             </td>
+                            <td>
+                                <a class="btn btn-danger text-white" href="/Concept/Delete?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
+                                    @Locale.Delete
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
+                            </td>
                         </tr>}
+                        else
+                        {
+                            <tr>
+                                <td>@item.CreationTime</td>
+                                <td>@item.Mnemonic</td>
+                                @if (item.ConceptNames.Count == 0)
+                                {
+                                    <td></td>
+                                }
+                                else
+                                {
+                                    <td>@string.Join(", ", item.ConceptNames)</td>
+                                }
+                                <td>
+                                    <a class="btn btn-primary text-white" href="/ConceptSet/ViewConceptSet?key=@item.Key">
+                                        @Locale.View
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-warning text-white" href="/ConceptSet/Edit?key=@item.Key">
+                                        @Locale.Edit
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a class="btn btn-danger text-white" href="/ConceptSet/Delete?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
+                                        @Locale.Delete
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
 
                 </tbody>
             </table>
