@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Util
 {
@@ -102,16 +103,27 @@ namespace OpenIZAdmin.Util
         /// <summary>
         /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo"/> to a <see cref="OpenIZAdmin.Models.RoleModels.EditRoleModel"/>.
         /// </summary>        
+        /// <param name="client">The Ami Service Client.</param>
         /// <param name="role">The SecurityRoleInfo object to convert.</param>
         /// <returns>Returns a EditRoleModel model.</returns>
-        public static EditRoleModel ToEditPolicyModel(SecurityRoleInfo role)
+        public static EditRoleModel ToEditPolicyModel(AmiServiceClient client, SecurityRoleInfo role)
         {
             EditRoleModel viewModel = new EditRoleModel();           
 
             viewModel.Description = role.Role.Description;
             viewModel.Id = role.Id.ToString();
             viewModel.Name = role.Role.Name;            
-            viewModel.Policies = role.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
+            //viewModel.Policies = role.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
+
+            if (viewModel.Policies != null && viewModel.Policies.Count() > 0)
+                viewModel.RolePolicies = viewModel.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
+            else
+                viewModel.RolePolicies = new List<PolicyViewModel>();
+
+            viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
+            viewModel.PoliciesList.AddRange(CommonUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }));
+
+
 
             return viewModel;
         }

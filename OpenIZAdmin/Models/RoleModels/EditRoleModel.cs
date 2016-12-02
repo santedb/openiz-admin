@@ -16,12 +16,14 @@
  * User: Nityan
  * Date: 2016-9-5
  */
+using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.RoleModels
 {
@@ -35,13 +37,21 @@ namespace OpenIZAdmin.Models.RoleModels
 		/// </summary>
 		public EditRoleModel()
 		{
+            this.PoliciesList = new List<SelectListItem>();
+            this.AddPolicies = new List<string>();
+            this.AddPoliciesList = new List<SecurityPolicy>();
+        }
 
-		}
+        //policies added by the user
+        [Display(Name = "AddPolicies", ResourceType = typeof(Localization.Locale))]
+        public List<string> AddPolicies { get; set; }
 
-		/// <summary>
-		/// Gets or sets the description of the role.
-		/// </summary>
-		[Display(Name = "Description")]
+        public List<SecurityPolicy> AddPoliciesList { get; set; }        
+
+        /// <summary>
+        /// Gets or sets the description of the role.
+        /// </summary>
+        [Display(Name = "Description")]
 		[StringLength(1000, ErrorMessageResourceName = "DescriptionTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Description { get; set; }
 
@@ -56,6 +66,10 @@ namespace OpenIZAdmin.Models.RoleModels
 		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
        
-        public List<PolicyViewModel> Policies { get; set; }
+        public List<SecurityPolicyInstance> Policies { get; set; }
+
+        public List<SelectListItem> PoliciesList { get; set; }
+
+        public IEnumerable<PolicyViewModel> RolePolicies { get; set; }
     }
 }

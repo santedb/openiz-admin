@@ -143,15 +143,8 @@ namespace OpenIZAdmin.Controllers
 
 						return RedirectToAction("Index");
 					}
-
-                    //EditRoleModel model = new EditRoleModel();
-
-                    //model.Description = role.Role.Description;
-                    //model.Id = role.Id.ToString();
-                    //model.Name = role.Name;
-
-                    //return View(model);
-                    return View(RoleUtil.ToEditPolicyModel(role));
+                   
+                    return View(RoleUtil.ToEditPolicyModel(this.AmiClient, role));
 				}
 				catch (Exception e)
 				{
@@ -168,33 +161,42 @@ namespace OpenIZAdmin.Controllers
 		}
 
         /// <summary>
-		/// Deletes a policy associate to a device.
-		/// </summary>
-		/// <param name="key">The policy guid key of the policy to be deleted.</param>
-		/// <returns>Returns the ViewRole view.</returns>
-		[HttpPost]
+        /// Deletes a policy associated to a role.
+        /// </summary>
+        /// <param name="roleId">The role id string of the application.</param>
+        /// <param name="key">The policy guid key of the policy to be deleted.</param>
+        /// <returns>Returns the Index view.</returns>
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeletePolicy(Guid key)
+        public ActionResult DeletePolicy(string roleId, Guid key)
         {
-            //---TO DO!!!
-            //apply and update to the device with the policies removed from the property
-            //string id = string.Empty;
-            string id = string.Empty;
-            if (CommonUtil.IsValidString(id))
+            if (CommonUtil.IsValidString(roleId) && CommonUtil.IsGuid(key))
             {
                 try
                 {
-                    //this.AmiClient.UpdateRole(id);
-                    TempData["success"] = Locale.Role + " " + Locale.UpdatedSuccessfully;
+                    var roleEntity = RoleUtil.GetRole(this.AmiClient, roleId);
+
+                    if (roleEntity == null)
+                    {
+                        TempData["error"] = Locale.Application + " " + Locale.NotFound;
+
+                        return RedirectToAction("Index");
+                    }
+
+                    //roleEntity.Policies.RemoveAll(a => a.Policy.Key == key);
+
+                    this.AmiClient.UpdateRole(roleId, roleEntity);
+
+                    TempData["success"] = Locale.Application + " " + Locale.UpdatedSuccessfully;
 
                     return RedirectToAction("Index");
                 }
                 catch (Exception e)
                 {
 #if DEBUG
-                    Trace.TraceError("Unable to delete policy from role: {0}", e.StackTrace);
+                    Trace.TraceError("Unable to delete policy from application: {0}", e.StackTrace);
 #endif
-                    Trace.TraceError("Unable to delete policy from role: {0}", e.Message);
+                    Trace.TraceError("Unable to delete policy from application: {0}", e.Message);
                 }
             }
 
@@ -228,7 +230,12 @@ namespace OpenIZAdmin.Controllers
 					role.Role.Description = model.Description;
 					role.Name = model.Name;
 
-					this.AmiClient.UpdateRole(role.Id.ToString(), role);
+                    //role.Policies = model.Policies;
+                    //role.AddPoliciesList = CommonUtil.GetNewPolicies(this.AmiClient, model.AddPolicies);
+
+                    //SecurityApplicationInfo appInfo = ApplicationUtil.ToSecurityApplicationInfo(model, appEntity);
+
+                    this.AmiClient.UpdateRole(role.Id.ToString(), role);
 
 					TempData["success"] = Locale.Role + " " + Locale.UpdatedSuccessfully;
 

@@ -141,7 +141,7 @@ namespace OpenIZAdmin.Util
                 viewModel.ApplicationPolicies = new List<PolicyViewModel>();
 
             viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
-            viewModel.PoliciesList.AddRange(DeviceUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }));            
+            viewModel.PoliciesList.AddRange(CommonUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }));            
 
             return viewModel;
         }

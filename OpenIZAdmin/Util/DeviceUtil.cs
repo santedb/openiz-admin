@@ -116,15 +116,15 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
-        /// <summary>
-        /// Gets all the Security Policies that can be applied to a device
-        /// </summary>
-        /// <param name="client">The Ami Service Client.</param>        
-        /// <returns>Returns a list of policies</returns>
-        internal static IEnumerable<PolicyViewModel> GetAllPolicies(AmiServiceClient client)
-        {
-            return client.GetPolicies(r => r.ObsoletionTime == null).CollectionItem.Select(PolicyUtil.ToPolicyViewModel);
-        }
+        ///// <summary>
+        ///// Gets all the Security Policies that can be applied to a device
+        ///// </summary>
+        ///// <param name="client">The Ami Service Client.</param>        
+        ///// <returns>Returns a list of policies</returns>
+        //internal static IEnumerable<PolicyViewModel> GetAllPolicies(AmiServiceClient client)
+        //{
+        //    return client.GetPolicies(r => r.ObsoletionTime == null).CollectionItem.Select(PolicyUtil.ToPolicyViewModel);
+        //}
 
         ///// <summary>
         ///// Gets a list of all roles.
@@ -227,7 +227,7 @@ namespace OpenIZAdmin.Util
                 viewModel.DevicePolicies = new List<PolicyViewModel>();           
 
             viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
-            viewModel.PoliciesList.AddRange(DeviceUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }));
+            viewModel.PoliciesList.AddRange(CommonUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }));
 
             return viewModel;
         }

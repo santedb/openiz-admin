@@ -19,6 +19,7 @@
 
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,6 +46,16 @@ namespace OpenIZAdmin.Util
             else
                 return Guid.NewGuid();
 
+        }
+
+        /// <summary>
+        /// Gets all the Security Policies that can be applied to a device
+        /// </summary>
+        /// <param name="client">The Ami Service Client.</param>        
+        /// <returns>Returns a list of policies</returns>
+        internal static IEnumerable<PolicyViewModel> GetAllPolicies(AmiServiceClient client)
+        {
+            return client.GetPolicies(r => r.ObsoletionTime == null).CollectionItem.Select(PolicyUtil.ToPolicyViewModel);
         }
 
         /// <summary>
