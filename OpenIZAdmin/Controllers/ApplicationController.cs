@@ -258,7 +258,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Index()
 		{
-			TempData["searchType"] = "Application";
+			TempData["searchType"] = Locale.Application;
 			return View();
 		}
 
