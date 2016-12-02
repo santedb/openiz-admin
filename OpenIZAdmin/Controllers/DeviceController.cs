@@ -17,6 +17,7 @@
  * Date: 2016-7-8
  */
 
+using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
@@ -165,48 +166,58 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-		/// <summary>
-		/// Deletes a policy associate to a device.
-		/// </summary>
-		/// <param name="key">The policy guid key of the policy to be deleted.</param>
-		/// <returns>Returns the ViewDevice view.</returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult DeletePolicy(Guid key)
-		{
-			//---TO DO!!!
-			//apply and update to the device with the policies removed from the property
-			//string id = string.Empty;
-			string id = string.Empty;
-			if (CommonUtil.IsValidString(id))
-			{
-				try
-				{
-					//this.AmiClient.DeleteDevice(id);
-					TempData["success"] = Locale.Device + " " + Locale.DeletedSuccessfully;
+        /// <summary>
+        /// Deletes a policy associated to a device.
+        /// </summary>
+        /// <param name="deviceId">The device id string of the application.</param>
+        /// <param name="key">The policy guid key of the policy to be deleted.</param>
+        /// <returns>Returns the Index view.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeletePolicy(string deviceId, Guid key)
+        {
+            var deviceKey = Guid.Empty;
+            if (CommonUtil.IsValidString(deviceId) && Guid.TryParse(deviceId, out deviceKey) && CommonUtil.IsGuid(key))
+            {
+                try
+                {
+                    var deviceEntity = DeviceUtil.GetDevice(this.AmiClient, deviceKey);
 
-					return RedirectToAction("Index");
-				}
-				catch (Exception e)
-				{
+                    if (deviceEntity == null)
+                    {
+                        TempData["error"] = Locale.Device + " " + Locale.NotFound;
+
+                        return RedirectToAction("Index");
+                    }
+
+                    deviceEntity.Policies.RemoveAll(a => a.Policy.Key == key);
+
+                    this.AmiClient.UpdateDevice(deviceId, deviceEntity);
+
+                    TempData["success"] = Locale.Device + " " + Locale.UpdatedSuccessfully;
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
 #if DEBUG
-					Trace.TraceError("Unable to delete device: {0}", e.StackTrace);
+                    Trace.TraceError("Unable to delete policy from device: {0}", e.StackTrace);
 #endif
-					Trace.TraceError("Unable to delete device: {0}", e.Message);
-				}
-			}
+                    Trace.TraceError("Unable to delete policy from device: {0}", e.Message);
+                }
+            }
 
-			TempData["error"] = Locale.UnableToDelete + " " + Locale.Device;
+            TempData["error"] = Locale.UnableToDelete + " " + Locale.Policy;
 
-			return RedirectToAction("Index");
-		}
+            return RedirectToAction("Index");
+        }
 
-		/// <summary>
-		/// Gets the device object to edit
-		/// </summary>
-		/// <param name="key">The id of the device to be edited.</param>
-		/// <returns>Returns the Edit view.</returns>
-		[HttpGet]
+        /// <summary>
+        /// Gets the device object to edit
+        /// </summary>
+        /// <param name="key">The id of the device to be edited.</param>
+        /// <returns>Returns the Edit view.</returns>
+        [HttpGet]
 		public ActionResult Edit(string key)
 		{
 			var deviceKey = Guid.Empty;
@@ -248,22 +259,17 @@ namespace OpenIZAdmin.Controllers
 					TempData["error"] = Locale.Device + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
-				}
+				}				
 
-				var addPolicies = new List<SecurityPolicy>();
+                model.Policies = deviceEntity.Policies;
+                model.AddPoliciesList = CommonUtil.GetNewPolicies(this.AmiClient, model.AddPolicies);
 
-				if (model.AddPoliciesList != null && model.AddPoliciesList.Any())
-				{
-					addPolicies = CommonUtil.GetNewPolicies(this.AmiClient, model.AddPoliciesList);
-				}
-
-				var deviceInfo = DeviceUtil.ToSecurityDeviceInfo(model, deviceEntity, addPolicies);
+                SecurityDeviceInfo deviceInfo = DeviceUtil.ToSecurityDeviceInfo(model, deviceEntity);
 
 				this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
 
 				TempData["success"] = Locale.Device + " " + Locale.UpdatedSuccessfully;
-
-				//return RedirectToAction("ViewDevice", new { key = model.Id });
+				
 
 				return Redirect("Index");
 			}			

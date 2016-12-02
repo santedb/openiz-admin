@@ -110,9 +110,9 @@ namespace OpenIZAdmin.Util
             viewModel.ApplicationSecret = appInfo.ApplicationSecret;
             viewModel.CreationTime = appInfo.Application.CreationTime.DateTime;
             viewModel.HasPolicies = CommonUtil.IsPolicy(appInfo.Policies);
-            viewModel.IsObsolete = CommonUtil.IsObsolete(appInfo.Application.ObsoletionTime);         
+            viewModel.IsObsolete = (appInfo.Application.ObsoletionTime != null) ? true : false; 
 
-            if(appInfo.Policies != null)
+            if (appInfo.Policies != null)
                 viewModel.Policies = appInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
             else
                 viewModel.Policies = new List<PolicyViewModel>();
@@ -133,8 +133,7 @@ namespace OpenIZAdmin.Util
             viewModel.Id = appInfo.Id.Value;
             viewModel.ApplicationName = appInfo.Name;
             viewModel.ApplicationSecret = appInfo.ApplicationSecret;
-            viewModel.CreationTime = appInfo.Application.CreationTime.DateTime;
-            //viewModel.HasPolicies = CommonUtil.IsPolicy(appInfo.Policies);
+            viewModel.CreationTime = appInfo.Application.CreationTime.DateTime;            
 
             if (appInfo.Policies != null && appInfo.Policies.Count() > 0)
                 viewModel.ApplicationPolicies = appInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();

@@ -48,10 +48,10 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Checks if a device is active or inactive
+        /// Checks if a Guid is valid
         /// </summary>
-        /// <param name="date">A DateTimeOffset object</param>        
-        /// <returns>Returns true if active, false if inactive</returns>
+        /// <param name="key">A Guid object</param>        
+        /// <returns>Returns true if valid</returns>
         public static bool IsGuid(Guid key)
         {
             if (key == null || key == Guid.Empty)
@@ -64,8 +64,8 @@ namespace OpenIZAdmin.Util
         /// Gets the policy objects that have been selected to be added to a transaction object
         /// </summary>
         /// <param name="client">The Ami Service Client.</param> 
-        /// <param name="pList">The string list with selected policy id.</param>         
-        /// <returns>Returns a list of device SecurityPolicy objects</returns>
+        /// <param name="policyList">The string list with selected policy id's.</param>         
+        /// <returns>Returns a list of SecurityPolicy objects</returns>
         internal static List<SecurityPolicy> GetNewPolicies(AmiServiceClient client, IEnumerable<string> policyList)
         {
             var policies = new List<SecurityPolicy>();
@@ -94,57 +94,57 @@ namespace OpenIZAdmin.Util
             return policies;
         }
 
-        /// <summary>
-        /// Checks if a List has policies
-        /// </summary>
-        /// <param name="pList">A list of policies</param>        
-        /// <returns>Returns true if policies exist, false if no policies exist</returns>
-        public static bool HasPolicies(List<SecurityPolicyInstance> pList)
-        {
-            if (pList != null && pList.Count() > 0)
-                return true;
-            else
-                return false;
-        }
+        ///// <summary>
+        ///// Checks if a List has policies
+        ///// </summary>
+        ///// <param name="pList">A list of policies</param>        
+        ///// <returns>Returns true if policies exist, false if no policies exist</returns>
+        //public static bool HasPolicies(List<SecurityPolicyInstance> pList)
+        //{
+        //    if (pList != null && pList.Count() > 0)
+        //        return true;
+        //    else
+        //        return false;
+        //}
 
         /// <summary>
         /// Checks if a device is active or inactive
         /// </summary>
         /// <param name="date">A DateTimeOffset object</param>        
         /// <returns>Returns true if active, false if inactive</returns>
-        public static bool IsActiveStatus(DateTimeOffset? date)
-        {
-            if (date != null)
-                return true;
-            else
-                return false;
-        }
+        //public static bool IsActiveStatus(DateTimeOffset? date)
+        //{
+        //    if (date != null)
+        //        return true;
+        //    else
+        //        return false;
+        //}
 
         /// <summary>
         /// Checks if an application is active or inactive
         /// </summary>
         /// <param name="date">A DateTimeOffset object</param>        
         /// <returns>Returns true if active, false if inactive</returns>
-        public static bool IsObsolete(DateTimeOffset? date)
-        {
-            if (date == null)
-                return false;
-            else
-                return true;
-        }
+        //public static bool IsObsolete(DateTimeOffset? date)
+        //{
+        //    if (date == null)
+        //        return false;
+        //    else
+        //        return true;
+        //}
 
-        /// <summary>
-        /// Verifies a valid string parameter
-        /// </summary>
-        /// <param name="key">The string to validate</param>        
-        /// <returns>Returns true if valid, false if empty or whitespace</returns>
-        public static bool IsValidGuid(string key)
-        {
-            if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
-                return true;
-            else
-                return false;
-        }
+        ///// <summary>
+        ///// Verifies a valid string parameter
+        ///// </summary>
+        ///// <param name="key">The string to validate</param>        
+        ///// <returns>Returns true if valid, false if empty or whitespace</returns>
+        //public static bool IsValidGuid(string key)
+        //{
+        //    if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
+        //        return true;
+        //    else
+        //        return false;
+        //}
 
         /// <summary>
         /// Verifies a valid string parameter

@@ -128,9 +128,8 @@ namespace OpenIZAdmin.Util
 			viewModel.Description = roleInfo.Role.Description;
 			viewModel.Id = roleInfo.Id.Value;
 			viewModel.Name = roleInfo.Name;
-            viewModel.HasPolicies = CommonUtil.HasPolicies(roleInfo.Role.Policies);
-
-            viewModel.IsObsolete = CommonUtil.IsObsolete(roleInfo.Role.ObsoletionTime);
+            viewModel.HasPolicies = (roleInfo.Role.Policies.Any()) ? true : false;
+            viewModel.IsObsolete = (roleInfo.Role.ObsoletionTime != null) ? true : false; //CommonUtil.IsObsolete(roleInfo.Role.ObsoletionTime);
 
             if (roleInfo.Role.Policies != null)
                 viewModel.Policies = roleInfo.Role.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
@@ -143,7 +142,7 @@ namespace OpenIZAdmin.Util
         /// <summary>
         /// Converts a <see cref="OpenIZAdmin.Models.RoleModels.CreateRoleModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo"/>.
         /// </summary>
-        /// <param name="roleInfo">The SecurityRoleInfo object to convert.</param>
+        /// <param name="model">The CreateRoleModel object to convert.</param>
         /// <returns>Returns a SecurityRoleInfo model.</returns>
 		public static SecurityRoleInfo ToSecurityRoleInfo(CreateRoleModel model)
 		{

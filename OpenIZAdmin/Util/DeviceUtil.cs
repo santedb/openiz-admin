@@ -49,13 +49,13 @@ namespace OpenIZAdmin.Util
             viewModel.Id = device.Key.Value;
             viewModel.Name = device.Name;            
             viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
-            viewModel.IsObsolete = CommonUtil.IsActiveStatus(device.ObsoletionTime);
+            viewModel.IsObsolete = (device.ObsoletionTime != null) ? true : false; //CommonUtil.IsActiveStatus(device.ObsoletionTime);
 
             //if(viewModel.Policies != null && viewModel.Policies.Count() > 0)
             //{
             //    viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
             //}
-            
+
 
             return viewModel;
         }
@@ -177,8 +177,8 @@ namespace OpenIZAdmin.Util
 		        Name = deviceInfo.Name,
 		        Policies = deviceInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList(),
 		        UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime,
-		        IsObsolete = CommonUtil.IsActiveStatus(deviceInfo.Device.ObsoletionTime),
-		        HasPolicies = CommonUtil.IsPolicy(deviceInfo.Policies)
+		        IsObsolete = (deviceInfo.Device.ObsoletionTime != null) ? true : false, //CommonUtil.IsActiveStatus(deviceInfo.Device.ObsoletionTime),
+		        HasPolicies = (deviceInfo.Policies.Any()) ? true : false //CommonUtil.IsPolicy(deviceInfo.Policies)
 	        };
 
 	        return viewModel;
@@ -199,7 +199,7 @@ namespace OpenIZAdmin.Util
 			viewModel.Name = device.Name;
 			viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
 			viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
-            viewModel.IsObsolete = CommonUtil.IsActiveStatus(device.ObsoletionTime);            
+            viewModel.IsObsolete = (device.ObsoletionTime != null) ? true : false; //CommonUtil.IsActiveStatus(device.ObsoletionTime);            
 
             return viewModel;
 		}
@@ -222,12 +222,12 @@ namespace OpenIZAdmin.Util
             viewModel.UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime;            
 
             if (deviceInfo.Policies != null && deviceInfo.Policies.Count() > 0)
-                viewModel.Policies = deviceInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
+                viewModel.DevicePolicies = deviceInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
             else
-                viewModel.Policies = new List<PolicyViewModel>();        
+                viewModel.DevicePolicies = new List<PolicyViewModel>();           
 
             viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
-            viewModel.PoliciesList.AddRange(DeviceUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
+            viewModel.PoliciesList.AddRange(DeviceUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }));
 
             return viewModel;
         }
@@ -284,16 +284,15 @@ namespace OpenIZAdmin.Util
         /// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo"/>
         /// </summary>
         /// <param name="model">The edit device model to convert.</param>
-        /// <param name="deviceInfo">The device object to apply the changes to.</param>
-        /// <param name="addPolicies">The property that contains the selected policies to add to the device.</param>
+        /// <param name="deviceInfo">The device object to apply the changes to.</param>        
         /// <returns>Returns a security device info object.</returns>
-        public static SecurityDeviceInfo ToSecurityDeviceInfo(EditDeviceModel model, SecurityDeviceInfo deviceInfo, List<SecurityPolicy> addPolicies)
+        public static SecurityDeviceInfo ToSecurityDeviceInfo(EditDeviceModel model, SecurityDeviceInfo deviceInfo)
         {
 	        deviceInfo.Device.Key = model.Id;
 	        deviceInfo.Device.Name = model.Name;
             deviceInfo.Device.DeviceSecret = model.DeviceSecret;
 
-	        deviceInfo.Policies.AddRange(addPolicies.Select(p => new SecurityPolicyInstance(p, PolicyGrantType.Grant)));
+	        deviceInfo.Policies.AddRange(model.AddPoliciesList.Select(p => new SecurityPolicyInstance(p, PolicyGrantType.Grant)));
 
 	        return deviceInfo;
         }                

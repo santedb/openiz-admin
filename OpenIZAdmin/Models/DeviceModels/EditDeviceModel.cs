@@ -30,20 +30,25 @@ namespace OpenIZAdmin.Models.DeviceModels
 	public class EditDeviceModel
 	{
 		public EditDeviceModel()
-		{            
-            this.PoliciesList = new List<SelectListItem>();            
+		{
+            this.PoliciesList = new List<SelectListItem>();
+            this.AddPolicies = new List<string>();
+            this.AddPoliciesList = new List<SecurityPolicy>();
         }
 
         //policies added by the user
         [Display(Name = "AddPolicies", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public IEnumerable<string> AddPoliciesList { get; set; }
+        public List<string> AddPolicies { get; set; }
+
+        public List<SecurityPolicy> AddPoliciesList { get; set; }
 
         [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
         public DateTimeOffset CreationTime { get; set; }
 
         //holds the original device object
         public SecurityDevice Device { get; set; }
+
+        public IEnumerable<PolicyViewModel> DevicePolicies { get; set; }
 
         [Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
         public string DeviceSecret { get; set; }        
@@ -57,7 +62,7 @@ namespace OpenIZAdmin.Models.DeviceModels
         public string Name { get; set; }
 
         //Holds the device policies that are assigned
-        public List<PolicyViewModel> Policies { get; set; }   
+        public List<SecurityPolicyInstance> Policies { get; set; }   
                      
         //policies autopopulate
         public List<SelectListItem> PoliciesList { get; set; }

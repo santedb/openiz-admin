@@ -43,8 +43,7 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="@Locale.Submit" class="btn btn-default" />
             </div>
-        </div>
-             
+        </div>             
     </div>
     }
 
@@ -80,8 +79,7 @@
                                         <td>@item.Oid</td>
                                         <td>
                                             @if (!item.IsObsolete)
-                                            {
-                                                @*@using (Html.BeginForm("Edit", "Application", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))*@
+                                            {                                                
                                                 using (Html.BeginForm("DeletePolicy", "Application", new { appId = Model.Id, key = item.Key }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                                                 {
                                                     @Html.AntiForgeryToken()

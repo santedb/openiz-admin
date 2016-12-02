@@ -217,11 +217,11 @@ namespace OpenIZAdmin.Util
         /// <returns>Returns a user entity model.</returns>
         public static UserViewModel ToUserViewModel(SecurityUserInfo userInfo)
 		{
-	        var viewModel = new UserViewModel
-	        {
-		        Email = userInfo.Email,
-		        IsLockedOut = userInfo.Lockout.GetValueOrDefault(false),
-		        IsObsolete = CommonUtil.IsObsolete(userInfo.User.ObsoletionTime),
+            var viewModel = new UserViewModel
+            {
+                Email = userInfo.Email,
+                IsLockedOut = userInfo.Lockout.GetValueOrDefault(false),
+                IsObsolete = (userInfo.User.ObsoletionTime != null) ? true : false,// CommonUtil.IsObsolete(userInfo.User.ObsoletionTime),
 		        LastLoginTime = userInfo.User.LastLoginTime?.DateTime,
 		        PhoneNumber = userInfo.User.PhoneNumber,
 		        Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel),
@@ -244,7 +244,7 @@ namespace OpenIZAdmin.Util
 
             viewModel.Email = userInfo.Email;
             viewModel.IsLockedOut = userInfo.Lockout.GetValueOrDefault(false);
-            viewModel.IsObsolete = CommonUtil.IsObsolete(userInfo.User.ObsoletionTime);
+            viewModel.IsObsolete = (userInfo.User.ObsoletionTime != null) ? true : false;// CommonUtil.IsObsolete(userInfo.User.ObsoletionTime);
             viewModel.LastLoginTime = userInfo.User.LastLoginTime?.DateTime;
             viewModel.PhoneNumber = userInfo.User.PhoneNumber;
             viewModel.Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel);
