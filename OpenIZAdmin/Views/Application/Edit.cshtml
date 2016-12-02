@@ -32,11 +32,21 @@
         </div>
 
         <div class="form-group">
+            @Html.LabelFor(m => m.AddPolicies, new { @class = "col-md-2 control-label" })
+            <div class="col-md-8">
+                @Html.ListBoxFor(m => m.AddPolicies, Model.PoliciesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
+                @Html.ValidationMessageFor(m => m.AddPolicies, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="@Locale.Submit" class="btn btn-default" />
             </div>
-        </div>      
+        </div>
+             
     </div>
+    }
 
     <div class="panel panel-default">
         <div class="panel panel-heading">
@@ -71,10 +81,10 @@
                                         <td>
                                             @if (!item.IsObsolete)
                                             {
-                                                using (Html.BeginForm("DeletePolicy", "Application", new { id = item.Key }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                                @*@using (Html.BeginForm("Edit", "Application", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))*@
+                                                using (Html.BeginForm("DeletePolicy", "Application", new { appId = Model.Id, key = item.Key }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                                                 {
                                                     @Html.AntiForgeryToken()
-
                                                     <button type="submit" class="btn btn-danger">
                                                         @Locale.Delete
                                                         <span class="glyphicon glyphicon-log-out"></span>
@@ -91,23 +101,13 @@
                         {                            
                             <p>@Locale.NoPoliciesFound</p>                            
                         }
-                    </div> 
-                    
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.AddPolicies, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-8">
-                            @Html.ListBoxFor(m => m.AddPolicies, Model.PoliciesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
-                            @Html.ValidationMessageFor(m => m.AddPolicies, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    
-                                                                  
+                    </div>                                                                                                                              
                 </div>                
             </div>           
-        </div>                               
+        </div>                                                              
     </div>    
 
-    }
+    
 
 </div>
 

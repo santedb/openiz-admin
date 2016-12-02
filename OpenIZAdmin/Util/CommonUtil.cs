@@ -18,6 +18,7 @@
  */
 
 using OpenIZ.Core.Model.Security;
+using OpenIZ.Messaging.AMI.Client;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,6 +31,69 @@ namespace OpenIZAdmin.Util
     /// </summary>
     public static class CommonUtil
     {
+        /// <summary>
+        /// Verifies a valid string parameter
+        /// </summary>
+        /// <param name="id">The id string to validate </param>        
+        /// <returns>Returns true if valid, false if empty or whitespace</returns>
+        public static Guid ConvertStringToGuid(string id)
+        {
+            Guid key = Guid.Empty;
+
+            if (IsValidString(id) && Guid.TryParse(id, out key))            
+                return key;            
+            else
+                return Guid.NewGuid();
+
+        }
+
+        /// <summary>
+        /// Checks if a device is active or inactive
+        /// </summary>
+        /// <param name="date">A DateTimeOffset object</param>        
+        /// <returns>Returns true if active, false if inactive</returns>
+        public static bool IsGuid(Guid key)
+        {
+            if (key == null || key == Guid.Empty)
+                return false;
+            else
+                return true;
+        }
+
+        /// <summary>
+        /// Gets the policy objects that have been selected to be added to a transaction object
+        /// </summary>
+        /// <param name="client">The Ami Service Client.</param> 
+        /// <param name="pList">The string list with selected policy id.</param>         
+        /// <returns>Returns a list of device SecurityPolicy objects</returns>
+        internal static List<SecurityPolicy> GetNewPolicies(AmiServiceClient client, IEnumerable<string> policyList)
+        {
+            var policies = new List<SecurityPolicy>();
+
+            if (policyList != null && policyList.Any())
+            {
+                var guidList = new List<Guid>();
+                foreach(string id in policyList)
+                {
+                    guidList.Add(ConvertStringToGuid(id));
+                }
+
+
+                policies.AddRange(from key
+                                  in guidList
+                                  where IsGuid(key)
+                                  select client.GetPolicies(r => r.Key == key)
+                                  into result
+                                  where result.CollectionItem.Count != 0
+                                  select result.CollectionItem.FirstOrDefault()
+                                  into infoResult
+                                  where infoResult.Policy != null
+                                  select infoResult.Policy);
+            }
+
+            return policies;
+        }
+
         /// <summary>
         /// Checks if a List has policies
         /// </summary>
@@ -67,6 +131,19 @@ namespace OpenIZAdmin.Util
                 return false;
             else
                 return true;
+        }
+
+        /// <summary>
+        /// Verifies a valid string parameter
+        /// </summary>
+        /// <param name="key">The string to validate</param>        
+        /// <returns>Returns true if valid, false if empty or whitespace</returns>
+        public static bool IsValidGuid(string key)
+        {
+            if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
+                return true;
+            else
+                return false;
         }
 
         /// <summary>

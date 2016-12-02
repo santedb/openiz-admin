@@ -18,16 +18,19 @@ namespace OpenIZAdmin.Models.ApplicationModels
         {
             this.PoliciesList = new List<SelectListItem>();
             this.AddPolicies = new List<string>();         
+            this.AddPoliciesList = new List<SecurityPolicy>();
         }
 
         //policies added by the user
         [Display(Name = "AddPolicies", ResourceType = typeof(Localization.Locale))]        
         public List<string> AddPolicies { get; set; }
 
+        public List<SecurityPolicy> AddPoliciesList { get; set; }
+
         public IEnumerable<PolicyViewModel> ApplicationPolicies { get; set; }
 
-        [Display(Name = "ApplicationId", ResourceType = typeof(Localization.Locale))]
-        public string ApplicationId { get; set; }
+        //[Display(Name = "ApplicationId", ResourceType = typeof(Localization.Locale))]
+        //public string ApplicationId { get; set; }
 
         [Display(Name = "ApplicationName", ResourceType = typeof(Localization.Locale))]
         public string ApplicationName { get; set; }

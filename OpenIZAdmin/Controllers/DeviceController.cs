@@ -254,7 +254,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (model.AddPoliciesList != null && model.AddPoliciesList.Any())
 				{
-					addPolicies = DeviceUtil.GetNewPolicies(this.AmiClient, model.AddPoliciesList);
+					addPolicies = CommonUtil.GetNewPolicies(this.AmiClient, model.AddPoliciesList);
 				}
 
 				var deviceInfo = DeviceUtil.ToSecurityDeviceInfo(model, deviceEntity, addPolicies);

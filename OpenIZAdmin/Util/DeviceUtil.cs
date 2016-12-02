@@ -134,31 +134,7 @@ namespace OpenIZAdmin.Util
         //internal static IEnumerable<RoleViewModel> GetAllRoles(AmiServiceClient client)
         //{
         //    return client.GetRoles(r => r.ObsoletionTime == null).CollectionItem.Select(RoleUtil.ToRoleViewModel);
-        //}
-
-        /// <summary>
-        /// Gets the policy objects that have been selected to be added to a device
-        /// </summary>
-        /// <param name="client">The Ami Service Client.</param> 
-        /// <param name="pList">The string list with selected policy names.</param>         
-        /// <returns>Returns a list of device SecurityPolicyInfo objects</returns>
-        internal static List<SecurityPolicy> GetNewPolicies(AmiServiceClient client, IEnumerable<string> pList)
-        {
-            var policies = new List<SecurityPolicy>();
-
-			policies.AddRange(from name
-								in pList
-								where CommonUtil.IsValidString(name)
-								select client.GetPolicies(r => r.Name == name)
-								into result
-								where result.CollectionItem.Count != 0
-								select result.CollectionItem.FirstOrDefault()
-								into infoResult
-								where infoResult.Policy != null
-								select infoResult.Policy);
-
-	        return policies;
-        }
+        //}        
 
         /// <summary>
         /// Gets a policy that matches the search parameter

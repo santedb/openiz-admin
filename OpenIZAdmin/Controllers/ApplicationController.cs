@@ -94,6 +94,10 @@ namespace OpenIZAdmin.Controllers
 			return View();
 		}
 
+        /// <summary>
+		/// Creates a new application instance
+		/// </summary>
+        /// <param name="model">The model containing the information of the application to be created.</param>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateApplicationModel model)
@@ -135,24 +139,33 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-		/// <summary>
-		/// Deletes a policy associate to a device.
-		/// </summary>
-		/// <param name="key">The policy guid key of the policy to be deleted.</param>
-		/// <returns>Returns the ViewDevice view.</returns>
-		[HttpPost]
+        /// <summary>
+        /// Deletes a policy associated to an application.
+        /// </summary>
+        /// <param name="appId">The application id string of the application.</param>
+        /// <param name="key">The policy guid key of the policy to be deleted.</param>
+        /// <returns>Returns the Index view.</returns>
+        [HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult DeletePolicy(Guid key)
-		{
-			//---TO DO!!!
-			//apply and update to the device with the policies removed from the property
-			//string id = string.Empty;
-			string id = string.Empty;
-			if (CommonUtil.IsValidString(id))
+		public ActionResult DeletePolicy(string appId, Guid key)
+		{					
+			if (CommonUtil.IsValidString(appId) && CommonUtil.IsGuid(key))
 			{
 				try
 				{
-					//this.AmiClient.UpdateApplication(id);
+                    var appEntity = ApplicationUtil.GetApplication(this.AmiClient, appId);
+
+                    if (appEntity == null)
+                    {
+                        TempData["error"] = Locale.Application + " " + Locale.NotFound;
+
+                        return RedirectToAction("Index");
+                    }
+
+                    appEntity.Policies.RemoveAll(a => a.Policy.Key == key);
+
+                    this.AmiClient.UpdateApplication(appId, appEntity);
+
 					TempData["success"] = Locale.Application + " " + Locale.UpdatedSuccessfully;
 
 					return RedirectToAction("Index");
@@ -171,12 +184,12 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-		/// <summary>
-		/// Gets the application object to edit
-		/// </summary>
-		/// <param name="key">The id of the application to be edited.</param>
-		/// <returns>Returns the Edit view.</returns>
-		[HttpGet]
+        /// <summary>
+        /// Gets the application object to edit
+        /// </summary>
+        /// <param name="key">The id of the application to be edited.</param>
+        /// <returns>Returns the Edit view.</returns>
+        [HttpGet]
 		public ActionResult Edit(string key)
 		{
 			Guid appKey = Guid.Empty;
@@ -209,7 +222,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditApplicationModel model)
-		{
+		{            
 			if (ModelState.IsValid)
 			{				
 				var appEntity = ApplicationUtil.GetApplication(this.AmiClient, model.Id);
@@ -221,14 +234,10 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				List<SecurityPolicy> addPoliciesList = new List<SecurityPolicy>();
-				
-                foreach (string id in model.AddPolicies)
-                {                      
-                    addPoliciesList.Add(ApplicationUtil.GetPolicy(this.AmiClient, id));                     
-                }                                        
+                model.Policies = appEntity.Policies;
+                model.AddPoliciesList = CommonUtil.GetNewPolicies(this.AmiClient, model.AddPolicies);                
 
-				SecurityApplicationInfo appInfo = ApplicationUtil.ToSecurityApplicationInfo(model, appEntity, addPoliciesList);
+                SecurityApplicationInfo appInfo = ApplicationUtil.ToSecurityApplicationInfo(model, appEntity);
 
 				this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
 

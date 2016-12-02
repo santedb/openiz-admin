@@ -134,7 +134,7 @@ namespace OpenIZAdmin.Util
             viewModel.ApplicationName = appInfo.Name;
             viewModel.ApplicationSecret = appInfo.ApplicationSecret;
             viewModel.CreationTime = appInfo.Application.CreationTime.DateTime;
-            viewModel.HasPolicies = CommonUtil.IsPolicy(appInfo.Policies);
+            //viewModel.HasPolicies = CommonUtil.IsPolicy(appInfo.Policies);
 
             if (appInfo.Policies != null && appInfo.Policies.Count() > 0)
                 viewModel.ApplicationPolicies = appInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
@@ -173,10 +173,9 @@ namespace OpenIZAdmin.Util
         /// Converts a <see cref="OpenIZAdmin.Models.ApplicationModels.EditApplicationModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo"/>
         /// </summary>
         /// <param name="model">The edit device model to convert.</param>
-        /// <param name="appInfo">The device object to apply the changes to.</param>
-        /// <param name="addPolicies">The property that contains the selected policies to add to the device.</param>
+        /// <param name="appInfo">The device object to apply the changes to.</param>        
         /// <returns>Returns a security device info object.</returns>
-        public static SecurityApplicationInfo ToSecurityApplicationInfo(EditApplicationModel model, SecurityApplicationInfo appInfo, List<SecurityPolicy> addPoliciesList)
+        public static SecurityApplicationInfo ToSecurityApplicationInfo(EditApplicationModel model, SecurityApplicationInfo appInfo)
         {
             appInfo.Application.Key = model.Id;
             appInfo.Id = model.Id;
@@ -184,15 +183,15 @@ namespace OpenIZAdmin.Util
             appInfo.Name = model.ApplicationName;
             appInfo.Application.ApplicationSecret = model.ApplicationSecret;
             appInfo.ApplicationSecret = model.ApplicationSecret;
-
             appInfo.Application.Policies = model.Policies ?? new List<SecurityPolicyInstance>();
+
             //add the new policies
-            foreach (var policy in addPoliciesList.Select(p => new SecurityPolicyInstance(p, (PolicyGrantType)2)))
+            foreach (var policy in model.AddPoliciesList.Select(p => new SecurityPolicyInstance(p, (PolicyGrantType)2)))
             {
                 appInfo.Policies.Add(policy);
             }
 
             return appInfo;
-        }       
+        }        
     }
 }
