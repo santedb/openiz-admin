@@ -177,15 +177,41 @@ namespace OpenIZAdmin.Util
 			return userInfo;
 		}
 
-
-		/// <summary>
-		/// Converts a <see cref="EditUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
+        /// <summary>
+		/// Converts a <see cref="OpenIZAdmin.Models.UserModels.CreateUserModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/>.
 		/// </summary>
 		/// <param name="model">The create user object to convert.</param>
-		/// <param name="user">The user entity instance.</param>
-		/// <param name="client">The AMI service client instance. </param>
-		/// <returns>Returns a security user info model.</returns>
-		public static SecurityUserInfo ToSecurityUserInfo(EditUserModel model, UserEntity user, AmiServiceClient client)
+		/// <returns>Returns a SecurityUserInfo model.</returns>
+		public static SecurityUserInfo ToSecurityUserInfo(UserEntity userEntity)
+        {
+            var userInfo = new SecurityUserInfo
+            {
+                //Email = userEntity.SecurityUser.Email,
+                //Password = userEntity.SecurityUser.p,
+                //UserName = userEntity.SecurityUser.Username,
+                Roles = new List<SecurityRoleInfo>()
+            };
+
+
+            if(userEntity.SecurityUser.Roles != null && userEntity.SecurityUser.Roles.Any())
+            {
+
+            }
+
+            //userInfo.Roles.AddRange(userEntity.SecurityUser.Roles.Select(r => new SecurityRoleInfo { Name = r }));
+
+            return userInfo;
+        }
+
+
+        /// <summary>
+        /// Converts a <see cref="EditUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
+        /// </summary>
+        /// <param name="model">The create user object to convert.</param>
+        /// <param name="user">The user entity instance.</param>
+        /// <param name="client">The AMI service client instance. </param>
+        /// <returns>Returns a security user info model.</returns>
+        public static SecurityUserInfo ToSecurityUserInfo(EditUserModel model, UserEntity user, AmiServiceClient client)
         {
 	        var userInfo = new SecurityUserInfo
 	        {
@@ -221,7 +247,7 @@ namespace OpenIZAdmin.Util
             {
                 Email = userInfo.Email,
                 IsLockedOut = userInfo.Lockout.GetValueOrDefault(false),
-                IsObsolete = (userInfo.User.ObsoletionTime != null) ? true : false,// CommonUtil.IsObsolete(userInfo.User.ObsoletionTime),
+                IsObsolete = (userInfo.User.ObsoletionTime != null) ? true : false,
 		        LastLoginTime = userInfo.User.LastLoginTime?.DateTime,
 		        PhoneNumber = userInfo.User.PhoneNumber,
 		        Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel),
@@ -244,7 +270,7 @@ namespace OpenIZAdmin.Util
 
             viewModel.Email = userInfo.Email;
             viewModel.IsLockedOut = userInfo.Lockout.GetValueOrDefault(false);
-            viewModel.IsObsolete = (userInfo.User.ObsoletionTime != null) ? true : false;// CommonUtil.IsObsolete(userInfo.User.ObsoletionTime);
+            viewModel.IsObsolete = (userInfo.User.ObsoletionTime != null) ? true : false;
             viewModel.LastLoginTime = userInfo.User.LastLoginTime?.DateTime;
             viewModel.PhoneNumber = userInfo.User.PhoneNumber;
             viewModel.Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel);

@@ -106,24 +106,17 @@ namespace OpenIZAdmin.Util
         /// <param name="client">The Ami Service Client.</param>
         /// <param name="role">The SecurityRoleInfo object to convert.</param>
         /// <returns>Returns a EditRoleModel model.</returns>
-        public static EditRoleModel ToEditPolicyModel(AmiServiceClient client, SecurityRoleInfo role)
+        public static EditRoleModel ToEditRoleModel(AmiServiceClient client, SecurityRoleInfo role)
         {
             EditRoleModel viewModel = new EditRoleModel();           
 
             viewModel.Description = role.Role.Description;
             viewModel.Id = role.Id.ToString();
-            viewModel.Name = role.Role.Name;            
-            //viewModel.Policies = role.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
-
-            if (viewModel.Policies != null && viewModel.Policies.Count() > 0)
-                viewModel.RolePolicies = viewModel.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
-            else
-                viewModel.RolePolicies = new List<PolicyViewModel>();
+            viewModel.Name = role.Role.Name;
+            viewModel.RolePolicies = (role.Policies != null && role.Policies.Any()) ? role.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList() : new List<PolicyViewModel>();                       
 
             viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
             viewModel.PoliciesList.AddRange(CommonUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }));
-
-
 
             return viewModel;
         }
@@ -140,11 +133,11 @@ namespace OpenIZAdmin.Util
 			viewModel.Description = roleInfo.Role.Description;
 			viewModel.Id = roleInfo.Id.Value;
 			viewModel.Name = roleInfo.Name;
-            viewModel.HasPolicies = (roleInfo.Role.Policies.Any()) ? true : false;
+            viewModel.HasPolicies = (roleInfo.Policies != null && roleInfo.Policies.Any()) ? true : false;
             viewModel.IsObsolete = (roleInfo.Role.ObsoletionTime != null) ? true : false; //CommonUtil.IsObsolete(roleInfo.Role.ObsoletionTime);
 
-            if (roleInfo.Role.Policies != null)
-                viewModel.Policies = roleInfo.Role.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
+            if (roleInfo.Policies != null && roleInfo.Policies.Any())
+                viewModel.Policies = roleInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
             else
                 viewModel.Policies = new List<PolicyViewModel>();
 
@@ -185,56 +178,29 @@ namespace OpenIZAdmin.Util
 			return roleInfo;
 		}
 
-        ///// <summary>
-        ///// Checks if a device has policies
-        ///// </summary>
-        ///// <param name="pList">A list with the policies applied to the role</param>        
-        ///// <returns>Returns true if policies exist, false if no policies exist</returns>
-        //private static bool HasPolicies(List<SecurityPolicyInstance> pList)
-        //{
-        //    if (pList != null && pList.Count() > 0)
-        //        return true;
-        //    else
-        //        return false;
-        //}
 
-        ///// <summary>
-        ///// Checks if a device is active or inactive
-        ///// </summary>
-        ///// <param name="date">A DateTimeOffset object</param>        
-        ///// <returns>Returns true if active, false if inactive</returns>
-        //private static bool IsActiveStatus(DateTimeOffset? date)
-        //{
-        //    if (date != null)
-        //        return true;
-        //    else
-        //        return false;
-        //}
+        /// <summary>
+        /// Converts a <see cref="OpenIZAdmin.Models.RoleModels.EditRoleModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo"/>.
+        /// </summary>
+        /// <param name="model">The EditRoleModel object to convert.</param>
+        /// <returns>Returns a SecurityRoleInfo model.</returns>
+		public static SecurityRoleInfo ToSecurityRoleInfo(EditRoleModel model, SecurityRoleInfo roleInfo)
+        {                        
+            roleInfo.Role.Description = model.Description;
+            roleInfo.Name = model.Name;            
 
-        ///// <summary>
-        ///// Checks if an application is active or inactive
-        ///// </summary>
-        ///// <param name="date">A DateTimeOffset object</param>        
-        ///// <returns>Returns true if active, false if inactive</returns>
-        //private static bool IsObsolete(DateTimeOffset? date)
-        //{
-        //    if (date == null)
-        //        return false;
-        //    else
-        //        return true;
-        //}
+            List<SecurityPolicyInfo> roleList = (roleInfo.Policies != null && roleInfo.Policies.Any()) ? roleInfo.Policies.ToList() : new List<SecurityPolicyInfo>();            
 
-        ///// <summary>
-        ///// Verifies a valid string parameter
-        ///// </summary>
-        ///// <param name="key">The string to validate</param>        
-        ///// <returns>Returns true if valid, false if empty or whitespace</returns>
-        //public static bool IsValidString(string key)
-        //{
-        //    if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
-        //        return true;
-        //    else
-        //        return false;
-        //}       
+            //add the new policies
+            foreach (var policy in model.AddPoliciesList.Select(p => new SecurityPolicyInfo(p)))
+            {
+                roleList.Add(policy);
+            }
+
+            roleInfo.Policies = roleList.ToArray();
+
+            return roleInfo;
+        }       
+        
     }
 }

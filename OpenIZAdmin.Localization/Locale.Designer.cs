@@ -1492,6 +1492,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No roles found.
+        /// </summary>
+        public static string NoRolesFound {
+            get {
+                return ResourceManager.GetString("NoRolesFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not Found.
         /// </summary>
         public static string NotFound {

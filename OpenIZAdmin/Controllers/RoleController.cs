@@ -121,17 +121,17 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-		/// <summary>
-		/// Displays the edit view.
-		/// </summary>
-		/// <param name="id">The id of the role to edit.</param>
-		/// <returns>Returns the edit view.</returns>
-		[HttpGet]
-		public ActionResult Edit(string id)
+        /// <summary>
+        /// Displays the edit view.
+        /// </summary>
+        /// <param name="key">The id of the role to edit.</param>
+        /// <returns>Returns the edit view.</returns>
+        [HttpGet]
+		public ActionResult Edit(string key)
 		{
 			Guid roleId = Guid.Empty;
 
-			if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out roleId))
+			if (CommonUtil.IsValidString(key) && Guid.TryParse(key, out roleId))
 			{
 				try
 				{
@@ -144,7 +144,7 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
                    
-                    return View(RoleUtil.ToEditPolicyModel(this.AmiClient, role));
+                    return View(RoleUtil.ToEditRoleModel(this.AmiClient, role));
 				}
 				catch (Exception e)
 				{
@@ -183,7 +183,12 @@ namespace OpenIZAdmin.Controllers
                         return RedirectToAction("Index");
                     }
 
-                    //roleEntity.Policies.RemoveAll(a => a.Policy.Key == key);
+                    if (roleEntity.Policies != null && roleEntity.Policies.Any())
+                    {
+                        List<SecurityPolicyInfo> newPoliciesList = roleEntity.Policies.ToList();
+                        newPoliciesList.RemoveAll(a => a.Policy.Key == key);
+                        roleEntity.Policies = newPoliciesList.ToArray();
+                    }
 
                     this.AmiClient.UpdateRole(roleId, roleEntity);
 
@@ -225,17 +230,11 @@ namespace OpenIZAdmin.Controllers
 						TempData["error"] = Locale.Role + " " + Locale.NotFound;
 
 						return RedirectToAction("Index");
-					}
+					}                    
+                    
+                    model.AddPoliciesList = CommonUtil.GetNewPolicies(this.AmiClient, model.AddPolicies);
 
-					role.Role.Description = model.Description;
-					role.Name = model.Name;
-
-                    //role.Policies = model.Policies;
-                    //role.AddPoliciesList = CommonUtil.GetNewPolicies(this.AmiClient, model.AddPolicies);
-
-                    //SecurityApplicationInfo appInfo = ApplicationUtil.ToSecurityApplicationInfo(model, appEntity);
-
-                    this.AmiClient.UpdateRole(role.Id.ToString(), role);
+                    this.AmiClient.UpdateRole(role.Id.ToString(), RoleUtil.ToSecurityRoleInfo(model, role));
 
 					TempData["success"] = Locale.Role + " " + Locale.UpdatedSuccessfully;
 

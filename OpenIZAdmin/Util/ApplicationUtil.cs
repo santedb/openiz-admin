@@ -135,7 +135,7 @@ namespace OpenIZAdmin.Util
             viewModel.ApplicationSecret = appInfo.ApplicationSecret;
             viewModel.CreationTime = appInfo.Application.CreationTime.DateTime;            
 
-            if (appInfo.Policies != null && appInfo.Policies.Count() > 0)
+            if (appInfo.Policies != null && appInfo.Policies.Any())
                 viewModel.ApplicationPolicies = appInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
             else
                 viewModel.ApplicationPolicies = new List<PolicyViewModel>();

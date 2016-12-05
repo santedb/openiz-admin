@@ -17,6 +17,7 @@
  * Date: 2016-8-14
  */
 
+using OpenIZAdmin.Models.RoleModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -35,7 +36,9 @@ namespace OpenIZAdmin.Models.UserModels
 			this.GivenNamesList = new List<SelectListItem>();
 			this.GivenNames = new List<string>();
 			this.RolesList = new List<SelectListItem>();
-		}
+            this.UserRoles = new List<RoleViewModel>();
+
+        }
 
 		/// <summary>
 		/// Gets or sets the email address of the user.
@@ -85,10 +88,16 @@ namespace OpenIZAdmin.Models.UserModels
 		[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public IEnumerable<string> Roles { get; set; }
 
-		/// <summary>
-		/// Gets or sets the list of roles.
+        /// <summary>
+		/// Gets or sets the roles of the user.
 		/// </summary>
-		public List<SelectListItem> RolesList { get; set; }
+		//[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
+        public IEnumerable<RoleViewModel> UserRoles { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of roles.
+        /// </summary>
+        public List<SelectListItem> RolesList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the user id of the user.

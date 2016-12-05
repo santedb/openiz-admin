@@ -882,4 +882,7 @@
   <data name="CreateConceptSet" xml:space="preserve">
     <value>Create Concept Set</value>
   </data>
+  <data name="NoRolesFound" xml:space="preserve">
+    <value>No roles found</value>
+  </data>
 </root>

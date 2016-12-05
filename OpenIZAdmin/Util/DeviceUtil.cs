@@ -199,7 +199,7 @@ namespace OpenIZAdmin.Util
 			viewModel.Name = device.Name;
 			viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
 			viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
-            viewModel.IsObsolete = (device.ObsoletionTime != null) ? true : false; //CommonUtil.IsActiveStatus(device.ObsoletionTime);            
+            viewModel.IsObsolete = (device.ObsoletionTime != null) ? true : false; 
 
             return viewModel;
 		}
@@ -219,12 +219,14 @@ namespace OpenIZAdmin.Util
             viewModel.Id = deviceInfo.Device.Key.Value;
             viewModel.DeviceSecret = deviceInfo.DeviceSecret;
             viewModel.Name = deviceInfo.Name;
-            viewModel.UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime;            
+            viewModel.UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime;
 
-            if (deviceInfo.Policies != null && deviceInfo.Policies.Count() > 0)
-                viewModel.DevicePolicies = deviceInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
-            else
-                viewModel.DevicePolicies = new List<PolicyViewModel>();           
+            viewModel.DevicePolicies = (deviceInfo.Policies != null && deviceInfo.Policies.Any()) ? viewModel.DevicePolicies = deviceInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList() : new List<PolicyViewModel>();
+
+            //if (deviceInfo.Policies != null && deviceInfo.Policies.Any())
+            //    viewModel.DevicePolicies = deviceInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
+            //else
+            //    viewModel.DevicePolicies = new List<PolicyViewModel>();           
 
             viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
             viewModel.PoliciesList.AddRange(CommonUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }));

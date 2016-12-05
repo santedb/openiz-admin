@@ -169,12 +169,59 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-		/// <summary>
-		/// Retrieves the user entity by id
-		/// </summary>
-		/// <param name="id">The user identifier.</param>
-		/// <returns>Returns the user edit view.</returns>
-		[HttpGet]
+        /// <summary>
+        /// Deletes a policy associated to a role.
+        /// </summary>
+        /// <param name="roleId">The role id string of the application.</param>
+        /// <param name="key">The policy guid key of the policy to be deleted.</param>
+        /// <returns>Returns the Index view.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteRole(string userId, string roleId)
+        {
+            Guid userKey = Guid.Empty;
+            Guid roleKey = Guid.Empty;
+            if (CommonUtil.IsValidString(userId) && Guid.TryParse(userId, out userKey) && CommonUtil.IsValidString(roleId) && Guid.TryParse(roleId, out roleKey))
+            {
+                try
+                {
+                    var userEntity = UserUtil.GetUserEntity(this.ImsiClient, userKey);
+
+                    if (userEntity == null)
+                    {
+                        TempData["error"] = Locale.User + " " + Locale.NotFound;
+
+                        return RedirectToAction("Index");
+                    }
+
+                    userEntity.AsSecurityUser.Roles.RemoveAll(a => a.Key == roleKey);
+
+                    //this.AmiClient.UpdateUser(userKey, userEntity);
+
+                    TempData["success"] = Locale.User + " " + Locale.UpdatedSuccessfully;
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    Trace.TraceError("Unable to delete role from user: {0}", e.StackTrace);
+#endif
+                    Trace.TraceError("Unable to delete role from user: {0}", e.Message);
+                }
+            }
+
+            TempData["error"] = Locale.UnableToDelete + " " + Locale.Role;
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Retrieves the user entity by id
+        /// </summary>
+        /// <param name="id">The user identifier.</param>
+        /// <returns>Returns the user edit view.</returns>
+        [HttpGet]
 		public ActionResult Edit(string id)
 		{
 			var userId = Guid.Empty;

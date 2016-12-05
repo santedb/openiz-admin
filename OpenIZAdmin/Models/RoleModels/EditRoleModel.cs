@@ -16,6 +16,7 @@
  * User: Nityan
  * Date: 2016-9-5
  */
+using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
@@ -66,7 +67,7 @@ namespace OpenIZAdmin.Models.RoleModels
 		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
        
-        public List<SecurityPolicyInstance> Policies { get; set; }
+        public List<SecurityPolicyInfo> Policies { get; set; }
 
         public List<SelectListItem> PoliciesList { get; set; }
 
