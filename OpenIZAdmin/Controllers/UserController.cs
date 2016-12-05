@@ -291,17 +291,20 @@ namespace OpenIZAdmin.Controllers
 
 				var serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 
-				if (serviceLocation != null)
-				{
-					userEntity.Relationships.First(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
-				}
-				else
-				{
-					if (model.Facilities.Any())
-					{
-						userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
-					}
-				}
+                if (model.Facilities != null && model.Facilities.Any())
+                {
+                    if (serviceLocation != null)
+                    {
+                        userEntity.Relationships.First(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
+                    }
+                    else
+                    {
+                        //if (model.Facilities.Any())
+                        //{
+                            userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
+                        //}
+                    }
+                }
 
 				var user = this.AmiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
 

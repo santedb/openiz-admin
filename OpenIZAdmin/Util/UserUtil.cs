@@ -26,6 +26,7 @@ using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Models.AccountModels;
+using OpenIZAdmin.Models.RoleModels.ViewModels;
 using OpenIZAdmin.Models.UserModels;
 using OpenIZAdmin.Models.UserModels.ViewModels;
 using System;
@@ -130,7 +131,10 @@ namespace OpenIZAdmin.Util
 		        UserId = userEntity.SecurityUserKey.GetValueOrDefault(Guid.Empty)
 	        };
 
-	        model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
+            model.CreationTime = securityUserInfo.User.CreationTime.DateTime;
+            model.UserRoles = (securityUserInfo.Roles != null && securityUserInfo.Roles.Any()) ? securityUserInfo.Roles.Select(p => RoleUtil.ToRoleViewModel(p)).OrderBy(q => q.Name).ToList() : new List<RoleViewModel>();
+
+            model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 			model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 
 			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
@@ -221,17 +225,22 @@ namespace OpenIZAdmin.Util
 		        UserId = model.UserId
 	        };
 
-	        userInfo.User.Email = model.Email;
+	        userInfo.User.Email = model.Email;            
 
-			if (!model.Roles.Any())
+			if (model.Roles.Any())
 			{
-				return userInfo;
-			}
+                //return userInfo;
 
-			foreach (var role in model.Roles.Select(roleId => RoleUtil.GetRole(client, roleId)).Where(role => role?.Role != null))
-			{
-				userInfo.Roles.Add(role);
-			}
+                foreach (var role in model.Roles.Select(roleId => RoleUtil.GetRole(client, roleId)).Where(role => role?.Role != null))
+                {
+                    userInfo.Roles.Add(role);
+                }
+            }
+
+			//foreach (var role in model.Roles.Select(roleId => RoleUtil.GetRole(client, roleId)).Where(role => role?.Role != null))
+			//{
+			//	userInfo.Roles.Add(role);
+			//}
 
 			return userInfo;
         }
@@ -246,6 +255,7 @@ namespace OpenIZAdmin.Util
             var viewModel = new UserViewModel
             {
                 Email = userInfo.Email,
+                HasRoles = (userInfo.Roles != null && userInfo.Roles.Any()) ? true : false,
                 IsLockedOut = userInfo.Lockout.GetValueOrDefault(false),
                 IsObsolete = (userInfo.User.ObsoletionTime != null) ? true : false,
 		        LastLoginTime = userInfo.User.LastLoginTime?.DateTime,

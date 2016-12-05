@@ -63,9 +63,6 @@
         }
     </div>
 
-
-
-
     <div class="panel panel-default">
         <div class="panel panel-heading">
             <span>@Locale.Roles</span>
@@ -82,8 +79,8 @@
                                         <tr>
                                             <th>@Locale.CreationTime</th>
                                             <th>@Locale.Name</th>
-                                            <th>@Locale.HasPolicies</th>
-                                            <th></th>                                            
+                                            <th>@Locale.Description</th>
+                                            @*<th></th>*@                                            
                                             <th></th>
                                         </tr>
                                     </thead>
@@ -91,14 +88,14 @@
                                         @foreach (var item in Model.UserRoles)
                                         {
                                             <tr>
+                                                <td>@item.Id</td>
                                                 <td>@item.Name</td>
                                                 <td>@item.Description</td>
-                                                <td>@item.HasPolicies</td>
-                                                <td></td>                                                
+                                                @*<td></td>*@                                                
                                                 <td>
                                                     @if (!item.IsObsolete)
                                                     {
-                                                        using (Html.BeginForm("DeleteRole", "Users", new { userId = Model.UserId, roleId = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                                        using (Html.BeginForm("DeleteRole", "User", new { userId = Model.UserId, roleId = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                                                         {
                                                             @Html.AntiForgeryToken()
 

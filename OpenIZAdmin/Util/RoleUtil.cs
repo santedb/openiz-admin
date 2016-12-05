@@ -134,7 +134,7 @@ namespace OpenIZAdmin.Util
 			viewModel.Id = roleInfo.Id.Value;
 			viewModel.Name = roleInfo.Name;
             viewModel.HasPolicies = (roleInfo.Policies != null && roleInfo.Policies.Any()) ? true : false;
-            viewModel.IsObsolete = (roleInfo.Role.ObsoletionTime != null) ? true : false; //CommonUtil.IsObsolete(roleInfo.Role.ObsoletionTime);
+            viewModel.IsObsolete = (roleInfo.Role.ObsoletionTime != null) ? true : false; 
 
             if (roleInfo.Policies != null && roleInfo.Policies.Any())
                 viewModel.Policies = roleInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();

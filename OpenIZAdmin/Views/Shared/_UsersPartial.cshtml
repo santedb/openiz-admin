@@ -47,16 +47,24 @@
                                 @if (item.IsLockedOut)
                                 {
                                     <text>@Locale.Yes</text>
-}
+                                }
                                 else
                                 {
                                     <text>@Locale.No</text>
-}
+                                }
                             </td>
                             <td>
-                                @if (item.Roles.Any())
+                                @*@if (item.Roles.Any())
                                 {
                                     string.Join(", ", item.Roles.Select(r => r.Name).OrderBy(r => r));
+                                }*@
+                                @if (item.HasRoles)
+                                {
+                                    <text>@Locale.Yes</text>
+                                }
+                                else
+                                {
+                                    <text>@Locale.No</text>
                                 }
                             </td>
                             <td>
