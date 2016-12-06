@@ -78,6 +78,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.AmiClient.UpdateUser(userKey, user);
 
+                TempData.Clear();
 				TempData["success"] = Locale.User + " " + Locale.ActivatedSuccessfully;
 
 				return RedirectToAction("Index");
@@ -138,7 +139,6 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
-
 			model.RolesList.AddRange(RoleUtil.GetAllRoles(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.User;
@@ -172,8 +172,8 @@ namespace OpenIZAdmin.Controllers
         /// <summary>
         /// Deletes a policy associated to a role.
         /// </summary>
-        /// <param name="roleId">The role id string of the application.</param>
-        /// <param name="key">The policy guid key of the policy to be deleted.</param>
+        /// <param name="userId">The user id of the user account to delete the role from.</param>
+        /// <param name="roleId">The role id string of the application.</param>        
         /// <returns>Returns the Index view.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -237,7 +237,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var model = UserUtil.ToEditUserModel(this.AmiClient, userEntity);				
+				var model = UserUtil.ToEditUserModel(this.ImsiClient, this.AmiClient, userEntity);				
 
 				return View(model);
 			}

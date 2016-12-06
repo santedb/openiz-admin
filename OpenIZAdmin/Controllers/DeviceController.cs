@@ -38,12 +38,12 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public class DeviceController : BaseController
 	{
-		/// <summary>
-		/// Activates a device.
-		/// </summary>
-		/// <param name="model">The edit device model of the device to be activated.</param>
-		/// <returns>Returns the index view.</returns>
-		[HttpPost]
+        /// <summary>
+        /// Activates a device.
+        /// </summary>
+        /// <param name="id">The id of the device to be activated.</param>
+        /// <returns>Returns the index view.</returns>
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Activate(string id)
 		{
@@ -117,8 +117,7 @@ namespace OpenIZAdmin.Controllers
 					var device = this.AmiClient.CreateDevice(DeviceUtil.ToSecurityDevice(model));
 
 					TempData["success"] = Locale.Device + " " + Locale.CreatedSuccessfully;
-
-					//return RedirectToAction("ViewDevice", new { key = device.Id.ToString() });
+					
 					return RedirectToAction("Index");
 				}
 				catch (Exception e)

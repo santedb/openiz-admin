@@ -48,7 +48,8 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Facilities, new { @class = "col-md-2 control-label" })
                 <div class="col-md-10">
-                    @Html.ListBoxFor(m => m.Facilities, new SelectList(Model.FacilityList, Model.Facilities),new { @class = "facility-ajax form-control" })
+                    @*@Html.ListBoxFor(m => m.Facilities, new SelectList(Model.FacilityList, Model.Facilities),new { @class = "facility-ajax form-control" })*@
+                    @Html.ListBoxFor(m => m.Facilities, Model.FacilityList, new { @class = "facility-ajax form-control" })@*, multiple = "multiple" })*@
                     @Html.ValidationMessageFor(m => m.Facilities, "", new { @class = "text-danger" })
                 </div>
             </div>

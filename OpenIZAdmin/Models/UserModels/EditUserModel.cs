@@ -40,6 +40,9 @@ namespace OpenIZAdmin.Models.UserModels
 
         }
 
+        /// <summary>
+        /// Gets or sets the creation time of the user account.
+        /// </summary>
         [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
         public DateTimeOffset CreationTime { get; set; }
 
@@ -57,10 +60,16 @@ namespace OpenIZAdmin.Models.UserModels
 		[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
 		public List<string> Facilities { get; set; }
 
-		/// <summary>
-		/// Gets or sets the list of facilities.
-		/// </summary>
-		public List<SelectListItem> FacilityList { get; set; }
+  //      /// <summary>
+		///// Gets or sets the id of the facility of the user.
+		///// </summary>
+		//[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
+  //      public string Facility { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of facilities.
+        /// </summary>
+        public List<SelectListItem> FacilityList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of family names.
@@ -84,15 +93,21 @@ namespace OpenIZAdmin.Models.UserModels
 		[Display(Name = "Names", ResourceType = typeof(Localization.Locale))]
 		public List<string> GivenNames { get; set; }
 
-		/// <summary>
-		/// Gets or sets the roles of the user.
+        /// <summary>
+		/// Gets or sets the health facility of the user.
 		/// </summary>
-		[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "HealthFacility", ResourceType = typeof(Localization.Locale))]
+        public string HealthFacility { get; set; }
+
+        /// <summary>
+        /// Gets or sets the roles to apply to the user account.
+        /// </summary>
+        [Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public IEnumerable<string> Roles { get; set; }
 
         /// <summary>
-		/// Gets or sets the roles of the user.
+		/// Gets or sets the current roles of the user.
 		/// </summary>
 		//[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
         public IEnumerable<RoleViewModel> UserRoles { get; set; }
