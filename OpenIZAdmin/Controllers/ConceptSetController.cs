@@ -48,11 +48,28 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
-		/// <summary>
-		/// Displays the create view.
-		/// </summary>
-		/// <returns>Returns the create view.</returns>
-		[HttpGet]
+
+        [HttpGet]
+        public ActionResult Add(EditConceptSetModel model)
+        {
+            var query = new List<KeyValuePair<string, object>>();
+
+            query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == model.ConceptToAdd));
+            var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
+
+            bundle.Reconstitute();
+
+            var concept = bundle.Item.OfType<Concept>().FirstOrDefault();
+            model.Concepts.Add(concept);
+            model.ConceptDeletion.Add(false);
+            return PartialView("_ConceptList", model);
+        }
+
+        /// <summary>
+        /// Displays the create view.
+        /// </summary>
+        /// <returns>Returns the create view.</returns>
+        [HttpGet]
 		public ActionResult Create()
 		{
 			CreateConceptSetModel model = new CreateConceptSetModel();
@@ -75,10 +92,10 @@ namespace OpenIZAdmin.Controllers
 				{
                     ConceptSet conceptSet = new ConceptSet();
 
-					conceptSet.CreatedBy = new OpenIZ.Core.Model.Security.SecurityUser
+					/*conceptSet.CreatedBy = new OpenIZ.Core.Model.Security.SecurityUser
 					{
 						Key = Guid.Parse(User.Identity.GetUserId())
-					};
+					};*/
                     conceptSet.Mnemonic = model.Mnemonic;
 					var result = this.ImsiClient.Create<ConceptSet>(conceptSet);
 
@@ -131,54 +148,27 @@ namespace OpenIZAdmin.Controllers
 		/// Displays the search view.
 		/// </summary>
 		/// <returns>Returns the search view.</returns>
-		[HttpGet]
-		public ActionResult Search()
-		{
-			return View();
-		}
-
-		/// <summary>
-		/// Searches the IMS for a concept.
-		/// </summary>
-		/// <param name="model">The search model containing the search parameters.</param>
-		/// <returns>Returns a list of concepts matching the specified query.</returns>
 		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Search(SearchConceptModel model)
+		public ActionResult Search(string conceptMnemonic)
 		{
-			var viewModels = new List<ConceptSearchResultViewModel>();
+            var viewModels = new List<ConceptSearchResultViewModel>();
 
-			var query = new List<KeyValuePair<string, object>>();
+            var query = new List<KeyValuePair<string, object>>();
 
-            if (!string.IsNullOrEmpty(model.Mnemonic) && !string.IsNullOrWhiteSpace(model.Mnemonic))
+            if (!string.IsNullOrEmpty(conceptMnemonic) && !string.IsNullOrWhiteSpace(conceptMnemonic))
             {
-                query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(model.Mnemonic)));
+                query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(conceptMnemonic)));
             }
 
-            if (!string.IsNullOrEmpty(model.Name) && !string.IsNullOrWhiteSpace(model.Name))
-            {
-                query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ConceptNames.Any(cn => cn.Name.Contains(model.Name))));
-            }
-            query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ObsoletionTime==null));
-            if (model.SearchType == 0)
-            {
+            query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ObsoletionTime == null));
+            
+            var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
 
+            viewModels.AddRange(bundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
 
-                var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
+            return PartialView("_ConceptSetConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
 
-                viewModels.AddRange(bundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
-
-                return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
-            }
-            else
-            {
-                var bundle = this.ImsiClient.Query<ConceptSet>(QueryExpressionParser.BuildLinqExpression<ConceptSet>(new NameValueCollection(query.ToArray())));
-
-                viewModels.AddRange(bundle.Item.OfType<ConceptSet>().Select(c => new ConceptSearchResultViewModel(c)));
-
-                return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
-            }
-		}
+        }
 
 		[HttpGet]
 		public ActionResult ViewConceptSet(Guid key)
@@ -249,9 +239,13 @@ namespace OpenIZAdmin.Controllers
                 var conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault();
                 for(var i = 0; i<model.ConceptDeletion.Count(); i++)
                 {
-                    if(model.ConceptDeletion[i])
+                    if (conceptSet.ConceptsXml.Contains(model.Concepts[i].Key.Value) && model.ConceptDeletion[i])
+                    {
                         conceptSet.ConceptsXml.RemoveAt(i);
-
+                    }
+                    else if (!conceptSet.ConceptsXml.Contains(model.Concepts[i].Key.Value) && !model.ConceptDeletion[i]){
+                        conceptSet.ConceptsXml.Add(model.Concepts[i].Key.Value);
+                    }
                 }
                 this.ImsiClient.Update<ConceptSet>(conceptSet);
                 TempData["success"] = Locale.UpdatedSuccessfully + " " + Locale.ConceptSet;

@@ -206,7 +206,6 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AlertController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
-    <Compile Include="Controllers\BusinessRulesController.cs" />
     <Compile Include="Controllers\ConceptSetController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\ConceptController.cs" />
@@ -239,8 +238,6 @@
     <Compile Include="Models\AccountModels\ChangePasswordModel.cs" />
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ViewModels\ApplicationViewModel.cs" />
-    <Compile Include="Models\BusinessRuleModels\UploadBusinessRuleModel.cs" />
-    <Compile Include="Models\BusinessRuleModels\ViewModels\BusinessRuleViewModel.cs" />
     <Compile Include="Models\ConceptModels\ReferenceTermModel.cs" />
     <Compile Include="Models\ConceptSetModels\CreateConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\EditConceptSetModel.cs" />
@@ -485,14 +482,11 @@
     <Content Include="Views\Material\Search.cshtml" />
     <Content Include="Views\Shared\_MaterialSearchResultsPartial.cshtml" />
     <Content Include="Views\Material\Edit.cshtml" />
-    <Content Include="Views\Shared\_BusinessRulesPartial.cshtml" />
-    <Content Include="Views\BusinessRules\Index.cshtml" />
-    <Content Include="Views\BusinessRules\Upload.cshtml" />
-    <Content Include="Views\BusinessRules\ViewBusinessRules.cshtml" />
     <Content Include="Views\ConceptSet\Create.cshtml" />
     <Content Include="Views\ConceptSet\Edit.cshtml" />
     <Content Include="Views\ConceptSet\ViewConceptSet.cshtml" />
     <Content Include="Views\Shared\_ConceptList.cshtml" />
+    <Content Include="Views\Shared\_ConceptSetConceptSearchResultsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />

@@ -66,6 +66,7 @@ namespace OpenIZAdmin.Models.ConceptModels
         
         public List<SelectListItem> LanguageList { get; set; }
 
+        [Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
         public string SelectedLanguage { get; set; }
 
         [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
