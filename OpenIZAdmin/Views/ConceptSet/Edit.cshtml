@@ -4,7 +4,7 @@
 }
 
 <div>
-    @using (Html.BeginForm("Edit", "ConceptSet", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    @using (Html.BeginForm("Edit", "ConceptSet", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", @id="editForm" }))
     {
         <div class="panel panel-default">
             <div class="panel panel-heading">
@@ -14,96 +14,83 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="panel panel-body panel-default">
                 @Html.HiddenFor(m => m.Key)
+                @Html.HiddenFor(m => m.ConceptToAdd, new { id = "conceptToAdd" })
                 @Html.LabelFor(m => m.Mnemonic, new { @class = "control-label" })
                 @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control" })
                 @Html.LabelFor(m => m.Oid, new { @class = "control-label" })
                 @Html.TextBoxFor(m => m.Oid, new { @class = "form-control" })
             </div>
         </div>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <span>@Locale.Concepts @Locale.For @Model.Mnemonic</span>
-                </h3>
-            </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(m => m.Mnemonic)
-                        </th>
-                        <th>
-                            @Locale.ConceptClass
-                        </th>
-                        <th>
-                            @Locale.Delete
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{int i = 0;}
-                    @foreach (var concept in Model.Concepts)
-                    {
-                        <tr>
-                            <td>
-                                @concept.Mnemonic
-                            </td>
-                            <td>
-                                @concept.Class.Mnemonic
-                            </td>
-                            <td>
-                                @Html.CheckBoxFor(m => m.ConceptDeletion[i])
-                            </td>
-                        </tr>
-                        i++;
-                    }
-                </tbody>
-            </table>
+        <div id="conceptList">
+            @Html.Partial("_ConceptList")
         </div>
-
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title">
-                    <span>@Locale.Concepts @Locale.For @Model.Mnemonic</span>
-                </h3>
-            </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(m => m.Mnemonic)
-                        </th>
-                        <th>
-                            @Locale.ConceptClass
-                        </th>
-                        <th>
-                            @Locale.Delete
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @{int i = 0;}
-                    @foreach (var concept in Model.Concepts)
-                    {
-                        <tr>
-                            <td>
-                                @concept.Mnemonic
-                            </td>
-                            <td>
-                                @concept.Class.Mnemonic
-                            </td>
-                            <td>
-                                @Html.CheckBoxFor(m => m.ConceptDeletion[i])
-                            </td>
-                        </tr>
-                        i++;
-                    }
-                </tbody>
-            </table>
-        </div>
-        }
         <input type="submit" value="@Locale.Save" class="btn btn-default" />
-    }
+        <div class="panel panel-default">
+            <div class="panel panel-heading">
+                <span class="text-white">@Locale.Concept @Locale.Search</span>
+            </div>
+            <div class="panel panel-body panel-default">
+                @Html.LabelFor(m => m.ConceptMnemonic, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.ConceptMnemonic, new { @class = "form-control" })
+                @Html.LabelFor(m => m.ConceptName, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.ConceptName, new { @class = "form-control" })
+            </div>
+            <input type="button" value="@Locale.Search" class="btn btn-default" id="searchConcepts" />
+            </div>
+            <div id="concept-search-results">
+            </div>
+            
+            }
 
-</div>
+        </div>
+
+
+
+@section scripts{
+    <script>
+        function addConcept(key) {
+            $("#conceptToAdd").val(key);
+            var dataForm = $('#editForm').serializeArray();
+            $.ajax({
+                data: dataForm,
+                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                type: 'get',
+                url: '@Url.Action("Add", "ConceptSet")',
+                success: function (data) {
+                    console.log($('#conceptList'));
+                    $('#conceptList').html(data);
+                },
+                error: function (err) {
+                    console.log(err);
+                    console.log("Here");
+                }
+            })
+
+        };
+        $(document).ready(function () {
+
+            $("#searchConcepts").click(function () {
+
+                var url = "/ConceptSet/Search?ConceptMnemonic=" + $("#ConceptMnemonic").val();
+                $.ajax({
+                    url: url,
+                    cache: false,
+                    type: "POST",
+                    success: function (data) {
+
+
+                        $('#concept-search-results').html(data);
+
+                    },
+                    error: function (reponse) {
+                        alert("error : " + reponse);
+                    }
+                });
+
+            });
+
+
+
+        });
+    </script>
+}

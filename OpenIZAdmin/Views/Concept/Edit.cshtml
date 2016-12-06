@@ -11,16 +11,23 @@
     @using (Html.BeginForm("Edit", "Concept", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
     {
         <div class="panel panel-body panel-default">
+
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
+                @Html.LabelFor(m => m.ConceptClass, new { @class = "control-label" })
+                @Html.DropDownListFor(m => m.ConceptClass, Model.ConceptClassList, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ConceptClass, "", new { @class = "text-danger" })
+                @Html.LabelFor(m => m.CreationTime, new { @class = "control-label" })
+                @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
+            </div>
+            <div class="form-group"></div>
                 @Html.LabelFor(m => m.SelectedLanguage, new { @class = "col-md-2 control-label" })
                 <div class="col-md-4">
                     @Html.DropDownListFor(m => m.SelectedLanguage, Model.LanguageList, new { @class = "form-control", @id = "languageList" })
                     @Html.ValidationMessageFor(m => m.SelectedLanguage, "", new { @class = "text-danger" })
                 </div>
-                <a href="#" id="btnAdd"><i class="glyphicon-plus-sign"></i>Add Language</a>
-            </div>
+                <a href="#" id="btnAdd"><i class="glyphicon glyphicon-plus-sign"></i>Add Language</a>
             @Html.HiddenFor(m => m.Key)
             <div class="row">
                 <div class="col-md-12">
@@ -72,11 +79,6 @@
                                 }
                             </div>  }
 
-                        @Html.LabelFor(m => m.ConceptClass, new { @class = "control-label" })
-                        @Html.DropDownListFor(m => m.ConceptClass, Model.ConceptClassList, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.ConceptClass, "", new { @class = "text-danger" })
-                        @Html.LabelFor(m => m.CreationTime, new { @class = "control-label" })
-                        @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
                     </div>
 
                 </div>

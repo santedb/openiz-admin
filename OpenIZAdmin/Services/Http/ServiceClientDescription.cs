@@ -21,6 +21,7 @@ using OpenIZ.Core.Http.Description;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
+using System;
 
 namespace OpenIZAdmin.Services.Http
 {
@@ -80,5 +81,13 @@ namespace OpenIZAdmin.Services.Http
 				return this.Binding;
 			}
 		}
-	}
+
+        public bool Trace
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+    }
 }

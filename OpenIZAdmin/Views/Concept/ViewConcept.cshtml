@@ -18,6 +18,14 @@
             @Html.HiddenFor(m =>m.Key)
             <div class="col-md-12">
                 <div class="form-group">
+                    <div class="panel panel-body panel-default">
+                        @Html.LabelFor(m => m.Class, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Class, new { @class = "form-control", @readonly = "readonly" })
+                        @Html.LabelFor(m => m.Language, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.Language, new { @class = "form-control", @readonly = "readonly" })
+                        @Html.LabelFor(m => m.CreationTime, new { @class = "control-label" })
+                        @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
                 @if (Model != null)
                 {
                     <ul class="nav nav-tabs">
@@ -67,14 +75,7 @@
         </div>
     </div>
 
-    <div class="panel panel-body panel-default">
-        @Html.LabelFor(m => m.Class, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.Class, new { @class = "form-control", @readonly = "readonly" })
-        @Html.LabelFor(m => m.Language, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.Language, new { @class = "form-control", @readonly = "readonly" })
-        @Html.LabelFor(m => m.CreationTime, new { @class = "control-label" })
-        @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
-    </div>
+
     <table class="table">
         <thead>
             <tr>

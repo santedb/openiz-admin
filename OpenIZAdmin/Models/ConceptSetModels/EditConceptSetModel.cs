@@ -45,10 +45,13 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		public List<Concept>Concepts { get; set; }
 
         public List<bool> ConceptDeletion { get; set; }
+        public string ConceptMnemonic { get; set; }
+        public string ConceptName { get; set; }
+
 
         public List<Concept> SearchedConcepts { get; set; }
 
-        public List<bool> ConceptAddition { get; set; }
+        public Guid ConceptToAdd { get; set; }
 
         public string Oid { get; set; }
 	}
