@@ -173,15 +173,15 @@ namespace OpenIZAdmin.Controllers
         /// Deletes a policy associated to a role.
         /// </summary>
         /// <param name="userId">The user id of the user account to delete the role from.</param>
-        /// <param name="roleId">The role id string of the application.</param>        
+        /// <param name="userRoleId">The role id string of the application.</param>        
         /// <returns>Returns the Index view.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteRole(string userId, string roleId)
+        public ActionResult DeleteRole(string userId, string userRoleId)
         {
             Guid userKey = Guid.Empty;
             Guid roleKey = Guid.Empty;
-            if (CommonUtil.IsValidString(userId) && Guid.TryParse(userId, out userKey) && CommonUtil.IsValidString(roleId) && Guid.TryParse(roleId, out roleKey))
+            if (CommonUtil.IsValidString(userId) && Guid.TryParse(userId, out userKey) && CommonUtil.IsValidString(userRoleId) && Guid.TryParse(userRoleId, out roleKey))
             {
                 try
                 {
@@ -196,7 +196,23 @@ namespace OpenIZAdmin.Controllers
 
                     userEntity.AsSecurityUser.Roles.RemoveAll(a => a.Key == roleKey);
 
-                    //this.AmiClient.UpdateUser(userKey, userEntity);
+                    var userInfo = new SecurityUserInfo
+                    { 
+                        UserId = userKey,                      
+                        User = userEntity.SecurityUser,                     
+                    };
+
+                    if (userEntity.SecurityUser.Roles.Any())
+                    {
+                        //return userInfo;
+
+                        foreach (var role in userEntity.SecurityUser.Roles.Select(roleId => RoleUtil.GetRole(this.AmiClient, roleKey)).Where(role => role?.Role != null))
+                        {
+                            userInfo.Roles.Add(role);
+                        }
+                    }
+
+                    this.AmiClient.UpdateUser(userKey, userInfo);
 
                     TempData["success"] = Locale.User + " " + Locale.UpdatedSuccessfully;
 
@@ -306,13 +322,13 @@ namespace OpenIZAdmin.Controllers
                     }
                 }
 
-				var user = this.AmiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
+				//var user = this.AmiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
 
-				if (user == null)
-				{
-					TempData["error"] = Locale.User + " " + Locale.NotFound;
-					return RedirectToAction("Index");
-				}
+				//if (user == null)
+				//{
+				//	TempData["error"] = Locale.User + " " + Locale.NotFound;
+				//	return RedirectToAction("Index");
+				//}
 
 				var userInfo = UserUtil.ToSecurityUserInfo(model, userEntity, this.AmiClient);
 
