@@ -121,17 +121,17 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-        /// <summary>
-        /// Displays the edit view.
-        /// </summary>
-        /// <param name="key">The id of the role to edit.</param>
-        /// <returns>Returns the edit view.</returns>
-        [HttpGet]
-		public ActionResult Edit(string key)
+		/// <summary>
+		/// Displays the edit view.
+		/// </summary>
+		/// <param name="id">The id of the role to edit.</param>
+		/// <returns>Returns the edit view.</returns>
+		[HttpGet]
+		public ActionResult Edit(string id)
 		{
 			Guid roleId = Guid.Empty;
 
-			if (CommonUtil.IsValidString(key) && Guid.TryParse(key, out roleId))
+			if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out roleId))
 			{
 				try
 				{
