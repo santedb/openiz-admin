@@ -888,4 +888,7 @@
   <data name="Add" xml:space="preserve">
     <value>Add</value>
   </data>
+  <data name="ReferenceTerms" xml:space="preserve">
+    <value>Reference Terms</value>
+  </data>
 </root>

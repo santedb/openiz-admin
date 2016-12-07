@@ -59,7 +59,10 @@ namespace OpenIZAdmin
 					  "~/Scripts/bootstrap.js",
 					  "~/Scripts/respond.js"));
 
-			bundles.Add(new StyleBundle("~/Content/css").Include(
+            bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
+                  "~/Scripts/datatables.js"));
+
+            bundles.Add(new StyleBundle("~/Content/css").Include(
 						"~/Content/bootstrap.min.css",
 						"~/Content/select2.min.css",
 						"~/Content/styles.css",

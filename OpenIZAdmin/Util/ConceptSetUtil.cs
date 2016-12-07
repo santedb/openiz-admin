@@ -61,6 +61,8 @@ namespace OpenIZAdmin.Util
             var viewModel = new EditConceptSetModel();
 
             viewModel.Oid = conceptSet.Oid;
+            viewModel.Name = conceptSet.Name;
+            viewModel.Url = conceptSet.Url;
             viewModel.Mnemonic = conceptSet.Mnemonic;
             viewModel.Key = conceptSet.Key.Value;
             viewModel.CreationTime = conceptSet.CreationTime.DateTime;

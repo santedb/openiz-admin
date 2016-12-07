@@ -49,7 +49,7 @@ namespace OpenIZAdmin.Controllers
 		}
 
 
-        [HttpGet]
+        [HttpPost]
         public ActionResult Add(EditConceptSetModel model)
         {
             var query = new List<KeyValuePair<string, object>>();
@@ -91,12 +91,11 @@ namespace OpenIZAdmin.Controllers
 				try
 				{
                     ConceptSet conceptSet = new ConceptSet();
-
-					/*conceptSet.CreatedBy = new OpenIZ.Core.Model.Security.SecurityUser
-					{
-						Key = Guid.Parse(User.Identity.GetUserId())
-					};*/
                     conceptSet.Mnemonic = model.Mnemonic;
+                    conceptSet.Name = model.Name;
+                    conceptSet.Url = model.Url;
+                    conceptSet.Oid = model.Oid;
+                    conceptSet.Key = Guid.NewGuid();
 					var result = this.ImsiClient.Create<ConceptSet>(conceptSet);
 
 					TempData["success"] = Locale.ConceptSet + " " + Locale.CreatedSuccessfully;
@@ -149,23 +148,25 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <returns>Returns the search view.</returns>
 		[HttpPost]
-		public ActionResult Search(string conceptMnemonic)
+		public ActionResult Search(EditConceptSetModel model)
 		{
             var viewModels = new List<ConceptSearchResultViewModel>();
 
             var query = new List<KeyValuePair<string, object>>();
 
-            if (!string.IsNullOrEmpty(conceptMnemonic) && !string.IsNullOrWhiteSpace(conceptMnemonic))
+            if (!string.IsNullOrEmpty(model.ConceptMnemonic) && !string.IsNullOrWhiteSpace(model.ConceptMnemonic))
             {
-                query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(conceptMnemonic)));
+                query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(model.ConceptMnemonic)));
             }
 
             query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ObsoletionTime == null));
             
             var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
-
+            
             viewModels.AddRange(bundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
+            var keys = model.Concepts.Select(m => m.Key).Distinct();
 
+            viewModels = viewModels.Where(m => !keys.Any(n => n.Value == m.Key)).ToList();
             return PartialView("_ConceptSetConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
 
         }

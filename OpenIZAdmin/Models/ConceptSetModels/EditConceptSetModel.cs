@@ -40,9 +40,19 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 
 		public Guid Key { get; set; }
 
-		public string Mnemonic { get; set; }
+        [Required]
+        public string Mnemonic { get; set; }
 
-		public List<Concept>Concepts { get; set; }
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public string Oid { get; set; }
+
+        [Required]
+        public string Url { get; set; }
+
+        public List<Concept>Concepts { get; set; }
 
         public List<bool> ConceptDeletion { get; set; }
         public string ConceptMnemonic { get; set; }
@@ -52,7 +62,6 @@ namespace OpenIZAdmin.Models.ConceptSetModels
         public List<Concept> SearchedConcepts { get; set; }
 
         public Guid ConceptToAdd { get; set; }
-
-        public string Oid { get; set; }
+        
 	}
 }

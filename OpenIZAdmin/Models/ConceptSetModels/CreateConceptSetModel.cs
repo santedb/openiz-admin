@@ -32,7 +32,18 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 
 		}
 
-		public string Mnemonic { get; set; }
-        
-	}
+        [Required]
+        public string Mnemonic { get; set; }
+
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public string Oid { get; set; }
+
+        [Required]
+        public string Url { get; set; }
+
+
+    }
 }
