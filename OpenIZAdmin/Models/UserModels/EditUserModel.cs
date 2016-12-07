@@ -29,13 +29,14 @@ namespace OpenIZAdmin.Models.UserModels
 	{
 		public EditUserModel()
 		{
-			this.Facilities = new List<string>();
-			this.FacilityList = new List<SelectListItem>();
+			this.Facilities = new List<string>();                        
+            this.FacilityList = new List<SelectListItem>();
 			this.FamilyNameList = new List<SelectListItem>();
 			this.FamilyNames = new List<string>();
 			this.GivenNamesList = new List<SelectListItem>();
 			this.GivenNames = new List<string>();
 			this.RolesList = new List<SelectListItem>();
+            this.Roles = new List<string>();
             this.UserRoles = new List<RoleViewModel>();
 
         }
@@ -60,11 +61,11 @@ namespace OpenIZAdmin.Models.UserModels
 		[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
 		public List<string> Facilities { get; set; }
 
-  //      /// <summary>
-		///// Gets or sets the id of the facility of the user.
-		///// </summary>
+        /// <summary>
+		/// Gets or sets the id of the facility of the user.
+		/// </summary>
 		//[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
-  //      public string Facility { get; set; }
+        //public List<string> FacilitiesId { get; set; }
 
         /// <summary>
         /// Gets or sets the list of facilities.
@@ -103,8 +104,8 @@ namespace OpenIZAdmin.Models.UserModels
         /// Gets or sets the roles to apply to the user account.
         /// </summary>
         [Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public IEnumerable<string> Roles { get; set; }
+		//[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		public List<string> Roles { get; set; }
 
         /// <summary>
 		/// Gets or sets the current roles of the user.

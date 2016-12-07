@@ -25,6 +25,7 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZ.Messaging.IMSI.Client;
+using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.AccountModels;
 using OpenIZAdmin.Models.RoleModels.ViewModels;
 using OpenIZAdmin.Models.UserModels;
@@ -111,24 +112,19 @@ namespace OpenIZAdmin.Util
         /// <summary>
         /// Converts a user entity to a edit user model.
         /// </summary>
-        /// /// <param name="client">The Ami service client.</param>
+        /// <param name="imsiClient">The Imsi Service Client client.</param>
+        /// <param name="amiClient">The Ami service client.</param>
         /// <param name="userEntity">The user entity to convert to a edit user model.</param>
         /// <returns>Returns a edit user model.</returns>
-        public static EditUserModel ToEditUserModel(ImsiServiceClient imsiClient, AmiServiceClient client, UserEntity userEntity)
+        public static EditUserModel ToEditUserModel(ImsiServiceClient imsiClient, AmiServiceClient amiClient, UserEntity userEntity)
         {
-	        var securityUserInfo = client.GetUser(userEntity.SecurityUser.Key.Value.ToString());
+	        var securityUserInfo = amiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
 
-	        var model = new EditUserModel
+            var model = new EditUserModel
 	        {
-		        Email = userEntity.SecurityUser.Email,
-                //Facilities =
-                //{
-                //    //userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString()
-                //    userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString()
-                //},
+		        Email = userEntity.SecurityUser.Email,                
                 FamilyNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList(),
-		        GivenNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList(),
-		        Roles = securityUserInfo.Roles.Select(r => r.Name).AsEnumerable(),
+		        GivenNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList(),		        
 		        UserId = userEntity.SecurityUserKey.GetValueOrDefault(Guid.Empty)
 	        };
 
@@ -138,29 +134,38 @@ namespace OpenIZAdmin.Util
             model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 			model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 
+            var facId = userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString();                                  
 
-            var healthFacility = userEntity.Relationships.FirstOrDefault(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-
-            if (healthFacility?.TargetEntityKey != null)
+            if (facId != null && facId.Any())
             {
-                var place = imsiClient.Get<Place>(healthFacility.TargetEntityKey.Value, null) as Place;
-                model.Facilities.Add(string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value)));                
-            }
+                var healthFacility = userEntity.Relationships.FirstOrDefault(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 
-            model.FacilityList.AddRange(model.Facilities.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
+                if (healthFacility?.TargetEntityKey != null)
+                {
+                    var place = imsiClient.Get<Place>(healthFacility.TargetEntityKey.Value, null) as Place;
+                    model.Facilities.Add(string.Join(" ", place.Names.SelectMany(n => n.Component)?.Select(c => c.Value)));
+
+                    var facility = new List<FacilitiesModel>();
+                    facility.Add(new FacilitiesModel(model.Facilities.FirstOrDefault(), facId));
+
+                    model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Text = f.Name, Value = f.Id }));
+                }                
+            }                        
 
             model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
-			model.RolesList.AddRange(RoleUtil.GetAllRoles(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }));
+			model.RolesList.AddRange(RoleUtil.GetAllRoles(amiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }));
 
-			return model;
-		}
+            model.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
 
-		/// <summary>
-		/// Converts a update profile model to a user entity.
-		/// </summary>
-		/// <param name="model">The model to convert to a user entity.</param>
-		/// <returns>Returns a user entity.</returns>
-		public static UserEntity ToUserEntity(UpdateProfileModel model)
+            return model;
+		}                
+
+        /// <summary>
+        /// Converts a update profile model to a user entity.
+        /// </summary>
+        /// <param name="model">The model to convert to a user entity.</param>
+        /// <returns>Returns a user entity.</returns>
+        public static UserEntity ToUserEntity(UpdateProfileModel model)
 		{
 			var userEntity = new UserEntity
 			{
@@ -240,19 +245,12 @@ namespace OpenIZAdmin.Util
 	        userInfo.User.Email = model.Email;            
 
 			if (model.Roles.Any())
-			{
-                //return userInfo;
-
+			{             
                 foreach (var role in model.Roles.Select(roleId => RoleUtil.GetRole(client, roleId)).Where(role => role?.Role != null))
                 {
                     userInfo.Roles.Add(role);
                 }
-            }
-
-			//foreach (var role in model.Roles.Select(roleId => RoleUtil.GetRole(client, roleId)).Where(role => role?.Role != null))
-			//{
-			//	userInfo.Roles.Add(role);
-			//}
+            }			
 
 			return userInfo;
         }
