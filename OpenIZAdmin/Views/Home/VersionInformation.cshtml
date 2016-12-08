@@ -27,7 +27,7 @@
 
     <div class="panel panel-body">
 
-        <table class="table table-striped">
+        <table class="table table-striped" id="versionInformationTable">
             <thead>
                 <tr>
                     <th>@Locale.Name</th>
@@ -49,3 +49,12 @@
 
     </div>
 </div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#versionInformationTable").DataTable();
+        });
+    </script>
+    
+    }

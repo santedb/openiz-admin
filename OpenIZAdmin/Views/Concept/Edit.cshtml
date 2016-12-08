@@ -91,7 +91,7 @@
                                     }
 </div>
 
-<table class="table">
+<table class="table" id="referenceTermsTable">
     <caption>@Locale.ReferenceTerms</caption>
     <thead>
         <tr>
@@ -132,7 +132,9 @@
 
             $('#tabs a:last').tab('show');
         });
-
+        $(document).ready(function () {
+            $('#referenceTermsTable').DataTable();
+        });
     </script>
 
 }

@@ -69,5 +69,12 @@
                 window.location.reload();
             });
         });
+        $(document).ready(function () {
+
+            $('#concept-search-results').bind("DOMSubtreeModified", function () {
+                $("#conceptsSearchTable").DataTable();
+            });
+        });
+
     </script>
 }

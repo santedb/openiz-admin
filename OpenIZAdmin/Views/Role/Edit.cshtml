@@ -56,7 +56,7 @@
                         <div class="col-md-12">                            
                             @if (Model.RolePolicies.Any())
                             {
-                            <table class="table table-striped table-bordered">
+                            <table class="table table-striped table-bordered" id="rolePoliciesTable">
                                 <thead>
                                     <tr>
                                         <th>@Locale.CreationTime</th>
@@ -97,7 +97,7 @@
 {
     <script type="text/javascript">
         $(document).ready(function () {
-
+            $("#rolePoliciesTable").DataTable();
             $('.dynamic-dropdown').select2({
                 tags: true,
                 tokenSeparators: [','],

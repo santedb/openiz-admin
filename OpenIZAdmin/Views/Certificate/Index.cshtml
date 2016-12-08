@@ -4,6 +4,17 @@
 }
 
 <h2>Certificates</h2>
-
+<div id="certificates-partial">
 @Html.Partial("_CertificateSigningRequestsPartial", Model.CertificateSigningRequests)
+</div>
 
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            $('#certificatesPartial').bind("DOMSubtreeModified", function () {
+                $("#certificatesRequestsTable").DataTable();
+            });
+        });
+    </script>
+    }

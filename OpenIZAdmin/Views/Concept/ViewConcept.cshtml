@@ -76,7 +76,7 @@
     </div>
 
 
-    <table class="table">
+    <table class="table" id="referenceTermsTable">
         <caption>@Locale.ReferenceTerms</caption>
         <thead>
             <tr>
@@ -105,3 +105,16 @@
 
     </table>
 </div>
+
+
+@section scripts{
+    
+    <script>
+        $(document).ready(function () {
+
+            $('#referenceTermsTable').DataTable();
+
+
+        });
+    </script>
+}

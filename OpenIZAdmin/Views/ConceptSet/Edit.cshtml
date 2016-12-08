@@ -54,7 +54,6 @@
     <script>
         function addConcept(key, button) {
             $("#conceptToAdd").val(key);
-            console.log(button);
             
             var dataForm = $('#editForm').serializeArray();
             var url = "/ConceptSet/Add";
@@ -66,6 +65,7 @@
                 url: url,
                 success: function (data) {
                     $('#conceptList').html(data);
+                    $('#conceptListTable').DataTable();
                     $(button).parent().parent().remove();
                 },
                 error: function (err) {
@@ -75,6 +75,7 @@
 
         };
         $(document).ready(function () {
+            $('#conceptListTable').DataTable();
             $("#searchConcepts").click(function(){
                 searchConcepts();
             });
@@ -89,11 +90,12 @@
                     success: function (data) {
                         $('#concept-search-results').html(data);
                         $('#searchResults').DataTable();
+                        
 
                     },
                     error: function (reponse) {
                         alert("error : " + reponse);
-                    }
+                    },
                 });
 
             };

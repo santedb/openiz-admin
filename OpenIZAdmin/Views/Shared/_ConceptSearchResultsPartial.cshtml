@@ -12,12 +12,13 @@
     <div class="panel panel-body">
         @if (Model.Any())
         {
-            <table class="table table-striped table-bordered">
+            <table class="table table-striped table-bordered" id="conceptsSearchTable">
                 <thead>
                     <tr>
                         <th>@Html.DisplayNameFor(m => m.CreationTime)</th>
                         <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
                         <th>@Html.DisplayNameFor(m => m.ConceptNames)</th>
+                        <th></th>
                         <th></th>
                         <th></th>
                     </tr>
