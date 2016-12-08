@@ -490,6 +490,7 @@
     <Content Include="Views\ConceptSet\ViewConceptSet.cshtml" />
     <Content Include="Views\Shared\_ConceptList.cshtml" />
     <Content Include="Views\Shared\_ConceptSetConceptSearchResultsPartial.cshtml" />
+    <Content Include="Views\Material\ViewMaterial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Applets\" />

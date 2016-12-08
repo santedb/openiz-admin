@@ -33,5 +33,9 @@ namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
-	}
+        public string FormConcept { get; set; }
+
+        public string QuantityConcept { get; set; }
+
+    }
 }

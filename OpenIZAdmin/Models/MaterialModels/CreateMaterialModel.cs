@@ -17,6 +17,7 @@
  * Date: 2016-8-1
  */
 
+using OpenIZ.Core.Model.DataTypes;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
@@ -27,7 +28,8 @@ namespace OpenIZAdmin.Models.MaterialModels
 	{
 		public CreateMaterialModel()
 		{
-
+            this.FormConcepts = new List<SelectListItem>();
+            this.QuantityConcepts = new List<SelectListItem>();
         }
 
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
@@ -35,5 +37,12 @@ namespace OpenIZAdmin.Models.MaterialModels
 		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
-	}
+        public List<SelectListItem> FormConcepts { get; set; }
+
+        public List<SelectListItem> QuantityConcepts { get; set; }
+
+        public string QuantityConcept { get; set; }
+
+        public string FormConcept { get; set; }
+    }
 }

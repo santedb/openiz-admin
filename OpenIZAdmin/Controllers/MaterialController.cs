@@ -18,6 +18,7 @@
  */
 
 using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
@@ -51,7 +52,42 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			return View();
+            CreateMaterialModel model = new CreateMaterialModel();
+
+            var formConcepts = (ImsiClient.Query<Concept>(m => m.Class.Mnemonic == "Form"));
+
+            for(var i = 0; i<formConcepts.Item.Count(); i++)
+            {
+                Concept item = formConcepts.Item[i] as Concept;
+                if (item != null)
+                {
+                    SelectListItem selectItem = new SelectListItem()
+                    {
+                        Value = item.Key.Value.ToString(),
+                        Text = item.Mnemonic
+                    };
+                    model.FormConcepts.Add(selectItem);
+                }
+
+            };
+
+            var unitsOfMeasure = ImsiClient.Query<Concept>(m => m.Class.Mnemonic == "UnitOfMeasure");
+            for (var i = 0; i < unitsOfMeasure.Item.Count; i++)
+            {
+                Concept item = unitsOfMeasure.Item[i] as Concept;
+                if (item != null)
+                {
+                    SelectListItem selectItem = new SelectListItem()
+                    {
+                        Value = item.Key.Value.ToString(),
+                        Text = item.Mnemonic
+                    };
+                    model.QuantityConcepts.Add(selectItem);
+                }
+                
+            };
+
+            return View(model);
 		}
 
 		/// <summary>
@@ -71,8 +107,15 @@ namespace OpenIZAdmin.Controllers
 					Names = new List<EntityName>
 					{
 						new EntityName(NameUseKeys.OfficialRecord, model.Name)
-					}
-				};
+					},
+                    FormConcept = new Concept() {
+                        Key = Guid.Parse(model.FormConcept),
+                    },
+                    QuantityConcept = new Concept()
+                    {
+                        Key = Guid.Parse(model.QuantityConcept),
+                    },
+                };
 
 				this.ImsiClient.Create(material);
 
@@ -219,7 +262,9 @@ namespace OpenIZAdmin.Controllers
 
 			var model = new ViewMaterialModel
 			{
-				Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value))
+				Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value)),
+                FormConcept = material.FormConcept.Mnemonic,
+                QuantityConcept = material.QuantityConcept.Mnemonic
 			};
 
 			return View(model);
