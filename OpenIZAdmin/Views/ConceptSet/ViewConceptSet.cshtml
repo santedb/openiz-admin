@@ -29,7 +29,7 @@
                 <span>@Locale.Concepts @Locale.For @Model.Mnemonic</span>
             </h3>
         </div>
-        <table class="table">
+        <table class="table" id="conceptsTable">
             <thead>
                 <tr>
                     <th>
@@ -56,3 +56,14 @@
             </tbody>
         </table>
         </div>
+
+@section scripts{
+    <script>
+    $(document).ready(function () {
+
+        $('#conceptTable').DataTable();
+
+
+    });
+</script>
+}

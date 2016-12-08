@@ -2,5 +2,16 @@
 @{
     ViewBag.Title = "Applets";
 }
+<div id="applets-partial">   
+    @Html.Partial("_AppletsPartial", Model)
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
 
-@Html.Partial("_AppletsPartial", Model)
+            $('#applets-partial').bind("DOMSubtreeModified", function () {
+                $("#appletsTable").DataTable();
+            });
+        });
+    </script>
+}

@@ -72,7 +72,7 @@
                                 @if (Model.DevicePolicies.Any())
                                 {
                                 <label class="control-label">@Html.DisplayNameFor(m => m.Policies)</label>
-                                <table class="table table-striped table-bordered">
+                                <table class="table table-striped table-bordered" id="devicePolicyTable">
                                     <thead>
                                         <tr>
                                             <th>@Locale.CreationTime</th>
@@ -128,6 +128,7 @@
     <script type="text/javascript">
         $(document).ready(function ()
         {
+            $("#devicePolicyTable").DataTable();
             $('.dynamic-dropdown').select2({
                 tags: true,
                 tokenSeparators: [','],

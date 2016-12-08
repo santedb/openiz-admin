@@ -52,7 +52,7 @@
                         @if (Model.Policies.Count() > 0)
                         {
                         @*<label class="control-label">@Html.DisplayNameFor(m => m.Policies)</label>*@
-                        <table class="table table-striped table-bordered">
+                        <table class="table table-striped table-bordered" id="applicationPolicyTable">
                             <thead>
                                 <tr>
                                     <th>@Locale.CreationTime</th>
@@ -86,3 +86,10 @@
         </div>
     </div>
 </div>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#applicationPolicyTable").DataTable();
+        });
+    </script>
+    }

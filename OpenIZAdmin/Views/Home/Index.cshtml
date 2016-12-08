@@ -7,18 +7,41 @@
     <h1>OpenIZ Administration Portal</h1>
     <p class="lead">Welcome to the OpenIZ Administration Portal.</p>
 </div>
-<div class="col-md-12">
+<div class="col-md-12" id="applets-partial">
     @Html.Partial("_AppletsPartial", Model.Applets)
 </div>
-<div class="col-md-12">
+<div class="col-md-12" id="certificates-partial">
     @Html.Partial("_CertificateRequestsPartial", Model.CertificateRequests)
 </div>
-<div class="col-md-12">
+<div class="col-md-12" id="devices-partial">
     @Html.Partial("_DevicesPartial", Model.Devices)
 </div>
-<div class="col-md-12">
+<div class="col-md-12" id="roles-partial">
     @Html.Partial("_RolesPartial", Model.Roles)
 </div>
-<div class="col-md-12">
+<div class="col-md-12" id="users-partial">
     @Html.Partial("_UsersPartial", Model.Users)
 </div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            $('#applets-partial').bind("DOMSubtreeModified", function () {
+                $("#appletsSearchTable").DataTable();
+            });
+            $('#certificates-partial').bind("DOMSubtreeModified", function () {
+                $("#certificateRequestsTable").DataTable();
+            });
+            $('#devices-partial').bind("DOMSubtreeModified", function () {
+                $("#devicesSearchTable").DataTable();
+            });
+            $('#roles-partial').bind("DOMSubtreeModified", function () {
+                $("#rolesSearchTable").DataTable();
+            });
+            $('#users-partial').bind("DOMSubtreeModified", function () {
+                $("#usersSearchTable").DataTable();
+            });
+        });
+    </script>
+}
