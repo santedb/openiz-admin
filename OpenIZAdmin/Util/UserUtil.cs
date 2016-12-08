@@ -134,21 +134,23 @@ namespace OpenIZAdmin.Util
             model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 			model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 
-            var facId = userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString();                                  
+            var facilityId = userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString();                                  
 
-            if (facId != null && facId.Any())
+            if (facilityId != null && facilityId.Any())
             {
                 var healthFacility = userEntity.Relationships.FirstOrDefault(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 
                 if (healthFacility?.TargetEntityKey != null)
                 {
-                    var place = imsiClient.Get<Place>(healthFacility.TargetEntityKey.Value, null) as Place;
-                    model.Facilities.Add(string.Join(" ", place.Names.SelectMany(n => n.Component)?.Select(c => c.Value)));
+                    var place = imsiClient.Get<Place>(healthFacility.TargetEntityKey.Value, null) as Place;                    
+                    string facilityName = string.Join(" ", place.Names.SelectMany(n => n.Component)?.Select(c => c.Value));
 
                     var facility = new List<FacilitiesModel>();
-                    facility.Add(new FacilitiesModel(model.Facilities.FirstOrDefault(), facId));
+                    facility.Add(new FacilitiesModel(facilityName, facilityId));
 
                     model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Text = f.Name, Value = f.Id }));
+
+                    model.Facilities.Add(facilityId.ToString());
                 }                
             }                        
 

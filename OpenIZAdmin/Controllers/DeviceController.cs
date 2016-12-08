@@ -163,53 +163,7 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.UnableToDelete + " " + Locale.Device;
 
 			return RedirectToAction("Index");
-		}
-
-        /// <summary>
-        /// Deletes a policy associated to a device.
-        /// </summary>
-        /// <param name="deviceId">The device id string of the application.</param>
-        /// <param name="key">The policy guid key of the policy to be deleted.</param>
-        /// <returns>Returns the Index view.</returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeletePolicy(string deviceId, Guid key)
-        {
-            var deviceKey = Guid.Empty;
-            if (CommonUtil.IsValidString(deviceId) && Guid.TryParse(deviceId, out deviceKey) && CommonUtil.IsGuid(key))
-            {
-                try
-                {
-                    var deviceEntity = DeviceUtil.GetDevice(this.AmiClient, deviceKey);
-
-                    if (deviceEntity == null)
-                    {
-                        TempData["error"] = Locale.Device + " " + Locale.NotFound;
-
-                        return RedirectToAction("Index");
-                    }
-
-                    deviceEntity.Policies.RemoveAll(a => a.Policy.Key == key);
-
-                    this.AmiClient.UpdateDevice(deviceId, deviceEntity);
-
-                    TempData["success"] = Locale.Device + " " + Locale.UpdatedSuccessfully;
-
-                    return RedirectToAction("Index");
-                }
-                catch (Exception e)
-                {
-#if DEBUG
-                    Trace.TraceError("Unable to delete policy from device: {0}", e.StackTrace);
-#endif
-                    Trace.TraceError("Unable to delete policy from device: {0}", e.Message);
-                }
-            }
-
-            TempData["error"] = Locale.UnableToDelete + " " + Locale.Policy;
-
-            return RedirectToAction("Index");
-        }
+		}       
 
         /// <summary>
         /// Gets the device object to edit
@@ -259,11 +213,8 @@ namespace OpenIZAdmin.Controllers
 
 					return RedirectToAction("Index");
 				}				
-
-                model.Policies = deviceEntity.Policies;
-                model.AddPoliciesList = CommonUtil.GetNewPolicies(this.AmiClient, model.AddPolicies);
-
-                SecurityDeviceInfo deviceInfo = DeviceUtil.ToSecurityDeviceInfo(model, deviceEntity);
+                
+                SecurityDeviceInfo deviceInfo = DeviceUtil.ToSecurityDeviceInfo(this.AmiClient, model, deviceEntity);
 
 				this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
 

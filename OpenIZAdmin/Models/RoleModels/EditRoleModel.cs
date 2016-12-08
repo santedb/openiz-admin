@@ -38,16 +38,10 @@ namespace OpenIZAdmin.Models.RoleModels
 		/// </summary>
 		public EditRoleModel()
 		{
-            this.PoliciesList = new List<SelectListItem>();
-            this.AddPolicies = new List<string>();
-            this.AddPoliciesList = new List<SecurityPolicy>();
-        }
-
-        //policies added by the user
-        [Display(Name = "AddPolicies", ResourceType = typeof(Localization.Locale))]
-        public List<string> AddPolicies { get; set; }
-
-        public List<SecurityPolicy> AddPoliciesList { get; set; }        
+            this.Policies = new List<string>();
+            this.PoliciesList = new List<SelectListItem>();            
+            this.RolePolicies = new List<PolicyViewModel>();
+        }        
 
         /// <summary>
         /// Gets or sets the description of the role.
@@ -66,8 +60,9 @@ namespace OpenIZAdmin.Models.RoleModels
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
-       
-        public List<SecurityPolicyInfo> Policies { get; set; }
+
+        [Display(Name = "Policies", ResourceType = typeof(Localization.Locale))]
+        public List<string> Policies { get; set; }
 
         public List<SelectListItem> PoliciesList { get; set; }
 

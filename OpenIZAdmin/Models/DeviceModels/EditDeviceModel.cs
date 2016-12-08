@@ -31,16 +31,9 @@ namespace OpenIZAdmin.Models.DeviceModels
 	{
 		public EditDeviceModel()
 		{
-            this.PoliciesList = new List<SelectListItem>();
-            this.AddPolicies = new List<string>();
-            this.AddPoliciesList = new List<SecurityPolicy>();
-        }
-
-        //policies added by the user
-        [Display(Name = "AddPolicies", ResourceType = typeof(Localization.Locale))]
-        public List<string> AddPolicies { get; set; }
-
-        public List<SecurityPolicy> AddPoliciesList { get; set; }
+            this.Policies = new List<string>();
+            this.PoliciesList = new List<SelectListItem>();            
+        }        
 
         [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
         public DateTimeOffset CreationTime { get; set; }
@@ -61,8 +54,8 @@ namespace OpenIZAdmin.Models.DeviceModels
         [StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
         public string Name { get; set; }
 
-        //Holds the device policies that are assigned
-        public List<SecurityPolicyInstance> Policies { get; set; }   
+        [Display(Name = "Policies", ResourceType = typeof(Localization.Locale))]
+        public List<string> Policies { get; set; }   
                      
         //policies autopopulate
         public List<SelectListItem> PoliciesList { get; set; }

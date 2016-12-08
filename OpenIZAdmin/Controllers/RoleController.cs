@@ -161,56 +161,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
         /// <summary>
-        /// Deletes a policy associated to a role.
-        /// </summary>
-        /// <param name="roleId">The role id string of the application.</param>
-        /// <param name="key">The policy guid key of the policy to be deleted.</param>
-        /// <returns>Returns the Index view.</returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeletePolicy(string roleId, Guid key)
-        {
-            if (CommonUtil.IsValidString(roleId) && CommonUtil.IsGuid(key))
-            {
-                try
-                {
-                    var roleEntity = RoleUtil.GetRole(this.AmiClient, roleId);
-
-                    if (roleEntity == null)
-                    {
-                        TempData["error"] = Locale.Application + " " + Locale.NotFound;
-
-                        return RedirectToAction("Index");
-                    }
-
-                    if (roleEntity.Policies != null && roleEntity.Policies.Any())
-                    {
-                        List<SecurityPolicyInfo> newPoliciesList = roleEntity.Policies.ToList();
-                        newPoliciesList.RemoveAll(a => a.Policy.Key == key);
-                        roleEntity.Policies = newPoliciesList.ToArray();
-                    }
-
-                    this.AmiClient.UpdateRole(roleId, roleEntity);
-
-                    TempData["success"] = Locale.Application + " " + Locale.UpdatedSuccessfully;
-
-                    return RedirectToAction("Index");
-                }
-                catch (Exception e)
-                {
-#if DEBUG
-                    Trace.TraceError("Unable to delete policy from application: {0}", e.StackTrace);
-#endif
-                    Trace.TraceError("Unable to delete policy from application: {0}", e.Message);
-                }
-            }
-
-            TempData["error"] = Locale.UnableToDelete + " " + Locale.Policy;
-
-            return RedirectToAction("Index");
-        }
-
-        /// <summary>
         /// Updates a role.
         /// </summary>
         /// <param name="model">The model containing the updated role information.</param>
@@ -223,18 +173,16 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var role = RoleUtil.GetRole(this.AmiClient, model.Id);
+					var roleInfo = RoleUtil.GetRole(this.AmiClient, model.Id);
 
-					if (role == null)
+					if (roleInfo == null)
 					{
 						TempData["error"] = Locale.Role + " " + Locale.NotFound;
 
 						return RedirectToAction("Index");
-					}                    
-                    
-                    model.AddPoliciesList = CommonUtil.GetNewPolicies(this.AmiClient, model.AddPolicies);
+					}                                                            
 
-                    this.AmiClient.UpdateRole(role.Id.ToString(), RoleUtil.ToSecurityRoleInfo(model, role));
+                    this.AmiClient.UpdateRole(roleInfo.Id.ToString(), RoleUtil.ToSecurityRoleInfo(this.AmiClient, model, roleInfo));
 
 					TempData["success"] = Locale.Role + " " + Locale.UpdatedSuccessfully;
 
