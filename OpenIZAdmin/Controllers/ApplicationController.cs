@@ -108,7 +108,7 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.Application + " " + Locale.CreatedSuccessfully;
 
-				return RedirectToAction("ViewApplication", new { key = application.Id.ToString() });
+				return RedirectToAction("ViewApplication", new { id = application.Id.ToString() });
 			}
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.Application;

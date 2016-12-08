@@ -135,7 +135,8 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.User + " " + Locale.CreatedSuccessfully;
 
-				return RedirectToAction("Index");
+                return RedirectToAction("ViewUser", new { id = user.UserId.ToString() });
+                
 			}
 
 			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });

@@ -56,7 +56,7 @@ namespace OpenIZAdmin.Controllers
 			Guid policyKey = Guid.Empty;
 			SecurityPolicyInfo policyInfo = null;
 
-			if (PolicyUtil.IsValidString(id) && Guid.TryParse(id, out policyKey))
+			if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out policyKey))
 			{
 				try
 				{
@@ -128,8 +128,8 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.Policy + " " + Locale.CreatedSuccessfully;
 
-					return RedirectToAction("Index");
-				}
+                    return RedirectToAction("ViewPolicy", new { key = policy.Policy.Key.ToString() });
+                }
 				catch (Exception e)
 				{
 #if DEBUG
@@ -153,7 +153,7 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(string id)
 		{
-			if (PolicyUtil.IsValidString(id))
+			if (CommonUtil.IsValidString(id))
 			{
 				try
 				{
@@ -187,7 +187,7 @@ namespace OpenIZAdmin.Controllers
 			Guid policyId = Guid.Empty;
 			SecurityPolicyInfo policyInfo = null;
 
-			if (PolicyUtil.IsValidString(key) && Guid.TryParse(key, out policyId))
+			if (CommonUtil.IsValidString(key) && Guid.TryParse(key, out policyId))
 			{
 				policyInfo = PolicyUtil.GetPolicy(this.AmiClient, policyId);
 
@@ -273,7 +273,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (PolicyUtil.IsValidString(searchTerm))
+				if (CommonUtil.IsValidString(searchTerm))
 				{
 					var collection = this.AmiClient.GetPolicies(p => p.Name.Contains(searchTerm));
 
@@ -306,7 +306,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			Guid policyId = Guid.Empty;
 
-			if (PolicyUtil.IsValidString(key) && Guid.TryParse(key, out policyId))
+			if (CommonUtil.IsValidString(key) && Guid.TryParse(key, out policyId))
 			{
 				var result = this.AmiClient.GetPolicies(r => r.Key == policyId);
 
@@ -317,7 +317,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return View(PolicyUtil.ToPolicyViewModel(result.CollectionItem.Single()));
+				return View(PolicyUtil.ToPolicyViewModel(result.CollectionItem.FirstOrDefault()));
 			}
 
 			TempData["error"] = Locale.Policy + " " + Locale.NotFound;

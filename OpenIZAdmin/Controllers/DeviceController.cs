@@ -116,10 +116,10 @@ namespace OpenIZAdmin.Controllers
 				{
 					var device = this.AmiClient.CreateDevice(DeviceUtil.ToSecurityDevice(model));
 
-					TempData["success"] = Locale.Device + " " + Locale.CreatedSuccessfully;
-					
-					return RedirectToAction("Index");
-				}
+					TempData["success"] = Locale.Device + " " + Locale.CreatedSuccessfully;                    
+
+                    return RedirectToAction("ViewDevice", new { id = device.Id.ToString() });
+                }
 				catch (Exception e)
 				{
 #if DEBUG

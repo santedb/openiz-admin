@@ -65,15 +65,15 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				SecurityRoleInfo role = RoleUtil.ToSecurityRoleInfo(model);
+				SecurityRoleInfo roleInfo = RoleUtil.ToSecurityRoleInfo(model);
 
 				try
 				{
-					var result = this.AmiClient.CreateRole(role);
+					var role = this.AmiClient.CreateRole(roleInfo);
 
 					TempData["success"] = Locale.Role + " " + Locale.CreatedSuccessfully;
 
-					return RedirectToAction("Index");
+                    return RedirectToAction("ViewRole", new { id = role.Id.ToString() });                    
 				}
 				catch (Exception e)
 				{
