@@ -61,7 +61,12 @@ namespace OpenIZAdmin.Controllers
 
             var concept = bundle.Item.OfType<Concept>().FirstOrDefault();
             model.Concepts.Add(concept);
+            if(model.ConceptDeletion == null)
+            {
+                model.ConceptDeletion = new List<bool>();
+            }
             model.ConceptDeletion.Add(false);
+            
             return PartialView("_ConceptList", model);
         }
 
