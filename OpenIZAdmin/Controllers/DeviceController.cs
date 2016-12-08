@@ -203,30 +203,32 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditDeviceModel model)
 		{
-			if (ModelState.IsValid)
-			{
-				var deviceEntity = DeviceUtil.GetDevice(this.AmiClient, model.Id);
+            if (ModelState.IsValid)
+            {
+                var deviceEntity = DeviceUtil.GetDevice(this.AmiClient, model.Id);
 
-				if (deviceEntity == null)
-				{
-					TempData["error"] = Locale.Device + " " + Locale.NotFound;
+                if (deviceEntity == null)
+                {
+                    TempData["error"] = Locale.Device + " " + Locale.NotFound;
 
-					return RedirectToAction("Index");
-				}				
-                
+                    return RedirectToAction("Index");
+                }
+
                 SecurityDeviceInfo deviceInfo = DeviceUtil.ToSecurityDeviceInfo(this.AmiClient, model, deviceEntity);
 
-				this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
+                this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
 
-				TempData["success"] = Locale.Device + " " + Locale.UpdatedSuccessfully;
-				
+                TempData["success"] = Locale.Device + " " + Locale.UpdatedSuccessfully;
 
-				return Redirect("Index");
-			}			
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Device;
+                return Redirect("Index");
+            }
+            else
+            {
+                TempData["error"] = Locale.UnableToUpdate + " " + Locale.Device;
 
-			return View(model);
+                return View(model);
+            }
 		}
 
 		/// <summary>
