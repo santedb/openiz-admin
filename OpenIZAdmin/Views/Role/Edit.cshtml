@@ -30,10 +30,10 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(m => m.AddPolicies, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(m => m.Policies, new { @class = "col-md-2 control-label" })
             <div class="col-md-8">
-                @Html.ListBoxFor(m => m.AddPolicies, Model.PoliciesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
-                @Html.ValidationMessageFor(m => m.AddPolicies, "", new { @class = "text-danger" })
+                @Html.ListBoxFor(m => m.Policies, Model.PoliciesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
+                @Html.ValidationMessageFor(m => m.Policies, "", new { @class = "text-danger" })
             </div>
         </div>
 
@@ -63,8 +63,7 @@
                                         <th>@Locale.Name</th>
                                         <th>@Locale.Oid</th>
                                         <th>@Locale.Grant</th>
-                                        <th>@Locale.IsPublic</th>                                        
-                                        <th></th>                                              
+                                        <th>@Locale.IsPublic</th>                                                                                                                        
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -75,21 +74,7 @@
                                             <td>@item.Name</td>
                                             <td>@item.Oid</td>
                                             <td>@item.Grant</td>
-                                            <td>@item.IsPublic</td>                                            
-                                            <td>
-                                                @if (!item.IsObsolete)
-                                                {
-                                                    using (Html.BeginForm("DeletePolicy", "Role", new { roleId = Model.Id, key = item.Key }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                                                    {
-                                                        @Html.AntiForgeryToken()
-
-                                                        <button type="submit" class="btn btn-danger">
-                                                            @Locale.Delete
-                                                            <span class="glyphicon glyphicon-log-out"></span>
-                                                        </button>
-                                                    }
-                                                }
-                                            </td>
+                                            <td>@item.IsPublic</td>                                                                                        
                                         </tr>
                                     }
                                 </tbody>

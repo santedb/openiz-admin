@@ -17,6 +17,7 @@
  * Date: 2016-7-8
  */
 
+using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,8 +37,15 @@ namespace OpenIZAdmin.Models
 
         public FacilitiesModel(string name, string id)
         {
-            this.Name = name;
-            this.Id = id;
+            if (CommonUtil.IsValidString(name))
+                this.Name = name;
+            else
+                this.Name = string.Empty;
+
+            if (CommonUtil.IsValidString(id))
+                this.Id = id;
+            else
+                this.Id = string.Empty;            
         }
 
         public string Name { get; set; }

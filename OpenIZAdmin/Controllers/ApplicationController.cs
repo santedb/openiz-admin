@@ -108,7 +108,7 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.Application + " " + Locale.CreatedSuccessfully;
 
-				return RedirectToAction("ViewApplication", new { key = application.Id.ToString() });
+				return RedirectToAction("ViewApplication", new { id = application.Id.ToString() });
 			}
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.Application;
@@ -135,51 +135,6 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			TempData["error"] = Locale.UnableToDelete + " " + Locale.Application;
-
-			return RedirectToAction("Index");
-		}
-
-        /// <summary>
-        /// Deletes a policy associated to an application.
-        /// </summary>
-        /// <param name="appId">The application id string of the application.</param>
-        /// <param name="key">The policy guid key of the policy to be deleted.</param>
-        /// <returns>Returns the Index view.</returns>
-        [HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult DeletePolicy(string appId, Guid key)
-		{					
-			if (CommonUtil.IsValidString(appId) && CommonUtil.IsGuid(key))
-			{
-				try
-				{
-                    var appEntity = ApplicationUtil.GetApplication(this.AmiClient, appId);
-
-                    if (appEntity == null)
-                    {
-                        TempData["error"] = Locale.Application + " " + Locale.NotFound;
-
-                        return RedirectToAction("Index");
-                    }
-
-                    appEntity.Policies.RemoveAll(a => a.Policy.Key == key);
-
-                    this.AmiClient.UpdateApplication(appId, appEntity);
-
-					TempData["success"] = Locale.Application + " " + Locale.UpdatedSuccessfully;
-
-					return RedirectToAction("Index");
-				}
-				catch (Exception e)
-				{
-#if DEBUG
-					Trace.TraceError("Unable to delete policy from application: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to delete policy from application: {0}", e.Message);
-				}
-			}
-
-			TempData["error"] = Locale.UnableToDelete + " " + Locale.Policy;
 
 			return RedirectToAction("Index");
 		}
@@ -234,12 +189,9 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-                model.Policies = appEntity.Policies;
-                model.AddPoliciesList = CommonUtil.GetNewPolicies(this.AmiClient, model.AddPolicies);                
+                SecurityApplicationInfo appInfo = ApplicationUtil.ToSecurityApplicationInfo(this.AmiClient, model, appEntity);
 
-                SecurityApplicationInfo appInfo = ApplicationUtil.ToSecurityApplicationInfo(model, appEntity);
-
-				this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
+                this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
 
 				TempData["success"] = Locale.Application + " " + Locale.UpdatedSuccessfully;				
 

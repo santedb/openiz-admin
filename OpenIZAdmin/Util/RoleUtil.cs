@@ -115,8 +115,13 @@ namespace OpenIZAdmin.Util
             viewModel.Name = role.Role.Name;
             viewModel.RolePolicies = (role.Policies != null && role.Policies.Any()) ? role.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList() : new List<PolicyViewModel>();                       
 
+            if(viewModel.RolePolicies.Any())
+            {
+                viewModel.Policies = viewModel.RolePolicies.Select(p => p.Key.ToString()).ToList();                
+            }            
+            
             viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
-            viewModel.PoliciesList.AddRange(CommonUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }));
+            viewModel.PoliciesList.AddRange(CommonUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }).OrderBy(q => q.Text));            
 
             return viewModel;
         }
@@ -184,15 +189,15 @@ namespace OpenIZAdmin.Util
         /// </summary>
         /// <param name="model">The EditRoleModel object to convert.</param>
         /// <returns>Returns a SecurityRoleInfo model.</returns>
-		public static SecurityRoleInfo ToSecurityRoleInfo(EditRoleModel model, SecurityRoleInfo roleInfo)
+		public static SecurityRoleInfo ToSecurityRoleInfo(AmiServiceClient amiClient, EditRoleModel model, SecurityRoleInfo roleInfo)
         {                        
             roleInfo.Role.Description = model.Description;
             roleInfo.Name = model.Name;            
+            
+            List<SecurityPolicyInfo> roleList = new List<SecurityPolicyInfo>();
+            var addPoliciesList = CommonUtil.GetNewPolicies(amiClient, model.Policies);
 
-            List<SecurityPolicyInfo> roleList = (roleInfo.Policies != null && roleInfo.Policies.Any()) ? roleInfo.Policies.ToList() : new List<SecurityPolicyInfo>();            
-
-            //add the new policies
-            foreach (var policy in model.AddPoliciesList.Select(p => new SecurityPolicyInfo(p)))
+            foreach (var policy in addPoliciesList.Select(p => new SecurityPolicyInfo(p)))
             {
                 roleList.Add(policy);
             }

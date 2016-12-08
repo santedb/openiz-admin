@@ -133,12 +133,14 @@ namespace OpenIZAdmin.Util
             viewModel.Id = appInfo.Id.Value;
             viewModel.ApplicationName = appInfo.Name;
             viewModel.ApplicationSecret = appInfo.ApplicationSecret;
-            viewModel.CreationTime = appInfo.Application.CreationTime.DateTime;            
+            viewModel.CreationTime = appInfo.Application.CreationTime.DateTime;
 
-            if (appInfo.Policies != null && appInfo.Policies.Any())
-                viewModel.ApplicationPolicies = appInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
-            else
-                viewModel.ApplicationPolicies = new List<PolicyViewModel>();
+            viewModel.ApplicationPolicies = (appInfo.Policies != null && appInfo.Policies.Any()) ? appInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList() : new List<PolicyViewModel>();
+
+            if (viewModel.ApplicationPolicies.Any())
+            {
+                viewModel.Policies = viewModel.ApplicationPolicies.Select(p => p.Key.ToString()).ToList();
+            }            
 
             viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
             viewModel.PoliciesList.AddRange(CommonUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }));            
@@ -174,21 +176,22 @@ namespace OpenIZAdmin.Util
         /// <param name="model">The edit device model to convert.</param>
         /// <param name="appInfo">The device object to apply the changes to.</param>        
         /// <returns>Returns a security device info object.</returns>
-        public static SecurityApplicationInfo ToSecurityApplicationInfo(EditApplicationModel model, SecurityApplicationInfo appInfo)
+        public static SecurityApplicationInfo ToSecurityApplicationInfo(AmiServiceClient amiClient, EditApplicationModel model, SecurityApplicationInfo appInfo)
         {
             appInfo.Application.Key = model.Id;
             appInfo.Id = model.Id;
             appInfo.Application.Name = model.ApplicationName;
             appInfo.Name = model.ApplicationName;
             appInfo.Application.ApplicationSecret = model.ApplicationSecret;
-            appInfo.ApplicationSecret = model.ApplicationSecret;
-            appInfo.Application.Policies = model.Policies ?? new List<SecurityPolicyInstance>();
+            appInfo.ApplicationSecret = model.ApplicationSecret;            
 
-            //add the new policies
-            foreach (var policy in model.AddPoliciesList.Select(p => new SecurityPolicyInstance(p, (PolicyGrantType)2)))
+            var policyList = CommonUtil.GetNewPolicies(amiClient, model.Policies);
+
+            if(policyList.Any())
             {
-                appInfo.Policies.Add(policy);
-            }
+                appInfo.Policies.Clear();
+                appInfo.Policies.AddRange(policyList.Select(p => new SecurityPolicyInstance(p, PolicyGrantType.Grant)));
+            }            
 
             return appInfo;
         }        
