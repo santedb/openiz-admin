@@ -139,7 +139,7 @@ namespace OpenIZAdmin.Controllers
 		public ContentResult NewAlerts()
 		{
 			var username = User.Identity.GetUserName();
-			var results = this.AmiClient.GetAlerts(a => a.To == username);
+			var results = this.AmiClient.GetAlerts(a => a.To == username && a.Flags != AlertMessageFlags.Acknowledged && a.ObsoletionTime == null);
 
 			var count = results.CollectionItem.Count(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged && a.AlertMessage.ObsoletionTime == null);
 
