@@ -234,8 +234,8 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.Policy + " " + Locale.UpdatedSuccessfully;
 
-					return RedirectToAction("Index");
-				}
+                    return RedirectToAction("Edit", new { key = policyInfo.Policy.Key.ToString() });
+                }
 				catch (Exception e)
 				{
 #if DEBUG

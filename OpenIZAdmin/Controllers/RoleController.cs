@@ -186,8 +186,8 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.Role + " " + Locale.UpdatedSuccessfully;
 
-					return RedirectToAction("Index");
-				}
+                    return RedirectToAction("Edit", new { id = roleInfo.Id.ToString() });
+                }
 				catch (Exception e)
 				{
 #if DEBUG
