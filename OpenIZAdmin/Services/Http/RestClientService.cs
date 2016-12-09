@@ -238,6 +238,9 @@ namespace OpenIZAdmin.Services.Http
 							serializer = this.Description.Binding.ContentTypeMapper.GetSerializer(responseContentType, typeof(TResult));
 
 							TResult retVal = default(TResult);
+
+							Trace.TraceInformation("Deserializing type: {0}", typeof(TResult).Name);
+
 							// Compression?
 							switch (response.Headers[HttpResponseHeader.ContentEncoding])
 							{
