@@ -219,9 +219,8 @@ namespace OpenIZAdmin.Controllers
                 this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
 
                 TempData["success"] = Locale.Device + " " + Locale.UpdatedSuccessfully;
-
-
-                return Redirect("Index");
+                
+                return RedirectToAction("Edit", new { key = deviceEntity.Id.ToString() });
             }
             else
             {

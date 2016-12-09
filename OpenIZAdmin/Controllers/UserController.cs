@@ -267,8 +267,8 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.User + " " + Locale.UpdatedSuccessfully;
 
-				return Redirect("Index");
-			}
+                return RedirectToAction("Edit", new { id = userEntity.Key.ToString() });
+            }
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.User;
 
