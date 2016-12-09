@@ -19,6 +19,8 @@
                         <th>@Html.DisplayNameFor(m => m.Latitude)</th>
                         <th>@Html.DisplayNameFor(m => m.Longitude)</th>
                         <th></th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -28,24 +30,63 @@
                             <td>@item.Name</td>
                             <td>@item.Latitude</td>
                             <td>@item.Longitude</td>
-                            <td>
-                                <span class="btn-group">
-                                    @if (item.VersionKey.HasValue && item.VersionKey.Value != Guid.Empty)
-                                    {
+
+                            @if (item.VersionKey.HasValue && item.VersionKey.Value != Guid.Empty)
+                            {
+                                <td>
+                                    <span class="btn-group">
                                         <a class="btn btn-primary" href="/Place/ViewPlace?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
                                             @Locale.View
                                             <span class="glyphicon glyphicon-eye-open"></span>
                                         </a>
-}
-                                    else
-                                    {
+
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="btn-group">
+                                        <a class="btn btn-warning" href="/Place/Edit?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
+                                            @Locale.Edit
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                        </a>
+
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="btn-group">
+                                        <a class="btn btn-danger" href="/Place/Delete?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
+                                            @Locale.Delete
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </a>
+                                    </span>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+                                    <span class="btn-group">
                                         <a class="btn btn-primary" href="/Place/ViewPlace?key=@item.Key">
                                             @Locale.View
                                             <span class="glyphicon glyphicon-eye-open"></span>
                                         </a>
-}
-                                </span>
-                            </td>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="btn-group">
+                                        <a class="btn btn-warning" href="/Place/Edit?key=@item.Key">
+                                            @Locale.Edit
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                        </a>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="btn-group">
+                                        <a class="btn btn-danger" href="/Place/Delete?key=@item.Key">
+                                            @Locale.Delete
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </a>
+                                    </span>
+                                </td>
+                            }
                         </tr>}
 
                 </tbody>

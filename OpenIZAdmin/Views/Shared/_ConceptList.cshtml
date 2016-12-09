@@ -6,41 +6,43 @@
             <span>@Locale.Concepts @Locale.For @Model.Mnemonic</span>
         </h3>
     </div>
-    <table class="table" id="conceptListTable">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(m => m.Mnemonic)
-                </th>
-                <th>
-                    @Locale.ConceptClass
-                </th>
-                <th>
-                    @Locale.Delete
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            @{int i = 0;}
-            @foreach (var concept in Model.Concepts)
-            {
+    <div class="panel panel-body">
+        <table class="table" id="conceptListTable">
+            <thead>
                 <tr>
-                    @Html.HiddenFor(m => m.Concepts[i].Mnemonic)
-                    @Html.HiddenFor(m => m.Concepts[i].Key)
-                    @Html.HiddenFor(m => m.Concepts[i].Class.Mnemonic)
-                    <td>
-                        @concept.Mnemonic
-
-                    </td>
-                    <td>
-                        @concept.Class.Mnemonic
-                    </td>
-                    <td>
-                        @Html.CheckBoxFor(m => m.ConceptDeletion[i])
-                    </td>
+                    <th>
+                        @Html.DisplayNameFor(m => m.Mnemonic)
+                    </th>
+                    <th>
+                        @Locale.ConceptClass
+                    </th>
+                    <th>
+                        @Locale.Delete
+                    </th>
                 </tr>
-                i++;
-            }
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                @{int i = 0;}
+                @foreach (var concept in Model.Concepts)
+            {
+                    <tr>
+                        @Html.HiddenFor(m => m.Concepts[i].Mnemonic)
+                        @Html.HiddenFor(m => m.Concepts[i].Key)
+                        @Html.HiddenFor(m => m.Concepts[i].Class.Mnemonic)
+                        <td>
+                            @concept.Mnemonic
+
+                        </td>
+                        <td>
+                            @concept.Class.Mnemonic
+                        </td>
+                        <td>
+                            @Html.CheckBoxFor(m => m.ConceptDeletion[i])
+                        </td>
+                    </tr>
+                    i++;
+                }
+            </tbody>
+        </table>
+    </div>
 </div>

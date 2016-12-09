@@ -60,14 +60,16 @@ namespace OpenIZAdmin.Controllers
 			model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
 
 			var conceptClasses = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
-
 			for (var i = 0; i < conceptClasses.Count; i++)
 			{
-				model.ConceptClassList.Add(new SelectListItem()
-				{
-					Text = (conceptClasses.Item[i] as ConceptClass).Mnemonic,
-					Value = (conceptClasses.Item[i] as ConceptClass).Key.Value.ToString(),
-				});
+                if (conceptClasses.Item[i].Type == "ConceptClass")
+                {
+                    model.ConceptClassList.Add(new SelectListItem()
+                    {
+                        Text = (conceptClasses.Item[i] as ConceptClass).Mnemonic,
+                        Value = (conceptClasses.Item[i] as ConceptClass).Key.Value.ToString(),
+                    });
+                }
 			}
 
 			model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
@@ -299,14 +301,17 @@ namespace OpenIZAdmin.Controllers
 
 			for (var i = 0; i < conceptClasses.Count; i++)
 			{
-				var selected = concept.Class.Key == (conceptClasses.Item[i] as ConceptClass).Key;
+                if (conceptClasses.Item[i].Type == concept.Class.Type)
+                {
+                    var selected = concept.Class.Key == (conceptClasses.Item[i] as ConceptClass).Key;
 
-				editConceptModel.ConceptClassList.Add(new SelectListItem()
-				{
-					Text = (conceptClasses.Item[i] as ConceptClass)?.Mnemonic,
-					Value = (conceptClasses.Item[i] as ConceptClass)?.Key.Value.ToString(),
-					Selected = selected
-				});
+                    editConceptModel.ConceptClassList.Add(new SelectListItem()
+                    {
+                        Text = (conceptClasses.Item[i] as ConceptClass)?.Mnemonic,
+                        Value = (conceptClasses.Item[i] as ConceptClass)?.Key.Value.ToString(),
+                        Selected = selected
+                    });
+                }
 			}
 
 			var languages = LanguageUtil.GetLanguageList();

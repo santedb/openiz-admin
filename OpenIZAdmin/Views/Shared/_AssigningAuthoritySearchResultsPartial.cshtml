@@ -19,6 +19,7 @@
                         <th>@Html.DisplayNameFor(m => m.Oid)</th>
                         <th></th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -36,6 +37,12 @@
                             <td>
                                 <a class="btn btn-warning" href="/AssigningAuthority/Edit?key=@item.Key">
                                     @Locale.Edit
+                                    <span class="glyphicon glyphicon-edit"></span>
+                                </a>
+                            </td>
+                            <td>
+                                <a class="btn btn-danger" href="/AssigningAuthority/Delete?key=@item.Key">
+                                    @Locale.Delete
                                     <span class="glyphicon glyphicon-edit"></span>
                                 </a>
                             </td>

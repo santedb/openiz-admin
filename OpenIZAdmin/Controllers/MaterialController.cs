@@ -163,13 +163,52 @@ namespace OpenIZAdmin.Controllers
         {
             if (key != Guid.Empty)
             {
-
-
                 var material = this.ImsiClient.Get<Material>(key, versionKey) as Material;
                 EditMaterialModel model = new EditMaterialModel()
                 {
                     Name = material.Names.FirstOrDefault().Component.FirstOrDefault().Value
                 };
+                var formConcepts = (ImsiClient.Query<Concept>(m => m.Class.Mnemonic == "Form"));
+
+                for (var i = 0; i < formConcepts.Item.Count(); i++)
+                {
+                    Concept item = formConcepts.Item[i] as Concept;
+                    if (item != null)
+                    {
+                        SelectListItem selectItem = new SelectListItem()
+                        {
+                            Value = item.Key.Value.ToString(),
+                            Text = item.Mnemonic
+                        };
+                        if (material.FormConcept.Key == item.Key)
+                        {
+                            selectItem.Selected = true;
+                        }
+                        model.FormConcepts.Add(selectItem);
+                    }
+
+                };
+
+                var unitsOfMeasure = ImsiClient.Query<Concept>(m => m.Class.Mnemonic == "UnitOfMeasure");
+                for (var i = 0; i < unitsOfMeasure.Item.Count; i++)
+                {
+                    Concept item = unitsOfMeasure.Item[i] as Concept;
+                    if (item != null)
+                    {
+                        SelectListItem selectItem = new SelectListItem()
+                        {
+                            Value = item.Key.Value.ToString(),
+                            Text = item.Mnemonic
+                        };
+                        if (material.QuantityConcept.Key == item.Key)
+                        {
+                            selectItem.Selected = true;
+                        }
+                        model.QuantityConcepts.Add(selectItem);
+                    }
+
+                };
+
                 return View(model);
             }
 
@@ -196,7 +235,16 @@ namespace OpenIZAdmin.Controllers
                     {
                         new EntityName(NameUseKeys.OfficialRecord, model.Name)
                     };
+                material.FormConcept = new Concept()
+                {
+                    Key = Guid.Parse(model.FormConcept),
+                };
+                material.QuantityConcept = new Concept()
+                {
+                    Key = Guid.Parse(model.QuantityConcept),
+                };
                 this.ImsiClient.Update<Material>(material);
+                TempData["success"] = Locale.Material + " " + Locale.UpdatedSuccessfully;
                 return View("Index");
             }
 

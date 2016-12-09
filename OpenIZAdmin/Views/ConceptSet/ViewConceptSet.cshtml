@@ -24,11 +24,12 @@
     </div>
     </div>
     <div class="panel panel-default">
-        <div class="panel-heading">
-            <h3 class="panel-title">
-                <span>@Locale.Concepts @Locale.For @Model.Mnemonic</span>
-            </h3>
-        </div>
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <span>@Locale.Concepts @Locale.For @Model.Mnemonic</span>
+        </h3>
+    </div>
+    <div class="panel panel-body">
         <table class="table" id="conceptsTable">
             <thead>
                 <tr>
@@ -55,15 +56,12 @@
                 }
             </tbody>
         </table>
-        </div>
-
+    </div>
+</div>
 @section scripts{
     <script>
     $(document).ready(function () {
-
-        $('#conceptTable').DataTable();
-
-
+        $('#conceptsTable').DataTable();
     });
 </script>
 }

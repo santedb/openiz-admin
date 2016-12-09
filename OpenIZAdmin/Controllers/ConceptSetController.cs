@@ -162,16 +162,23 @@ namespace OpenIZAdmin.Controllers
             if (!string.IsNullOrEmpty(model.ConceptMnemonic) && !string.IsNullOrWhiteSpace(model.ConceptMnemonic))
             {
                 query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(model.ConceptMnemonic)));
-            }
+            };
 
+            if (!string.IsNullOrEmpty(model.ConceptName) && !string.IsNullOrWhiteSpace(model.ConceptName))
+            {
+                query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(model.ConceptName)));
+            };
+            
             query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ObsoletionTime == null));
             
             var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
             
             viewModels.AddRange(bundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
             var keys = model.Concepts.Select(m => m.Key).Distinct();
+            if (keys != null){
+                viewModels = viewModels.Where(m => !keys.Any(n => n.Value == m.Key)).ToList();
+            };
 
-            viewModels = viewModels.Where(m => !keys.Any(n => n.Value == m.Key)).ToList();
             return PartialView("_ConceptSetConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
 
         }

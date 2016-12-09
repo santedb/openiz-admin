@@ -26,22 +26,11 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-
-            $('#applets-partial').bind("DOMSubtreeModified", function () {
-                $("#appletsSearchTable").DataTable();
-            });
-            $('#certificates-partial').bind("DOMSubtreeModified", function () {
-                $("#certificateRequestsTable").DataTable();
-            });
-            $('#devices-partial').bind("DOMSubtreeModified", function () {
-                $("#devicesSearchTable").DataTable();
-            });
-            $('#roles-partial').bind("DOMSubtreeModified", function () {
-                $("#rolesSearchTable").DataTable();
-            });
-            $('#users-partial').bind("DOMSubtreeModified", function () {
-                $("#usersSearchTable").DataTable();
-            });
+            $("#rolesSearchTable").DataTable();
+            $("#appletsSearchTable").DataTable();
+            $("#certificateRequestsTable").DataTable();
+            $("#devicesSearchTable").DataTable();
+            $("#usersSearchTable").DataTable();
         });
     </script>
 }

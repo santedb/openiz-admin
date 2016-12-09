@@ -28,7 +28,8 @@ namespace OpenIZAdmin.Models.MaterialModels
 	{
 		public EditMaterialModel()
 		{
-
+            this.FormConcepts = new List<SelectListItem>();
+            this.QuantityConcepts = new List<SelectListItem>();
         }
 
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
@@ -39,6 +40,14 @@ namespace OpenIZAdmin.Models.MaterialModels
         public Guid Key { get; set; }
 
         public Guid? VersionKey { get; set; }
+
+        public List<SelectListItem> FormConcepts { get; set; }
+
+        public List<SelectListItem> QuantityConcepts { get; set; }
+
+        public string QuantityConcept { get; set; }
+
+        public string FormConcept { get; set; }
 
     }
 }
