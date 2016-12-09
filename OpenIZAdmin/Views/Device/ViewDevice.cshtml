@@ -16,25 +16,30 @@
     <div class="panel panel-body panel-default">
         <div class="row">
             <div class="col-md-12">
-                <div class="form-group">
-                    @Html.HiddenFor(m => m.Id)
-                    <div class="col-md-3">
-                        <label class="control-label">@Html.DisplayNameFor(m => m.CreationTime)</label>
-                        @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.HiddenFor(m => m.Id)
+                        @Html.LabelFor(m => m.CreationTime, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.CreationTime, "", new { @class = "text-danger" })
+                        </div>
                     </div>                    
-                    <div class="col-md-3">
-                        <label class="control-label">
-                            @Html.DisplayNameFor(m => m.Name)
-                        </label>
-                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
+                    <div class="form-group">                        
+                        @Html.LabelFor(m => m.Name, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        <label class="control-label">
-                            @Html.DisplayNameFor(m => m.UpdatedTime)
-                        </label>
-                        @Html.TextBoxFor(m => m.UpdatedTime, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                </div>
+                    <div class="form-group">                        
+                        @Html.LabelFor(m => m.UpdatedTime, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.UpdatedTime, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.UpdatedTime, "", new { @class = "text-danger" })
+                        </div>
+                    </div>                    
+                </div>                
             </div>
         </div>
     </div>

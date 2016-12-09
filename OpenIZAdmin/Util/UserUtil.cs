@@ -134,6 +134,7 @@ namespace OpenIZAdmin.Util
             model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 			model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 
+            //----would like to make this more compact - not happy with this code block - START ------//
             var facilityId = userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString();                                  
 
             if (facilityId != null && facilityId.Any())
@@ -152,7 +153,8 @@ namespace OpenIZAdmin.Util
 
                     model.Facilities.Add(facilityId.ToString());
                 }                
-            }                        
+            }
+            //----would like to make this more compact - not happy with this code block - END ------//                        
 
             model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
 			model.RolesList.AddRange(RoleUtil.GetAllRoles(amiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }));

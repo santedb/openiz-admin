@@ -16,26 +16,41 @@
     <div class="panel panel-body panel-default">
         <div class="row">
             <div class="col-md-12">
-                <div class="form-group">
-                    <div class="col-md-3">
-                        @Html.LabelFor(m => m.Name, new { @class = "control-label" })
-                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        </div>
                     </div>
-                    <div class="col-md-3">
-                        @Html.LabelFor(m => m.Oid, new { @class = "control-label" })
-                        @Html.TextBoxFor(m => m.Oid, new { @class = "form-control", @readonly = "readonly" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Oid, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.Oid, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.Oid, "", new { @class = "text-danger" })
+                        </div>                        
                     </div>
-                    <div class="col-md-3">
-                        @Html.LabelFor(m => m.Description, new { @class = "control-label" })
-                        @Html.TextAreaFor(m => m.Description, new { @class = "form-control", @readonly = "readonly" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Url, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.Url, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.Url, "", new { @class = "text-danger" })
+                        </div>                        
                     </div>
-                    <div class="col-md-3">
-                        @Html.LabelFor(m => m.Url, new { @class = "control-label" })
-                        @Html.TextBoxFor(m => m.Url, new { @class = "form-control", @readonly = "readonly" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.DomainName, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.DomainName, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.DomainName, "", new { @class = "text-danger" })
+                        </div>                        
                     </div>
-                    <div class="col-md-3">
-                        @Html.LabelFor(m => m.DomainName, new { @class = "control-label" })
-                        @Html.TextBoxFor(m => m.DomainName, new { @class = "form-control", @readonly = "readonly" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Description, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.Description, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                        </div>                        
                     </div>
                 </div>
             </div>
