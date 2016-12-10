@@ -59,6 +59,8 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="filterContext">The filter context of the action executing.</param>
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
+			TempData.Clear();
+
 			var amiRestClient = new RestClientService(Constants.AMI)
 			{
 				Accept = Constants.ApplicationXml,
