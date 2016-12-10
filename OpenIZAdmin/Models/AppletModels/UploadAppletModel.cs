@@ -38,7 +38,6 @@ namespace OpenIZAdmin.Models.AppletModels
 		/// Gets or sets the applet content.
 		/// </summary>
 		[Required]
-		//[FileExtensions(Extensions = ".pak.gz, .pak, .gz", ErrorMessage = "Unsupported file format, the allow file types are .pak.gz, .gz, .pak")]
 		public HttpPostedFileBase File { get; set; }
 	}
 }

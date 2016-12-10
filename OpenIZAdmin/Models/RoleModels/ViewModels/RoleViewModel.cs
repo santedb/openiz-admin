@@ -28,22 +28,23 @@ namespace OpenIZAdmin.Models.RoleModels.ViewModels
 	{
 		public RoleViewModel()
 		{
+			this.Policies = new List<PolicyViewModel>();
 		}
 
 		[Display(Name = "Description", ResourceType = typeof(Localization.Locale))]
 		public string Description { get; set; }
 
-        [Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
-        public bool HasPolicies { get; set; }
+		[Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
+		public bool HasPolicies { get; set; }
 
-        [Display(Name = "Id", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Id", ResourceType = typeof(Localization.Locale))]
 		public Guid Id { get; set; }
 
-        public bool IsObsolete { get; set; }
+		public bool IsObsolete { get; set; }
 
-        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		public string Name { get; set; }                        
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		public string Name { get; set; }
 
-        public List<PolicyViewModel> Policies { get; set; }
-    }
+		public List<PolicyViewModel> Policies { get; set; }
+	}
 }

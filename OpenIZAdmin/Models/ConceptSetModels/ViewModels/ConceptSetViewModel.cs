@@ -21,16 +21,17 @@ using OpenIZ.Core.Model.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace OpenIZAdmin.Models.ConceptSetModels.ViewModels
 {
 	public class ConceptSetViewModel
-    {
+	{
 		public ConceptSetViewModel()
 		{
 			this.Concepts = new List<Concept>();
 		}
+
+		public List<Concept> Concepts { get; set; }
 
 		[Display(Name = "Created By")]
 		public string CreatedBy { get; set; }
@@ -41,9 +42,6 @@ namespace OpenIZAdmin.Models.ConceptSetModels.ViewModels
 		public Guid Key { get; set; }
 
 		public string Mnemonic { get; set; }
-
-		public List<Concept>Concepts { get; set; }
-
 		public string Oid { get; set; }
 	}
 }

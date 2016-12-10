@@ -21,10 +21,7 @@ using OpenIZAdmin.Models.ConceptModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
@@ -34,7 +31,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 	public class EditConceptModel
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="EditConceptModel"/> class. 
+		/// Initializes a new instance of the <see cref="EditConceptModel"/> class.
 		/// </summary>
 		public EditConceptModel()
 		{
@@ -44,37 +41,35 @@ namespace OpenIZAdmin.Models.ConceptModels
 			this.ReferenceTerms = new List<ReferenceTermModel>();
 		}
 
-        [Display(Name = "Created By")]
-        public string CreatedBy { get; set; }
+		[Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		public string ConceptClass { get; set; }
 
-        [Display(Name = "Creation Time")]
-        public DateTime CreationTime { get; set; }
+		public List<SelectListItem> ConceptClassList { get; set; }
 
-        [Display(Name = "Concept Details")]
-        public List<DetailedConceptViewModel> Details { get; set; }
+		[Display(Name = "Created By")]
+		public string CreatedBy { get; set; }
 
-        [Display(Name = "Is Read Only?")]
-        public bool IsReadOnly { get; set; }
+		[Display(Name = "Creation Time")]
+		public DateTime CreationTime { get; set; }
 
-        public Guid Key { get; set; }
+		[Display(Name = "Concept Details")]
+		public List<DetailedConceptViewModel> Details { get; set; }
 
-        public List<string> Languages { get; set; }
+		[Display(Name = "Is Read Only?")]
+		public bool IsReadOnly { get; set; }
 
-        public string Mnemonic { get; set; }
+		public Guid Key { get; set; }
 
-        public List<ReferenceTermModel> ReferenceTerms { get; set; }
-        
-        public List<SelectListItem> LanguageList { get; set; }
+		public List<SelectListItem> LanguageList { get; set; }
+		public List<string> Languages { get; set; }
 
-        [Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
-        public string SelectedLanguage { get; set; }
+		public string Mnemonic { get; set; }
 
-        [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string ConceptClass { get; set; }
+		public List<string> Name { get; set; }
+		public List<ReferenceTermModel> ReferenceTerms { get; set; }
 
-        public List<SelectListItem> ConceptClassList { get; set; }
-
-        public List<string> Name { get; set; }
-    }
+		[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
+		public string SelectedLanguage { get; set; }
+	}
 }

@@ -17,7 +17,6 @@
  * Date: 2016-8-14
  */
 
-using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
@@ -31,36 +30,35 @@ namespace OpenIZAdmin.Models.DeviceModels
 	{
 		public EditDeviceModel()
 		{
-            this.Policies = new List<string>();
-            this.PoliciesList = new List<SelectListItem>();            
-        }        
+			this.Policies = new List<string>();
+			this.PoliciesList = new List<SelectListItem>();
+		}
 
-        [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-        public DateTimeOffset CreationTime { get; set; }
+		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+		public DateTimeOffset CreationTime { get; set; }
 
-        //holds the original device object
-        public SecurityDevice Device { get; set; }
+		//holds the original device object
+		public SecurityDevice Device { get; set; }
 
-        public IEnumerable<PolicyViewModel> DevicePolicies { get; set; }
+		public IEnumerable<PolicyViewModel> DevicePolicies { get; set; }
 
-        [Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
-        public string DeviceSecret { get; set; }        
+		[Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
+		public string DeviceSecret { get; set; }
 
-        [Required]
-        public Guid Id { get; set; }             
+		[Required]
+		public Guid Id { get; set; }
 
-        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string Name { get; set; }
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		public string Name { get; set; }
 
-        [Display(Name = "Policies", ResourceType = typeof(Localization.Locale))]
-        public List<string> Policies { get; set; }   
-                     
-        //policies autopopulate
-        public List<SelectListItem> PoliciesList { get; set; }
+		[Display(Name = "Policies", ResourceType = typeof(Localization.Locale))]
+		public List<string> Policies { get; set; }
 
-        public DateTime? UpdatedTime { get; set; }
-    }
-   
+		//policies autopopulate
+		public List<SelectListItem> PoliciesList { get; set; }
+
+		public DateTime? UpdatedTime { get; set; }
+	}
 }

@@ -31,44 +31,44 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Util
 {
-    /// <summary>
+	/// <summary>
 	/// Provides a utility for managing policies.
 	/// </summary>
 	public static class PolicyUtil
 	{
-        /// <summary>
-        /// Queries for a policy by key
-        /// </summary>
-        /// <param name="client">The AMI service client</param>        
-        /// /// <param name="key">The policy guid identifier key </param>        
-        /// <returns>Returns SecurityPolicyInfo object, null if not found</returns>
-        public static SecurityPolicyInfo GetPolicy(AmiServiceClient client, Guid key)
-        {            
-            try
-            {                
-                var result = client.GetPolicies(r => r.Key == key);                
-                if (result.CollectionItem.Count != 0)
-                {
-                    return result.CollectionItem.FirstOrDefault();
-                }             
-            }
-            catch (Exception e)
-            {
+		/// <summary>
+		/// Queries for a policy by key
+		/// </summary>
+		/// <param name="client">The AMI service client</param>
+		/// /// <param name="key">The policy guid identifier key </param>
+		/// <returns>Returns SecurityPolicyInfo object, null if not found</returns>
+		public static SecurityPolicyInfo GetPolicy(AmiServiceClient client, Guid key)
+		{
+			try
+			{
+				var result = client.GetPolicies(r => r.Key == key);
+				if (result.CollectionItem.Count != 0)
+				{
+					return result.CollectionItem.FirstOrDefault();
+				}
+			}
+			catch (Exception e)
+			{
 #if DEBUG
-                Trace.TraceError("Unable to retrieve policy: {0}", e.StackTrace);
+				Trace.TraceError("Unable to retrieve policy: {0}", e.StackTrace);
 #endif
-                Trace.TraceError("Unable to retrieve policy: {0}", e.Message);
-            }
+				Trace.TraceError("Unable to retrieve policy: {0}", e.Message);
+			}
 
-            return null;
-        }
+			return null;
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Gets a list of all policies.
 		/// </summary>
 		/// <param name="client">The <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.</param>
 		/// <returns>Returns a IEnumerable PolicyViewModel list.</returns>
-        internal static IEnumerable<PolicyViewModel> GetAllPolicies(AmiServiceClient client)
+		internal static IEnumerable<PolicyViewModel> GetAllPolicies(AmiServiceClient client)
 		{
 			IEnumerable<PolicyViewModel> viewModels = new List<PolicyViewModel>();
 
@@ -89,68 +89,68 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
-        /// <summary>
-        /// Converts a <see cref="OpenIZAdmin.Models.PolicyModels.CreatePolicyModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo"/>.
-        /// </summary>
-        /// <param name="model">The CreatePolicyModel object to convert.</param>
-        /// <returns>Returns a SecurityPolicyInfo model.</returns>
-        public static SecurityPolicyInfo ToSecurityPolicy(CreatePolicyModel model)
-        {
-            SecurityPolicyInfo policy = new SecurityPolicyInfo();
+		/// <summary>
+		/// Converts a <see cref="OpenIZAdmin.Models.PolicyModels.CreatePolicyModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo"/>.
+		/// </summary>
+		/// <param name="model">The CreatePolicyModel object to convert.</param>
+		/// <returns>Returns a SecurityPolicyInfo model.</returns>
+		public static SecurityPolicyInfo ToSecurityPolicy(CreatePolicyModel model)
+		{
+			SecurityPolicyInfo policy = new SecurityPolicyInfo();
 
-            policy.CanOverride = model.CanOverride;
-            policy.Name = model.Name;
-            policy.Oid = model.Oid;
+			policy.CanOverride = model.CanOverride;
+			policy.Name = model.Name;
+			policy.Oid = model.Oid;
 
-            return policy;
-        }
+			return policy;
+		}
 
-        /// <summary>
-        /// Converts a <see cref="OpenIZAdmin.Models.PolicyModels.EditPolicyModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo"/>.
-        /// </summary>
-        /// <param name="model">The CreatePolicyModel object to convert.</param>
-        /// <param name="policyInfo">The SecurityPolicyInfo object to convert.</param>
-        /// <returns>Returns a SecurityPolicyInfo model.</returns>
-        public static SecurityPolicyInfo ToSecurityPolicy(EditPolicyModel model, SecurityPolicyInfo policyInfo)
-        {
-            policyInfo.Policy.Name = model.Name;
-            policyInfo.Policy.Oid = model.Oid;
-            policyInfo.Policy.CanOverride = model.CanOverride;
-            SecurityPolicyInfo policy = new SecurityPolicyInfo(new SecurityPolicyInstance(policyInfo.Policy, (PolicyGrantType)model.Grant));            
-            
-            return policy;
-        }
+		/// <summary>
+		/// Converts a <see cref="OpenIZAdmin.Models.PolicyModels.EditPolicyModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo"/>.
+		/// </summary>
+		/// <param name="model">The CreatePolicyModel object to convert.</param>
+		/// <param name="policyInfo">The SecurityPolicyInfo object to convert.</param>
+		/// <returns>Returns a SecurityPolicyInfo model.</returns>
+		public static SecurityPolicyInfo ToSecurityPolicy(EditPolicyModel model, SecurityPolicyInfo policyInfo)
+		{
+			policyInfo.Policy.Name = model.Name;
+			policyInfo.Policy.Oid = model.Oid;
+			policyInfo.Policy.CanOverride = model.CanOverride;
+			SecurityPolicyInfo policy = new SecurityPolicyInfo(new SecurityPolicyInstance(policyInfo.Policy, (PolicyGrantType)model.Grant));
 
-        /// <summary>
-        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.EditPolicyModel"/>.
-        /// </summary>        
-        /// <param name="policy">The SecurityPolicyInfo object to convert.</param>
-        /// <returns>Returns a EditPolicyModel model.</returns>
-        public static EditPolicyModel ToEditPolicyModel(SecurityPolicyInfo policy)
-        {
-            EditPolicyModel viewModel = new EditPolicyModel();
+			return policy;
+		}
 
-            viewModel.GrantsList.Add(new SelectListItem { Text = Locale.Select, Value = "" });
-            viewModel.GrantsList.Add(new SelectListItem { Text = Locale.Deny, Value = "0" });
-            viewModel.GrantsList.Add(new SelectListItem { Text = Locale.Elevate, Value = "1" });
-            viewModel.GrantsList.Add(new SelectListItem { Text = Locale.Grant, Value = "2" });
+		/// <summary>
+		/// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.EditPolicyModel"/>.
+		/// </summary>
+		/// <param name="policy">The SecurityPolicyInfo object to convert.</param>
+		/// <returns>Returns a EditPolicyModel model.</returns>
+		public static EditPolicyModel ToEditPolicyModel(SecurityPolicyInfo policy)
+		{
+			EditPolicyModel viewModel = new EditPolicyModel();
 
-            viewModel.CanOverride = policy.CanOverride;            
-            viewModel.Grant = (int)policy.Grant;
-            viewModel.IsPublic = policy.Policy.IsPublic;
-            viewModel.Key = policy.Policy.Key.Value;
-            viewModel.Name = policy.Name;
-            viewModel.Oid = policy.Oid;                              
+			viewModel.GrantsList.Add(new SelectListItem { Text = Locale.Select, Value = "" });
+			viewModel.GrantsList.Add(new SelectListItem { Text = Locale.Deny, Value = "0" });
+			viewModel.GrantsList.Add(new SelectListItem { Text = Locale.Elevate, Value = "1" });
+			viewModel.GrantsList.Add(new SelectListItem { Text = Locale.Grant, Value = "2" });
 
-            return viewModel;
-        }
+			viewModel.CanOverride = policy.CanOverride;
+			viewModel.Grant = (int)policy.Grant;
+			viewModel.IsPublic = policy.Policy.IsPublic;
+			viewModel.Key = policy.Policy.Key.Value;
+			viewModel.Name = policy.Name;
+			viewModel.Oid = policy.Oid;
 
-        /// <summary>
-        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel"/>.
-        /// </summary>        
-        /// <param name="policy">The SecurityPolicyInfo object to convert.</param>
-        /// <returns>Returns a PolicyViewModel model.</returns>
-        public static PolicyViewModel ToPolicyViewModel(SecurityPolicyInfo policy)
+			return viewModel;
+		}
+
+		/// <summary>
+		/// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel"/>.
+		/// </summary>
+		/// <param name="policy">The SecurityPolicyInfo object to convert.</param>
+		/// <returns>Returns a PolicyViewModel model.</returns>
+		public static PolicyViewModel ToPolicyViewModel(SecurityPolicyInfo policy)
 		{
 			PolicyViewModel viewModel = new PolicyViewModel();
 
@@ -161,51 +161,50 @@ namespace OpenIZAdmin.Util
 			viewModel.Name = policy.Name;
 			viewModel.Oid = policy.Oid;
 
-            if (policy.Policy.ObsoletionTime == null)
-                viewModel.IsObsolete = false;
-            else
-                viewModel.IsObsolete = true;
+			if (policy.Policy.ObsoletionTime == null)
+				viewModel.IsObsolete = false;
+			else
+				viewModel.IsObsolete = true;
 
-
-            return viewModel;
+			return viewModel;
 		}
 
-        /// <summary>
-        /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityPolicy"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel"/>.
-        /// </summary>        
-        /// <param name="policy">The SecurityPolicy object to convert.</param>
-        /// <returns>Returns a PolicyViewModel model.</returns>
+		/// <summary>
+		/// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityPolicy"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel"/>.
+		/// </summary>
+		/// <param name="policy">The SecurityPolicy object to convert.</param>
+		/// <returns>Returns a PolicyViewModel model.</returns>
 		public static PolicyViewModel ToPolicyViewModel(SecurityPolicy policy)
 		{
 			PolicyViewModel viewModel = new PolicyViewModel();
 
-			viewModel.CanOverride = policy.CanOverride;			
+			viewModel.CanOverride = policy.CanOverride;
 			viewModel.IsPublic = policy.IsPublic;
 			viewModel.Key = policy.Key.Value;
 			viewModel.Name = policy.Name;
 			viewModel.Oid = policy.Oid;
 
 			return viewModel;
-		}        
+		}
 
-        /// <summary>
-        /// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityPolicyInstance"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel"/>.
-        /// </summary>        
-        /// <param name="policy">The SecurityPolicyInstance object to convert.</param>
-        /// <returns>Returns a PolicyViewModel model.</returns>
+		/// <summary>
+		/// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityPolicyInstance"/> to a <see cref="OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel"/>.
+		/// </summary>
+		/// <param name="policy">The SecurityPolicyInstance object to convert.</param>
+		/// <returns>Returns a PolicyViewModel model.</returns>
 		public static PolicyViewModel ToPolicyViewModel(SecurityPolicyInstance policy)
 		{
 			PolicyViewModel viewModel = PolicyUtil.ToPolicyViewModel(policy.Policy);
 
-            viewModel.CanOverride = policy.Policy.CanOverride;
-            viewModel.IsPublic = policy.Policy.IsPublic;
-            viewModel.Key = policy.Policy.Key.Value;
-            viewModel.Name = policy.Policy.Name;
-            viewModel.Oid = policy.Policy.Oid;
-            viewModel.Grant = Enum.GetName(typeof(PolicyGrantType), policy.GrantType);
-            viewModel.IsObsolete = (policy.Policy.ObsoletionTime != null) ? true : false;            
+			viewModel.CanOverride = policy.Policy.CanOverride;
+			viewModel.IsPublic = policy.Policy.IsPublic;
+			viewModel.Key = policy.Policy.Key.Value;
+			viewModel.Name = policy.Policy.Name;
+			viewModel.Oid = policy.Policy.Oid;
+			viewModel.Grant = Enum.GetName(typeof(PolicyGrantType), policy.GrantType);
+			viewModel.IsObsolete = (policy.Policy.ObsoletionTime != null) ? true : false;
 
-            return viewModel;
-		}       
-    }
+			return viewModel;
+		}
+	}
 }

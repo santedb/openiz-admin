@@ -17,23 +17,38 @@
  * Date: 2016-8-1
  */
 
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 
-namespace OpenIZAdmin.Models.MaterialModels
+namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 {
-	public class SearchMaterialModel
+	/// <summary>
+	/// Represents a material view model.
+	/// </summary>
+	public class MaterialViewModel
 	{
-		public SearchMaterialModel()
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MaterialViewModel"/> class.
+		/// </summary>
+		public MaterialViewModel()
 		{
+		}
 
-        }
+		/// <summary>
+		/// Gets or sets the form concept of the material.
+		/// </summary>
+		[Display(Name = "FormConcept", ResourceType = typeof(Localization.Locale))]
+		public string FormConcept { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name of the material.
+		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Gets or sets the quantity concept of the material.
+		/// </summary>
+		[Display(Name = "QuantityConcept", ResourceType = typeof(Localization.Locale))]
+		public string QuantityConcept { get; set; }
 	}
 }

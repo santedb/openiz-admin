@@ -18,37 +18,32 @@
  */
 
 using OpenIZAdmin.Util;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace OpenIZAdmin.Models
 {
-    /// <summary>
+	/// <summary>
 	/// Represents a facilities model.
 	/// </summary>
-    public class FacilitiesModel
-    {
-        public FacilitiesModel()
-        {
+	public class FacilitiesModel
+	{
+		public FacilitiesModel()
+		{
+		}
 
-        }
+		public FacilitiesModel(string name, string id)
+		{
+			if (CommonUtil.IsValidString(name))
+				this.Name = name;
+			else
+				this.Name = string.Empty;
 
-        public FacilitiesModel(string name, string id)
-        {
-            if (CommonUtil.IsValidString(name))
-                this.Name = name;
-            else
-                this.Name = string.Empty;
+			if (CommonUtil.IsValidString(id))
+				this.Id = id;
+			else
+				this.Id = string.Empty;
+		}
 
-            if (CommonUtil.IsValidString(id))
-                this.Id = id;
-            else
-                this.Id = string.Empty;            
-        }
-
-        public string Name { get; set; }
-        public string Id { get; set; }
-    }
+		public string Id { get; set; }
+		public string Name { get; set; }
+	}
 }

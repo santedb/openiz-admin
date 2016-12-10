@@ -17,11 +17,8 @@
  * Date: 2016-7-23
  */
 
-using OpenIZ.Core.Model.DataTypes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using OpenIZ.Core.Model.Entities;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 {
@@ -29,29 +26,34 @@ namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 	/// Represents a material search result view model.
 	/// </summary>
 	public class MaterialSearchResultViewModel
-    {
+	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MaterialSearchResultViewModel"/> class.
 		/// </summary>
 		public MaterialSearchResultViewModel()
 		{
-
 		}
 
-		public MaterialSearchResultViewModel(Material material)
-		{
-			this.CreationTime = material.CreationTime.DateTime;
-			this.Key = material.Key.Value;
-			this.Name = string.Join(" ", material.Names.SelectMany(m => m.Component).Select(c => c.Value));
-			this.VersionKey = material.VersionKey;
-		}
-
-		public string Name { get; set; }
-        
+		/// <summary>
+		/// Gets or sets the creation time of the material.
+		/// </summary>
+		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime CreationTime { get; set; }
 
+		/// <summary>
+		/// Gets or sets th key of the material.
+		/// </summary>
 		public Guid Key { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name of the material.
+		/// </summary>
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		public string Name { get; set; }
+
+		/// <summary>
+		/// Gets or sets the version key of the material.
+		/// </summary>
 		public Guid? VersionKey { get; set; }
 	}
 }

@@ -21,16 +21,25 @@ using OpenIZ.Core.Model.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
 {
 	public class EditConceptSetModel
-    {
+	{
 		public EditConceptSetModel()
 		{
 			this.Concepts = new List<Concept>();
 		}
+
+		public List<bool> ConceptDeletion { get; set; }
+
+		public string ConceptMnemonic { get; set; }
+
+		public string ConceptName { get; set; }
+
+		public List<Concept> Concepts { get; set; }
+
+		public Guid ConceptToAdd { get; set; }
 
 		[Display(Name = "Created By")]
 		public string CreatedBy { get; set; }
@@ -40,28 +49,18 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 
 		public Guid Key { get; set; }
 
-        [Required]
-        public string Mnemonic { get; set; }
+		[Required]
+		public string Mnemonic { get; set; }
 
-        [Required]
-        public string Name { get; set; }
+		[Required]
+		public string Name { get; set; }
 
-        [Required]
-        public string Oid { get; set; }
+		[Required]
+		public string Oid { get; set; }
 
-        [Required]
-        public string Url { get; set; }
+		public List<Concept> SearchedConcepts { get; set; }
 
-        public List<Concept>Concepts { get; set; }
-
-        public List<bool> ConceptDeletion { get; set; }
-        public string ConceptMnemonic { get; set; }
-        public string ConceptName { get; set; }
-
-
-        public List<Concept> SearchedConcepts { get; set; }
-
-        public Guid ConceptToAdd { get; set; }
-        
+		[Required]
+		public string Url { get; set; }
 	}
 }

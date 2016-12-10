@@ -173,7 +173,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var roleInfo = RoleUtil.GetRole(this.AmiClient, model.Id);
+					var roleInfo = RoleUtil.GetRole(this.AmiClient, Guid.Parse(model.Id));
 
 					if (roleInfo == null)
 					{

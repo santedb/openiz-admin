@@ -891,4 +891,10 @@
   <data name="ReferenceTerms" xml:space="preserve">
     <value>Reference Terms</value>
   </data>
+  <data name="FormConcept" xml:space="preserve">
+    <value>Form Concept</value>
+  </data>
+  <data name="QuantityConcept" xml:space="preserve">
+    <value>Quantity Concept</value>
+  </data>
 </root>

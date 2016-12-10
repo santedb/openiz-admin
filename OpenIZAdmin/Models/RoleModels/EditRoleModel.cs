@@ -1,29 +1,25 @@
 ﻿/*
  * Copyright 2016-2016 Mohawk College of Applied Arts and Technology
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you 
- * may not use this file except in compliance with the License. You may 
- * obtain a copy of the License at 
- * 
- * http://www.apache.org/licenses/LICENSE-2.0 
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the 
- * License for the specific language governing permissions and limitations under 
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * User: Nityan
  * Date: 2016-9-5
  */
-using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Security;
+
 using OpenIZAdmin.Models.PolicyModels.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.RoleModels
@@ -38,15 +34,15 @@ namespace OpenIZAdmin.Models.RoleModels
 		/// </summary>
 		public EditRoleModel()
 		{
-            this.Policies = new List<string>();
-            this.PoliciesList = new List<SelectListItem>();            
-            this.RolePolicies = new List<PolicyViewModel>();
-        }        
+			this.Policies = new List<string>();
+			this.PoliciesList = new List<SelectListItem>();
+			this.RolePolicies = new List<PolicyViewModel>();
+		}
 
-        /// <summary>
-        /// Gets or sets the description of the role.
-        /// </summary>
-        [Display(Name = "Description")]
+		/// <summary>
+		/// Gets or sets the description of the role.
+		/// </summary>
+		[Display(Name = "Description")]
 		[StringLength(1000, ErrorMessageResourceName = "DescriptionTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Description { get; set; }
 
@@ -61,11 +57,11 @@ namespace OpenIZAdmin.Models.RoleModels
 		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
-        [Display(Name = "Policies", ResourceType = typeof(Localization.Locale))]
-        public List<string> Policies { get; set; }
+		[Display(Name = "Policies", ResourceType = typeof(Localization.Locale))]
+		public List<string> Policies { get; set; }
 
-        public List<SelectListItem> PoliciesList { get; set; }
+		public List<SelectListItem> PoliciesList { get; set; }
 
-        public IEnumerable<PolicyViewModel> RolePolicies { get; set; }
-    }
+		public IEnumerable<PolicyViewModel> RolePolicies { get; set; }
+	}
 }

@@ -17,45 +17,41 @@
  * Date: 2016-7-8
  */
 
+using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.ComponentModel.DataAnnotations;
-using OpenIZAdmin.Models.PolicyModels.ViewModels;
 
 namespace OpenIZAdmin.Models.ApplicationModels.ViewModels
 {
-    public class ApplicationViewModel
-    {
-        public ApplicationViewModel()
-        {
-            this.Policies = new List<PolicyViewModel>();
-        }
+	public class ApplicationViewModel
+	{
+		public ApplicationViewModel()
+		{
+			this.Policies = new List<PolicyViewModel>();
+		}
 
-        [Display(Name = "ApplicationId", ResourceType = typeof(Localization.Locale))]
-        public string ApplicationId { get; set; }
+		[Display(Name = "ApplicationId", ResourceType = typeof(Localization.Locale))]
+		public string ApplicationId { get; set; }
 
-        [Display(Name = "ApplicationName", ResourceType = typeof(Localization.Locale))]
-        public string ApplicationName { get; set; }
+		[Display(Name = "ApplicationName", ResourceType = typeof(Localization.Locale))]
+		public string ApplicationName { get; set; }
 
-        [Display(Name = "ApplicationSecret", ResourceType = typeof(Localization.Locale))]
-        public string ApplicationSecret { get; set; }
+		[Display(Name = "ApplicationSecret", ResourceType = typeof(Localization.Locale))]
+		public string ApplicationSecret { get; set; }
 
-        [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-        public DateTime CreationTime { get; set; }
+		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+		public DateTime CreationTime { get; set; }
 
-        [Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
-        public bool HasPolicies { get; set; }
+		[Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
+		public bool HasPolicies { get; set; }
 
-        public Guid Id { get; set; }
+		public Guid Id { get; set; }
 
-        public bool IsObsolete { get; set; }        
+		public bool IsObsolete { get; set; }
 
-        public List<PolicyViewModel> Policies { get; set; }
+		public List<PolicyViewModel> Policies { get; set; }
 
-        public DateTime? UpdatedTime { get; set; }
-
-
-    }
+		public DateTime? UpdatedTime { get; set; }
+	}
 }

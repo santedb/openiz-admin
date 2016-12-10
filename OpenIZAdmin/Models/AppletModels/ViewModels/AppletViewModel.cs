@@ -17,8 +17,6 @@
  * Date: 2016-7-8
  */
 
-using System;
-
 namespace OpenIZAdmin.Models.AppletModels.ViewModels
 {
 	/// <summary>

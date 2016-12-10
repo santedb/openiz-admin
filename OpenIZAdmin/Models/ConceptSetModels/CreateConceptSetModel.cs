@@ -17,33 +17,26 @@
  * Date: 2016-7-23
  */
 
-using OpenIZ.Core.Model.DataTypes;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
 {
 	public class CreateConceptSetModel
-    {
+	{
 		public CreateConceptSetModel()
 		{
-
 		}
 
-        [Required]
-        public string Mnemonic { get; set; }
+		[Required]
+		public string Mnemonic { get; set; }
 
-        [Required]
-        public string Name { get; set; }
+		[Required]
+		public string Name { get; set; }
 
-        [Required]
-        public string Oid { get; set; }
+		[Required]
+		public string Oid { get; set; }
 
-        [Required]
-        public string Url { get; set; }
-
-
-    }
+		[Required]
+		public string Url { get; set; }
+	}
 }

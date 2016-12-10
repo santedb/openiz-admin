@@ -23,7 +23,6 @@ using OpenIZAdmin.Models.CertificateModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace OpenIZAdmin.Util
@@ -34,62 +33,52 @@ namespace OpenIZAdmin.Util
 	public static class CertificateUtil
 	{
 		/// <summary>
-		/// Gets a list of certificate signing requests.
+		/// Converts a <see cref="SubmissionInfo"/> to a <see cref="CertificateSigningRequestViewModel"/>.
 		/// </summary>
-		/// <param name="client">The <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.</param>
-		/// <returns>Returns a list of certificate signing requests.</returns>
-		internal static IEnumerable<CertificateSigningRequestViewModel> GetAllCertificateSigningRequests(AmiServiceClient client)
-		{
-			IEnumerable<CertificateSigningRequestViewModel> viewModels = new List<CertificateSigningRequestViewModel>();
-
-			try
-			{
-				var certificateSigningRequests = client.GetCertificateSigningRequests(c => c.DistinguishedName != null);
-
-				viewModels = certificateSigningRequests.CollectionItem.Select(c => CertificateUtil.ToCertificateSigningRequestViewModel(c));
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve certificate signing requests: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve certificate signing requests: {0}", e.Message);
-			}
-
-			return viewModels;
-		}
-
-		/// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.AMI.Security.SubmissionInfo"/> to a <see cref="OpenIZAdmin.Models.CertificateModels.ViewModels.CertificateSigningRequestViewModel"/>.
-		/// </summary>
-		/// <param name="submissionInfo">The submission information to convert.</param>
+		/// <param name="submissionInfo">The <see cref="SubmissionInfo"/> instance to convert.</param>
 		/// <returns>Returns a certificate signing request view model.</returns>
 		public static CertificateSigningRequestViewModel ToCertificateSigningRequestViewModel(SubmissionInfo submissionInfo)
 		{
-			CertificateSigningRequestViewModel viewModel = new CertificateSigningRequestViewModel();
-
-			viewModel.AdministrativeContactEmail = submissionInfo.EMail;
-			viewModel.AdministrativeContactName = submissionInfo.AdminContact;
-			viewModel.DistinguishedName = submissionInfo.DistinguishedName;
-			viewModel.SubmissionTime = Convert.ToDateTime(submissionInfo.SubmittedWhen);
+			var viewModel = new CertificateSigningRequestViewModel
+			{
+				AdministrativeContactEmail = submissionInfo.EMail,
+				AdministrativeContactName = submissionInfo.AdminContact,
+				DistinguishedName = submissionInfo.DistinguishedName,
+				SubmissionTime = Convert.ToDateTime(submissionInfo.SubmittedWhen)
+			};
 
 			return viewModel;
 		}
 
 		/// <summary>
-		/// Converts a <see cref="OpenIZAdmin.Models.CertificateModels.SubmitCertificateSigningRequestModel"/> instance
-		/// to a <see cref="OpenIZ.Core.Model.AMI.Security.SubmissionRequest"/> instance.
+		/// Converts a <see cref="SubmitCertificateSigningRequestModel"/> instance to a <see cref="SubmissionRequest"/> instance.
 		/// </summary>
+		/// <param name="model">The <see cref="SubmitCertificateSigningRequestModel"/> instance to convert.</param>
 		/// <returns>Returns a submission request.</returns>
 		public static SubmissionRequest ToSubmissionRequest(SubmitCertificateSigningRequestModel model)
 		{
-			SubmissionRequest submissionRequest = new SubmissionRequest();
-
-			submissionRequest.AdminAddress = model.AdministrativeContactEmail;
-			submissionRequest.AdminContactName = model.AdministrativeContactName;
-			submissionRequest.CmcRequest = model.CmcRequest;
+			var submissionRequest = new SubmissionRequest
+			{
+				AdminAddress = model.AdministrativeContactEmail,
+				AdminContactName = model.AdministrativeContactName,
+				CmcRequest = model.CmcRequest
+			};
 
 			return submissionRequest;
+		}
+
+		/// <summary>
+		/// Gets a list of certificate signing requests.
+		/// </summary>
+		/// <param name="client">The <see cref="AmiServiceClient"/> instance.</param>
+		/// <returns>Returns a list of certificate signing requests.</returns>
+		internal static IEnumerable<CertificateSigningRequestViewModel> GetAllCertificateSigningRequests(AmiServiceClient client)
+		{
+			var certificateSigningRequests = client.GetCertificateSigningRequests(c => c.ResolvedWhen == null);
+
+			var viewModels = certificateSigningRequests.CollectionItem.Select(CertificateUtil.ToCertificateSigningRequestViewModel);
+
+			return viewModels;
 		}
 	}
 }

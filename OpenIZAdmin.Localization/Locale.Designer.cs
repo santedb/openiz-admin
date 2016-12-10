@@ -997,6 +997,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Form Concept.
+        /// </summary>
+        public static string FormConcept {
+            get {
+                return ResourceManager.GetString("FormConcept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Found.
         /// </summary>
         public static string Found {
@@ -1713,6 +1722,15 @@ namespace OpenIZAdmin.Localization {
         public static string ProviderSpecialty {
             get {
                 return ResourceManager.GetString("ProviderSpecialty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quantity Concept.
+        /// </summary>
+        public static string QuantityConcept {
+            get {
+                return ResourceManager.GetString("QuantityConcept", resourceCulture);
             }
         }
         

@@ -24,30 +24,58 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.MaterialModels
 {
+	/// <summary>
+	/// Represents a model to edit a material.
+	/// </summary>
 	public class EditMaterialModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EditMaterialModel"/> class.
+		/// </summary>
 		public EditMaterialModel()
 		{
-            this.FormConcepts = new List<SelectListItem>();
-            this.QuantityConcepts = new List<SelectListItem>();
-        }
+			this.FormConcepts = new List<SelectListItem>();
+			this.QuantityConcepts = new List<SelectListItem>();
+		}
 
+		/// <summary>
+		/// Gets or sets the form concept of the material.
+		/// </summary>
+		[Display(Name = "FormConcept", ResourceType = typeof(Localization.Locale))]
+		public string FormConcept { get; set; }
+
+		/// <summary>
+		/// Gets or sets a list of form concepts.
+		/// </summary>
+		public List<SelectListItem> FormConcepts { get; set; }
+
+		/// <summary>
+		/// Gets or sets the key of the material.
+		/// </summary>
+		public Guid Key { get; set; }
+
+		/// <summary>
+		/// Gets or sets the name of the material.
+		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
-        public Guid Key { get; set; }
+		/// <summary>
+		/// Gets or sets the quantity concept of the material.
+		/// </summary>
+		[Display(Name = "QuantityConcept", ResourceType = typeof(Localization.Locale))]
+		public string QuantityConcept { get; set; }
 
-        public Guid? VersionKey { get; set; }
+		/// <summary>
+		/// Gets or sets a list of quantity concepts.
+		/// </summary>
+		public List<SelectListItem> QuantityConcepts { get; set; }
 
-        public List<SelectListItem> FormConcepts { get; set; }
-
-        public List<SelectListItem> QuantityConcepts { get; set; }
-
-        public string QuantityConcept { get; set; }
-
-        public string FormConcept { get; set; }
-
-    }
+		/// <summary>
+		/// Gets or sets the version key of the material.
+		/// </summary>
+		public Guid? VersionKey { get; set; }
+	}
 }

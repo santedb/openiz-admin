@@ -17,7 +17,6 @@
  * Date: 2016-11-16
  */
 
-using OpenIZ.Core.Model.Security;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -25,37 +24,35 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.PolicyModels
 {
-    public class EditPolicyModel
-    {
-        public EditPolicyModel()
-        {
-            this.GrantsList = new List<SelectListItem>();
-        }
+	public class EditPolicyModel
+	{
+		public EditPolicyModel()
+		{
+			this.GrantsList = new List<SelectListItem>();
+		}
 
-        [Display(Name = "CanOverride", ResourceType = typeof(Localization.Locale))]
-        public bool CanOverride { get; set; }
+		[Display(Name = "CanOverride", ResourceType = typeof(Localization.Locale))]
+		public bool CanOverride { get; set; }
 
-        [Display(Name = "Grants", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "GrantsRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public int Grant { get; set; }
+		[Display(Name = "Grants", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "GrantsRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		public int Grant { get; set; }
 
-        public List<SelectListItem> GrantsList { get; set; }
+		public List<SelectListItem> GrantsList { get; set; }
 
-        [Display(Name = "IsPublic", ResourceType = typeof(Localization.Locale))]
-        public bool IsPublic { get; set; }
+		[Display(Name = "IsPublic", ResourceType = typeof(Localization.Locale))]
+		public bool IsPublic { get; set; }
 
-        [Required]
-        public Guid Key { get; set; }
+		[Required]
+		public Guid Key { get; set; }
 
-        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string Name { get; set; }
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		public string Name { get; set; }
 
-        [Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string Oid { get; set; }        
-        
-    }
-
+		[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		public string Oid { get; set; }
+	}
 }

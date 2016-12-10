@@ -29,28 +29,27 @@ namespace OpenIZAdmin.Models.UserModels
 	{
 		public EditUserModel()
 		{
-			this.Facilities = new List<string>();                        
-            this.FacilityList = new List<SelectListItem>();
+			this.Facilities = new List<string>();
+			this.FacilityList = new List<SelectListItem>();
 			this.FamilyNameList = new List<SelectListItem>();
 			this.FamilyNames = new List<string>();
 			this.GivenNamesList = new List<SelectListItem>();
 			this.GivenNames = new List<string>();
 			this.RolesList = new List<SelectListItem>();
-            this.Roles = new List<string>();
-            this.UserRoles = new List<RoleViewModel>();
+			this.Roles = new List<string>();
+			this.UserRoles = new List<RoleViewModel>();
+		}
 
-        }
+		/// <summary>
+		/// Gets or sets the creation time of the user account.
+		/// </summary>
+		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+		public DateTimeOffset CreationTime { get; set; }
 
-        /// <summary>
-        /// Gets or sets the creation time of the user account.
-        /// </summary>
-        [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-        public DateTimeOffset CreationTime { get; set; }
-
-        /// <summary>
-        /// Gets or sets the email address of the user.
-        /// </summary>
-        [Display(Name = "Email", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the email address of the user.
+		/// </summary>
+		[Display(Name = "Email", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "EmailRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[EmailAddress(ErrorMessage = null, ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Email { get; set; }
@@ -61,16 +60,16 @@ namespace OpenIZAdmin.Models.UserModels
 		[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
 		public List<string> Facilities { get; set; }
 
-        /// <summary>
+		/// <summary>
 		/// Gets or sets the id of the facility of the user.
 		/// </summary>
 		//[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
-        //public List<string> FacilitiesId { get; set; }
+		//public List<string> FacilitiesId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the list of facilities.
-        /// </summary>
-        public List<SelectListItem> FacilityList { get; set; }
+		/// <summary>
+		/// Gets or sets the list of facilities.
+		/// </summary>
+		public List<SelectListItem> FacilityList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of family names.
@@ -84,44 +83,44 @@ namespace OpenIZAdmin.Models.UserModels
 		public List<string> FamilyNames { get; set; }
 
 		/// <summary>
-		/// Gets or sets the list of given names.
-		/// </summary>
-		public List<SelectListItem> GivenNamesList { get; set; }
-
-		/// <summary>
 		/// Gets or sets the givens names of the user.
 		/// </summary>
 		[Display(Name = "Names", ResourceType = typeof(Localization.Locale))]
 		public List<string> GivenNames { get; set; }
 
-        /// <summary>
+		/// <summary>
+		/// Gets or sets the list of given names.
+		/// </summary>
+		public List<SelectListItem> GivenNamesList { get; set; }
+
+		/// <summary>
 		/// Gets or sets the health facility of the user.
 		/// </summary>
 		[Display(Name = "HealthFacility", ResourceType = typeof(Localization.Locale))]
-        public string HealthFacility { get; set; }
+		public string HealthFacility { get; set; }
 
-        /// <summary>
-        /// Gets or sets the roles to apply to the user account.
-        /// </summary>
-        [Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the roles to apply to the user account.
+		/// </summary>
+		[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
 		//[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public List<string> Roles { get; set; }
 
-        /// <summary>
-		/// Gets or sets the current roles of the user.
+		/// <summary>
+		/// Gets or sets the list of roles.
 		/// </summary>
-		//[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
-        public IEnumerable<RoleViewModel> UserRoles { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of roles.
-        /// </summary>
-        public List<SelectListItem> RolesList { get; set; }
+		public List<SelectListItem> RolesList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the user id of the user.
 		/// </summary>
 		[Required]
 		public Guid UserId { get; set; }
+
+		/// <summary>
+		/// Gets or sets the current roles of the user.
+		/// </summary>
+		//[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
+		public IEnumerable<RoleViewModel> UserRoles { get; set; }
 	}
 }

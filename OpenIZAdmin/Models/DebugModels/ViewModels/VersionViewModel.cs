@@ -17,7 +17,6 @@
  * Date: 2016-11-21
  */
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -53,6 +52,11 @@ namespace OpenIZAdmin.Models.DebugModels.ViewModels
 		}
 
 		/// <summary>
+		/// Gets or sets the loaded assemblies of the application.
+		/// </summary>
+		public List<AssemblyInfoViewModel> Assemblies { get; set; }
+
+		/// <summary>
 		/// Gets or sets the company of the version information.
 		/// </summary>
 		public string Company { get; set; }
@@ -66,11 +70,6 @@ namespace OpenIZAdmin.Models.DebugModels.ViewModels
 		/// Gets or sets the description of the version information.
 		/// </summary>
 		public string Description { get; set; }
-
-		/// <summary>
-		/// Gets or sets the loaded assemblies of the application.
-		/// </summary>
-		public List<AssemblyInfoViewModel> Assemblies { get; set; }
 
 		/// <summary>
 		/// Gets or sets the product of the version information.

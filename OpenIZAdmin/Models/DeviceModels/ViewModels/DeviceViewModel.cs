@@ -34,21 +34,21 @@ namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime CreationTime { get; set; }
 
-        [Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
-        public string DeviceSecret { get; set; }
+		[Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
+		public string DeviceSecret { get; set; }
 
-        [Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
-        public bool HasPolicies { get; set; }        
+		[Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
+		public bool HasPolicies { get; set; }
 
-        public Guid Id { get; set; }
+		public Guid Id { get; set; }
 
-        public bool IsObsolete { get; set; }
+		public bool IsObsolete { get; set; }
 
-        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
-		public List<PolicyViewModel> Policies { get; set; }        
+		public List<PolicyViewModel> Policies { get; set; }
 
-        public DateTime? UpdatedTime { get; set; }
+		public DateTime? UpdatedTime { get; set; }
 	}
 }

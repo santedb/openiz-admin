@@ -27,23 +27,42 @@ using System.Threading.Tasks;
 
 namespace OpenIZAdmin.Models.Domain
 {
-	// You can add profile data for the user by adding more properties to your ApplicationUser class, please visit http://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
+	/// <summary>
+	/// Represents an application user.
+	/// </summary>
 	public class ApplicationUser : IdentityUser
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ApplicationUser"/> class.
+		/// </summary>
 		public ApplicationUser()
 		{
 			this.Language = "en";
 		}
 
+		/// <summary>
+		/// Gets or sets the language of the application user.
+		/// </summary>
 		[StringLength(2)]
 		public string Language { get; set; }
 
+		/// <summary>
+		/// Gets or sets the realm of the application user.
+		/// </summary>
 		[ForeignKey("RealmId")]
 		public virtual Realm Realm { get; set; }
 
+		/// <summary>
+		/// Gets or sets the id of the realm of the application user.
+		/// </summary>
 		[Required]
 		public Guid RealmId { get; set; }
 
+		/// <summary>
+		/// Generates a user identity.
+		/// </summary>
+		/// <param name="manager">The <see cref="UserManager{TUser}"/> instance.</param>
+		/// <returns>Returns a <see cref="Task{ClaimsIdentity}"/> instance.</returns>
 		public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
 		{
 			// Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType

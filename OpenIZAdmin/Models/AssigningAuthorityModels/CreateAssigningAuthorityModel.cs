@@ -17,35 +17,32 @@
  * Date: 2016-7-30
  */
 
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {
 	public class CreateAssigningAuthorityModel
 	{
-        public CreateAssigningAuthorityModel()
-        {
-        }
-        
-        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        [Required]
-        public string Name { get; set; }
+		public CreateAssigningAuthorityModel()
+		{
+		}
 
-        [Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
-        [Required]
-        public string Oid { get; set; }
+		[Display(Name = "Description", ResourceType = typeof(Localization.Locale))]
+		public string Description { get; set; }
 
-        [Display(Name = "Url", ResourceType = typeof(Localization.Locale))]
-        public string Url { get; set; }
+		[Display(Name = "DomainName", ResourceType = typeof(Localization.Locale))]
+		[Required]
+		public string DomainName { get; set; }
 
-        [Display(Name = "DomainName", ResourceType = typeof(Localization.Locale))]
-        [Required]
-        public string DomainName { get; set; }
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		[Required]
+		public string Name { get; set; }
 
-        [Display(Name = "Description", ResourceType = typeof(Localization.Locale))]
-        public string Description { get; set; }
-    }
+		[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
+		[Required]
+		public string Oid { get; set; }
+
+		[Display(Name = "Url", ResourceType = typeof(Localization.Locale))]
+		public string Url { get; set; }
+	}
 }

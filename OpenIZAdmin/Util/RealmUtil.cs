@@ -24,9 +24,9 @@ using OpenIZAdmin.Models.RealmModels.ViewModels;
 
 namespace OpenIZAdmin.Util
 {
-    /// <summary>
-    /// Provides a utility for managing realms.
-    /// </summary>
+	/// <summary>
+	/// Provides a utility for managing realms.
+	/// </summary>
 	public static class RealmUtil
 	{
 		/// <summary>

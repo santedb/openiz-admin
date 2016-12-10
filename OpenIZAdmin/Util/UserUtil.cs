@@ -18,11 +18,8 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.AMI.Security;
 using OpenIZ.Core.Model.Constants;
-using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
-using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Models;
@@ -32,7 +29,6 @@ using OpenIZAdmin.Models.UserModels;
 using OpenIZAdmin.Models.UserModels.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -43,6 +39,224 @@ namespace OpenIZAdmin.Util
 	/// </summary>
 	public static class UserUtil
 	{
+		/// <summary>
+		/// Gets a security user info.
+		/// </summary>
+		/// <param name="client">The AMI service client.</param>
+		/// <param name="userId">The id of the user to be retrieved.</param>
+		/// <returns>Returns a security user.</returns>
+		public static SecurityUserInfo GetSecurityUserInfo(AmiServiceClient client, Guid userId)
+		{
+			return client.GetUser(userId.ToString());
+		}
+
+		/// <summary>
+		/// Gets a user entity.
+		/// </summary>
+		/// <param name="client">The IMSI service client.</param>
+		/// <param name="userId">The user id of the user to retrieve.</param>
+		/// <returns>Returns a user entity or null if no user entity is found.</returns>
+		public static UserEntity GetUserEntity(ImsiServiceClient client, Guid userId)
+		{
+			var bundle = client.Query<UserEntity>(u => u.SecurityUserKey == userId && u.ObsoletionTime == null);
+
+			bundle.Reconstitute();
+
+			return bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.SecurityUserKey == userId);
+		}
+
+		/// <summary>
+		/// Converts a user entity to a edit user model.
+		/// </summary>
+		/// <param name="imsiClient">The Imsi Service Client client.</param>
+		/// <param name="amiClient">The Ami service client.</param>
+		/// <param name="userEntity">The user entity to convert to a edit user model.</param>
+		/// <returns>Returns a edit user model.</returns>
+		public static EditUserModel ToEditUserModel(ImsiServiceClient imsiClient, AmiServiceClient amiClient, UserEntity userEntity)
+		{
+			var securityUserInfo = amiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
+
+			var model = new EditUserModel
+			{
+				Email = userEntity.SecurityUser.Email,
+				FamilyNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList(),
+				GivenNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList(),
+				UserId = userEntity.SecurityUserKey.GetValueOrDefault(Guid.Empty)
+			};
+
+			model.CreationTime = securityUserInfo.User.CreationTime.DateTime;
+			model.UserRoles = (securityUserInfo.Roles != null && securityUserInfo.Roles.Any()) ? securityUserInfo.Roles.Select(p => RoleUtil.ToRoleViewModel(p)).OrderBy(q => q.Name).ToList() : new List<RoleViewModel>();
+
+			model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
+			model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
+
+			//----would like to make this more compact - not happy with this code block - START ------//
+			var facilityId = userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString();
+
+			if (facilityId != null && facilityId.Any())
+			{
+				var healthFacility = userEntity.Relationships.FirstOrDefault(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+
+				if (healthFacility?.TargetEntityKey != null)
+				{
+					var place = imsiClient.Get<Place>(healthFacility.TargetEntityKey.Value, null) as Place;
+					string facilityName = string.Join(" ", place.Names.SelectMany(n => n.Component)?.Select(c => c.Value));
+
+					var facility = new List<FacilitiesModel>();
+					facility.Add(new FacilitiesModel(facilityName, facilityId));
+
+					model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Text = f.Name, Value = f.Id }));
+
+					model.Facilities.Add(facilityId.ToString());
+				}
+			}
+			//----would like to make this more compact - not happy with this code block - END ------//
+
+			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
+			model.RolesList.AddRange(RoleUtil.GetAllRoles(amiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }));
+
+			model.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
+
+			return model;
+		}
+
+		/// <summary>
+		/// Converts a <see cref="OpenIZAdmin.Models.UserModels.CreateUserModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/>.
+		/// </summary>
+		/// <param name="model">The create user object to convert.</param>
+		/// <returns>Returns a SecurityUserInfo model.</returns>
+		public static SecurityUserInfo ToSecurityUserInfo(CreateUserModel model)
+		{
+			var userInfo = new SecurityUserInfo
+			{
+				Email = model.Email,
+				Password = model.Password,
+				UserName = model.Username,
+				Roles = new List<SecurityRoleInfo>()
+			};
+
+			userInfo.Roles.AddRange(model.Roles.Select(r => new SecurityRoleInfo { Name = r }));
+
+			return userInfo;
+		}
+
+		/// <summary>
+		/// Converts a <see cref="OpenIZAdmin.Models.UserModels.CreateUserModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/>.
+		/// </summary>
+		/// <param name="model">The create user object to convert.</param>
+		/// <returns>Returns a SecurityUserInfo model.</returns>
+		public static SecurityUserInfo ToSecurityUserInfo(UserEntity userEntity)
+		{
+			var userInfo = new SecurityUserInfo
+			{
+				//Email = userEntity.SecurityUser.Email,
+				//Password = userEntity.SecurityUser.p,
+				//UserName = userEntity.SecurityUser.Username,
+				Roles = new List<SecurityRoleInfo>()
+			};
+
+			if (userEntity.SecurityUser.Roles != null && userEntity.SecurityUser.Roles.Any())
+			{
+			}
+
+			//userInfo.Roles.AddRange(userEntity.SecurityUser.Roles.Select(r => new SecurityRoleInfo { Name = r }));
+
+			return userInfo;
+		}
+
+		/// <summary>
+		/// Converts a <see cref="EditUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
+		/// </summary>
+		/// <param name="model">The create user object to convert.</param>
+		/// <param name="user">The user entity instance.</param>
+		/// <param name="client">The AMI service client instance. </param>
+		/// <returns>Returns a security user info model.</returns>
+		public static SecurityUserInfo ToSecurityUserInfo(EditUserModel model, UserEntity user, AmiServiceClient client)
+		{
+			var userInfo = new SecurityUserInfo
+			{
+				Email = model.Email,
+				Roles = new List<SecurityRoleInfo>(),
+				User = user.SecurityUser,
+				UserId = model.UserId
+			};
+
+			userInfo.User.Email = model.Email;
+
+			if (model.Roles.Any())
+			{
+				foreach (var role in model.Roles.Select(roleId => RoleUtil.GetRole(client, Guid.Parse(roleId))).Where(role => role?.Role != null))
+				{
+					userInfo.Roles.Add(role);
+				}
+			}
+
+			return userInfo;
+		}
+
+		/// <summary>
+		/// Converts a update profile model to a user entity.
+		/// </summary>
+		/// <param name="model">The model to convert to a user entity.</param>
+		/// <returns>Returns a user entity.</returns>
+		public static UserEntity ToUserEntity(UpdateProfileModel model)
+		{
+			var userEntity = new UserEntity
+			{
+				SecurityUser =
+				{
+					PhoneNumber = model.PhoneNumber
+				}
+			};
+
+			return userEntity;
+		}
+
+		/// <summary>
+		/// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/> to a <see cref="OpenIZAdmin.Models.UserModels.ViewModels.UserViewModel"/>.
+		/// </summary>
+		/// <param name="userInfo">The security user info object to convert.</param>
+		/// <returns>Returns a user entity model.</returns>
+		public static UserViewModel ToUserViewModel(SecurityUserInfo userInfo)
+		{
+			var viewModel = new UserViewModel
+			{
+				Email = userInfo.Email,
+				HasRoles = (userInfo.Roles != null && userInfo.Roles.Any()) ? true : false,
+				IsLockedOut = userInfo.Lockout.GetValueOrDefault(false),
+				IsObsolete = (userInfo.User.ObsoletionTime != null) ? true : false,
+				LastLoginTime = userInfo.User.LastLoginTime?.DateTime,
+				PhoneNumber = userInfo.User.PhoneNumber,
+				Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel),
+				UserId = userInfo.UserId.Value,
+				Username = userInfo.UserName
+			};
+
+			return viewModel;
+		}
+
+		/// <summary>
+		/// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/> to a <see cref="OpenIZAdmin.Models.UserModels.ViewModels.UserViewModel"/>.
+		/// </summary>
+		/// <param name="client">The Imsi service client for queri.</param>
+		/// <param name="userInfo">The security user info object to convert.</param>
+		/// <returns>Returns a user entity model.</returns>
+		public static UserViewModel ToUserViewModel(ImsiServiceClient client, SecurityUserInfo userInfo)
+		{
+			UserViewModel viewModel = new UserViewModel();
+
+			viewModel.Email = userInfo.Email;
+			viewModel.IsLockedOut = userInfo.Lockout.GetValueOrDefault(false);
+			viewModel.IsObsolete = (userInfo.User.ObsoletionTime != null) ? true : false;
+			viewModel.LastLoginTime = userInfo.User.LastLoginTime?.DateTime;
+			viewModel.PhoneNumber = userInfo.User.PhoneNumber;
+			viewModel.Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel);
+			viewModel.UserId = userInfo.UserId.Value;
+			viewModel.Username = userInfo.UserName;
+
+			return viewModel;
+		}
+
 		/// <summary>
 		/// Gets a list of users.
 		/// </summary>
@@ -82,226 +296,5 @@ namespace OpenIZAdmin.Util
 		{
 			return client.GetUsers(u => u.UserName == "SYSTEM").CollectionItem.FirstOrDefault();
 		}
-
-		/// <summary>
-		/// Gets a security user info.
-		/// </summary>
-		/// <param name="client">The AMI service client.</param>
-		/// <param name="userId">The id of the user to be retrieved.</param>
-		/// <returns>Returns a security user.</returns>
-		public static SecurityUserInfo GetSecurityUserInfo(AmiServiceClient client, Guid userId)
-		{
-			return client.GetUser(userId.ToString());
-		}
-
-		/// <summary>
-		/// Gets a user entity.
-		/// </summary>
-		/// <param name="client">The IMSI service client.</param>
-		/// <param name="userId">The user id of the user to retrieve.</param>
-		/// <returns>Returns a user entity or null if no user entity is found.</returns>
-		public static UserEntity GetUserEntity(ImsiServiceClient client, Guid userId)
-		{
-			var bundle = client.Query<UserEntity>(u => u.SecurityUserKey == userId && u.ObsoletionTime == null);
-
-			bundle.Reconstitute();
-
-			return bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.SecurityUserKey == userId);
-		}
-
-        /// <summary>
-        /// Converts a user entity to a edit user model.
-        /// </summary>
-        /// <param name="imsiClient">The Imsi Service Client client.</param>
-        /// <param name="amiClient">The Ami service client.</param>
-        /// <param name="userEntity">The user entity to convert to a edit user model.</param>
-        /// <returns>Returns a edit user model.</returns>
-        public static EditUserModel ToEditUserModel(ImsiServiceClient imsiClient, AmiServiceClient amiClient, UserEntity userEntity)
-        {
-	        var securityUserInfo = amiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
-
-            var model = new EditUserModel
-	        {
-		        Email = userEntity.SecurityUser.Email,                
-                FamilyNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList(),
-		        GivenNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList(),		        
-		        UserId = userEntity.SecurityUserKey.GetValueOrDefault(Guid.Empty)
-	        };
-
-            model.CreationTime = securityUserInfo.User.CreationTime.DateTime;
-            model.UserRoles = (securityUserInfo.Roles != null && securityUserInfo.Roles.Any()) ? securityUserInfo.Roles.Select(p => RoleUtil.ToRoleViewModel(p)).OrderBy(q => q.Name).ToList() : new List<RoleViewModel>();
-
-            model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-			model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-
-            //----would like to make this more compact - not happy with this code block - START ------//
-            var facilityId = userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString();                                  
-
-            if (facilityId != null && facilityId.Any())
-            {
-                var healthFacility = userEntity.Relationships.FirstOrDefault(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-
-                if (healthFacility?.TargetEntityKey != null)
-                {
-                    var place = imsiClient.Get<Place>(healthFacility.TargetEntityKey.Value, null) as Place;                    
-                    string facilityName = string.Join(" ", place.Names.SelectMany(n => n.Component)?.Select(c => c.Value));
-
-                    var facility = new List<FacilitiesModel>();
-                    facility.Add(new FacilitiesModel(facilityName, facilityId));
-
-                    model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Text = f.Name, Value = f.Id }));
-
-                    model.Facilities.Add(facilityId.ToString());
-                }                
-            }
-            //----would like to make this more compact - not happy with this code block - END ------//                        
-
-            model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
-			model.RolesList.AddRange(RoleUtil.GetAllRoles(amiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }));
-
-            model.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
-
-            return model;
-		}                
-
-        /// <summary>
-        /// Converts a update profile model to a user entity.
-        /// </summary>
-        /// <param name="model">The model to convert to a user entity.</param>
-        /// <returns>Returns a user entity.</returns>
-        public static UserEntity ToUserEntity(UpdateProfileModel model)
-		{
-			var userEntity = new UserEntity
-			{
-				SecurityUser =
-				{
-					PhoneNumber = model.PhoneNumber
-				}
-			};
-
-			return userEntity;
-		}
-
-		/// <summary>
-		/// Converts a <see cref="OpenIZAdmin.Models.UserModels.CreateUserModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/>.
-		/// </summary>
-		/// <param name="model">The create user object to convert.</param>
-		/// <returns>Returns a SecurityUserInfo model.</returns>
-		public static SecurityUserInfo ToSecurityUserInfo(CreateUserModel model)
-		{
-			var userInfo = new SecurityUserInfo
-			{
-				Email = model.Email,
-				Password = model.Password,
-				UserName = model.Username,
-				Roles = new List<SecurityRoleInfo>()
-			};
-
-			userInfo.Roles.AddRange(model.Roles.Select(r => new SecurityRoleInfo { Name = r }));
-
-			return userInfo;
-		}
-
-        /// <summary>
-		/// Converts a <see cref="OpenIZAdmin.Models.UserModels.CreateUserModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/>.
-		/// </summary>
-		/// <param name="model">The create user object to convert.</param>
-		/// <returns>Returns a SecurityUserInfo model.</returns>
-		public static SecurityUserInfo ToSecurityUserInfo(UserEntity userEntity)
-        {
-            var userInfo = new SecurityUserInfo
-            {
-                //Email = userEntity.SecurityUser.Email,
-                //Password = userEntity.SecurityUser.p,
-                //UserName = userEntity.SecurityUser.Username,
-                Roles = new List<SecurityRoleInfo>()
-            };
-
-
-            if(userEntity.SecurityUser.Roles != null && userEntity.SecurityUser.Roles.Any())
-            {
-
-            }
-
-            //userInfo.Roles.AddRange(userEntity.SecurityUser.Roles.Select(r => new SecurityRoleInfo { Name = r }));
-
-            return userInfo;
-        }
-
-
-        /// <summary>
-        /// Converts a <see cref="EditUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
-        /// </summary>
-        /// <param name="model">The create user object to convert.</param>
-        /// <param name="user">The user entity instance.</param>
-        /// <param name="client">The AMI service client instance. </param>
-        /// <returns>Returns a security user info model.</returns>
-        public static SecurityUserInfo ToSecurityUserInfo(EditUserModel model, UserEntity user, AmiServiceClient client)
-        {
-	        var userInfo = new SecurityUserInfo
-	        {
-				Email = model.Email,
-				Roles = new List<SecurityRoleInfo>(),
-		        User = user.SecurityUser,
-		        UserId = model.UserId
-	        };
-
-	        userInfo.User.Email = model.Email;            
-
-			if (model.Roles.Any())
-			{             
-                foreach (var role in model.Roles.Select(roleId => RoleUtil.GetRole(client, roleId)).Where(role => role?.Role != null))
-                {
-                    userInfo.Roles.Add(role);
-                }
-            }			
-
-			return userInfo;
-        }
-
-        /// <summary>
-        /// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/> to a <see cref="OpenIZAdmin.Models.UserModels.ViewModels.UserViewModel"/>.
-        /// </summary>
-        /// <param name="userInfo">The security user info object to convert.</param>
-        /// <returns>Returns a user entity model.</returns>
-        public static UserViewModel ToUserViewModel(SecurityUserInfo userInfo)
-		{
-            var viewModel = new UserViewModel
-            {
-                Email = userInfo.Email,
-                HasRoles = (userInfo.Roles != null && userInfo.Roles.Any()) ? true : false,
-                IsLockedOut = userInfo.Lockout.GetValueOrDefault(false),
-                IsObsolete = (userInfo.User.ObsoletionTime != null) ? true : false,
-		        LastLoginTime = userInfo.User.LastLoginTime?.DateTime,
-		        PhoneNumber = userInfo.User.PhoneNumber,
-		        Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel),
-		        UserId = userInfo.UserId.Value,
-		        Username = userInfo.UserName
-	        };
-
-	        return viewModel;
-		}
-
-        /// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/> to a <see cref="OpenIZAdmin.Models.UserModels.ViewModels.UserViewModel"/>.
-		/// </summary>
-        /// <param name="client">The Imsi service client for queri.</param>
-		/// <param name="userInfo">The security user info object to convert.</param>
-		/// <returns>Returns a user entity model.</returns>
-		public static UserViewModel ToUserViewModel(ImsiServiceClient client, SecurityUserInfo userInfo)
-        {
-            UserViewModel viewModel = new UserViewModel();
-
-            viewModel.Email = userInfo.Email;
-            viewModel.IsLockedOut = userInfo.Lockout.GetValueOrDefault(false);
-            viewModel.IsObsolete = (userInfo.User.ObsoletionTime != null) ? true : false;
-            viewModel.LastLoginTime = userInfo.User.LastLoginTime?.DateTime;
-            viewModel.PhoneNumber = userInfo.User.PhoneNumber;
-            viewModel.Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel);
-            viewModel.UserId = userInfo.UserId.Value;
-            viewModel.Username = userInfo.UserName;
-
-	        return viewModel;
-        }       
-    }
+	}
 }

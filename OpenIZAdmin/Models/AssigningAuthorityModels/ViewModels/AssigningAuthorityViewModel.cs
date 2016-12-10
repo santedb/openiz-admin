@@ -17,35 +17,32 @@
  * Date: 2016-7-8
  */
 
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels.ViewModels
 {
-    public class AssigningAuthorityViewModel
-    {
-        public AssigningAuthorityViewModel()
-        {
-        }
-        
-        public Guid Key { get; set; }
+	public class AssigningAuthorityViewModel
+	{
+		public AssigningAuthorityViewModel()
+		{
+		}
 
-        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        public string Name { get; set; }
+		[Display(Name = "Description", ResourceType = typeof(Localization.Locale))]
+		public string Description { get; set; }
 
-        [Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
-        public string Oid { get; set; }
+		[Display(Name = "DomainName", ResourceType = typeof(Localization.Locale))]
+		public string DomainName { get; set; }
 
-        [Display(Name = "Url", ResourceType = typeof(Localization.Locale))]
-        public string Url { get; set; }
+		public Guid Key { get; set; }
 
-        [Display(Name = "DomainName", ResourceType = typeof(Localization.Locale))]
-        public string DomainName { get; set; }
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		public string Name { get; set; }
 
-        [Display(Name = "Description", ResourceType = typeof(Localization.Locale))]
-        public string Description { get; set; }
-    }
+		[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
+		public string Oid { get; set; }
+
+		[Display(Name = "Url", ResourceType = typeof(Localization.Locale))]
+		public string Url { get; set; }
+	}
 }

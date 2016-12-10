@@ -36,16 +36,16 @@ namespace OpenIZAdmin.Models.UserModels.ViewModels
 		{
 		}
 
-        [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-        public DateTimeOffset CreationTime { get; set; }
+		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+		public DateTimeOffset CreationTime { get; set; }
 
-        /// <summary>
-        /// Gets or sets the email address of the user.
-        /// </summary>
-        [Display(Name = "Email", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the email address of the user.
+		/// </summary>
+		[Display(Name = "Email", ResourceType = typeof(Localization.Locale))]
 		public string Email { get; set; }
 
-        public bool HasRoles { get; set; }
+		public bool HasRoles { get; set; }
 
 		/// <summary>
 		/// Gets or sets the health facility of the user.

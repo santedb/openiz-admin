@@ -308,7 +308,7 @@ namespace OpenIZAdmin.Controllers
 		        return RedirectToAction("Index");
 	        }
 
-			var model = new ViewMaterialModel
+			var model = new MaterialViewModel
 			{
 				Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value)),
                 FormConcept = material.FormConcept.Mnemonic,

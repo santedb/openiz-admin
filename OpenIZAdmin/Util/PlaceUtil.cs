@@ -17,7 +17,6 @@
  * Date: 2016-7-31
  */
 
-using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Messaging.IMSI.Client;
@@ -129,7 +128,7 @@ namespace OpenIZAdmin.Util
 
 			return place;
 		}
-		
+
 		/// <summary>
 		/// Converts a <see cref="Place"/> instance to a <see cref="EditPlaceModel"/> instance.
 		/// </summary>
