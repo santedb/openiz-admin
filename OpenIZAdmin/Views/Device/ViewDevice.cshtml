@@ -20,25 +20,22 @@
                     <div class="form-group">
                         @Html.HiddenFor(m => m.Id)
                         @Html.LabelFor(m => m.CreationTime, new { @class = "col-md-4 control-label" })
-                        <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
-                            @Html.ValidationMessageFor(m => m.CreationTime, "", new { @class = "text-danger" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })                            
                         </div>
-                    </div>                    
+                    </div>        
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.DeviceSecret, new { @class = "col-md-4 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.DeviceSecret, new { @class = "form-control", @readonly = "readonly" })                            
+                        </div>
+                    </div>            
                     <div class="form-group">                        
                         @Html.LabelFor(m => m.Name, new { @class = "col-md-4 control-label" })
-                        <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
-                            @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })                            
                         </div>
-                    </div>
-                    <div class="form-group">                        
-                        @Html.LabelFor(m => m.UpdatedTime, new { @class = "col-md-4 control-label" })
-                        <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.UpdatedTime, new { @class = "form-control", @readonly = "readonly" })
-                            @Html.ValidationMessageFor(m => m.UpdatedTime, "", new { @class = "text-danger" })
-                        </div>
-                    </div>                    
+                    </div>                                     
                 </div>                
             </div>
         </div>

@@ -34,6 +34,9 @@ namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime CreationTime { get; set; }
 
+        [Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
+        public string DeviceSecret { get; set; }
+
         [Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
         public bool HasPolicies { get; set; }        
 

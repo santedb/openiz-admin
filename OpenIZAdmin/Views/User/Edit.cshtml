@@ -10,55 +10,59 @@
     <div class="panel panel-body panel-default">
         @using (Html.BeginForm("Edit", "User", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-horizontal">
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(m => m.UserId)
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.GivenNames, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.ListBoxFor(m => m.GivenNames, Model.GivenNamesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
+                                @Html.ValidationMessageFor(m => m.GivenNames, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.GivenNames, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.ListBoxFor(m => m.GivenNames, Model.GivenNamesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
-                    @Html.ValidationMessageFor(m => m.GivenNames, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.FamilyNames, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.ListBoxFor(m => m.FamilyNames, Model.FamilyNameList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
+                                @Html.ValidationMessageFor(m => m.FamilyNames, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.FamilyNames, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.ListBoxFor(m => m.FamilyNames, Model.FamilyNameList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
-                    @Html.ValidationMessageFor(m => m.FamilyNames, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Email, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Roles, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @Html.ListBoxFor(m => m.Roles, Model.RolesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
+                                @Html.ValidationMessageFor(m => m.Roles, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @Html.ListBoxFor(m => m.Roles, Model.RolesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
-                    @Html.ValidationMessageFor(m => m.Roles, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Facilities, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-8">
+                                @*@Html.ListBoxFor(m => m.Facilities, new SelectList(Model.FacilityList, Model.Facilities),new { @class = "facility-ajax form-control" })*@
+                                @Html.ListBoxFor(m => m.Facilities, Model.FacilityList, new { @class = "facility-ajax form-control" })
+                                @Html.ValidationMessageFor(m => m.Facilities, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.Facilities, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
-                    @*@Html.ListBoxFor(m => m.Facilities, new SelectList(Model.FacilityList, Model.Facilities),new { @class = "facility-ajax form-control" })*@
-                    @Html.ListBoxFor(m => m.Facilities, Model.FacilityList, new { @class = "facility-ajax form-control" })
-                    @Html.ValidationMessageFor(m => m.Facilities, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            @Html.HiddenFor(m => m.UserId)
-
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="@Locale.Submit" class="btn btn-default" />
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <input type="submit" value="@Locale.Submit" class="btn btn-default" />
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         }
@@ -77,33 +81,33 @@
                             {
                                 <table class="table table-striped table-bordered" id="userRolesTable">
                                     <thead>
-                                        <tr>                                            
+                                        <tr>
                                             <th>@Locale.Name</th>
                                             <th>@Locale.Description</th>
-                                            @*<th></th>*@                                            
+                                            @*<th></th>*@
                                             <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach (var item in Model.UserRoles)
                                         {
-                                            <tr>                                            
+                                            <tr>
                                                 <td>@item.Name</td>
                                                 <td>@item.Description</td>
-                                                @*<td></td>*@                                                
+                                                @*<td></td>*@
                                                 <td>
                                                     @*@if (!item.IsObsolete)
-                                                    {
-                                                        using (Html.BeginForm("DeleteRole", "User", new { userId = Model.UserId, userRoleId = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                                                         {
-                                                            @Html.AntiForgeryToken()
+                                                            using (Html.BeginForm("DeleteRole", "User", new { userId = Model.UserId, userRoleId = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                                            {
+                                                                @Html.AntiForgeryToken()
 
-                                                            <button type="submit" class="btn btn-danger">
-                                                                @Locale.Delete
-                                                                <span class="glyphicon glyphicon-log-out"></span>
-                                                            </button>
-                                                        }
-                                                    }*@
+                                                                <button type="submit" class="btn btn-danger">
+                                                                    @Locale.Delete
+                                                                    <span class="glyphicon glyphicon-log-out"></span>
+                                                                </button>
+                                                            }
+                                                        }*@
                                                 </td>
                                             </tr>
                                         }
@@ -119,10 +123,7 @@
                 </div>
             </div>
         </div>
-    </div>     
-
-
-
+    </div>       
 </div>
 
 @section scripts
@@ -143,5 +144,4 @@
             });
         });
     </script>
-
 }

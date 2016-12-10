@@ -144,15 +144,16 @@ namespace OpenIZAdmin.Util
         /// <returns>Returns a DeviceViewModel model.</returns>
         public static DeviceViewModel ToDeviceViewModel(SecurityDeviceInfo deviceInfo)
         {
-	        var viewModel = new DeviceViewModel
-	        {
-		        CreationTime = deviceInfo.Device.CreationTime.DateTime,
-		        Id = deviceInfo.Device.Key.Value,
-		        Name = deviceInfo.Name,
+            var viewModel = new DeviceViewModel
+            {
+                CreationTime = deviceInfo.Device.CreationTime.DateTime,
+                Id = deviceInfo.Device.Key.Value,
+                Name = deviceInfo.Name,
+                DeviceSecret = deviceInfo.DeviceSecret,
 		        Policies = deviceInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList(),
 		        UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime,
-		        IsObsolete = (deviceInfo.Device.ObsoletionTime != null) ? true : false, //CommonUtil.IsActiveStatus(deviceInfo.Device.ObsoletionTime),
-		        HasPolicies = (deviceInfo.Policies.Any()) ? true : false //CommonUtil.IsPolicy(deviceInfo.Policies)
+		        IsObsolete = (deviceInfo.Device.ObsoletionTime != null) ? true : false, 
+		        HasPolicies = (deviceInfo.Policies.Any()) ? true : false 
 	        };
 
 	        return viewModel;
