@@ -487,9 +487,7 @@
     <Content Include="Views\Shared\_ConceptList.cshtml" />
     <Content Include="Views\Material\ViewMaterial.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Applets\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
