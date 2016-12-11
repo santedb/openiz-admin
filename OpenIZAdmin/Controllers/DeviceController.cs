@@ -95,7 +95,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			var viewModel = new CreateDeviceModel
 			{
-				DeviceSecret = Guid.NewGuid().ToString()
+				DeviceSecret = Guid.NewGuid().ToString().ToUpper()
 			};
 
 			return View(viewModel);

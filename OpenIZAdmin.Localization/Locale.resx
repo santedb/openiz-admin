@@ -897,4 +897,13 @@
   <data name="QuantityConcept" xml:space="preserve">
     <value>Quantity Concept</value>
   </data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value>Created By</value>
+  </data>
+  <data name="IsReadOnly" xml:space="preserve">
+    <value>Is Read Only?</value>
+  </data>
+  <data name="Type" xml:space="preserve">
+    <value>Type</value>
+  </data>
 </root>

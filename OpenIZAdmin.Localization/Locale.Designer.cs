@@ -565,6 +565,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created By.
+        /// </summary>
+        public static string CreatedBy {
+            get {
+                return ResourceManager.GetString("CreatedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Device.
         /// </summary>
         public static string CreateDevice {
@@ -1164,6 +1173,15 @@ namespace OpenIZAdmin.Localization {
         public static string IsPublic {
             get {
                 return ResourceManager.GetString("IsPublic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is Read Only?.
+        /// </summary>
+        public static string IsReadOnly {
+            get {
+                return ResourceManager.GetString("IsReadOnly", resourceCulture);
             }
         }
         
@@ -2019,6 +2037,15 @@ namespace OpenIZAdmin.Localization {
         public static string ToRequired {
             get {
                 return ResourceManager.GetString("ToRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        public static string Type {
+            get {
+                return ResourceManager.GetString("Type", resourceCulture);
             }
         }
         

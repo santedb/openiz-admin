@@ -1,4 +1,5 @@
-﻿@model IEnumerable<OpenIZAdmin.Models.ConceptModels.ViewModels.ConceptSearchResultViewModel>
+﻿@using OpenIZAdmin.Models.ConceptModels
+@model IEnumerable<OpenIZAdmin.Models.ConceptModels.ViewModels.ConceptSearchResultViewModel>
 @{
     ViewBag.Title = Locale.ConceptSearchResults;
 }
@@ -17,7 +18,8 @@
                     <tr>
                         <th>@Html.DisplayNameFor(m => m.CreationTime)</th>
                         <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
-                        <th>@Html.DisplayNameFor(m => m.ConceptNames)</th>
+                        <th>@Html.DisplayNameFor(m => m.Names)</th>
+                        <th>@Html.DisplayNameFor(m => m.Type)</th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -26,19 +28,20 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        if (item.ConceptSearchType == 0)
+                        if (item.Type == ConceptType.Concept)
                         {
                         <tr>
                             <td>@item.CreationTime</td>
                             <td>@item.Mnemonic</td>
-                            @if (item.ConceptNames.Count == 0)
+                            @if (!item.Names.Any())
                             {
                                 <td></td>
                             }
                             else
                             {
-                                <td>@string.Join(", ", item.ConceptNames)</td>
+                                <td>@string.Join(", ", item.Names)</td>
                             }
+                            <td>@Locale.Concept</td>
                             <td>
                                 <a class="btn btn-primary text-white" href="/Concept/ViewConcept?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
                                     @Locale.View
@@ -63,14 +66,15 @@
                             <tr>
                                 <td>@item.CreationTime</td>
                                 <td>@item.Mnemonic</td>
-                                @if (item.ConceptNames.Count == 0)
+                                @if (!item.Names.Any())
                                 {
                                     <td></td>
                                 }
                                 else
                                 {
-                                    <td>@string.Join(", ", item.ConceptNames)</td>
+                                    <td>@string.Join(", ", item.Names)</td>
                                 }
+                                <td>@Locale.ConceptSet</td>
                                 <td>
                                     <a class="btn btn-primary text-white" href="/ConceptSet/ViewConceptSet?key=@item.Key">
                                         @Locale.View

@@ -33,6 +33,14 @@ namespace OpenIZAdmin.Controllers
 	public abstract class BaseController : Controller
 	{
 		/// <summary>
+		/// Initializes a new instance of the <see cref="BaseController"/> class.
+		/// </summary>
+		protected BaseController()
+		{
+			TempData.Clear();
+		}
+
+		/// <summary>
 		/// Gets the <see cref="AmiServiceClient"/> instance.
 		/// </summary>
 		protected AmiServiceClient AmiClient { get; private set; }
@@ -59,8 +67,6 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="filterContext">The filter context of the action executing.</param>
 		protected override void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			TempData.Clear();
-
 			var amiRestClient = new RestClientService(Constants.AMI)
 			{
 				Accept = Constants.ApplicationXml,

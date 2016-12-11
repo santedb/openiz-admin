@@ -17,6 +17,7 @@
  * Date: 2016-8-1
  */
 
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.MaterialModels.ViewModels
@@ -40,6 +41,11 @@ namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 		public string FormConcept { get; set; }
 
 		/// <summary>
+		/// Gets or sets the key of the material.
+		/// </summary>
+		public Guid Key { get; set; }
+
+		/// <summary>
 		/// Gets or sets the name of the material.
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
@@ -50,5 +56,10 @@ namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 		/// </summary>
 		[Display(Name = "QuantityConcept", ResourceType = typeof(Localization.Locale))]
 		public string QuantityConcept { get; set; }
+
+		/// <summary>
+		/// Gets or sets the version key of the material.
+		/// </summary>
+		public Guid VersionKey { get; set; }
 	}
 }

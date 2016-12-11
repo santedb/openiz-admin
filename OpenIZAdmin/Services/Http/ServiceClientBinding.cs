@@ -31,7 +31,7 @@ namespace OpenIZAdmin.Services.Http
 	public class ServiceClientBinding : IRestClientBindingDescription
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenIZAdmin.Services.Http.ServiceClientBinding"/> class.
+		/// Initializes a new instance of the <see cref="ServiceClientBinding"/> class.
 		/// </summary>
 		public ServiceClientBinding()
 		{
@@ -41,7 +41,7 @@ namespace OpenIZAdmin.Services.Http
 		/// <summary>
 		/// Gets or sets the type which dictates how a body maps to an object.
 		/// </summary>
-		/// <value>The serialization binder type xml.</value>
+		/// <value>The serialization binder type XML.</value>
 		[XmlAttribute("contentTypeMapper")]
 		public string ContentTypeMapperXml
 		{
@@ -70,7 +70,7 @@ namespace OpenIZAdmin.Services.Http
 		public ServiceClientSecurity Security { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="OpenIZAdmin.Services.Http.ServiceClientBinding"/> is optimized.
+		/// Gets or sets a value indicating whether this <see cref="ServiceClientBinding"/> is optimized.
 		/// </summary>
 		/// <value><c>true</c> if optimize; otherwise, <c>false</c>.</value>
 		[XmlElement("optimize")]
@@ -79,12 +79,6 @@ namespace OpenIZAdmin.Services.Http
 		/// <summary>
 		/// Gets the security description
 		/// </summary>
-		IRestClientSecurityDescription IRestClientBindingDescription.Security
-		{
-			get
-			{
-				return this.Security;
-			}
-		}
+		IRestClientSecurityDescription IRestClientBindingDescription.Security => this.Security;
 	}
 }

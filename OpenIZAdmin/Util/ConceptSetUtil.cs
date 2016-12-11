@@ -31,43 +31,69 @@ namespace OpenIZAdmin.Util
 	public static class ConceptSetUtil
 	{
 		/// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.DataTypes"/> to a <see cref="OpenIZAdmin.Models.ConceptModels.ViewModels.ConceptSetViewModel"/>.
+		/// Converts a <see cref="EditConceptSetModel"/> instance to a <see cref="ConceptSet"/> instance.
+		/// </summary>
+		/// <param name="model">The <see cref="EditConceptSetModel"/> instance to convert.</param>
+		/// <returns>Returns a <see cref="ConceptSet"/> instance.</returns>
+		public static ConceptSet ToConceptSet(EditConceptSetModel model)
+		{
+			var conceptSet = new ConceptSet
+			{
+				Key = model.Key,
+				Mnemonic = model.Mnemonic,
+				Name = model.Name,
+				Oid = model.Oid,
+				Url = model.Url
+			};
+
+			return conceptSet;
+		}
+
+		/// <summary>
+		/// Converts a <see cref="OpenIZ.Core.Model.DataTypes"/> to a <see cref="ConceptSetViewModel"/>.
 		/// </summary>
 		/// <param name="conceptSet">The concept set object to convert.</param>
 		/// <returns>Returns a ConceptSetViewModel.</returns>
 		public static ConceptSetViewModel ToConceptSetViewModel(ConceptSet conceptSet)
 		{
-			var viewModel = new ConceptSetViewModel();
+			var viewModel = new ConceptSetViewModel
+			{
+				Concepts = conceptSet.Concepts.Select(ConceptUtil.ToConceptViewModel).ToList(),
+				CreationTime = conceptSet.CreationTime.DateTime,
+				Key = conceptSet.Key.Value,
+				Mnemonic = conceptSet.Mnemonic,
+				Name = conceptSet.Name,
+				Oid = conceptSet.Oid,
+				Url = conceptSet.Url
+			};
 
-			viewModel.Oid = conceptSet.Oid;
-			viewModel.Mnemonic = conceptSet.Mnemonic;
-			viewModel.Key = conceptSet.Key.Value;
-			viewModel.CreationTime = conceptSet.CreationTime.DateTime;
-			viewModel.Concepts = conceptSet.Concepts;
 			return viewModel;
 		}
 
 		/// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.DataTypes"/> to a <see cref="OpenIZAdmin.Models.ConceptModels.ViewModels.ConceptSetViewModel"/>.
+		/// Converts a <see cref="OpenIZ.Core.Model.DataTypes"/> to a <see cref="ConceptSetViewModel"/>.
 		/// </summary>
 		/// <param name="conceptSet">The concept set object to convert.</param>
 		/// <returns>Returns a ConceptSetViewModel.</returns>
 		public static EditConceptSetModel ToEditConceptSetModel(ConceptSet conceptSet)
 		{
-			var viewModel = new EditConceptSetModel();
+			var viewModel = new EditConceptSetModel
+			{
+				Oid = conceptSet.Oid,
+				Name = conceptSet.Name,
+				Url = conceptSet.Url,
+				Mnemonic = conceptSet.Mnemonic,
+				Key = conceptSet.Key.Value,
+				CreationTime = conceptSet.CreationTime.DateTime,
+				Concepts = conceptSet.Concepts,
+				ConceptDeletion = new List<bool>()
+			};
 
-			viewModel.Oid = conceptSet.Oid;
-			viewModel.Name = conceptSet.Name;
-			viewModel.Url = conceptSet.Url;
-			viewModel.Mnemonic = conceptSet.Mnemonic;
-			viewModel.Key = conceptSet.Key.Value;
-			viewModel.CreationTime = conceptSet.CreationTime.DateTime;
-			viewModel.Concepts = conceptSet.Concepts;
-			viewModel.ConceptDeletion = new List<bool>();
-			for (var i = 0; i < conceptSet.Concepts.Count(); i++)
+			for (var i = 0; i < conceptSet.Concepts.Count; i++)
 			{
 				viewModel.ConceptDeletion.Add(false);
 			}
+
 			return viewModel;
 		}
 	}

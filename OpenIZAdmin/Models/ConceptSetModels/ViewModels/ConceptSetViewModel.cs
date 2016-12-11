@@ -21,27 +21,57 @@ using OpenIZ.Core.Model.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Models.ConceptModels.ViewModels;
 
 namespace OpenIZAdmin.Models.ConceptSetModels.ViewModels
 {
+	/// <summary>
+	/// Represents a view model for a concept set.
+	/// </summary>
 	public class ConceptSetViewModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ConceptSetViewModel"/> class.
+		/// </summary>
 		public ConceptSetViewModel()
 		{
-			this.Concepts = new List<Concept>();
+			this.Concepts = new List<ConceptViewModel>();
 		}
 
-		public List<Concept> Concepts { get; set; }
+		/// <summary>
+		/// Gets or sets a list of concept of the concept set.
+		/// </summary>
+		public List<ConceptViewModel> Concepts { get; set; }
 
-		[Display(Name = "Created By")]
-		public string CreatedBy { get; set; }
-
-		[Display(Name = "Creation Time")]
+		/// <summary>
+		/// Gets or sets the creation time of the concept set.
+		/// </summary>
+		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime CreationTime { get; set; }
 
+		/// <summary>
+		/// Gets or sets the key of the concept.
+		/// </summary>
 		public Guid Key { get; set; }
 
+		/// <summary>
+		/// Gets or sets the mnemonic of the concept.
+		/// </summary>
 		public string Mnemonic { get; set; }
+
+		/// <summary>
+		/// Gets or sets the name of the concept set.
+		/// </summary>
+		public string Name { get; set; }
+
+		/// <summary>
+		/// Get or sets the OID of the concept set.
+		/// </summary>
 		public string Oid { get; set; }
+
+		/// <summary>
+		/// Get or sets the URL of the concept set.
+		/// </summary>
+		public string Url { get; set; }
 	}
 }

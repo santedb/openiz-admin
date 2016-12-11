@@ -23,34 +23,63 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 {
+	/// <summary>
+	/// Represents a model to view a concept.
+	/// </summary>
 	public class ConceptViewModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ConceptViewModel"/> class.
+		/// </summary>
 		public ConceptViewModel()
 		{
+			this.Names = new List<string>();
+			this.Languages = new List<string>();
 			this.ReferenceTerms = new List<ReferenceTermModel>();
 		}
 
+		/// <summary>
+		/// Gets or sets the class of the concept.
+		/// </summary>
 		public string Class { get; set; }
 
-		[Display(Name = "Created By")]
-		public string CreatedBy { get; set; }
-
-		[Display(Name = "Creation Time")]
+		/// <summary>
+		/// Gets or sets the creation time of the concept.
+		/// </summary>
+		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime CreationTime { get; set; }
 
-		[Display(Name = "Concept Details")]
-		public List<DetailedConceptViewModel> Details { get; set; }
-
-		[Display(Name = "Is Read Only?")]
-		public bool IsReadOnly { get; set; }
-
+		/// <summary>
+		/// Gets or sets the key of the concept.
+		/// </summary>
 		public Guid Key { get; set; }
 
-		public string Language { get; set; }
+		/// <summary>
+		/// Gets or sets the list of languages associated with the concept.
+		/// </summary>
 		public List<string> Languages { get; set; }
 
+		/// <summary>
+		/// Gets or sets the mnemonic of the concept.
+		/// </summary>
+		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
 		public string Mnemonic { get; set; }
-		public List<string> Name { get; set; }
+
+		/// <summary>
+		/// Gets or sets a list of names associated with the concept.
+		/// </summary>
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		public List<string> Names { get; set; }
+
+		/// <summary>
+		/// Gets or sets the list of reference terms associated with the concept.
+		/// </summary>
+		[Display(Name = "ReferenceTerms", ResourceType = typeof(Localization.Locale))]
 		public List<ReferenceTermModel> ReferenceTerms { get; set; }
+
+		/// <summary>
+		/// Gets or sets the version key of the concept.
+		/// </summary>
+		public Guid VersionKey { get; set; }
 	}
 }

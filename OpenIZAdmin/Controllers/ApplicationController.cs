@@ -91,7 +91,12 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			return View();
+			var viewModel = new CreateApplicationModel
+			{
+				ApplicationSecret = Guid.NewGuid().ToString().ToUpper()
+			};
+
+			return View(viewModel);
 		}
 
         /// <summary>
@@ -189,13 +194,11 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-                SecurityApplicationInfo appInfo = ApplicationUtil.ToSecurityApplicationInfo(this.AmiClient, model, appEntity);
+                var appInfo = ApplicationUtil.ToSecurityApplicationInfo(this.AmiClient, model, appEntity);
 
                 this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
 
-				TempData["success"] = Locale.Application + " " + Locale.UpdatedSuccessfully;				
-
-				//return Redirect("Index");
+				TempData["success"] = Locale.Application + " " + Locale.UpdatedSuccessfully;
 
                 return RedirectToAction("Edit", new { key = appInfo.Id.ToString() });
             }

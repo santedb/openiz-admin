@@ -19,9 +19,19 @@
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
-	public enum ConceptSearchType
+	/// <summary>
+	/// Represents a collection of concept types.
+	/// </summary>
+	public enum ConceptType
 	{
+		/// <summary>
+		/// Represents a concept.
+		/// </summary>
 		Concept = 0,
+		
+		/// <summary>
+		/// Represents a concept set.
+		/// </summary>
 		ConceptSet = 1
 	}
 }

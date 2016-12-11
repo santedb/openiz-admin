@@ -269,10 +269,9 @@
     <Compile Include="Models\CertificateModels\ViewModels\CertificateRevocationListViewModel.cs" />
     <Compile Include="Models\CertificateModels\ViewModels\CertificateSigningRequestViewModel.cs" />
     <Compile Include="Models\CertificateModels\ViewModels\CertificateViewModel.cs" />
-    <Compile Include="Models\ConceptModels\ConceptSearchType.cs" />
+    <Compile Include="Models\ConceptModels\ConceptType.cs" />
     <Compile Include="Models\ConceptModels\CreateConceptModel.cs" />
     <Compile Include="Models\ConceptModels\EditConceptModel.cs" />
-    <Compile Include="Models\ConceptModels\SearchConceptModel.cs" />
     <Compile Include="Models\ConceptModels\ViewModels\ConceptSearchResultViewModel.cs" />
     <Compile Include="Models\ConceptModels\ViewModels\ConceptViewModel.cs" />
     <Compile Include="Models\ConceptModels\ViewModels\DetailedConceptViewModel.cs" />
@@ -434,7 +433,6 @@
     <Content Include="Views\Shared\_ConceptSearchResultsPartial.cshtml" />
     <Content Include="Views\Concept\ViewConcept.cshtml" />
     <Content Include="Views\Place\Index.cshtml" />
-    <Content Include="Views\Concept\Search.cshtml" />
     <Content Include="Views\Shared\_PlaceSearchResultsPartial.cshtml" />
     <Content Include="Views\Place\Create.cshtml" />
     <Content Include="Views\Place\ViewPlace.cshtml" />
@@ -481,14 +479,12 @@
     <Content Include="Views\Shared\_ApplicationsPartial.cshtml" />
     <Content Include="Views\Material\Create.cshtml" />
     <Content Include="Views\Material\Index.cshtml" />
-    <Content Include="Views\Material\Search.cshtml" />
     <Content Include="Views\Shared\_MaterialSearchResultsPartial.cshtml" />
     <Content Include="Views\Material\Edit.cshtml" />
     <Content Include="Views\ConceptSet\Create.cshtml" />
     <Content Include="Views\ConceptSet\Edit.cshtml" />
     <Content Include="Views\ConceptSet\ViewConceptSet.cshtml" />
     <Content Include="Views\Shared\_ConceptList.cshtml" />
-    <Content Include="Views\Shared\_ConceptSetConceptSearchResultsPartial.cshtml" />
     <Content Include="Views\Material\ViewMaterial.cshtml" />
   </ItemGroup>
   <ItemGroup>

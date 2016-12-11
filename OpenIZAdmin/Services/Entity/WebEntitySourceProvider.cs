@@ -39,7 +39,7 @@ namespace OpenIZAdmin.Services.Entity
 		/// <summary>
 		/// The internal reference to the <see cref="ImsiServiceClient"/> instance.
 		/// </summary>
-		private ImsiServiceClient serviceClient = new ImsiServiceClient(new RestClientService(Constants.IMSI));
+		private readonly ImsiServiceClient serviceClient = new ImsiServiceClient(new RestClientService(Constants.IMSI));
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WebEntitySourceProvider"/> class

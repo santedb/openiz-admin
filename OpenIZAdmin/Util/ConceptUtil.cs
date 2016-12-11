@@ -32,7 +32,7 @@ namespace OpenIZAdmin.Util
 	public static class ConceptUtil
 	{
 		/// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.DataTypes.Concept"/> to a <see cref="OpenIZAdmin.Models.ConceptModels.CreateConceptModel"/>.
+		/// Converts a <see cref="Concept"/> to a <see cref="CreateConceptModel"/>.
 		/// </summary>
 		/// <param name="model">The create concept model to convert.</param>
 		/// <returns>Returns a concept.</returns>
@@ -58,7 +58,7 @@ namespace OpenIZAdmin.Util
 		}
 
 		/// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.DataTypes"/> to a <see cref="OpenIZAdmin.Models.ConceptModels.ViewModels.ConceptViewModel"/>.
+		/// Converts a <see cref="Concept"/> to a <see cref="ConceptViewModel"/>.
 		/// </summary>
 		/// <param name="concept">The concept object to convert.</param>
 		/// <returns>Returns a ConceptViewModel.</returns>
@@ -66,26 +66,24 @@ namespace OpenIZAdmin.Util
 		{
 			var viewModel = new ConceptViewModel
 			{
-				Name = new List<string>(),
-				Languages = new List<string>()
+				Class = concept.Class?.Name,
+				CreationTime = concept.CreationTime.DateTime,
+				Key = concept.Key.Value,
+				Mnemonic = concept.Mnemonic,
+				VersionKey = concept.VersionKey.GetValueOrDefault(Guid.Empty)
 			};
 
-			foreach (var conceptName in concept.ConceptNames)
+			concept.ConceptNames.ForEach(c =>
 			{
-				viewModel.Name.Add(conceptName.Name);
-				viewModel.Languages.Add(conceptName.Language);
-			}
-
-			viewModel.Class = concept.Class?.Name;
-			viewModel.Mnemonic = concept.Mnemonic;
-			viewModel.Key = concept.Key.Value;
-			viewModel.CreationTime = concept.CreationTime.DateTime;
+				viewModel.Names.Add(c.Name);
+				viewModel.Languages.Add(c.Language);
+			});
 
 			return viewModel;
 		}
 
 		/// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.DataTypes"/> to a <see cref="OpenIZAdmin.Models.ConceptModels.EditConceptModel"/>.
+		/// Converts a <see cref="Concept"/> to a <see cref="EditConceptModel"/>.
 		/// </summary>
 		/// <param name="concept">The concept object to convert.</param>
 		/// <returns>Returns a EditConceptModel.</returns>
@@ -109,7 +107,6 @@ namespace OpenIZAdmin.Util
 				viewModel.Name.Add("");
 			}
 
-			//viewModel.Class = concept.Class.Name;
 			viewModel.Mnemonic = concept.Mnemonic;
 			viewModel.Key = concept.Key.Value;
 			viewModel.CreationTime = concept.CreationTime.DateTime;

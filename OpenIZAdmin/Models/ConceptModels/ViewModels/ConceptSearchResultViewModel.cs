@@ -20,46 +20,85 @@
 using OpenIZ.Core.Model.DataTypes;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 {
+	/// <summary>
+	/// Represents a view model for a concept search result.
+	/// </summary>
 	public class ConceptSearchResultViewModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ConceptSearchResultViewModel"/> class.
+		/// </summary>
 		public ConceptSearchResultViewModel()
 		{
-			this.ConceptNames = new List<string>();
+			this.Names = new List<string>();
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ConceptSearchResultViewModel"/> class
+		/// with a specific <see cref="Concept"/> instance.
+		/// </summary>
+		/// <param name="concept">The <see cref="Concept"/> instance.</param>
 		public ConceptSearchResultViewModel(Concept concept)
 		{
-			this.ConceptNames = concept.ConceptNames.Select(c => c.Name).ToList();
-			this.ConceptSearchType = ConceptSearchType.Concept;
 			this.CreationTime = concept.CreationTime.DateTime;
 			this.Key = concept.Key.GetValueOrDefault();
 			this.Mnemonic = concept.Mnemonic;
+			this.Names = concept.ConceptNames.Select(c => c.Name).ToList();
+			this.Type = ConceptType.Concept;
 			this.VersionKey = concept.VersionKey;
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ConceptSearchResultViewModel"/> class
+		/// with a specific <see cref="ConceptSet"/> instance.
+		/// </summary>
+		/// <param name="conceptSet">The <see cref="ConceptSet"/> instance.</param>
 		public ConceptSearchResultViewModel(ConceptSet conceptSet)
 		{
-			this.ConceptSearchType = ConceptSearchType.ConceptSet;
-			this.ConceptNames = new List<string> { conceptSet.Name };
 			this.CreationTime = conceptSet.CreationTime.DateTime;
 			this.Key = conceptSet.Key.GetValueOrDefault();
 			this.Mnemonic = conceptSet.Mnemonic;
+			this.Names = new List<string> { conceptSet.Name };
+			this.Type = ConceptType.ConceptSet;
 		}
 
-		public List<string> ConceptNames { get; set; }
-
-		public ConceptSearchType ConceptSearchType { get; set; }
-
+		/// <summary>
+		/// Gets or sets the creation time of the concept or concept set.
+		/// </summary>
+		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime CreationTime { get; set; }
 
+		/// <summary>
+		/// Gets or sets the key of the concept or concept set.
+		/// </summary>
 		public Guid Key { get; set; }
 
+		/// <summary>
+		/// Gets or sets the mnemonic of the concept or concept set.
+		/// </summary>
+		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
 		public string Mnemonic { get; set; }
 
+		/// <summary>
+		/// Gets or sets a list of names of the concept.
+		/// </summary>
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		public List<string> Names { get; set; }
+
+		/// <summary>
+		/// Gets or sets the type of the concept search result.
+		/// </summary>
+		[Display(Name = "Type", ResourceType = typeof(Localization.Locale))]
+		public ConceptType Type { get; set; }
+
+		/// <summary>
+		/// Gets or sets the version key of the concept or concept set.
+		/// </summary>
 		public Guid? VersionKey { get; set; }
 	}
 }

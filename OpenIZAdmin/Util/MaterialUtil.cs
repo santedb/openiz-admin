@@ -40,7 +40,7 @@ namespace OpenIZAdmin.Util
 			{
 				CreationTime = material.CreationTime.DateTime,
 				Key = material.Key.GetValueOrDefault(Guid.Empty),
-				Name = string.Join(" ", material.Names.SelectMany(m => m.Component).Select(c => c.Value)),
+				Name = string.Join(", ", material.Names.SelectMany(m => m.Component).Select(c => c.Value)),
 				VersionKey = material.VersionKey
 			};
 

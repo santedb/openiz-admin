@@ -1,4 +1,4 @@
-﻿@model OpenIZAdmin.Models.MaterialModels.ViewModels.ViewMaterialModel
+﻿@model OpenIZAdmin.Models.MaterialModels.ViewModels.MaterialViewModel
 @{
     ViewBag.Title = Locale.View + Locale.Material;
 }
@@ -6,12 +6,12 @@
 <div class="panel panel-default">
     <div class="panel panel-heading">
         <span>@Locale.Edit @Locale.Material</span>
-        @*<div class="pull-right">
-            <a href="~/Device/Edit/Edit?key=@Model.Id">
+        <div class="pull-right">
+            <a href="~/Material/Edit/Edit?key=@Model.Key&versionKey=@Model.VersionKey">
                 <span class="glyphicon glyphicon-edit"></span>
                 @Locale.Edit
             </a>
-        </div>*@
+        </div>
     </div>           
     <div class="panel panel-body panel-default">
         <div class="row">

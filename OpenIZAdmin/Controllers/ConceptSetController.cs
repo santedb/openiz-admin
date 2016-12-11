@@ -17,19 +17,16 @@
  * Date: 2016-7-23
  */
 
-using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Query;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.ConceptModels;
 using OpenIZAdmin.Models.ConceptModels.ViewModels;
 using OpenIZAdmin.Models.ConceptSetModels;
 using OpenIZAdmin.Models.ConceptSetModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -41,43 +38,42 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public class ConceptSetController : BaseController
 	{
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConceptSetController"/> class.
-        /// </summary>
-        public ConceptSetController()
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ConceptSetController"/> class.
+		/// </summary>
+		public ConceptSetController()
 		{
 		}
 
+		[HttpPost]
+		public ActionResult Add(EditConceptSetModel model)
+		{
+			var query = new List<KeyValuePair<string, object>>();
 
-        [HttpPost]
-        public ActionResult Add(EditConceptSetModel model)
-        {
-            var query = new List<KeyValuePair<string, object>>();
+			query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == model.ConceptToAdd));
+			var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
 
-            query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == model.ConceptToAdd));
-            var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
+			bundle.Reconstitute();
 
-            bundle.Reconstitute();
+			var concept = bundle.Item.OfType<Concept>().FirstOrDefault();
+			model.Concepts.Add(concept);
+			if (model.ConceptDeletion == null)
+			{
+				model.ConceptDeletion = new List<bool>();
+			}
+			model.ConceptDeletion.Add(false);
 
-            var concept = bundle.Item.OfType<Concept>().FirstOrDefault();
-            model.Concepts.Add(concept);
-            if(model.ConceptDeletion == null)
-            {
-                model.ConceptDeletion = new List<bool>();
-            }
-            model.ConceptDeletion.Add(false);
-            
-            return PartialView("_ConceptList", model);
-        }
+			return PartialView("_ConceptList", model);
+		}
 
-        /// <summary>
-        /// Displays the create view.
-        /// </summary>
-        /// <returns>Returns the create view.</returns>
-        [HttpGet]
+		/// <summary>
+		/// Displays the create view.
+		/// </summary>
+		/// <returns>Returns the create view.</returns>
+		[HttpGet]
 		public ActionResult Create()
 		{
-			CreateConceptSetModel model = new CreateConceptSetModel();
+			var model = new CreateConceptSetModel();
 
 			return View(model);
 		}
@@ -93,59 +89,107 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				try
+				var conceptSet = new ConceptSet
 				{
-                    ConceptSet conceptSet = new ConceptSet();
-                    conceptSet.Mnemonic = model.Mnemonic;
-                    conceptSet.Name = model.Name;
-                    conceptSet.Url = model.Url;
-                    conceptSet.Oid = model.Oid;
-                    conceptSet.Key = Guid.NewGuid();
-					var result = this.ImsiClient.Create<ConceptSet>(conceptSet);
+					Mnemonic = model.Mnemonic,
+					Name = model.Name,
+					Url = model.Url,
+					Oid = model.Oid,
+					Key = Guid.NewGuid()
+				};
 
-					TempData["success"] = Locale.ConceptSet + " " + Locale.CreatedSuccessfully;
+				var result = this.ImsiClient.Create<ConceptSet>(conceptSet);
 
-                    return RedirectToAction("ViewConceptSet", new { key = result.Key});
-                }
-				catch (Exception e)
-				{
-#if DEBUG
-					Trace.TraceError("Unable to create concept set: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to create concept set: {0}", e.Message);
-				}
+				TempData["success"] = Locale.ConceptSet + " " + Locale.CreatedSuccessfully;
+
+				return RedirectToAction("ViewConceptSet", new { key = result.Key });
 			}
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.ConceptSet;
-            
+
 			return View(model);
 		}
 
 		[HttpGet]
-		public ActionResult Delete(Guid key, Guid versionKey)
+		public ActionResult Delete(Guid key)
 		{
-			var conceptSet = this.ImsiClient.Get<ConceptSet>(key, versionKey) as ConceptSet;
+			var conceptSet = this.ImsiClient.Get<ConceptSet>(key, null) as ConceptSet;
 
 			if (conceptSet == null)
 			{
 				TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
-				return RedirectToAction("Index");
+				return RedirectToAction("Index", "Concept");
 			}
-
 
 			this.ImsiClient.Obsolete<ConceptSet>(conceptSet);
 
 			TempData["success"] = Locale.ConceptSet + " " + Locale.DeletedSuccessfully;
-			return RedirectToAction("Index");
+			return RedirectToAction("Index", "Concept");
 		}
 
-		/// <summary>
-		/// Displays the index view.
-		/// </summary>
-		/// <returns>Returns the index view.</returns>
-		public ActionResult Index()
+		[HttpGet]
+		public ActionResult Edit(Guid key)
 		{
-			return View();
+			var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == key && c.ObsoletionTime == null);
+
+			bundle.Reconstitute();
+
+			var conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault();
+
+			if (conceptSet == null)
+			{
+				TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+				return RedirectToAction("Index", "Concept");
+			}
+
+			var model = ConceptSetUtil.ToEditConceptSetModel(conceptSet);
+
+			return View(model);
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(EditConceptSetModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == model.Key && c.ObsoletionTime == null);
+
+				bundle.Reconstitute();
+
+				var conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault();
+
+				if (conceptSet == null)
+				{
+					TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
+
+					return RedirectToAction("Index", "Concept");
+				}
+
+				conceptSet = ConceptSetUtil.ToConceptSet(model);
+
+				for (var i = 0; i < model.ConceptDeletion.Count; i++)
+				{
+					if (conceptSet.ConceptsXml.Contains(model.Concepts[i].Key.Value) && model.ConceptDeletion[i])
+					{
+						conceptSet.ConceptsXml.RemoveAt(i);
+					}
+					else if (!conceptSet.ConceptsXml.Contains(model.Concepts[i].Key.Value) && !model.ConceptDeletion[i])
+					{
+						conceptSet.ConceptsXml.Add(model.Concepts[i].Key.Value);
+					}
+				}
+
+				var result = this.ImsiClient.Update<ConceptSet>(conceptSet);
+
+				TempData["success"] = Locale.ConceptSet + " " + Locale.UpdatedSuccessfully;
+
+				return RedirectToAction("ViewConceptSet", new { key = result.Key });
+			}
+
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.ConceptSet;
+
+			return View(model);
 		}
 
 		/// <summary>
@@ -155,41 +199,40 @@ namespace OpenIZAdmin.Controllers
 		[HttpPost]
 		public ActionResult Search(EditConceptSetModel model)
 		{
-            var viewModels = new List<ConceptSearchResultViewModel>();
+			var viewModels = new List<ConceptSearchResultViewModel>();
 
-            var query = new List<KeyValuePair<string, object>>();
+			var query = new List<KeyValuePair<string, object>>();
 
-            if (!string.IsNullOrEmpty(model.ConceptMnemonic) && !string.IsNullOrWhiteSpace(model.ConceptMnemonic))
-            {
-                query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(model.ConceptMnemonic)));
-            };
+			if (!string.IsNullOrEmpty(model.ConceptMnemonic) && !string.IsNullOrWhiteSpace(model.ConceptMnemonic))
+			{
+				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(model.ConceptMnemonic)));
+			};
 
-            if (!string.IsNullOrEmpty(model.ConceptName) && !string.IsNullOrWhiteSpace(model.ConceptName))
-            {
-                query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(model.ConceptName)));
-            };
-            
-            query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ObsoletionTime == null));
-            
-            var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
-            
-            viewModels.AddRange(bundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
-            var keys = model.Concepts.Select(m => m.Key).Distinct();
-            if (keys != null){
-                viewModels = viewModels.Where(m => !keys.Any(n => n.Value == m.Key)).ToList();
-            };
+			if (!string.IsNullOrEmpty(model.ConceptName) && !string.IsNullOrWhiteSpace(model.ConceptName))
+			{
+				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(model.ConceptName)));
+			};
 
-            return PartialView("_ConceptSetConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
+			query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ObsoletionTime == null));
 
-        }
+			var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
+
+			viewModels.AddRange(bundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
+			var keys = model.Concepts.Select(m => m.Key).Distinct();
+			if (keys != null)
+			{
+				viewModels = viewModels.Where(m => !keys.Any(n => n.Value == m.Key)).ToList();
+			};
+
+			return PartialView("_ConceptSetConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
+
+		}
+
 
 		[HttpGet]
 		public ActionResult ViewConceptSet(Guid key)
 		{
-			var query = new List<KeyValuePair<string, object>>();
-
-			query.AddRange(QueryExpressionBuilder.BuildQuery<ConceptSet>(c => c.Key == key));
-			var bundle = this.ImsiClient.Query<ConceptSet>(QueryExpressionParser.BuildLinqExpression<ConceptSet>(new NameValueCollection(query.ToArray())));
+			var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == key);
 
 			bundle.Reconstitute();
 
@@ -201,73 +244,9 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index");
 			}
 
-            conceptSet.SetDelayLoad(true);
+			var viewModel = ConceptSetUtil.ToConceptSetViewModel(conceptSet);
 
-            ConceptSetViewModel model = ConceptSetUtil.ToConceptSetViewModel(conceptSet);
-
-
-			return View(model);
-		}
-
-		[HttpGet]
-		public ActionResult Edit(Guid key)
-		{
-            var query = new List<KeyValuePair<string, object>>();
-
-            query.AddRange(QueryExpressionBuilder.BuildQuery<ConceptSet>(c => c.Key == key));
-            var bundle = this.ImsiClient.Query<ConceptSet>(QueryExpressionParser.BuildLinqExpression<ConceptSet>(new NameValueCollection(query.ToArray())));
-
-            bundle.Reconstitute();
-
-            var conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault();
-
-            if (conceptSet == null)
-            {
-                TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-                return RedirectToAction("Index");
-            }
-
-            conceptSet.SetDelayLoad(true);
-
-            EditConceptSetModel model = ConceptSetUtil.ToEditConceptSetModel(conceptSet);
-
-
-            return View(model);
-        }
-
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Edit(EditConceptSetModel model)
-		{
-            if (ModelState.IsValid)
-            {
-                var query = new List<KeyValuePair<string, object>>();
-
-                query.AddRange(QueryExpressionBuilder.BuildQuery<ConceptSet>(c => c.Key == model.Key));
-
-                var bundle = this.ImsiClient.Query<ConceptSet>(QueryExpressionParser.BuildLinqExpression<ConceptSet>(new NameValueCollection(query.ToArray())));
-
-                bundle.Reconstitute();
-
-                var conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault();
-                for(var i = 0; i<model.ConceptDeletion.Count(); i++)
-                {
-                    if (conceptSet.ConceptsXml.Contains(model.Concepts[i].Key.Value) && model.ConceptDeletion[i])
-                    {
-                        conceptSet.ConceptsXml.RemoveAt(i);
-                    }
-                    else if (!conceptSet.ConceptsXml.Contains(model.Concepts[i].Key.Value) && !model.ConceptDeletion[i]){
-                        conceptSet.ConceptsXml.Add(model.Concepts[i].Key.Value);
-                    }
-                }
-                this.ImsiClient.Update<ConceptSet>(conceptSet);
-                TempData["success"] = Locale.UpdatedSuccessfully + " " + Locale.ConceptSet;
-                return RedirectToAction("ViewConceptSet",new { key = conceptSet.Key });
-            }
-
-                TempData["error"] = Locale.UnableToUpdate + " " + Locale.ConceptSet;
-            
-			return View(model);
+			return View(viewModel);
 		}
 	}
 }
