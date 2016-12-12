@@ -163,9 +163,9 @@ namespace OpenIZAdmin.Controllers
 			{
 				TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 				return RedirectToAction("Index");
-			}
+			}            
 
-			concept.SetDelayLoad(true);
+            concept.SetDelayLoad(true);
 
 			foreach (var conceptReferenceTerm in concept.ReferenceTerms)
 			{

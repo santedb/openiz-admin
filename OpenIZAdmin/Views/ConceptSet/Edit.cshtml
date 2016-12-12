@@ -15,16 +15,42 @@
             <div class="panel panel-body panel-default">
                 @Html.HiddenFor(m => m.Key)
                 @Html.HiddenFor(m => m.ConceptToAdd, new { id = "conceptToAdd" })
-                @Html.LabelFor(m => m.Mnemonic, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control" })
-                @Html.LabelFor(m => m.Oid, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.Oid, new { @class = "form-control" })
-                @Html.LabelFor(m => m.Name, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-                @Html.LabelFor(m => m.Url, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.Url, new { @class = "form-control" })
-            </div>
-            <input type="submit" value="@Locale.Save" class="btn btn-default" />
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Mnemonic, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control"})
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Oid, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Oid, new { @class = "form-control" })
+                    </div>
+                </div>                
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Url, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Url, new { @class = "form-control" })
+                    </div>
+                </div>        
+                
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="@Locale.Save" class="btn btn-default" />
+                    </div>
+                </div>                      
+            </div>                        
+
         </div>
         <div id="conceptList">
             @Html.Partial("_ConceptList")
@@ -34,19 +60,35 @@
                 <span class="text-white">@Locale.Concept @Locale.Search</span>
             </div>
             <div class="panel panel-body panel-default">
-                @Html.LabelFor(m => m.ConceptMnemonic, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.ConceptMnemonic, new { @class = "form-control" })
-                @Html.LabelFor(m => m.ConceptName, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.ConceptName, new { @class = "form-control" })
-            </div>
-            <input type="button" value="@Locale.Search" class="btn btn-default" id="searchConcepts" />
-            </div>
-            <div id="concept-search-results">
-            </div>
-            
-            }
 
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ConceptMnemonic, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.ConceptMnemonic, new { @class = "form-control" })
+                    </div>
+                </div>   
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.ConceptName, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.ConceptName, new { @class = "form-control" })
+                    </div>
+                </div>                   
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="button" value="@Locale.Search" class="btn btn-default" id="searchConcepts" />
+                    </div>
+                </div>   
+            </div>                                   
         </div>
+
+        <div id="concept-search-results">
+        </div>
+            
+    }
+
+</div>
 
 
 

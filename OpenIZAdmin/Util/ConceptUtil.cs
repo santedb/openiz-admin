@@ -89,11 +89,12 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a EditConceptModel.</returns>
 		public static EditConceptModel ToEditConceptModel(Concept concept)
 		{
-			var viewModel = new EditConceptModel
-			{
-				Name = concept.ConceptNames.Select(c => c.Name).ToList(),
-				Languages = concept.ConceptNames.Select(c => c.Language).ToList()
-			};
+            var viewModel = new EditConceptModel
+            {
+                Name = concept.ConceptNames.Select(c => c.Name).ToList(),
+                Languages = concept.ConceptNames.Select(c => c.Language).ToList(),
+                ConceptClass = concept.Class.Name
+            };
 
 			if (!viewModel.Languages.Contains("en"))
 			{

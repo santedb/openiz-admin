@@ -19,20 +19,20 @@
                 <div class="form-horizontal">
                     <div class="form-group">
                         @Html.HiddenFor(m => m.Id)
-                        @Html.LabelFor(m => m.CreationTime, new { @class = "col-md-4 control-label" })
-                        <div class="col-md-8">
+                        @Html.LabelFor(m => m.CreationTime, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
                             @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })                            
                         </div>
                     </div>        
                     <div class="form-group">
-                        @Html.LabelFor(m => m.DeviceSecret, new { @class = "col-md-4 control-label" })
-                        <div class="col-md-8">
+                        @Html.LabelFor(m => m.DeviceSecret, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
                             @Html.TextBoxFor(m => m.DeviceSecret, new { @class = "form-control", @readonly = "readonly" })                            
                         </div>
                     </div>            
                     <div class="form-group">                        
-                        @Html.LabelFor(m => m.Name, new { @class = "col-md-4 control-label" })
-                        <div class="col-md-8">
+                        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
                             @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })                            
                         </div>
                     </div>                                     

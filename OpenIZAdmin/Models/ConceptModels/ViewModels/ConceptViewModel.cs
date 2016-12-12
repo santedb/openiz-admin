@@ -38,10 +38,11 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 			this.ReferenceTerms = new List<ReferenceTermModel>();
 		}
 
-		/// <summary>
-		/// Gets or sets the class of the concept.
-		/// </summary>
-		public string Class { get; set; }
+        /// <summary>
+        /// Gets or sets the class of the concept.
+        /// </summary>
+        [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
+        public string Class { get; set; }
 
 		/// <summary>
 		/// Gets or sets the creation time of the concept.

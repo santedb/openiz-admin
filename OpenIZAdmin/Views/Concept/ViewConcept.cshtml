@@ -15,61 +15,63 @@
     </div>
     <div class="panel panel-body">
         <div class="col-md-12">
-            <div class="form-group">
-                @Html.LabelFor(m => m.Class, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.Class, new { @class = "form-control", @readonly = "readonly" })
+            <div class="form-horizontal">              
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Class, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(m => m.Class, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.CreationTime, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-6">
+                        @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+
+                <ul class="nav nav-tabs">
+                    @{int i = 0;}
+                    @foreach (var language in Model.Languages)
+                    {
+                        if (i == 0)
+                        {
+                            <li class="active">
+                                <a href="#@language" data-toggle="tab">@Model.Languages[i]</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a href="#@language" data-toggle="tab">@Model.Languages[i]</a>
+                            </li>
+                        }
+                        i++;
+                    }
+                </ul>
+                <div class="tab-content">
+                    @{i = 0;}
+                    @foreach (var language in Model.Languages)
+                    {
+                        if (i == 0)
+                        {                                                     
+                            <div id="@language" class="tab-pane active">
+                                @Html.LabelFor(m => m.Names, new { @class = "control-label" })
+                                @Html.TextBoxFor(m => m.Names[i], new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+
+                        }
+                        else
+                        {                            
+                            <div id="@language" class="tab-pane">
+                                @Html.LabelFor(m => m.Names, new { @class = "control-label" })
+                                @Html.TextBoxFor(m => m.Names[i], new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        }
+                        i++;
+                    }
+                    </div>
             </div>
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.CreationTime, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
-            </div>
-
-            <ul class="nav nav-tabs">
-                @{int i = 0;}
-                @foreach (var language in Model.Languages)
-                {
-                    if (i == 0)
-                    {
-                        <li class="active">
-                            <a href="#@language" data-toggle="tab">@Model.Languages[i]</a>
-                        </li>
-}
-                    else
-                    {
-                        <li>
-                            <a href="#@language" data-toggle="tab">@Model.Languages[i]</a>
-                        </li>
-}
-                    i++;
-                }
-            </ul>
-            <div class="tab-content">
-                @{i = 0;}
-                @foreach (var language in Model.Languages)
-                {
-                    if (i == 0)
-                    {
-                        <div id="@language" class="tab-pane active">
-                            @Html.LabelFor(m => m.Names, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Names[i], new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-}
-                    else
-                    {
-                        <div id="@language" class="tab-pane">
-                            @Html.LabelFor(m => m.Names, new { @class = "control-label" })
-                            @Html.TextBoxFor(m => m.Names[i], new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-}
-                    i++;
-                }
-            </div>
-
-
-
         </div>
-
     </div>
 </div>
 
@@ -104,11 +106,11 @@
                         </td>
                     </tr>}
             </tbody>
-
         </table>
-
     </div>
 </div>
+
+
 @section scripts{
 
     <script>

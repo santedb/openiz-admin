@@ -5,7 +5,7 @@
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        <span class="text-white">@Locale.Edit @Locale.Concept @Model.Mnemonic</span>
+        <span class="text-white">@Locale.Edit @Locale.Concept</span>
     </div>
 
     @using (Html.BeginForm("Edit", "Concept", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -14,13 +14,22 @@
 
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+
             <div class="form-group">
-                @Html.LabelFor(m => m.ConceptClass, new { @class = "control-label" })
-                @Html.DropDownListFor(m => m.ConceptClass, Model.ConceptClassList, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.ConceptClass, "", new { @class = "text-danger" })
-                @Html.LabelFor(m => m.CreationTime, new { @class = "control-label" })
-                @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })
+                @Html.LabelFor(m => m.ConceptClass, new { @class = "col-md-2 control-label" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(m => m.ConceptClass, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.ValidationMessageFor(m => m.ConceptClass, "", new { @class = "text-danger" })
+                </div>
             </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.CreationTime, new { @class = "col-md-2 control-label" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly" })                    
+                </div>
+            </div>
+           
             <div class="form-group"></div>
                 @Html.LabelFor(m => m.SelectedLanguage, new { @class = "col-md-2 control-label" })
                 <div class="col-md-4">
