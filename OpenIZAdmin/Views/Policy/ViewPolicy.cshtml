@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.PolicyModels.ViewModels.PolicyViewModel
 @{
-    ViewBag.Title = Locale.Policy;
+    ViewBag.Title = Locale.View + " " + Locale.Policy;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        <span>@Locale.Policy</span>
+        <span>@(Locale.View + " " + Locale.Policy)</span>
         <div class="pull-right">
             <a href="~/Policy/Edit/Edit?key=@Model.Key">
                 <span class="glyphicon glyphicon-edit"></span>

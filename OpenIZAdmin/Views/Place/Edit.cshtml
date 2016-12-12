@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.PlaceModels.EditPlaceModel
     @{
-        ViewBag.Title = Locale.Edit;
+        ViewBag.Title = Locale.Edit + " " + Locale.Place;
     }
 
     <div class="panel panel-default">
         <div class="panel panel-heading">
-            @Locale.Edit
+            @(Locale.Edit + " " + Locale.Place)
     </div>
     <div class="panel panel-body panel-default">
         @using (Html.BeginForm("Edit", "Place", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

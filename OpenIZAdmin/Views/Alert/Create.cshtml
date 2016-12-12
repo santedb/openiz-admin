@@ -1,6 +1,6 @@
 ﻿@model OpenIZAdmin.Models.AlertModels.CreateAlertModel
 @{
-    ViewBag.Title = Locale.Alerts;
+    ViewBag.Title = Locale.Create + " " + Locale.Alert;
 }
 
 <div class="panel panel-default">
@@ -15,7 +15,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.Subject, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                <div class="col-md-8">
                     @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Subject, "", new { @class = "text-danger" })
                 </div>
@@ -23,7 +23,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.Priority, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                <div class="col-md-8">
                     @Html.DropDownListFor(m => m.Priority, Model.PriorityList, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Priority, "", new { @class = "text-danger" })
                 </div>
@@ -31,7 +31,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.Message, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                <div class="col-md-8">
                     @Html.TextAreaFor(m => m.Message, new { @class = "form-control", cols = "10", rows = "10" })
                     @Html.ValidationMessageFor(m => m.Message, "", new { @class = "text-danger" })
                 </div>
@@ -39,7 +39,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.To, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                <div class="col-md-8">
                     @Html.ListBoxFor(m => m.To, Model.ToList, new {@class = "user-ajax form-control"})
                     @Html.ValidationMessageFor(m => m.To, "", new { @class = "text-danger" })
                 </div>

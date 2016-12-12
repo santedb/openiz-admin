@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.RoleModels.ViewModels.RoleViewModel
 @{
-    ViewBag.Title = Locale.RoleView;
+    ViewBag.Title = Locale.View + " " + Locale.Role;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        <span>@Locale.Role</span>
+        <span>@(Locale.View + " " + Locale.Role)</span>
         <div class="pull-right">
             <a href="~/Role/Edit/@Model.Id">
                 <span class="glyphicon glyphicon-edit"></span>

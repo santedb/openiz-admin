@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.AppletModels.UploadAppletModel
 @{
-    ViewBag.Title = "Upload";
+    ViewBag.Title = Locale.Upload + " " + Locale.Applet;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Locale.Upload
+        @(Locale.Upload + " " + Locale.Applet)
     </div>
     <div class="panel panel-body panel-default">
         @using (Html.BeginForm("Upload", "Applet", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))

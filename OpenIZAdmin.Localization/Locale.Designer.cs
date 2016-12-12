@@ -529,42 +529,6 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create application.
-        /// </summary>
-        public static string CreateApplication {
-            get {
-                return ResourceManager.GetString("CreateApplication", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create Assigning Authority.
-        /// </summary>
-        public static string CreateAssigningAuthority {
-            get {
-                return ResourceManager.GetString("CreateAssigningAuthority", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create Concept.
-        /// </summary>
-        public static string CreateConcept {
-            get {
-                return ResourceManager.GetString("CreateConcept", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create Concept Set.
-        /// </summary>
-        public static string CreateConceptSet {
-            get {
-                return ResourceManager.GetString("CreateConceptSet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Created By.
         /// </summary>
         public static string CreatedBy {
@@ -574,65 +538,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create Device.
-        /// </summary>
-        public static string CreateDevice {
-            get {
-                return ResourceManager.GetString("CreateDevice", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to created successfully.
         /// </summary>
         public static string CreatedSuccessfully {
             get {
                 return ResourceManager.GetString("CreatedSuccessfully", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create Place.
-        /// </summary>
-        public static string CreatePlace {
-            get {
-                return ResourceManager.GetString("CreatePlace", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create Policy.
-        /// </summary>
-        public static string CreatePolicy {
-            get {
-                return ResourceManager.GetString("CreatePolicy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create Provider.
-        /// </summary>
-        public static string CreateProvider {
-            get {
-                return ResourceManager.GetString("CreateProvider", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create Role.
-        /// </summary>
-        public static string CreateRole {
-            get {
-                return ResourceManager.GetString("CreateRole", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Create User.
-        /// </summary>
-        public static string CreateUser {
-            get {
-                return ResourceManager.GetString("CreateUser", resourceCulture);
             }
         }
         
@@ -826,65 +736,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit Application.
-        /// </summary>
-        public static string EditApplication {
-            get {
-                return ResourceManager.GetString("EditApplication", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Edit Device.
-        /// </summary>
-        public static string EditDevice {
-            get {
-                return ResourceManager.GetString("EditDevice", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to edited successfully.
         /// </summary>
         public static string EditedSuccessfully {
             get {
                 return ResourceManager.GetString("EditedSuccessfully", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Edit Policy.
-        /// </summary>
-        public static string EditPolicy {
-            get {
-                return ResourceManager.GetString("EditPolicy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Edit Provider.
-        /// </summary>
-        public static string EditProvider {
-            get {
-                return ResourceManager.GetString("EditProvider", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Edit Role.
-        /// </summary>
-        public static string EditRole {
-            get {
-                return ResourceManager.GetString("EditRole", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Edit User.
-        /// </summary>
-        public static string EditUser {
-            get {
-                return ResourceManager.GetString("EditUser", resourceCulture);
             }
         }
         
@@ -1123,6 +979,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Home.
+        /// </summary>
+        public static string Home {
+            get {
+                return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Id.
         /// </summary>
         public static string Id {
@@ -1263,6 +1128,15 @@ namespace OpenIZAdmin.Localization {
         public static string Latitude {
             get {
                 return ResourceManager.GetString("Latitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Leave Realm.
+        /// </summary>
+        public static string Leave_Realm {
+            get {
+                return ResourceManager.GetString("Leave Realm", resourceCulture);
             }
         }
         
@@ -1434,6 +1308,15 @@ namespace OpenIZAdmin.Localization {
         public static string New {
             get {
                 return ResourceManager.GetString("New", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New Concept Set.
+        /// </summary>
+        public static string NewConceptSet {
+            get {
+                return ResourceManager.GetString("NewConceptSet", resourceCulture);
             }
         }
         
@@ -1848,15 +1731,6 @@ namespace OpenIZAdmin.Localization {
         public static string RolesRequired {
             get {
                 return ResourceManager.GetString("RolesRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Role View.
-        /// </summary>
-        public static string RoleView {
-            get {
-                return ResourceManager.GetString("RoleView", resourceCulture);
             }
         }
         
@@ -2370,15 +2244,6 @@ namespace OpenIZAdmin.Localization {
         public static string Users {
             get {
                 return ResourceManager.GetString("Users", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User View.
-        /// </summary>
-        public static string UserView {
-            get {
-                return ResourceManager.GetString("UserView", resourceCulture);
             }
         }
         

@@ -1,13 +1,13 @@
 ﻿@model OpenIZAdmin.Models.RealmModels.LeaveRealmModel
 @{
-    ViewBag.Title = "JoinRealm";
+    ViewBag.Title = Locale.LeaveRealm;
 }
 
 @Html.Partial("_CurrentRealmPartial", Model.CurrentRealm)
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        Leave Realm
+        @Locale.LeaveRealm
     </div>
     <div class="panel panel-body panel-default">
         @using (Html.BeginForm("LeaveRealm", "Realm", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.MaterialModels.CreateMaterialModel
 @{
-    ViewBag.Title = Locale.Create;
+    ViewBag.Title = Locale.Create + " " + Locale.Material;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Locale.Create @Locale.Material
+        @(Locale.Create + " " + Locale.Material)
     </div>
     <div class="panel panel-body panel-default">
         @using (Html.BeginForm("Create", "Material", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

@@ -1,6 +1,6 @@
 ﻿@model OpenIZAdmin.Models.ConceptSetModels.EditConceptSetModel
 @{
-    ViewBag.Title = Locale.ConceptSet;
+    ViewBag.Title = Locale.Edit + " " + Locale.ConceptSet;
 }
 
 <div>
@@ -8,7 +8,7 @@
     {
         <div class="panel panel-default">
             <div class="panel panel-heading">
-                <span class="text-white">@Locale.ConceptSet @Model.Mnemonic</span>
+                <span class="text-white">@(Locale.Edit + " " + Locale.ConceptSet) @Model.Mnemonic</span>
             </div>
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })

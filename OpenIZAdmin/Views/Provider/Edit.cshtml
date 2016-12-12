@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.ProviderModels.EditProviderModel
 @{
-    ViewBag.Title = Locale.EditProvider;
+    ViewBag.Title = Locale.Edit + " " + Locale.Provider;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Locale.EditProvider;
+        @(Locale.Edit + " " + Locale.Provider)
     </div>
     <div class="panel panel-body panel-default">
         @using (Html.BeginForm("Edit", "Provider", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

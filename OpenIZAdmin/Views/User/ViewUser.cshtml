@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.UserModels.ViewModels.UserViewModel
 @{
-    ViewBag.Title = Locale.UserView;
+    ViewBag.Title = Locale.View + " " + Locale.User;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        <span>@Locale.User</span>
+        <span>@(Locale.View + " " + Locale.User)</span>
         <div class="pull-right">
             <a href="~/User/Edit/@Model.UserId">
                 <span class="glyphicon glyphicon-edit"></span>

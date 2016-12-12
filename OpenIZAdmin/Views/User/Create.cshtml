@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.UserModels.CreateUserModel
 @{
-    ViewBag.Title = Locale.CreateUser;
+    ViewBag.Title = Locale.Create + " " + Locale.User; 
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Locale.CreateUser
+        @(Locale.Create + " " + Locale.User)
     </div>
     <div class="panel panel-body panel-default">
         @using (Html.BeginForm("Create", "User", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

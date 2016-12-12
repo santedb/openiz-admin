@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.ConceptModels.CreateConceptModel
 @{
-    ViewBag.Title = Locale.CreateConcept;
+    ViewBag.Title = Locale.Create + " " + Locale.Concept;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Locale.CreateConcept
+        @(Locale.Create + " " + Locale.Concept)
     </div>
     <div class="panel panel-body panel-default">
         @using (Html.BeginForm("Create", "Concept", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

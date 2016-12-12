@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.RoleModels.EditRoleModel
 @{
-    ViewBag.Title = Locale.EditRole;
+    ViewBag.Title = Locale.Edit + " " + Locale.Role;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Locale.EditRole
+        @(Locale.Edit + " " + Locale.Role)
     </div>
 @using (Html.BeginForm("Edit", "Role", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {

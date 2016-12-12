@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.PlaceModels.ViewModels.PlaceViewModel
 @{
-    ViewBag.Title = Locale.Place;
+    ViewBag.Title = Locale.View + " " + Locale.Place;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        <span>@Locale.Place</span>
+        <span>@(Locale.View + " " + Locale.Place)</span>
         <div class="pull-right">
             @*<a href="~/Place/Edit?key=@Model.Key&versionKey=@Model.VersionKey">
                 <span class="glyphicon glyphicon-edit"></span>

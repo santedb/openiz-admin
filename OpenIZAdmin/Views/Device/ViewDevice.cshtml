@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.DeviceModels.ViewModels.DeviceViewModel
 @{
-    ViewBag.Title = Locale.Device;
+    ViewBag.Title = Locale.View + " " + Locale.Device;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        <span>@Locale.Device</span>
+        <span>@(Locale.View + " " + Locale.Device)</span>
         <div class="pull-right">
             <a href="~/Device/Edit/Edit?key=@Model.Id">
                 <span class="glyphicon glyphicon-edit"></span>

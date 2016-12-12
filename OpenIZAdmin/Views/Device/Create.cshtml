@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.DeviceModels.CreateDeviceModel
 @{
-    ViewBag.Title = Locale.CreateDevice;
+    ViewBag.Title = Locale.Create + " " + Locale.Device;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Locale.CreateDevice
+        @(Locale.Create + " " + Locale.Device)
     </div>
     <div class="panel panel-body panel-default">
         @using (Html.BeginForm("Create", "Device", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

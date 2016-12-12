@@ -1,12 +1,12 @@
 ﻿@model OpenIZAdmin.Models.AssigningAuthorityModels.EditAssigningAuthorityModel
     @{
-        ViewBag.Title = Locale.Edit;
+        ViewBag.Title = Locale.Edit + " " + Locale.AssigningAuthority;
     }
 
     <div class="panel panel-default">
         <div class="panel panel-heading">
-            @Locale.Edit
-    </div>
+            @(Locale.Edit + " " + Locale.AssigningAuthority)
+        </div>
     <div class="panel panel-body panel-default">
         @using (Html.BeginForm("Edit", "AssigningAuthority", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {

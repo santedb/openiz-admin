@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.ConceptModels.ViewModels.ConceptViewModel
 @{
-    ViewBag.Title = Locale.Concept;
+    ViewBag.Title = Locale.View + " " + Locale.Concept;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        <span>@Locale.Concept</span>
+        <span>@(Locale.View + " " + Locale.Concept)</span>
         <div class="pull-right">
             <a href="~/Concept/Edit/Edit?key=@Model.Key&versionKey=@Model.VersionKey">
                 <span class="glyphicon glyphicon-edit"></span>

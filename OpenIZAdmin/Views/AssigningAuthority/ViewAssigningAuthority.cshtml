@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.AssigningAuthorityModels.ViewModels.AssigningAuthorityViewModel
 @{
-    ViewBag.Title = Locale.AssigningAuthorities;
+    ViewBag.Title = Locale.View + " " + Locale.AssigningAuthority;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        <span>@Locale.AssigningAuthority</span>
+        <span>@(Locale.View + " " + Locale.AssigningAuthority)</span>
         <div class="pull-right">
             <a href="~/AssigningAuthority/Edit?key=@Model.Key">
                 <span class="glyphicon glyphicon-edit"></span>

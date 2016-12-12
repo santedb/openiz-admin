@@ -345,9 +345,6 @@
   <data name="User" xml:space="preserve">
     <value>User</value>
   </data>
-  <data name="UserView" xml:space="preserve">
-    <value>User View</value>
-  </data>
   <data name="FirstName" xml:space="preserve">
     <value>First name</value>
   </data>
@@ -372,23 +369,8 @@
   <data name="InvalidEmailAddress" xml:space="preserve">
     <value>Please enter a valid email address</value>
   </data>
-  <data name="CreateDevice" xml:space="preserve">
-    <value>Create Device</value>
-  </data>
-  <data name="CreatePlace" xml:space="preserve">
-    <value>Create Place</value>
-  </data>
-  <data name="CreateRole" xml:space="preserve">
-    <value>Create Role</value>
-  </data>
-  <data name="CreateUser" xml:space="preserve">
-    <value>Create User</value>
-  </data>
   <data name="Role" xml:space="preserve">
     <value>Role</value>
-  </data>
-  <data name="RoleView" xml:space="preserve">
-    <value>Role View</value>
   </data>
   <data name="RolesRequired" xml:space="preserve">
     <value>Please select a role</value>
@@ -410,9 +392,6 @@
   </data>
   <data name="OidRequired" xml:space="preserve">
     <value>The Oid field is required</value>
-  </data>
-  <data name="CreatePolicy" xml:space="preserve">
-    <value>Create Policy</value>
   </data>
   <data name="Grant" xml:space="preserve">
     <value>Grant</value>
@@ -458,9 +437,6 @@
   </data>
   <data name="LanguageRequired" xml:space="preserve">
     <value>Please select a language</value>
-  </data>
-  <data name="CreateConcept" xml:space="preserve">
-    <value>Create Concept</value>
   </data>
   <data name="MnemonicRequired" xml:space="preserve">
     <value>The mnemonic field is required</value>
@@ -522,9 +498,6 @@
   <data name="Phone" xml:space="preserve">
     <value>Phone</value>
   </data>
-  <data name="EditUser" xml:space="preserve">
-    <value>Edit User</value>
-  </data>
   <data name="SessionTimedOut" xml:space="preserve">
     <value>Session timed out</value>
   </data>
@@ -536,9 +509,6 @@
   </data>
   <data name="DescriptionTooLong" xml:space="preserve">
     <value>The description field must be not exceed 1000 characters</value>
-  </data>
-  <data name="EditRole" xml:space="preserve">
-    <value>Edit Role</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Loading</value>
@@ -555,20 +525,11 @@
   <data name="Activate" xml:space="preserve">
     <value>Activate</value>
   </data>
-  <data name="CreateProvider" xml:space="preserve">
-    <value>Create Provider</value>
-  </data>
-  <data name="EditProvider" xml:space="preserve">
-    <value>Edit Provider</value>
-  </data>
   <data name="SearchProviders" xml:space="preserve">
     <value>Search Providers</value>
   </data>
   <data name="AssigningDeviceId" xml:space="preserve">
     <value>Assigning Device ID</value>
-  </data>
-  <data name="CreateAssigningAuthority" xml:space="preserve">
-    <value>Create Assigning Authority</value>
   </data>
   <data name="DomainName" xml:space="preserve">
     <value>Domain Name</value>
@@ -608,9 +569,6 @@
   </data>
   <data name="HL7CX4" xml:space="preserve">
     <value>HL7CX4</value>
-  </data>
-  <data name="EditPolicy" xml:space="preserve">
-    <value>Edit Policy</value>
   </data>
   <data name="OIDAllCaps" xml:space="preserve">
     <value>OID</value>
@@ -759,9 +717,6 @@
   <data name="UpdatedSuccessfully" xml:space="preserve">
     <value>updated successfully</value>
   </data>
-  <data name="EditDevice" xml:space="preserve">
-    <value>Edit Device</value>
-  </data>
   <data name="Priority" xml:space="preserve">
     <value>Priority</value>
   </data>
@@ -837,9 +792,6 @@
   <data name="VersionName" xml:space="preserve">
     <value>Version Name</value>
   </data>
-  <data name="CreateApplication" xml:space="preserve">
-    <value>Create application</value>
-  </data>
   <data name="Application" xml:space="preserve">
     <value>Application</value>
   </data>
@@ -851,9 +803,6 @@
   </data>
   <data name="ConceptClassRequired" xml:space="preserve">
     <value>The Concept Class field required</value>
-  </data>
-  <data name="EditApplication" xml:space="preserve">
-    <value>Edit Application</value>
   </data>
   <data name="Material" xml:space="preserve">
     <value>Material</value>
@@ -879,9 +828,6 @@
   <data name="For" xml:space="preserve">
     <value>For</value>
   </data>
-  <data name="CreateConceptSet" xml:space="preserve">
-    <value>Create Concept Set</value>
-  </data>
   <data name="NoRolesFound" xml:space="preserve">
     <value>No roles found</value>
   </data>
@@ -905,5 +851,14 @@
   </data>
   <data name="Type" xml:space="preserve">
     <value>Type</value>
+  </data>
+  <data name="NewConceptSet" xml:space="preserve">
+    <value>New Concept Set</value>
+  </data>
+  <data name="Leave Realm" xml:space="preserve">
+    <value>Leave Realm</value>
+  </data>
+  <data name="Home" xml:space="preserve">
+    <value>Home</value>
   </data>
 </root>
