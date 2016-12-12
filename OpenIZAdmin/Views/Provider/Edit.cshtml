@@ -15,7 +15,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.GivenNames, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                <div class="col-md-6">
                     @Html.ListBoxFor(m => m.GivenNames, Model.GivenNamesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
                     @Html.ValidationMessageFor(m => m.GivenNames, "", new { @class = "text-danger" })
                 </div>
@@ -23,7 +23,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.FamilyNames, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                <div class="col-md-6">
                     @Html.ListBoxFor(m => m.FamilyNames, Model.FamilyNameList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
                     @Html.ValidationMessageFor(m => m.FamilyNames, "", new { @class = "text-danger" })
                 </div>

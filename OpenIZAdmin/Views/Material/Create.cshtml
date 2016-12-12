@@ -15,7 +15,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                <div class="col-md-6">
                     @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                 </div>
@@ -23,7 +23,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.FormConcept,  new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                <div class="col-md-6">
                     @Html.DropDownListFor(m => m.FormConcept, Model.FormConcepts ,new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.FormConcept, "", new { @class = "text-danger" })
                 </div>
@@ -31,7 +31,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.QuantityConcept, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                <div class="col-md-6">
                     @Html.DropDownListFor(m => m.QuantityConcept, Model.QuantityConcepts, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.QuantityConcept, "", new { @class = "text-danger" })
                 </div>

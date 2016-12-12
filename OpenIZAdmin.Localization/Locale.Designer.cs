@@ -1150,6 +1150,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you would like to leave the current realm?.
+        /// </summary>
+        public static string LeaveRealmPrompt {
+            get {
+                return ResourceManager.GetString("LeaveRealmPrompt", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading.
         /// </summary>
         public static string Loading {

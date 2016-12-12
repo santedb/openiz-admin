@@ -16,93 +16,46 @@
     <div class="panel panel-body panel-default">
         <div class="row">
             <div class="col-md-12">
-                <div class="form-horizontal">
-                    @*<div class="form-group">
-                        @Html.LabelFor(m => m.GivenNames, new { @class = "col-md-4 control-label" })
-                        <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.GivenNames, new { @class = "form-control", multiple = "multiple", @readonly = "readonly" })                          
-                        </div>
-                    </div>  
+                <div class="form-horizontal">                                       
                     <div class="form-group">
-                        @Html.LabelFor(m => m.FamilyNames, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-10">
-                            @Html.ListBoxFor(m => m.FamilyNames, Model.FamilyNameList, new { @class = "dynamic-dropdown form-control", multiple = "multiple", @readonly = "readonly" })                          
-                        </div>
-                    </div>*@
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.HealthFacility, new { @class = "col-md-4 control-label" })
-                        <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.HealthFacility, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                    </div>  
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Name, new { @class = "col-md-4 control-label" })
-                        <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                    </div> 
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Email, new { @class = "col-md-4 control-label" })
-                        <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                    </div>  
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-4 control-label" })
-                        <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                    </div>  
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Username, new { @class = "col-md-4 control-label" })
-                        <div class="col-md-8">
+                        @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
                             @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @readonly = "readonly" })
                         </div>
                     </div>  
                     <div class="form-group">
-                        @Html.LabelFor(m => m.LastLoginTime, new { @class = "col-md-4 control-label" })
-                        <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.LastLoginTime, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                    </div>  
-
-
-                    @*<div class="form-group">
-                        <div class="col-md-4">
-                            <label class="control-label">@Html.DisplayNameFor(m => m.HealthFacility)</label>
-                            @Html.TextBoxFor(m => m.HealthFacility, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                        <div class="col-md-4">
-                            <label class="control-label">@Html.DisplayNameFor(m => m.Name)</label>
+                        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
                             @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
                         </div>
-                        <div class="col-md-4">
-                            <label class="control-label">@Html.DisplayNameFor(m => m.Email)</label>
+                    </div> 
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
                             @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = "readonly" })
                         </div>
-                    </div>*@
+                    </div>  
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>                      
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.HealthFacility, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.HealthFacility, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>  
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.LastLoginTime, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.LastLoginTime, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>                      
                 </div>
             </div>
-        </div>
-        @*<hr />
-        <div class="row">
-            <div class="col-md-12">
-                <div class="form-group">
-                    <div class="col-md-4">
-                        <label class="control-label">@Html.DisplayNameFor(m => m.PhoneNumber)</label>
-                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                    <div class="col-md-4">
-                        <label class="control-label">@Html.DisplayNameFor(m => m.Username)</label>
-                        @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                    <div class="col-md-4">
-                        <label class="control-label">@Html.DisplayNameFor(m => m.LastLoginTime)</label>
-                        @Html.TextBoxFor(m => m.LastLoginTime, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
-                </div>
-            </div>
-        </div>*@
+        </div>        
     </div>
 </div>
 

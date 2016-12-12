@@ -861,4 +861,7 @@
   <data name="Home" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="LeaveRealmPrompt" xml:space="preserve">
+    <value>Are you sure you would like to leave the current realm?</value>
+  </data>
 </root>
