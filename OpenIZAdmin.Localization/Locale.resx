@@ -864,4 +864,7 @@
   <data name="LeaveRealmPrompt" xml:space="preserve">
     <value>Are you sure you would like to leave the current realm?</value>
   </data>
+  <data name="Assets" xml:space="preserve">
+    <value>Assets</value>
+  </data>
 </root>

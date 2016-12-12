@@ -17,7 +17,10 @@
  * Date: 2016-11-19
  */
 
+using OpenIZ.Core.Applets.Model;
+using OpenIZ.Core.Model.AMI.Applet;
 using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Models.AppletModels;
 using OpenIZAdmin.Models.AppletModels.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,15 +32,69 @@ namespace OpenIZAdmin.Util
 	/// </summary>
 	public static class AppletUtil
 	{
-		/// <summary>
-		/// Retrieves the list of applets.
+        /// <summary>
+		/// Retrieves a specific applet.
 		/// </summary>
 		/// <param name="client">The AMI service client</param>
-		public static List<AppletViewModel> GetApplets(AmiServiceClient client)
+        /// <param name="id">The identifier of the applet</param>
+		public static AppletManifestInfo GetApplet(AmiServiceClient client, string id)
+        {            
+            return client.GetApplet(id);             
+        }
+
+        /// <summary>
+        /// Retrieves the list of applets.
+        /// </summary>
+        /// <param name="client">The AMI service client</param>
+        public static List<AppletViewModel> GetApplets(AmiServiceClient client)
 		{
 			var applets = client.GetApplets();
 
-			return applets.CollectionItem.Select(a => new AppletViewModel(a.AppletManifest.Info.Author, a.AppletManifest.Info.GetGroupName("en"), a.AppletManifest.Info.Id, string.Join(", ", a.AppletManifest.Info.Names.Select(l => l.Value)), a.AppletManifest.Info.Version)).ToList();
-		}
-	}
+            return applets.CollectionItem.Select(a => ToAppletViewModel(a)).ToList();// new AppletViewModel(a.AppletManifest.Info.Author, a.AppletManifest.Info.GetGroupName("en"), a.AppletManifest.Info.Id, string.Join(", ", a.AppletManifest.Info.Names.Select(l => l.Value)), a.AppletManifest.Info.Version)).ToList();
+		} 
+
+        /// <summary>
+		/// Converts a <see cref="AppletManifestInfo"/> to a <see cref="AppletViewModel"/>.
+		/// </summary>
+		/// <param name="appletInfo">The AppletInfo object to convert.</param>
+		/// <returns>Returns a AppletViewModel model.</returns>
+		public static AppletViewModel ToAppletViewModel(AppletManifestInfo appletInfo)
+        {            
+            var viewModel = new AppletViewModel
+            {
+                Author = appletInfo.AppletManifest.Info.Author,
+                Group = appletInfo.AppletManifest.Info.GetGroupName("en"),
+                Id = appletInfo.AppletManifest.Info.Id,
+                PublicKeyToken = appletInfo.AppletManifest.Info.PublicKeyToken,
+                Version = appletInfo.AppletManifest.Info.Version,
+                Name = string.Join(", ", appletInfo.AppletManifest.Info.Names.Select(l => l.Value))
+            };
+
+            if(appletInfo.AppletManifest.Assets != null && appletInfo.AppletManifest.Assets.Any())
+            {
+                viewModel.Assets = appletInfo.AppletManifest.Assets.Select(a => ToAppletAssetModel(a)).OrderBy(q => q.Name).ToList();
+            }            
+
+            return viewModel;
+        }
+
+        private static AppletAssetModel ToAppletAssetModel(AppletAsset appletAsset)
+        {
+            AppletAssetModel viewModel = new AppletAssetModel();
+
+            viewModel.Manifest = appletAsset.Manifest ?? new AppletManifest();
+            viewModel.Name = appletAsset.Name ?? string.Empty;
+            viewModel.MimeType = appletAsset.MimeType ?? string.Empty;
+            viewModel.Language = appletAsset.Language ?? string.Empty;
+
+            if (appletAsset.Policies != null && appletAsset.Policies.Any())
+            {
+                viewModel.Policies = appletAsset.Policies;//.Select(PolicyUtil.ToPolicyViewModel).OrderBy(q => q.Name).ToList();
+            }
+            
+            return viewModel;
+        }
+
+
+    }
 }

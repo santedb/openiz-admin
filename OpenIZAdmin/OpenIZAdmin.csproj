@@ -236,6 +236,7 @@
     <Compile Include="Logging\RollOverTextWriterTraceListener.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels\ChangePasswordModel.cs" />
+    <Compile Include="Models\AppletModels\AppletAssetModel.cs" />
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ViewModels\ApplicationViewModel.cs" />
     <Compile Include="Models\ConceptModels\ReferenceTermModel.cs" />

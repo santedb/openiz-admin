@@ -268,6 +268,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assets.
+        /// </summary>
+        public static string Assets {
+            get {
+                return ResourceManager.GetString("Assets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assigning Authorities.
         /// </summary>
         public static string AssigningAuthorities {
