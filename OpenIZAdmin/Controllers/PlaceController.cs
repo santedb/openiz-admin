@@ -202,7 +202,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (ModelState.IsValid)
 			{
-				var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))));
+				var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null);
 
 				placeList = places.Item.OfType<Place>().Select(PlaceUtil.ToPlaceViewModel).OrderBy(p => p.Name).ToList();
 			}

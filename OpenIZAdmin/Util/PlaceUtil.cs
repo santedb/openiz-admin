@@ -42,23 +42,11 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a place.</returns>
 		public static Place GetPlace(ImsiServiceClient client, Guid key)
 		{
-			Place place = null;
+			var bundle = client.Query<Place>(p => p.Key == key && p.ObsoletionTime == null);
 
-			try
-			{
-				var bundle = client.Query<Place>(p => p.Key == key);
+			bundle.Reconstitute();
 
-				bundle.Reconstitute();
-
-				place = bundle.Item.OfType<Place>().Cast<Place>().FirstOrDefault();
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve place: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve place: {0}", e.Message);
-			}
+			var place = bundle.Item.OfType<Place>().FirstOrDefault();
 
 			return place;
 		}
@@ -72,21 +60,9 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a list of places.</returns>
 		public static IEnumerable<Place> GetPlaces(ImsiServiceClient client, int offset = 0, int? count = null)
 		{
-			IEnumerable<Place> places = new List<Place>();
+			var bundle = client.Query<Place>(p => p.IsMobile == false && p.ObsoletionTime == null, offset, count);
 
-			try
-			{
-				var bundle = client.Query<Place>(p => p.IsMobile == false, offset, count);
-
-				places = bundle.Item.OfType<Place>().Cast<Place>().AsEnumerable();
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve places: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve places: {0}", e.Message);
-			}
+			var places = bundle.Item.OfType<Place>();
 
 			return places;
 		}
@@ -117,14 +93,15 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a place.</returns>
 		public static Place ToPlace(EditPlaceModel model)
 		{
-			Place place = new Place();
+			var place = new Place
+			{
+				Key = model.Id,
+				Lat = model.Latitude,
+				Lng = model.Longitude
+			};
 
-			place.Key = model.Id;
-			place.Lat = model.Latitude;
-			place.Lng = model.Longitude;
 			place.Names.Add(new EntityName(NameUseKeys.OfficialRecord, model.Name));
 			place.VersionKey = model.VersionId;
-			place.StatusConceptKey = StatusKeys.Active;
 
 			return place;
 		}
@@ -136,13 +113,15 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns an edit place model.</returns>
 		public static EditPlaceModel ToEditPlaceModel(Place place)
 		{
-			EditPlaceModel model = new EditPlaceModel();
+			var model = new EditPlaceModel
+			{
+				Id = place.Key.Value,
+				Latitude = place.Lat,
+				Longitude = place.Lng,
+				Name = string.Join(", ", place.Names.SelectMany(e => e.Component).Select(c => c.Value)),
+				VersionId = place.VersionKey.Value
+			};
 
-			model.Id = place.Key.Value;
-			model.Latitude = place.Lat;
-			model.Longitude = place.Lng;
-			model.Name = place.Names.SelectMany(n => n.Component).Select(c => c.Value).Aggregate((a, b) => a + ", " + b);
-			model.VersionId = place.VersionKey.Value;
 
 			return model;
 		}
@@ -154,21 +133,21 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a place view model.</returns>
 		public static PlaceViewModel ToPlaceViewModel(Place place)
 		{
-			PlaceViewModel viewModel = new PlaceViewModel();
-
-			viewModel.CreationTime = place.CreationTime.DateTime;
+			var viewModel = new PlaceViewModel
+			{
+				CreationTime = place.CreationTime.DateTime,
+				Key = place.Key.Value,
+				Latitude = place.Lat ?? 0,
+				Longitude = place.Lng ?? 0,
+				Name = string.Join(", ", place.Names.SelectMany(e => e.Component).Select(c => c.Value)),
+				VersionKey = place.VersionKey.GetValueOrDefault()
+			};
 
 			viewModel.Details.Add(new DetailedPlaceViewModel
 			{
 				IsMobile = place.IsMobile,
 				Services = new List<string>()
 			});
-
-			viewModel.Key = place.Key.Value;
-			viewModel.Latitude = place.Lat ?? 0;
-			viewModel.Longitude = place.Lng ?? 0;
-			viewModel.Name = place.Names.SelectMany(e => e.Component).Select(c => c.Value).Aggregate((a, b) => (a + ", " + b));
-			viewModel.VersionKey = place.VersionKey.GetValueOrDefault();
 
 			return viewModel;
 		}
