@@ -257,7 +257,7 @@ namespace OpenIZAdmin.Controllers
 						return View(model);
 				}
 
-				TempData["success"] = Locale.RealmJoinedSuccessfully;
+				TempData["success"] = Locale.RealmJoined + " " + Locale.Successfully;
 
 				return RedirectToAction("Index", "Home");
 			}
@@ -307,7 +307,7 @@ namespace OpenIZAdmin.Controllers
 
 				SignInManager.AuthenticationManager.SignOut();
 
-				TempData["success"] = Locale.RealmLeftSuccessfully;
+				TempData["success"] = Locale.RealmLeft + " " + Locale.Successfully;
 
 				return RedirectToAction("Index", "Home");
 			}
@@ -347,7 +347,7 @@ namespace OpenIZAdmin.Controllers
 				unitOfWork.RealmRepository.Update(realm);
 				unitOfWork.Save();
 
-				TempData["success"] = Locale.RealmSwitchedSuccessfully;
+				TempData["success"] = Locale.RealmSwitched + " " + Locale.Successfully;
 				HttpContext.GetOwinContext().Authentication.SignOut();
 
 				return RedirectToAction("Login", "Account");

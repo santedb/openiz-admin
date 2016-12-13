@@ -68,7 +68,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.AmiClient.UpdateDevice(id, deviceInfo);
 
-					TempData["success"] = Locale.Device + " " + Locale.ActivatedSuccessfully;
+					TempData["success"] = Locale.Device + " " + Locale.Activated + " " + Locale.Successfully;
 
 					return RedirectToAction("Index");
 				}
@@ -116,7 +116,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					var device = this.AmiClient.CreateDevice(DeviceUtil.ToSecurityDevice(model));
 
-					TempData["success"] = Locale.Device + " " + Locale.CreatedSuccessfully;                    
+					TempData["success"] = Locale.Device + " " + Locale.Created + " " + Locale.Successfully;                    
 
                     return RedirectToAction("ViewDevice", new { id = device.Id.ToString() });
                 }
@@ -147,7 +147,7 @@ namespace OpenIZAdmin.Controllers
 				try
 				{
 					this.AmiClient.DeleteDevice(id);
-					TempData["success"] = Locale.Device + " " + Locale.DeletedSuccessfully;
+					TempData["success"] = Locale.Device + " " + Locale.Deleted + " " + Locale.Successfully;
 
 					return RedirectToAction("Index");
 				}
@@ -218,7 +218,7 @@ namespace OpenIZAdmin.Controllers
 
                 this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
 
-                TempData["success"] = Locale.Device + " " + Locale.UpdatedSuccessfully;
+                TempData["success"] = Locale.Device + " " + Locale.Updated + " " + Locale.Successfully;
                 
                 return RedirectToAction("Edit", new { key = deviceEntity.Id.ToString() });
             }

@@ -10,11 +10,11 @@
     <div class="panel panel-body panel-default">
         <div class="row">
             <div class="col-md-12">
-                <div class="form-horizontal">
+                <div class="form-horizontal">                    
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Id, new { @class = "col-md-2 control-label" })
+                        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
                         <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.Id, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
                         </div>
                     </div>
 
@@ -26,19 +26,19 @@
                     </div>
 
                     <div class="form-group">
+                        @Html.LabelFor(m => m.Id, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.Id, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
                         @Html.LabelFor(m => m.Group, new { @class = "col-md-2 control-label" })
                         <div class="col-md-6">
                             @Html.TextBoxFor(m => m.Group, new { @class = "form-control", @readonly = "readonly" })
                         </div>
                     </div>
-
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                    </div>                    
-
+                                       
                     <div class="form-group">
                         @Html.LabelFor(m => m.Version, new { @class = "col-md-2 control-label" })
                         <div class="col-md-6">
@@ -72,10 +72,8 @@
                                     <thead>
                                         <tr>
                                             <th>@Locale.Name</th>
-                                            <th>@*@Locale.MimeType*@</th>
-                                            <th>@Locale.Language</th>
-                                            @*<th>@Locale.IsPublic</th>
-                                            <th>@Locale.Oid</th>*@
+                                            <th>@Locale.MimeType</th>
+                                            <th>@Locale.Language</th>                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -84,9 +82,7 @@
                                             <tr>
                                                 <td>@item.Name</td>
                                                 <td>@item.MimeType</td>
-                                                <td>@item.Language</td>
-                                                @*<td>@item.IsPublic</td>
-                                                <td>@item.Oid</td>*@
+                                                <td>@item.Language</td>                                                
                                             </tr>}
 
                                     </tbody>

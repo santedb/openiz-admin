@@ -75,7 +75,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.AmiClient.UpdateApplication(id, appInfo);
 
-				TempData["success"] = Locale.Policy + " " + Locale.ActivatedSuccessfully;
+				TempData["success"] = Locale.Policy + " " + Locale.Activated + " " + Locale.Successfully;
 
 				return RedirectToAction("Index");
 			}
@@ -111,7 +111,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				var application = this.AmiClient.CreateApplication(ApplicationUtil.ToSecurityApplication(model));
 
-				TempData["success"] = Locale.Application + " " + Locale.CreatedSuccessfully;
+				TempData["success"] = Locale.Application + " " + Locale.Created + " " + Locale.Successfully;
 
 				return RedirectToAction("ViewApplication", new { id = application.Id.ToString() });
 			}
@@ -134,7 +134,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				this.AmiClient.DeleteApplication(id);
 
-				TempData["success"] = Locale.Application + " " + Locale.DeletedSuccessfully;
+				TempData["success"] = Locale.Application + " " + Locale.Deleted + " " + Locale.Successfully;
 
 				return RedirectToAction("Index");
 			}
@@ -198,7 +198,7 @@ namespace OpenIZAdmin.Controllers
 
                 this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
 
-				TempData["success"] = Locale.Application + " " + Locale.UpdatedSuccessfully;
+				TempData["success"] = Locale.Application + " " + Locale.Updated + " " + Locale.Successfully;
 
                 return RedirectToAction("Edit", new { key = appInfo.Id.ToString() });
             }

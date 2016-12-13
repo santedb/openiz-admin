@@ -63,7 +63,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					var provider = this.ImsiClient.Create<Provider>(ProviderUtil.ToProvider(model));
 
-					TempData["success"] = Locale.Provider + " " + Locale.CreatedSuccessfully;
+					TempData["success"] = Locale.Provider + " " + Locale.Created + " " + Locale.Successfully;
 					//return RedirectToAction("ViewProvider", new { key = provider.Key, versionKey = provider.VersionKey });
 					return RedirectToAction("Index");
 				}
@@ -128,7 +128,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					var provider = this.ImsiClient.Update<Provider>(ProviderUtil.ToProvider(model));
 
-					TempData["success"] = Locale.Provider + " " + Locale.UpdatedSuccessfully;
+					TempData["success"] = Locale.Provider + " " + Locale.Updated + " " + Locale.Successfully;
 					return RedirectToAction("ViewProvider", new { key = provider.Key, versionKey = provider.VersionKey });
 				}
 				catch (Exception e)

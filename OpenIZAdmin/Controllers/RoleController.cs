@@ -71,7 +71,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					var role = this.AmiClient.CreateRole(roleInfo);
 
-					TempData["success"] = Locale.Role + " " + Locale.CreatedSuccessfully;
+					TempData["success"] = Locale.Role + " " + Locale.Created + " " + Locale.Successfully;
 
                     return RedirectToAction("ViewRole", new { id = role.Id.ToString() });                    
 				}
@@ -103,7 +103,7 @@ namespace OpenIZAdmin.Controllers
 				try
 				{
 					this.AmiClient.DeleteRole(id);
-					TempData["success"] = Locale.Role + " " + Locale.DeletedSuccessfully;
+					TempData["success"] = Locale.Role + " " + Locale.Deleted + " " + Locale.Successfully;
 
 					return RedirectToAction("Index");
 				}
@@ -184,7 +184,7 @@ namespace OpenIZAdmin.Controllers
 
                     this.AmiClient.UpdateRole(roleInfo.Id.ToString(), RoleUtil.ToSecurityRoleInfo(this.AmiClient, model, roleInfo));
 
-					TempData["success"] = Locale.Role + " " + Locale.UpdatedSuccessfully;
+					TempData["success"] = Locale.Role + " " + Locale.Updated + " " + Locale.Successfully;
 
                     return RedirectToAction("Edit", new { id = roleInfo.Id.ToString() });
                 }

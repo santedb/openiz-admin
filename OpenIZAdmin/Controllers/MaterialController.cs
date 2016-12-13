@@ -95,7 +95,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.ImsiClient.Create(material);
 
-				TempData["success"] = Locale.Material + " " + Locale.CreatedSuccessfully;
+				TempData["success"] = Locale.Material + " " + Locale.Created + " " + Locale.Successfully;
 
 				return RedirectToAction("Index");
 			}
@@ -206,7 +206,7 @@ namespace OpenIZAdmin.Controllers
 
 				var result = this.ImsiClient.Update<Material>(material);
 
-				TempData["success"] = Locale.Material + " " + Locale.UpdatedSuccessfully;
+				TempData["success"] = Locale.Material + " " + Locale.Updated + " " + Locale.Successfully;
 
 				return RedirectToAction("ViewMaterial", new { key = result.Key, versionKey = result.VersionKey });
 			}

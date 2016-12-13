@@ -79,7 +79,7 @@ namespace OpenIZAdmin.Controllers
 				this.AmiClient.UpdateUser(userKey, user);
 
                 TempData.Clear();
-				TempData["success"] = Locale.User + " " + Locale.ActivatedSuccessfully;
+				TempData["success"] = Locale.User + " " + Locale.Activated + " " + Locale.Successfully;
 
 				return RedirectToAction("Index");
 			}
@@ -133,7 +133,7 @@ namespace OpenIZAdmin.Controllers
 					this.ImsiClient.Update<UserEntity>(userEntity);
 				}
 
-				TempData["success"] = Locale.User + " " + Locale.CreatedSuccessfully;
+				TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;
 
                 return RedirectToAction("ViewUser", new { id = user.UserId.ToString() });
                 
@@ -160,7 +160,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				this.AmiClient.DeleteUser(id);
 
-				TempData["success"] = Locale.User + " " + Locale.DeactivatedSuccessfully;
+				TempData["success"] = Locale.User + " " + Locale.Deactivated + " " + Locale.Successfully;
 
 				return RedirectToAction("Index");
 			}
@@ -265,7 +265,7 @@ namespace OpenIZAdmin.Controllers
 				this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, userInfo);
 				this.ImsiClient.Update<UserEntity>(userEntity);
 
-				TempData["success"] = Locale.User + " " + Locale.UpdatedSuccessfully;
+				TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;
 
                 return RedirectToAction("Edit", new { id = userEntity.Key.ToString() });
             }

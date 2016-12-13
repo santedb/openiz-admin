@@ -123,7 +123,7 @@ namespace OpenIZAdmin.Controllers
 						user = this.AmiClient.UpdateUser(userId, user);
 					}
 
-					TempData["success"] = Locale.PasswordChangedSuccessfully;
+					TempData["success"] = Locale.PasswordChanged + " " + Locale.Successfully;
 
 					return RedirectToAction("Manage");
 				}
@@ -390,7 +390,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.ImsiClient.Update<UserEntity>(userEntity);
 
-					TempData["success"] = Locale.Profile + " " + Locale.UpdatedSuccessfully;
+					TempData["success"] = Locale.Profile + " " + Locale.Updated + " " + Locale.Successfully;
 
 					return RedirectToAction("Index", "Home");
 				}

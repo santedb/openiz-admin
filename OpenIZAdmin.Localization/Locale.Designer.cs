@@ -97,11 +97,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to activated successfully.
+        ///   Looks up a localized string similar to activated.
         /// </summary>
-        public static string ActivatedSuccessfully {
+        public static string Activated {
             get {
-                return ResourceManager.GetString("ActivatedSuccessfully", resourceCulture);
+                return ResourceManager.GetString("Activated", resourceCulture);
             }
         }
         
@@ -210,15 +210,6 @@ namespace OpenIZAdmin.Localization {
         public static string Applets {
             get {
                 return ResourceManager.GetString("Applets", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Applet uploaded successfully.
-        /// </summary>
-        public static string AppletUploadedSuccessfully {
-            get {
-                return ResourceManager.GetString("AppletUploadedSuccessfully", resourceCulture);
             }
         }
         
@@ -538,20 +529,20 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to created .
+        /// </summary>
+        public static string Created {
+            get {
+                return ResourceManager.GetString("Created", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Created By.
         /// </summary>
         public static string CreatedBy {
             get {
                 return ResourceManager.GetString("CreatedBy", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to created successfully.
-        /// </summary>
-        public static string CreatedSuccessfully {
-            get {
-                return ResourceManager.GetString("CreatedSuccessfully", resourceCulture);
             }
         }
         
@@ -601,11 +592,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to deactivated successfully.
+        ///   Looks up a localized string similar to deactivated.
         /// </summary>
-        public static string DeactivatedSuccessfully {
+        public static string Deactivated {
             get {
-                return ResourceManager.GetString("DeactivatedSuccessfully", resourceCulture);
+                return ResourceManager.GetString("Deactivated", resourceCulture);
             }
         }
         
@@ -619,11 +610,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to deleted successfully.
+        ///   Looks up a localized string similar to deleted.
         /// </summary>
-        public static string DeletedSuccessfully {
+        public static string Deleted {
             get {
-                return ResourceManager.GetString("DeletedSuccessfully", resourceCulture);
+                return ResourceManager.GetString("Deleted", resourceCulture);
             }
         }
         
@@ -745,11 +736,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to edited successfully.
+        ///   Looks up a localized string similar to edited.
         /// </summary>
-        public static string EditedSuccessfully {
+        public static string Edited {
             get {
-                return ResourceManager.GetString("EditedSuccessfully", resourceCulture);
+                return ResourceManager.GetString("Edited", resourceCulture);
             }
         }
         
@@ -1258,6 +1249,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mime Type.
+        /// </summary>
+        public static string MimeType {
+            get {
+                return ResourceManager.GetString("MimeType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Mnemonic.
         /// </summary>
         public static string Mnemonic {
@@ -1501,11 +1501,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password changed successfully.
+        ///   Looks up a localized string similar to Password changed .
         /// </summary>
-        public static string PasswordChangedSuccessfully {
+        public static string PasswordChanged {
             get {
-                return ResourceManager.GetString("PasswordChangedSuccessfully", resourceCulture);
+                return ResourceManager.GetString("PasswordChanged", resourceCulture);
             }
         }
         
@@ -1663,20 +1663,20 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Realm joined successfully.
+        ///   Looks up a localized string similar to Realm joined .
         /// </summary>
-        public static string RealmJoinedSuccessfully {
+        public static string RealmJoined {
             get {
-                return ResourceManager.GetString("RealmJoinedSuccessfully", resourceCulture);
+                return ResourceManager.GetString("RealmJoined", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Realm left successfully.
+        ///   Looks up a localized string similar to Realm left .
         /// </summary>
-        public static string RealmLeftSuccessfully {
+        public static string RealmLeft {
             get {
-                return ResourceManager.GetString("RealmLeftSuccessfully", resourceCulture);
+                return ResourceManager.GetString("RealmLeft", resourceCulture);
             }
         }
         
@@ -1690,11 +1690,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Realm switched successfully.
+        ///   Looks up a localized string similar to Realm switched.
         /// </summary>
-        public static string RealmSwitchedSuccessfully {
+        public static string RealmSwitched {
             get {
-                return ResourceManager.GetString("RealmSwitchedSuccessfully", resourceCulture);
+                return ResourceManager.GetString("RealmSwitched", resourceCulture);
             }
         }
         
@@ -1888,7 +1888,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Successfully.
+        ///   Looks up a localized string similar to successfully.
         /// </summary>
         public static string Successfully {
             get {
@@ -2158,11 +2158,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to updated successfully.
+        ///   Looks up a localized string similar to updated .
         /// </summary>
-        public static string UpdatedSuccessfully {
+        public static string Updated {
             get {
-                return ResourceManager.GetString("UpdatedSuccessfully", resourceCulture);
+                return ResourceManager.GetString("Updated", resourceCulture);
             }
         }
         
@@ -2190,6 +2190,15 @@ namespace OpenIZAdmin.Localization {
         public static string Upload {
             get {
                 return ResourceManager.GetString("Upload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to uploaded .
+        /// </summary>
+        public static string Uploaded {
+            get {
+                return ResourceManager.GetString("Uploaded", resourceCulture);
             }
         }
         

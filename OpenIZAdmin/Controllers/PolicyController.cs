@@ -74,7 +74,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.AmiClient.UpdatePolicy(id, policyInfo);
 
-					TempData["success"] = Locale.Policy + " " + Locale.ActivatedSuccessfully;
+					TempData["success"] = Locale.Policy + " " + Locale.Activated + " " + Locale.Successfully;
 
 					return RedirectToAction("Index");
 				}
@@ -126,7 +126,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					this.AmiClient.CreatePolicy(policy);
 
-					TempData["success"] = Locale.Policy + " " + Locale.CreatedSuccessfully;
+					TempData["success"] = Locale.Policy + " " + Locale.Created + " " + Locale.Successfully;
 
                     return RedirectToAction("ViewPolicy", new { key = policy.Policy.Key.ToString() });
                 }
@@ -158,7 +158,7 @@ namespace OpenIZAdmin.Controllers
 				try
 				{
 					this.AmiClient.DeletePolicy(id);
-					TempData["success"] = Locale.Policy + " " + Locale.DeletedSuccessfully;
+					TempData["success"] = Locale.Policy + " " + Locale.Deleted + " " + Locale.Successfully;
 
 					return RedirectToAction("Index");
 				}
@@ -232,7 +232,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.AmiClient.UpdatePolicy(model.Key.ToString(), policyInfo);
 
-					TempData["success"] = Locale.Policy + " " + Locale.UpdatedSuccessfully;
+					TempData["success"] = Locale.Policy + " " + Locale.Updated + " " + Locale.Successfully;
 
                     return RedirectToAction("Edit", new { key = policyInfo.Policy.Key.ToString() });
                 }

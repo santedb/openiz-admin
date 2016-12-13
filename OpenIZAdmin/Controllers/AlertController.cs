@@ -71,7 +71,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.AmiClient.CreateAlert(alertMessageInfo);
 
-				TempData["success"] = Locale.Alert + " " + Locale.CreatedSuccessfully;
+				TempData["success"] = Locale.Alert + " " + Locale.Created + " " + Locale.Successfully;
 
 				return RedirectToAction("Index", "Home");
 			}
@@ -108,7 +108,7 @@ namespace OpenIZAdmin.Controllers
 
 			this.AmiClient.UpdateAlert(alert.Id.ToString(), alert);
 
-			TempData["success"] = Locale.Alert + " " + Locale.UpdatedSuccessfully;
+			TempData["success"] = Locale.Alert + " " + Locale.Updated + " " + Locale.Successfully;
 
 			return RedirectToAction("Index", "Home");
 		}
@@ -167,7 +167,7 @@ namespace OpenIZAdmin.Controllers
 
 			this.AmiClient.UpdateAlert(alert.Id.ToString(), alert);
 
-			TempData["success"] = Locale.Alert + " " + Locale.UpdatedSuccessfully;
+			TempData["success"] = Locale.Alert + " " + Locale.Updated + " " + Locale.Successfully;
 
 			return RedirectToAction("Index", "Home");
 		}

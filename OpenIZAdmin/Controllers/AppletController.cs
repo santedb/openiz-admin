@@ -174,7 +174,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.AmiClient.CreateApplet(manifestInfo);
 
-					TempData["success"] = Locale.AppletUploadedSuccessfully;
+					TempData["success"] = Locale.Applet + " " + Locale.Uploaded + " " + Locale.Successfully;
 
 					return RedirectToAction("Index");
 				}

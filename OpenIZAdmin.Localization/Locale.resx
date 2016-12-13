@@ -465,8 +465,8 @@
   <data name="UnableToChangePassword" xml:space="preserve">
     <value>Unable to change password</value>
   </data>
-  <data name="PasswordChangedSuccessfully" xml:space="preserve">
-    <value>Password changed successfully</value>
+  <data name="PasswordChanged" xml:space="preserve">
+    <value>Password changed </value>
   </data>
   <data name="No" xml:space="preserve">
     <value>No</value>
@@ -591,11 +591,11 @@
   <data name="System" xml:space="preserve">
     <value>System</value>
   </data>
-  <data name="ActivatedSuccessfully" xml:space="preserve">
-    <value>activated successfully</value>
+  <data name="Activated" xml:space="preserve">
+    <value>activated</value>
   </data>
-  <data name="AppletUploadedSuccessfully" xml:space="preserve">
-    <value>Applet uploaded successfully</value>
+  <data name="Uploaded" xml:space="preserve">
+    <value>uploaded </value>
   </data>
   <data name="AssigningAuthority" xml:space="preserve">
     <value>Assigning authority</value>
@@ -612,17 +612,14 @@
   <data name="ConceptSets" xml:space="preserve">
     <value>concept sets</value>
   </data>
-  <data name="CreatedSuccessfully" xml:space="preserve">
-    <value>created successfully</value>
+  <data name="Created" xml:space="preserve">
+    <value>created </value>
   </data>
-  <data name="DeactivatedSuccessfully" xml:space="preserve">
-    <value>deactivated successfully</value>
+  <data name="Deactivated" xml:space="preserve">
+    <value>deactivated</value>
   </data>
-  <data name="DeletedSuccessfully" xml:space="preserve">
-    <value>deleted successfully</value>
-  </data>
-  <data name="EditedSuccessfully" xml:space="preserve">
-    <value>edited successfully</value>
+  <data name="Edited" xml:space="preserve">
+    <value>edited</value>
   </data>
   <data name="InvalidSearch" xml:space="preserve">
     <value>Invalid search, please check your search criteria</value>
@@ -642,14 +639,14 @@
   <data name="Realm" xml:space="preserve">
     <value>Realm</value>
   </data>
-  <data name="RealmJoinedSuccessfully" xml:space="preserve">
-    <value>Realm joined successfully</value>
+  <data name="RealmJoined" xml:space="preserve">
+    <value>Realm joined </value>
   </data>
-  <data name="RealmLeftSuccessfully" xml:space="preserve">
-    <value>Realm left successfully</value>
+  <data name="RealmLeft" xml:space="preserve">
+    <value>Realm left </value>
   </data>
-  <data name="RealmSwitchedSuccessfully" xml:space="preserve">
-    <value>Realm switched successfully</value>
+  <data name="RealmSwitched" xml:space="preserve">
+    <value>Realm switched</value>
   </data>
   <data name="SecurityApplication" xml:space="preserve">
     <value>security application</value>
@@ -714,8 +711,8 @@
   <data name="UnableToUploadApplet" xml:space="preserve">
     <value>Unable to upload applet</value>
   </data>
-  <data name="UpdatedSuccessfully" xml:space="preserve">
-    <value>updated successfully</value>
+  <data name="Updated" xml:space="preserve">
+    <value>updated </value>
   </data>
   <data name="Priority" xml:space="preserve">
     <value>Priority</value>
@@ -763,7 +760,7 @@
     <value>Has Policies</value>
   </data>
   <data name="Successfully" xml:space="preserve">
-    <value>Successfully</value>
+    <value>successfully</value>
   </data>
   <data name="DeviceSecretRequired" xml:space="preserve">
     <value>Device Secret required</value>
@@ -866,5 +863,11 @@
   </data>
   <data name="Assets" xml:space="preserve">
     <value>Assets</value>
+  </data>
+  <data name="MimeType" xml:space="preserve">
+    <value>Mime Type</value>
+  </data>
+  <data name="Deleted" xml:space="preserve">
+    <value>deleted</value>
   </data>
 </root>

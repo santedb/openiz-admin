@@ -63,7 +63,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				this.AmiClient.CreateAssigningAuthority(AssigningAuthorityUtil.ToCreateAssigningAuthorityModel(model));
 
-				TempData["success"] = Locale.AssigningAuthority + " " + Locale.CreatedSuccessfully;
+				TempData["success"] = Locale.AssigningAuthority + " " + Locale.Created + " " + Locale.Successfully;
 
 				return RedirectToAction("Index");
 			}
@@ -91,7 +91,7 @@ namespace OpenIZAdmin.Controllers
 
 			this.AmiClient.DeleteAssigningAuthority(key.ToString());
 
-			TempData["success"] = Locale.AssigningAuthority + " " + Locale.DeletedSuccessfully;
+			TempData["success"] = Locale.AssigningAuthority + " " + Locale.Deleted + " " + Locale.Successfully;
 
 			return RedirectToAction("Index");
 		}
@@ -118,7 +118,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				this.AmiClient.UpdateAssigningAuthority(model.Key.ToString(), AssigningAuthorityUtil.ToAssigningAuthorityInfo(model));
 
-				TempData["success"] = Locale.AssigningAuthority + " " + Locale.EditedSuccessfully;
+				TempData["success"] = Locale.AssigningAuthority + " " + Locale.Edited + " " + Locale.Successfully;
 
 				return RedirectToAction("Index");
 			}

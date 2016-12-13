@@ -100,7 +100,7 @@ namespace OpenIZAdmin.Controllers
 
 				var result = this.ImsiClient.Create<ConceptSet>(conceptSet);
 
-				TempData["success"] = Locale.ConceptSet + " " + Locale.CreatedSuccessfully;
+				TempData["success"] = Locale.ConceptSet + " " + Locale.Created + " " + Locale.Successfully;
 
 				return RedirectToAction("ViewConceptSet", new { key = result.Key });
 			}
@@ -123,7 +123,7 @@ namespace OpenIZAdmin.Controllers
 
 			this.ImsiClient.Obsolete<ConceptSet>(conceptSet);
 
-			TempData["success"] = Locale.ConceptSet + " " + Locale.DeletedSuccessfully;
+			TempData["success"] = Locale.ConceptSet + " " + Locale.Deleted + " " + Locale.Successfully;
 			return RedirectToAction("Index", "Concept");
 		}
 
@@ -182,7 +182,7 @@ namespace OpenIZAdmin.Controllers
 
 				var result = this.ImsiClient.Update<ConceptSet>(conceptSet);
 
-				TempData["success"] = Locale.ConceptSet + " " + Locale.UpdatedSuccessfully;
+				TempData["success"] = Locale.ConceptSet + " " + Locale.Updated + " " + Locale.Successfully;
 
 				return RedirectToAction("ViewConceptSet", new { key = result.Key });
 			}
