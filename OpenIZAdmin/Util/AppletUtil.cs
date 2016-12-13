@@ -50,7 +50,7 @@ namespace OpenIZAdmin.Util
 		{
 			var applets = client.GetApplets();
 
-            return applets.CollectionItem.Select(a => ToAppletViewModel(a)).ToList();// new AppletViewModel(a.AppletManifest.Info.Author, a.AppletManifest.Info.GetGroupName("en"), a.AppletManifest.Info.Id, string.Join(", ", a.AppletManifest.Info.Names.Select(l => l.Value)), a.AppletManifest.Info.Version)).ToList();
+            return applets.CollectionItem.Select(ToAppletViewModel).ToList();
 		} 
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace OpenIZAdmin.Util
 
             if(appletInfo.AppletManifest.Assets != null && appletInfo.AppletManifest.Assets.Any())
             {
-                viewModel.Assets = appletInfo.AppletManifest.Assets.Select(a => ToAppletAssetModel(a)).OrderBy(q => q.Name).ToList();
+                viewModel.Assets = appletInfo.AppletManifest.Assets.Select(ToAppletAssetModel).OrderBy(q => q.Name).ToList();
             }            
 
             return viewModel;
@@ -80,21 +80,21 @@ namespace OpenIZAdmin.Util
 
         private static AppletAssetModel ToAppletAssetModel(AppletAsset appletAsset)
         {
-            AppletAssetModel viewModel = new AppletAssetModel();
+	        var viewModel = new AppletAssetModel
+	        {
+		        Manifest = appletAsset.Manifest ?? new AppletManifest(),
+		        Name = appletAsset.Name ?? string.Empty,
+		        MimeType = appletAsset.MimeType ?? string.Empty,
+		        Language = appletAsset.Language ?? string.Empty
+	        };
 
-            viewModel.Manifest = appletAsset.Manifest ?? new AppletManifest();
-            viewModel.Name = appletAsset.Name ?? string.Empty;
-            viewModel.MimeType = appletAsset.MimeType ?? string.Empty;
-            viewModel.Language = appletAsset.Language ?? string.Empty;
 
-            if (appletAsset.Policies != null && appletAsset.Policies.Any())
+	        if (appletAsset.Policies != null && appletAsset.Policies.Any())
             {
-                viewModel.Policies = appletAsset.Policies;//.Select(PolicyUtil.ToPolicyViewModel).OrderBy(q => q.Name).ToList();
+                viewModel.Policies = appletAsset.Policies;
             }
             
             return viewModel;
         }
-
-
     }
 }

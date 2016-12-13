@@ -42,14 +42,25 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a list of select list items.</returns>
 		public static List<SelectListItem> CreatePrioritySelectList()
 		{
-			var selectList = new List<SelectListItem>();
+			var priorities = new List<SelectListItem>
+			{
+				new SelectListItem
+				{
+					Text = Locale.Alert, Value = ((int)AlertMessageFlags.Alert).ToString()
+				},
+				new SelectListItem
+				{
+					Text = Locale.HighPriority, Value = ((int)AlertMessageFlags.HighPriority).ToString()
+				},
+				new SelectListItem
+				{
+					Text = Locale.System, Value = ((int)AlertMessageFlags.System).ToString()
+				}
+			};
 
 			// HACK
-			selectList.Add(new SelectListItem { Text = Locale.Alert, Value = ((int)AlertMessageFlags.Alert).ToString() });
-			selectList.Add(new SelectListItem { Text = Locale.HighPriority, Value = ((int)AlertMessageFlags.HighPriority).ToString() });
-			selectList.Add(new SelectListItem { Text = Locale.System, Value = ((int)AlertMessageFlags.System).ToString() });
 
-			return selectList;
+			return priorities;
 		}
 
 		/// <summary>
@@ -58,19 +69,21 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns the converted alert message info.</returns>
 		public static AlertMessageInfo ToAlertMessageInfo(AlertViewModel model)
 		{
-			AlertMessageInfo alertMessageInfo = new AlertMessageInfo();
-
-			alertMessageInfo.AlertMessage = new OpenIZ.Core.Alert.Alerting.AlertMessage();
-
-			alertMessageInfo.AlertMessage.Body = model.Body;
-			alertMessageInfo.AlertMessage.CreatedBy = new OpenIZ.Core.Model.Security.SecurityUser
+			var alertMessageInfo = new AlertMessageInfo
 			{
-				Key = model.CreatedBy
+				AlertMessage = new AlertMessage
+				{
+					Body = model.Body,
+					CreatedBy = new SecurityUser
+					{
+						Key = model.CreatedBy
+					},
+					Flags = model.Flags,
+					From = model.From
+				},
+				Id = model.Id
 			};
 
-			alertMessageInfo.AlertMessage.Flags = model.Flags;
-			alertMessageInfo.AlertMessage.From = model.From;
-			alertMessageInfo.Id = model.Id;
 			alertMessageInfo.AlertMessage.Subject = model.Subject;
 			alertMessageInfo.AlertMessage.TimeStamp = model.Time;
 			alertMessageInfo.AlertMessage.To = model.To;
@@ -122,16 +135,17 @@ namespace OpenIZAdmin.Util
 		/// <returns></returns>
 		public static AlertViewModel ToAlertViewModel(AlertMessageInfo alertMessageInfo)
 		{
-			AlertViewModel viewModel = new AlertViewModel();
-
-			viewModel.Body = alertMessageInfo.AlertMessage.Body;
-			viewModel.CreatedBy = alertMessageInfo.AlertMessage.CreatedBy?.Key.Value ?? Guid.Empty;
-			viewModel.Flags = alertMessageInfo.AlertMessage.Flags;
-			viewModel.From = alertMessageInfo.AlertMessage.From;
-			viewModel.Id = alertMessageInfo.Id;
-			viewModel.Subject = alertMessageInfo.AlertMessage.Subject;
-			viewModel.Time = alertMessageInfo.AlertMessage.CreationTime.DateTime;
-			viewModel.To = alertMessageInfo.AlertMessage.To;
+			var viewModel = new AlertViewModel
+			{
+				Body = alertMessageInfo.AlertMessage.Body,
+				CreatedBy = alertMessageInfo.AlertMessage.CreatedBy?.Key.Value ?? Guid.Empty,
+				Flags = alertMessageInfo.AlertMessage.Flags,
+				From = alertMessageInfo.AlertMessage.From,
+				Id = alertMessageInfo.Id,
+				Subject = alertMessageInfo.AlertMessage.Subject,
+				Time = alertMessageInfo.AlertMessage.CreationTime.DateTime,
+				To = alertMessageInfo.AlertMessage.To
+			};
 
 			return viewModel;
 		}
