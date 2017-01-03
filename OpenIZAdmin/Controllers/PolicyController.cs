@@ -279,7 +279,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["searchTerm"] = searchTerm;
 
-					return PartialView("_PolicySearchResultsPartial", collection.CollectionItem.Select(p => PolicyUtil.ToPolicyViewModel(p)));
+					return PartialView("_PolicySearchResultsPartial", collection.CollectionItem.Select(PolicyUtil.ToPolicyViewModel));
 				}
 			}
 			catch (Exception e)

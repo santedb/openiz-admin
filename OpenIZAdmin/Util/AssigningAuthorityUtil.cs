@@ -29,6 +29,9 @@ using System.Linq;
 
 namespace OpenIZAdmin.Util
 {
+	/// <summary>
+	/// Represents a utility for managing assigning authorities.
+	/// </summary>
 	public static class AssigningAuthorityUtil
 	{
 		/// <summary>
@@ -38,21 +41,9 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns IEnumerable AssigningAuthorityViewModel objects.</returns>
 		internal static IEnumerable<AssigningAuthorityViewModel> GetAllAssigningAuthorities(AmiServiceClient client)
 		{
-			IEnumerable<AssigningAuthorityViewModel> viewModels = new List<AssigningAuthorityViewModel>();
+			var assigningAuthorities = client.GetAssigningAuthorities(p => p.ObsoletionTime == null);
 
-			try
-			{
-				var assigningAuthorities = client.GetAssigningAuthorities(p => p.ObsoletionTime != null);
-
-				viewModels = assigningAuthorities.CollectionItem.Select(p => AssigningAuthorityUtil.ToAssigningAuthorityViewModel(p));
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve policies: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve policies: {0}", e.Message);
-			}
+			var viewModels = assigningAuthorities.CollectionItem.Select(AssigningAuthorityUtil.ToAssigningAuthorityViewModel);
 
 			return viewModels;
 		}
@@ -67,7 +58,7 @@ namespace OpenIZAdmin.Util
 			var assigningAuthorityInfo = new AssigningAuthorityInfo
 			{
 				Id = model.Key,
-				AssigningAuthority =
+				AssigningAuthority = new AssigningAuthority
 				{
 					Key = model.Key,
 					Url = model.Url,
@@ -88,14 +79,16 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns an AssigningAuthorityViewModel.</returns>
 		public static AssigningAuthorityViewModel ToAssigningAuthorityViewModel(AssigningAuthorityInfo assigningAuthority)
 		{
-			AssigningAuthorityViewModel viewModel = new AssigningAuthorityViewModel();
+			var viewModel = new AssigningAuthorityViewModel
+			{
+				Key = assigningAuthority.Id,
+				Name = assigningAuthority.AssigningAuthority.Name,
+				Oid = assigningAuthority.AssigningAuthority.Oid,
+				Url = assigningAuthority.AssigningAuthority.Url,
+				DomainName = assigningAuthority.AssigningAuthority.DomainName,
+				Description = assigningAuthority.AssigningAuthority.Description
+			};
 
-			viewModel.Key = assigningAuthority.Id;
-			viewModel.Name = assigningAuthority.AssigningAuthority.Name;
-			viewModel.Oid = assigningAuthority.AssigningAuthority.Oid;
-			viewModel.Url = assigningAuthority.AssigningAuthority.Url;
-			viewModel.DomainName = assigningAuthority.AssigningAuthority.DomainName;
-			viewModel.Description = assigningAuthority.AssigningAuthority.Description;
 			return viewModel;
 		}
 
@@ -106,32 +99,36 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns an EditAssigningAuthorityModel.</returns>
 		public static EditAssigningAuthorityModel ToEditAssigningAuthorityModel(AssigningAuthorityInfo assigningAuthority)
 		{
-			EditAssigningAuthorityModel viewModel = new EditAssigningAuthorityModel();
+			var viewModel = new EditAssigningAuthorityModel
+			{
+				Key = assigningAuthority.Id,
+				Name = assigningAuthority.AssigningAuthority.Name,
+				Oid = assigningAuthority.AssigningAuthority.Oid,
+				Url = assigningAuthority.AssigningAuthority.Url,
+				DomainName = assigningAuthority.AssigningAuthority.DomainName,
+				Description = assigningAuthority.AssigningAuthority.Description
+			};
 
-			viewModel.Key = assigningAuthority.Id;
-			viewModel.Name = assigningAuthority.AssigningAuthority.Name;
-			viewModel.Oid = assigningAuthority.AssigningAuthority.Oid;
-			viewModel.Url = assigningAuthority.AssigningAuthority.Url;
-			viewModel.DomainName = assigningAuthority.AssigningAuthority.DomainName;
-			viewModel.Description = assigningAuthority.AssigningAuthority.Description;
 			return viewModel;
 		}
 
 		/// <summary>
-		/// Converts a <see cref="OpenIZAdmin.Models.AssigningAuthorityModels.CreateAssigningAuthorityModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth"/>.
+		/// Converts a <see cref="OpenIZAdmin.Models.AssigningAuthorityModels.CreateAssigningAuthorityModel"/> to a <see cref="OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo"/>.
 		/// </summary>
 		/// <param name="model">The CreateAssigningAuthorityModel object to convert.</param>
 		/// <returns>Returns an AssigningAuthorityInfo.</returns>
 		public static AssigningAuthorityInfo ToCreateAssigningAuthorityModel(CreateAssigningAuthorityModel model)
 		{
-			AssigningAuthorityInfo assigningAuthority = new AssigningAuthorityInfo();
-			assigningAuthority.AssigningAuthority = new AssigningAuthority()
+			var assigningAuthority = new AssigningAuthorityInfo
 			{
-				Name = model.Name,
-				Oid = model.Oid,
-				DomainName = model.DomainName,
-				Description = model.Description,
-				Url = model.Url
+				AssigningAuthority = new AssigningAuthority
+				{
+					Name = model.Name,
+					Oid = model.Oid,
+					DomainName = model.DomainName,
+					Description = model.Description,
+					Url = model.Url
+				}
 			};
 
 			return assigningAuthority;

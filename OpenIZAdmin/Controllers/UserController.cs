@@ -119,19 +119,19 @@ namespace OpenIZAdmin.Controllers
 
 				user = this.AmiClient.CreateUser(user);
 
+				var userEntity = UserUtil.GetUserEntity(this.ImsiClient, user.UserId.Value);
+
 				if (model.Roles.Contains("CLINICAL_STAFF"))
 				{
-					var userEntity = UserUtil.GetUserEntity(this.ImsiClient, user.UserId.Value);
-
 					var provider = this.ImsiClient.Create<Provider>(new Provider { Key = Guid.NewGuid() });
 
 					userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, provider)
 					{
 						SourceEntityKey = userEntity.Key.Value
 					});
-
-					this.ImsiClient.Update<UserEntity>(userEntity);
 				}
+
+				this.ImsiClient.Update<UserEntity>(userEntity);
 
 				TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;
 
