@@ -252,11 +252,8 @@ namespace OpenIZAdmin.Controllers
                         userEntity.Relationships.First(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
                     }
                     else
-                    {
-                        //if (model.Facilities.Any())
-                        //{
-                            userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
-                        //}
+                    {                        
+                        userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));                     
                     }
                 }				
 

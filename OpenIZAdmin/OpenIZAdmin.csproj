@@ -244,6 +244,7 @@
     <Compile Include="Models\ConceptSetModels\CreateConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\EditConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\ViewModels\ConceptSetViewModel.cs" />
+    <Compile Include="Models\DebugModels\ViewModels\SubmitBugReportViewModel.cs" />
     <Compile Include="Models\FacilitiesModel.cs" />
     <Compile Include="Models\MaterialModels\EditMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\CreateMaterialModel.cs" />
@@ -327,6 +328,7 @@
     <Compile Include="Util\CertificateUtil.cs" />
     <Compile Include="Util\CommonUtil.cs" />
     <Compile Include="Util\ConceptSetUtil.cs" />
+    <Compile Include="Util\HomeUtil.cs" />
     <Compile Include="Util\MaterialUtil.cs" />
     <Compile Include="Util\ConceptUtil.cs" />
     <Compile Include="Util\DeviceUtil.cs" />
@@ -491,6 +493,7 @@
     <Content Include="Views\ConceptSet\ViewConceptSet.cshtml" />
     <Content Include="Views\Shared\_ConceptList.cshtml" />
     <Content Include="Views\Material\ViewMaterial.cshtml" />
+    <Content Include="Views\Home\SubmitBugReport.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

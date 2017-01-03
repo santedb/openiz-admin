@@ -13,7 +13,7 @@
         {
             <div class="form-group">
                 @Html.LabelFor(m => m.GivenNames, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                <div class="col-md-6">
                     @Html.DropDownListFor(m => m.GivenNames, new List<SelectListItem>(), new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
                     @Html.ValidationMessageFor(m => m.GivenNames, "", new { @class = "text-danger" })
                 </div>
@@ -21,7 +21,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.FamilyNames, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                <div class="col-md-6">
                     @Html.DropDownListFor(m => m.FamilyNames, new List<SelectListItem>(), new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
                     @Html.ValidationMessageFor(m => m.FamilyNames, "", new { @class = "text-danger" })
                 </div>
@@ -29,7 +29,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.FacilityId, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                <div class="col-md-6">
                     @Html.ListBoxFor(m => m.FacilityId, Model.FacilityList, new { @class = "facility-ajax form-control" })
                     @Html.ValidationMessageFor(m => m.FacilityId, "", new { @class = "text-danger" })
                 </div>
@@ -37,7 +37,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.Language, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                <div class="col-md-6">
                     @Html.DropDownListFor(m => m.Language, Model.LanguageList, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Language, "", new { @class = "text-danger" })
                 </div>
@@ -45,14 +45,14 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.PhoneType, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                <div class="col-md-6">
                     @Html.DropDownListFor(m => m.PhoneType, Model.PhoneTypeList, new { @class = "form-control" })
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
-                <div class="col-md-10">
+                <div class="col-md-6">
                     @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
                 </div>
             </div>

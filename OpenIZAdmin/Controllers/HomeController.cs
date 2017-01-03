@@ -17,13 +17,17 @@
  * Date: 2016-5-31
  */
 
+using Microsoft.AspNet.Identity;
+using OpenIZ.Core.Model.AMI.Diagnostics;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
 using OpenIZAdmin.Models.DebugModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -58,11 +62,82 @@ namespace OpenIZAdmin.Controllers
 			return View(viewModel);
 		}
 
-		/// <summary>
-		/// Gets the version information of the current application.
+        /// <summary>
+        /// Gets the current user info and initiates the bug report page
+        /// </summary>        
+        /// <returns>Returns the SubmitBugReport view.</returns>
+        [HttpGet]
+        public ActionResult SubmitBugReport()
+        {
+            try
+            {
+                var userId = Guid.Parse(User.Identity.GetUserId());
+
+                var userEntity = this.AmiClient.GetUser(userId.ToString());
+
+                if (userEntity == null)
+                {
+                    TempData["error"] = Locale.User + " " + Locale.NotFound;
+
+                    return RedirectToAction("Index");
+                }
+
+                var model = HomeUtil.ToSubmitBugReport(userEntity);
+
+                return View(model);
+            }
+            catch(Exception e)
+            {
+#if DEBUG
+                Trace.TraceError("Unable to retrieve current user", e.StackTrace);
+#endif
+                Trace.TraceError("Unable to retrieve current user", e.Message);
+            }
+
+            TempData["error"] = Locale.User + " " + Locale.NotFound;
+
+            return RedirectToAction("Index");
+        }
+
+
+        /// <summary>
+		/// Displays the create view.
 		/// </summary>
-		/// <returns>Returns the version information.</returns>
-		[HttpGet]
+		/// <param name="model">The model containing the bug report information.</param>
+		/// <returns>Returns the Index view.</returns>
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult SubmitBugReport(SubmitBugReportViewModel model)
+        {
+            if (ModelState.IsValid)
+            {                
+                try
+                {
+                    DiagnosticReport report = HomeUtil.ToDiagnosticReport(this.ImsiClient, model);
+                    report = AmiClient.SubmitDiagnosticReport(report);                    
+                    model.TransactionMessage = "Bug report id:" + " " + report.CorrelationId;
+
+                    //TempData["success"] = Locale.Role + " " + Locale.Updated + " " + Locale.Successfully;
+
+                    //return RedirectToAction("SubmitBugReport");
+                }
+                catch (Exception e)
+                {
+#if DEBUG
+                    Trace.TraceError("Unable to submit bug report: {0}", e.StackTrace);
+#endif
+                    Trace.TraceError("Unable to submit bug report: {0}", e.Message);
+                }
+            }
+            
+            return View(model);
+        }
+
+        /// <summary>
+        /// Gets the version information of the current application.
+        /// </summary>
+        /// <returns>Returns the version information.</returns>
+        [HttpGet]
 		[TokenAuthorize]
 		public ActionResult VersionInformation()
 		{

@@ -295,11 +295,38 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attach application information (versions, log files, settings, etc.).
+        /// </summary>
+        public static string AttachBugInfo {
+            get {
+                return ResourceManager.GetString("AttachBugInfo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Author.
         /// </summary>
         public static string Author {
             get {
                 return ResourceManager.GetString("Author", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bug Details.
+        /// </summary>
+        public static string BugDetails {
+            get {
+                return ResourceManager.GetString("BugDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to bug report.
+        /// </summary>
+        public static string BugReport {
+            get {
+                return ResourceManager.GetString("BugReport", resourceCulture);
             }
         }
         
@@ -1708,6 +1735,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reporter.
+        /// </summary>
+        public static string Reporter {
+            get {
+                return ResourceManager.GetString("Reporter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reset.
         /// </summary>
         public static string Reset {
@@ -1852,6 +1888,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Steps to Reproduce.
+        /// </summary>
+        public static string StepsToReproduce {
+            get {
+                return ResourceManager.GetString("StepsToReproduce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Subject.
         /// </summary>
         public static string Subject {
@@ -1884,6 +1929,15 @@ namespace OpenIZAdmin.Localization {
         public static string Submit {
             get {
                 return ResourceManager.GetString("Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit Bug Report.
+        /// </summary>
+        public static string SubmitBugReport {
+            get {
+                return ResourceManager.GetString("SubmitBugReport", resourceCulture);
             }
         }
         
@@ -2109,6 +2163,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToRetrieveUserList {
             get {
                 return ResourceManager.GetString("UnableToRetrieveUserList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to submit.
+        /// </summary>
+        public static string UnableToSubmit {
+            get {
+                return ResourceManager.GetString("UnableToSubmit", resourceCulture);
             }
         }
         
