@@ -23,7 +23,8 @@ namespace OpenIZAdmin.Util
             {
                 Reporter = userInfo.UserName,
                 AttachBugInfo = true,
-                Key = (Guid)userInfo.UserId                
+                Key = (Guid)userInfo.UserId,
+                Success = false                
             };
             
             return viewModel;

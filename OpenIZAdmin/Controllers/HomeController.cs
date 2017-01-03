@@ -115,11 +115,8 @@ namespace OpenIZAdmin.Controllers
                 {
                     DiagnosticReport report = HomeUtil.ToDiagnosticReport(this.ImsiClient, model);
                     report = AmiClient.SubmitDiagnosticReport(report);                    
-                    model.TransactionMessage = "Bug report id:" + " " + report.CorrelationId;
-
-                    //TempData["success"] = Locale.Role + " " + Locale.Updated + " " + Locale.Successfully;
-
-                    //return RedirectToAction("SubmitBugReport");
+                    model.TransactionMessage = report.CorrelationId;
+                    model.Success = true;                    
                 }
                 catch (Exception e)
                 {

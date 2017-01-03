@@ -29,6 +29,8 @@ namespace OpenIZAdmin.Models.DebugModels.ViewModels
 
         public string Reporter { get; set; }
 
+        public bool Success { get; set; }
+
         public string TransactionMessage { get; set; }
     }
 }
