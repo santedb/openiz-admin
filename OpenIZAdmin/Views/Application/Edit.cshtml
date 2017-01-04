@@ -17,7 +17,7 @@
 
         <div class="form-group">
             @Html.LabelFor(m => m.ApplicationName, new { @class = "col-md-2 control-label" })
-            <div class="col-md-6">
+            <div class="col-md-8">
                 @Html.TextBoxFor(m => m.ApplicationName, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.ApplicationName, "", new { @class = "text-danger" })
             </div>
@@ -25,7 +25,7 @@
 
         <div class="form-group">
             @Html.LabelFor(m => m.ApplicationSecret, new { @class = "col-md-2 control-label" })
-            <div class="col-md-6">
+            <div class="col-md-8">
                 @Html.TextBoxFor(m => m.ApplicationSecret, new { @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.ApplicationSecret, "", new { @class = "text-danger" })
             </div>
@@ -33,7 +33,7 @@
 
         <div class="form-group">
             @Html.LabelFor(m => m.Policies, new { @class = "col-md-2 control-label" })
-            <div class="col-md-6">
+            <div class="col-md-8">
                 @Html.ListBoxFor(m => m.Policies, Model.PoliciesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
                 @Html.ValidationMessageFor(m => m.Policies, "", new { @class = "text-danger" })
             </div>

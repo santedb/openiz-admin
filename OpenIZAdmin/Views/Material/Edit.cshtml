@@ -19,7 +19,7 @@
                     @Html.HiddenFor(m => m.VersionKey)
                     <div class="form-group">
                         @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                         </div>
@@ -27,7 +27,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(m => m.FormConcepts, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             @Html.DropDownListFor(m => m.FormConcept, Model.FormConcepts, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.FormConcept, "", new { @class = "text-danger" })
                         </div>
@@ -35,7 +35,7 @@
 
                     <div class="form-group">
                         @Html.LabelFor(m => m.QuantityConcepts, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-6">
+                        <div class="col-md-8">
                             @Html.DropDownListFor(m => m.QuantityConcept, Model.QuantityConcepts, new { @class = "form-control" })
                             @Html.ValidationMessageFor(m => m.QuantityConcept, "", new { @class = "text-danger" })
                         </div>

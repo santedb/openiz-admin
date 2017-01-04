@@ -15,7 +15,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.File, new {@class = "col-md-2 control-label"})
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <input type="file" id="@Html.IdFor(m => m.File)" name="@Html.NameFor(m => m.File)"/>
                     @Html.ValidationMessageFor(m => m.File, "", new {@class = "text-danger"})
                 </div>

@@ -17,21 +17,21 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
-                <div class="col-md-6">
+                <div class="col-md-8">
                     @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.Oid, new { @class = "col-md-2 control-label" })
-                <div class="col-md-6">
+                <div class="col-md-8">
                     @Html.TextBoxFor(m => m.Oid, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Oid, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.Url, new { @class = "col-md-2 control-label" })
-                <div class="col-md-6">
+                <div class="col-md-8">
                     @Html.TextBoxFor(m => m.Url, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Url, "", new { @class = "text-danger" })
                 </div>
@@ -39,7 +39,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.DomainName, new { @class = "col-md-2 control-label" })
-                <div class="col-md-6">
+                <div class="col-md-8">
                     @Html.TextBoxFor(m => m.DomainName, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.DomainName, "", new { @class = "text-danger" })
                 </div>
@@ -47,7 +47,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
-                <div class="col-md-6">
+                <div class="col-md-8">
                     @Html.TextAreaFor(m => m.Description, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
                 </div>

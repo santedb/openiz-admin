@@ -15,21 +15,21 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.CmcRequest, new { @class = "col-md-2 control-label" })
-                <div class="col-md-6">
+                <div class="col-md-8">
                     @Html.TextAreaFor(m => m.CmcRequest, new { @class = "form-control", rows = 10 })
                     @Html.ValidationMessageFor(m => m.CmcRequest, "", new { @class = "text-danger" })
                 </div>
             </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.AdministrativeContactName, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         @Html.TextBoxFor(m => m.AdministrativeContactName, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.AdministrativeContactName, "", new { @class = "text-danger" })
                     </div>
                 </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.AdministrativeContactEmail, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         @Html.TextBoxFor(m => m.AdministrativeContactEmail, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.AdministrativeContactEmail, "", new { @class = "text-danger" })
                     </div>
