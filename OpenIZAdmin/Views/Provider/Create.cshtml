@@ -15,7 +15,7 @@
 
             <div class="form-group">
                 @Html.LabelFor(m => m.FamilyNames, new { @class = "col-md-2 control-label" })
-                <div class="col-md-6">
+                <div class="col-md-8">
                     @Html.DropDownListFor(m => m.FamilyNames, new List<SelectListItem>(), new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
                     @Html.ValidationMessageFor(m => m.FamilyNames, "", new { @class = "text-danger" })
                 </div>

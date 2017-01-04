@@ -14,21 +14,21 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="form-group">
                 @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
-                <div class="col-md-6">
+                <div class="col-md-8">
                     @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.Latitude, new { @class = "col-md-2 control-label" })
-                <div class="col-md-6">
+                <div class="col-md-8">
                     @Html.TextBoxFor(m => m.Latitude, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Latitude, "", new { @class = "text-danger" })
                 </div>
             </div>
                 <div class="form-group">
                     @Html.LabelFor(m => m.Longitude, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-6">
+                    <div class="col-md-8">
                         @Html.TextBoxFor(m => m.Longitude, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Longitude, "", new { @class = "text-danger" })
                     </div>
