@@ -78,7 +78,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.AmiClient.UpdateUser(userKey, user);
 
-                TempData.Clear();
+				TempData.Clear();
 				TempData["success"] = Locale.User + " " + Locale.Activated + " " + Locale.Successfully;
 
 				return RedirectToAction("Index");
@@ -121,6 +121,13 @@ namespace OpenIZAdmin.Controllers
 
 				var userEntity = UserUtil.GetUserEntity(this.ImsiClient, user.UserId.Value);
 
+				var person = this.ImsiClient.Create<Person>(new Person { Key = Guid.NewGuid() });
+
+				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, person)
+				{
+					SourceEntityKey = userEntity.Key.Value
+				});
+
 				if (model.Roles.Contains("CLINICAL_STAFF"))
 				{
 					var provider = this.ImsiClient.Create<Provider>(new Provider { Key = Guid.NewGuid() });
@@ -135,8 +142,8 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;
 
-                return RedirectToAction("ViewUser", new { id = user.UserId.ToString() });
-                
+				return RedirectToAction("ViewUser", new { id = user.UserId.ToString() });
+
 			}
 
 			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
@@ -170,12 +177,12 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-        /// <summary>
-        /// Retrieves the user entity by id
-        /// </summary>
-        /// <param name="id">The user identifier.</param>
-        /// <returns>Returns the user edit view.</returns>
-        [HttpGet]
+		/// <summary>
+		/// Retrieves the user entity by id
+		/// </summary>
+		/// <param name="id">The user identifier.</param>
+		/// <returns>Returns the user edit view.</returns>
+		[HttpGet]
 		public ActionResult Edit(string id)
 		{
 			var userId = Guid.Empty;
@@ -191,7 +198,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var model = UserUtil.ToEditUserModel(this.ImsiClient, this.AmiClient, userEntity);				
+				var model = UserUtil.ToEditUserModel(this.ImsiClient, this.AmiClient, userEntity);
 
 				return View(model);
 			}
@@ -245,17 +252,17 @@ namespace OpenIZAdmin.Controllers
 
 				var serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 
-                if (model.Facilities != null && model.Facilities.Any())
-                {
-                    if (serviceLocation != null)
-                    {
-                        userEntity.Relationships.First(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
-                    }
-                    else
-                    {                        
-                        userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));                     
-                    }
-                }				
+				if (model.Facilities != null && model.Facilities.Any())
+				{
+					if (serviceLocation != null)
+					{
+						userEntity.Relationships.First(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
+					}
+					else
+					{
+						userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
+					}
+				}
 
 				var userInfo = UserUtil.ToSecurityUserInfo(model, userEntity, this.AmiClient);
 
@@ -264,8 +271,8 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;
 
-                return RedirectToAction("Edit", new { id = userEntity.Key.ToString() });
-            }
+				return RedirectToAction("Edit", new { id = userEntity.Key.ToString() });
+			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.User;
 
