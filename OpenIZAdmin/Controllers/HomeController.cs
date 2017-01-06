@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -88,11 +89,8 @@ namespace OpenIZAdmin.Controllers
             }
             catch(Exception e)
             {
-#if DEBUG
-                Trace.TraceError("Unable to retrieve current user", e.StackTrace);
-#endif
-                Trace.TraceError("Unable to retrieve current user", e.Message);
-            }
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
 
             TempData["error"] = Locale.User + " " + Locale.NotFound;
 
@@ -120,11 +118,8 @@ namespace OpenIZAdmin.Controllers
                 }
                 catch (Exception e)
                 {
-#if DEBUG
-                    Trace.TraceError("Unable to submit bug report: {0}", e.StackTrace);
-#endif
-                    Trace.TraceError("Unable to submit bug report: {0}", e.Message);
-                }
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				}
             }
             
             return View(model);

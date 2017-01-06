@@ -26,6 +26,8 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Elmah;
+using Elmah.Io.Client;
 using Microsoft.AspNet.Identity;
 
 namespace OpenIZAdmin
@@ -56,10 +58,7 @@ namespace OpenIZAdmin
 		/// <param name="e">The event arguments.</param>
 		protected void Application_Error(object sender, EventArgs e)
 		{
-#if DEBUG
-			Trace.TraceError("Application error: {0}", Server.GetLastError().StackTrace);
-#endif
-			Trace.TraceError("Application error: {0}", Server.GetLastError().Message);
+			ErrorLog.GetDefault(HttpContext.Current).Log(new Error(Server.GetLastError(), HttpContext.Current));
 		}
 	}
 }

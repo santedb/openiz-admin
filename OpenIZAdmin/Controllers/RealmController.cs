@@ -32,6 +32,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -227,11 +228,7 @@ namespace OpenIZAdmin.Controllers
 				}
 				catch (Exception e)
 				{
-#if DEBUG
-					Trace.TraceError("Unable to sign in to realm: {0}", e.StackTrace);
-#endif
-
-					Trace.TraceError("Unable to sign in to realm: {0}", e.Message);
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 
 					var addedRealm = unitOfWork.RealmRepository.Get(r => r.Address == model.Address).Single();
 					unitOfWork.RealmRepository.Delete(addedRealm.Id);

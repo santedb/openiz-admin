@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using Elmah;
 using OpenIZ.Core.Model.Constants;
 
 namespace OpenIZAdmin.Controllers
@@ -68,10 +69,7 @@ namespace OpenIZAdmin.Controllers
 				}
 				catch (Exception e)
 				{
-#if DEBUG
-					Trace.TraceError("Unable to create place: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to create place: {0}", e.Message);
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				}
 			}
 

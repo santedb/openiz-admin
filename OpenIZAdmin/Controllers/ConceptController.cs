@@ -31,6 +31,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Web.Mvc;
+using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -106,10 +107,7 @@ namespace OpenIZAdmin.Controllers
 				}
 				catch (Exception e)
 				{
-#if DEBUG
-					Trace.TraceError("Unable to create concept: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to create concept: {0}", e.Message);
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				}
 			}
 

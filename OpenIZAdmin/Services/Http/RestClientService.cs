@@ -273,7 +273,6 @@ namespace OpenIZAdmin.Services.Http
 				}
 				catch (WebException e)
 				{
-
 					Trace.TraceError(e.ToString());
 
 					// status

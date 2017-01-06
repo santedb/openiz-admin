@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -80,10 +81,7 @@ namespace OpenIZAdmin.Controllers
 				}
 				catch (Exception e)
 				{
-#if DEBUG
-					Trace.TraceError("Unable to delete policy: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to delete policy: {0}", e.Message);
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				}
 			}
 
@@ -132,10 +130,7 @@ namespace OpenIZAdmin.Controllers
                 }
 				catch (Exception e)
 				{
-#if DEBUG
-					Trace.TraceError("Unable to create policy: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to create policy: {0}", e.Message);
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				}
 			}
 
@@ -164,10 +159,7 @@ namespace OpenIZAdmin.Controllers
 				}
 				catch (Exception e)
 				{
-#if DEBUG
-					Trace.TraceError("Unable to delete policy: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to delete policy: {0}", e.Message);
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				}
 			}
 
@@ -238,10 +230,7 @@ namespace OpenIZAdmin.Controllers
                 }
 				catch (Exception e)
 				{
-#if DEBUG
-					Trace.TraceError("Unable to edit policy: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to edit policy: {0}", e.Message);
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				}
 			}
 
@@ -284,10 +273,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-#if DEBUG
-				Trace.TraceError("Unable to search policies: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to search policies: {0}", e.Message);
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.InvalidSearch;

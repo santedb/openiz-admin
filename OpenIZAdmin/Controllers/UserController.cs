@@ -121,12 +121,12 @@ namespace OpenIZAdmin.Controllers
 
 				var userEntity = UserUtil.GetUserEntity(this.ImsiClient, user.UserId.Value);
 
-				var person = this.ImsiClient.Create<Person>(new Person { Key = Guid.NewGuid() });
+				//var person = this.ImsiClient.Create<Person>(new Person { Key = Guid.NewGuid() });
 
-				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, person)
-				{
-					SourceEntityKey = userEntity.Key.Value
-				});
+				//userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, person)
+				//{
+				//	SourceEntityKey = userEntity.Key.Value
+				//});
 
 				if (model.Roles.Contains("CLINICAL_STAFF"))
 				{

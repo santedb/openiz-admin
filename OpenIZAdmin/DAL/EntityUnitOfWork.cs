@@ -21,6 +21,7 @@ using OpenIZAdmin.Models.Domain;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Elmah;
 
 namespace OpenIZAdmin.DAL
 {
@@ -70,19 +71,7 @@ namespace OpenIZAdmin.DAL
 		/// </summary>
 		public void Save()
 		{
-			try
-			{
-				context.SaveChanges();
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError(e.StackTrace);
-#endif
-				Trace.TraceError(e.Message);
-
-				throw;
-			}
+			context.SaveChanges();
 		}
 
 		/// <summary>

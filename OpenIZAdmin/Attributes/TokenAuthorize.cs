@@ -23,6 +23,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
+using Elmah;
 using Microsoft.AspNet.Identity;
 
 namespace OpenIZAdmin.Attributes
@@ -70,10 +71,7 @@ namespace OpenIZAdmin.Attributes
 				catch (Exception e)
 				{
 					isAuthorized = false;
-#if DEBUG
-					Trace.TraceError(e.StackTrace);
-#endif
-					Trace.TraceError(e.Message);
+					ErrorLog.GetDefault(httpContext.ApplicationInstance.Context).Log(new Error(e, httpContext.ApplicationInstance.Context));
 				}
 			}
 
@@ -93,6 +91,8 @@ namespace OpenIZAdmin.Attributes
 				{ "action", "Login" },
 				{ "controller", "Account" }
 			});
+
+			filterContext.HttpContext.Response.Cookies.Remove("access_token");
 		}
 	}
 }

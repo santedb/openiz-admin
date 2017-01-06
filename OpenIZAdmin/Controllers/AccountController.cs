@@ -32,6 +32,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -129,10 +130,7 @@ namespace OpenIZAdmin.Controllers
 				}
 				catch (Exception e)
 				{
-#if DEBUG
-					Trace.TraceError("Unable to change user's password", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to change user's password", e.Message);
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				}
 			}
 
@@ -251,10 +249,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve user entity", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve user entity", e.Message);
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			if (user == null)
@@ -396,10 +391,7 @@ namespace OpenIZAdmin.Controllers
 				}
 				catch (Exception e)
 				{
-#if DEBUG
-					Trace.TraceError("Unable to update profile: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to update profile: {0}", e.Message);
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				}
 			}
 

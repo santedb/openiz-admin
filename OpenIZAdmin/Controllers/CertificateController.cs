@@ -23,8 +23,11 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.CertificateModels;
 using OpenIZAdmin.Util;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Web.Mvc;
+using Elmah;
+using OpenIZAdmin.Models.CertificateModels.ViewModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -62,10 +65,7 @@ namespace OpenIZAdmin.Controllers
 				}
 				catch (Exception e)
 				{
-#if DEBUG
-					Trace.TraceError("Unable to accept certificate signing request: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to accept certificate signing request: {0}", e.Message);
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				}
 			}
 
@@ -129,8 +129,20 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Index()
 		{
+			var viewModel = new CertificateIndexViewModel();
+
+			try
+			{
+				viewModel.CertificateSigningRequests = CertificateUtil.GetAllCertificateSigningRequests(this.AmiClient);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
+
 			TempData["searchType"] = "Certificate";
-			return View(CertificateUtil.GetAllCertificateSigningRequests(this.AmiClient));
+
+			return View(viewModel);
 		}
 
 		/// <summary>
@@ -172,10 +184,7 @@ namespace OpenIZAdmin.Controllers
 				}
 				catch (Exception e)
 				{
-#if DEBUG
-					Trace.TraceError("Unable to submit certificate signing request: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to submit certificate signing request: {0}", e.Message);
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				}
 			}
 

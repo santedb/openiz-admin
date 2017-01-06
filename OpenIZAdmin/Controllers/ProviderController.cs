@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using Elmah;
 using OpenIZ.Core.Model.Constants;
 
 namespace OpenIZAdmin.Controllers
@@ -69,10 +70,7 @@ namespace OpenIZAdmin.Controllers
 				}
 				catch (Exception e)
 				{
-#if DEBUG
-					Trace.TraceError("Unable to create provider: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to create provider: {0}", e.Message);
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				}
 			}
 
@@ -133,10 +131,7 @@ namespace OpenIZAdmin.Controllers
 				}
 				catch (Exception e)
 				{
-#if DEBUG
-					Trace.TraceError("Unable to update provider: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to update provider: {0}", e.Message);
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				}
 			}
 
@@ -179,10 +174,7 @@ namespace OpenIZAdmin.Controllers
 				}
 				catch (Exception e)
 				{
-#if DEBUG
-					Trace.TraceError("Unable to view provider: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to view provider: {0}", e.Message);
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				}
 			}
 
@@ -213,10 +205,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-#if DEBUG
-				Trace.TraceError("Unable to search Providers: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to search Providers: {0}", e.Message);
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.InvalidSearch;
