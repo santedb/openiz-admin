@@ -147,7 +147,7 @@ namespace OpenIZAdmin.Util
 
 			var addPoliciesList = CommonUtil.GetNewPolicies(amiClient, model.Policies);
 
-			roleInfo.Policies = addPoliciesList.Select(p => new SecurityPolicyInfo(p)).ToArray();
+			roleInfo.Policies = addPoliciesList.Select(p => new SecurityPolicyInfo(p)).ToList();
 
 			return roleInfo;
 		}

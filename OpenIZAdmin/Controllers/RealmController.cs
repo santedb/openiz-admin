@@ -17,6 +17,7 @@
  * Date: 2016-7-13
  */
 
+using Elmah;
 using Microsoft.AspNet.Identity.Owin;
 using OpenIZAdmin.DAL;
 using OpenIZAdmin.Extensions;
@@ -27,12 +28,10 @@ using OpenIZAdmin.Models.RealmModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -115,23 +114,6 @@ namespace OpenIZAdmin.Controllers
 			{
 				userManager = value;
 			}
-		}
-
-		/// <summary>
-		/// Dispose of any managed resources.
-		/// </summary>
-		/// <param name="disposing">Whether the current invocation is disposing.</param>
-		protected override void Dispose(bool disposing)
-		{
-			this.unitOfWork?.Dispose();
-
-			this.userManager?.Dispose();
-			this.userManager = null;
-
-			this.signInManager?.Dispose();
-			this.signInManager = null;
-
-			base.Dispose(disposing);
 		}
 
 		/// <summary>
@@ -353,6 +335,23 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.UnableToSwitchRealm;
 
 			return View();
+		}
+
+		/// <summary>
+		/// Dispose of any managed resources.
+		/// </summary>
+		/// <param name="disposing">Whether the current invocation is disposing.</param>
+		protected override void Dispose(bool disposing)
+		{
+			this.unitOfWork?.Dispose();
+
+			this.userManager?.Dispose();
+			this.userManager = null;
+
+			this.signInManager?.Dispose();
+			this.signInManager = null;
+
+			base.Dispose(disposing);
 		}
 	}
 }

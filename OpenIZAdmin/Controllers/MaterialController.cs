@@ -105,7 +105,6 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-
 		/// <summary>
 		/// Deletion of a material.
 		/// </summary>
@@ -126,7 +125,6 @@ namespace OpenIZAdmin.Controllers
 
 			return View("Index");
 		}
-
 
 		/// <summary>
 		/// Edit for material.
@@ -215,7 +213,6 @@ namespace OpenIZAdmin.Controllers
 
 			return RedirectToAction("Index");
 		}
-
 
 		/// <summary>
 		/// Displays the index view.

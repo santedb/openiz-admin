@@ -17,6 +17,7 @@
  * Date: 2016-7-30
  */
 
+using Elmah;
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
@@ -25,10 +26,8 @@ using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -126,8 +125,8 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.Policy + " " + Locale.Created + " " + Locale.Successfully;
 
-                    return RedirectToAction("ViewPolicy", new { key = policy.Policy.Key.ToString() });
-                }
+					return RedirectToAction("ViewPolicy", new { key = policy.Policy.Key.ToString() });
+				}
 				catch (Exception e)
 				{
 					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
@@ -226,8 +225,8 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.Policy + " " + Locale.Updated + " " + Locale.Successfully;
 
-                    return RedirectToAction("Edit", new { key = policyInfo.Policy.Key.ToString() });
-                }
+					return RedirectToAction("Edit", new { key = policyInfo.Policy.Key.ToString() });
+				}
 				catch (Exception e)
 				{
 					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));

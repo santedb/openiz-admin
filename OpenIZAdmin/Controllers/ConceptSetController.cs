@@ -23,7 +23,6 @@ using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ConceptModels.ViewModels;
 using OpenIZAdmin.Models.ConceptSetModels;
-using OpenIZAdmin.Models.ConceptSetModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
@@ -225,9 +224,7 @@ namespace OpenIZAdmin.Controllers
 			};
 
 			return PartialView("_ConceptSetConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
-
 		}
-
 
 		[HttpGet]
 		public ActionResult ViewConceptSet(Guid key)

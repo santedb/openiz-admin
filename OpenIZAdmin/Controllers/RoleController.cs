@@ -17,6 +17,7 @@
  * Date: 2016-7-17
  */
 
+using Elmah;
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
@@ -25,10 +26,8 @@ using OpenIZAdmin.Models.RoleModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -74,7 +73,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.Role + " " + Locale.Created + " " + Locale.Successfully;
 
-                    return RedirectToAction("ViewRole", new { id = role.Id.ToString() });                    
+					return RedirectToAction("ViewRole", new { id = role.Id.ToString() });
 				}
 				catch (Exception e)
 				{
@@ -138,8 +137,8 @@ namespace OpenIZAdmin.Controllers
 
 						return RedirectToAction("Index");
 					}
-                   
-                    return View(RoleUtil.ToEditRoleModel(this.AmiClient, role));
+
+					return View(RoleUtil.ToEditRoleModel(this.AmiClient, role));
 				}
 				catch (Exception e)
 				{
@@ -152,12 +151,12 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-        /// <summary>
-        /// Updates a role.
-        /// </summary>
-        /// <param name="model">The model containing the updated role information.</param>
-        /// <returns>Returns the edit view.</returns>
-        [HttpPost]
+		/// <summary>
+		/// Updates a role.
+		/// </summary>
+		/// <param name="model">The model containing the updated role information.</param>
+		/// <returns>Returns the edit view.</returns>
+		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditRoleModel model)
 		{
@@ -172,14 +171,14 @@ namespace OpenIZAdmin.Controllers
 						TempData["error"] = Locale.Role + " " + Locale.NotFound;
 
 						return RedirectToAction("Index");
-					}                                                            
+					}
 
-                    this.AmiClient.UpdateRole(roleInfo.Id.ToString(), RoleUtil.ToSecurityRoleInfo(this.AmiClient, model, roleInfo));
+					this.AmiClient.UpdateRole(roleInfo.Id.ToString(), RoleUtil.ToSecurityRoleInfo(this.AmiClient, model, roleInfo));
 
 					TempData["success"] = Locale.Role + " " + Locale.Updated + " " + Locale.Successfully;
 
-                    return RedirectToAction("Edit", new { id = roleInfo.Id.ToString() });
-                }
+					return RedirectToAction("Edit", new { id = roleInfo.Id.ToString() });
+				}
 				catch (Exception e)
 				{
 					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));

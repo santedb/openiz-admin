@@ -17,17 +17,15 @@
  * Date: 2016-7-8
  */
 
+using Elmah;
 using OpenIZ.Core.Model.AMI.Security;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.CertificateModels;
+using OpenIZAdmin.Models.CertificateModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Web.Mvc;
-using Elmah;
-using OpenIZAdmin.Models.CertificateModels.ViewModels;
 
 namespace OpenIZAdmin.Controllers
 {

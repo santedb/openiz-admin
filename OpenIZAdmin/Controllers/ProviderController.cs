@@ -17,6 +17,8 @@
  * Date: 2016-8-15
  */
 
+using Elmah;
+using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Roles;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
@@ -25,11 +27,8 @@ using OpenIZAdmin.Models.ProviderModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using Elmah;
-using OpenIZ.Core.Model.Constants;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -151,38 +150,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Searches for a provider to view details.
-		/// </summary>
-		/// <param name="key">The provider identifier search string.</param>
-		/// <param name="versionKey">The provider version identifier.</param>
-		/// <returns>Returns a provider view that matches the search term.</returns>
-		[HttpGet]
-		public ActionResult ViewProvider(string key, string versionKey)
-		{
-			Guid providerKey = Guid.Empty;
-			Guid providerVersionKey = Guid.Empty;
-
-			if (CommonUtil.IsValidString(key) && Guid.TryParse(key, out providerKey) && CommonUtil.IsValidString(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
-			{
-				try
-				{
-					var provider = this.ImsiClient.Get<Provider>(providerKey, null);
-
-					object model = null;
-
-					return View(model);
-				}
-				catch (Exception e)
-				{
-					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				}
-			}
-
-			TempData["error"] = Locale.Provider + " " + Locale.NotFound;
-			return RedirectToAction("Index");
-		}
-
-		/// <summary>
 		/// Searches for a provider.
 		/// </summary>
 		/// <param name="searchTerm">The search term.</param>
@@ -212,6 +179,38 @@ namespace OpenIZAdmin.Controllers
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_ProviderSearchResultsPartial", provider);
+		}
+
+		/// <summary>
+		/// Searches for a provider to view details.
+		/// </summary>
+		/// <param name="key">The provider identifier search string.</param>
+		/// <param name="versionKey">The provider version identifier.</param>
+		/// <returns>Returns a provider view that matches the search term.</returns>
+		[HttpGet]
+		public ActionResult ViewProvider(string key, string versionKey)
+		{
+			Guid providerKey = Guid.Empty;
+			Guid providerVersionKey = Guid.Empty;
+
+			if (CommonUtil.IsValidString(key) && Guid.TryParse(key, out providerKey) && CommonUtil.IsValidString(versionKey) && Guid.TryParse(versionKey, out providerVersionKey))
+			{
+				try
+				{
+					var provider = this.ImsiClient.Get<Provider>(providerKey, null);
+
+					object model = null;
+
+					return View(model);
+				}
+				catch (Exception e)
+				{
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				}
+			}
+
+			TempData["error"] = Locale.Provider + " " + Locale.NotFound;
+			return RedirectToAction("Index");
 		}
 	}
 }

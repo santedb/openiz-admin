@@ -17,8 +17,8 @@
  * Date: 2016-7-8
  */
 
+using Elmah;
 using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.DeviceModels;
@@ -26,10 +26,8 @@ using OpenIZAdmin.Models.DeviceModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -39,12 +37,12 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public class DeviceController : BaseController
 	{
-        /// <summary>
-        /// Activates a device.
-        /// </summary>
-        /// <param name="id">The id of the device to be activated.</param>
-        /// <returns>Returns the index view.</returns>
-        [HttpPost]
+		/// <summary>
+		/// Activates a device.
+		/// </summary>
+		/// <param name="id">The id of the device to be activated.</param>
+		/// <returns>Returns the index view.</returns>
+		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Activate(string id)
 		{
@@ -63,7 +61,7 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
-                    deviceInfo.Id = deviceKey;
+					deviceInfo.Id = deviceKey;
 					deviceInfo.Device.ObsoletedBy = null;
 					deviceInfo.Device.ObsoletionTime = null;
 
@@ -114,10 +112,10 @@ namespace OpenIZAdmin.Controllers
 				{
 					var device = this.AmiClient.CreateDevice(DeviceUtil.ToSecurityDevice(model));
 
-					TempData["success"] = Locale.Device + " " + Locale.Created + " " + Locale.Successfully;                    
+					TempData["success"] = Locale.Device + " " + Locale.Created + " " + Locale.Successfully;
 
-                    return RedirectToAction("ViewDevice", new { id = device.Id.ToString() });
-                }
+					return RedirectToAction("ViewDevice", new { id = device.Id.ToString() });
+				}
 				catch (Exception e)
 				{
 					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
@@ -155,14 +153,14 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.UnableToDelete + " " + Locale.Device;
 
 			return RedirectToAction("Index");
-		}       
+		}
 
-        /// <summary>
-        /// Gets the device object to edit
-        /// </summary>
-        /// <param name="key">The id of the device to be edited.</param>
-        /// <returns>Returns the Edit view.</returns>
-        [HttpGet]
+		/// <summary>
+		/// Gets the device object to edit
+		/// </summary>
+		/// <param name="key">The id of the device to be edited.</param>
+		/// <returns>Returns the Edit view.</returns>
+		[HttpGet]
 		public ActionResult Edit(string key)
 		{
 			var deviceKey = Guid.Empty;
@@ -195,31 +193,31 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditDeviceModel model)
 		{
-            if (ModelState.IsValid)
-            {
-                var deviceEntity = DeviceUtil.GetDevice(this.AmiClient, model.Id);
+			if (ModelState.IsValid)
+			{
+				var deviceEntity = DeviceUtil.GetDevice(this.AmiClient, model.Id);
 
-                if (deviceEntity == null)
-                {
-                    TempData["error"] = Locale.Device + " " + Locale.NotFound;
+				if (deviceEntity == null)
+				{
+					TempData["error"] = Locale.Device + " " + Locale.NotFound;
 
-                    return RedirectToAction("Index");
-                }
+					return RedirectToAction("Index");
+				}
 
-                SecurityDeviceInfo deviceInfo = DeviceUtil.ToSecurityDeviceInfo(this.AmiClient, model, deviceEntity);
+				SecurityDeviceInfo deviceInfo = DeviceUtil.ToSecurityDeviceInfo(this.AmiClient, model, deviceEntity);
 
-                this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
+				this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
 
-                TempData["success"] = Locale.Device + " " + Locale.Updated + " " + Locale.Successfully;
-                
-                return RedirectToAction("Edit", new { key = deviceEntity.Id.ToString() });
-            }
-            else
-            {
-                TempData["error"] = Locale.UnableToUpdate + " " + Locale.Device;
+				TempData["success"] = Locale.Device + " " + Locale.Updated + " " + Locale.Successfully;
 
-                return View(model);
-            }
+				return RedirectToAction("Edit", new { key = deviceEntity.Id.ToString() });
+			}
+			else
+			{
+				TempData["error"] = Locale.UnableToUpdate + " " + Locale.Device;
+
+				return View(model);
+			}
 		}
 
 		/// <summary>

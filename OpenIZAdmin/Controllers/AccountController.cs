@@ -17,6 +17,7 @@
  * Date: 2016-5-31
  */
 
+using Elmah;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using OpenIZ.Core.Model.Constants;
@@ -27,12 +28,10 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AccountModels;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -137,31 +136,6 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.UnableToChangePassword;
 
 			return RedirectToAction("Manage");
-		}
-
-		/// <summary>
-		/// Disposes of any managed resources
-		/// </summary>
-		/// <param name="disposing">Parameter that acts as a logic switch</param>
-		/// <returns>Returns a dispose object result.</returns>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				if (userManager != null)
-				{
-					userManager.Dispose();
-					userManager = null;
-				}
-
-				if (signInManager != null)
-				{
-					signInManager.Dispose();
-					signInManager = null;
-				}
-			}
-
-			base.Dispose(disposing);
 		}
 
 		/// <summary>
@@ -289,21 +263,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Redirects based on the supplied url
-		/// </summary>
-		/// <param name="returnUrl">The return url for redirect.</param>
-		/// <returns>Returns an action result.</returns>
-		private ActionResult RedirectToLocal(string returnUrl)
-		{
-			if (Url.IsLocalUrl(returnUrl))
-			{
-				return Redirect(returnUrl);
-			}
-
-			return RedirectToAction("Index", "Home");
-		}
-
-		/// <summary>
 		/// Updates a user's profile.
 		/// </summary>
 		/// <param name="model">The model containing the user profile information to be updated.</param>
@@ -398,6 +357,46 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Profile;
 
 			return View("Manage", new ManageModel { ChangePasswordModel = new ChangePasswordModel(), UpdateProfileModel = model });
+		}
+
+		/// <summary>
+		/// Disposes of any managed resources
+		/// </summary>
+		/// <param name="disposing">Parameter that acts as a logic switch</param>
+		/// <returns>Returns a dispose object result.</returns>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				if (userManager != null)
+				{
+					userManager.Dispose();
+					userManager = null;
+				}
+
+				if (signInManager != null)
+				{
+					signInManager.Dispose();
+					signInManager = null;
+				}
+			}
+
+			base.Dispose(disposing);
+		}
+
+		/// <summary>
+		/// Redirects based on the supplied url
+		/// </summary>
+		/// <param name="returnUrl">The return url for redirect.</param>
+		/// <returns>Returns an action result.</returns>
+		private ActionResult RedirectToLocal(string returnUrl)
+		{
+			if (Url.IsLocalUrl(returnUrl))
+			{
+				return Redirect(returnUrl);
+			}
+
+			return RedirectToAction("Index", "Home");
 		}
 	}
 }
