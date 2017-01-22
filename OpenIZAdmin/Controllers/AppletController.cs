@@ -170,7 +170,7 @@ namespace OpenIZAdmin.Controllers
 						break;
 
 					default:
-						ModelState.AddModelError(nameof(model.File), Locale.GenericErrorMessage);
+						ModelState.AddModelError(nameof(model.File), Locale.UnableToUploadApplet);
 						break;
 				}
 
