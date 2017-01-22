@@ -17,6 +17,7 @@
  * Date: 2016-7-8
  */
 
+using System;
 using OpenIZ.Core.Applets.Model;
 using OpenIZ.Core.Model.AMI.Applet;
 using OpenIZAdmin.Attributes;
@@ -27,6 +28,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Web.Mvc;
 using System.Xml.Serialization;
+using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -144,17 +146,25 @@ namespace OpenIZAdmin.Controllers
 				switch (fileInfo.Extension)
 				{
 					case ".pak":
-						AppletPackage package;
 
-						using (var stream = new GZipStream(model.File.InputStream, CompressionMode.Decompress))
+						try
 						{
-							var serializer = new XmlSerializer(typeof(AppletPackage));
-							package = (AppletPackage)serializer.Deserialize(stream);
+							AppletPackage package;
+							using (var stream = new GZipStream(model.File.InputStream, CompressionMode.Decompress))
+							{
+								var serializer = new XmlSerializer(typeof(AppletPackage));
+								package = (AppletPackage)serializer.Deserialize(stream);
+							}
+
+							using (var stream = new MemoryStream(package.Manifest))
+							{
+								manifest = AppletManifest.Load(stream);
+							}
 						}
-
-						using (var stream = new MemoryStream(package.Manifest))
+						catch (Exception e)
 						{
-							manifest = AppletManifest.Load(stream);
+							ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+							ModelState.AddModelError(nameof(model.File), Locale.UnableToUploadApplet);
 						}
 
 						break;
@@ -164,10 +174,13 @@ namespace OpenIZAdmin.Controllers
 						break;
 				}
 
+				// ensure that the model state wasn't invalidated when attempting to serialize the applet file
 				if (ModelState.IsValid)
 				{
-					var manifestInfo = new AppletManifestInfo(manifest);
-					manifestInfo.FileExtension = fileInfo.Extension;
+					var manifestInfo = new AppletManifestInfo(manifest)
+					{
+						FileExtension = fileInfo.Extension
+					};
 
 					this.AmiClient.CreateApplet(manifestInfo);
 
