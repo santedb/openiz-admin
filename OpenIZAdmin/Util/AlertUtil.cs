@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Security.Principal;
 using System.Web.Mvc;
+using OpenIZ.Messaging.AMI.Client;
 
 namespace OpenIZAdmin.Util
 {
@@ -94,8 +95,11 @@ namespace OpenIZAdmin.Util
 		/// <summary>
 		/// Converts an alert model to an alert message info.
 		/// </summary>
+		/// <param name="client">The <see cref="AmiServiceClient"/> instance.</param>
+		/// <param name="model">The create alert model.</param>
+		/// <param name="user">The <see cref="IPrincipal"/> instance.</param>
 		/// <returns>Returns the converted alert message info.</returns>
-		public static AlertMessageInfo ToAlertMessageInfo(CreateAlertModel model, IPrincipal user)
+		public static AlertMessageInfo ToAlertMessageInfo(AmiServiceClient client, CreateAlertModel model, IPrincipal user)
 		{
 			var alertMessageInfo = new AlertMessageInfo
 			{
@@ -123,7 +127,15 @@ namespace OpenIZAdmin.Util
 
 			alertMessageInfo.AlertMessage.Subject = model.Subject;
 			alertMessageInfo.AlertMessage.TimeStamp = DateTimeOffset.Now;
-			alertMessageInfo.AlertMessage.To = model.To;
+
+			var securityUser = client.GetUser(model.To).User;
+
+			alertMessageInfo.AlertMessage.RcptTo = new List<SecurityUser>
+			{
+				securityUser
+			};
+
+			alertMessageInfo.AlertMessage.To = securityUser.UserName;
 
 			return alertMessageInfo;
 		}
