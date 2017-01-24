@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2016-2016 Mohawk College of Applied Arts and Technology
+ * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you
  * may not use this file except in compliance with the License. You may
@@ -17,6 +17,7 @@
  * Date: 2016-7-23
  */
 
+using Elmah;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Query;
 using OpenIZAdmin.Attributes;
@@ -26,11 +27,9 @@ using OpenIZAdmin.Models.PlaceModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using Elmah;
-using OpenIZ.Core.Model.Constants;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -77,54 +76,54 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-        /// <summary>
-        /// Displays the create policy view.
-        /// </summary>
-        /// <returns>Returns the create policy view.</returns>
-        [HttpGet]
-        public ActionResult Delete(string key, string versionKey)
-        {
-            if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
-            {
-                Guid placeId = Guid.Empty;
-                Guid placeVersion = Guid.Empty;
+		/// <summary>
+		/// Displays the create policy view.
+		/// </summary>
+		/// <returns>Returns the create policy view.</returns>
+		[HttpGet]
+		public ActionResult Delete(string key, string versionKey)
+		{
+			if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
+			{
+				Guid placeId = Guid.Empty;
+				Guid placeVersion = Guid.Empty;
 
-                if (Guid.TryParse(key, out placeId) && Guid.TryParse(versionKey, out placeVersion))
-                {
-                    List<KeyValuePair<string, object>> query = new List<KeyValuePair<string, object>>();
+				if (Guid.TryParse(key, out placeId) && Guid.TryParse(versionKey, out placeVersion))
+				{
+					List<KeyValuePair<string, object>> query = new List<KeyValuePair<string, object>>();
 
-                    if (placeVersion != Guid.Empty)
-                    {
-                        query.AddRange(QueryExpressionBuilder.BuildQuery<Place>(c => c.Key == placeId && c.VersionKey == placeVersion));
-                    }
-                    else
-                    {
-                        query.AddRange(QueryExpressionBuilder.BuildQuery<Place>(c => c.Key == placeId));
-                    }
+					if (placeVersion != Guid.Empty)
+					{
+						query.AddRange(QueryExpressionBuilder.BuildQuery<Place>(c => c.Key == placeId && c.VersionKey == placeVersion));
+					}
+					else
+					{
+						query.AddRange(QueryExpressionBuilder.BuildQuery<Place>(c => c.Key == placeId));
+					}
 
-                    var place = this.ImsiClient.Query<Place>(QueryExpressionParser.BuildLinqExpression<Place>(new NameValueCollection(query.ToArray()))).Item.OfType<Place>().FirstOrDefault();
+					var place = this.ImsiClient.Query<Place>(QueryExpressionParser.BuildLinqExpression<Place>(new NameValueCollection(query.ToArray()))).Item.OfType<Place>().FirstOrDefault();
 
-                    if (place == null)
-                    {
-                        TempData["error"] = Locale.Place + " " + Locale.NotFound;
-                        return RedirectToAction("Index");
-                    }
+					if (place == null)
+					{
+						TempData["error"] = Locale.Place + " " + Locale.NotFound;
+						return RedirectToAction("Index");
+					}
 
-                    this.ImsiClient.Obsolete<Place>(place);
+					this.ImsiClient.Obsolete<Place>(place);
 
-                    return View("Index");
-                }
-            }
-            return View("Index");
-        }
+					return View("Index");
+				}
+			}
+			return View("Index");
+		}
 
-        /// <summary>
-        /// Retrieves the place entity by id and version key
-        /// </summary>
-        /// <param name="key">The place identifier.</param>
-        /// <param name="versionKey">The place version identifier.</param>
-        /// <returns>Returns the place edit view.</returns>
-        [HttpGet]
+		/// <summary>
+		/// Retrieves the place entity by id and version key
+		/// </summary>
+		/// <param name="key">The place identifier.</param>
+		/// <param name="versionKey">The place version identifier.</param>
+		/// <returns>Returns the place edit view.</returns>
+		[HttpGet]
 		public ActionResult Edit(string key, string versionKey)
 		{
 			if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
@@ -200,6 +199,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (ModelState.IsValid)
 			{
+				searchTerm = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(searchTerm);
 				var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null);
 
 				placeList = places.Item.OfType<Place>().Select(PlaceUtil.ToPlaceViewModel).OrderBy(p => p.Name).ToList();
@@ -220,7 +220,8 @@ namespace OpenIZAdmin.Controllers
 
 			if (ModelState.IsValid)
 			{
-				var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime==null);
+				searchTerm = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(searchTerm);
+				var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null);
 
 				placeList = places.Item.OfType<Place>().Select(PlaceUtil.ToPlaceViewModel).OrderBy(p => p.Name).ToList();
 			}

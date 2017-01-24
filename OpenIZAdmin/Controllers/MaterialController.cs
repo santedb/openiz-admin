@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2016-2016 Mohawk College of Applied Arts and Technology
+ * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you
  * may not use this file except in compliance with the License. You may
@@ -105,7 +105,6 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-
 		/// <summary>
 		/// Deletion of a material.
 		/// </summary>
@@ -126,7 +125,6 @@ namespace OpenIZAdmin.Controllers
 
 			return View("Index");
 		}
-
 
 		/// <summary>
 		/// Edit for material.
@@ -215,7 +213,6 @@ namespace OpenIZAdmin.Controllers
 
 			return RedirectToAction("Index");
 		}
-
 
 		/// <summary>
 		/// Displays the index view.

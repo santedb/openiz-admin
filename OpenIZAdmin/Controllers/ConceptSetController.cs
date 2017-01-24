@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2016-2016 Mohawk College of Applied Arts and Technology
+ * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you
  * may not use this file except in compliance with the License. You may
@@ -23,7 +23,6 @@ using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ConceptModels.ViewModels;
 using OpenIZAdmin.Models.ConceptSetModels;
-using OpenIZAdmin.Models.ConceptSetModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
@@ -225,9 +224,7 @@ namespace OpenIZAdmin.Controllers
 			};
 
 			return PartialView("_ConceptSetConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
-
 		}
-
 
 		[HttpGet]
 		public ActionResult ViewConceptSet(Guid key)

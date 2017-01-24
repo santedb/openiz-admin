@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2016-2016 Mohawk College of Applied Arts and Technology
+ * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you
  * may not use this file except in compliance with the License. You may
@@ -17,8 +17,8 @@
  * Date: 2016-11-14
  */
 
+using Elmah;
 using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ApplicationModels;
@@ -26,10 +26,8 @@ using OpenIZAdmin.Models.ApplicationModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -100,10 +98,10 @@ namespace OpenIZAdmin.Controllers
 			return View(viewModel);
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Creates a new application instance
 		/// </summary>
-        /// <param name="model">The model containing the information of the application to be created.</param>
+		/// <param name="model">The model containing the information of the application to be created.</param>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateApplicationModel model)
@@ -145,12 +143,12 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-        /// <summary>
-        /// Gets the application object to edit
-        /// </summary>
-        /// <param name="key">The id of the application to be edited.</param>
-        /// <returns>Returns the Edit view.</returns>
-        [HttpGet]
+		/// <summary>
+		/// Gets the application object to edit
+		/// </summary>
+		/// <param name="key">The id of the application to be edited.</param>
+		/// <returns>Returns the Edit view.</returns>
+		[HttpGet]
 		public ActionResult Edit(string key)
 		{
 			Guid appKey = Guid.Empty;
@@ -183,9 +181,9 @@ namespace OpenIZAdmin.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditApplicationModel model)
-		{            
+		{
 			if (ModelState.IsValid)
-			{				
+			{
 				var appEntity = ApplicationUtil.GetApplication(this.AmiClient, model.Id);
 
 				if (appEntity == null)
@@ -195,14 +193,14 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-                var appInfo = ApplicationUtil.ToSecurityApplicationInfo(this.AmiClient, model, appEntity);
+				var appInfo = ApplicationUtil.ToSecurityApplicationInfo(this.AmiClient, model, appEntity);
 
-                this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
+				this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
 
 				TempData["success"] = Locale.Application + " " + Locale.Updated + " " + Locale.Successfully;
 
-                return RedirectToAction("Edit", new { key = appInfo.Id.ToString() });
-            }
+				return RedirectToAction("Edit", new { key = appInfo.Id.ToString() });
+			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Application;
 

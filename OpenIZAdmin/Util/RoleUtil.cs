@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2016-2016 Mohawk College of Applied Arts and Technology
+ * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you
  * may not use this file except in compliance with the License. You may
@@ -147,7 +147,7 @@ namespace OpenIZAdmin.Util
 
 			var addPoliciesList = CommonUtil.GetNewPolicies(amiClient, model.Policies);
 
-			roleInfo.Policies = addPoliciesList.Select(p => new SecurityPolicyInfo(p)).ToArray();
+			roleInfo.Policies = addPoliciesList.Select(p => new SecurityPolicyInfo(p)).ToList();
 
 			return roleInfo;
 		}

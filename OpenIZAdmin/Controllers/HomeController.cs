@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2016-2016 Mohawk College of Applied Arts and Technology
+ * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you
  * may not use this file except in compliance with the License. You may
@@ -17,6 +17,7 @@
  * Date: 2016-5-31
  */
 
+using Elmah;
 using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Model.AMI.Diagnostics;
 using OpenIZAdmin.Attributes;
@@ -27,10 +28,8 @@ using OpenIZAdmin.Models.DebugModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -63,73 +62,72 @@ namespace OpenIZAdmin.Controllers
 			return View(viewModel);
 		}
 
-        /// <summary>
-        /// Gets the current user info and initiates the bug report page
-        /// </summary>        
-        /// <returns>Returns the SubmitBugReport view.</returns>
-        [HttpGet]
-        public ActionResult SubmitBugReport()
-        {
-            try
-            {
-                var userId = Guid.Parse(User.Identity.GetUserId());
+		/// <summary>
+		/// Gets the current user info and initiates the bug report page
+		/// </summary>
+		/// <returns>Returns the SubmitBugReport view.</returns>
+		[HttpGet]
+		public ActionResult SubmitBugReport()
+		{
+			try
+			{
+				var userId = Guid.Parse(User.Identity.GetUserId());
 
-                var userEntity = this.AmiClient.GetUser(userId.ToString());
+				var userEntity = this.AmiClient.GetUser(userId.ToString());
 
-                if (userEntity == null)
-                {
-                    TempData["error"] = Locale.User + " " + Locale.NotFound;
+				if (userEntity == null)
+				{
+					TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-                    return RedirectToAction("Index");
-                }
+					return RedirectToAction("Index");
+				}
 
-                var model = HomeUtil.ToSubmitBugReport(userEntity);
+				var model = HomeUtil.ToSubmitBugReport(userEntity);
 
-                return View(model);
-            }
-            catch(Exception e)
-            {
+				return View(model);
+			}
+			catch (Exception e)
+			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-            TempData["error"] = Locale.User + " " + Locale.NotFound;
+			TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-            return RedirectToAction("Index");
-        }
+			return RedirectToAction("Index");
+		}
 
-
-        /// <summary>
+		/// <summary>
 		/// Displays the create view.
 		/// </summary>
 		/// <param name="model">The model containing the bug report information.</param>
 		/// <returns>Returns the Index view.</returns>
 		[HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult SubmitBugReport(SubmitBugReportViewModel model)
-        {
-            if (ModelState.IsValid)
-            {                
-                try
-                {
-                    DiagnosticReport report = HomeUtil.ToDiagnosticReport(this.ImsiClient, model);
-                    report = AmiClient.SubmitDiagnosticReport(report);                    
-                    model.TransactionMessage = report.CorrelationId;
-                    model.Success = true;                    
-                }
-                catch (Exception e)
-                {
+		[ValidateAntiForgeryToken]
+		public ActionResult SubmitBugReport(SubmitBugReportViewModel model)
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					DiagnosticReport report = HomeUtil.ToDiagnosticReport(this.ImsiClient, model);
+					report = AmiClient.SubmitDiagnosticReport(report);
+					model.TransactionMessage = report.CorrelationId;
+					model.Success = true;
+				}
+				catch (Exception e)
+				{
 					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				}
-            }
-            
-            return View(model);
-        }
+			}
 
-        /// <summary>
-        /// Gets the version information of the current application.
-        /// </summary>
-        /// <returns>Returns the version information.</returns>
-        [HttpGet]
+			return View(model);
+		}
+
+		/// <summary>
+		/// Gets the version information of the current application.
+		/// </summary>
+		/// <returns>Returns the version information.</returns>
+		[HttpGet]
 		[TokenAuthorize]
 		public ActionResult VersionInformation()
 		{

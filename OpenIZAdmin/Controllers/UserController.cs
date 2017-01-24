@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2016-2016 Mohawk College of Applied Arts and Technology
+ * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you
  * may not use this file except in compliance with the License. You may
@@ -17,10 +17,10 @@
  * Date: 2016-7-17
  */
 
-using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
+using OpenIZ.Core.Model.Roles;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.UserModels;
@@ -28,10 +28,8 @@ using OpenIZAdmin.Models.UserModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.Roles;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -143,7 +141,6 @@ namespace OpenIZAdmin.Controllers
 				TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;
 
 				return RedirectToAction("ViewUser", new { id = user.UserId.ToString() });
-
 			}
 
 			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });

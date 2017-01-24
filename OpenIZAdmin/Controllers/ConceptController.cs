@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2016-2016 Mohawk College of Applied Arts and Technology
+ * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you
  * may not use this file except in compliance with the License. You may
@@ -17,6 +17,7 @@
  * Date: 2016-7-23
  */
 
+using Elmah;
 using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Query;
@@ -27,11 +28,8 @@ using OpenIZAdmin.Models.ConceptModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Threading;
 using System.Web.Mvc;
-using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -161,9 +159,9 @@ namespace OpenIZAdmin.Controllers
 			{
 				TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 				return RedirectToAction("Index");
-			}            
+			}
 
-            concept.SetDelayLoad(true);
+			concept.SetDelayLoad(true);
 
 			foreach (var conceptReferenceTerm in concept.ReferenceTerms)
 			{

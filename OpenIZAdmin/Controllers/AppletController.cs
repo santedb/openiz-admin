@@ -1,5 +1,5 @@
 ﻿/*
- * Copyright 2016-2016 Mohawk College of Applied Arts and Technology
+ * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you
  * may not use this file except in compliance with the License. You may
@@ -17,19 +17,18 @@
  * Date: 2016-7-8
  */
 
+using System;
 using OpenIZ.Core.Applets.Model;
 using OpenIZ.Core.Model.AMI.Applet;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AppletModels;
-using OpenIZAdmin.Models.AppletModels.ViewModels;
 using OpenIZAdmin.Util;
-using System;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Web.Mvc;
 using System.Xml.Serialization;
+using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -62,56 +61,56 @@ namespace OpenIZAdmin.Controllers
 			return File(stream.ToArray(), "application/pak", applet.AppletManifest.Info.Id + applet.FileExtension);
 		}
 
-//        /// <summary>
-//        /// Updates a role.
-//        /// </summary>
-//        /// <param name="model">The model containing the updated role information.</param>
-//        /// <returns>Returns the edit view.</returns>
-//        [HttpPost]
-//        [ValidateAntiForgeryToken]
-//        public ActionResult Edit(AppletViewModel model)
-//        {
-//            if (ModelState.IsValid)
-//            {
-//                try
-//                {
-//                    if(CommonUtil.IsValidString(model.Id))
-//                    {
-//                        var applet = AppletUtil.GetApplet(this.AmiClient, model.Id);
+		//        /// <summary>
+		//        /// Updates a role.
+		//        /// </summary>
+		//        /// <param name="model">The model containing the updated role information.</param>
+		//        /// <returns>Returns the edit view.</returns>
+		//        [HttpPost]
+		//        [ValidateAntiForgeryToken]
+		//        public ActionResult Edit(AppletViewModel model)
+		//        {
+		//            if (ModelState.IsValid)
+		//            {
+		//                try
+		//                {
+		//                    if(CommonUtil.IsValidString(model.Id))
+		//                    {
+		//                        var applet = AppletUtil.GetApplet(this.AmiClient, model.Id);
 
-//                        if (applet == null)
-//                        {
-//                            TempData["error"] = Locale.Applet + " " + Locale.NotFound;
+		//                        if (applet == null)
+		//                        {
+		//                            TempData["error"] = Locale.Applet + " " + Locale.NotFound;
 
-//                            return RedirectToAction("Index");
-//                        }
+		//                            return RedirectToAction("Index");
+		//                        }
 
-//                        this.AmiClient.UpdateApplet(applet.AppletManifest.Info.Id.ToString(), AppletUtil.ToAppletManifestInfo(this.AmiClient, model, applet));
+		//                        this.AmiClient.UpdateApplet(applet.AppletManifest.Info.Id.ToString(), AppletUtil.ToAppletManifestInfo(this.AmiClient, model, applet));
 
-//                        TempData["success"] = Locale.Applet + " " + Locale.UpdatedSuccessfully;
+		//                        TempData["success"] = Locale.Applet + " " + Locale.UpdatedSuccessfully;
 
-//                        return RedirectToAction("Edit", new { id = applet.AppletManifest.Info.Id.ToString() });
-//                    }                                                            
-//                }
-//                catch (Exception e)
-//                {
-//#if DEBUG
-//                    Trace.TraceError("Unable to update applet: {0}", e.StackTrace);
-//#endif
-//                    Trace.TraceError("Unable to update applet: {0}", e.Message);
-//                }
-//            }
+		//                        return RedirectToAction("Edit", new { id = applet.AppletManifest.Info.Id.ToString() });
+		//                    }
+		//                }
+		//                catch (Exception e)
+		//                {
+		//#if DEBUG
+		//                    Trace.TraceError("Unable to update applet: {0}", e.StackTrace);
+		//#endif
+		//                    Trace.TraceError("Unable to update applet: {0}", e.Message);
+		//                }
+		//            }
 
-//            TempData["error"] = Locale.UnableToUpdate + " " + Locale.Applet;
+		//            TempData["error"] = Locale.UnableToUpdate + " " + Locale.Applet;
 
-//            return View(model);
-//        }
+		//            return View(model);
+		//        }
 
-        /// <summary>
-        /// Displays the index view.
-        /// </summary>
-        /// <returns>Returns the index view.</returns>
-        [HttpGet]
+		/// <summary>
+		/// Displays the index view.
+		/// </summary>
+		/// <returns>Returns the index view.</returns>
+		[HttpGet]
 		public ActionResult Index()
 		{
 			var applets = AppletUtil.GetApplets(this.AmiClient);
@@ -147,30 +146,41 @@ namespace OpenIZAdmin.Controllers
 				switch (fileInfo.Extension)
 				{
 					case ".pak":
-						AppletPackage package;
 
-						using (var stream = new GZipStream(model.File.InputStream, CompressionMode.Decompress))
+						try
 						{
-							var serializer = new XmlSerializer(typeof(AppletPackage));
-							package = (AppletPackage)serializer.Deserialize(stream);
+							AppletPackage package;
+							using (var stream = new GZipStream(model.File.InputStream, CompressionMode.Decompress))
+							{
+								var serializer = new XmlSerializer(typeof(AppletPackage));
+								package = (AppletPackage)serializer.Deserialize(stream);
+							}
+
+							using (var stream = new MemoryStream(package.Manifest))
+							{
+								manifest = AppletManifest.Load(stream);
+							}
 						}
-
-						using (var stream = new MemoryStream(package.Manifest))
+						catch (Exception e)
 						{
-							manifest = AppletManifest.Load(stream);
+							ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+							ModelState.AddModelError(nameof(model.File), Locale.UnableToUploadApplet);
 						}
 
 						break;
 
 					default:
-						ModelState.AddModelError(nameof(model.File), Locale.GenericErrorMessage);
+						ModelState.AddModelError(nameof(model.File), Locale.UnableToUploadApplet);
 						break;
 				}
 
+				// ensure that the model state wasn't invalidated when attempting to serialize the applet file
 				if (ModelState.IsValid)
 				{
-					var manifestInfo = new AppletManifestInfo(manifest);
-					manifestInfo.FileExtension = fileInfo.Extension;
+					var manifestInfo = new AppletManifestInfo(manifest)
+					{
+						FileExtension = fileInfo.Extension
+					};
 
 					this.AmiClient.CreateApplet(manifestInfo);
 
@@ -183,33 +193,33 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.UnableToUploadApplet;
 
 			return View(model);
-		}		
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Retrieves the selected role
 		/// </summary>
 		/// <param name="id">The identifier of the role object</param>
 		/// <returns>Returns the ViewRole view.</returns>
 		[HttpGet]
-        public ActionResult ViewApplet(string id)
-        {            
-            if (CommonUtil.IsValidString(id))
-            {
-                AppletManifestInfo applet = AppletUtil.GetApplet(this.AmiClient, id);
+		public ActionResult ViewApplet(string id)
+		{
+			if (CommonUtil.IsValidString(id))
+			{
+				AppletManifestInfo applet = AppletUtil.GetApplet(this.AmiClient, id);
 
-                if (applet == null)
-                {
-                    TempData["error"] = Locale.Applet + " " + Locale.NotFound;
+				if (applet == null)
+				{
+					TempData["error"] = Locale.Applet + " " + Locale.NotFound;
 
-                    return RedirectToAction("Index");
-                }
+					return RedirectToAction("Index");
+				}
 
-                return View(AppletUtil.ToAppletViewModel(applet));
-            }
+				return View(AppletUtil.ToAppletViewModel(applet));
+			}
 
-            TempData["error"] = Locale.Applet + " " + Locale.NotFound;
+			TempData["error"] = Locale.Applet + " " + Locale.NotFound;
 
-            return RedirectToAction("Index");
-        }
-    }
+			return RedirectToAction("Index");
+		}
+	}
 }
