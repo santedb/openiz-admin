@@ -100,12 +100,22 @@ namespace OpenIZAdmin.Controllers
 			}
 		}
 
-		/// <summary>
-		/// Changes the password of a user.
-		/// </summary>
-		/// <param name="model">The model containing the users new password.</param>
-		/// <returns>Returns an action result.</returns>
-		[HttpPost]
+        /// <summary>
+        /// Displays the index view.
+        /// </summary>
+        /// <returns>Returns the index view.</returns>
+        [HttpGet]
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        /// <summary>
+        /// Changes the password of a user.
+        /// </summary>
+        /// <param name="model">The model containing the users new password.</param>
+        /// <returns>Returns an action result.</returns>
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult ChangePassword(ChangePasswordModel model)
 		{
@@ -207,7 +217,8 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Manage()
 		{
-			ManageModel model = new ManageModel();
+            //ManageModel model = new ManageModel();
+            UpdateProfileModel model = new UpdateProfileModel();
 
 			var userId = Guid.Parse(User.Identity.GetUserId());
 
@@ -233,12 +244,12 @@ namespace OpenIZAdmin.Controllers
 
 			var nameComponents = user.Names.SelectMany(n => n.Component);
 
-			model.UpdateProfileModel.FamilyNameList = nameComponents.Where(c => c.ComponentType.Key == NameComponentKeys.Family).Select(c => new SelectListItem { Text = c.Value, Value = c.Value, Selected = true }).ToList();
-			model.UpdateProfileModel.GivenNamesList = nameComponents.Where(c => c.ComponentType.Key == NameComponentKeys.Given).Select(c => new SelectListItem { Text = c.Value, Value = c.Value, Selected = true }).ToList();
+			model.FamilyNameList = nameComponents.Where(c => c.ComponentType.Key == NameComponentKeys.Family).Select(c => new SelectListItem { Text = c.Value, Value = c.Value, Selected = true }).ToList();
+			model.GivenNamesList = nameComponents.Where(c => c.ComponentType.Key == NameComponentKeys.Given).Select(c => new SelectListItem { Text = c.Value, Value = c.Value, Selected = true }).ToList();
 
-			model.UpdateProfileModel.Language = user.LanguageCommunication.Select(l => l.Key).FirstOrDefault().GetValueOrDefault(Guid.Empty);
+			model.Language = user.LanguageCommunication.Select(l => l.Key).FirstOrDefault().GetValueOrDefault(Guid.Empty);
 
-			model.UpdateProfileModel.LanguageList = new List<SelectListItem>
+			model.LanguageList = new List<SelectListItem>
 			{
 				new SelectListItem
 				{
@@ -356,8 +367,9 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Profile;
 
-			return View("Manage", new ManageModel { ChangePasswordModel = new ChangePasswordModel(), UpdateProfileModel = model });
-		}
+            //return View("Manage", new ManageModel { ChangePasswordModel = new ChangePasswordModel(), UpdateProfileModel = model });
+            return View("Manage", model);
+        }
 
 		/// <summary>
 		/// Disposes of any managed resources

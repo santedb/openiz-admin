@@ -5,12 +5,31 @@
     {
     @Html.AntiForgeryToken()
 
-    <ul class="nav navbar-nav navbar-right">
+    @*<ul class="nav navbar-nav navbar-right">
         <li>
             @Html.ActionLink(Locale.Hello + " " + User.Identity.GetUserName() + "!", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">@Locale.Logoff</a></li>
-    </ul>
+    </ul>*@
+
+        <ul class="nav navbar-nav navbar-right">
+            <li class="dropdown"  id="profile-change-dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                    <span class="glyphicon glyphicon-user"></span>&nbsp;  Hello @User.Identity.GetUserName()!<span class="caret"></span>
+                </a>
+                <ul class="dropdown-menu">
+                    <li>
+                        @Html.ActionLink("Change Password", "ChangePassword", "Account", routeValues: null, htmlAttributes: new { title = "Password" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("Update Profile", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <a href="javascript:document.getElementById('logoutForm').submit()">Log off</a>
+            </li>
+        </ul>
     }
 }
 else

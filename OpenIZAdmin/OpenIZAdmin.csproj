@@ -507,6 +507,7 @@
     <Content Include="Views\Material\ViewMaterial.cshtml" />
     <Content Include="Views\Home\SubmitBugReport.cshtml" />
     <Content Include="Views\Shared\_ConceptSetConceptSearchResultsPartial.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -144,6 +144,16 @@
         }
     });
 
+    $("#profile-change-dropdown").on('click', function (evemt) {
+        var attr = $(this).attr("class");
+
+        if (attr === "dropdown open") {
+            $(this).attr("class", "dropdown");
+        } else {
+            $(this).attr("class", "dropdown open");
+        }
+    });
+
     $(".change-language").on('click', function ()
     {
         var language = $(this).attr("language");

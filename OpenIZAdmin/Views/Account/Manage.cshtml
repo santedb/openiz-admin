@@ -1,11 +1,70 @@
-﻿@model OpenIZAdmin.Models.AccountModels.ManageModel
+﻿@model OpenIZAdmin.Models.AccountModels.UpdateProfileModel
 @{
-    ViewBag.Title = Locale.Manage;
+    ViewBag.Title = Locale.UpdateProfile;
 }
 
-@Html.Partial("_ChangePasswordPartial", Model.ChangePasswordModel)
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        @Locale.UpdateProfile
+    </div>
+    <div class="panel panel-body panel-default">
 
-@Html.Partial("_UpdateProfilePartial", Model.UpdateProfileModel)
+        @using (Html.BeginForm("UpdateProfile", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            <div class="form-group">
+                @Html.LabelFor(m => m.GivenNames, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.ListBoxFor(m => m.GivenNames, new List<SelectListItem>(), new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
+                    @Html.ValidationMessageFor(m => m.GivenNames, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.FamilyNames, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.ListBoxFor(m => m.FamilyNames, new List<SelectListItem>(), new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
+                    @Html.ValidationMessageFor(m => m.FamilyNames, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.FacilityId, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.ListBoxFor(m => m.FacilityId, Model.FacilityList, new { @class = "facility-ajax form-control" })
+                    @Html.ValidationMessageFor(m => m.FacilityId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Language, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.Language, Model.LanguageList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Language, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.PhoneType, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.PhoneType, Model.PhoneTypeList, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-10 pull-right">
+                    <button type="submit" class="btn btn-primary">@Locale.Save</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
 
 @section scripts
 {
