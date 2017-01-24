@@ -506,6 +506,7 @@
     <Content Include="Views\Shared\_ConceptList.cshtml" />
     <Content Include="Views\Material\ViewMaterial.cshtml" />
     <Content Include="Views\Home\SubmitBugReport.cshtml" />
+    <Content Include="Views\Shared\_ConceptSetConceptSearchResultsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

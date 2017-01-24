@@ -1,0 +1,56 @@
+﻿@model IEnumerable<OpenIZAdmin.Models.ConceptModels.ViewModels.ConceptSearchResultViewModel>
+@{
+    ViewBag.Title = Locale.ConceptSearchResults;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <span>@Locale.SearchResults</span>
+        </h3>
+    </div>
+    <div class="panel panel-body">
+        @if (Model.Any())
+        {
+            <table class="table table-striped table-bordered" id="searchResults">
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(m => m.CreationTime)</th>
+                        <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
+                        <th>@Html.DisplayNameFor(m => m.Names)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.CreationTime</td>
+                            <td>@item.Mnemonic</td>
+                            @if (item.Names.Count == 0)
+                            {
+                                <td></td>
+                            }
+                            else
+                            {
+                                <td>@string.Join(", ", item.Names)</td>
+                            }
+                            <td>
+                                <a class="btn btn-primary text-white" onclick="addConcept('@item.Key', this)">
+                                    @Locale.Add
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>@Locale.NotFound</p>
+        }
+
+    </div>
+</div>
