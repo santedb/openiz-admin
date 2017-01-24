@@ -47,8 +47,8 @@
                         </li>
                     </ul>
                 }
-                <ul class="nav pull-right">
-                    <li class="dropdown">
+                <ul class="nav pull-right" role="menu" aria-labelledby="menu">
+                    <li class="dropdown" id="language-change-dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             <span class="glyphicon glyphicon-globe"></span> @OpenIZAdmin.Localization.Locale.ChangeLanguage <span class="caret"></span>
                         </a>
@@ -124,115 +124,126 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/toastr")
     @Scripts.Render("~/bundles/moment")
-    @Scripts.Render("~/bundles/datatables")
     @Scripts.Render("~/bundles/select2")
+    @Scripts.Render("~/bundles/datatables")
     @Scripts.Render("~/bundles/ajax-search")
 
     
 
     @RenderSection("scripts", required: false)
-    <script type="text/javascript">
+<script type="text/javascript">
 
-        $(".change-language").on('click', function ()
-        {
-            var language = $(this).attr("language");
-            console.log(language);
+    $("#language-change-dropdown").on('click', function (evemt)
+    {
+        var attr = $(this).attr("class");
 
-            document.cookie = "__openiz_language=" + language;
-
-            $.ajax({
-                url: "/Locale/ChangeLanguage?language=" + language,
-                success: function (data)
-                {
-                    console.log(data);
-                    window.location.reload();
-                },
-                error: function (error)
-                {
-                    console.log(error);
-                },
-                type: "POST"
-            });
-        });
-
-        $("#alert-modal-button").on('click', function ()
-        {
-            $.ajax({
-                url: "/Alert/GetAlerts",
-                success: function (data)
-                {
-                    $('.modal-backdrop').first().remove();
-                    $('#alert-partial-container').html(data);
-                    $('#alert-modal').modal("show");
-                },
-                error: function (error)
-                {
-                    console.log(error);
-                },
-                type: "GET"
-            });
-        });
-
-        $("#create-alert-modal-button").on('click', function ()
-        {
-            $.ajax({
-                url: "/Alert/CreateAlert",
-                success: function (data)
-                {
-                    $('.modal-backdrop').first().remove();
-                    $('#alert-partial-container').html(data);
-                    $('#create-alert-modal').modal("show");
-                },
-                error: function (error)
-                {
-                    console.log(error);
-                },
-                type: "GET"
-            });
-        });
-
-        $(document).ready(function ()
-        {
-            newAlerts();
-        });
-
-        window.setInterval(newAlerts(), 5000);
-
-        function newAlerts()
-        {
-            $.ajax({
-                url: "/Alert/NewAlerts",
-                success: function (data)
-                {
-                    $('#new-alerts').html(data);
-                },
-                error: function (error)
-                {
-                    console.log(error);
-                },
-                type: "GET"
-            });
+        if (attr === "dropdown open") {
+            $(this).attr("class", "dropdown");
+        } else {
+            $(this).attr("class", "dropdown open");
         }
+    });
 
-        $(document).ready(function ()
-        {
-            $("#reset").on("click", function ()
+    $(".change-language").on('click', function ()
+    {
+        var language = $(this).attr("language");
+        console.log(language);
+
+        document.cookie = "__openiz_language=" + language;
+
+        $.ajax({
+            url: "/Locale/ChangeLanguage?language=" + language,
+            success: function (data)
             {
-                $("#SearchTerm").val('');
+                console.log(data);
                 window.location.reload();
-            });
+            },
+            error: function (error)
+            {
+                console.log(error);
+            },
+            type: "POST"
         });
+    });
 
-        function hideLoadingBar()
+    $("#alert-modal-button").on('click', function ()
+    {
+        $.ajax({
+            url: "/Alert/GetAlerts",
+            success: function (data)
+            {
+                $('.modal-backdrop').first().remove();
+                $('#alert-partial-container').html(data);
+                $('#alert-modal').modal("show");
+            },
+            error: function (error)
+            {
+                console.log(error);
+            },
+            type: "GET"
+        });
+    });
+
+    $("#create-alert-modal-button").on('click', function ()
+    {
+        $.ajax({
+            url: "/Alert/CreateAlert",
+            success: function (data)
+            {
+                $('.modal-backdrop').first().remove();
+                $('#alert-partial-container').html(data);
+                $('#create-alert-modal').modal("show");
+            },
+            error: function (error)
+            {
+                console.log(error);
+            },
+            type: "GET"
+        });
+    });
+
+    $(document).ready(function ()
+    {
+        newAlerts();
+    });
+
+    window.setInterval(newAlerts(), 5000);
+
+    function newAlerts()
+    {
+        $.ajax({
+            url: "/Alert/NewAlerts",
+            success: function (data)
+            {
+                $('#new-alerts').html(data);
+            },
+            error: function (error)
+            {
+                console.log(error);
+            },
+            type: "GET"
+        });
+    }
+
+    $(document).ready(function ()
+    {
+        $("#reset").on("click", function ()
         {
-            $("#loading-bar").hide();
-        }
+            $("#SearchTerm").val('');
+            window.location.reload();
+        });
+    });
 
-        function showLoadingBar()
-        {
-            $("#loading-bar").show();
-        }
+    function hideLoadingBar()
+    {
+        $("#loading-bar").hide();
+    }
 
-    </script>
+    function showLoadingBar()
+    {
+        $("#loading-bar").show();
+    }
+
+</script>
 </body>
 </html>
