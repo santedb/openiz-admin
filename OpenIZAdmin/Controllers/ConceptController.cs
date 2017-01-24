@@ -252,15 +252,11 @@ namespace OpenIZAdmin.Controllers
 
 				conceptClassBundle.Reconstitute();
 
-				var conceptClasses = conceptClassBundle.Item.OfType<Concept>().Select(c => new SelectListItem { Text = c.Mnemonic, Value = c.Key.ToString() }).ToList();
+				var conceptClasses = conceptClassBundle.Item.OfType<ConceptClass>().Select(c => new ConceptClass { Mnemonic = c.Mnemonic, Name = c.Name, Key = c.Key }).ToList();
 
-				var conceptClass = conceptClasses.First(c => c.Value == model.ConceptClass);
+				var conceptClass = conceptClasses.FirstOrDefault(c => c.Name == model.ConceptClass);
 
-				concept.Class = new ConceptClass
-				{
-					Mnemonic = conceptClass.Text,
-					Key = Guid.Parse(conceptClass.Value)
-				};
+                concept.Class = conceptClass;
 
 				var result = this.ImsiClient.Update<Concept>(concept);
 
