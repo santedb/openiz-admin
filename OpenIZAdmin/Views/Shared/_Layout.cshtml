@@ -133,7 +133,7 @@
     @RenderSection("scripts", required: false)
 <script type="text/javascript">
 
-    $("#language-change-dropdown").on('click', function (evemt)
+    $("#language-change-dropdown").on('click', function (event)
     {
         var attr = $(this).attr("class");
 
@@ -144,7 +144,7 @@
         }
     });
 
-    $("#profile-change-dropdown").on('click', function (evemt) {
+    $("#profile-change-dropdown").on('click', function (event) {
         var attr = $(this).attr("class");
 
         if (attr === "dropdown open") {

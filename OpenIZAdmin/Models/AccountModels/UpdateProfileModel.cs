@@ -34,14 +34,24 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// </summary>
 		public UpdateProfileModel()
 		{
-			this.FacilityList = new List<SelectListItem>();
-			this.FamilyNameList = new List<SelectListItem>();
-			this.FamilyNames = new List<string>();
-			this.GivenNamesList = new List<SelectListItem>();
-			this.GivenNames = new List<string>();
-			this.LanguageList = new List<SelectListItem>();
-			this.PhoneTypeList = new List<SelectListItem>();
-		}
+            //this.FacilityList = new List<SelectListItem>();
+            //this.FamilyNameList = new List<SelectListItem>();
+            //this.FamilyNames = new List<string>();
+            //this.GivenNamesList = new List<SelectListItem>();
+            //this.GivenNames = new List<string>();
+            //this.LanguageList = new List<SelectListItem>();
+            //this.PhoneTypeList = new List<SelectListItem>();
+
+            this.FacilityList = new List<SelectListItem>();
+
+
+            this.FamilyNames = new List<string>();
+            this.FamilyNamesList = new List<SelectListItem>();
+            this.GivenNames = new List<string>();
+            this.GivenNamesList = new List<SelectListItem>();
+            this.LanguageList = new List<SelectListItem>();
+            this.PhoneTypeList = new List<SelectListItem>();
+        }
 
 		/// <summary>
 		/// Gets or sets the id of the facility of the user.
@@ -50,18 +60,26 @@ namespace OpenIZAdmin.Models.AccountModels
 		[Required(ErrorMessageResourceName = "FacilityRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string FacilityId { get; set; }
 
-		/// <summary>
-		/// Gets or sets the list of facilities.
+        /// <summary>
+		/// Gets or sets the stored id of the facility of the user. Indicates if there is a facility change.
 		/// </summary>
-		public List<SelectListItem> FacilityList { get; set; }
+        public Guid? previousFacilityKey { get; set; }
 
-		public List<SelectListItem> FamilyNameList { get; set; }
+        /// <summary>
+        /// Gets or sets the list of facilities.
+        /// </summary>
+        public List<SelectListItem> FacilityList { get; set; }
 
-		/// <summary>
-		/// Gets or sets the family names of the user.
+        /// <summary>
+        /// Gets or sets the family names of the user.
+        /// </summary>
+        [Display(Name = "FamilyNames", ResourceType = typeof(Localization.Locale))]
+        public List<string> FamilyNames { get; set; }
+
+        /// <summary>
+		/// Gets or sets the list of family names of the user.
 		/// </summary>
-		[Display(Name = "FamilyNames", ResourceType = typeof(Localization.Locale))]
-		public List<string> FamilyNames { get; set; }
+        public List<SelectListItem> FamilyNamesList { get; set; }		
 
 		/// <summary>
 		/// Gets or sets the givens names of the user.
@@ -69,6 +87,9 @@ namespace OpenIZAdmin.Models.AccountModels
 		[Display(Name = "Names", ResourceType = typeof(Localization.Locale))]
 		public List<string> GivenNames { get; set; }
 
+        /// <summary>
+		/// Gets or sets the list of given names of the user.
+		/// </summary>
 		public List<SelectListItem> GivenNamesList { get; set; }
 
 		/// <summary>

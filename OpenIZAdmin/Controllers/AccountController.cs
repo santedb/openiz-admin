@@ -242,10 +242,26 @@ namespace OpenIZAdmin.Controllers
 				user = new UserEntity();
 			}
 
-			var nameComponents = user.Names.SelectMany(n => n.Component);
+            model.FamilyNames = user.Names.SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
+            model.FamilyNamesList.AddRange(user.Names.SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => new SelectListItem
+            {
+                Text = c.Value,
+                Selected = true,
+                Value = c.Value
+            }));
 
-			model.FamilyNameList = nameComponents.Where(c => c.ComponentType.Key == NameComponentKeys.Family).Select(c => new SelectListItem { Text = c.Value, Value = c.Value, Selected = true }).ToList();
-			model.GivenNamesList = nameComponents.Where(c => c.ComponentType.Key == NameComponentKeys.Given).Select(c => new SelectListItem { Text = c.Value, Value = c.Value, Selected = true }).ToList();
+            model.GivenNames = user.Names.SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
+            model.GivenNamesList.AddRange(user.Names.SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => new SelectListItem
+            {
+                Text = c.Value,
+                Selected = true,
+                Value = c.Value
+            }));
+
+   //         var nameComponents = user.Names.SelectMany(n => n.Component);
+
+			//model.FamilyNamesList = nameComponents.Where(c => c.ComponentType.Key == NameComponentKeys.Family).Select(c => new SelectListItem { Text = c.Value, Value = c.Value, Selected = true }).ToList();
+			//model.GivenNamesList = nameComponents.Where(c => c.ComponentType.Key == NameComponentKeys.Given).Select(c => new SelectListItem { Text = c.Value, Value = c.Value, Selected = true }).ToList();
 
 			model.Language = user.LanguageCommunication.Select(l => l.Key).FirstOrDefault().GetValueOrDefault(Guid.Empty);
 

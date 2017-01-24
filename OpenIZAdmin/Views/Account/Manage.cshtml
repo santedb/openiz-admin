@@ -11,10 +11,12 @@
 
         @using (Html.BeginForm("UpdateProfile", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
+            @Html.AntiForgeryToken()
+
             <div class="form-group">
                 @Html.LabelFor(m => m.GivenNames, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.GivenNames, new List<SelectListItem>(), new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
+                    @Html.ListBoxFor(m => m.GivenNames, Model.GivenNamesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
                     @Html.ValidationMessageFor(m => m.GivenNames, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -22,7 +24,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.FamilyNames, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.FamilyNames, new List<SelectListItem>(), new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
+                    @Html.ListBoxFor(m => m.FamilyNames, Model.FamilyNamesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
                     @Html.ValidationMessageFor(m => m.FamilyNames, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -30,7 +32,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.FacilityId, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.FacilityId, Model.FacilityList, new { @class = "facility-ajax form-control" })
+                    @Html.ListBoxFor(m => m.FacilityId, Model.FacilityList, new { @class = "facility-ajax form-control" })  @*facility-ajax*@
                     @Html.ValidationMessageFor(m => m.FacilityId, "", new { @class = "text-danger" })
                 </div>
             </div>
