@@ -33,18 +33,9 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// Initializes a new instance of the <see cref="UpdateProfileModel"/> class.
 		/// </summary>
 		public UpdateProfileModel()
-		{
-            //this.FacilityList = new List<SelectListItem>();
-            //this.FamilyNameList = new List<SelectListItem>();
-            //this.FamilyNames = new List<string>();
-            //this.GivenNamesList = new List<SelectListItem>();
-            //this.GivenNames = new List<string>();
-            //this.LanguageList = new List<SelectListItem>();
-            //this.PhoneTypeList = new List<SelectListItem>();
-
+		{            
+            this.Facilities = new List<string>();
             this.FacilityList = new List<SelectListItem>();
-
-
             this.FamilyNames = new List<string>();
             this.FamilyNamesList = new List<SelectListItem>();
             this.GivenNames = new List<string>();
@@ -57,13 +48,15 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// Gets or sets the id of the facility of the user.
 		/// </summary>
 		[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "FacilityRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		//[Required(ErrorMessageResourceName = "FacilityRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string FacilityId { get; set; }
-
+        
         /// <summary>
-		/// Gets or sets the stored id of the facility of the user. Indicates if there is a facility change.
+		/// Gets or sets the id of the facility of the user.
 		/// </summary>
-        public Guid? previousFacilityKey { get; set; }
+		[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "FacilityRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public List<string> Facilities { get; set; }
 
         /// <summary>
         /// Gets or sets the list of facilities.
@@ -120,5 +113,11 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// Gets or sets the types of phones.
 		/// </summary>
 		public List<SelectListItem> PhoneTypeList { get; set; }
-	}
+
+        /// <summary>
+		/// Gets or sets the stored id of the facility of the user. Indicates if there is a facility change.
+		/// </summary>
+        public Guid? PreviousFacilityKey { get; set; }
+
+    }
 }

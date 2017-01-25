@@ -333,6 +333,7 @@
     <Compile Include="Services\Http\ServiceClientEndpoint.cs" />
     <Compile Include="Services\Http\ServiceClientSecurity.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Util\AccountUtil.cs" />
     <Compile Include="Util\AlertUtil.cs" />
     <Compile Include="Util\AppletUtil.cs" />
     <Compile Include="Util\ApplicationUtil.cs" />

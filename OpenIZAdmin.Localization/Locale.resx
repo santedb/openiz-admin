@@ -891,4 +891,10 @@
   <data name="StepsToReproduce" xml:space="preserve">
     <value>Steps to Reproduce</value>
   </data>
+  <data name="English" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="Kiswahili" xml:space="preserve">
+    <value>Kiswahili</value>
+  </data>
 </root>

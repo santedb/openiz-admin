@@ -20,12 +20,14 @@
 using Elmah;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.DAL;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AccountModels;
+using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,12 +51,12 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// The internal reference to the <see cref="ApplicationSignInManager"/> instance.
 		/// </summary>
-		private ApplicationUserManager userManager;
+		private ApplicationUserManager userManager;        
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AccountController"/> class.
-		/// </summary>
-		public AccountController()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AccountController"/> class.
+        /// </summary>
+        public AccountController()
 		{
 		}
 
@@ -213,81 +215,25 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Retrieve the user entity.
 		/// </summary>
-		/// <returns>Returns a manage model.</returns>
+		/// <returns>Returns a Update Profile model.</returns>
 		[HttpGet]
 		public ActionResult Manage()
-		{
-            //ManageModel model = new ManageModel();
-            UpdateProfileModel model = new UpdateProfileModel();
+		{                        
+            try
+            {                
+                var userId = Guid.Parse(User.Identity.GetUserId());                
+                var userEntity = UserUtil.GetUserEntity(this.ImsiClient, userId);
 
-			var userId = Guid.Parse(User.Identity.GetUserId());
-
-			UserEntity user = null;
-
-			try
-			{
-				var bundle = this.ImsiClient.Query<UserEntity>(u => u.SecurityUserKey.Value == userId);
-
-				bundle.Reconstitute();
-
-				user = bundle.Item.OfType<UserEntity>().Cast<UserEntity>().FirstOrDefault();
-			}
-			catch (Exception e)
-			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-			}
-
-			if (user == null)
-			{
-				user = new UserEntity();
-			}
-
-            model.FamilyNames = user.Names.SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
-            model.FamilyNamesList.AddRange(user.Names.SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => new SelectListItem
+                return View(AccountUtil.ToUpdateProfileModel(this.ImsiClient, this.AmiClient, userEntity));
+            }
+            catch (Exception e)
             {
-                Text = c.Value,
-                Selected = true,
-                Value = c.Value
-            }));
+                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+            }
 
-            model.GivenNames = user.Names.SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
-            model.GivenNamesList.AddRange(user.Names.SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => new SelectListItem
-            {
-                Text = c.Value,
-                Selected = true,
-                Value = c.Value
-            }));
-
-   //         var nameComponents = user.Names.SelectMany(n => n.Component);
-
-			//model.FamilyNamesList = nameComponents.Where(c => c.ComponentType.Key == NameComponentKeys.Family).Select(c => new SelectListItem { Text = c.Value, Value = c.Value, Selected = true }).ToList();
-			//model.GivenNamesList = nameComponents.Where(c => c.ComponentType.Key == NameComponentKeys.Given).Select(c => new SelectListItem { Text = c.Value, Value = c.Value, Selected = true }).ToList();
-
-			model.Language = user.LanguageCommunication.Select(l => l.Key).FirstOrDefault().GetValueOrDefault(Guid.Empty);
-
-			model.LanguageList = new List<SelectListItem>
-			{
-				new SelectListItem
-				{
-					Text = "",
-					Value = ""
-				},
-				new SelectListItem
-				{
-					Text = "English",
-					// TODO: add the GUID for english here
-					Value = Guid.NewGuid().ToString()
-				},
-				new SelectListItem
-				{
-					Text = "Kiswahili",
-					// TODO: add the GUID for Kiswahili here
-					Value = Guid.NewGuid().ToString()
-				}
-			};
-
-			return View(model);
-		}
+            TempData["error"] = Locale.UnableToUpdate + " " + Locale.Profile;            
+            return View("Index");            
+        }
 
 		/// <summary>
 		/// Updates a user's profile.
@@ -297,94 +243,80 @@ namespace OpenIZAdmin.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult UpdateProfile(UpdateProfileModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				try
-				{
-					var userId = Guid.Parse(User.Identity.GetUserId());
+		{            
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var userId = Guid.Parse(User.Identity.GetUserId());
+                    var userEntity = UserUtil.GetUserEntity(this.ImsiClient, userId);
 
-					UserEntity userEntity = null;
+                    if (userEntity == null)
+                    {
+                        TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-					var bundle = this.ImsiClient.Query<UserEntity>(u => u.SecurityUserKey.Value == userId);
+                        return RedirectToAction("Index");
+                    }
 
-					bundle.Reconstitute();
+                    var name = new EntityName
+                    {
+                        NameUse = new Concept
+                        {
+                            Key = NameUseKeys.OfficialRecord
+                        },
+                        Component = new List<EntityNameComponent>()
+                    };
 
-					userEntity = bundle.Item.OfType<UserEntity>().Cast<UserEntity>().FirstOrDefault();
+                    //--specific to the UserEntity
+                    if (model.FamilyNames != null && model.FamilyNames.Count > 0)
+                    {
+                        name.Component.AddRange(model.FamilyNames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
+                    }
 
-					if (userEntity == null)
-					{
-						using (IUnitOfWork unitOfWork = new EntityUnitOfWork())
-						{
-							// delete the user from the database incase there is an unknown error which occurred previously
-							// this will allow the user to login again to this system at some point
-							unitOfWork.UserRepository.Delete(User.Identity.GetUserId());
-							unitOfWork.Save();
-						}
+                    if (model.GivenNames != null && model.GivenNames.Count > 0)
+                    {
+                        name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
+                    }
 
-						// somehow the user is on a screen where they are able to edit a profile but do not exist as a user
-						// therefore, as a security concern we will log them out
-						HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+                    userEntity.Names = new List<EntityName> { name };
 
-						TempData["error"] = Locale.SessionTimedOut;
-						return RedirectToAction("Login", "Account");
-					}
 
-					userEntity.AsSecurityUser.PhoneNumber = model.PhoneNumber;
+                    var serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                    if (model.Facilities != null && model.Facilities.Any())
+                    {
+                        if (serviceLocation != null)
+                        {
+                            userEntity.Relationships.First(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
+                        }
+                        else
+                        {
+                            userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
+                        }
+                    }
 
-					EntityName name = new EntityName();
+                    //var userInfo = UserUtil.ToSecurityUserInfo(model, userEntity, this.AmiClient);
 
-					name.NameUse = new Concept
-					{
-						Key = NameUseKeys.OfficialRecord
-					};
+                    var userInfo = new SecurityUserInfo
+                    {                        
+                        User = userEntity.SecurityUser,
+                        UserId = userEntity.Key
+                    };
 
-					name.Component = new List<EntityNameComponent>();
+                    this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, userInfo);
+                    this.ImsiClient.Update<UserEntity>(userEntity);
 
-					if (model.FamilyNames != null && model.FamilyNames.Count > 0)
-					{
-						name.Component.AddRange(model.FamilyNames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
-					}
+                    TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;
+                    return RedirectToAction("Index", "Home");
+                }
 
-					if (model.GivenNames != null && model.GivenNames.Count > 0)
-					{
-						name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
-					}
+                catch (Exception e)
+                {
+                    ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+                }
+            }
 
-					userEntity.Names = new List<EntityName>();
-
-					userEntity.Names.Add(name);
-
-					userEntity.Relationships.Add(new EntityRelationship
-					{
-						RelationshipType = new Concept
-						{
-							Key = EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation
-						},
-						TargetEntity = new Place
-						{
-							Key = Guid.Parse(model.FacilityId)
-						}
-					});
-
-					userEntity.SecurityUserKey = Guid.Parse(User.Identity.GetUserId());
-
-					this.ImsiClient.Update<UserEntity>(userEntity);
-
-					TempData["success"] = Locale.Profile + " " + Locale.Updated + " " + Locale.Successfully;
-
-					return RedirectToAction("Index", "Home");
-				}
-				catch (Exception e)
-				{
-					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				}
-			}
-
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Profile;
-
-            //return View("Manage", new ManageModel { ChangePasswordModel = new ChangePasswordModel(), UpdateProfileModel = model });
-            return View("Manage", model);
+            TempData["error"] = Locale.UnableToUpdate + " " + Locale.Profile;
+            return View("Manage", model);            
         }
 
 		/// <summary>

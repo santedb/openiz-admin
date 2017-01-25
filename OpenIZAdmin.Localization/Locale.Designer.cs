@@ -799,6 +799,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to English.
+        /// </summary>
+        public static string English {
+            get {
+                return ResourceManager.GetString("English", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string Error {
@@ -1092,6 +1101,15 @@ namespace OpenIZAdmin.Localization {
         public static string JoinRealm {
             get {
                 return ResourceManager.GetString("JoinRealm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kiswahili.
+        /// </summary>
+        public static string Kiswahili {
+            get {
+                return ResourceManager.GetString("Kiswahili", resourceCulture);
             }
         }
         

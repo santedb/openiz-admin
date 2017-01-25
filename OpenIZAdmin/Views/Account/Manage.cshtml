@@ -27,13 +27,21 @@
                     @Html.ListBoxFor(m => m.FamilyNames, Model.FamilyNamesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
                     @Html.ValidationMessageFor(m => m.FamilyNames, "", new { @class = "text-danger" })
                 </div>
-            </div>
+            </div>                                    
 
-            <div class="form-group">
+            @*<div class="form-group">
                 @Html.LabelFor(m => m.FacilityId, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.FacilityId, Model.FacilityList, new { @class = "facility-ajax form-control" })  @*facility-ajax*@
+                    @Html.ListBoxFor(m => m.FacilityId, Model.FacilityList, new { @class = "facility-ajax form-control" }) 
                     @Html.ValidationMessageFor(m => m.FacilityId, "", new { @class = "text-danger" })
+                </div>
+            </div>*@
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Facilities, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.ListBoxFor(m => m.Facilities, Model.FacilityList, new { @class = "facility-ajax form-control" })
+                    @Html.ValidationMessageFor(m => m.Facilities, "", new { @class = "text-danger" })
                 </div>
             </div>
 
