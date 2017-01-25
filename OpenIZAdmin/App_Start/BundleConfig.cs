@@ -56,18 +56,18 @@ namespace OpenIZAdmin
 						"~/Scripts/user-search.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-					  "~/Scripts/bootstrap.js",
-					  "~/Scripts/respond.js"));
+					  "~/Scripts/bootstrap.min.js",
+					  "~/Scripts/respond.min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
-                  "~/Scripts/datatables.js"));
+				  "~/Scripts/datatables.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
 						"~/Content/bootstrap.min.css",
                         "~/Content/datatables.css",
 						"~/Content/select2.min.css",
-						"~/Content/styles.css",
-						"~/Content/toastr.min.css"));
+						"~/Content/toastr.min.css",
+						"~/Content/styles.css"));
 #if !DEBUG
 			BundleTable.EnableOptimizations = true;
 #endif
