@@ -105,7 +105,7 @@ namespace OpenIZAdmin.Util
         /// <param name="user">The user entity instance.</param>        
         /// <param name="securityUserInfo">The user security info instance.</param>        
         /// <returns>Returns a security user info model.</returns>
-        public static SecurityUserInfo ToSecurityUserInfo(UpdateProfileModel model, UserEntity user, SecurityUserInfo securityUserInfo)
+        public static SecurityUserInfo ToSecurityUserInfo(UpdateProfileModel model, UserEntity user, SecurityUserInfo securityUserInfo, AmiServiceClient client)
         {
             var userInfo = new SecurityUserInfo
             {
@@ -115,20 +115,20 @@ namespace OpenIZAdmin.Util
                 UserId = user.Key,
                 Password = securityUserInfo.Password,
                 UserName = securityUserInfo.UserName
-        };
+            };
 
             userInfo.User.Email = model.Email;
             userInfo.User.PhoneNumber = model.PhoneNumber;            
 
             //get any roles assigned to the user and add for the update
             if (securityUserInfo.Roles.Any())
-            {
+            {               
                 foreach (var role in securityUserInfo.Roles)
                 {
                     userInfo.Roles.Add(role);
-                }
+                }               
             }
-
+            
             return userInfo;                      
         }
 

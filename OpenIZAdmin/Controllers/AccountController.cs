@@ -298,10 +298,11 @@ namespace OpenIZAdmin.Controllers
                     //var lang = this.ImsiClient.Query<PersonLanguageCommunication>(c => c.LanguageCode == model.Language);
                     //var personLang = new PersonLanguageCommunication("EN", true);                                        
 
-                    SecurityUserInfo userInfo = AccountUtil.ToSecurityUserInfo(model, userEntity, securityUserInfo);                                        
+                    SecurityUserInfo userInfo = AccountUtil.ToSecurityUserInfo(model, userEntity, securityUserInfo, this.AmiClient);                                        
 
                     this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, userInfo);
                     this.ImsiClient.Update<UserEntity>(userEntity);
+                    
 
                     TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;
                     return RedirectToAction("Index", "Home");

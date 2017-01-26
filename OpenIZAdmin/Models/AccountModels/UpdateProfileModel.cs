@@ -61,7 +61,7 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// Gets or sets the id of the facility of the user.
 		/// </summary>
 		[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "FacilityRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        //[Required(ErrorMessageResourceName = "FacilityRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         public List<string> Facilities { get; set; }
 
         /// <summary>

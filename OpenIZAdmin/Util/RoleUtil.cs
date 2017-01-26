@@ -45,14 +45,14 @@ namespace OpenIZAdmin.Util
 		{
 			return client.GetRole(roleId.ToString());
 		}
-
-		/// <summary>
-		/// Converts a <see cref="SecurityRoleInfo"/> to a <see cref="EditRoleModel"/>.
-		/// </summary>
-		/// <param name="client">The Ami Service Client.</param>
-		/// <param name="role">The SecurityRoleInfo object to convert.</param>
-		/// <returns>Returns a EditRoleModel model.</returns>
-		public static EditRoleModel ToEditRoleModel(AmiServiceClient client, SecurityRoleInfo role)
+       
+        /// <summary>
+        /// Converts a <see cref="SecurityRoleInfo"/> to a <see cref="EditRoleModel"/>.
+        /// </summary>
+        /// <param name="client">The Ami Service Client.</param>
+        /// <param name="role">The SecurityRoleInfo object to convert.</param>
+        /// <returns>Returns a EditRoleModel model.</returns>
+        public static EditRoleModel ToEditRoleModel(AmiServiceClient client, SecurityRoleInfo role)
 		{
 			var viewModel = new EditRoleModel
 			{
