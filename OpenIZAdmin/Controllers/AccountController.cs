@@ -291,16 +291,25 @@ namespace OpenIZAdmin.Controllers
                             userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
                         }
                     }
+                    else
+                    {
+                        if (serviceLocation != null)
+                        {
+                            userEntity.Relationships.RemoveAll(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                        }
+                    }
 
                     //userEntity.LanguageCommunication.Clear();                                                            
                     //userEntity.LanguageCommunication.Add(new PersonLanguageCommunication(model.Language, true));                    
 
                     //var lang = this.ImsiClient.Query<PersonLanguageCommunication>(c => c.LanguageCode == model.Language);
-                    //var personLang = new PersonLanguageCommunication("EN", true);                                        
+                    //var personLang = new PersonLanguageCommunication("EN", true);                                                            
 
                     SecurityUserInfo userInfo = AccountUtil.ToSecurityUserInfo(model, userEntity, securityUserInfo, this.AmiClient);                                        
-
                     this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, userInfo);
+
+                    //need to strip versionkey so update will work
+                    userEntity.VersionKey = null;
                     this.ImsiClient.Update<UserEntity>(userEntity);
                     
 

@@ -249,22 +249,31 @@ namespace OpenIZAdmin.Controllers
 
 				var serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 
-				if (model.Facilities != null && model.Facilities.Any())
-				{
-					if (serviceLocation != null)
-					{
-						userEntity.Relationships.First(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
-					}
-					else
-					{
-						userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
-					}
-				}
+                if (model.Facilities != null && model.Facilities.Any())
+                {
+                    if (serviceLocation != null)
+                    {
+                        userEntity.Relationships.First(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
+                    }
+                    else
+                    {
+                        userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
+                    }
+                }
+                else
+                {
+                    if (serviceLocation != null)
+                    {
+                        userEntity.Relationships.RemoveAll(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                    }
+                }
 
 				var userInfo = UserUtil.ToSecurityUserInfo(model, userEntity, this.AmiClient);
-
 				this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, userInfo);
-				this.ImsiClient.Update<UserEntity>(userEntity);
+
+                //need to strip versionkey so update will work
+                userEntity.VersionKey = null;
+                this.ImsiClient.Update<UserEntity>(userEntity);
 
 				TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;
 
