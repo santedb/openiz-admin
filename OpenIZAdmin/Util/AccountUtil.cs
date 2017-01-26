@@ -1,5 +1,6 @@
 ﻿using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZ.Messaging.IMSI.Client;
@@ -35,8 +36,8 @@ namespace OpenIZAdmin.Util
             {
                 FamilyNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList(),
                 GivenNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList(),
-                //PhoneType = userEntity.SecurityUser.p
-                PhoneNumber = userEntity.SecurityUser.PhoneNumber
+                PhoneNumber = userEntity.SecurityUser.PhoneNumber,
+                Email = userEntity.SecurityUser.Email
             };            
 
             model.FamilyNamesList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
@@ -61,9 +62,10 @@ namespace OpenIZAdmin.Util
 
                     model.Facilities.Add(facilityId.ToString());
                 }
-            }
+            }            
 
-            model.Language = userEntity.LanguageCommunication.Select(l => l.Key).FirstOrDefault().GetValueOrDefault(Guid.Empty);
+            //model.Language = userEntity.LanguageCommunication.Select(l => l.Key).FirstOrDefault().GetValueOrDefault(Guid.Empty);
+            model.Language = userEntity.LanguageCommunication.Select(l => l.LanguageCode).FirstOrDefault();
             model.LanguageList = new List<SelectListItem>
             {
                 new SelectListItem
@@ -73,19 +75,62 @@ namespace OpenIZAdmin.Util
                 },
                 new SelectListItem
                 {
-                    Text = Locale.English,
-            		// TODO: add the GUID for english here
-            		Value = Guid.NewGuid().ToString()
+                    Text = Locale.English,            		
+            		Value = Locale.EN
                 },
                 new SelectListItem
                 {
-                    Text = Locale.Kiswahili,
-            		// TODO: add the GUID for Kiswahili here
-            		Value = Guid.NewGuid().ToString()
+                    Text = Locale.Kiswahili,            		
+            		Value = Locale.SW
                 }
             };
+                        
+            var bundle = imsiClient.Query<ConceptSet>(c => c.Mnemonic == "TelecomAddressType");
+            var telecomList = bundle.Item.OfType<ConceptSet>().ToList().FirstOrDefault();            
+
+            model.PhoneTypeList.Add(new SelectListItem { Text = "", Value = "" });
+            foreach (Concept con in telecomList.Concepts)
+            {
+                    
+                model.PhoneTypeList.Add(new SelectListItem { Text = con.Type.ToString(), Value = con.Key.ToString() });
+            }                                            
 
             return model;
         }
-    }   
+
+        /// <summary>
+        /// Converts a <see cref="UpdateProfileModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
+        /// </summary>
+        /// <param name="model">The create user object to convert.</param>
+        /// <param name="user">The user entity instance.</param>        
+        /// <param name="securityUserInfo">The user security info instance.</param>        
+        /// <returns>Returns a security user info model.</returns>
+        public static SecurityUserInfo ToSecurityUserInfo(UpdateProfileModel model, UserEntity user, SecurityUserInfo securityUserInfo)
+        {
+            var userInfo = new SecurityUserInfo
+            {
+                Email = model.Email,
+                Roles = new List<SecurityRoleInfo>(),
+                User = user.SecurityUser,
+                UserId = user.Key,
+                Password = securityUserInfo.Password,
+                UserName = securityUserInfo.UserName
+        };
+
+            userInfo.User.Email = model.Email;
+            userInfo.User.PhoneNumber = model.PhoneNumber;            
+
+            //get any roles assigned to the user and add for the update
+            if (securityUserInfo.Roles.Any())
+            {
+                foreach (var role in securityUserInfo.Roles)
+                {
+                    userInfo.Roles.Add(role);
+                }
+            }
+
+            return userInfo;                      
+        }
+
+    }    
 }

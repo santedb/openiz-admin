@@ -103,9 +103,9 @@ namespace OpenIZAdmin.Controllers
 		}
 
         /// <summary>
-        /// Displays the index view.
+        /// Displays the change password view.
         /// </summary>
-        /// <returns>Returns the index view.</returns>
+        /// <returns>Returns the change password view.</returns>
         [HttpGet]
         public ActionResult ChangePassword()
         {
@@ -116,7 +116,7 @@ namespace OpenIZAdmin.Controllers
         /// Changes the password of a user.
         /// </summary>
         /// <param name="model">The model containing the users new password.</param>
-        /// <returns>Returns an action result.</returns>
+        /// <returns>Returns the Home Index view.</returns>
         [HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult ChangePassword(ChangePasswordModel model)
@@ -136,9 +136,8 @@ namespace OpenIZAdmin.Controllers
 					}
 
 					TempData["success"] = Locale.PasswordChanged + " " + Locale.Successfully;
-
-					return RedirectToAction("Manage");
-				}
+                    return RedirectToAction("Index", "Home");
+                }
 				catch (Exception e)
 				{
 					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
@@ -146,9 +145,8 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			TempData["error"] = Locale.UnableToChangePassword;
-
-			return RedirectToAction("Manage");
-		}
+            return View(model);            
+        }
 
 		/// <summary>
 		/// Displays the login view.
@@ -222,8 +220,7 @@ namespace OpenIZAdmin.Controllers
             try
             {                
                 var userId = Guid.Parse(User.Identity.GetUserId());                
-                var userEntity = UserUtil.GetUserEntity(this.ImsiClient, userId);
-
+                var userEntity = UserUtil.GetUserEntity(this.ImsiClient, userId);                
                 return View(AccountUtil.ToUpdateProfileModel(this.ImsiClient, this.AmiClient, userEntity));
             }
             catch (Exception e)
@@ -232,7 +229,7 @@ namespace OpenIZAdmin.Controllers
             }
 
             TempData["error"] = Locale.UnableToUpdate + " " + Locale.Profile;            
-            return View("Index");            
+            return View("Index", "Home");            
         }
 
 		/// <summary>
@@ -250,8 +247,9 @@ namespace OpenIZAdmin.Controllers
                 {
                     var userId = Guid.Parse(User.Identity.GetUserId());
                     var userEntity = UserUtil.GetUserEntity(this.ImsiClient, userId);
+                    var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
 
-                    if (userEntity == null)
+                    if (userEntity == null || securityUserInfo == null)
                     {
                         TempData["error"] = Locale.User + " " + Locale.NotFound;
 
@@ -294,13 +292,13 @@ namespace OpenIZAdmin.Controllers
                         }
                     }
 
-                    //var userInfo = UserUtil.ToSecurityUserInfo(model, userEntity, this.AmiClient);
+                    //userEntity.LanguageCommunication.Clear();                                                            
+                    //userEntity.LanguageCommunication.Add(new PersonLanguageCommunication(model.Language, true));                    
 
-                    var userInfo = new SecurityUserInfo
-                    {                        
-                        User = userEntity.SecurityUser,
-                        UserId = userEntity.Key
-                    };
+                    //var lang = this.ImsiClient.Query<PersonLanguageCommunication>(c => c.LanguageCode == model.Language);
+                    //var personLang = new PersonLanguageCommunication("EN", true);                                        
+
+                    SecurityUserInfo userInfo = AccountUtil.ToSecurityUserInfo(model, userEntity, securityUserInfo);                                        
 
                     this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, userInfo);
                     this.ImsiClient.Update<UserEntity>(userEntity);

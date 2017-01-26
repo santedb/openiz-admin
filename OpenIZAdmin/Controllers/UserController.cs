@@ -113,40 +113,40 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var user = UserUtil.ToSecurityUserInfo(model);
+                //check if username exists
+                if(UserUtil.CheckForUserName(this.ImsiClient, model.Username))
+                {
+                    TempData["error"] = Locale.UserNameExists;                                        
+                }
+                else
+                {
+                    var user = UserUtil.ToSecurityUserInfo(model);
+                    user = this.AmiClient.CreateUser(user);
+                    var userEntity = UserUtil.GetUserEntity(this.ImsiClient, user.UserId.Value);                    
 
-				user = this.AmiClient.CreateUser(user);
+                    if (model.Roles.Contains("CLINICAL_STAFF"))
+                    {
+                        var provider = this.ImsiClient.Create<Provider>(new Provider { Key = Guid.NewGuid() });
 
-				var userEntity = UserUtil.GetUserEntity(this.ImsiClient, user.UserId.Value);
+                        userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, provider)
+                        {
+                            SourceEntityKey = userEntity.Key.Value
+                        });
+                    }
 
-				//var person = this.ImsiClient.Create<Person>(new Person { Key = Guid.NewGuid() });
+                    this.ImsiClient.Update<UserEntity>(userEntity);
 
-				//userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, person)
-				//{
-				//	SourceEntityKey = userEntity.Key.Value
-				//});
+                    TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;
 
-				if (model.Roles.Contains("CLINICAL_STAFF"))
-				{
-					var provider = this.ImsiClient.Create<Provider>(new Provider { Key = Guid.NewGuid() });
-
-					userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, provider)
-					{
-						SourceEntityKey = userEntity.Key.Value
-					});
-				}
-
-				this.ImsiClient.Update<UserEntity>(userEntity);
-
-				TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;
-
-				return RedirectToAction("ViewUser", new { id = user.UserId.ToString() });
+                    return RedirectToAction("ViewUser", new { id = user.UserId.ToString() });
+                }				
 			}
 
 			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
 			model.RolesList.AddRange(RoleUtil.GetAllRoles(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
 
-			TempData["error"] = Locale.UnableToCreate + " " + Locale.User;
+            if(string.IsNullOrEmpty(TempData["error"].ToString()))
+                TempData["error"] = Locale.UnableToCreate + " " + Locale.User;
 
 			return View(model);
 		}

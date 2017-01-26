@@ -17,6 +17,7 @@
  * Date: 2016-9-5
  */
 
+using OpenIZ.Core.Model.AMI.Auth;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -44,10 +45,15 @@ namespace OpenIZAdmin.Models.AccountModels
             this.PhoneTypeList = new List<SelectListItem>();
         }
 
-		/// <summary>
-		/// Gets or sets the id of the facility of the user.
-		/// </summary>
-		[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
+        /// <summary>
+		/// Gets or sets the email address of the user.
+		/// </summary>		
+        public string Email { get; set; }
+
+        /// <summary>
+        /// Gets or sets the id of the facility of the user.
+        /// </summary>
+        [Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
 		//[Required(ErrorMessageResourceName = "FacilityRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string FacilityId { get; set; }
         
@@ -90,7 +96,7 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// </summary>
 		[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public Guid Language { get; set; }
+		public string Language { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of languages.
@@ -117,7 +123,7 @@ namespace OpenIZAdmin.Models.AccountModels
         /// <summary>
 		/// Gets or sets the stored id of the facility of the user. Indicates if there is a facility change.
 		/// </summary>
-        public Guid? PreviousFacilityKey { get; set; }
+        public Guid? PreviousFacilityKey { get; set; }        
 
     }
 }

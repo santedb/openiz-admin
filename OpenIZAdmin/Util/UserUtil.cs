@@ -50,13 +50,34 @@ namespace OpenIZAdmin.Util
 			return client.GetUser(userId.ToString());
 		}
 
-		/// <summary>
+        /// <summary>
 		/// Gets a user entity.
 		/// </summary>
 		/// <param name="client">The IMSI service client.</param>
-		/// <param name="userId">The user id of the user to retrieve.</param>
+		/// <param name="userName">The username entered to verify doesn't exist in the database.</param>
 		/// <returns>Returns a user entity or null if no user entity is found.</returns>
-		public static UserEntity GetUserEntity(ImsiServiceClient client, Guid userId)
+		public static bool CheckForUserName(ImsiServiceClient client, string userName)
+        {
+            //var bundle = client.Query<UserEntity>(u => u.AsSecurityUser.UserName == userName && u.ObsoletionTime == null);
+            var bundle = client.Query<UserEntity>(u => u.SecurityUser.UserName == userName); //can deactive a user - username cannot exist at all?
+
+            bundle.Reconstitute();
+
+            var user = bundle.Item.OfType<UserEntity>().FirstOrDefault();
+
+            if (user == null)
+                return false;
+            else
+                return true;
+        }
+
+        /// <summary>
+        /// Gets a user entity.
+        /// </summary>
+        /// <param name="client">The IMSI service client.</param>
+        /// <param name="userId">The user id of the user to retrieve.</param>
+        /// <returns>Returns a user entity or null if no user entity is found.</returns>
+        public static UserEntity GetUserEntity(ImsiServiceClient client, Guid userId)
 		{
 			var bundle = client.Query<UserEntity>(u => u.SecurityUserKey == userId && u.ObsoletionTime == null);
 

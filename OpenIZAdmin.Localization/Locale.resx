@@ -897,4 +897,13 @@
   <data name="Kiswahili" xml:space="preserve">
     <value>Kiswahili</value>
   </data>
+  <data name="EN" xml:space="preserve">
+    <value>EN</value>
+  </data>
+  <data name="SW" xml:space="preserve">
+    <value>SW</value>
+  </data>
+  <data name="UserNameExists" xml:space="preserve">
+    <value>User name already exists. Please select another user name.</value>
+  </data>
 </root>

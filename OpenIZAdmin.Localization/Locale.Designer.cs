@@ -799,6 +799,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to EN.
+        /// </summary>
+        public static string EN {
+            get {
+                return ResourceManager.GetString("EN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to English.
         /// </summary>
         public static string English {
@@ -1969,6 +1978,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to SW.
+        /// </summary>
+        public static string SW {
+            get {
+                return ResourceManager.GetString("SW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to System.
         /// </summary>
         public static string System {
@@ -2316,6 +2334,15 @@ namespace OpenIZAdmin.Localization {
         public static string Username {
             get {
                 return ResourceManager.GetString("Username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User name already exists. Please select another user name..
+        /// </summary>
+        public static string UserNameExists {
+            get {
+                return ResourceManager.GetString("UserNameExists", resourceCulture);
             }
         }
         
