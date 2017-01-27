@@ -123,7 +123,7 @@ namespace OpenIZAdmin.Models.AccountModels
         /// <summary>
 		/// Gets or sets the stored id of the facility of the user. Indicates if there is a facility change.
 		/// </summary>
-        public Guid? PreviousFacilityKey { get; set; }        
+        //public Guid? PreviousFacilityKey { get; set; }        
 
     }
 }

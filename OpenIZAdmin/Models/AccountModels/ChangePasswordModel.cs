@@ -42,12 +42,23 @@ namespace OpenIZAdmin.Models.AccountModels
 		[Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string ConfirmPassword { get; set; }
 
-		/// <summary>
-		/// Gets or sets the password of the model.
+        /// <summary>
+		/// Gets or sets the current user password of the model.
 		/// </summary>
 		[DataType(DataType.Password)]
+        [Display(Name = "CurrentPassword", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "CurrentPasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        //[Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string CurrentPassword { get; set; }
+
+        /// <summary>
+        /// Gets or sets the password of the model.
+        /// </summary>
+        [DataType(DataType.Password)]
 		[Display(Name = "Password", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Password { get; set; }
-	}
+
+        public string Username { get; set; }
+    }
 }

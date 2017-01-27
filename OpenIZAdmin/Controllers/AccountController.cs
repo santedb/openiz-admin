@@ -109,7 +109,27 @@ namespace OpenIZAdmin.Controllers
         [HttpGet]
         public ActionResult ChangePassword()
         {
-            return View();
+            ChangePasswordModel model = new ChangePasswordModel();      
+            try
+            {
+                var userId = Guid.Parse(User.Identity.GetUserId());
+                SecurityUserInfo user = this.AmiClient.GetUser(userId.ToString());
+
+                if (user != null)
+                {
+                    model.Username = user.UserName;
+                }
+                else
+                {
+                    TempData["error"] = Locale.User + " " + Locale.NotFound;
+                }
+            }
+            catch
+            {
+
+            }
+
+            return View(model);
         }
 
         /// <summary>
@@ -118,21 +138,31 @@ namespace OpenIZAdmin.Controllers
         /// <param name="model">The model containing the users new password.</param>
         /// <returns>Returns the Home Index view.</returns>
         [HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult ChangePassword(ChangePasswordModel model)
-		{
+		[ValidateAntiForgeryToken]        
+        public async Task<ActionResult> ChangePassword(ChangePasswordModel model)
+        {
 			if (ModelState.IsValid)
-			{
-				var userId = Guid.Parse(User.Identity.GetUserId());
-
+			{                                
 				try
 				{
-					var user = this.AmiClient.GetUser(userId.ToString());
+                    var userId = Guid.Parse(User.Identity.GetUserId());
+                    SecurityUserInfo user = this.AmiClient.GetUser(userId.ToString());                    
 
-					if (user != null && !user.Lockout.GetValueOrDefault(false))
+                    if (user != null && !user.Lockout.GetValueOrDefault(false))
 					{
-						user.Password = model.Password;
-						user = this.AmiClient.UpdateUser(userId, user);
+                        var result = await SignInManager.PasswordSignInAsync(model.Username, model.CurrentPassword, false, shouldLockout: false);
+
+                        if (result == SignInStatus.Success)
+                        {
+                            user.Password = model.Password;
+                            user = this.AmiClient.UpdateUser(userId, user);
+                        }
+                        else
+                        {
+                            TempData["error"] = Locale.InvalidCurrrentPassword;
+                            return View(model);
+                        }
+						
 					}
 
 					TempData["success"] = Locale.PasswordChanged + " " + Locale.Successfully;

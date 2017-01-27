@@ -583,6 +583,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current Password.
+        /// </summary>
+        public static string CurrentPassword {
+            get {
+                return ResourceManager.GetString("CurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current password is required.
+        /// </summary>
+        public static string CurrentPasswordRequired {
+            get {
+                return ResourceManager.GetString("CurrentPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current Realm.
         /// </summary>
         public static string CurrentRealm {
@@ -1056,6 +1074,15 @@ namespace OpenIZAdmin.Localization {
         public static string Information {
             get {
                 return ResourceManager.GetString("Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid current password.
+        /// </summary>
+        public static string InvalidCurrrentPassword {
+            get {
+                return ResourceManager.GetString("InvalidCurrrentPassword", resourceCulture);
             }
         }
         

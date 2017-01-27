@@ -1,4 +1,5 @@
-﻿using OpenIZ.Core.Model.AMI.Auth;
+﻿using Microsoft.AspNet.Identity.Owin;
+using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
@@ -10,25 +11,25 @@ using OpenIZAdmin.Models.AccountModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
 namespace OpenIZAdmin.Util
 {
     /// <summary>
-	/// Provides a utility for managing users.
-	/// </summary>
+    /// Provides a utility for managing users.
+    /// </summary>
     public static class AccountUtil
     {
-
         /// <summary>
-		/// Converts a user entity to a edit user model.
-		/// </summary>
-		/// <param name="imsiClient">The Imsi Service Client client.</param>
-		/// <param name="amiClient">The Ami service client.</param>
-		/// <param name="userEntity">The user entity to convert to a edit user model.</param>
-		/// <returns>Returns a edit user model.</returns>
-		public static UpdateProfileModel ToUpdateProfileModel(ImsiServiceClient imsiClient, AmiServiceClient amiClient, UserEntity userEntity)
+        /// Converts a user entity to a edit user model.
+        /// </summary>
+        /// <param name="imsiClient">The Imsi Service Client client.</param>
+        /// <param name="amiClient">The Ami service client.</param>
+        /// <param name="userEntity">The user entity to convert to a edit user model.</param>
+        /// <returns>Returns a edit user model.</returns>
+        public static UpdateProfileModel ToUpdateProfileModel(ImsiServiceClient imsiClient, AmiServiceClient amiClient, UserEntity userEntity)
         {
             var securityUserInfo = amiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
 
