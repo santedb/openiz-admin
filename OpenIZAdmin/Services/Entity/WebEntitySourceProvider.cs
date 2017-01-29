@@ -19,6 +19,9 @@
 
 using OpenIZ.Core.Http;
 using OpenIZ.Core.Model;
+using OpenIZ.Core.Model.Collection;
+using OpenIZ.Core.Model.DataTypes;
+using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.EntityLoader;
 using OpenIZ.Core.Model.Interfaces;
 using OpenIZ.Messaging.IMSI.Client;
@@ -28,6 +31,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Xml.Serialization;
+using System.Reflection;
+using System.Runtime.Caching;
 
 namespace OpenIZAdmin.Services.Entity
 {
@@ -40,6 +46,13 @@ namespace OpenIZAdmin.Services.Entity
 		/// The internal reference to the <see cref="ImsiServiceClient"/> instance.
 		/// </summary>
 		private readonly ImsiServiceClient serviceClient = new ImsiServiceClient(new RestClientService(Constants.IMSI));
+
+		/// <summary>
+		/// The internal reference to the <see cref="MemoryCache"/> instance. 
+		/// </summary>
+		private readonly MemoryCache Cache = MemoryCache.Default;
+
+		private const string CacheConceptKey = "Concept.{0}";
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WebEntitySourceProvider"/> class
@@ -102,21 +115,46 @@ namespace OpenIZAdmin.Services.Entity
 		/// <returns>Returns the object.</returns>
 		public TObject Get<TObject>(Guid? key) where TObject : IdentifiedData, new()
 		{
-			IdentifiedData response = null;
+			var response = default(TObject);
+
+			if (!typeof(Bundle).GetTypeInfo().GetCustomAttributes<XmlIncludeAttribute>().Select(x => x.Type).Contains(typeof(TObject)) ||
+				typeof(TObject) == typeof(PhoneticAlgorithm) || typeof(TObject) == typeof(UserEntity))
+			{
+				return null;
+			}
 
 			try
 			{
-				response = this.serviceClient.Get<TObject>(key.GetValueOrDefault(Guid.Empty), null);
+				if (key.HasValue && key.Value != Guid.Empty)
+				{
+					if (typeof(TObject) == typeof(Concept))
+					{
+						var concept = this.Cache.Get(string.Format(CacheConceptKey, key));
+
+						if (concept == null)
+						{
+							response = this.serviceClient.Get<TObject>(key.Value, null) as TObject;
+
+							var policy = new CacheItemPolicy
+							{
+								AbsoluteExpiration = DateTime.UtcNow + TimeSpan.FromHours(24)
+							};
+
+							Cache.Add(new CacheItem(string.Format(CacheConceptKey, key), response), policy);
+						}
+					}
+					else
+					{
+						response = this.serviceClient.Get<TObject>(key.Value, null) as TObject;
+					}
+				}
 			}
-			catch (Exception e)
+			catch
 			{
-#if DEBUG
-				Trace.TraceError("Error: {0}", e);
-#endif
-				Trace.TraceError("Error: {0}", e.Message);
+				// ignored
 			}
 
-			return response as TObject;
+			return response;
 		}
 
 		/// <summary>
@@ -128,21 +166,7 @@ namespace OpenIZAdmin.Services.Entity
 		/// <returns>Returns the object.</returns>
 		public TObject Get<TObject>(Guid? key, Guid? versionKey) where TObject : IdentifiedData, IVersionedEntity, new()
 		{
-			IdentifiedData response = null;
-
-			try
-			{
-				response = this.serviceClient.Get<TObject>(key.GetValueOrDefault(Guid.Empty), versionKey);
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Error: {0}", e);
-#endif
-				Trace.TraceError("Error: {0}", e.Message);
-			}
-
-			return response as TObject;
+			return this.Get<TObject>(key);
 		}
 
 		/// <summary>
@@ -153,22 +177,21 @@ namespace OpenIZAdmin.Services.Entity
 		/// <returns>Returns a list of relations for the entity.</returns>
 		public IEnumerable<TObject> GetRelations<TObject>(Guid? sourceKey) where TObject : IdentifiedData, ISimpleAssociation, new()
 		{
-			IEnumerable<IdentifiedData> response = new List<IdentifiedData>();
+			var response = default(IEnumerable<TObject>);
 
 			try
 			{
-				response = this.Query<TObject>(o => sourceKey == o.SourceEntityKey).ToList();
+				if (sourceKey.HasValue && sourceKey.Value != Guid.Empty)
+				{
+					response = this.Query<TObject>(o => sourceKey == o.SourceEntityKey).ToList();
+				}
 			}
-			catch (Exception e)
+			catch
 			{
-#if DEBUG
-				Trace.TraceError("Error: {0}", e);
-#endif
-				Trace.TraceError("Error: {0}", e.Message);
+				// ignored
 			}
 
-			return response as List<TObject>;
-
+			return response;
 		}
 
 		/// <summary>
@@ -180,21 +203,21 @@ namespace OpenIZAdmin.Services.Entity
 		/// <returns>Returns a list of relations for the entity.</returns>
 		public IEnumerable<TObject> GetRelations<TObject>(Guid? sourceKey, decimal? sourceVersionSequence) where TObject : IdentifiedData, IVersionedAssociation, new()
 		{
-			IEnumerable<IdentifiedData> response = new List<IdentifiedData>();
+			var response = default(IEnumerable<TObject>);
 
 			try
 			{
-				response = this.Query<TObject>(o => sourceKey == o.SourceEntityKey && sourceVersionSequence >= o.EffectiveVersionSequenceId && (o.ObsoleteVersionSequenceId == null || sourceVersionSequence < o.ObsoleteVersionSequenceId)).ToList();
+				if (sourceKey.HasValue && sourceKey.Value != Guid.Empty)
+				{
+					response = this.Query<TObject>(o => sourceKey == o.SourceEntityKey && sourceVersionSequence >= o.EffectiveVersionSequenceId && (o.ObsoleteVersionSequenceId == null || sourceVersionSequence < o.ObsoleteVersionSequenceId)).ToList();
+				}
 			}
-			catch (Exception e)
+			catch
 			{
-#if DEBUG
-				Trace.TraceError("Error: {0}", e);
-#endif
-				Trace.TraceError("Error: {0}", e.Message);
+				// ignored
 			}
 
-			return response as List<TObject>;
+			return response;
 		}
 
 		/// <summary>
@@ -205,21 +228,18 @@ namespace OpenIZAdmin.Services.Entity
 		/// <returns>Returns a list of entities.</returns>
 		public IEnumerable<TObject> Query<TObject>(Expression<Func<TObject, bool>> query) where TObject : IdentifiedData, new()
 		{
-			IEnumerable<IdentifiedData> response = new List<IdentifiedData>();
+			var response = default(IEnumerable<TObject>);
 
 			try
 			{
 				response = this.serviceClient.Query<TObject>(query).Item.OfType<TObject>();
 			}
-			catch (Exception e)
+			catch
 			{
-#if DEBUG
-				Trace.TraceError("Error: {0}", e);
-#endif
-				Trace.TraceError("Error: {0}", e.Message);
+				// ignored
 			}
 
-			return response as List<TObject>;
+			return response;
 		}
 	}
 }
