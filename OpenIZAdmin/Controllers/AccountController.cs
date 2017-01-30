@@ -313,6 +313,7 @@ namespace OpenIZAdmin.Controllers
 
                     userEntity.Names = new List<EntityName> { name };
 
+
                     //weird errors while debugging - have to put this check in to prevent crash. What's going on? Was working fine the last week???????
                     EntityRelationship serviceLocation = null;
                     //EntityRelationship serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
@@ -343,7 +344,7 @@ namespace OpenIZAdmin.Controllers
                     }
                     
 
-                    if (model.Language != null && model.Language.Any())
+                    if (model.Language != null)// && model.Language.Any())
                     {
                         //var lang = model.Language.FirstOrDefault();
                         //string lang = model.Language;
@@ -355,16 +356,16 @@ namespace OpenIZAdmin.Controllers
                         //var personLang = new PersonLanguageCommunication("EN", true);   
 
 
-                        var lang = this.ImsiClient.Query<PersonLanguageCommunication>(c => c.LanguageCode == "EN");
-                        lang.Reconstitute();
+                        //var lang = this.ImsiClient.Query<PersonLanguageCommunication>(c => c.LanguageCode == "EN");
+                        //lang.Reconstitute();
 
-                        var preference = lang.Item.OfType<PersonLanguageCommunication>().ToList();                        
+                        //var preference = lang.Item.OfType<PersonLanguageCommunication>().ToList();                        
                     }
 
-                    if (model.PhoneType != null && model.PhoneType.Any())
-                    {
-                        var pType = model.PhoneType.FirstOrDefault();
-                    }                                                                             
+                    //if (model.PhoneType != null && model.PhoneType.Any())
+                    //{
+                    //    var pType = model.PhoneType.FirstOrDefault();
+                    //}                                                                             
 
                     SecurityUserInfo userInfo = AccountUtil.ToSecurityUserInfo(model, userEntity, securityUserInfo, this.AmiClient);                                        
                     this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, userInfo);
