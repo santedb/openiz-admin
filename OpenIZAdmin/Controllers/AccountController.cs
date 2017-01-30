@@ -313,8 +313,16 @@ namespace OpenIZAdmin.Controllers
 
                     userEntity.Names = new List<EntityName> { name };
 
+                    //weird errors while debugging - have to put this check in to prevent crash. What's going on? Was working fine the last week???????
+                    EntityRelationship serviceLocation = null;
+                    //EntityRelationship serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 
-                    var serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                    if (userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation) != null)
+                    {
+                        serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                    }
+
+
                     if (model.Facilities != null && model.Facilities.Any())
                     {
                         if (serviceLocation != null)
@@ -333,12 +341,30 @@ namespace OpenIZAdmin.Controllers
                             userEntity.Relationships.RemoveAll(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
                         }
                     }
+                    
 
-                    //userEntity.LanguageCommunication.Clear();                                                            
-                    //userEntity.LanguageCommunication.Add(new PersonLanguageCommunication(model.Language, true));                    
+                    if (model.Language != null && model.Language.Any())
+                    {
+                        //var lang = model.Language.FirstOrDefault();
+                        //string lang = model.Language;
 
-                    //var lang = this.ImsiClient.Query<PersonLanguageCommunication>(c => c.LanguageCode == model.Language);
-                    //var personLang = new PersonLanguageCommunication("EN", true);                                                            
+                        //userEntity.LanguageCommunication.Clear();
+                        //userEntity.LanguageCommunication.Add(new PersonLanguageCommunication(lang, true));
+
+                        //var lang = this.ImsiClient.Query<PersonLanguageCommunication>(c => c.LanguageCode == model.Language);
+                        //var personLang = new PersonLanguageCommunication("EN", true);   
+
+
+                        var lang = this.ImsiClient.Query<PersonLanguageCommunication>(c => c.LanguageCode == "EN");
+                        lang.Reconstitute();
+
+                        var preference = lang.Item.OfType<PersonLanguageCommunication>().ToList();                        
+                    }
+
+                    if (model.PhoneType != null && model.PhoneType.Any())
+                    {
+                        var pType = model.PhoneType.FirstOrDefault();
+                    }                                                                             
 
                     SecurityUserInfo userInfo = AccountUtil.ToSecurityUserInfo(model, userEntity, securityUserInfo, this.AmiClient);                                        
                     this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, userInfo);

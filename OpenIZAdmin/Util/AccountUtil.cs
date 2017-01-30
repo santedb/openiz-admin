@@ -66,6 +66,7 @@ namespace OpenIZAdmin.Util
             }            
 
             //model.Language = userEntity.LanguageCommunication.Select(l => l.Key).FirstOrDefault().GetValueOrDefault(Guid.Empty);
+            //model.Language.Add(userEntity.LanguageCommunication.Select(l => l.LanguageCode).FirstOrDefault());
             model.Language = userEntity.LanguageCommunication.Select(l => l.LanguageCode).FirstOrDefault();
             model.LanguageList = new List<SelectListItem>
             {
@@ -105,6 +106,7 @@ namespace OpenIZAdmin.Util
         /// <param name="model">The create user object to convert.</param>
         /// <param name="user">The user entity instance.</param>        
         /// <param name="securityUserInfo">The user security info instance.</param>        
+        /// <param name="client">The Ami Service client for retrieving info.</param>       
         /// <returns>Returns a security user info model.</returns>
         public static SecurityUserInfo ToSecurityUserInfo(UpdateProfileModel model, UserEntity user, SecurityUserInfo securityUserInfo, AmiServiceClient client)
         {
@@ -119,7 +121,19 @@ namespace OpenIZAdmin.Util
             };
 
             userInfo.User.Email = model.Email;
-            userInfo.User.PhoneNumber = model.PhoneNumber;            
+            userInfo.User.PhoneNumber = model.PhoneNumber;
+
+
+            //if (model.Language != null && model.Language.Any())
+            //{
+            //    var lang = model.Language.FirstOrDefault();
+            //    userInfo.User.
+            //}
+
+            if (model.PhoneType != null && model.PhoneType.Any())
+            {
+                var pType = model.PhoneType.FirstOrDefault();
+            }
 
             //get any roles assigned to the user and add for the update
             if (securityUserInfo.Roles.Any())

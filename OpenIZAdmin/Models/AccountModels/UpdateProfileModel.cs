@@ -36,13 +36,14 @@ namespace OpenIZAdmin.Models.AccountModels
 		public UpdateProfileModel()
 		{            
             this.Facilities = new List<string>();
-            this.FacilityList = new List<SelectListItem>();
-            this.Surname = new List<string>();
-            this.SurnamesList = new List<SelectListItem>();
+            this.FacilityList = new List<SelectListItem>();            
             this.GivenNames = new List<string>();
             this.GivenNamesList = new List<SelectListItem>();
+            //this.Language = new List<string>();
             this.LanguageList = new List<SelectListItem>();
             this.PhoneTypeList = new List<SelectListItem>();
+            this.Surname = new List<string>();
+            this.SurnamesList = new List<SelectListItem>();
         }
 
         /// <summary>
@@ -67,18 +68,7 @@ namespace OpenIZAdmin.Models.AccountModels
         /// <summary>
         /// Gets or sets the list of facilities.
         /// </summary>
-        public List<SelectListItem> FacilityList { get; set; }
-
-        /// <summary>
-        /// Gets or sets the family names of the user.
-        /// </summary>
-        [Display(Name = "Surname", ResourceType = typeof(Localization.Locale))]
-        public List<string> Surname { get; set; }
-
-        /// <summary>
-		/// Gets or sets the list of family names of the user.
-		/// </summary>
-        public List<SelectListItem> SurnamesList { get; set; }		
+        public List<SelectListItem> FacilityList { get; set; }        
 
 		/// <summary>
 		/// Gets or sets the givens names of the user.
@@ -97,11 +87,12 @@ namespace OpenIZAdmin.Models.AccountModels
 		[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Language { get; set; }
+        //public List<string> Language { get; set; }
 
-		/// <summary>
-		/// Gets or sets the list of languages.
-		/// </summary>
-		public List<SelectListItem> LanguageList { get; set; }
+        /// <summary>
+        /// Gets or sets the list of languages.
+        /// </summary>
+        public List<SelectListItem> LanguageList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the phone number of the user.
@@ -121,9 +112,15 @@ namespace OpenIZAdmin.Models.AccountModels
 		public List<SelectListItem> PhoneTypeList { get; set; }
 
         /// <summary>
-		/// Gets or sets the stored id of the facility of the user. Indicates if there is a facility change.
+        /// Gets or sets the family names of the user.
+        /// </summary>
+        [Display(Name = "Surname", ResourceType = typeof(Localization.Locale))]
+        public List<string> Surname { get; set; }
+
+        /// <summary>
+		/// Gets or sets the list of family names of the user.
 		/// </summary>
-        //public Guid? PreviousFacilityKey { get; set; }        
+        public List<SelectListItem> SurnamesList { get; set; }
 
     }
 }
