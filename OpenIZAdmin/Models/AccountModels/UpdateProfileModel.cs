@@ -37,8 +37,8 @@ namespace OpenIZAdmin.Models.AccountModels
 		{            
             this.Facilities = new List<string>();
             this.FacilityList = new List<SelectListItem>();
-            this.FamilyNames = new List<string>();
-            this.FamilyNamesList = new List<SelectListItem>();
+            this.Surname = new List<string>();
+            this.SurnamesList = new List<SelectListItem>();
             this.GivenNames = new List<string>();
             this.GivenNamesList = new List<SelectListItem>();
             this.LanguageList = new List<SelectListItem>();
@@ -72,13 +72,13 @@ namespace OpenIZAdmin.Models.AccountModels
         /// <summary>
         /// Gets or sets the family names of the user.
         /// </summary>
-        [Display(Name = "FamilyNames", ResourceType = typeof(Localization.Locale))]
-        public List<string> FamilyNames { get; set; }
+        [Display(Name = "Surname", ResourceType = typeof(Localization.Locale))]
+        public List<string> Surname { get; set; }
 
         /// <summary>
 		/// Gets or sets the list of family names of the user.
 		/// </summary>
-        public List<SelectListItem> FamilyNamesList { get; set; }		
+        public List<SelectListItem> SurnamesList { get; set; }		
 
 		/// <summary>
 		/// Gets or sets the givens names of the user.

@@ -30,6 +30,7 @@ using OpenIZAdmin.Models.AccountModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -115,18 +116,17 @@ namespace OpenIZAdmin.Controllers
                 var userId = Guid.Parse(User.Identity.GetUserId());
                 SecurityUserInfo user = this.AmiClient.GetUser(userId.ToString());
 
-                if (user != null)
-                {
-                    model.Username = user.UserName;
-                }
-                else
-                {
-                    TempData["error"] = Locale.User + " " + Locale.NotFound;
-                }
+                if (user != null)                
+                    model.Username = user.UserName;                
+                else                
+                    TempData["error"] = Locale.User + " " + Locale.NotFound;                
             }
-            catch
+            catch(Exception e)
             {
-
+#if DEBUG
+                Trace.TraceError("Unable to change password: {0}", e.StackTrace);
+#endif
+                Trace.TraceError("Unable to change password: {0}", e.Message);
             }
 
             return View(model);
@@ -171,7 +171,12 @@ namespace OpenIZAdmin.Controllers
 				catch (Exception e)
 				{
 					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				}
+#if DEBUG
+                    Trace.TraceError("Unable to change password: {0}", e.StackTrace);
+#endif
+                    Trace.TraceError("Unable to change password: {0}", e.Message);
+
+                }
 			}
 
 			TempData["error"] = Locale.UnableToChangePassword;
@@ -296,9 +301,9 @@ namespace OpenIZAdmin.Controllers
                     };
 
                     //--specific to the UserEntity
-                    if (model.FamilyNames != null && model.FamilyNames.Count > 0)
+                    if (model.Surname != null && model.Surname.Count > 0)
                     {
-                        name.Component.AddRange(model.FamilyNames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
+                        name.Component.AddRange(model.Surname.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
                     }
 
                     if (model.GivenNames != null && model.GivenNames.Count > 0)

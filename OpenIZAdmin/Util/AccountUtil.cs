@@ -35,13 +35,13 @@ namespace OpenIZAdmin.Util
 
             var model = new UpdateProfileModel
             {
-                FamilyNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList(),
+                Surname = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList(),
                 GivenNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList(),
                 PhoneNumber = userEntity.SecurityUser.PhoneNumber,
                 Email = userEntity.SecurityUser.Email
             };            
 
-            model.FamilyNamesList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
+            model.SurnamesList.AddRange(model.Surname.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
             model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 
             //----would like to make this more compact - not happy with this code block - START ------//
