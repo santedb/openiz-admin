@@ -280,99 +280,101 @@ namespace OpenIZAdmin.Controllers
             {
                 try
                 {
-                    var userId = Guid.Parse(User.Identity.GetUserId());
-                    var userEntity = UserUtil.GetUserEntity(this.ImsiClient, userId);
+                    //var userId = Guid.Parse(User.Identity.GetUserId());
+                    //var userEntity = UserUtil.GetUserEntity(this.ImsiClient, userId);
+                    var userEntity = UserUtil.GetUserEntity(this.ImsiClient, Guid.Parse(User.Identity.GetUserId()));
                     var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
 
                     if (userEntity == null || securityUserInfo == null)
                     {
                         TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-                        return RedirectToAction("Index");
+                        return RedirectToAction("Index", "Home");
                     }
 
-                    var name = new EntityName
-                    {
-                        NameUse = new Concept
-                        {
-                            Key = NameUseKeys.OfficialRecord
-                        },
-                        Component = new List<EntityNameComponent>()
-                    };
-
-                    //--specific to the UserEntity
-                    if (model.Surname != null && model.Surname.Count > 0)
-                    {
-                        name.Component.AddRange(model.Surname.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
-                    }
-
-                    if (model.GivenNames != null && model.GivenNames.Count > 0)
-                    {
-                        name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
-                    }
-
-                    userEntity.Names = new List<EntityName> { name };
-
-
-                    //weird errors while debugging - have to put this check in to prevent crash. What's going on? Was working fine the last week???????
-                    EntityRelationship serviceLocation = null;
-                    //EntityRelationship serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-
-                    if (userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation) != null)
-                    {
-                        serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-                    }
-
-
-                    if (model.Facilities != null && model.Facilities.Any())
-                    {
-                        if (serviceLocation != null)
-                        {
-                            userEntity.Relationships.First(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
-                        }
-                        else
-                        {
-                            userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
-                        }
-                    }
-                    else
-                    {
-                        if (serviceLocation != null)
-                        {
-                            userEntity.Relationships.RemoveAll(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-                        }
-                    }
-                    
-
-                    if (model.Language != null)// && model.Language.Any())
-                    {
-                        //var lang = model.Language.FirstOrDefault();
-                        //string lang = model.Language;
-
-                        //userEntity.LanguageCommunication.Clear();
-                        //userEntity.LanguageCommunication.Add(new PersonLanguageCommunication(lang, true));
-
-                        //var lang = this.ImsiClient.Query<PersonLanguageCommunication>(c => c.LanguageCode == model.Language);
-                        //var personLang = new PersonLanguageCommunication("EN", true);   
-
-
-                        //var lang = this.ImsiClient.Query<PersonLanguageCommunication>(c => c.LanguageCode == "EN");
-                        //lang.Reconstitute();
-
-                        //var preference = lang.Item.OfType<PersonLanguageCommunication>().ToList();                        
-                    }
-
-                    //if (model.PhoneType != null && model.PhoneType.Any())
+                    //var name = new EntityName
                     //{
-                    //    var pType = model.PhoneType.FirstOrDefault();
-                    //}                                                                             
+                    //    NameUse = new Concept
+                    //    {
+                    //        Key = NameUseKeys.OfficialRecord
+                    //    },
+                    //    Component = new List<EntityNameComponent>()
+                    //};
 
-                    SecurityUserInfo userInfo = AccountUtil.ToSecurityUserInfo(model, userEntity, securityUserInfo, this.AmiClient);                                        
-                    this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, userInfo);
+                    ////--specific to the UserEntity
+                    //if (model.Surname != null && model.Surname.Count > 0)
+                    //{
+                    //    name.Component.AddRange(model.Surname.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
+                    //}
 
-                    //need to strip versionkey so update will work
-                    userEntity.VersionKey = null;
-                    this.ImsiClient.Update<UserEntity>(userEntity);
+                    //if (model.GivenNames != null && model.GivenNames.Count > 0)
+                    //{
+                    //    name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
+                    //}
+
+                    //userEntity.Names = new List<EntityName> { name };
+
+
+                    //foreach(EntityRelationship relationship in userEntity.Relationships)
+                    //{
+                    //    var rel = relationship;
+                    //}
+
+                    //userEntity.Relationships.Clear();
+
+
+                    ////weird errors while debugging - have to put this check in to prevent crash. What's going on? Was working fine the last week???????
+                    //EntityRelationship serviceLocation = null;
+                    ////EntityRelationship serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+
+                    //var result = userEntity.Relationships.Any(c => c.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+
+                    //if (userEntity.Relationships.Any(c => c.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation))
+                    //{
+                    //    serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                    //}
+
+                    ////if (userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation) != null)
+                    ////{
+                    ////    serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                    ////}
+
+
+                    //if (model.Facilities != null && model.Facilities.Any())
+                    //{
+                    //    if (serviceLocation != null)
+                    //    {
+                    //        userEntity.Relationships.First(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
+                    //    }
+                    //    else
+                    //    {
+                    //        userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
+                    //    }
+                    //}
+                    //else
+                    //{
+                    //    if (serviceLocation != null)
+                    //    {
+                    //        userEntity.Relationships.RemoveAll(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                    //    }
+                    //}
+
+
+                    //if (!string.IsNullOrWhiteSpace(model.Language))
+                    //{                        
+                    //    userEntity.LanguageCommunication.Clear();
+                    //    userEntity.LanguageCommunication.Add(new PersonLanguageCommunication(model.Language, true));                        
+                    //}
+
+                    ////need to strip versionkey so update will work
+                    //userEntity.VersionKey = null;
+
+
+                    UserEntity updatedUserEntity = AccountUtil.ToUpdateUserEntity(model, userEntity);                                                                                      
+                    SecurityUserInfo securityInfo = AccountUtil.ToSecurityUserInfo(model, userEntity, securityUserInfo, this.AmiClient);                                        
+
+                    this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, securityInfo);                    
+                    this.ImsiClient.Update<UserEntity>(updatedUserEntity);
                     
 
                     TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;

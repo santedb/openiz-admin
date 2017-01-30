@@ -21,7 +21,7 @@ namespace OpenIZAdmin.Util
     /// Provides a utility for managing users.
     /// </summary>
     public static class AccountUtil
-    {
+    {       
         /// <summary>
         /// Converts a user entity to a edit user model.
         /// </summary>
@@ -87,14 +87,14 @@ namespace OpenIZAdmin.Util
                 }
             };
                         
-            var bundle = imsiClient.Query<ConceptSet>(c => c.Mnemonic == "TelecomAddressType");
+            var bundle = imsiClient.Query<ConceptSet>(c => c.Mnemonic == "TelecomAddressUse");
             var telecomList = bundle.Item.OfType<ConceptSet>().ToList().FirstOrDefault();            
 
             model.PhoneTypeList.Add(new SelectListItem { Text = "", Value = "" });
             foreach (Concept con in telecomList.Concepts)
-            {
-                    
-                model.PhoneTypeList.Add(new SelectListItem { Text = con.Type.ToString(), Value = con.Key.ToString() });
+            {                
+                string name = string.Join("", con.ConceptNames.Select(n => n.Name)?.Select(c => c.ToString()));
+                model.PhoneTypeList.Add(new SelectListItem { Text = name, Value = con.Key.ToString() });                            
             }                                            
 
             return model;
@@ -121,19 +121,7 @@ namespace OpenIZAdmin.Util
             };
 
             userInfo.User.Email = model.Email;
-            userInfo.User.PhoneNumber = model.PhoneNumber;
-
-
-            //if (model.Language != null && model.Language.Any())
-            //{
-            //    var lang = model.Language.FirstOrDefault();
-            //    userInfo.User.
-            //}
-
-            if (model.PhoneType != null && model.PhoneType.Any())
-            {
-                var pType = model.PhoneType.FirstOrDefault();
-            }
+            userInfo.User.PhoneNumber = model.PhoneNumber;                        
 
             //get any roles assigned to the user and add for the update
             if (securityUserInfo.Roles.Any())
@@ -145,6 +133,83 @@ namespace OpenIZAdmin.Util
             }
             
             return userInfo;                      
+        }
+
+        /// <summary>
+        /// Converts a <see cref="UpdateProfileModel"/> instance to a <see cref="UserEntity"/> instance.
+        /// </summary>
+        /// <param name="model">The edit user object to convert.</param>
+        /// <param name="userEntity">The user entity instance.</param>                
+        /// <returns>Returns a UserEntity object with the updated info.</returns>
+        public static UserEntity ToUpdateUserEntity(UpdateProfileModel model, UserEntity userEntity)
+        {            
+            if (model.Surname.Any() || model.GivenNames.Any())
+            {
+                var name = new EntityName
+                {
+                    NameUse = new Concept
+                    {
+                        Key = NameUseKeys.OfficialRecord
+                    },
+                    Component = new List<EntityNameComponent>()
+                };
+
+                name.Component.AddRange(model.Surname.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
+                name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
+
+                userEntity.Names = new List<EntityName> { name };
+            }           
+
+            userEntity.Relationships.Clear();
+            var serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+
+            if (model.Facilities != null && model.Facilities.Any())
+            {
+                if (serviceLocation != null)
+                {
+                    userEntity.Relationships.RemoveAll(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                    userEntity.Relationships.First(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
+                }
+                else
+                {
+                    userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
+                }
+            }
+            else
+            {
+                if (serviceLocation != null)
+                {
+                    userEntity.Relationships.RemoveAll(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                }
+            
+            }
+
+            //Guid facKey = Guid.Empty;
+            //if (Guid.TryParse(model.FacilityId.First(), out facKey))
+            //{
+            //	if (!Guid.Equals(model.PreviousFacilityKey, facKey))
+            //	{
+            //		userEntity.Relationships.RemoveAll(c => c.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation && c.SourceEntityKey == model.PreviousFacilityKey && c.TargetEntityKey == userEntity.Key);
+            //		userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, userEntity.Key)
+            //		{
+            //			SourceEntityKey = facKey,
+            //          InversionIndicator = true
+            //		});
+            //	}
+            //} 
+
+
+            if (!string.IsNullOrWhiteSpace(model.Language))
+            {
+                userEntity.LanguageCommunication.Clear();
+                userEntity.LanguageCommunication.Add(new PersonLanguageCommunication(model.Language, true));
+            }
+
+            //need to strip versionkey so update will work
+            userEntity.CreationTime = DateTimeOffset.Now;
+            userEntity.VersionKey = null;            
+
+            return userEntity;
         }
 
     }    
