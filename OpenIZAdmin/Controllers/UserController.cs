@@ -263,8 +263,8 @@ namespace OpenIZAdmin.Controllers
                     }
                 }
 
-				var userInfo = UserUtil.ToSecurityUserInfo(model, userEntity, this.AmiClient);
-				this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, userInfo);
+				var securityInfo = UserUtil.ToSecurityUserInfo(model, userEntity, this.AmiClient);
+				this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, securityInfo);
 
 				//need to strip versionkey so update will work
 				userEntity.CreationTime = DateTimeOffset.Now;
@@ -425,7 +425,7 @@ namespace OpenIZAdmin.Controllers
 
 			viewModel.Name = string.Join(" ", user.Names.SelectMany(n => n.Component).Select(c => c.Value));
 
-			var healthFacility = user.Relationships.FirstOrDefault(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+			var healthFacility = user.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 
 			if (healthFacility?.TargetEntityKey != null)
 			{

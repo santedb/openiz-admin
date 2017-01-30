@@ -111,8 +111,9 @@ namespace OpenIZAdmin.Util
 			model.FamilyNameList.AddRange(model.FamilyNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 			model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 
-			//----would like to make this more compact - not happy with this code block - START ------//
-			var healthFacilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+            //userEntity.Relationships.Clear();
+            //----would like to make this more compact - not happy with this code block - START ------//
+            var healthFacilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 
 			if (healthFacilityRelationship != null && healthFacilityRelationship.TargetEntityKey != null)
 			{

@@ -45,11 +45,11 @@ namespace OpenIZAdmin.Util
             model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 
             //----would like to make this more compact - not happy with this code block - START ------//
-            var facilityId = userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString();
+            var facilityId = userEntity.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString();
 
             if (facilityId != null && facilityId.Any())
             {
-                var healthFacility = userEntity.Relationships.FirstOrDefault(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                var healthFacility = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 
                 if (healthFacility?.TargetEntityKey != null)
                 {
@@ -158,17 +158,17 @@ namespace OpenIZAdmin.Util
                 name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
 
                 userEntity.Names = new List<EntityName> { name };
-            }           
+            }
 
-            userEntity.Relationships.Clear();
-            var serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+
+            //!!!-----------THIS IS CAUSING THE UPDATE TO FAIL--------------------------STARTS
+            var serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 
             if (model.Facilities != null && model.Facilities.Any())
             {
                 if (serviceLocation != null)
                 {
-                    userEntity.Relationships.RemoveAll(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-                    userEntity.Relationships.First(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
+                    userEntity.Relationships.First(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
                 }
                 else
                 {
@@ -179,11 +179,13 @@ namespace OpenIZAdmin.Util
             {
                 if (serviceLocation != null)
                 {
-                    userEntity.Relationships.RemoveAll(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                    userEntity.Relationships.RemoveAll(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
                 }
-            
             }
+            //!!!-----------THIS IS CAUSING THE UPDATE TO FAIL--------------------------ENDS
 
+
+            //REMOVED
             //Guid facKey = Guid.Empty;
             //if (Guid.TryParse(model.FacilityId.First(), out facKey))
             //{
