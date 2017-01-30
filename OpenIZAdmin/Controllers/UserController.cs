@@ -225,35 +225,30 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var name = new EntityName
+				if (model.FamilyNames.Any() || model.GivenNames.Any())
 				{
-					NameUse = new Concept
+					var name = new EntityName
 					{
-						Key = NameUseKeys.OfficialRecord
-					},
-					Component = new List<EntityNameComponent>()
-				};
+						NameUse = new Concept
+						{
+							Key = NameUseKeys.OfficialRecord
+						},
+						Component = new List<EntityNameComponent>()
+					};
 
-				//--specific to the UserEntity
-				if (model.FamilyNames != null && model.FamilyNames.Count > 0)
-				{
 					name.Component.AddRange(model.FamilyNames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
-				}
-
-				if (model.GivenNames != null && model.GivenNames.Count > 0)
-				{
 					name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
+
+					userEntity.Names = new List<EntityName> { name };
 				}
 
-				userEntity.Names = new List<EntityName> { name };
-
-				var serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+				var serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 
                 if (model.Facilities != null && model.Facilities.Any())
                 {
                     if (serviceLocation != null)
                     {
-                        userEntity.Relationships.First(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
+                        userEntity.Relationships.First(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
                     }
                     else
                     {
@@ -264,14 +259,15 @@ namespace OpenIZAdmin.Controllers
                 {
                     if (serviceLocation != null)
                     {
-                        userEntity.Relationships.RemoveAll(e => e.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                        userEntity.Relationships.RemoveAll(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
                     }
                 }
 
 				var userInfo = UserUtil.ToSecurityUserInfo(model, userEntity, this.AmiClient);
 				this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, userInfo);
 
-                //need to strip versionkey so update will work
+				//need to strip versionkey so update will work
+				userEntity.CreationTime = DateTimeOffset.Now;
                 userEntity.VersionKey = null;
                 this.ImsiClient.Update<UserEntity>(userEntity);
 

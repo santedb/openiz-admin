@@ -100,8 +100,8 @@ namespace OpenIZAdmin.Util
 			var model = new EditUserModel
 			{
 				Email = userEntity.SecurityUser.Email,
-				FamilyNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList(),
-				GivenNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList(),
+				FamilyNames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList(),
+				GivenNames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList(),
 				UserId = userEntity.SecurityUserKey.GetValueOrDefault(Guid.Empty)
 			};
 
@@ -112,24 +112,19 @@ namespace OpenIZAdmin.Util
 			model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 
 			//----would like to make this more compact - not happy with this code block - START ------//
-			var facilityId = userEntity.Relationships.Where(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString();
+			var healthFacilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 
-			if (facilityId != null && facilityId.Any())
+			if (healthFacilityRelationship != null && healthFacilityRelationship.TargetEntityKey != null)
 			{
-				var healthFacility = userEntity.Relationships.FirstOrDefault(r => r.RelationshipType.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+				var place = imsiClient.Get<Place>(healthFacilityRelationship.TargetEntityKey.Value, null) as Place;
+				string facilityName = string.Join(" ", place.Names.SelectMany(n => n.Component)?.Select(c => c.Value));
 
-				if (healthFacility?.TargetEntityKey != null)
-				{
-					var place = imsiClient.Get<Place>(healthFacility.TargetEntityKey.Value, null) as Place;
-					string facilityName = string.Join(" ", place.Names.SelectMany(n => n.Component)?.Select(c => c.Value));
+				var facility = new List<FacilitiesModel>();
+				facility.Add(new FacilitiesModel(facilityName, place.Key.Value.ToString()));
 
-					var facility = new List<FacilitiesModel>();
-					facility.Add(new FacilitiesModel(facilityName, facilityId));
+				model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Text = f.Name, Value = f.Id }));
 
-					model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Text = f.Name, Value = f.Id }));
-
-					model.Facilities.Add(facilityId.ToString());
-				}
+				model.Facilities.Add(place.Key.Value.ToString());
 			}
 			//----would like to make this more compact - not happy with this code block - END ------//
 

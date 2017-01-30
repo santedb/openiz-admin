@@ -32,15 +32,8 @@ namespace OpenIZAdmin.Models
 
 		public FacilitiesModel(string name, string id)
 		{
-			if (CommonUtil.IsValidString(name))
-				this.Name = name;
-			else
-				this.Name = string.Empty;
-
-			if (CommonUtil.IsValidString(id))
-				this.Id = id;
-			else
-				this.Id = string.Empty;
+			this.Name = name;
+			this.Id = id;
 		}
 
 		public string Id { get; set; }

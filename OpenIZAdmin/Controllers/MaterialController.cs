@@ -153,11 +153,11 @@ namespace OpenIZAdmin.Controllers
 
 				var formConcepts = ImsiClient.Query<Concept>(m => m.Class.Key == ConceptClassKeys.Form && m.ObsoletionTime == null);
 
-				model.FormConcepts.AddRange(formConcepts.Item.OfType<Concept>().Select(c => new SelectListItem { Text = c.Mnemonic, Selected = material.FormConcept.Key == c.Key, Value = c.Key.Value.ToString() }));
+				model.FormConcepts.AddRange(formConcepts.Item.OfType<Concept>().Select(c => new SelectListItem { Text = c.Mnemonic, Selected = material.FormConceptKey == c.Key, Value = c.Key.Value.ToString() }));
 
 				var quantityConcepts = ImsiClient.Query<Concept>(m => m.Class.Key == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null);
 
-				model.QuantityConcepts.AddRange(quantityConcepts.Item.OfType<Concept>().Select(c => new SelectListItem { Text = c.Mnemonic, Selected = material.QuantityConcept.Key == c.Key, Value = c.Key.Value.ToString() }));
+				model.QuantityConcepts.AddRange(quantityConcepts.Item.OfType<Concept>().Select(c => new SelectListItem { Text = c.Mnemonic, Selected = material.QuantityConceptKey == c.Key, Value = c.Key.Value.ToString() }));
 
 				return View(model);
 			}
