@@ -121,10 +121,9 @@ namespace OpenIZAdmin.Controllers
 
 				try
 				{
-					this.AmiClient.CreatePolicy(policy);
+                    policy = this.AmiClient.CreatePolicy(policy);
 
 					TempData["success"] = Locale.Policy + " " + Locale.Created + " " + Locale.Successfully;
-
 					return RedirectToAction("ViewPolicy", new { key = policy.Policy.Key.ToString() });
 				}
 				catch (Exception e)
@@ -134,7 +133,6 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			TempData["error"] = "Unable to create policy";
-
 			return View(model);
 		}
 
@@ -224,7 +222,6 @@ namespace OpenIZAdmin.Controllers
 					this.AmiClient.UpdatePolicy(model.Key.ToString(), policyInfo);
 
 					TempData["success"] = Locale.Policy + " " + Locale.Updated + " " + Locale.Successfully;
-
 					return RedirectToAction("Edit", new { key = policyInfo.Policy.Key.ToString() });
 				}
 				catch (Exception e)
@@ -234,7 +231,6 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Policy;
-
 			return View(model);
 		}
 

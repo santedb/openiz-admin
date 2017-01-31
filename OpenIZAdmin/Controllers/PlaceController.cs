@@ -64,7 +64,8 @@ namespace OpenIZAdmin.Controllers
 				{
 					var place = this.ImsiClient.Create<Place>(PlaceUtil.ToPlace(model));
 
-					return RedirectToAction("ViewPlace", new { key = place.Key, versionKey = place.VersionKey });
+                    TempData["success"] = Locale.Place + " " + Locale.Successfully + " " + Locale.Created;                    
+                    return RedirectToAction("ViewPlace", new { key = place.Key, versionKey = place.VersionKey });
 				}
 				catch (Exception e)
 				{
@@ -173,7 +174,8 @@ namespace OpenIZAdmin.Controllers
 			{
 				var place = this.ImsiClient.Update<Place>(PlaceUtil.ToPlace(model));
 
-				return RedirectToAction("ViewPlace", new { key = place.Key, versionKey = place.VersionKey });
+                TempData["success"] = Locale.Place + " " + Locale.Successfully + " " + Locale.Updated;
+                return RedirectToAction("ViewPlace", new { key = place.Key, versionKey = place.VersionKey });
 			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Place;

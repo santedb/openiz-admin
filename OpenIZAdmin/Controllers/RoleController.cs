@@ -176,8 +176,7 @@ namespace OpenIZAdmin.Controllers
 					this.AmiClient.UpdateRole(roleInfo.Id.ToString(), RoleUtil.ToSecurityRoleInfo(this.AmiClient, model, roleInfo));
 
 					TempData["success"] = Locale.Role + " " + Locale.Updated + " " + Locale.Successfully;
-
-					return RedirectToAction("Edit", new { id = roleInfo.Id.ToString() });
+					return RedirectToAction("ViewRole", new { id = roleInfo.Id.ToString() });
 				}
 				catch (Exception e)
 				{

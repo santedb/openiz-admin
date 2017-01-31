@@ -70,22 +70,7 @@ namespace OpenIZAdmin.Util
                 return false;
             else
                 return true;
-        }
-
-        /// <summary>
-        /// Gets a user entity.
-        /// </summary>
-        /// <param name="client">The IMSI service client.</param>
-        /// <param name="userId">The user id of the user to retrieve.</param>
-        /// <returns>Returns a user entity or null if no user entity is found.</returns>
-        //public static UserEntity GetUserEntity(ImsiServiceClient client, Guid userId)
-        //{
-        //    var bundle = client.Query<UserEntity>(u => u.Key == userId && u.ObsoletionTime == null);
-
-        //    bundle.Reconstitute();
-
-        //    return bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.Key == userId);
-        //}
+        }       
 
         /// <summary>
         /// Gets a user entity.
