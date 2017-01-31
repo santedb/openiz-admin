@@ -210,7 +210,7 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.Device + " " + Locale.Updated + " " + Locale.Successfully;
 
-				return RedirectToAction("Edit", new { key = deviceEntity.Id.ToString() });
+				return RedirectToAction("ViewDevice", new { id = deviceEntity.Id.ToString() });
 			}
 			else
 			{

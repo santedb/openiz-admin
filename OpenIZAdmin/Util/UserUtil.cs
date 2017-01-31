@@ -19,6 +19,7 @@
 
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZ.Messaging.IMSI.Client;
@@ -196,14 +197,66 @@ namespace OpenIZAdmin.Util
 			return userInfo;
 		}
 
-		/// <summary>
-		/// Converts a <see cref="EditUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
-		/// </summary>
-		/// <param name="model">The create user object to convert.</param>
-		/// <param name="user">The user entity instance.</param>
-		/// <param name="client">The AMI service client instance. </param>
-		/// <returns>Returns a security user info model.</returns>
-		public static SecurityUserInfo ToSecurityUserInfo(EditUserModel model, UserEntity user, AmiServiceClient client)
+        /// <summary>
+        /// Converts a <see cref="UpdateProfileModel"/> instance to a <see cref="UserEntity"/> instance.
+        /// </summary>
+        /// <param name="model">The edit user object to convert.</param>
+        /// <param name="userEntity">The user entity instance.</param>                
+        /// <returns>Returns a UserEntity object with the updated info.</returns>
+        public static UserEntity ToUpdateUserEntity(EditUserModel model, UserEntity userEntity)
+        {
+            if (model.FamilyNames.Any() || model.GivenNames.Any())
+            {
+                var name = new EntityName
+                {
+                    NameUse = new Concept
+                    {
+                        Key = NameUseKeys.OfficialRecord
+                    },
+                    Component = new List<EntityNameComponent>()
+                };
+
+                name.Component.AddRange(model.FamilyNames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
+                name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
+
+                userEntity.Names = new List<EntityName> { name };
+            }
+
+            var serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+
+            if (model.Facilities != null && model.Facilities.Any())
+            {
+                if (serviceLocation != null)
+                {
+                    userEntity.Relationships.First(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
+                }
+                else
+                {
+                    userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
+                }
+            }
+            else
+            {
+                if (serviceLocation != null)
+                {
+                    userEntity.Relationships.RemoveAll(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                }
+            }
+
+            //need to strip versionkey so update will work
+            userEntity.CreationTime = DateTimeOffset.Now;
+            userEntity.VersionKey = null;
+
+            return userEntity;
+        }
+        /// <summary>
+        /// Converts a <see cref="EditUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
+        /// </summary>
+        /// <param name="model">The create user object to convert.</param>
+        /// <param name="user">The user entity instance.</param>
+        /// <param name="client">The AMI service client instance. </param>
+        /// <returns>Returns a security user info model.</returns>
+        public static SecurityUserInfo ToSecurityUserInfo(EditUserModel model, UserEntity user, AmiServiceClient client)
 		{
 			var userInfo = new SecurityUserInfo
 			{

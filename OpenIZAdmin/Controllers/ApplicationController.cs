@@ -199,7 +199,7 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.Application + " " + Locale.Updated + " " + Locale.Successfully;
 
-				return RedirectToAction("Edit", new { key = appInfo.Id.ToString() });
+				return RedirectToAction("ViewApplication", new { id = appInfo.Id.ToString() });
 			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Application;

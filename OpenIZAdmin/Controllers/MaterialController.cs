@@ -51,18 +51,8 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the create view.</returns>
 		[HttpGet]
 		public ActionResult Create()
-		{
-			var model = new CreateMaterialModel();
-
-			var formConcepts = ImsiClient.Query<Concept>(m => m.Class.Key == ConceptClassKeys.Form && m.ObsoletionTime == null);
-
-			model.FormConcepts.AddRange(formConcepts.Item.OfType<Concept>().Select(c => new SelectListItem { Text = c.Mnemonic, Value = c.Key.Value.ToString() }));
-
-			var quantityConcepts = ImsiClient.Query<Concept>(m => m.Class.Key == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null);
-
-			model.QuantityConcepts.AddRange(quantityConcepts.Item.OfType<Concept>().Select(c => new SelectListItem { Text = c.Mnemonic, Value = c.Key.Value.ToString() }));
-
-			return View(model);
+		{			
+			return View(MaterialUtil.ToCreateMaterialModel(ImsiClient));
 		}
 
 		/// <summary>
@@ -75,33 +65,14 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Create(CreateMaterialModel model)
 		{
 			if (ModelState.IsValid)
-			{
-				var material = new Material
-				{
-					Key = Guid.NewGuid(),
-					Names = new List<EntityName>
-					{
-						new EntityName(NameUseKeys.OfficialRecord, model.Name)
-					},
-					FormConcept = new Concept
-					{
-						Key = Guid.Parse(model.FormConcept),
-					},
-					QuantityConcept = new Concept
-					{
-						Key = Guid.Parse(model.QuantityConcept),
-					}
-				};
-
-				this.ImsiClient.Create(material);
+			{				
+				var material = this.ImsiClient.Create(MaterialUtil.ToCreateMaterial(model));
 
 				TempData["success"] = Locale.Material + " " + Locale.Created + " " + Locale.Successfully;
-
-				return RedirectToAction("Index");
-			}
+                return RedirectToAction("ViewMaterial", new { key = material.Key, versionKey = material.VersionKey });
+            }
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.Material;
-
 			return View(model);
 		}
 
@@ -122,7 +93,6 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			TempData["error"] = Locale.UnableToDelete + " " + Locale.Material;
-
 			return View("Index");
 		}
 
@@ -144,26 +114,12 @@ namespace OpenIZAdmin.Controllers
 					TempData["error"] = Locale.Material + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
-				}
+				}				
 
-				var model = new EditMaterialModel
-				{
-					Name = material.Names.FirstOrDefault().Component.FirstOrDefault().Value
-				};
-
-				var formConcepts = ImsiClient.Query<Concept>(m => m.Class.Key == ConceptClassKeys.Form && m.ObsoletionTime == null);
-
-				model.FormConcepts.AddRange(formConcepts.Item.OfType<Concept>().Select(c => new SelectListItem { Text = c.Mnemonic, Selected = material.FormConceptKey == c.Key, Value = c.Key.Value.ToString() }));
-
-				var quantityConcepts = ImsiClient.Query<Concept>(m => m.Class.Key == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null);
-
-				model.QuantityConcepts.AddRange(quantityConcepts.Item.OfType<Concept>().Select(c => new SelectListItem { Text = c.Mnemonic, Selected = material.QuantityConceptKey == c.Key, Value = c.Key.Value.ToString() }));
-
-				return View(model);
+				return View(MaterialUtil.ToEditMaterialModel(ImsiClient, material));
 			}
 
 			TempData["error"] = Locale.Material + " " + Locale.NotFound;
-
 			return RedirectToAction("Index");
 		}
 
@@ -185,32 +141,16 @@ namespace OpenIZAdmin.Controllers
 					TempData["error"] = Locale.Material + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
-				}
+				}                
 
-				material.Names = new List<EntityName>
-				{
-					new EntityName(NameUseKeys.OfficialRecord, model.Name)
-				};
-
-				material.FormConcept = new Concept
-				{
-					Key = Guid.Parse(model.FormConcept),
-				};
-
-				material.QuantityConcept = new Concept
-				{
-					Key = Guid.Parse(model.QuantityConcept),
-				};
-
-				var result = this.ImsiClient.Update<Material>(material);
+                var updatedMaterial = MaterialUtil.ToUpdateMaterial(model, material);
+				var result = this.ImsiClient.Update<Material>(updatedMaterial);
 
 				TempData["success"] = Locale.Material + " " + Locale.Updated + " " + Locale.Successfully;
-
 				return RedirectToAction("ViewMaterial", new { key = result.Key, versionKey = result.VersionKey });
 			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Material;
-
 			return RedirectToAction("Index");
 		}
 
@@ -240,7 +180,6 @@ namespace OpenIZAdmin.Controllers
 				var bundle = this.ImsiClient.Query<Material>(m => m.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null);
 
 				TempData["searchTerm"] = searchTerm;
-
 				return PartialView("_MaterialSearchResultsPartial", bundle.Item.OfType<Material>().Select(MaterialUtil.ToMaterialSearchResultViewModel));
 			}
 
@@ -267,17 +206,8 @@ namespace OpenIZAdmin.Controllers
 
 				return RedirectToAction("Index");
 			}
-
-			var model = new MaterialViewModel
-			{
-				Key = key,
-				Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value)),
-				FormConcept = material.FormConcept.Mnemonic,
-				QuantityConcept = material.QuantityConcept.Mnemonic,
-				VersionKey = versionKey
-			};
-
-			return View(model);
+            
+			return View(MaterialUtil.ToMaterialViewModel(material, key, versionKey));
 		}
 	}
 }

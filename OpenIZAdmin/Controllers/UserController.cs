@@ -17,6 +17,7 @@
  * Date: 2016-7-17
  */
 
+using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
@@ -216,73 +217,26 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, model.UserId);
-                //var userEntity = UserUtil.GetUserEntity(this.ImsiClient, model.UserId);
+				var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, model.UserId);                
                 
-
                 if (userEntity == null)
 				{
 					TempData["error"] = Locale.User + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
+               
+                UserEntity updatedUserEntity = UserUtil.ToUpdateUserEntity(model, userEntity);
+                SecurityUserInfo securityInfo = UserUtil.ToSecurityUserInfo(model, userEntity, this.AmiClient);
 
-				if (model.FamilyNames.Any() || model.GivenNames.Any())
-				{
-					var name = new EntityName
-					{
-						NameUse = new Concept
-						{
-							Key = NameUseKeys.OfficialRecord
-						},
-						Component = new List<EntityNameComponent>()
-					};
+				this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, securityInfo);				
+                this.ImsiClient.Update<UserEntity>(updatedUserEntity);
 
-					name.Component.AddRange(model.FamilyNames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
-					name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
-
-					userEntity.Names = new List<EntityName> { name };
-				}
-
-				var serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-
-                if (model.Facilities != null && model.Facilities.Any())
-                {
-                    if (serviceLocation != null)
-                    {
-                        userEntity.Relationships.First(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
-                    }
-                    else
-                    {
-                        userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
-                    }
-                }
-                else
-                {
-                    if (serviceLocation != null)
-                    {
-                        userEntity.Relationships.RemoveAll(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-                    }
-                }
-
-				var securityInfo = UserUtil.ToSecurityUserInfo(model, userEntity, this.AmiClient);
-				this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, securityInfo);
-
-				//need to strip versionkey so update will work
-				userEntity.CreationTime = DateTimeOffset.Now;
-                userEntity.VersionKey = null;
-                userEntity = this.ImsiClient.Update<UserEntity>(userEntity);
-
-				TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;
-
-                var t = model.UserId;
-                var r = userEntity.SecurityUserKey.ToString();
-
+				TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;                
                 return RedirectToAction("ViewUser", new { id = userEntity.SecurityUserKey.ToString() });
 			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.User;
-
 			return View(model);
 		}
 
@@ -411,20 +365,18 @@ namespace OpenIZAdmin.Controllers
 			if (!Guid.TryParse(id, out userId))
 			{
 				TempData["error"] = Locale.User + " " + Locale.NotFound;
-
 				return RedirectToAction("Index");
 			}
 
-			var result = this.AmiClient.GetUser(id);
+			var userInfo = this.AmiClient.GetUser(id);
 
-			if (result == null)
+			if (userInfo == null)
 			{
 				TempData["error"] = Locale.User + " " + Locale.NotFound;
-
 				return RedirectToAction("Index");
 			}
 
-			var viewModel = UserUtil.ToUserViewModel(this.ImsiClient, result);
+			var viewModel = UserUtil.ToUserViewModel(this.ImsiClient, userInfo);
 
 			var user = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, userId);
 

@@ -38,8 +38,7 @@ namespace OpenIZAdmin.Models.AccountModels
             this.Facilities = new List<string>();
             this.FacilityList = new List<SelectListItem>();            
             this.GivenNames = new List<string>();
-            this.GivenNamesList = new List<SelectListItem>();
-            //this.Language = new List<string>();
+            this.GivenNamesList = new List<SelectListItem>();            
             this.LanguageList = new List<SelectListItem>();
             this.PhoneTypeList = new List<SelectListItem>();
             this.Surname = new List<string>();
