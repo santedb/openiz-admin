@@ -122,7 +122,7 @@ namespace OpenIZAdmin.Controllers
                 {
                     var user = UserUtil.ToSecurityUserInfo(model);
                     user = this.AmiClient.CreateUser(user);
-                    var userEntity = UserUtil.GetUserEntity(this.ImsiClient, user.UserId.Value);                    
+                    var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, user.UserId.Value);                    
 
                     if (model.Roles.Contains("CLINICAL_STAFF"))
                     {
@@ -186,7 +186,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out userId))
 			{
-				var userEntity = UserUtil.GetUserEntity(this.ImsiClient, userId);
+				var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, userId);
 
 				if (userEntity == null)
 				{
@@ -216,9 +216,11 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var userEntity = UserUtil.GetUserEntity(this.ImsiClient, model.UserId);
+				var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, model.UserId);
+                //var userEntity = UserUtil.GetUserEntity(this.ImsiClient, model.UserId);
+                
 
-				if (userEntity == null)
+                if (userEntity == null)
 				{
 					TempData["error"] = Locale.User + " " + Locale.NotFound;
 
@@ -269,11 +271,14 @@ namespace OpenIZAdmin.Controllers
 				//need to strip versionkey so update will work
 				userEntity.CreationTime = DateTimeOffset.Now;
                 userEntity.VersionKey = null;
-                this.ImsiClient.Update<UserEntity>(userEntity);
+                userEntity = this.ImsiClient.Update<UserEntity>(userEntity);
 
 				TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;
 
-				return RedirectToAction("Edit", new { id = userEntity.Key.ToString() });
+                var t = model.UserId;
+                var r = userEntity.SecurityUserKey.ToString();
+
+                return RedirectToAction("ViewUser", new { id = userEntity.SecurityUserKey.ToString() });
 			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.User;
@@ -421,7 +426,7 @@ namespace OpenIZAdmin.Controllers
 
 			var viewModel = UserUtil.ToUserViewModel(this.ImsiClient, result);
 
-			var user = UserUtil.GetUserEntity(this.ImsiClient, userId);
+			var user = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, userId);
 
 			viewModel.Name = string.Join(" ", user.Names.SelectMany(n => n.Component).Select(c => c.Value));
 

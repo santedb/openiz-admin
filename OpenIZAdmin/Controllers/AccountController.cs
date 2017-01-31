@@ -255,7 +255,7 @@ namespace OpenIZAdmin.Controllers
             try
             {                
                 var userId = Guid.Parse(User.Identity.GetUserId());                
-                var userEntity = UserUtil.GetUserEntity(this.ImsiClient, userId);                
+                var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, userId);                
                 return View(AccountUtil.ToUpdateProfileModel(this.ImsiClient, this.AmiClient, userEntity));
             }
             catch (Exception e)
@@ -280,7 +280,7 @@ namespace OpenIZAdmin.Controllers
             {
                 try
                 {                    
-                    var userEntity = UserUtil.GetUserEntity(this.ImsiClient, Guid.Parse(User.Identity.GetUserId()));
+                    var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, Guid.Parse(User.Identity.GetUserId()));
                     var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
 
                     if (userEntity == null || securityUserInfo == null)
@@ -308,7 +308,8 @@ namespace OpenIZAdmin.Controllers
             }
 
             TempData["error"] = Locale.UnableToUpdate + " " + Locale.Profile;
-            return View("Manage", model);            
+            //return View("Manage", model);            
+            return RedirectToAction("Index", "Home");
         }
 
 		/// <summary>

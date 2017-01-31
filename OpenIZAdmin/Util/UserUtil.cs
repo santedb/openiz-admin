@@ -77,23 +77,38 @@ namespace OpenIZAdmin.Util
         /// <param name="client">The IMSI service client.</param>
         /// <param name="userId">The user id of the user to retrieve.</param>
         /// <returns>Returns a user entity or null if no user entity is found.</returns>
-        public static UserEntity GetUserEntity(ImsiServiceClient client, Guid userId)
-		{
-			var bundle = client.Query<UserEntity>(u => u.SecurityUserKey == userId && u.ObsoletionTime == null);
+        //public static UserEntity GetUserEntity(ImsiServiceClient client, Guid userId)
+        //{
+        //    var bundle = client.Query<UserEntity>(u => u.Key == userId && u.ObsoletionTime == null);
 
-			bundle.Reconstitute();
+        //    bundle.Reconstitute();
 
-			return bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.SecurityUserKey == userId);
-		}
+        //    return bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.Key == userId);
+        //}
 
-		/// <summary>
-		/// Converts a user entity to a edit user model.
-		/// </summary>
-		/// <param name="imsiClient">The Imsi Service Client client.</param>
-		/// <param name="amiClient">The Ami service client.</param>
-		/// <param name="userEntity">The user entity to convert to a edit user model.</param>
-		/// <returns>Returns a edit user model.</returns>
-		public static EditUserModel ToEditUserModel(ImsiServiceClient imsiClient, AmiServiceClient amiClient, UserEntity userEntity)
+        /// <summary>
+        /// Gets a user entity.
+        /// </summary>
+        /// <param name="client">The IMSI service client.</param>
+        /// <param name="securityUserId">The user id of the user to retrieve.</param>
+        /// <returns>Returns a user entity or null if no user entity is found.</returns>
+        public static UserEntity GetUserEntityBySecurityUserKey(ImsiServiceClient client, Guid securityUserId)
+        {
+            var bundle = client.Query<UserEntity>(u => u.SecurityUserKey == securityUserId && u.ObsoletionTime == null);
+
+            bundle.Reconstitute();
+
+            return bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.SecurityUserKey == securityUserId);
+        }
+
+        /// <summary>
+        /// Converts a user entity to a edit user model.
+        /// </summary>
+        /// <param name="imsiClient">The Imsi Service Client client.</param>
+        /// <param name="amiClient">The Ami service client.</param>
+        /// <param name="userEntity">The user entity to convert to a edit user model.</param>
+        /// <returns>Returns a edit user model.</returns>
+        public static EditUserModel ToEditUserModel(ImsiServiceClient imsiClient, AmiServiceClient amiClient, UserEntity userEntity)
 		{
 			var securityUserInfo = amiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
 
@@ -246,7 +261,8 @@ namespace OpenIZAdmin.Util
 				PhoneNumber = userInfo.User.PhoneNumber,
 				Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel),
 				UserId = userInfo.UserId.Value,
-				Username = userInfo.UserName
+                //UserId = userInfo,
+                Username = userInfo.UserName
 			};
 
 			return viewModel;

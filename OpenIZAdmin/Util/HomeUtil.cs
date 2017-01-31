@@ -40,7 +40,7 @@ namespace OpenIZAdmin.Util
         {
             var report = new DiagnosticReport();
 
-            var userEntity = UserUtil.GetUserEntity(imsiClient, model.Key);
+            var userEntity = UserUtil.GetUserEntityBySecurityUserKey(imsiClient, model.Key);
             if(userEntity != null)
             {
                 report.CreatedBy = userEntity.SecurityUser;
