@@ -51,12 +51,7 @@ namespace OpenIZAdmin.Models.UserModels
 		/// Gets or sets the id of the facility of the user.
 		/// </summary>
 		[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
-        public List<string> Facilities { get; set; }
-
-        /// <summary>
-		/// Gets or sets the list of family names.
-		/// </summary>
-		//public List<SelectListItem> FamilyNameList { get; set; }
+        public List<string> Facilities { get; set; }        
 
         /// <summary>
 		/// Gets or sets the family names of the user.
@@ -69,12 +64,7 @@ namespace OpenIZAdmin.Models.UserModels
         /// </summary>
         [Display(Name = "GivenName", ResourceType = typeof(Localization.Locale))]
         public List<string> GivenNames { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of given names.
-        /// </summary>
-        //public List<SelectListItem> GivenNamesList { get; set; }
-
+       
         /// <summary>
         /// Gets or sets the user password
         /// </summary>
