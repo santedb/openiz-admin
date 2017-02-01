@@ -918,4 +918,16 @@
   <data name="Surname" xml:space="preserve">
     <value>Surname</value>
   </data>
+  <data name="GivenName" xml:space="preserve">
+    <value>Given Name</value>
+  </data>
+  <data name="PasswordLength" xml:space="preserve">
+    <value>Password length is invalid. Too many characters.</value>
+  </data>
+  <data name="PasswordStrength" xml:space="preserve">
+    <value>Password must contain one upper case and one lower case character and have a minimum of 8 characters</value>
+  </data>
+  <data name="UnableToRetrieveNewUser" xml:space="preserve">
+    <value>Unable to retrieve new user</value>
+  </data>
 </root>

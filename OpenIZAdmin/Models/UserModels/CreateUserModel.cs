@@ -23,29 +23,83 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.UserModels
 {
-	public class CreateUserModel
+    /// <summary>
+    /// Class Model for Create User
+    /// </summary>
+    public class CreateUserModel
 	{
-		public CreateUserModel()
+        /// <summary>
+        /// Constructor to initialize a CreateUserModel instance
+        /// </summary>
+        public CreateUserModel()
 		{
-			this.RolesList = new List<SelectListItem>();
+            this.Facilities = new List<string>();            
+            this.Surnames = new List<string>();            
+            this.GivenNames = new List<string>();
+            this.RolesList = new List<SelectListItem>();
 		}
 
-		[Display(Name = "Email", ResourceType = typeof(Localization.Locale))]
+        /// <summary>
+        /// Gets or sets the email of the user
+        /// </summary>
+        [Display(Name = "Email", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "EmailRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[EmailAddress(ErrorMessage = null, ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Email { get; set; }
 
-		[DataType(DataType.Password)]
-		[Display(Name = "Password", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string Password { get; set; }
+        /// <summary>
+		/// Gets or sets the id of the facility of the user.
+		/// </summary>
+		[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
+        public List<string> Facilities { get; set; }
 
+        /// <summary>
+		/// Gets or sets the list of family names.
+		/// </summary>
+		//public List<SelectListItem> FamilyNameList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the family names of the user.
+        /// </summary>
+        [Display(Name = "SurName", ResourceType = typeof(Localization.Locale))]
+        public List<string> Surnames { get; set; }
+
+        /// <summary>
+        /// Gets or sets the givens names of the user.
+        /// </summary>
+        [Display(Name = "GivenName", ResourceType = typeof(Localization.Locale))]
+        public List<string> GivenNames { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of given names.
+        /// </summary>
+        //public List<SelectListItem> GivenNamesList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the user password
+        /// </summary>
+        [DataType(DataType.Password)]
+		[Display(Name = "Password", ResourceType = typeof(Localization.Locale))]
+        [StringLength(255, ErrorMessageResourceName = "PasswordLength", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d]{8,}$", ErrorMessageResourceName = "PasswordStrength", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]        
+        public string Password { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of roles for the user
+        /// </summary>
 		[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public IEnumerable<string> Roles { get; set; }
 
+        /// <summary>
+        /// Gets or sets the list of available roles
+        /// </summary>
 		public List<SelectListItem> RolesList { get; set; }
 
+        /// <summary>
+        /// Gets or sets the username of the user.
+        /// </summary>
 		[Display(Name = "Username", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "UsernameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]

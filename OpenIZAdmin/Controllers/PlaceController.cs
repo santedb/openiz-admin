@@ -18,6 +18,7 @@
  */
 
 using Elmah;
+using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Query;
 using OpenIZAdmin.Attributes;
@@ -223,7 +224,8 @@ namespace OpenIZAdmin.Controllers
 			if (ModelState.IsValid)
 			{
 				searchTerm = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(searchTerm);
-				var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null);
+                //added p.ClassConcept.Key == EntityClassKeys.ServiceDeliveryLocation as requested by Nityan - 2/1/2017 - applies to place service associated with dynamic search
+                var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConcept.Key == EntityClassKeys.ServiceDeliveryLocation);
 
 				placeList = places.Item.OfType<Place>().Select(PlaceUtil.ToPlaceViewModel).OrderBy(p => p.Name).ToList();
 			}

@@ -22,14 +22,39 @@ namespace OpenIZAdmin.Util
 	/// </summary>
 	public static class AccountUtil
 	{
-		/// <summary>
+        /// <summary>
 		/// Converts a user entity to a edit user model.
 		/// </summary>
 		/// <param name="imsiClient">The Imsi Service Client client.</param>
 		/// <param name="amiClient">The Ami service client.</param>
 		/// <param name="userEntity">The user entity to convert to a edit user model.</param>
 		/// <returns>Returns a edit user model.</returns>
-		public static UpdateProfileModel ToUpdateProfileModel(ImsiServiceClient imsiClient, AmiServiceClient amiClient, UserEntity userEntity)
+		public static List<SelectListItem> GetPhoneTypeList(ImsiServiceClient imsiClient)
+        {
+            var phoneTypeList = new List<SelectListItem>();
+            phoneTypeList.Add(new SelectListItem { Text = "", Value = "" });
+
+            var bundle = imsiClient.Query<ConceptSet>(c => c.Mnemonic == "TelecomAddressUse");
+            var telecomList = bundle.Item.OfType<ConceptSet>().ToList().FirstOrDefault();
+            
+            foreach (Concept con in telecomList.Concepts)
+            {
+                string name = string.Join("", con.ConceptNames.Select(n => n.Name)?.Select(c => c.ToString()));
+                phoneTypeList.Add(new SelectListItem { Text = name, Value = con.Key.ToString() });
+            }
+
+            return phoneTypeList;
+        }
+
+
+        /// <summary>
+        /// Converts a user entity to a edit user model.
+        /// </summary>
+        /// <param name="imsiClient">The Imsi Service Client client.</param>
+        /// <param name="amiClient">The Ami service client.</param>
+        /// <param name="userEntity">The user entity to convert to a edit user model.</param>
+        /// <returns>Returns a edit user model.</returns>
+        public static UpdateProfileModel ToUpdateProfileModel(ImsiServiceClient imsiClient, AmiServiceClient amiClient, UserEntity userEntity)
 		{
 			var securityUserInfo = amiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
 
@@ -88,15 +113,17 @@ namespace OpenIZAdmin.Util
 				}
 			};
 
-			var bundle = imsiClient.Query<ConceptSet>(c => c.Mnemonic == "TelecomAddressUse");
-			var telecomList = bundle.Item.OfType<ConceptSet>().ToList().FirstOrDefault();
+            model.PhoneTypeList = GetPhoneTypeList(imsiClient);
 
-			model.PhoneTypeList.Add(new SelectListItem { Text = "", Value = "" });
-			foreach (Concept con in telecomList.Concepts)
-			{
-				string name = string.Join("", con.ConceptNames.Select(n => n.Name)?.Select(c => c.ToString()));
-				model.PhoneTypeList.Add(new SelectListItem { Text = name, Value = con.Key.ToString() });
-			}
+			//var bundle = imsiClient.Query<ConceptSet>(c => c.Mnemonic == "TelecomAddressUse");
+			//var telecomList = bundle.Item.OfType<ConceptSet>().ToList().FirstOrDefault();
+
+			//model.PhoneTypeList.Add(new SelectListItem { Text = "", Value = "" });
+			//foreach (Concept con in telecomList.Concepts)
+			//{
+			//	string name = string.Join("", con.ConceptNames.Select(n => n.Name)?.Select(c => c.ToString()));
+			//	model.PhoneTypeList.Add(new SelectListItem { Text = name, Value = con.Key.ToString() });
+			//}
 
 			return model;
 		}

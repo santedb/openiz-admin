@@ -84,7 +84,6 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			TempData["error"] = Locale.UnableToActivate + " " + Locale.User;
-
 			return RedirectToAction("Index");
 		}
 
@@ -95,12 +94,12 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			var model = new CreateUserModel();
+			//var model = new CreateUserModel();
 
-			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
-			model.RolesList.AddRange(RoleUtil.GetAllRoles(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
+			//model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
+			//model.RolesList.AddRange(RoleUtil.GetAllRoles(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
 
-			return View(model);
+			return View(UserUtil.ToCreateUserModel(this.AmiClient));
 		}
 
 		/// <summary>
@@ -123,23 +122,21 @@ namespace OpenIZAdmin.Controllers
                 {
                     var user = UserUtil.ToSecurityUserInfo(model);
                     user = this.AmiClient.CreateUser(user);
-                    var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, user.UserId.Value);                    
 
-                    if (model.Roles.Contains("CLINICAL_STAFF"))
+                    var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, user.UserId.Value);
+                    //var userEntity = UserUtil.ToCreateUserEntity(this.ImsiClient, model, user.UserId.Value);
+
+                    if (userEntity == null)
                     {
-                        var provider = this.ImsiClient.Create<Provider>(new Provider { Key = Guid.NewGuid() });
-
-                        userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, provider)
-                        {
-                            SourceEntityKey = userEntity.Key.Value
-                        });
+                        TempData["error"] = Locale.UnableToRetrieveNewUser;
+                        return RedirectToAction("Index");
                     }
 
+                    userEntity = UserUtil.ToCreateUserEntity(this.ImsiClient, model, userEntity);                                 
                     this.ImsiClient.Update<UserEntity>(userEntity);
 
                     TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;
-
-                    return RedirectToAction("ViewUser", new { id = user.UserId.ToString() });
+                    return RedirectToAction("Edit", new { id = user.UserId.ToString() });
                 }				
 			}
 
@@ -166,12 +163,10 @@ namespace OpenIZAdmin.Controllers
 				this.AmiClient.DeleteUser(id);
 
 				TempData["success"] = Locale.User + " " + Locale.Deactivated + " " + Locale.Successfully;
-
 				return RedirectToAction("Index");
 			}
 
 			TempData["error"] = Locale.UnableToDeactivate + " " + Locale.User;
-
 			return RedirectToAction("Index");
 		}
 
@@ -192,7 +187,6 @@ namespace OpenIZAdmin.Controllers
 				if (userEntity == null)
 				{
 					TempData["error"] = Locale.User + " " + Locale.NotFound;
-
 					return RedirectToAction("Index");
 				}
 
@@ -202,7 +196,6 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			TempData["error"] = Locale.User + " " + Locale.NotFound;
-
 			return RedirectToAction("Index");
 		}
 
@@ -222,10 +215,10 @@ namespace OpenIZAdmin.Controllers
                 if (userEntity == null)
 				{
 					TempData["error"] = Locale.User + " " + Locale.NotFound;
-
 					return RedirectToAction("Index");
 				}
                
+                //this is for tracking changes/troubleshooting - can be compacted later
                 UserEntity updatedUserEntity = UserUtil.ToUpdateUserEntity(model, userEntity);
                 SecurityUserInfo securityInfo = UserUtil.ToSecurityUserInfo(model, userEntity, this.AmiClient);
 
@@ -298,7 +291,6 @@ namespace OpenIZAdmin.Controllers
 				this.AmiClient.UpdateUser(model.UserId, user);
 
 				TempData["success"] = Locale.Password + " " + Locale.Reset + " " + Locale.Successfully;
-
 				return RedirectToAction("Index", "Home");
 			}
 
@@ -377,13 +369,11 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			var viewModel = UserUtil.ToUserViewModel(this.ImsiClient, userInfo);
-
 			var user = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, userId);
 
 			viewModel.Name = string.Join(" ", user.Names.SelectMany(n => n.Component).Select(c => c.Value));
 
 			var healthFacility = user.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-
 			if (healthFacility?.TargetEntityKey != null)
 			{
 				var place = this.ImsiClient.Get<Place>(healthFacility.TargetEntityKey.Value, null) as Place;

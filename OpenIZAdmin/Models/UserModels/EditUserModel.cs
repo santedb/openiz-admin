@@ -31,11 +31,12 @@ namespace OpenIZAdmin.Models.UserModels
 		{
 			this.Facilities = new List<string>();
 			this.FacilityList = new List<SelectListItem>();
-			this.FamilyNameList = new List<SelectListItem>();
-			this.FamilyNames = new List<string>();
-			this.GivenNamesList = new List<SelectListItem>();
+			this.SurnameList = new List<SelectListItem>();
+			this.Surnames = new List<string>();			
 			this.GivenNames = new List<string>();
-			this.RolesList = new List<SelectListItem>();
+            this.GivenNamesList = new List<SelectListItem>();
+            this.PhoneTypeList = new List<SelectListItem>();
+            this.RolesList = new List<SelectListItem>();
 			this.Roles = new List<string>();
 			this.UserRoles = new List<RoleViewModel>();
 		}
@@ -58,13 +59,7 @@ namespace OpenIZAdmin.Models.UserModels
 		/// Gets or sets the id of the facility of the user.
 		/// </summary>
 		[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
-		public List<string> Facilities { get; set; }
-
-		/// <summary>
-		/// Gets or sets the id of the facility of the user.
-		/// </summary>
-		//[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
-		//public List<string> FacilitiesId { get; set; }
+		public List<string> Facilities { get; set; }		
 
 		/// <summary>
 		/// Gets or sets the list of facilities.
@@ -74,13 +69,13 @@ namespace OpenIZAdmin.Models.UserModels
 		/// <summary>
 		/// Gets or sets the list of family names.
 		/// </summary>
-		public List<SelectListItem> FamilyNameList { get; set; }
+		public List<SelectListItem> SurnameList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the family names of the user.
 		/// </summary>
-		[Display(Name = "FamilyNames", ResourceType = typeof(Localization.Locale))]
-		public List<string> FamilyNames { get; set; }
+		[Display(Name = "Surname", ResourceType = typeof(Localization.Locale))]
+		public List<string> Surnames { get; set; }
 
 		/// <summary>
 		/// Gets or sets the givens names of the user.
@@ -99,11 +94,27 @@ namespace OpenIZAdmin.Models.UserModels
 		[Display(Name = "HealthFacility", ResourceType = typeof(Localization.Locale))]
 		public string HealthFacility { get; set; }
 
-		/// <summary>
-		/// Gets or sets the roles to apply to the user account.
+        /// <summary>
+		/// Gets or sets the phone number of the user.
 		/// </summary>
-		[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
-		//[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Phone", ResourceType = typeof(Localization.Locale))]
+        public string PhoneNumber { get; set; }
+
+        /// <summary>
+		/// Gets or sets the phone type of the user.
+		/// </summary>
+		[Display(Name = "PhoneType", ResourceType = typeof(Localization.Locale))]
+        public string PhoneType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the types of phones.
+        /// </summary>
+        public List<SelectListItem> PhoneTypeList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the roles to apply to the user account.
+        /// </summary>
+        [Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]		
 		public List<string> Roles { get; set; }
 
 		/// <summary>

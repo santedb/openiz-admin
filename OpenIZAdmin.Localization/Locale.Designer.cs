@@ -961,6 +961,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Given Name.
+        /// </summary>
+        public static string GivenName {
+            get {
+                return ResourceManager.GetString("GivenName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Grant.
         /// </summary>
         public static string Grant {
@@ -1591,11 +1600,29 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password length is invalid. Too many characters..
+        /// </summary>
+        public static string PasswordLength {
+            get {
+                return ResourceManager.GetString("PasswordLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Password field is required.
         /// </summary>
         public static string PasswordRequired {
             get {
                 return ResourceManager.GetString("PasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password must contain one upper case and one lower case character and have a minimum of 8 characters.
+        /// </summary>
+        public static string PasswordStrength {
+            get {
+                return ResourceManager.GetString("PasswordStrength", resourceCulture);
             }
         }
         
@@ -2208,6 +2235,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToRetrieveDeviceList {
             get {
                 return ResourceManager.GetString("UnableToRetrieveDeviceList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to retrieve new user.
+        /// </summary>
+        public static string UnableToRetrieveNewUser {
+            get {
+                return ResourceManager.GetString("UnableToRetrieveNewUser", resourceCulture);
             }
         }
         
