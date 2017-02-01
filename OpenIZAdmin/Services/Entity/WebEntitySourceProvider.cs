@@ -127,26 +127,28 @@ namespace OpenIZAdmin.Services.Entity
 			{
 				if (key.HasValue && key.Value != Guid.Empty)
 				{
-					if (typeof(TObject) == typeof(Concept))
-					{
-						var concept = this.Cache.Get(string.Format(CacheConceptKey, key));
+					//if (typeof(TObject) == typeof(Concept))
+					//{
+					//	var concept = this.Cache.Get(string.Format(CacheConceptKey, key));
 
-						if (concept == null)
-						{
-							response = this.serviceClient.Get<TObject>(key.Value, null) as TObject;
+					//	if (concept == null)
+					//	{
+					//		response = this.serviceClient.Get<TObject>(key.Value, null) as TObject;
 
-							var policy = new CacheItemPolicy
-							{
-								AbsoluteExpiration = DateTime.UtcNow + TimeSpan.FromHours(24)
-							};
+					//		var policy = new CacheItemPolicy
+					//		{
+					//			AbsoluteExpiration = DateTime.UtcNow + TimeSpan.FromHours(24)
+					//		};
 
-							Cache.Add(new CacheItem(string.Format(CacheConceptKey, key), response), policy);
-						}
-					}
-					else
-					{
-						response = this.serviceClient.Get<TObject>(key.Value, null) as TObject;
-					}
+					//		Cache.Add(new CacheItem(string.Format(CacheConceptKey, key), response), policy);
+					//	}
+					//}
+					//else
+					//{
+					//	response = this.serviceClient.Get<TObject>(key.Value, null) as TObject;
+					//}
+
+					response = this.serviceClient.Get<TObject>(key.Value, null) as TObject;
 				}
 			}
 			catch
