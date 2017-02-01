@@ -371,9 +371,17 @@ namespace OpenIZAdmin.Controllers
 			var viewModel = UserUtil.ToUserViewModel(this.ImsiClient, userInfo);
 			var user = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, userId);
 
-			viewModel.Name = string.Join(" ", user.Names.SelectMany(n => n.Component).Select(c => c.Value));
+            //viewModel.Name = string.Join(" ", user.Names.SelectMany(n => n.Component).Select(c => c.Value));            
 
-			var healthFacility = user.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+            var given = user.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();            
+            var family = user.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
+
+            //string concatGiven = string.Join(" ", given);
+            //string concatFamily = string.Join(" ", family);
+
+            viewModel.Name = string.Join(" ", given) + " " + string.Join(" ", family);
+
+            var healthFacility = user.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 			if (healthFacility?.TargetEntityKey != null)
 			{
 				var place = this.ImsiClient.Get<Place>(healthFacility.TargetEntityKey.Value, null) as Place;

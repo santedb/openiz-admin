@@ -59,9 +59,9 @@ namespace OpenIZAdmin.Models.UserModels
 		//public List<SelectListItem> FamilyNameList { get; set; }
 
         /// <summary>
-        /// Gets or sets the family names of the user.
-        /// </summary>
-        [Display(Name = "SurName", ResourceType = typeof(Localization.Locale))]
+		/// Gets or sets the family names of the user.
+		/// </summary>
+		[Display(Name = "Surname", ResourceType = typeof(Localization.Locale))]
         public List<string> Surnames { get; set; }
 
         /// <summary>

@@ -80,7 +80,7 @@ namespace OpenIZAdmin.Models.UserModels
 		/// <summary>
 		/// Gets or sets the givens names of the user.
 		/// </summary>
-		[Display(Name = "Names", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "GivenName", ResourceType = typeof(Localization.Locale))]
 		public List<string> GivenNames { get; set; }
 
 		/// <summary>
