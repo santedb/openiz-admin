@@ -817,7 +817,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EN.
+        ///   Looks up a localized string similar to en.
         /// </summary>
         public static string EN {
             get {
@@ -2014,7 +2014,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SW.
+        ///   Looks up a localized string similar to sw.
         /// </summary>
         public static string SW {
             get {

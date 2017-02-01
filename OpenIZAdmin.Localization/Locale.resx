@@ -898,10 +898,10 @@
     <value>Kiswahili</value>
   </data>
   <data name="EN" xml:space="preserve">
-    <value>EN</value>
+    <value>en</value>
   </data>
   <data name="SW" xml:space="preserve">
-    <value>SW</value>
+    <value>sw</value>
   </data>
   <data name="UserNameExists" xml:space="preserve">
     <value>User name already exists. Please select another user name.</value>
