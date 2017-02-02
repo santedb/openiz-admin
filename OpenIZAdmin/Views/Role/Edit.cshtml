@@ -19,7 +19,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
                         <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_RoleName })
                             @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -27,7 +27,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
                         <div class="col-md-8">
-                            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", cols = "20", rows = "3" })
+                            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", cols = "20", rows = "3", title = Locale.ToolTip_RoleDescription })
                             @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -35,13 +35,13 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.Policies, new { @class = "col-md-2 control-label" })
                         <div class="col-md-8">
-                            @Html.ListBoxFor(m => m.Policies, Model.PoliciesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
+                            @Html.ListBoxFor(m => m.Policies, Model.PoliciesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple", title = Locale.ToolTip_Policies })
                             @Html.ValidationMessageFor(m => m.Policies, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-8">
-                            <input type="submit" value="@Locale.Submit" class="btn btn-default" />
+                            <input type="submit" value="@Locale.Submit" class="btn btn-default"  title="@Locale.ToolTip_Submit"/>
                         </div>
                     </div>
                 </div>

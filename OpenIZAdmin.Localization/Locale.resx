@@ -930,17 +930,53 @@
   <data name="UnableToRetrieveNewUser" xml:space="preserve">
     <value>Unable to retrieve new user</value>
   </data>
+  <data name="ToolTip_Cancel" xml:space="preserve">
+    <value>Select to cancel and return to the application</value>
+  </data>
   <data name="ToolTip_Facilities" xml:space="preserve">
     <value>Enter the first 4 letters of the Health Facility. Select the target facility from the search results. Only one facility can be selected. To remove an existing facility, select the "X" located to the left of the facility title.</value>
   </data>
   <data name="ToolTip_GivenNamesListBox" xml:space="preserve">
     <value>Enter the users given name and press enter. If there is more than one given name then press enter after each has been entered. To remove an existing name, select the "X" located to the left of the name text.</value>
   </data>
+  <data name="ToolTip_JoinRealm" xml:space="preserve">
+    <value>Select to join a realm.</value>
+  </data>
+  <data name="ToolTip_JoinRealm_Address" xml:space="preserve">
+    <value>The application address (i.e - www.realm.com)</value>
+  </data>
+  <data name="ToolTip_JoinRealm_AppId" xml:space="preserve">
+    <value>The application identifier</value>
+  </data>
+  <data name="ToolTip_JoinRealm_AppSecret" xml:space="preserve">
+    <value>The application secret </value>
+  </data>
+  <data name="ToolTip_LeaveRealm" xml:space="preserve">
+    <value>Select to leave the currrent realm and connect to a different realm.</value>
+  </data>
   <data name="ToolTip_Password" xml:space="preserve">
     <value>The password to be associated with the user account.</value>
   </data>
+  <data name="ToolTip_PhoneNumber" xml:space="preserve">
+    <value>The phone number associated with the user</value>
+  </data>
+  <data name="ToolTip_PhoneType" xml:space="preserve">
+    <value>The contact details or type of telecommunications device related to the phone number</value>
+  </data>
+  <data name="ToolTip_Policies" xml:space="preserve">
+    <value>Click on the drop down to select a policy. Multiple policies are able to be selected. To remove an existing policy, select the "X" located to the left of the policy title.</value>
+  </data>
+  <data name="ToolTip_RoleDescription" xml:space="preserve">
+    <value>A description of the role including policies and permissions associated.</value>
+  </data>
+  <data name="ToolTip_RoleName" xml:space="preserve">
+    <value>The name of the role</value>
+  </data>
   <data name="ToolTip_Roles" xml:space="preserve">
     <value>Click on the drop down to select a role. Multiple roles are able to be selected. To remove an existing role, select the "X" located to the left of the role title.</value>
+  </data>
+  <data name="ToolTip_Submit" xml:space="preserve">
+    <value>Select to submit for processing</value>
   </data>
   <data name="ToolTip_SurnamesListBox" xml:space="preserve">
     <value>Enter the users surname and press enter. If there is more than one surname then press enter after each has been entered. To remove an existing name, select the "X" located to the left of the name text.</value>

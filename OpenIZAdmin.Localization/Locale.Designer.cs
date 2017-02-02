@@ -2077,6 +2077,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select to cancel and return to the application.
+        /// </summary>
+        public static string ToolTip_Cancel {
+            get {
+                return ResourceManager.GetString("ToolTip_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter the first 4 letters of the Health Facility. Select the target facility from the search results. Only one facility can be selected. To remove an existing facility, select the &quot;X&quot; located to the left of the facility title..
         /// </summary>
         public static string ToolTip_Facilities {
@@ -2095,6 +2104,51 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select to join a realm..
+        /// </summary>
+        public static string ToolTip_JoinRealm {
+            get {
+                return ResourceManager.GetString("ToolTip_JoinRealm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The application address (i.e - www.realm.com).
+        /// </summary>
+        public static string ToolTip_JoinRealm_Address {
+            get {
+                return ResourceManager.GetString("ToolTip_JoinRealm_Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The application identifier.
+        /// </summary>
+        public static string ToolTip_JoinRealm_AppId {
+            get {
+                return ResourceManager.GetString("ToolTip_JoinRealm_AppId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The application secret .
+        /// </summary>
+        public static string ToolTip_JoinRealm_AppSecret {
+            get {
+                return ResourceManager.GetString("ToolTip_JoinRealm_AppSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select to leave the currrent realm and connect to a different realm..
+        /// </summary>
+        public static string ToolTip_LeaveRealm {
+            get {
+                return ResourceManager.GetString("ToolTip_LeaveRealm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The password to be associated with the user account..
         /// </summary>
         public static string ToolTip_Password {
@@ -2104,11 +2158,65 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The phone number associated with the user.
+        /// </summary>
+        public static string ToolTip_PhoneNumber {
+            get {
+                return ResourceManager.GetString("ToolTip_PhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The contact details or type of telecommunications device related to the phone number.
+        /// </summary>
+        public static string ToolTip_PhoneType {
+            get {
+                return ResourceManager.GetString("ToolTip_PhoneType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click on the drop down to select a policy. Multiple policies are able to be selected. To remove an existing policy, select the &quot;X&quot; located to the left of the policy title..
+        /// </summary>
+        public static string ToolTip_Policies {
+            get {
+                return ResourceManager.GetString("ToolTip_Policies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A description of the role including policies and permissions associated..
+        /// </summary>
+        public static string ToolTip_RoleDescription {
+            get {
+                return ResourceManager.GetString("ToolTip_RoleDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the role.
+        /// </summary>
+        public static string ToolTip_RoleName {
+            get {
+                return ResourceManager.GetString("ToolTip_RoleName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Click on the drop down to select a role. Multiple roles are able to be selected. To remove an existing role, select the &quot;X&quot; located to the left of the role title..
         /// </summary>
         public static string ToolTip_Roles {
             get {
                 return ResourceManager.GetString("ToolTip_Roles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select to submit for processing.
+        /// </summary>
+        public static string ToolTip_Submit {
+            get {
+                return ResourceManager.GetString("ToolTip_Submit", resourceCulture);
             }
         }
         
