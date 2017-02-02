@@ -129,6 +129,7 @@ namespace OpenIZAdmin.Util
 		{
 			var viewModel = new PolicyViewModel
 			{
+				CreationTime = policy.Policy.CreationTime.DateTime,
 				CanOverride = policy.CanOverride,
 				Grant = Enum.GetName(typeof(PolicyGrantType), policy.Grant),
 				IsPublic = policy.Policy.IsPublic,

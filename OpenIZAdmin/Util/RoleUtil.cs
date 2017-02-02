@@ -85,11 +85,11 @@ namespace OpenIZAdmin.Util
 				Description = roleInfo.Role.Description,
 				Id = roleInfo.Id.Value,
 				Name = roleInfo.Name,
-				HasPolicies = roleInfo.Policies != null && roleInfo.Policies.Any(),
+				HasPolicies = roleInfo.Policies?.Any() == true,
 				IsObsolete = roleInfo.Role.ObsoletionTime != null
 			};
 
-			if (roleInfo.Policies != null && roleInfo.Policies.Any())
+			if (roleInfo.Policies?.Any() == true)
 			{
 				viewModel.Policies = roleInfo.Policies.Select(PolicyUtil.ToPolicyViewModel).OrderBy(q => q.Name).ToList();
 			}
