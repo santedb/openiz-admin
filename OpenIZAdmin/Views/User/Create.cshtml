@@ -16,7 +16,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control", title = "My Tooltip - this a test for tooltip features" })
+                    @Html.TextBoxFor(m => m.Username, new { @class = "form-control", title = Locale.ToolTip_Username })
                     @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })                    
                 </div>                
             </div>
@@ -24,7 +24,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", title = "My Tooltip - this a test for tooltip features" })
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", title = Locale.ToolTip_Password })
                     @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                 </div>
             </div>          
@@ -32,7 +32,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.GivenNames, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.GivenNames, new List<SelectListItem>(), new { @class = "dynamic-dropdown form-control", multiple = "multiple", title = "My Tooltip - this a test for tooltip features" })
+                    @Html.ListBoxFor(m => m.GivenNames, new List<SelectListItem>(), new { @class = "dynamic-dropdown form-control", multiple = "multiple", title = Locale.ToolTip_GivenNamesListBox })
                     @Html.ValidationMessageFor(m => m.GivenNames, "", new { @class = "text-danger" })
                 </div>
             </div>            
@@ -40,7 +40,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Surnames, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.Surnames, new List<SelectListItem>(), new { @class = "dynamic-dropdown form-control", multiple = "multiple", title = "My Tooltip - this a test for tooltip features" })
+                    @Html.ListBoxFor(m => m.Surnames, new List<SelectListItem>(), new { @class = "dynamic-dropdown form-control", multiple = "multiple", title = Locale.ToolTip_SurnamesListBox })
                     @Html.ValidationMessageFor(m => m.Surnames, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -49,7 +49,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", title = "My Tooltip - this a test for tooltip features" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", title = Locale.ToolTip_UserEmail })
                     @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -57,7 +57,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Roles, new {@class = "col-md-2 control-label"})
                 <div class="col-md-8">
-                    @Html.DropDownListFor(m => m.Roles, Model.RolesList, new {@class = "dynamic-dropdown form-control", multiple = "multiple", title = "My Tooltip - this a test for tooltip features" })
+                    @Html.DropDownListFor(m => m.Roles, Model.RolesList, new {@class = "dynamic-dropdown form-control", multiple = "multiple", title = Locale.ToolTip_Roles })
                     @Html.ValidationMessageFor(m => m.Roles, "", new {@class = "text-danger"})
                 </div>
             </div>
@@ -65,7 +65,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Facilities, new { @class = "col-md-2 control-label" })
                 <div class="col-md-6">
-                    @Html.ListBoxFor(m => m.Facilities, new List<SelectListItem>(), new { @class = "facility-ajax form-control", title = "My Tooltip - this a test for tooltip features" })
+                    @Html.ListBoxFor(m => m.Facilities, new List<SelectListItem>(), new { @class = "facility-ajax form-control", title = Locale.ToolTip_Facilities })
                     @Html.ValidationMessageFor(m => m.Facilities, "", new { @class = "text-danger" })
                 </div>
             </div>

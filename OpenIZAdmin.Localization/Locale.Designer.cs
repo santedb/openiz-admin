@@ -2077,6 +2077,69 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Enter the first 4 letters of the Health Facility. Select the target facility from the search results. Only one facility can be selected. To remove an existing facility, select the &quot;X&quot; located to the left of the facility title..
+        /// </summary>
+        public static string ToolTip_Facilities {
+            get {
+                return ResourceManager.GetString("ToolTip_Facilities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter the users given name and press enter. If there is more than one given name then press enter after each has been entered. To remove an existing name, select the &quot;X&quot; located to the left of the name text..
+        /// </summary>
+        public static string ToolTip_GivenNamesListBox {
+            get {
+                return ResourceManager.GetString("ToolTip_GivenNamesListBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password to be associated with the user account..
+        /// </summary>
+        public static string ToolTip_Password {
+            get {
+                return ResourceManager.GetString("ToolTip_Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click on the drop down to select a role. Multiple roles are able to be selected. To remove an existing role, select the &quot;X&quot; located to the left of the role title..
+        /// </summary>
+        public static string ToolTip_Roles {
+            get {
+                return ResourceManager.GetString("ToolTip_Roles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter the users surname and press enter. If there is more than one surname then press enter after each has been entered. To remove an existing name, select the &quot;X&quot; located to the left of the name text..
+        /// </summary>
+        public static string ToolTip_SurnamesListBox {
+            get {
+                return ResourceManager.GetString("ToolTip_SurnamesListBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Enter the email address associated with the user..
+        /// </summary>
+        public static string ToolTip_UserEmail {
+            get {
+                return ResourceManager.GetString("ToolTip_UserEmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The username to be associated with the user account..
+        /// </summary>
+        public static string ToolTip_Username {
+            get {
+                return ResourceManager.GetString("ToolTip_Username", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select a recipient.
         /// </summary>
         public static string ToRequired {

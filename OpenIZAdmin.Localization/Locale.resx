@@ -930,4 +930,25 @@
   <data name="UnableToRetrieveNewUser" xml:space="preserve">
     <value>Unable to retrieve new user</value>
   </data>
+  <data name="ToolTip_Facilities" xml:space="preserve">
+    <value>Enter the first 4 letters of the Health Facility. Select the target facility from the search results. Only one facility can be selected. To remove an existing facility, select the "X" located to the left of the facility title.</value>
+  </data>
+  <data name="ToolTip_GivenNamesListBox" xml:space="preserve">
+    <value>Enter the users given name and press enter. If there is more than one given name then press enter after each has been entered. To remove an existing name, select the "X" located to the left of the name text.</value>
+  </data>
+  <data name="ToolTip_Password" xml:space="preserve">
+    <value>The password to be associated with the user account.</value>
+  </data>
+  <data name="ToolTip_Roles" xml:space="preserve">
+    <value>Click on the drop down to select a role. Multiple roles are able to be selected. To remove an existing role, select the "X" located to the left of the role title.</value>
+  </data>
+  <data name="ToolTip_SurnamesListBox" xml:space="preserve">
+    <value>Enter the users surname and press enter. If there is more than one surname then press enter after each has been entered. To remove an existing name, select the "X" located to the left of the name text.</value>
+  </data>
+  <data name="ToolTip_UserEmail" xml:space="preserve">
+    <value>Enter the email address associated with the user.</value>
+  </data>
+  <data name="ToolTip_Username" xml:space="preserve">
+    <value>The username to be associated with the user account.</value>
+  </data>
 </root>
