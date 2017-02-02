@@ -7,7 +7,7 @@
     <div class="panel panel-heading">
         <span>@(Locale.View + " " + Locale.User)</span>
         <div class="pull-right">
-            <a href="~/User/Edit/@Model.UserId">
+            <a href="~/User/Edit/@Model.UserId" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-edit"></span>
                 @Locale.Edit
             </a>

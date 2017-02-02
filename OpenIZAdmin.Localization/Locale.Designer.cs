@@ -2086,6 +2086,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select to edit and update.
+        /// </summary>
+        public static string ToolTip_Edit {
+            get {
+                return ResourceManager.GetString("ToolTip_Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Enter the first 4 letters of the Health Facility. Select the target facility from the search results. Only one facility can be selected. To remove an existing facility, select the &quot;X&quot; located to the left of the facility title..
         /// </summary>
         public static string ToolTip_Facilities {
@@ -2100,6 +2109,15 @@ namespace OpenIZAdmin.Localization {
         public static string ToolTip_GivenNamesListBox {
             get {
                 return ResourceManager.GetString("ToolTip_GivenNamesListBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The permission level applied.
+        /// </summary>
+        public static string ToolTip_Grant {
+            get {
+                return ResourceManager.GetString("ToolTip_Grant", resourceCulture);
             }
         }
         
@@ -2149,6 +2167,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The name used to idenity an object including the organizationally derived and/or assigned.
+        /// </summary>
+        public static string ToolTip_Oid {
+            get {
+                return ResourceManager.GetString("ToolTip_Oid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The password to be associated with the user account..
         /// </summary>
         public static string ToolTip_Password {
@@ -2185,6 +2212,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sets the permission level if the policy can be overridden.
+        /// </summary>
+        public static string ToolTip_PolicyCanOverride {
+            get {
+                return ResourceManager.GetString("ToolTip_PolicyCanOverride", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the policy.
+        /// </summary>
+        public static string ToolTip_PolicyName {
+            get {
+                return ResourceManager.GetString("ToolTip_PolicyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A description of the role including policies and permissions associated..
         /// </summary>
         public static string ToolTip_RoleDescription {
@@ -2212,7 +2257,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select to submit for processing.
+        ///   Looks up a localized string similar to Select to submit.
         /// </summary>
         public static string ToolTip_Submit {
             get {
