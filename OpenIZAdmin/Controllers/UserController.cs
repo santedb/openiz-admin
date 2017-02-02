@@ -184,10 +184,10 @@ namespace OpenIZAdmin.Controllers
 			{
 				var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, userId);
 
+				// used as a check for users, incase an imported user doesn't have a user entity
 				if (userEntity == null)
 				{
-					TempData["error"] = Locale.User + " " + Locale.NotFound;
-					return RedirectToAction("Index");
+					userEntity = new UserEntity();
 				}
 
 				var model = UserUtil.ToEditUserModel(this.ImsiClient, this.AmiClient, userEntity);
@@ -370,6 +370,12 @@ namespace OpenIZAdmin.Controllers
 
 			var viewModel = UserUtil.ToUserViewModel(this.ImsiClient, userInfo);
 			var user = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, userId);
+
+			// used as a check for users, incase an imported user doesn't have a user entity
+			if (user == null)
+			{
+				user = new UserEntity();
+			}
 
             //viewModel.Name = string.Join(" ", user.Names.SelectMany(n => n.Component).Select(c => c.Value));            
 
