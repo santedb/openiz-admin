@@ -122,9 +122,8 @@ namespace OpenIZAdmin.Util
                 model.PhoneType = "";
             }
             else
-            {
-                //mobile phone - e161f90e-5939-430e-861a-f8e885cc353d	
-                model.PhoneType = "e161f90e-5939-430e-861a-f8e885cc353d";
+            {                
+                model.PhoneType = Constants.MOBILE_PHONE_TYPE_GUID;
             }
 
             return model;

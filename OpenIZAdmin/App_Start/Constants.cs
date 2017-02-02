@@ -38,14 +38,39 @@ namespace OpenIZAdmin
 		/// </summary>
 		public const string AMI = "AMI";
 
-		/// <summary>
-		/// The IMSI endpoint name.
-		/// </summary>
-		public const string IMSI = "IMSI";
-
-		/// <summary>
+        /// <summary>
 		/// The content type of application/xml.
 		/// </summary>
 		public const string ApplicationXml = "application/xml";
-	}
+        
+        /// <summary>
+        /// The User Role type Clinical Staff.
+        /// </summary>
+        public const string CLINICAL_STAFF = "CLINICAL_STAFF";
+
+        /// <summary>
+        /// The IMSI endpoint name.
+        /// </summary>
+        public const string IMSI = "IMSI";        
+        
+        /// <summary>
+        /// The User Role type Middle Level Officer.
+        /// </summary>
+        //public const string MIDDLE_LEVEL_OFFICER = "Middle Level Officer";
+
+        /// <summary>
+        /// The Mobile Phone Guid associated with a Phone Type 
+        /// </summary>
+        public const string MOBILE_PHONE_TYPE_GUID = "e161f90e-5939-430e-861a-f8e885cc353d";
+
+        /// <summary>
+        /// The User Role type National Level Officer.
+        /// </summary>
+        //public const string NATIONAL_LEVEL_OFFICER = "National Level Officer";
+
+        /// <summary>
+        /// The User Role type Vaccinator.
+        /// </summary>
+        //public const string VACCINATOR = "Vaccinator";
+    }
 }

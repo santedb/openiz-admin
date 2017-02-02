@@ -84,16 +84,17 @@ namespace OpenIZAdmin.Util
 			return bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.SecurityUserKey == securityUserId);
 		}
 
-		/// <summary>
-		/// Creates a new CreateUserModel for the Create User View
-		/// </summary>
-		/// <param name="imsiClient">The Imsi Service Client client.</param>
-		/// <param name="amiClient">The Ami service client.</param>
-		/// <param name="userEntity">The user entity to convert to a edit user model.</param>
-		/// <returns>Returns a CreateUserModel view.</returns>
-		public static UserEntity ToCreateUserEntity(ImsiServiceClient imsiClient, CreateUserModel model, UserEntity userEntity)
-		{
-			if (model.Roles.Contains("CLINICAL_STAFF"))
+        /// <summary>
+        /// Creates a new CreateUserModel for the Create User View
+        /// </summary>
+        /// <param name="imsiClient">The Imsi Service Client client.</param>
+        /// <param name="model">The CreateUserModel containing the user information to be assigned.</param>
+        /// <param name="userEntity">The user entity to convert to a edit user model.</param>
+        /// <returns>Returns a CreateUserModel view.</returns>
+        public static UserEntity ToCreateUserEntity(ImsiServiceClient imsiClient, CreateUserModel model, UserEntity userEntity)
+		{            
+			if (model.Roles.Contains(Constants.CLINICAL_STAFF)) //|| model.Roles.Contains(Constants.VACCINATOR) ||
+                //model.Roles.Contains(Constants.MIDDLE_LEVEL_OFFICER) || model.Roles.Contains(Constants.NATIONAL_LEVEL_OFFICER) )
 			{
 				var provider = imsiClient.Create<Provider>(new Provider { Key = Guid.NewGuid() });
 
