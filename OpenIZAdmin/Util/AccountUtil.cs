@@ -115,17 +115,19 @@ namespace OpenIZAdmin.Util
 
             model.PhoneTypeList = GetPhoneTypeList(imsiClient);
 
-			//var bundle = imsiClient.Query<ConceptSet>(c => c.Mnemonic == "TelecomAddressUse");
-			//var telecomList = bundle.Item.OfType<ConceptSet>().ToList().FirstOrDefault();
+            //default to mobile phone unless entry exists
+            if(!string.IsNullOrWhiteSpace(userEntity.SecurityUser.PhoneNumber))
+            {
+                //need to assign phone type when property is accessible
+                model.PhoneType = "";
+            }
+            else
+            {
+                //mobile phone - e161f90e-5939-430e-861a-f8e885cc353d	
+                model.PhoneType = "e161f90e-5939-430e-861a-f8e885cc353d";
+            }
 
-			//model.PhoneTypeList.Add(new SelectListItem { Text = "", Value = "" });
-			//foreach (Concept con in telecomList.Concepts)
-			//{
-			//	string name = string.Join("", con.ConceptNames.Select(n => n.Name)?.Select(c => c.ToString()));
-			//	model.PhoneTypeList.Add(new SelectListItem { Text = name, Value = con.Key.ToString() });
-			//}
-
-			return model;
+            return model;
 		}
 
 		/// <summary>
@@ -190,26 +192,26 @@ namespace OpenIZAdmin.Util
 
 
 			//!!!-----------THIS IS CAUSING THE UPDATE TO FAIL--------------------------STARTS
-			var serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+			//var serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 
-			if (model.Facilities != null && model.Facilities.Any())
-			{
-				if (serviceLocation != null)
-				{
-					userEntity.Relationships.First(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
-				}
-				else
-				{
-					userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
-				}
-			}
-			else
-			{
-				if (serviceLocation != null)
-				{
-					userEntity.Relationships.RemoveAll(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-				}
-			}
+			//if (model.Facilities != null && model.Facilities.Any())
+			//{
+			//	if (serviceLocation != null)
+			//	{
+			//		userEntity.Relationships.First(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
+			//	}
+			//	else
+			//	{
+			//		userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
+			//	}
+			//}
+			//else
+			//{
+			//	if (serviceLocation != null)
+			//	{
+			//		userEntity.Relationships.RemoveAll(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+			//	}
+			//}
 			//!!!-----------THIS IS CAUSING THE UPDATE TO FAIL--------------------------ENDS
 
 

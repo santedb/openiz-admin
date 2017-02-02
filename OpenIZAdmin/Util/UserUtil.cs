@@ -191,8 +191,19 @@ namespace OpenIZAdmin.Util
 			model.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
 
 			model.PhoneTypeList = AccountUtil.GetPhoneTypeList(imsiClient);
+            //default to mobile phone unless entry exists
+            if (!string.IsNullOrWhiteSpace(userEntity.SecurityUser.PhoneNumber))
+            {
+                //need to assign phone type when property is accessible
+                model.PhoneType = "";
+            }
+            else
+            {
+                //mobile phone - e161f90e-5939-430e-861a-f8e885cc353d	
+                model.PhoneType = "e161f90e-5939-430e-861a-f8e885cc353d";
+            }
 
-			return model;
+            return model;
 		}
 
 		/// <summary>
