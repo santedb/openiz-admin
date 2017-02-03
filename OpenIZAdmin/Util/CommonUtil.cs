@@ -128,56 +128,27 @@ namespace OpenIZAdmin.Util
 			return policies;
 		}
 
-		///// <summary>
-		///// Checks if a List has policies
-		///// </summary>
-		///// <param name="pList">A list of policies</param>
-		///// <returns>Returns true if policies exist, false if no policies exist</returns>
-		//public static bool HasPolicies(List<SecurityPolicyInstance> pList)
-		//{
-		//    if (pList != null && pList.Count() > 0)
-		//        return true;
-		//    else
-		//        return false;
-		//}
+        /// <summary>
+        /// Ensures a date is displayed in the rerquested format
+        /// </summary>
+        /// <param name="dt">the date string from the object</param>
+        /// <param name="withTimeStamp">the flag to determine if the timestamp is to be included</param>
+        /// <returns>Returns a date or datetime as a string in the required format as required</returns>
+        public static DateTime? ToRequiredDate(DateTimeOffset dt, bool withTimeStamp)
+        {
+            DateTime date;
+            //if (DateTime.TryParse(dt.ToString(), out date))
+            //{
+            //    if (withTimeStamp)
+            //        return date.ToString(Constants.REQUIRED_DATE_FORMAT_WITH_TIMESTAMP);
+            //    else
+            //        return date.ToString(Constants.REQUIRED_DATE_FORMAT);
+            //}
+            //else
+            //{
+                return null;
+            //}
+        }        
 
-		/// <summary>
-		/// Checks if a device is active or inactive
-		/// </summary>
-		/// <param name="date">A DateTimeOffset object</param>
-		/// <returns>Returns true if active, false if inactive</returns>
-		//public static bool IsActiveStatus(DateTimeOffset? date)
-		//{
-		//    if (date != null)
-		//        return true;
-		//    else
-		//        return false;
-		//}
-
-		/// <summary>
-		/// Checks if an application is active or inactive
-		/// </summary>
-		/// <param name="date">A DateTimeOffset object</param>
-		/// <returns>Returns true if active, false if inactive</returns>
-		//public static bool IsObsolete(DateTimeOffset? date)
-		//{
-		//    if (date == null)
-		//        return false;
-		//    else
-		//        return true;
-		//}
-
-		///// <summary>
-		///// Verifies a valid string parameter
-		///// </summary>
-		///// <param name="key">The string to validate</param>
-		///// <returns>Returns true if valid, false if empty or whitespace</returns>
-		//public static bool IsValidGuid(string key)
-		//{
-		//    if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
-		//        return true;
-		//    else
-		//        return false;
-		//}
-	}
+    }
 }

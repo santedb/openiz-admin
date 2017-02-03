@@ -389,8 +389,9 @@ namespace OpenIZAdmin.Util
 			viewModel.Email = userInfo.Email;
 			viewModel.IsLockedOut = userInfo.Lockout.GetValueOrDefault(false);
 			viewModel.IsObsolete = (userInfo.User.ObsoletionTime != null) ? true : false;
-			viewModel.LastLoginTime = userInfo.User.LastLoginTime?.DateTime;
-			viewModel.PhoneNumber = userInfo.User.PhoneNumber;
+			//viewModel.LastLoginTime = CommonUtil.ToRequiredDate(userInfo.User.LastLoginTime?.DateTime, true);
+            viewModel.LastLoginTime = userInfo.User.LastLoginTime?.DateTime;
+            viewModel.PhoneNumber = userInfo.User.PhoneNumber;
 			viewModel.Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel);
 			viewModel.UserId = userInfo.UserId.Value;
 			viewModel.Username = userInfo.UserName;

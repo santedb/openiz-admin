@@ -63,6 +63,17 @@ namespace OpenIZAdmin
         /// </summary>
         public const string MOBILE_PHONE_TYPE_GUID = "e161f90e-5939-430e-861a-f8e885cc353d";
 
+
+        /// <summary>
+        /// The date format requested to be displayed
+        /// </summary>
+        public const string REQUIRED_DATE_FORMAT = "dd/mm/yyyy";
+
+        /// <summary>
+        /// The date format requested to be displayed with timestamp
+        /// </summary>
+        public const string REQUIRED_DATE_FORMAT_WITH_TIMESTAMP = "dd/mm/yyyy H:mm:ss zzz";
+
         /// <summary>
         /// The User Role type National Level Officer.
         /// </summary>
