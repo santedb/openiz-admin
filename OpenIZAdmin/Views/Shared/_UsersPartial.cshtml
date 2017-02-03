@@ -31,9 +31,9 @@
                             @Html.DisplayNameFor(m => m.Roles)
                         </th>
                         <th></th>
+                        @*<th></th>
                         <th></th>
-                        <th></th>
-                        <th></th>
+                        <th></th>*@
                     </tr>
                 </thead>
                 <tbody>
@@ -67,52 +67,46 @@
                                     <text>@Locale.No</text>
                                 }
                             </td>
-                            <td>
-                                <a class="btn btn-primary" href="/User/ViewUser/@item.UserId">
-                                    @Locale.View
-                                    <span class="glyphicon glyphicon-eye-open"></span>
-                                </a>
-                            </td>
-                            <td>
-                                <a class="btn btn-warning" href="/User/Edit/@item.UserId">
-                                    @Locale.Edit
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
-                            </td>
-                            <td>
-                                <a class="btn btn-danger" href="/User/ResetPassword/@item.UserId">
-                                    @(Locale.Reset + " " + Locale.Password)
-                                    <span class="glyphicon glyphicon-alert"></span>
-                                </a>
-                            </td>
-                            <td>
-                                @if (!item.IsObsolete)
-                                {
-                                    using (Html.BeginForm("Delete", "User", new { id = item.UserId }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                            <td class="col-md-4">                                
+                                    <a class="btn btn-primary" href="/User/ViewUser/@item.UserId">
+                                        @Locale.View
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                    </a>                                    
+                                    <a class="btn btn-warning" href="/User/Edit/@item.UserId">
+                                        @Locale.Edit
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a>                                    
+                                    <a class="btn btn-danger" href="/User/ResetPassword/@item.UserId">
+                                        @(Locale.Reset + " " + Locale.Password)
+                                        <span class="glyphicon glyphicon-alert"></span>
+                                    </a>                                    
+                                    @if (!item.IsObsolete)
                                     {
-                                        @Html.AntiForgeryToken()
+                                        using (Html.BeginForm("Delete", "User", new { id = item.UserId }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                        {
+                                            @Html.AntiForgeryToken()
 
-                                        <button type="submit" class="btn btn-danger">
-                                            @Locale.Deactivate
-                                            <span class="glyphicon glyphicon-log-out"></span>
-                                        </button>
-}
-                                }
-                                else
-                                {
-                                    using (Html.BeginForm("Activate", "User", new { id = item.UserId }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                            <button type="submit" class="formButton btn btn-danger">
+                                                @Locale.Deactivate
+                                                <span class="glyphicon glyphicon-log-out"></span>
+                                            </button>
+                                        }
+                                    }
+                                    else
                                     {
-                                        @Html.AntiForgeryToken()
+                                        using (Html.BeginForm("Activate", "User", new { id = item.UserId }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                        {
+                                            @Html.AntiForgeryToken()
 
-                                        <button type="submit" class="btn btn-success">
-                                            @Locale.Activate
-                                            <span class="glyphicon glyphicon-upload"></span>
-                                        </button>
-}
-                                }
-
+                                            <button type="submit" class="formButton btn btn-success">
+                                                @Locale.Activate
+                                                <span class="glyphicon glyphicon-upload"></span>
+                                            </button>
+                                        }
+                                    }                                
                             </td>
-                    </tr>}
+                    </tr>
+                    }
                 </tbody>
             </table>
         }

@@ -32,26 +32,24 @@
                             <td>@item.Oid</td>
                             <td>@item.Grant</td>
                             <td>@item.CanOverride</td>
-                            <td>
+                            <td class="col-md-3">
                                 <a class="btn btn-primary" href="/Policy/ViewPolicy?key=@item.Key">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
-                                </a>
-                            </td>
+                                </a>                          
                             @*<td>
                                 <a class="btn btn-warning" href="/Policy/Edit/Edit?key=@item.Key">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
-                            </td>*@
-                            <td>
+                            </td>*@                            
                                 @if (!item.IsObsolete)
                                 {
-                                    using (Html.BeginForm("Delete", "Policy", new { id = item.Key }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    using (Html.BeginForm("Delete", "Policy", new { id = item.Key }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
 
-                                        <button type="submit" class="btn btn-danger">
+                                        <button type="submit" class="formButton btn btn-danger">
                                             @Locale.Deactivate
                                             <span class="glyphicon glyphicon-log-out"></span>
                                         </button>
@@ -59,11 +57,11 @@
                                 }
                                 else
                                 {
-                                    using (Html.BeginForm("Activate", "Policy", new { id = item.Key }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    using (Html.BeginForm("Activate", "Policy", new { id = item.Key }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
 
-                                        <button type="submit" class="btn btn-success">
+                                        <button type="submit" class="formButton btn btn-success">
                                             @Locale.Activate
                                             <span class="glyphicon glyphicon-upload"></span>
                                         </button>

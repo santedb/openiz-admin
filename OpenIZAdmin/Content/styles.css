@@ -8,14 +8,29 @@ body {
 }
 
 .form-horizontal {
-    margin: 0 1em 2em 1em;
+    margin: 0 1em 2em 1em;   
 }
+
+.inlineForm{
+    width: auto;
+    display: inline-block;
+    margin: 0;
+}
+
+.formButton{
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 0.9em;
+}
+
 
 span.glyphicon {
 	margin-right: 5px;
 }
 
-
+/*form .inline {
+    display: inline-block;
+}*/
 
 /*
  * Top Navigation CSS

@@ -17,9 +17,7 @@
                     <tr>
                         <th>@Html.DisplayNameFor(m => m.Name)</th>
                         <th>@Html.DisplayNameFor(m => m.Oid)</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th></th>                        
                     </tr>
                 </thead>
                 <tbody>
@@ -28,19 +26,15 @@
                         <tr>
                             <td>@item.Name</td>
                             <td>@item.Oid</td>
-                            <td>
+                            <td class="col-md-2">
                                 <a class="btn btn-primary" href="/AssigningAuthority/ViewAssigningAuthority?key=@item.Key">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
-                                </a>
-                            </td>
-                            <td>
+                                </a>                            
                                 <a class="btn btn-warning" href="/AssigningAuthority/Edit?key=@item.Key">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-edit"></span>
-                                </a>
-                            </td>
-                            <td>
+                                </a>                            
                                 <a class="btn btn-danger" href="/AssigningAuthority/Delete?key=@item.Key">
                                     @Locale.Delete
                                     <span class="glyphicon glyphicon-edit"></span>

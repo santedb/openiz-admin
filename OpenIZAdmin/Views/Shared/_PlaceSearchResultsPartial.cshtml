@@ -17,9 +17,7 @@
                     <tr>
                         <th>@Html.DisplayNameFor(m => m.Name)</th>
                         <th>@Html.DisplayNameFor(m => m.Type)</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th></th>                        
                     </tr>
                 </thead>
                 <tbody>
@@ -29,23 +27,19 @@
                             <td>@item.Name</td>
                             <td>@item.Type</td>
 
-                            <td>
+                            <td class="col-md-3">
                                 <span class="btn-group">
                                     <a class="btn btn-primary" href="/Place/ViewPlace?key=@item.Key">
                                         @Locale.View
                                         <span class="glyphicon glyphicon-eye-open"></span>
                                     </a>
-                                </span>
-                            </td>
-                            <td>
+                                </span>                           
                                 <span class="btn-group">
                                     <a class="btn btn-warning" href="/Place/Edit?key=@item.Key">
                                         @Locale.Edit
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
-                                </span>
-                            </td>
-                            <td>
+                                </span>                           
                                 <span class="btn-group">
                                     <a class="btn btn-danger" href="/Place/Delete?key=@item.Key">
                                         @Locale.Delete

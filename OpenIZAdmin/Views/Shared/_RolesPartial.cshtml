@@ -27,8 +27,7 @@
                         <th>
                             @Html.DisplayNameFor(m => m.HasPolicies)
                         </th>
-                        <th></th>
-                        <th></th>
+                        <th></th>                        
                     </tr>
                 </thead>
                 <tbody>
@@ -52,15 +51,14 @@
                                 <a class="btn btn-primary" href="/Role/ViewRole/@item.Id">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
-                                </a>
-                            </td>
-                            <td>
+                                </a>                          
                                 <a class="btn btn-warning" href="/Role/Edit/@item.Id">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
                             </td>
-                        </tr>}
+                        </tr>
+                    }
                 </tbody>
             </table>
         }

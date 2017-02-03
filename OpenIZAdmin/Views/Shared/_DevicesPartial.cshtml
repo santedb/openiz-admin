@@ -30,17 +30,14 @@
                         <th>
                             @Locale.UpdatedTime
                         </th>                                                                        
-                        <th></th>                        
-                        <th></th>
-                        <th></th>                          
+                        <th></th>                                                                      
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>
-                            @*<td>@item.CreationTime.ToLocalTime()</td>*@
+                            <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>                            
                             <td>
                                 @if(item.CreationTime != null)
                                 {
@@ -61,26 +58,22 @@
                             </td>
 
                             <td>@item.UpdatedTime</td>                            
-                            <td>
+                            <td class="col-md-3">
                                 <a class="btn btn-primary" href="/Device/ViewDevice/@item.Id">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
-                                </a>
-                            </td>
-                            <td>
+                                </a>                            
                                 <a class="btn btn-warning" href="/Device/Edit/Edit?key=@item.Id">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
-                            </td>
-                            <td>
+                                </a>                           
                                 @if (!item.IsObsolete)
                                 {
-                                    using (Html.BeginForm("Delete", "Device", new { id = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    using (Html.BeginForm("Delete", "Device", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
 
-                                        <button type="submit" class="btn btn-danger">
+                                        <button type="submit" class="formButton btn btn-danger">
                                             @Locale.Deactivate
                                             <span class="glyphicon glyphicon-log-out"></span>
                                         </button>
@@ -88,11 +81,11 @@
                                 }
                                 else
                                 {
-                                    using (Html.BeginForm("Activate", "Device", new { id = item.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                                    using (Html.BeginForm("Activate", "Device", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
 
-                                        <button type="submit" class="btn btn-success">
+                                        <button type="submit" class="formButton btn btn-success">
                                             @Locale.Activate
                                             <span class="glyphicon glyphicon-upload"></span>
                                         </button>
@@ -100,7 +93,8 @@
                                 }
 
                             </td>
-                        </tr>}
+                        </tr>
+                    }
                 </tbody>
             </table>
         }

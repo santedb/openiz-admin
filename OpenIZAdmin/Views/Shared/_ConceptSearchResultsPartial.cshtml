@@ -20,9 +20,7 @@
                         <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
                         <th>@Html.DisplayNameFor(m => m.Names)</th>
                         <th>@Html.DisplayNameFor(m => m.Type)</th>
-                        <th></th>
-                        <th></th>
-                        <th></th>
+                        <th></th>                       
                     </tr>
                 </thead>
                 <tbody>
@@ -30,8 +28,7 @@
                     {
                         if (item.Type == ConceptType.Concept)
                         {
-                        <tr>
-                            @*<td>@item.CreationTime</td>*@
+                        <tr>                           
                             <td>
                                 @if (item.CreationTime != null)
                                 {
@@ -51,19 +48,15 @@
 
                             <td>@Locale.Concept</td>
 
-                            <td>
+                            <td class="col-md-3">
                                 <a class="btn btn-primary text-white" href="/Concept/ViewConcept?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
-                                </a>
-                            </td>
-                            <td>
+                                </a>                          
                                 <a class="btn btn-warning text-white" href="/Concept/Edit?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-edit"></span>
-                                </a>
-                            </td>
-                            <td>
+                                </a>                            
                                 <a class="btn btn-danger text-white" href="/Concept/Delete?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
                                     @Locale.Delete
                                     <span class="glyphicon glyphicon-remove"></span>
@@ -84,19 +77,15 @@
                                     <td>@string.Join(", ", item.Names)</td>
                                 }
                                 <td>@Locale.ConceptSet</td>
-                                <td>
+                                <td class="col-md-3">
                                     <a class="btn btn-primary text-white" href="/ConceptSet/ViewConceptSet?key=@item.Key">
                                         @Locale.View
                                         <span class="glyphicon glyphicon-eye-open"></span>
-                                    </a>
-                                </td>
-                                <td>
+                                    </a>                               
                                     <a class="btn btn-warning text-white" href="/ConceptSet/Edit?key=@item.Key">
                                         @Locale.Edit
                                         <span class="glyphicon glyphicon-edit"></span>
-                                    </a>
-                                </td>
-                                <td>
+                                    </a>                               
                                     <a class="btn btn-danger text-white" href="/ConceptSet/Delete?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
                                         @Locale.Delete
                                         <span class="glyphicon glyphicon-remove"></span>
