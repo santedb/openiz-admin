@@ -2077,11 +2077,101 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The recipient of the alert message.
+        /// </summary>
+        public static string ToolTip_AlertTo {
+            get {
+                return ResourceManager.GetString("ToolTip_AlertTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The application name.
+        /// </summary>
+        public static string ToolTip_AppName {
+            get {
+                return ResourceManager.GetString("ToolTip_AppName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The application secret.
+        /// </summary>
+        public static string ToolTip_AppSecret {
+            get {
+                return ResourceManager.GetString("ToolTip_AppSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The description of the assigning authority.
+        /// </summary>
+        public static string ToolTip_AssigningAuthorityDescription {
+            get {
+                return ResourceManager.GetString("ToolTip_AssigningAuthorityDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The assigning authority name.
+        /// </summary>
+        public static string ToolTip_AssigningAuthorityName {
+            get {
+                return ResourceManager.GetString("ToolTip_AssigningAuthorityName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select to cancel and return to the application.
         /// </summary>
         public static string ToolTip_Cancel {
             get {
                 return ResourceManager.GetString("ToolTip_Cancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The DateTime indicating the first save point.
+        /// </summary>
+        public static string ToolTip_CreationTime {
+            get {
+                return ResourceManager.GetString("ToolTip_CreationTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The current password of the user.
+        /// </summary>
+        public static string ToolTip_CurrentPassword {
+            get {
+                return ResourceManager.GetString("ToolTip_CurrentPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The device name.
+        /// </summary>
+        public static string ToolTip_DeviceName {
+            get {
+                return ResourceManager.GetString("ToolTip_DeviceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password of the device.
+        /// </summary>
+        public static string ToolTip_DeviceSecret {
+            get {
+                return ResourceManager.GetString("ToolTip_DeviceSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The identification string that specifies a realm.
+        /// </summary>
+        public static string ToolTip_DomainName {
+            get {
+                return ResourceManager.GetString("ToolTip_DomainName", resourceCulture);
             }
         }
         
@@ -2100,6 +2190,15 @@ namespace OpenIZAdmin.Localization {
         public static string ToolTip_Facilities {
             get {
                 return ResourceManager.GetString("ToolTip_Facilities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click to select and upload a file.
+        /// </summary>
+        public static string ToolTip_File {
+            get {
+                return ResourceManager.GetString("ToolTip_File", resourceCulture);
             }
         }
         
@@ -2158,11 +2257,56 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The default language of the user.
+        /// </summary>
+        public static string ToolTip_Language {
+            get {
+                return ResourceManager.GetString("ToolTip_Language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select to leave the currrent realm and connect to a different realm..
         /// </summary>
         public static string ToolTip_LeaveRealm {
             get {
                 return ResourceManager.GetString("ToolTip_LeaveRealm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The material  form concepts.
+        /// </summary>
+        public static string ToolTip_MaterialFormConcepts {
+            get {
+                return ResourceManager.GetString("ToolTip_MaterialFormConcepts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the material.
+        /// </summary>
+        public static string ToolTip_MaterialName {
+            get {
+                return ResourceManager.GetString("ToolTip_MaterialName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The material quantity concepts.
+        /// </summary>
+        public static string ToolTip_MaterialQuantityConcepts {
+            get {
+                return ResourceManager.GetString("ToolTip_MaterialQuantityConcepts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The message to be contained within the alert.
+        /// </summary>
+        public static string ToolTip_Message {
+            get {
+                return ResourceManager.GetString("ToolTip_Message", resourceCulture);
             }
         }
         
@@ -2203,6 +2347,33 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The angle (ranging from 0 to 90 degrees) running North to South.
+        /// </summary>
+        public static string ToolTip_PlaceLatitude {
+            get {
+                return ResourceManager.GetString("ToolTip_PlaceLatitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The angle (ranging from 0 to 180 degrees) running East to West.
+        /// </summary>
+        public static string ToolTip_PlaceLongitude {
+            get {
+                return ResourceManager.GetString("ToolTip_PlaceLongitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the place.
+        /// </summary>
+        public static string ToolTip_PlaceName {
+            get {
+                return ResourceManager.GetString("ToolTip_PlaceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Click on the drop down to select a policy. Multiple policies are able to be selected. To remove an existing policy, select the &quot;X&quot; located to the left of the policy title..
         /// </summary>
         public static string ToolTip_Policies {
@@ -2226,6 +2397,15 @@ namespace OpenIZAdmin.Localization {
         public static string ToolTip_PolicyName {
             get {
                 return ResourceManager.GetString("ToolTip_PolicyName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Identifies the degree of importance .
+        /// </summary>
+        public static string ToolTip_Priority {
+            get {
+                return ResourceManager.GetString("ToolTip_Priority", resourceCulture);
             }
         }
         
@@ -2257,6 +2437,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to A brief description of the subject.
+        /// </summary>
+        public static string ToolTip_Subject {
+            get {
+                return ResourceManager.GetString("ToolTip_Subject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select to submit.
         /// </summary>
         public static string ToolTip_Submit {
@@ -2271,6 +2460,24 @@ namespace OpenIZAdmin.Localization {
         public static string ToolTip_SurnamesListBox {
             get {
                 return ResourceManager.GetString("ToolTip_SurnamesListBox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select to upload.
+        /// </summary>
+        public static string ToolTip_Upload {
+            get {
+                return ResourceManager.GetString("ToolTip_Upload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The web address specifying the IP address or Domain name.
+        /// </summary>
+        public static string ToolTip_Url {
+            get {
+                return ResourceManager.GetString("ToolTip_Url", resourceCulture);
             }
         }
         

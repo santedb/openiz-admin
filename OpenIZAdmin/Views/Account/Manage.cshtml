@@ -17,7 +17,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.GivenNames, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.GivenNames, Model.GivenNamesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
+                    @Html.ListBoxFor(m => m.GivenNames, Model.GivenNamesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple", title = Locale.ToolTip_GivenNamesListBox })
                     @Html.ValidationMessageFor(m => m.GivenNames, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -25,7 +25,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Surname, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.Surname, Model.SurnamesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple" })
+                    @Html.ListBoxFor(m => m.Surname, Model.SurnamesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple", title = Locale.ToolTip_SurnamesListBox })
                     @Html.ValidationMessageFor(m => m.Surname, "", new { @class = "text-danger" })
                 </div>
             </div>                                                
@@ -33,7 +33,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Facilities, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.Facilities, Model.FacilityList, new { @class = "facility-ajax form-control" })
+                    @Html.ListBoxFor(m => m.Facilities, Model.FacilityList, new { @class = "facility-ajax form-control", title = Locale.ToolTip_Facilities })
                     @Html.ValidationMessageFor(m => m.Facilities, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -41,7 +41,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Language, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.DropDownListFor(m => m.Language, Model.LanguageList, new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.Language, Model.LanguageList, new { @class = "form-control", title = Locale.ToolTip_Language })
                     @Html.ValidationMessageFor(m => m.Language, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -49,14 +49,14 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.PhoneType, new { @class = "col-md-2 control-label" })
                 <div class="col-md-6">
-                    @Html.DropDownListFor(m => m.PhoneType, Model.PhoneTypeList, new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.PhoneType, Model.PhoneTypeList, new { @class = "form-control", title = Locale.ToolTip_PhoneType })
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
                 <div class="col-md-6">
-                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", title = Locale.ToolTip_PhoneNumber })
                 </div>
             </div>
 

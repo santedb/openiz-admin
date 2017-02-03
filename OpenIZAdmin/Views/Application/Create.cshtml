@@ -16,7 +16,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.ApplicationName, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.ApplicationName, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.ApplicationName, new { @class = "form-control", title = Locale.ToolTip_AppName })
                     @Html.ValidationMessageFor(m => m.ApplicationName, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -24,7 +24,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.ApplicationSecret, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.ApplicationSecret, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.ApplicationSecret, new { @class = "form-control", title = Locale.ToolTip_AppSecret })
                     @Html.ValidationMessageFor(m => m.ApplicationSecret, "", new { @class = "text-danger" })
                 </div>
             </div>

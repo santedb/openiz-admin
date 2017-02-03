@@ -16,14 +16,14 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.File, new {@class = "col-md-2 control-label"})
                 <div class="col-md-8">
-                    <input type="file" id="@Html.IdFor(m => m.File)" name="@Html.NameFor(m => m.File)"/>
+                    <input type="file" id="@Html.IdFor(m => m.File)" name="@Html.NameFor(m => m.File)", title="@Locale.ToolTip_File"/>
                     @Html.ValidationMessageFor(m => m.File, "", new {@class = "text-danger"})
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Submit" class="btn btn-default" />
+                    <input type="submit" value="Submit" class="btn btn-default" title="@Locale.ToolTip_Upload"/>
                 </div>
             </div>}
     </div>

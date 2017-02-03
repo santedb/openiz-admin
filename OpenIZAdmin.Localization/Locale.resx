@@ -930,14 +930,47 @@
   <data name="UnableToRetrieveNewUser" xml:space="preserve">
     <value>Unable to retrieve new user</value>
   </data>
+  <data name="ToolTip_AlertTo" xml:space="preserve">
+    <value>The recipient of the alert message</value>
+  </data>
+  <data name="ToolTip_AppName" xml:space="preserve">
+    <value>The application name</value>
+  </data>
+  <data name="ToolTip_AppSecret" xml:space="preserve">
+    <value>The application secret</value>
+  </data>
+  <data name="ToolTip_AssigningAuthorityDescription" xml:space="preserve">
+    <value>The description of the assigning authority</value>
+  </data>
+  <data name="ToolTip_AssigningAuthorityName" xml:space="preserve">
+    <value>The assigning authority name</value>
+  </data>
   <data name="ToolTip_Cancel" xml:space="preserve">
     <value>Select to cancel and return to the application</value>
+  </data>
+  <data name="ToolTip_CreationTime" xml:space="preserve">
+    <value>The DateTime indicating the first save point</value>
+  </data>
+  <data name="ToolTip_CurrentPassword" xml:space="preserve">
+    <value>The current password of the user</value>
+  </data>
+  <data name="ToolTip_DeviceName" xml:space="preserve">
+    <value>The device name</value>
+  </data>
+  <data name="ToolTip_DeviceSecret" xml:space="preserve">
+    <value>The password of the device</value>
+  </data>
+  <data name="ToolTip_DomainName" xml:space="preserve">
+    <value>The identification string that specifies a realm</value>
   </data>
   <data name="ToolTip_Edit" xml:space="preserve">
     <value>Select to edit and update</value>
   </data>
   <data name="ToolTip_Facilities" xml:space="preserve">
     <value>Enter the first 4 letters of the Health Facility. Select the target facility from the search results. Only one facility can be selected. To remove an existing facility, select the "X" located to the left of the facility title.</value>
+  </data>
+  <data name="ToolTip_File" xml:space="preserve">
+    <value>Click to select and upload a file</value>
   </data>
   <data name="ToolTip_GivenNamesListBox" xml:space="preserve">
     <value>Enter the users given name and press enter. If there is more than one given name then press enter after each has been entered. To remove an existing name, select the "X" located to the left of the name text.</value>
@@ -957,8 +990,23 @@
   <data name="ToolTip_JoinRealm_AppSecret" xml:space="preserve">
     <value>The application secret </value>
   </data>
+  <data name="ToolTip_Language" xml:space="preserve">
+    <value>The default language of the user</value>
+  </data>
   <data name="ToolTip_LeaveRealm" xml:space="preserve">
     <value>Select to leave the currrent realm and connect to a different realm.</value>
+  </data>
+  <data name="ToolTip_MaterialFormConcepts" xml:space="preserve">
+    <value>The material  form concepts</value>
+  </data>
+  <data name="ToolTip_MaterialName" xml:space="preserve">
+    <value>The name of the material</value>
+  </data>
+  <data name="ToolTip_MaterialQuantityConcepts" xml:space="preserve">
+    <value>The material quantity concepts</value>
+  </data>
+  <data name="ToolTip_Message" xml:space="preserve">
+    <value>The message to be contained within the alert</value>
   </data>
   <data name="ToolTip_Oid" xml:space="preserve">
     <value>The name used to idenity an object including the organizationally derived and/or assigned</value>
@@ -972,6 +1020,15 @@
   <data name="ToolTip_PhoneType" xml:space="preserve">
     <value>The contact details or type of telecommunications device related to the phone number</value>
   </data>
+  <data name="ToolTip_PlaceLatitude" xml:space="preserve">
+    <value>The angle (ranging from 0 to 90 degrees) running North to South</value>
+  </data>
+  <data name="ToolTip_PlaceLongitude" xml:space="preserve">
+    <value>The angle (ranging from 0 to 180 degrees) running East to West</value>
+  </data>
+  <data name="ToolTip_PlaceName" xml:space="preserve">
+    <value>The name of the place</value>
+  </data>
   <data name="ToolTip_Policies" xml:space="preserve">
     <value>Click on the drop down to select a policy. Multiple policies are able to be selected. To remove an existing policy, select the "X" located to the left of the policy title.</value>
   </data>
@@ -980,6 +1037,9 @@
   </data>
   <data name="ToolTip_PolicyName" xml:space="preserve">
     <value>The name of the policy</value>
+  </data>
+  <data name="ToolTip_Priority" xml:space="preserve">
+    <value>Identifies the degree of importance </value>
   </data>
   <data name="ToolTip_RoleDescription" xml:space="preserve">
     <value>A description of the role including policies and permissions associated.</value>
@@ -990,11 +1050,20 @@
   <data name="ToolTip_Roles" xml:space="preserve">
     <value>Click on the drop down to select a role. Multiple roles are able to be selected. To remove an existing role, select the "X" located to the left of the role title.</value>
   </data>
+  <data name="ToolTip_Subject" xml:space="preserve">
+    <value>A brief description of the subject</value>
+  </data>
   <data name="ToolTip_Submit" xml:space="preserve">
     <value>Select to submit</value>
   </data>
   <data name="ToolTip_SurnamesListBox" xml:space="preserve">
     <value>Enter the users surname and press enter. If there is more than one surname then press enter after each has been entered. To remove an existing name, select the "X" located to the left of the name text.</value>
+  </data>
+  <data name="ToolTip_Upload" xml:space="preserve">
+    <value>Select to upload</value>
+  </data>
+  <data name="ToolTip_Url" xml:space="preserve">
+    <value>The web address specifying the IP address or Domain name</value>
   </data>
   <data name="ToolTip_UserEmail" xml:space="preserve">
     <value>Enter the email address associated with the user.</value>

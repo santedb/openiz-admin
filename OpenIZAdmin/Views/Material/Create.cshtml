@@ -16,7 +16,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_MaterialName })
                     @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -24,7 +24,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.FormConcept,  new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.DropDownListFor(m => m.FormConcept, Model.FormConcepts ,new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.FormConcept, Model.FormConcepts ,new { @class = "form-control", title = Locale.ToolTip_MaterialFormConcepts })
                     @Html.ValidationMessageFor(m => m.FormConcept, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -32,7 +32,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.QuantityConcept, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.DropDownListFor(m => m.QuantityConcept, Model.QuantityConcepts, new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.QuantityConcept, Model.QuantityConcepts, new { @class = "form-control", title = Locale.ToolTip_MaterialQuantityConcepts })
                     @Html.ValidationMessageFor(m => m.QuantityConcept, "", new { @class = "text-danger" })
                 </div>
             </div>

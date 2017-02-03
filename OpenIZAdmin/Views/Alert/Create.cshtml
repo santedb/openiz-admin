@@ -16,7 +16,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Subject, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Subject, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Subject, new { @class = "form-control", title = Locale.ToolTip_Subject })
                     @Html.ValidationMessageFor(m => m.Subject, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -24,7 +24,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Priority, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.DropDownListFor(m => m.Priority, Model.PriorityList, new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.Priority, Model.PriorityList, new { @class = "form-control", title = Locale.ToolTip_Priority })
                     @Html.ValidationMessageFor(m => m.Priority, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -32,7 +32,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Message, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextAreaFor(m => m.Message, new { @class = "form-control", cols = "10", rows = "10" })
+                    @Html.TextAreaFor(m => m.Message, new { @class = "form-control", cols = "10", rows = "10", title = Locale.ToolTip_Message })
                     @Html.ValidationMessageFor(m => m.Message, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -40,7 +40,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.To, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.To, Model.ToList, new {@class = "user-ajax form-control"})
+                    @Html.ListBoxFor(m => m.To, Model.ToList, new {@class = "user-ajax form-control", title = Locale.ToolTip_AlertTo })
                     @Html.ValidationMessageFor(m => m.To, "", new { @class = "text-danger" })
                 </div>
             </div>
