@@ -26,9 +26,6 @@ namespace OpenIZAdmin.Models.ApplicationModels
 
 		public IEnumerable<PolicyViewModel> ApplicationPolicies { get; set; }
 
-		[Display(Name = "ApplicationSecret", ResourceType = typeof(Localization.Locale))]
-		public string ApplicationSecret { get; set; }
-
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime CreationTime { get; set; }
 
@@ -41,7 +38,6 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		[Display(Name = "Policies", ResourceType = typeof(Localization.Locale))]
 		public List<string> Policies { get; set; }
 
-		//policies autopopulate
 		public List<SelectListItem> PoliciesList { get; set; }
 	}
 }

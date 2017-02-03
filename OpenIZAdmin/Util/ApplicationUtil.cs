@@ -25,24 +25,7 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns application object, null if not found</returns>
 		public static SecurityApplicationInfo GetApplication(AmiServiceClient client, string id)
 		{
-			try
-			{
-				var result = client.GetApplication(id);
-
-				if (result != null)
-				{
-					return result;
-				}
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve application: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve application: {0}", e.Message);
-			}
-
-			return null;
+			return client.GetApplication(id);
 		}
 
 		/// <summary>
@@ -53,31 +36,14 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns application object, null if not found</returns>
 		public static SecurityApplicationInfo GetApplication(AmiServiceClient client, Guid? key)
 		{
-			try
-			{
-				var result = client.GetApplications(r => r.Id == key);
-
-				if (result != null)
-				{
-					return result.CollectionItem.FirstOrDefault();
-				}
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve application: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve application: {0}", e.Message);
-			}
-
-			return null;
+			return client.GetApplication(key.ToString());
 		}
 
 		/// <summary>
 		/// Queries for a specific device by device key
 		/// </summary>
 		/// <param name="client">The AMI service client</param>
-		/// /// <param name="key">The application identifier key </param>
+		/// /// <param name="id">The application identifier key </param>
 		/// <returns>Returns application object, null if not found</returns>
 		public static SecurityPolicy GetPolicy(AmiServiceClient client, string id)
 		{
@@ -102,19 +68,15 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a ApplicationViewModel model.</returns>
 		public static ApplicationViewModel ToApplicationViewModel(SecurityApplicationInfo appInfo)
 		{
-			ApplicationViewModel viewModel = new ApplicationViewModel();
-
-			viewModel.Id = appInfo.Id.Value;
-			viewModel.ApplicationName = appInfo.Name;
-			viewModel.ApplicationSecret = appInfo.ApplicationSecret;
-			viewModel.CreationTime = appInfo.Application.CreationTime.DateTime;
-			viewModel.HasPolicies = CommonUtil.IsPolicy(appInfo.Policies);
-			viewModel.IsObsolete = (appInfo.Application.ObsoletionTime != null) ? true : false;
-
-			if (appInfo.Policies != null)
-				viewModel.Policies = appInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList();
-			else
-				viewModel.Policies = new List<PolicyViewModel>();
+			var viewModel = new ApplicationViewModel
+			{
+				Id = appInfo.Id.Value,
+				ApplicationName = appInfo.Name,
+				CreationTime = appInfo.Application.CreationTime.DateTime,
+				HasPolicies = CommonUtil.IsPolicy(appInfo.Policies),
+				IsObsolete = appInfo.Application.ObsoletionTime != null,
+				Policies = appInfo.Policies?.Select(PolicyUtil.ToPolicyViewModel).OrderBy(q => q.Name).ToList() ?? new List<PolicyViewModel>()
+			};
 
 			return viewModel;
 		}
@@ -127,14 +89,13 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a edit application object.</returns>
 		public static EditApplicationModel ToEditApplicationModel(AmiServiceClient client, SecurityApplicationInfo appInfo)
 		{
-			EditApplicationModel viewModel = new EditApplicationModel();
-
-			viewModel.Id = appInfo.Id.Value;
-			viewModel.ApplicationName = appInfo.Name;
-			viewModel.ApplicationSecret = appInfo.ApplicationSecret;
-			viewModel.CreationTime = appInfo.Application.CreationTime.DateTime;
-
-			viewModel.ApplicationPolicies = (appInfo.Policies != null && appInfo.Policies.Any()) ? appInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList() : new List<PolicyViewModel>();
+			var viewModel = new EditApplicationModel
+			{
+				Id = appInfo.Id.Value,
+				ApplicationName = appInfo.Name,
+				CreationTime = appInfo.Application.CreationTime.DateTime,
+				ApplicationPolicies = appInfo.Policies?.Select(PolicyUtil.ToPolicyViewModel).OrderBy(q => q.Name).ToList() ?? new List<PolicyViewModel>()
+			};
 
 			if (viewModel.ApplicationPolicies.Any())
 			{
@@ -181,8 +142,6 @@ namespace OpenIZAdmin.Util
 			appInfo.Id = model.Id;
 			appInfo.Application.Name = model.ApplicationName;
 			appInfo.Name = model.ApplicationName;
-			appInfo.Application.ApplicationSecret = model.ApplicationSecret;
-			appInfo.ApplicationSecret = model.ApplicationSecret;
 
 			var policyList = CommonUtil.GetNewPolicies(amiClient, model.Policies);
 

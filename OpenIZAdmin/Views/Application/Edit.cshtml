@@ -24,14 +24,6 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(m => m.ApplicationSecret, new { @class = "col-md-2 control-label" })
-            <div class="col-md-8">
-                @Html.TextBoxFor(m => m.ApplicationSecret, new { @class = "form-control", title = Locale.ToolTip_AppSecret })
-                @Html.ValidationMessageFor(m => m.ApplicationSecret, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
             @Html.LabelFor(m => m.Policies, new { @class = "col-md-2 control-label" })
             <div class="col-md-8">
                 @Html.ListBoxFor(m => m.Policies, Model.PoliciesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple", title = Locale.ToolTip_Policies })

@@ -24,34 +24,61 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.ApplicationModels.ViewModels
 {
+	/// <summary>
+	/// Represents an application view model.
+	/// </summary>
 	public class ApplicationViewModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ApplicationViewModel"/> class. 
+		/// </summary>
 		public ApplicationViewModel()
 		{
 			this.Policies = new List<PolicyViewModel>();
 		}
 
+		/// <summary>
+		/// Gets or sets the application id of the application.
+		/// </summary>
 		[Display(Name = "ApplicationId", ResourceType = typeof(Localization.Locale))]
 		public string ApplicationId { get; set; }
 
+		/// <summary>
+		/// Gets or sets the application name of the application.
+		/// </summary>
 		[Display(Name = "ApplicationName", ResourceType = typeof(Localization.Locale))]
 		public string ApplicationName { get; set; }
 
-		[Display(Name = "ApplicationSecret", ResourceType = typeof(Localization.Locale))]
-		public string ApplicationSecret { get; set; }
-
+		/// <summary>
+		/// Gets or sets the creation time of the application.
+		/// </summary>
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime CreationTime { get; set; }
 
+		/// <summary>
+		/// Gets or sets whether the application has policies associated.
+		/// </summary>
 		[Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
 		public bool HasPolicies { get; set; }
 
+		/// <summary>
+		/// Gets or sets the id of the application.
+		/// </summary>
 		public Guid Id { get; set; }
 
+		/// <summary>
+		/// Gets or sets whether the application is obsolete.
+		/// </summary>
 		public bool IsObsolete { get; set; }
 
+		/// <summary>
+		/// Gets or sets the list of policies associated with the application.
+		/// </summary>
 		public List<PolicyViewModel> Policies { get; set; }
 
+		/// <summary>
+		/// Gets or sets the updated time of the application.
+		/// </summary>
 		public DateTime? UpdatedTime { get; set; }
 	}
 }
