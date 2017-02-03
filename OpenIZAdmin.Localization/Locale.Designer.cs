@@ -2131,6 +2131,42 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The concept class that is the association.
+        /// </summary>
+        public static string ToolTip_ConceptClass {
+            get {
+                return ResourceManager.GetString("ToolTip_ConceptClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Click on the drop down to select a concept class. Multiple classes are able to be selected. To remove an existing class, select the &quot;X&quot; located to the left of the concept class title..
+        /// </summary>
+        public static string ToolTip_ConceptClassList {
+            get {
+                return ResourceManager.GetString("ToolTip_ConceptClassList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name to provide an association.
+        /// </summary>
+        public static string ToolTip_ConceptMnemonic {
+            get {
+                return ResourceManager.GetString("ToolTip_ConceptMnemonic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name of the concept.
+        /// </summary>
+        public static string ToolTip_ConceptName {
+            get {
+                return ResourceManager.GetString("ToolTip_ConceptName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The DateTime indicating the first save point.
         /// </summary>
         public static string ToolTip_CreationTime {
@@ -2433,6 +2469,15 @@ namespace OpenIZAdmin.Localization {
         public static string ToolTip_Roles {
             get {
                 return ResourceManager.GetString("ToolTip_Roles", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submits the entered text/filter.
+        /// </summary>
+        public static string ToolTip_Search {
+            get {
+                return ResourceManager.GetString("ToolTip_Search", resourceCulture);
             }
         }
         

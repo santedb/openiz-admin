@@ -15,7 +15,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Mnemonic, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", title = Locale.ToolTip_ConceptMnemonic })
                     @Html.ValidationMessageFor(m => m.Mnemonic, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -23,7 +23,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_ConceptName })
                     @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -31,7 +31,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Language, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.DropDownListFor(m => m.Language, Model.LanguageList, new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.Language, Model.LanguageList, new { @class = "form-control", title = Locale.ToolTip_Language })
                     @Html.ValidationMessageFor(m => m.Language, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -39,7 +39,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.ConceptClass, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.DropDownListFor(m => m.ConceptClass, Model.ConceptClassList, new { @class = "form-control" })
+                    @Html.DropDownListFor(m => m.ConceptClass, Model.ConceptClassList, new { @class = "form-control", title = Locale.ToolTip_ConceptClassList })
                     @Html.ValidationMessageFor(m => m.ConceptClass, "", new { @class = "text-danger" })
                 </div>
             </div>

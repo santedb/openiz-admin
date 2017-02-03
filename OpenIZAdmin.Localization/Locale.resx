@@ -948,6 +948,18 @@
   <data name="ToolTip_Cancel" xml:space="preserve">
     <value>Select to cancel and return to the application</value>
   </data>
+  <data name="ToolTip_ConceptClass" xml:space="preserve">
+    <value>The concept class that is the association</value>
+  </data>
+  <data name="ToolTip_ConceptClassList" xml:space="preserve">
+    <value>Click on the drop down to select a concept class. Multiple classes are able to be selected. To remove an existing class, select the "X" located to the left of the concept class title.</value>
+  </data>
+  <data name="ToolTip_ConceptMnemonic" xml:space="preserve">
+    <value>The name to provide an association</value>
+  </data>
+  <data name="ToolTip_ConceptName" xml:space="preserve">
+    <value>The name of the concept</value>
+  </data>
   <data name="ToolTip_CreationTime" xml:space="preserve">
     <value>The DateTime indicating the first save point</value>
   </data>
@@ -1049,6 +1061,9 @@
   </data>
   <data name="ToolTip_Roles" xml:space="preserve">
     <value>Click on the drop down to select a role. Multiple roles are able to be selected. To remove an existing role, select the "X" located to the left of the role title.</value>
+  </data>
+  <data name="ToolTip_Search" xml:space="preserve">
+    <value>Submits the entered text/filter</value>
   </data>
   <data name="ToolTip_Subject" xml:space="preserve">
     <value>A brief description of the subject</value>
