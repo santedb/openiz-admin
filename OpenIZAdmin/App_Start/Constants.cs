@@ -61,23 +61,27 @@ namespace OpenIZAdmin
         /// <summary>
         /// The Mobile Phone Guid associated with a Phone Type 
         /// </summary>
-        public const string MOBILE_PHONE_TYPE_GUID = "e161f90e-5939-430e-861a-f8e885cc353d";
-
-
-        /// <summary>
-        /// The date format requested to be displayed
-        /// </summary>
-        public const string REQUIRED_DATE_FORMAT = "dd/mm/yyyy";
+        public const string MOBILE_PHONE_TYPE_GUID = "e161f90e-5939-430e-861a-f8e885cc353d";       
 
         /// <summary>
-        /// The date format requested to be displayed with timestamp
+        /// The DateTime requested format with timestamp
         /// </summary>
-        public const string REQUIRED_DATE_FORMAT_WITH_TIMESTAMP = "dd/mm/yyyy H:mm:ss zzz";
+        public const string DATETIME_FORMAT_STRING_WITH_TIMESTAMP = "dd/MM/yyyy hh:mm:ss tt";
 
         /// <summary>
-        /// The User Role type National Level Officer.
+        /// The DateTime requested format for a View
         /// </summary>
-        //public const string NATIONAL_LEVEL_OFFICER = "National Level Officer";
+        public const string DATETIME_FORMAT_VIEW = "{0:dd/MM/yyyy}";
+
+        /// <summary>
+        /// The DateTime requested format with timestamp for a View
+        /// </summary>
+        public const string DATETIME_FORMAT_VIEW_WITH_TIMESTAMP = "{0:dd/MM/yyyy hh:mm:ss tt}";        
+
+        /// <summary>
+        /// The date format requested to be displayed with timestamp and UTC offset for a View
+        /// </summary>        
+        public const string DATETIME_FORMAT_VIEW_WITH_TIMESTAMP_UTC_OFFSET = "{0:dd/MM/yyyy  hh:mm:ss tt  zzz}";
 
         /// <summary>
         /// The User Role type Vaccinator.

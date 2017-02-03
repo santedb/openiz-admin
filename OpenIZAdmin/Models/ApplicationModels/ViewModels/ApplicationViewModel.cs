@@ -53,12 +53,12 @@ namespace OpenIZAdmin.Models.ApplicationModels.ViewModels
 		/// Gets or sets the creation time of the application.
 		/// </summary>
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-		public DateTime CreationTime { get; set; }
+		public DateTime CreationTime { get; set; }        
 
-		/// <summary>
-		/// Gets or sets whether the application has policies associated.
-		/// </summary>
-		[Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
+        /// <summary>
+        /// Gets or sets whether the application has policies associated.
+        /// </summary>
+        [Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
 		public bool HasPolicies { get; set; }
 
 		/// <summary>

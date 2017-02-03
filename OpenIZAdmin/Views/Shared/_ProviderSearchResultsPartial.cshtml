@@ -42,7 +42,14 @@
                             <td>@item.Name</td>                            
                             <td>@item.UserId</td>
                             <td>@item.ProviderSpecialty</td>                            
-                            <td>@item.CreationTime</td>
+                            @*<td>@item.CreationTime</td>*@
+                            <td>
+                                @if (item.CreationTime != null)
+                                {
+                                    DateTimeOffset date = item.CreationTime.Value.ToLocalTime();
+                                    @date.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
+                                }
+                            </td>
                             <td>
                                 <a class="btn btn-primary" href="/Provider/ViewProvider?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
                                     @Locale.View

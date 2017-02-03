@@ -129,26 +129,47 @@ namespace OpenIZAdmin.Util
 		}
 
         /// <summary>
-        /// Ensures a date is displayed in the rerquested format
+        /// Ensures a date is displayed in the requested format
+        /// </summary>
+        /// <param name="date">the date string from the object</param>
+        /// <param name="withTimeStamp">the flag to determine if the timestamp is to be included</param>
+        /// <returns>Returns a date or datetime as a string in the required format as required</returns>
+        //public static string ToRequiredDate(DateTime date, bool withTimeStamp)
+        //{            
+        //    if (date != null)
+        //    {                               
+        //        if (withTimeStamp)
+        //            return date.ToString(Constants.REQUIRED_DATE_FORMAT_WITH_TIMESTAMP);
+        //        else
+        //            return date.ToString(Constants.REQUIRED_DATE_FORMAT);
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
+
+        /// <summary>
+        /// Ensures a date is displayed in the requested format
         /// </summary>
         /// <param name="dt">the date string from the object</param>
         /// <param name="withTimeStamp">the flag to determine if the timestamp is to be included</param>
         /// <returns>Returns a date or datetime as a string in the required format as required</returns>
-        public static DateTime? ToRequiredDate(DateTimeOffset dt, bool withTimeStamp)
-        {
-            DateTime date;
-            //if (DateTime.TryParse(dt.ToString(), out date))
-            //{
-            //    if (withTimeStamp)
-            //        return date.ToString(Constants.REQUIRED_DATE_FORMAT_WITH_TIMESTAMP);
-            //    else
-            //        return date.ToString(Constants.REQUIRED_DATE_FORMAT);
-            //}
-            //else
-            //{
-                return null;
-            //}
-        }        
+        //public static string ToRequiredDateFromDateTimeOffset(DateTimeOffset? dt, bool withTimeStamp)
+        //{
+        //    DateTime date;
+        //    if (dt != null && DateTime.TryParse(dt.ToString(), out date))
+        //    {
+        //        if (withTimeStamp)
+        //            return date.ToString(Constants.REQUIRED_DATE_FORMAT_WITH_TIMESTAMP_UTC_OFFSET);
+        //        else
+        //            return date.ToString(Constants.REQUIRED_DATE_FORMAT);
+        //    }
+        //    else
+        //    {
+        //        return null;
+        //    }
+        //}
 
     }
 }

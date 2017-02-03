@@ -25,7 +25,14 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td>@item.CreationTime</td>
+                            @*<td>@item.CreationTime</td>*@
+                            <td>
+                                @if (item.CreationTime != null)
+                                {
+                                    DateTime date = item.CreationTime.ToLocalTime();
+                                    @date.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
+                                }
+                            </td>
                             <td>@item.Mnemonic</td>
                             @if (item.Names.Count == 0)
                             {

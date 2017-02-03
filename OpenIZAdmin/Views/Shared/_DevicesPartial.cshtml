@@ -40,7 +40,14 @@
                     {
                         <tr>
                             <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>
-                            <td>@item.CreationTime.ToLocalTime()</td>
+                            @*<td>@item.CreationTime.ToLocalTime()</td>*@
+                            <td>
+                                @if(item.CreationTime != null)
+                                {
+                                    DateTime date = item.CreationTime.ToLocalTime();                                    
+                                    @date.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);                                    
+                                }                                
+                            </td>
                             <td>@item.Name</td>
                             <td>                                
                                 @if (item.HasPolicies)

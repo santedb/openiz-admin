@@ -32,7 +32,8 @@ namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 		}
 
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-		public DateTime CreationTime { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy hh:mm:ss tt}")]
+        public DateTime CreationTime { get; set; }
 
 		[Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
 		public string DeviceSecret { get; set; }
@@ -49,6 +50,7 @@ namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 
 		public List<PolicyViewModel> Policies { get; set; }
 
-		public DateTime? UpdatedTime { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy hh:mm:ss tt}")]
+        public DateTime? UpdatedTime { get; set; }
 	}
 }

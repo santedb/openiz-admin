@@ -37,7 +37,8 @@ namespace OpenIZAdmin.Models.UserModels.ViewModels
 		}
 
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-		public DateTimeOffset CreationTime { get; set; }
+        //[DisplayFormat(DataFormatString = Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP)]
+        public DateTimeOffset CreationTime { get; set; }
 
 		/// <summary>
 		/// Gets or sets the email address of the user.
@@ -68,12 +69,15 @@ namespace OpenIZAdmin.Models.UserModels.ViewModels
 		/// Gets or sets the last login time of the user.
 		/// </summary>
 		[Display(Name = "LastLoginTime", ResourceType = typeof(Localization.Locale))]
-		public DateTime? LastLoginTime { get; set; }
+        //[DisplayFormat(DataFormatString = Constants.DATETIME_FORMAT_STRING)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+        public DateTime? LastLoginTime { get; set; }
+        //public string LastLoginTime { get; set; }
 
-		/// <summary>
-		/// Gets or sets the name of the user.
-		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+        /// <summary>
+        /// Gets or sets the name of the user.
+        /// </summary>
+        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
 		/// <summary>

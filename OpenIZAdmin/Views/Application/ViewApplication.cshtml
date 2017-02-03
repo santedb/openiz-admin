@@ -56,7 +56,13 @@
                                     @foreach (var item in Model.Policies)
                                     {
                                         <tr>
-                                            <td>@item.CreationTime</td>
+                                            @*<td>@item.CreationTime</td>*@
+                                            <td>
+                                                @if(item.CreationTime != null)
+                                                {
+                                                    @item.CreationTime.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
+                                                }                                                
+                                            </td>
                                             <td>@item.Name</td>
                                             <td>@item.Grant</td>
                                             <td>@item.IsPublic</td>

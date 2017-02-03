@@ -45,11 +45,13 @@ namespace OpenIZAdmin.Util
 		{
 			DeviceViewModel viewModel = new DeviceViewModel();
 
-			viewModel.CreationTime = device.CreationTime.DateTime;
-			viewModel.Id = device.Key.Value;
+            viewModel.CreationTime = device.CreationTime.DateTime;
+            //viewModel.CreationTime = (device.CreationTime.DateTime != null) ? CommonUtil.ToRequiredDateFromDateTimeOffset(device.CreationTime.DateTime, true) : null;
+            viewModel.Id = device.Key.Value;
 			viewModel.Name = device.Name;
-			viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
-			viewModel.IsObsolete = (device.ObsoletionTime != null) ? true : false;
+            viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
+            //viewModel.UpdatedTime = (device.UpdatedTime?.DateTime != null) ? CommonUtil.ToRequiredDateFromDateTimeOffset(device.UpdatedTime?.DateTime, true) : null;
+            viewModel.IsObsolete = (device.ObsoletionTime != null) ? true : false;
 
 			return viewModel;
 		}
@@ -129,13 +131,15 @@ namespace OpenIZAdmin.Util
 		{
 			var viewModel = new DeviceViewModel
 			{
-				CreationTime = deviceInfo.Device.CreationTime.DateTime,
-				Id = deviceInfo.Device.Key.Value,
+                CreationTime = deviceInfo.Device.CreationTime.DateTime,
+                //CreationTime = (deviceInfo.Device.CreationTime.DateTime != null) ? CommonUtil.ToRequiredDate(deviceInfo.Device.CreationTime.DateTime, true) : null,
+                Id = deviceInfo.Device.Key.Value,
 				Name = deviceInfo.Name,
 				DeviceSecret = deviceInfo.DeviceSecret,
 				Policies = deviceInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList(),
-				UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime,
-				IsObsolete = (deviceInfo.Device.ObsoletionTime != null) ? true : false,
+                UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime,
+                //UpdatedTime = (deviceInfo.Device.UpdatedTime != null) ? CommonUtil.ToRequiredDateFromDateTimeOffset(deviceInfo.Device.UpdatedTime, true) : null,
+                IsObsolete = (deviceInfo.Device.ObsoletionTime != null) ? true : false,
 				HasPolicies = (deviceInfo.Policies.Any()) ? true : false
 			};
 
@@ -152,11 +156,13 @@ namespace OpenIZAdmin.Util
 		{
 			DeviceViewModel viewModel = new DeviceViewModel();
 
-			viewModel.CreationTime = device.CreationTime.DateTime;
+            viewModel.CreationTime = device.CreationTime.DateTime;
+            //viewModel.CreationTime = (device.CreationTime.DateTime != null) ? CommonUtil.ToRequiredDate(device.CreationTime.DateTime, true) : null;
 			viewModel.Id = device.Key.Value;
 			viewModel.Name = device.Name;
 			viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
-			viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
+            viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
+            //viewModel.UpdatedTime = (device.UpdatedTime?.DateTime != null) ? CommonUtil.ToRequiredDateFromDateTimeOffset(device.UpdatedTime?.DateTime, true) : null;
 			viewModel.IsObsolete = (device.ObsoletionTime != null) ? true : false;
 
 			return viewModel;

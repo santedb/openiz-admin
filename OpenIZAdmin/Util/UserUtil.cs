@@ -359,14 +359,15 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a user entity model.</returns>
 		public static UserViewModel ToUserViewModel(SecurityUserInfo userInfo)
 		{
-			var viewModel = new UserViewModel
-			{
-				Email = userInfo.Email,
-				HasRoles = (userInfo.Roles != null && userInfo.Roles.Any()) ? true : false,
-				IsLockedOut = userInfo.Lockout.GetValueOrDefault(false),
-				IsObsolete = (userInfo.User.ObsoletionTime != null) ? true : false,
-				LastLoginTime = userInfo.User.LastLoginTime?.DateTime,
-				PhoneNumber = userInfo.User.PhoneNumber,
+            var viewModel = new UserViewModel
+            {
+                Email = userInfo.Email,
+                HasRoles = (userInfo.Roles != null && userInfo.Roles.Any()) ? true : false,
+                IsLockedOut = userInfo.Lockout.GetValueOrDefault(false),
+                IsObsolete = (userInfo.User.ObsoletionTime != null) ? true : false,
+                //LastLoginTime = (userInfo.User.LastLoginTime != null) ? CommonUtil.ToRequiredDateFromDateTimeOffset(userInfo.User.LastLoginTime, true) : null,
+                LastLoginTime = userInfo.User.LastLoginTime?.DateTime,
+                PhoneNumber = userInfo.User.PhoneNumber,
 				Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel),
 				UserId = userInfo.UserId.Value,
 				//UserId = userInfo,
@@ -389,7 +390,7 @@ namespace OpenIZAdmin.Util
 			viewModel.Email = userInfo.Email;
 			viewModel.IsLockedOut = userInfo.Lockout.GetValueOrDefault(false);
 			viewModel.IsObsolete = (userInfo.User.ObsoletionTime != null) ? true : false;
-			//viewModel.LastLoginTime = CommonUtil.ToRequiredDate(userInfo.User.LastLoginTime?.DateTime, true);
+			//viewModel.LastLoginTime = (userInfo.User.LastLoginTime != null)? CommonUtil.ToRequiredDateFromDateTimeOffset(userInfo.User.LastLoginTime, true) : null;
             viewModel.LastLoginTime = userInfo.User.LastLoginTime?.DateTime;
             viewModel.PhoneNumber = userInfo.User.PhoneNumber;
 			viewModel.Roles = userInfo.Roles.Select(RoleUtil.ToRoleViewModel);

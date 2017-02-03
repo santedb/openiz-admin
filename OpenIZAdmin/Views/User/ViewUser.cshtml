@@ -50,7 +50,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.LastLoginTime, new { @class = "col-md-2 control-label" })
                         <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.LastLoginTime, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.LastLoginTime, Constants.DATETIME_FORMAT_VIEW_WITH_TIMESTAMP, new { @class = "form-control", @readonly = "readonly" })                            
                         </div>
                     </div>                      
                 </div>

@@ -31,17 +31,26 @@
                         if (item.Type == ConceptType.Concept)
                         {
                         <tr>
-                            <td>@item.CreationTime</td>
+                            @*<td>@item.CreationTime</td>*@
+                            <td>
+                                @if (item.CreationTime != null)
+                                {
+                                    DateTime date = item.CreationTime.ToLocalTime();
+                                    @date.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
+                                }
+                            </td>
+
                             <td>@item.Mnemonic</td>
-                            @if (!item.Names.Any())
-                            {
-                                <td></td>
-                            }
-                            else
-                            {
-                                <td>@string.Join(", ", item.Names)</td>
-                            }
+
+                            <td>
+                                @if (item.Names.Any())
+                                {
+                                    string.Join(", ", item.Names);
+                                }                                
+                            </td>
+
                             <td>@Locale.Concept</td>
+
                             <td>
                                 <a class="btn btn-primary text-white" href="/Concept/ViewConcept?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
                                     @Locale.View
