@@ -1,7 +1,4 @@
-﻿@{
-    bool isJoinedToRealm = RealmConfig.IsJoinedToRealm();
-}
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -30,7 +27,7 @@
                         @Html.Partial("_LoginPartial")
                     </li>
                 </ul>
-                @if (Request.IsAuthenticated && RealmConfig.IsJoinedToRealm())
+                @if (Request.IsAuthenticated && Request.Cookies["access_token"]?.Value != null)
                 {
                     <ul class="nav navbar-nav pull-right">
                         <li>
@@ -45,8 +42,7 @@
                                 </span><span id="new-alerts"></span>
                             </a>
                         </li>
-                    </ul>
-                }
+                    </ul>}
                 <ul class="nav pull-right" role="menu" aria-labelledby="menu">
                     <li class="dropdown" id="language-change-dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
@@ -54,12 +50,12 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="#" language="en" class="change-language">
-                                    English
+                                <a href="#" language="@Locale.EN" class="change-language">
+                                    @Locale.English
                                 </a>
                             </li>
                             <li>
-                                <a href="#" language="sw" class="change-language">
+                                <a href="#" language="@Locale.SW" class="change-language">
                                     Kiswahili
                                 </a>
                             </li>
@@ -77,12 +73,12 @@
 
                 <ul class="nav nav-sidebar">
                     <li><a href="/Home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> @Locale.Dashboard</a></li>
-                    @if (User.Identity.IsAuthenticated && isJoinedToRealm)
+                    @if (User.Identity.IsAuthenticated && Request.Cookies["access_token"]?.Value != null)
                     {
                         <li><a href="/Applet"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span> @Locale.Applets</a></li>
                         <li><a href="/Application"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> @Locale.Applications</a></li>
                         <li><a href="/AssigningAuthority"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> @Locale.AssigningAuthorities</a></li>
-                        <li><a href="/Certificate"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span> @Locale.Certificates</a></li>
+                        @*<li><a href="/Certificate"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span> @Locale.Certificates</a></li>*@
                         <li><a href="/Concept"><span class="glyphicon glyphicon-compressed" aria-hidden="true"></span> @Locale.Concepts</a></li>
                         <li><a href="/Device"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> @Locale.Devices</a></li>
                         <li><a href="/Material"><span class="glyphicon glyphicon-oil" aria-hidden="true"></span> @Locale.Material</a></li>
@@ -125,135 +121,117 @@
     @Scripts.Render("~/bundles/toastr")
     @Scripts.Render("~/bundles/moment")
     @Scripts.Render("~/bundles/datatables")
-    @Scripts.Render("~/bundles/select2")    
+    @Scripts.Render("~/bundles/select2")
     @Scripts.Render("~/bundles/ajax-search")
 
-    
+
 
     @RenderSection("scripts", required: false)
-<script type="text/javascript">
+    <script type="text/javascript">
 
-    $("#language-change-dropdown").on('click', function (event)
-    {
-        var attr = $(this).attr("class");
+        $("#language-change-dropdown").on('click', function (event) {
+            var attr = $(this).attr("class");
 
-        if (attr === "dropdown open") {
-            $(this).attr("class", "dropdown");
-        } else {
-            $(this).attr("class", "dropdown open");
+            if (attr === "dropdown open") {
+                $(this).attr("class", "dropdown");
+            } else {
+                $(this).attr("class", "dropdown open");
+            }
+        });
+
+        $("#profile-change-dropdown").on('click', function (event) {
+            var attr = $(this).attr("class");
+
+            if (attr === "dropdown open") {
+                $(this).attr("class", "dropdown");
+            } else {
+                $(this).attr("class", "dropdown open");
+            }
+        });
+
+        $(".change-language").on('click', function () {
+            var language = $(this).attr("language");
+            console.log(language);
+
+            document.cookie = "__openiz_language=" + language;
+
+            $.ajax({
+                url: "/Locale/ChangeLanguage?language=" + language,
+                success: function (data) {
+                    console.log(data);
+                    window.location.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                type: "POST"
+            });
+        });
+
+        $("#alert-modal-button").on('click', function () {
+            $.ajax({
+                url: "/Alert/GetAlerts",
+                success: function (data) {
+                    $('.modal-backdrop').first().remove();
+                    $('#alert-partial-container').html(data);
+                    $('#alert-modal').modal("show");
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                type: "GET"
+            });
+        });
+
+        $("#create-alert-modal-button").on('click', function () {
+            $.ajax({
+                url: "/Alert/CreateAlert",
+                success: function (data) {
+                    $('.modal-backdrop').first().remove();
+                    $('#alert-partial-container').html(data);
+                    $('#create-alert-modal').modal("show");
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                type: "GET"
+            });
+        });
+
+        $(document).ready(function () {
+            newAlerts();
+        });
+
+        window.setInterval(newAlerts(), 5000);
+
+        function newAlerts() {
+            $.ajax({
+                url: "/Alert/NewAlerts",
+                success: function (data) {
+                    $('#new-alerts').html(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+                type: "GET"
+            });
         }
-    });
 
-    $("#profile-change-dropdown").on('click', function (event) {
-        var attr = $(this).attr("class");
-
-        if (attr === "dropdown open") {
-            $(this).attr("class", "dropdown");
-        } else {
-            $(this).attr("class", "dropdown open");
-        }
-    });
-
-    $(".change-language").on('click', function ()
-    {
-        var language = $(this).attr("language");
-        console.log(language);
-
-        document.cookie = "__openiz_language=" + language;
-
-        $.ajax({
-            url: "/Locale/ChangeLanguage?language=" + language,
-            success: function (data)
-            {
-                console.log(data);
+        $(document).ready(function () {
+            $("#reset").on("click", function () {
+                $("#SearchTerm").val('');
                 window.location.reload();
-            },
-            error: function (error)
-            {
-                console.log(error);
-            },
-            type: "POST"
+            });
         });
-    });
 
-    $("#alert-modal-button").on('click', function ()
-    {
-        $.ajax({
-            url: "/Alert/GetAlerts",
-            success: function (data)
-            {
-                $('.modal-backdrop').first().remove();
-                $('#alert-partial-container').html(data);
-                $('#alert-modal').modal("show");
-            },
-            error: function (error)
-            {
-                console.log(error);
-            },
-            type: "GET"
-        });
-    });
+        function hideLoadingBar() {
+            $("#loading-bar").hide();
+        }
 
-    $("#create-alert-modal-button").on('click', function ()
-    {
-        $.ajax({
-            url: "/Alert/CreateAlert",
-            success: function (data)
-            {
-                $('.modal-backdrop').first().remove();
-                $('#alert-partial-container').html(data);
-                $('#create-alert-modal').modal("show");
-            },
-            error: function (error)
-            {
-                console.log(error);
-            },
-            type: "GET"
-        });
-    });
+        function showLoadingBar() {
+            $("#loading-bar").show();
+        }
 
-    $(document).ready(function ()
-    {
-        newAlerts();
-    });
-
-    window.setInterval(newAlerts(), 5000);
-
-    function newAlerts()
-    {
-        $.ajax({
-            url: "/Alert/NewAlerts",
-            success: function (data)
-            {
-                $('#new-alerts').html(data);
-            },
-            error: function (error)
-            {
-                console.log(error);
-            },
-            type: "GET"
-        });
-    }
-
-    $(document).ready(function ()
-    {
-        $("#reset").on("click", function ()
-        {
-            $("#SearchTerm").val('');
-            window.location.reload();
-        });
-    });
-
-    function hideLoadingBar()
-    {
-        $("#loading-bar").hide();
-    }
-
-    function showLoadingBar()
-    {
-        $("#loading-bar").show();
-    }
-
-</script>
+    </script>
 </body>
 </html>

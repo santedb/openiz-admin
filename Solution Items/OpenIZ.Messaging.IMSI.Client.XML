@@ -65,6 +65,17 @@
             <param name="query">The query parameters as a LINQ expression.</param>
             <returns>Returns a Bundle containing the data.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.IMSI.Client.ImsiServiceClient.Query``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Boolean)">
+            <summary>
+            Performs a query.
+            </summary>
+            <typeparam name="TModel">The type of object to query.</typeparam>
+            <param name="query">The query parameters as a LINQ expression.</param>
+            <param name="offset">The offset of the query.</param>
+            <param name="count">The count of the query results.</param>
+            <param name="all">Whether the query should return all nested properties.</param>
+            <returns>Returns a Bundle containing the data.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.IMSI.Client.ImsiServiceClient.Query``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.String)">
             <summary>
             Performs a query.

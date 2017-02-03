@@ -414,6 +414,11 @@ namespace OpenIZAdmin.Util
 			return viewModels;
 		}
 
+		public static IEnumerable<UserViewModel> GetRecentLoggedInUsers(AmiServiceClient client)
+		{
+			return client.GetUsers(u => u.LastLoginTime <= DateTimeOffset.Now.AddMinutes(-15)).CollectionItem.Select(UserUtil.ToUserViewModel);
+		}
+
 		/// <summary>
 		/// Gets a list of users by assigned role.
 		/// </summary>

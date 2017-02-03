@@ -262,6 +262,7 @@
     <Compile Include="Models\MaterialModels\CreateMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\ViewModels\MaterialViewModel.cs" />
     <Compile Include="Models\MaterialModels\ViewModels\MaterialSearchResultViewModel.cs" />
+    <Compile Include="Models\PlaceModels\RelatedPlaceModel.cs" />
     <Compile Include="Models\UserModels\ResetPasswordModel.cs" />
     <Compile Include="Models\AccountModels\ManageModel.cs" />
     <Compile Include="Models\AccountModels\UpdateProfileModel.cs" />
@@ -301,7 +302,6 @@
     <Compile Include="Models\ModelMapper.cs" />
     <Compile Include="Models\PlaceModels\CreatePlaceModel.cs" />
     <Compile Include="Models\PlaceModels\EditPlaceModel.cs" />
-    <Compile Include="Models\PlaceModels\ViewModels\DetailedPlaceViewModel.cs" />
     <Compile Include="Models\PlaceModels\ViewModels\PlaceViewModel.cs" />
     <Compile Include="Models\PolicyModels\CreatePolicyModel.cs" />
     <Compile Include="Models\PolicyModels\EditPolicyModel.cs" />

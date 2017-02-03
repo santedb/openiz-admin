@@ -19,7 +19,6 @@
                 return {
                     results: $.map(data, function (o)
                     {
-                        console.log(o);
                         return { id: o.Key, text: o.Name };
                     }),
                     pagination: {

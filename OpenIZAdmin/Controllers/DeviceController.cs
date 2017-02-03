@@ -227,7 +227,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Device";
-			return View(DeviceUtil.GetAllDevices(this.AmiClient));
+			return View(new List<DeviceViewModel>());
 		}
 
 		/// <summary>

@@ -7,7 +7,7 @@
     <div class="panel panel-heading">
         <span>@(Locale.View + " " + Locale.Place)</span>
         <div class="pull-right">
-            <a href="~/Place/Edit?key=@Model.Key&versionKey=@Model.VersionKey" title="@Locale.ToolTip_Edit">
+            <a href="~/Place/Edit?key=@Model.Key" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-edit"></span>
                 @Locale.Edit
             </a>
@@ -29,19 +29,7 @@
                             @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
                         </div>
                     </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Latitude, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.Latitude, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Longitude, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.Longitude, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                    </div>                    
-                </div>                
+                </div>
             </div>
         </div>
     </div>
@@ -53,28 +41,23 @@
         </h3>
     </div>
     <div class="panel panel-body">
-        @if (Model.Details.Count > 0)
+        @if (Model.RelatedPlaces.Any())
         {
             <table class="table table-striped table-bordered" id="viewPlaceTable">
                 <thead>
                     <tr>
-                        <th>Is Mobile</th>
-                        <th>Services</th>
+                        <th>@Html.DisplayNameFor(m => m.CreationTime)</th>
+                        <th>@Html.DisplayNameFor(m => m.Name)</th>
+                        <th>@Html.DisplayNameFor(m => m.Type)</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.Details)
+                    @foreach (var item in Model.RelatedPlaces)
                     {
                         <tr>
-                            <td>@item.IsMobile</td>
-                            @if (item.Services.Count > 0)
-                            {
-                                <td>@item.Services.Aggregate((a, b) => (a + ", " + b))</td>
-}
-                            else
-                            {
-                                <td>@Locale.NoAdditionalDetails</td>
-}
+                            <td>@item.CreationTime</td>
+                            <td>@item.Name</td>
+                            <td>@item.Type</td>
                         </tr>}
                 </tbody>
             </table>}
@@ -87,10 +70,10 @@
 
 @section scripts{
     <script>
-        $(document).ready(function(){
+        $(document).ready(function () {
             $("#viewPlaceTable").DataTable();
 
         });
     </script>
-    
-    }
+
+}

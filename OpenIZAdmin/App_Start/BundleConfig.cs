@@ -68,6 +68,7 @@ namespace OpenIZAdmin
 						"~/Content/select2.min.css",
 						"~/Content/toastr.min.css",
 						"~/Content/styles.css"));
+
 #if !DEBUG
 			BundleTable.EnableOptimizations = true;
 #endif

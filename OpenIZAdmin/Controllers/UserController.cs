@@ -241,7 +241,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = Locale.User;
-			return View(UserUtil.GetAllUsers(this.AmiClient));
+			return View(new List<UserViewModel>());
 		}
 
 		/// <summary>

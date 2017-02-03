@@ -31,6 +31,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.IO.Compression;
 using System.Net;
+using System.Security.Cryptography.X509Certificates;
 using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Query;
 
@@ -74,6 +75,31 @@ namespace OpenIZAdmin.Services.Http
 		public RestClientService(IRestClientDescription configuration) : base(configuration)
 		{
 			Trace.TraceInformation("Current Entity Source: {0}", EntitySource.Current.Provider.GetType().Name);
+		}
+
+		/// <summary>
+		/// Gets or sets the client certificate
+		/// </summary>
+		/// <value>The client certificate.</value>
+		public X509Certificate2Collection ClientCertificates { get; set; }
+
+		protected override WebRequest CreateHttpRequest(string url, NameValueCollection query)
+		{
+			var retVal = (HttpWebRequest)base.CreateHttpRequest(url, query);
+
+			// Certs?
+			if (this.ClientCertificates != null)
+			{
+				retVal.ClientCertificates.AddRange(this.ClientCertificates);
+			}
+
+			// Compress?
+			if (this.Description.Binding.Optimize)
+			{
+				retVal.Headers.Add(HttpRequestHeader.AcceptEncoding, "deflate,gzip");
+			}
+
+			return retVal;
 		}
 
 		/// <summary>

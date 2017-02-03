@@ -20,6 +20,7 @@
 using OpenIZAdmin.DAL;
 using OpenIZAdmin.Models.Domain;
 using System.Linq;
+using System.Runtime.Caching;
 
 namespace OpenIZAdmin
 {
@@ -28,13 +29,28 @@ namespace OpenIZAdmin
 	/// </summary>
 	public static class RealmConfig
 	{
+		private const string RealmCacheKey = "JoinedToRealm";
+
+		public static void Initialize()
+		{
+			if (IsJoinedToRealm())
+			{
+				MemoryCache.Default.Set(RealmCacheKey, true, ObjectCache.InfiniteAbsoluteExpiration);
+			}
+		}
+
 		/// <summary>
 		/// Determines whether the application is joined to a realm.
 		/// </summary>
 		/// <returns>Returns true if the application is joined to a realm.</returns>
 		public static bool IsJoinedToRealm()
 		{
-			bool isJoinedToRealm = false;
+			bool isJoinedToRealm = MemoryCache.Default.Get(RealmCacheKey) != null;
+
+			if (isJoinedToRealm)
+			{
+				return isJoinedToRealm;
+			}
 
 			using (IUnitOfWork unitOfWork = new EntityUnitOfWork(new ApplicationDbContext()))
 			{

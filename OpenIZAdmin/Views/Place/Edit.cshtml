@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.PlaceModels.EditPlaceModel
-    @{
-        ViewBag.Title = Locale.Edit + " " + Locale.Place;
-    }
+@{
+    ViewBag.Title = Locale.Edit + " " + Locale.Place;
+}
 
-    <div class="panel panel-default">
-        <div class="panel panel-heading">
-            @(Locale.Edit + " " + Locale.Place)
+<div class="panel panel-default">
+    <div class="panel panel-heading">
+        @(Locale.Edit + " " + Locale.Place)
     </div>
     <div class="panel panel-body panel-default">
         @using (Html.BeginForm("Edit", "Place", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -13,36 +13,77 @@
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            @Html.HiddenFor(m => m.Id)
-            @Html.HiddenFor(m => m.VersionId)
+            @Html.HiddenFor(m => m.Key)
 
             <div class="form-group">
-                @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Name, new {@class = "col-md-2 control-label"})
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_PlaceName })
-                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.Name, new {@class = "form-control", title = Locale.ToolTip_PlaceName})
+                    @Html.ValidationMessageFor(m => m.Name, "", new {@class = "text-danger"})
                 </div>
             </div>
+
             <div class="form-group">
-                @Html.LabelFor(m => m.Latitude, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.RelatedPlaces, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Latitude, new { @class = "form-control", title = Locale.ToolTip_PlaceLatitude })
-                    @Html.ValidationMessageFor(m => m.Latitude, "", new { @class = "text-danger" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(m => m.Longitude, new { @class = "col-md-2 control-label" })
-                <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Longitude, new { @class = "form-control", title = Locale.ToolTip_PlaceLongitude })
-                    @Html.ValidationMessageFor(m => m.Longitude, "", new { @class = "text-danger" })
+                    @Html.ListBoxFor(m => m.RelatedPlaceKeys, Model.RelatedPlacesList, new { @class = "facility-ajax form-control", multiple = "multiple", title = Locale.ToolTip_Policies })
+                    @Html.ValidationMessageFor(m => m.RelatedPlaces, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="@Locale.Submit" class="btn btn-default" title="@Locale.ToolTip_Submit"/>
+                    <input type="submit" value="@Locale.Submit" class="btn btn-default" title="@Locale.ToolTip_Submit" />
                 </div>
             </div>
         }
     </div>
 </div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">
+            <span class="text-white">@Locale.Details</span>
+        </h3>
+    </div>
+    <div class="panel panel-body">
+        @if (Model.RelatedPlaces.Any())
+        {
+            <table class="table table-striped table-bordered" id="viewPlaceTable">
+                <thead>
+                <tr>
+                    <th>@Locale.Name</th>
+                    <th>@Locale.Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                @foreach (var item in Model.RelatedPlaces)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Type</td>
+                    </tr>}
+                </tbody>
+            </table>}
+        else
+        {
+            <p>@Locale.NoAdditionalDetails</p>}
+
+    </div>
+</div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#viewPlaceTable").DataTable();
+            $('.dynamic-dropdown').select2({
+                tags: true,
+                tokenSeparators: [','],
+                width: '100%'
+            });
+
+        });
+    </script>
+
+}

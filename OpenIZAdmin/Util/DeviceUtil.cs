@@ -89,24 +89,8 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a list of devices.</returns>
 		internal static IEnumerable<DeviceViewModel> GetAllDevices(AmiServiceClient client)
 		{
-			IEnumerable<DeviceViewModel> viewModels = new List<DeviceViewModel>();
-
-			try
-			{
-				// HACK
-				var devices = client.GetDevices(d => d.Name != string.Empty);
-
-				viewModels = devices.CollectionItem.Select(d => DeviceUtil.ToDeviceViewModel(d));
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve devices: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve devices: {0}", e.Message);
-			}
-
-			return viewModels;
+			// HACK
+			return client.GetDevices(d => d.Name != string.Empty).CollectionItem.Select(DeviceUtil.ToDeviceViewModel);
 		}
 
 		/// <summary>

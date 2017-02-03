@@ -10,14 +10,13 @@
         </h3>
     </div>
     <div class="panel panel-body">
-        @if (Model.Count() > 0)
+        @if (Model.Any())
         {
             <table class="table table-striped table-bordered" id="placesSearchTable">
                 <thead>
                     <tr>
                         <th>@Html.DisplayNameFor(m => m.Name)</th>
-                        <th>@Html.DisplayNameFor(m => m.Latitude)</th>
-                        <th>@Html.DisplayNameFor(m => m.Longitude)</th>
+                        <th>@Html.DisplayNameFor(m => m.Type)</th>
                         <th></th>
                         <th></th>
                         <th></th>
@@ -28,65 +27,32 @@
                     {
                         <tr>
                             <td>@item.Name</td>
-                            <td>@item.Latitude</td>
-                            <td>@item.Longitude</td>
+                            <td>@item.Type</td>
 
-                            @if (item.VersionKey.HasValue && item.VersionKey.Value != Guid.Empty)
-                            {
-                                <td>
-                                    <span class="btn-group">
-                                        <a class="btn btn-primary" href="/Place/ViewPlace?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
-                                            @Locale.View
-                                            <span class="glyphicon glyphicon-eye-open"></span>
-                                        </a>
-
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="btn-group">
-                                        <a class="btn btn-warning" href="/Place/Edit?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
-                                            @Locale.Edit
-                                            <span class="glyphicon glyphicon-pencil"></span>
-                                        </a>
-
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="btn-group">
-                                        <a class="btn btn-danger" href="/Place/Delete?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
-                                            @Locale.Delete
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </a>
-                                    </span>
-                                </td>
-                            }
-                            else
-                            {
-                                <td>
-                                    <span class="btn-group">
-                                        <a class="btn btn-primary" href="/Place/ViewPlace?key=@item.Key">
-                                            @Locale.View
-                                            <span class="glyphicon glyphicon-eye-open"></span>
-                                        </a>
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="btn-group">
-                                        <a class="btn btn-warning" href="/Place/Edit?key=@item.Key">
-                                            @Locale.Edit
-                                            <span class="glyphicon glyphicon-pencil"></span>
-                                        </a>
-                                    </span>
-                                </td>
-                                <td>
-                                    <span class="btn-group">
-                                        <a class="btn btn-danger" href="/Place/Delete?key=@item.Key">
-                                            @Locale.Delete
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </a>
-                                    </span>
-                                </td>
-                            }
+                            <td>
+                                <span class="btn-group">
+                                    <a class="btn btn-primary" href="/Place/ViewPlace?key=@item.Key">
+                                        @Locale.View
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                    </a>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="btn-group">
+                                    <a class="btn btn-warning" href="/Place/Edit?key=@item.Key">
+                                        @Locale.Edit
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="btn-group">
+                                    <a class="btn btn-danger" href="/Place/Delete?key=@item.Key">
+                                        @Locale.Delete
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </a>
+                                </span>
+                            </td>
                         </tr>}
 
                 </tbody>

@@ -197,7 +197,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Role";
-			return View(RoleUtil.GetAllRoles(this.AmiClient));
+			return View(new List<RoleViewModel>());
 		}
 
 		/// <summary>

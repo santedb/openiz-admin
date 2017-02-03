@@ -18,31 +18,61 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using OpenIZ.Core.Model.Entities;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
+	/// <summary>
+	/// Represents an edit place model.
+	/// </summary>
 	public class EditPlaceModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EditPlaceModel"/> class.
+		/// </summary>
 		public EditPlaceModel()
 		{
+			this.RelatedPlaces = new List<RelatedPlaceModel>();
+			this.RelatedPlaceKeys = new List<string>();
+			this.RelatedPlacesList = new List<SelectListItem>();
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EditPlaceModel"/> class
+		/// with a specific <see cref="Place"/> instance.
+		/// </summary>
+		/// <param name="place">The <see cref="Place"/> instance.</param>
+		public EditPlaceModel(Place place) : this()
+		{
+			this.Key = place.Key.Value;
+			this.Name = string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value));
 		}
 
 		[Required]
-		public Guid Id { get; set; }
-
-		[Display(Name = "Latitude", ResourceType = typeof(Localization.Locale))]
-		public double? Latitude { get; set; }
-
-		[Display(Name = "Longitude", ResourceType = typeof(Localization.Locale))]
-		public double? Longitude { get; set; }
+		public Guid Key { get; set; }
 
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
-		[Required]
-		public Guid VersionId { get; set; }
+		/// <summary>
+		/// Gets or sets the related places select list.
+		/// </summary>
+		public List<SelectListItem> RelatedPlacesList { get; set; }
+
+		/// <summary>
+		/// Gets or sets the related places.
+		/// </summary>
+		public List<string> RelatedPlaceKeys { get; set; }
+
+		/// <summary>
+		/// Gets or sets the list of related place models.
+		/// </summary>
+		public List<RelatedPlaceModel> RelatedPlaces { get; set; }
 	}
 }

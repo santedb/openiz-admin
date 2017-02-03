@@ -95,13 +95,11 @@ namespace OpenIZAdmin.Util
 		{
 			var place = new Place
 			{
-				Key = model.Id,
-				Lat = model.Latitude,
-				Lng = model.Longitude
+				Key = model.Key
+				
 			};
 
 			place.Names.Add(new EntityName(NameUseKeys.OfficialRecord, model.Name));
-			place.VersionKey = model.VersionId;
 
 			return place;
 		}
@@ -115,13 +113,9 @@ namespace OpenIZAdmin.Util
 		{
 			var model = new EditPlaceModel
 			{
-				Id = place.Key.Value,
-				Latitude = place.Lat,
-				Longitude = place.Lng,
-				Name = string.Join(", ", place.Names.SelectMany(e => e.Component).Select(c => c.Value)),
-				VersionId = place.VersionKey.Value
+				Key = place.Key.Value,
+				Name = string.Join(", ", place.Names.SelectMany(e => e.Component).Select(c => c.Value))
 			};
-
 
 			return model;
 		}
@@ -133,21 +127,28 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a place view model.</returns>
 		public static PlaceViewModel ToPlaceViewModel(Place place)
 		{
-			var viewModel = new PlaceViewModel
-			{
-				CreationTime = place.CreationTime.DateTime,
-				Key = place.Key.Value,
-				Latitude = place.Lat ?? 0,
-				Longitude = place.Lng ?? 0,
-				Name = string.Join(", ", place.Names.SelectMany(e => e.Component).Select(c => c.Value)),
-				VersionKey = place.VersionKey.GetValueOrDefault()
-			};
+			var viewModel = new PlaceViewModel(place);
 
-			viewModel.Details.Add(new DetailedPlaceViewModel
+
+			var childPlaces = place.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child)
+									.Select(r => r.TargetEntity)
+									.OfType<Place>()
+									.Select(p => new RelatedPlaceModel(p));
+
+			if (childPlaces.Any())
 			{
-				IsMobile = place.IsMobile,
-				Services = new List<string>()
-			});
+				viewModel.RelatedPlaces.AddRange(childPlaces);
+			}
+
+			var parentPlaces = place.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent)
+									.Select(r => r.TargetEntity)
+									.OfType<Place>()
+									.Select(p => new RelatedPlaceModel(p));
+
+			if (parentPlaces.Any())
+			{
+				viewModel.RelatedPlaces.AddRange(parentPlaces);
+			}
 
 			return viewModel;
 		}

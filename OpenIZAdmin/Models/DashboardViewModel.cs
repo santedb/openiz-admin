@@ -40,7 +40,6 @@ namespace OpenIZAdmin.Models
 			this.CertificateRequests = new List<CertificateSigningRequestViewModel>();
 			this.Devices = new List<DeviceViewModel>();
 			this.Roles = new List<RoleViewModel>();
-			this.Users = new List<UserViewModel>();
 		}
 
 		/// <summary>
@@ -62,10 +61,5 @@ namespace OpenIZAdmin.Models
 		/// Gets or sets a list of roles of the view model.
 		/// </summary>
 		public IEnumerable<RoleViewModel> Roles { get; set; }
-
-		/// <summary>
-		/// Gets or sets a list of users of the view model.
-		/// </summary>
-		public IEnumerable<UserViewModel> Users { get; set; }
 	}
 }

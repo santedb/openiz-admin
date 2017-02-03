@@ -20,29 +20,65 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Models.PlaceModels.ViewModels
 {
+	/// <summary>
+	/// Represents a place view model.
+	/// </summary>
 	public class PlaceViewModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PlaceViewModel"/> class.
+		/// </summary>
 		public PlaceViewModel()
 		{
-			this.Details = new List<DetailedPlaceViewModel>();
+			this.RelatedPlaces = new List<RelatedPlaceModel>();
 		}
 
+		public PlaceViewModel(Place place) : this()
+		{
+			this.CreationTime = place.CreationTime.DateTime;
+			this.Key = place.Key.Value;
+			this.Name = string.Join(", ", place.Names.SelectMany(e => e.Component).Select(c => c.Value));
+
+			if (place.TypeConcept != null)
+			{
+				this.Type = string.Join(" ", place.TypeConcept.ConceptNames.Select(c => c.Name));
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the creation time of the place.
+		/// </summary>
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime CreationTime { get; set; }
 
-		public List<DetailedPlaceViewModel> Details { get; set; }
+		/// <summary>
+		/// Gets or sets a list of places related to the place.
+		/// </summary>
+		public List<RelatedPlaceModel> RelatedPlaces { get; set; }
 
+		/// <summary>
+		/// Gets or sets key of the place.
+		/// </summary>
 		public Guid Key { get; set; }
 
-		public double Latitude { get; set; }
-
-		public double Longitude { get; set; }
-
+		/// <summary>
+		/// Gets or sets the name of the place.
+		/// </summary>
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Gets or sets the type of the place.
+		/// </summary>
+		public string Type { get; set; }
+
+		/// <summary>
+		/// Gets or sets the verion key of the place.
+		/// </summary>
 		public Guid? VersionKey { get; set; }
 	}
 }

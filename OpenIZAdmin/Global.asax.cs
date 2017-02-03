@@ -48,6 +48,9 @@ namespace OpenIZAdmin
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+			// realm initialization
+			RealmConfig.Initialize();
+
 			Trace.TraceInformation("Application started");
         }
 
