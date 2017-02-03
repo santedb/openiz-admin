@@ -4,12 +4,14 @@
 }
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Locale.Materials
+        <span class="h4">
+            @Locale.Materials
+        </span>
         <div class="pull-right">
-            <span>@Locale.New</span>
+            <span class="text-primary h4">@Locale.New</span>
             <a href="~/Material/Create" class="glyphicon glyphicon-plus-sign"></a>
         </div>
-    </div>
+</div>
     <div class="panel panel-body">
         @if (Model.Any())
         {

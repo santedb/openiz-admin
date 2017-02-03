@@ -5,7 +5,7 @@
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @(Locale.Create + " " + Locale.Alert)
+        <span class="h4">@(Locale.Create + " " + Locale.Alert)</span>
     </div>
     <div class="panel panel-body panel-default">
         @using (Html.BeginForm("Create", "Alert", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

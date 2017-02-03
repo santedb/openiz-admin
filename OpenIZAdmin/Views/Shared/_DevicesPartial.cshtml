@@ -4,14 +4,15 @@
 }
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Locale.Devices
+        <span class="h4">
+            @Locale.Devices
+        </span>
         <div class="pull-right">
-            <span>@Locale.New</span>
+            <span class="text-primary h4">@Locale.New</span>
             <a href="~/Device/Create" class="glyphicon glyphicon-plus-sign"></a>
         </div>
-    </div>
-    <div class="panel panel-body">
-        @*@Html.HiddenFor(m => m.SearchString)*@
+</div>
+    <div class="panel panel-body">        
         @if (Model.Count() > 0)
         {
             <table class="table table-bordered" id="devicesSearchTable">

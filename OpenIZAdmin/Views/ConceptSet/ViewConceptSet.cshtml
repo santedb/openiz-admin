@@ -5,11 +5,11 @@
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        <span class="text-white">@(Locale.View + " " + Locale.ConceptSet) @Model.Name</span>
+        <span class="text-white h4">@(Locale.View + " " + Locale.ConceptSet) @Model.Name</span>
         <div class="pull-right">
             <a href="~/ConceptSet/Edit/Edit?key=@Model.Key" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-edit"></span>
-                @Locale.Edit
+                <span class="text-primary h4">@Locale.Edit</span>
             </a>
         </div>
     </div>
@@ -54,10 +54,8 @@
 </div>
 
 <div class="panel panel-default">
-    <div class="panel-heading">
-        <h3 class="panel-title">
-            <span>@Locale.Concepts @Locale.For @Model.Mnemonic</span>
-        </h3>
+    <div class="panel-heading panel-title">        
+        <span class="h4">@Locale.Concepts @Locale.For @Model.Mnemonic</span>        
     </div>
     <div class="panel panel-body">
         <table class="table table-striped table-bordered">

@@ -5,11 +5,11 @@
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        <span>@(Locale.View + " " + Locale.Role)</span>
+        <span class="h4">@(Locale.View + " " + Locale.Role)</span>
         <div class="pull-right">
             <a href="~/Role/Edit/@Model.Id" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-edit"></span>
-                @Locale.Edit
+                <span class="text-primary h4">@Locale.Edit</span>
             </a>
         </div>
     </div>
@@ -36,7 +36,7 @@
 
     <div class="panel panel-default">
         <div class="panel panel-heading">
-            <span>@Locale.Policies</span>        
+            <span class="h4">@Locale.Policies</span>        
         </div>
         <div class="panel panel-body">
             <div class="row">

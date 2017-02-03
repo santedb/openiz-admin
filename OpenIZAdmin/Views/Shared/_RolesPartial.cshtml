@@ -5,12 +5,14 @@
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Locale.Roles
+        <span class="h4">
+            @Locale.Roles
+        </span>
         <div class="pull-right">
-            <span>@Locale.New</span>
+            <span class="text-primary h4">@Locale.New</span>
             <a href="~/Role/Create" class="glyphicon glyphicon-plus-sign"></a>
         </div>
-    </div>
+</div>
     <div class="panel panel-body">
         @if (Model.Count() > 0)
         {

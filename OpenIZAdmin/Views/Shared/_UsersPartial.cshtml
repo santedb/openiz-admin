@@ -5,12 +5,12 @@
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Locale.Users
-        <div class="pull-right">
-            <span>@Locale.New</span>
-            <a href="~/User/Create" class="glyphicon glyphicon-plus-sign"></a>
-        </div>
-    </div>
+        <span class="h4">@Locale.Users</span>            
+            <div class="pull-right">
+                <span class="text-primary h4">@Locale.New</span>
+                <a href="~/User/Create" class="glyphicon glyphicon-plus-sign"></a>
+            </div>
+</div>
     <div class="panel panel-body">
         @if (Model.Any())
         {
@@ -30,10 +30,7 @@
                         <th>
                             @Html.DisplayNameFor(m => m.Roles)
                         </th>
-                        <th></th>
-                        @*<th></th>
-                        <th></th>
-                        <th></th>*@
+                        <th></th>                        
                     </tr>
                 </thead>
                 <tbody>
@@ -53,11 +50,7 @@
                                     <text>@Locale.No</text>
                                 }
                             </td>
-                            <td>
-                                @*@if (item.Roles.Any())
-                                {
-                                    string.Join(", ", item.Roles.Select(r => r.Name).OrderBy(r => r));
-                                }*@
+                            <td>                                
                                 @if (item.HasRoles)
                                 {
                                     <text>@Locale.Yes</text>
