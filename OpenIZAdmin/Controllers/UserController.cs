@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -187,7 +188,11 @@ namespace OpenIZAdmin.Controllers
 				// used as a check for users, incase an imported user doesn't have a user entity
 				if (userEntity == null)
 				{
-					userEntity = new UserEntity();
+					userEntity = this.ImsiClient.Create<UserEntity>(new UserEntity
+					{
+						Key = Guid.NewGuid(),
+						SecurityUserKey = userId
+					});
 				}
 
 				var model = UserUtil.ToEditUserModel(this.ImsiClient, this.AmiClient, userEntity);
@@ -374,16 +379,15 @@ namespace OpenIZAdmin.Controllers
 			// used as a check for users, incase an imported user doesn't have a user entity
 			if (user == null)
 			{
-				user = new UserEntity();
+				user = this.ImsiClient.Create<UserEntity>(new UserEntity
+				{
+					Key = Guid.NewGuid(),
+					SecurityUserKey = userId
+				});
 			}
-
-            //viewModel.Name = string.Join(" ", user.Names.SelectMany(n => n.Component).Select(c => c.Value));            
 
             var given = user.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();            
             var family = user.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
-
-            //string concatGiven = string.Join(" ", given);
-            //string concatFamily = string.Join(" ", family);
 
             viewModel.Name = string.Join(" ", given) + " " + string.Join(" ", family);
 

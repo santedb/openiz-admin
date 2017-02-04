@@ -155,7 +155,7 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a edit user model.</returns>
 		public static EditUserModel ToEditUserModel(ImsiServiceClient imsiClient, AmiServiceClient amiClient, UserEntity userEntity)
 		{
-			var securityUserInfo = amiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
+			var securityUserInfo = amiClient.GetUser(userEntity.SecurityUserKey.Value.ToString());
 
 			var model = new EditUserModel
 			{
