@@ -27,25 +27,19 @@
                             <td>@item.Name</td>
                             <td>@item.Type</td>
 
-                            <td class="col-md-3">
-                                <span class="btn-group">
-                                    <a class="btn btn-primary" href="/Place/ViewPlace?key=@item.Key">
-                                        @Locale.View
-                                        <span class="glyphicon glyphicon-eye-open"></span>
-                                    </a>
-                                </span>                           
-                                <span class="btn-group">
-                                    <a class="btn btn-warning" href="/Place/Edit?key=@item.Key">
-                                        @Locale.Edit
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </a>
-                                </span>                           
-                                <span class="btn-group">
-                                    <a class="btn btn-danger" href="/Place/Delete?key=@item.Key">
-                                        @Locale.Delete
-                                        <span class="glyphicon glyphicon-remove"></span>
-                                    </a>
-                                </span>
+                            <td class="col-md-3 centerButton">                                
+                                <a class="btn btn-primary" href="/Place/ViewPlace?key=@item.Key">
+                                    @Locale.View
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>                                                                
+                                <a class="btn btn-warning" href="/Place/Edit?key=@item.Key">
+                                    @Locale.Edit
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>                                
+                                <a class="btn btn-danger" href="/Place/Delete?key=@item.Key">
+                                    @Locale.Delete
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>                                
                             </td>
                         </tr>}
 

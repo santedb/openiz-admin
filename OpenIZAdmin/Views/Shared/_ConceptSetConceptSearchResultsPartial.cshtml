@@ -22,13 +22,11 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            @*<td>@item.CreationTime</td>*@
+                        <tr>                            
                             <td>
                                 @if (item.CreationTime != null)
-                                {
-                                    DateTime date = item.CreationTime.ToLocalTime();
-                                    @date.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
+                                {                                    
+                                    @item.CreationTime.ToLocalTime().ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
                                 }
                             </td>
                             <td>@item.Mnemonic</td>
@@ -40,7 +38,7 @@
                             {
                                 <td>@string.Join(", ", item.Names)</td>
                             }
-                            <td>
+                            <td class="centerButton">
                                 <a class="btn btn-primary text-white" onclick="addConcept('@item.Key', this)">
                                     @Locale.Add
                                     <span class="glyphicon glyphicon-plus"></span>

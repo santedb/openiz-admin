@@ -29,9 +29,7 @@
                         <th>
                             @Locale.HasPolicies
                         </th>                        
-                        <th></th>
-                        @*<th></th>*@
-                        @*<th></th>*@
+                        <th></th>                        
                     </tr>
                 </thead>
                 <tbody>
@@ -39,13 +37,11 @@
                     {
                         <tr>
                             <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>
-                            <td>@item.ApplicationName</td>
-                            @*<td>@item.CreationTime.ToLocalTime()</td>*@ 
+                            <td>@item.ApplicationName</td>                            
                             <td>
                                 @if (item.CreationTime != null)
-                                {
-                                    DateTime date = item.CreationTime.ToLocalTime();                                    
-                                    @date.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
+                                {                                    
+                                    @item.CreationTime.ToLocalTime().ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
                                 }                                
                             </td>                                                   
                             <td>
@@ -58,19 +54,15 @@
                                     <text>@Locale.No</text>
                                 }
                             </td>                            
-                            <td class="col-md-3">
+                            <td class="col-md-3 centerButton">
                                 <a class="btn btn-primary" href="/Application/ViewApplication/@item.Id">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
-                                </a>
-                            @*</td>
-                            <td>*@
+                                </a>                            
                                 <a class="btn btn-warning" href="/Application/Edit/Edit?key=@item.Id">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
-                            @*</td>
-                            <td>*@
+                                </a>                            
                                 @if (!item.IsObsolete)
                                 {
                                     using (Html.BeginForm("Delete", "Application", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))

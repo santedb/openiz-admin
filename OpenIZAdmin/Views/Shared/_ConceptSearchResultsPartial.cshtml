@@ -46,7 +46,7 @@
 
                             <td>@Locale.Concept</td>
 
-                            <td class="col-md-3">
+                            <td class="col-md-3 centerButton">
                                 <a class="btn btn-primary text-white" href="/Concept/ViewConcept?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
@@ -75,7 +75,7 @@
                                     <td>@string.Join(", ", item.Names)</td>
                                 }
                                 <td>@Locale.ConceptSet</td>
-                                <td class="col-md-3">
+                                <td class="col-md-3 centerButton">
                                     <a class="btn btn-primary text-white" href="/ConceptSet/ViewConceptSet?key=@item.Key">
                                         @Locale.View
                                         <span class="glyphicon glyphicon-eye-open"></span>

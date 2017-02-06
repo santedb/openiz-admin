@@ -35,13 +35,12 @@
                             <td><span class="glyphicon glyphicon-grain pull-left" aria-hidden="true"></span></td>                            
                             <td>
                                 @if (item.CreationTime != null)
-                                {
-                                    DateTime date = item.CreationTime.ToLocalTime();
-                                    @date.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
+                                {                                    
+                                    @item.CreationTime.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
                                 }
                             </td>
                             <td>@item.Name</td>
-                            <td class="col-md-3">
+                            <td class="col-md-3 centerButton">
                                 <a class="btn btn-primary" href="/Material/ViewMaterial?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>

@@ -41,9 +41,8 @@
                             <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>                            
                             <td>
                                 @if(item.CreationTime != null)
-                                {
-                                    DateTime date = item.CreationTime.ToLocalTime();                                    
-                                    @date.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);                                    
+                                {                                    
+                                    @item.CreationTime.ToLocalTime().ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
                                 }                                
                             </td>
                             <td>@item.Name</td>
@@ -57,9 +56,14 @@
                                     <text>@Locale.No</text>
                                 }                                
                             </td>
-
-                            <td>@item.UpdatedTime</td>                            
-                            <td class="col-md-3">
+                            <td>
+                                @if (item.UpdatedTime != null)
+                                {
+                                    @item.UpdatedTime.Value.ToLocalTime().ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
+                                }
+                                
+                            </td>                            
+                            <td class="col-md-3 centerButton">
                                 <a class="btn btn-primary" href="/Device/ViewDevice/@item.Id">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>

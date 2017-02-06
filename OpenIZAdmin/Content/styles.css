@@ -28,6 +28,15 @@ span.glyphicon {
 	margin-right: 5px;
 }
 
+/*this align all the td's in the centre - bootstrap is default to top*/
+.table tbody>tr>td{
+    vertical-align: middle;
+}
+
+.table tbody>tr>td.centerButton{
+    text-align: center;
+}
+
 /*
  * Top Navigation CSS
  */

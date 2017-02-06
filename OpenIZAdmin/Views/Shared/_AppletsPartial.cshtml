@@ -29,8 +29,7 @@
                     <th>
                         @Locale.Version
                     </th>
-                    <th></th>
-                    <th></th>
+                    <th></th>                    
                 </tr>
             </thead>
             <tbody>
@@ -41,13 +40,11 @@
                         <td>@item.Group</td>
                         <td>@item.Name</td>
                         <td>@item.Version</td>
-                        <td>
+                        <td class="centerButton">
                             <a class="btn btn-primary" href="/Applet/ViewApplet?id=@item.Id">
                                 @Locale.View
                                 <span class="glyphicon glyphicon-eye-open"></span>
-                            </a>
-                        </td>
-                        <td>
+                            </a>                        
                             <a class="btn btn-primary" href="/Applet/Download/@item.Id">
                                 @Locale.Download
                                 <span class="glyphicon glyphicon-download"></span>
