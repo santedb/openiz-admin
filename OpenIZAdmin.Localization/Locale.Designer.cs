@@ -277,7 +277,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Assigning authority.
+        ///   Looks up a localized string similar to Assigning Authority.
         /// </summary>
         public static string AssigningAuthority {
             get {

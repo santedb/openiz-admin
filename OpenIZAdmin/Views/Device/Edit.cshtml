@@ -20,7 +20,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.CreationTime, new { @class = "col-md-2 control-label" })
                         <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly", title = Locale.ToolTip_CreationTime })
+                            @Html.TextBoxFor(m => m.CreationTime, Constants.DATETIME_FORMAT_VIEW_WITH_TIMESTAMP, new { @class = "form-control", @readonly = "readonly", title = Locale.ToolTip_CreationTime })
                             @Html.ValidationMessageFor(m => m.CreationTime, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -49,61 +49,67 @@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="@Locale.Submit" class="btn btn-default" title="@Locale.ToolTip_Submit"/>
+                            <input type="submit" value="@Locale.Submit" class="btn btn-primary" title="@Locale.ToolTip_Submit"/>
                         </div>
                     </div>
-                </div>
                 </div>
             </div>
         </div>
-}
+    </div>
+    }
+</div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <span class="panel-title">@Locale.Policies</span>                
-            </div>
-            <div class="panel panel-body">
-                <div class="row">
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.Policies</span>                
+    </div>
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
                     <div class="col-md-12">
-                        <div class="form-group">
-                            <div class="col-md-12">
-                                @if (Model.DevicePolicies.Any())
-                                {                                
-                                <table class="table table-striped table-bordered" id="devicePoliciesTable">
-                                    <thead>
-                                        <tr>
-                                            <th>@Locale.CreationTime</th>
-                                            <th>@Locale.Name</th>
-                                            <th>@Locale.Grant</th>
-                                            <th>@Locale.IsPublic</th>
-                                            <th>@Locale.Oid</th>                                            
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.DevicePolicies)
-                                        {
-                                            <tr>
-                                                <td>@item.CreationTime</td>
-                                                <td>@item.Name</td>
-                                                <td>@item.Grant</td>
-                                                <td>@item.IsPublic</td>
-                                                <td>@item.Oid</td>                                               
-                                            </tr> }
-
-                                    </tbody>
-                                </table>
-                                }
-                                else
+                        @if (Model.DevicePolicies.Any())
+                        {                                
+                        <table class="table table-striped table-bordered" id="devicePoliciesTable">
+                            <thead>
+                                <tr>
+                                    <th>@Locale.CreationTime</th>
+                                    <th>@Locale.Name</th>
+                                    <th>@Locale.Grant</th>
+                                    <th>@Locale.IsPublic</th>
+                                    <th>@Locale.Oid</th>                                            
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.DevicePolicies)
                                 {
-                                    <p>@Locale.NoPoliciesAdded</p>
-                                }
-                            </div>
-                        </div>
+                                    <tr>
+                                        <td>
+                                            @if(item.CreationTime != null)
+                                            {
+                                                @item.CreationTime.ToLocalTime().ToString(Constants.DATETIME_FORMAT_VIEW_WITH_TIMESTAMP);
+                                            }
+                                        </td>
+                                        <td>@item.Name</td>
+                                        <td>@item.Grant</td>
+                                        <td>@item.IsPublic</td>
+                                        <td>@item.Oid</td>                                               
+                                    </tr> }
+
+                            </tbody>
+                        </table>
+                        }
+                        else
+                        {
+                            <p>@Locale.NoPoliciesAdded</p>
+                        }
                     </div>
                 </div>
             </div>
-        </div>           
+        </div>
     </div>
+</div>           
+   
 
 @section scripts
 {

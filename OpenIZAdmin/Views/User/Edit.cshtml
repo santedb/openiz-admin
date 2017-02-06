@@ -72,7 +72,7 @@
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
-                                <input type="submit" value="@Locale.Submit" class="btn btn-default" title="@Locale.ToolTip_Submit" />
+                                <input type="submit" value="@Locale.Submit" class="btn btn-primary" title="@Locale.ToolTip_Submit" />
                             </div>
                         </div>
                     </div>
@@ -80,45 +80,46 @@
             </div>
         }
     </div>
+</div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <span class="panel-title">@Locale.Roles</span>
-        </div>
-        <div class="panel panel-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">                        
-                            @if (Model.UserRoles.Any())
-                            {
-                                <table class="table table-striped table-bordered" id="userRolesTable">
-                                    <thead>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.Roles</span>
+    </div>
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">                        
+                        @if (Model.UserRoles.Any())
+                        {
+                            <table class="table table-striped table-bordered" id="userRolesTable">
+                                <thead>
+                                    <tr>
+                                        <th>@Locale.Name</th>
+                                        <th>@Locale.Description</th>                                                                                       
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.UserRoles)
+                                    {
                                         <tr>
-                                            <th>@Locale.Name</th>
-                                            <th>@Locale.Description</th>                                                                                       
+                                            <td>@item.Name</td>
+                                            <td>@item.Description</td>                                                                                                
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.UserRoles)
-                                        {
-                                            <tr>
-                                                <td>@item.Name</td>
-                                                <td>@item.Description</td>                                                                                                
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            }
-                            else
-                            {
-                                <p>@Locale.NoRolesFound</p>
-                            }                       
-                    </div>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p>@Locale.NoRolesFound</p>
+                        }                       
                 </div>
             </div>
         </div>
-    </div>       
-</div>
+    </div>
+</div>       
+
 
 @section scripts
 {

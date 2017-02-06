@@ -51,9 +51,10 @@ namespace OpenIZAdmin.Models.ConceptModels
 		public string CreatedBy { get; set; }
 
 		[Display(Name = "Creation Time")]
-		public string CreationTime { get; set; }
+		//public string CreationTime { get; set; }
+        public DateTimeOffset CreationTime { get; set; }
 
-		[Display(Name = "Concept Details")]
+        [Display(Name = "Concept Details")]
 		public List<DetailedConceptViewModel> Details { get; set; }
 
 		[Display(Name = "Is Read Only?")]

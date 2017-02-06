@@ -54,13 +54,11 @@
                 <tbody>
                     @foreach (var item in Model.RelatedPlaces)
                     {
-                        <tr>
-                            @*<td>@item.CreationTime</td>*@
+                        <tr>                            
                             <td>
                                 @if (item.CreationTime != null)
-                                {
-                                    DateTime date = item.CreationTime.ToLocalTime();
-                                    @date.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
+                                {                                    
+                                    @item.CreationTime.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
                                 }
                                 
                             </td>

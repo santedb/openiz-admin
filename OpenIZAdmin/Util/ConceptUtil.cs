@@ -110,7 +110,7 @@ namespace OpenIZAdmin.Util
 
 			viewModel.Mnemonic = concept.Mnemonic;
 			viewModel.Key = concept.Key.Value;
-			viewModel.CreationTime = concept.CreationTime.ToString();
+			viewModel.CreationTime = concept.CreationTime;
 
 			return viewModel;
 		}

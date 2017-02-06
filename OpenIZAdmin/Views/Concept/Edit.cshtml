@@ -26,7 +26,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.CreationTime, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.CreationTime, new { @class = "form-control", @readonly = "readonly", title = Locale.ToolTip_CreationTime })                    
+                    @Html.TextBoxFor(m => m.CreationTime, Constants.DATETIME_FORMAT_VIEW_WITH_TIMESTAMP, new { @class = "form-control", @readonly = "readonly", title = Locale.ToolTip_CreationTime })                    
                 </div>
             </div>
            
