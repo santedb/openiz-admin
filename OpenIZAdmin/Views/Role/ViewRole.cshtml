@@ -4,8 +4,8 @@
 }
 
 <div class="panel panel-default">
-    <div class="panel panel-heading">
-        <span class="h4">@(Locale.View + " " + Locale.Role)</span>
+    <div class="panel-heading">
+        <span class="panel-title">@(Locale.View + " " + Locale.Role)</span>
         <div class="pull-right">
             <a href="~/Role/Edit/@Model.Id" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-edit"></span>
@@ -35,8 +35,8 @@
     </div>
 
     <div class="panel panel-default">
-        <div class="panel panel-heading">
-            <span class="h4">@Locale.Policies</span>        
+        <div class="panel-heading">
+            <span class="panel-title">@Locale.Policies</span>        
         </div>
         <div class="panel panel-body">
             <div class="row">
@@ -58,13 +58,11 @@
                                     <tbody>
                                         @foreach (var item in Model.Policies)
                                         {
-                                            <tr>
-                                                @*<td>@item.CreationTime</td>*@
+                                            <tr>                                                
                                                 <td>
                                                     @if (item.CreationTime != null)
-                                                    {
-                                                        DateTime date = item.CreationTime.ToLocalTime();
-                                                        @date.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
+                                                    {                                                        
+                                                        @item.CreationTime.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
                                                     }
                                                 </td>
                                                 <td>@item.Name</td>
