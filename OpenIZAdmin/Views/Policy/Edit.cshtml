@@ -4,8 +4,8 @@
 }
 
 <div class="panel panel-default">
-    <div class="panel panel-heading">
-        <span class="h4">@(Locale.Edit + " " + Locale.Policy)</span>
+    <div class="panel-heading">
+        <span class="panel-title">@(Locale.Edit + " " + Locale.Policy)</span>
     </div>
     <div class="panel panel-body panel-default">
         @using (Html.BeginForm("Edit", "Policy", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

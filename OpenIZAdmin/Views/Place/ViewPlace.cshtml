@@ -4,8 +4,8 @@
 }
 
 <div class="panel panel-default">
-    <div class="panel panel-heading">
-        <span class="h4">@(Locale.View + " " + Locale.Place)</span>
+    <div class="panel-heading">
+        <span class="panel-title">@(Locale.View + " " + Locale.Place)</span>
         <div class="pull-right">
             <a href="~/Place/Edit?key=@Model.Key" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-edit"></span>
@@ -36,9 +36,9 @@
 </div>
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h3 class="panel-title">
+        <span class="panel-title">
             <span class="text-white h4">@Locale.Details</span>
-        </h3>
+        </span>
     </div>
     <div class="panel panel-body">
         @if (Model.RelatedPlaces.Any())

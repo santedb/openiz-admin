@@ -4,8 +4,8 @@
 }
 
 <div class="panel panel-default">
-    <div class="panel panel-heading">
-        <span class="h4">@(Locale.View + " " + Locale.Device)</span>
+    <div class="panel-heading">
+        <span class="panel-title">@(Locale.View + " " + Locale.Device)</span>
         <div class="pull-right">
             <a href="~/Device/Edit/Edit?key=@Model.Id" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-edit"></span>
@@ -44,8 +44,8 @@
 </div>
 
 <div class="panel panel-default">
-    <div class="panel panel-heading">
-        <span class="h4">@Locale.Details</span>
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.Details</span>
     </div>
     <div class="panel panel-body">
         <div class="row">
