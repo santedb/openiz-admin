@@ -1,6 +1,6 @@
 ﻿$(document).ready(function ()
 {
-    $(".facility-ajax").select2({
+    $(".place-search").select2({
         ajax: {
             url: "/Place/SearchAjax",
             dataType: 'json',

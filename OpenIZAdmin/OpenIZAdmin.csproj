@@ -249,7 +249,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountModels\ChangePasswordModel.cs" />
-    <Compile Include="Models\AppletModels\AppletAssetModel.cs" />
+    <Compile Include="Models\AppletModels\ViewModels\AppletViewAssetModel.cs" />
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ViewModels\ApplicationViewModel.cs" />
     <Compile Include="Models\ConceptModels\ReferenceTermModel.cs" />
@@ -505,6 +505,7 @@
     <Content Include="Views\Home\SubmitBugReport.cshtml" />
     <Content Include="Views\Shared\_ConceptSetConceptSearchResultsPartial.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Shared\_ConfirmDelete.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

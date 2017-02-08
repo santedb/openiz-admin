@@ -47,42 +47,13 @@ namespace OpenIZAdmin.Util
 		}
 
 		/// <summary>
-		/// Checks if a Guid is valid
-		/// </summary>
-		/// <param name="key">A Guid object</param>
-		/// <returns>Returns true if valid</returns>
-		public static bool IsGuid(Guid key)
-		{
-			if (key == null || key == Guid.Empty)
-				return false;
-			else
-				return true;
-		}
-
-		/// <summary>
-		/// Checks if a list has policies
-		/// </summary>
-		/// <param name="pList">A list of policies</param>
-		/// <returns>Returns true if policies exist, false if no policies exist</returns>
-		public static bool IsPolicy(List<SecurityPolicyInstance> pList)
-		{
-			if (pList != null && pList.Count() > 0)
-				return true;
-			else
-				return false;
-		}
-
-		/// <summary>
 		/// Verifies a valid string parameter
 		/// </summary>
 		/// <param name="key">The string to validate</param>
 		/// <returns>Returns true if valid, false if empty or whitespace</returns>
 		public static bool IsValidString(string key)
 		{
-			if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
-				return true;
-			else
-				return false;
+			return !string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key);
 		}
 
 		/// <summary>
@@ -115,7 +86,7 @@ namespace OpenIZAdmin.Util
 
 				policies.AddRange(from key
 								  in guidList
-								  where IsGuid(key)
+								  where key != Guid.Empty
 								  select client.GetPolicies(r => r.Key == key)
 								  into result
 								  where result.CollectionItem.Count != 0
@@ -127,49 +98,5 @@ namespace OpenIZAdmin.Util
 
 			return policies;
 		}
-
-        /// <summary>
-        /// Ensures a date is displayed in the requested format
-        /// </summary>
-        /// <param name="date">the date string from the object</param>
-        /// <param name="withTimeStamp">the flag to determine if the timestamp is to be included</param>
-        /// <returns>Returns a date or datetime as a string in the required format as required</returns>
-        //public static string ToRequiredDate(DateTime date, bool withTimeStamp)
-        //{            
-        //    if (date != null)
-        //    {                               
-        //        if (withTimeStamp)
-        //            return date.ToString(Constants.REQUIRED_DATE_FORMAT_WITH_TIMESTAMP);
-        //        else
-        //            return date.ToString(Constants.REQUIRED_DATE_FORMAT);
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
-
-        /// <summary>
-        /// Ensures a date is displayed in the requested format
-        /// </summary>
-        /// <param name="dt">the date string from the object</param>
-        /// <param name="withTimeStamp">the flag to determine if the timestamp is to be included</param>
-        /// <returns>Returns a date or datetime as a string in the required format as required</returns>
-        //public static string ToRequiredDateFromDateTimeOffset(DateTimeOffset? dt, bool withTimeStamp)
-        //{
-        //    DateTime date;
-        //    if (dt != null && DateTime.TryParse(dt.ToString(), out date))
-        //    {
-        //        if (withTimeStamp)
-        //            return date.ToString(Constants.REQUIRED_DATE_FORMAT_WITH_TIMESTAMP_UTC_OFFSET);
-        //        else
-        //            return date.ToString(Constants.REQUIRED_DATE_FORMAT);
-        //    }
-        //    else
-        //    {
-        //        return null;
-        //    }
-        //}
-
     }
 }

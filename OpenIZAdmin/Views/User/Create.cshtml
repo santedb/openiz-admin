@@ -65,7 +65,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Facilities, new { @class = "col-md-2 control-label" })
                 <div class="col-md-6">
-                    @Html.ListBoxFor(m => m.Facilities, new List<SelectListItem>(), new { @class = "facility-ajax form-control", title = Locale.ToolTip_Facilities })
+                    @Html.ListBoxFor(m => m.Facilities, new List<SelectListItem>(), new { @class = "place-search form-control", title = Locale.ToolTip_Facilities })
                     @Html.ValidationMessageFor(m => m.Facilities, "", new { @class = "text-danger" })
                 </div>
             </div>

@@ -50,51 +50,7 @@ namespace OpenIZAdmin.Util
 		{
 			var applets = client.GetApplets();
 
-            return applets.CollectionItem.Select(ToAppletViewModel).ToList();
-		} 
-
-        /// <summary>
-		/// Converts a <see cref="AppletManifestInfo"/> to a <see cref="AppletViewModel"/>.
-		/// </summary>
-		/// <param name="appletInfo">The AppletInfo object to convert.</param>
-		/// <returns>Returns a AppletViewModel model.</returns>
-		public static AppletViewModel ToAppletViewModel(AppletManifestInfo appletInfo)
-        {            
-            var viewModel = new AppletViewModel
-            {
-                Author = appletInfo.AppletManifest.Info.Author,
-                Group = appletInfo.AppletManifest.Info.GetGroupName("en"),
-                Id = appletInfo.AppletManifest.Info.Id,
-                PublicKeyToken = appletInfo.AppletManifest.Info.PublicKeyToken,
-                Version = appletInfo.AppletManifest.Info.Version,
-                Name = string.Join(", ", appletInfo.AppletManifest.Info.Names.Select(l => l.Value))
-            };
-
-            if(appletInfo.AppletManifest.Assets != null && appletInfo.AppletManifest.Assets.Any())
-            {
-                viewModel.Assets = appletInfo.AppletManifest.Assets.Select(ToAppletAssetModel).OrderBy(q => q.Name).ToList();
-            }            
-
-            return viewModel;
-        }
-
-        private static AppletAssetModel ToAppletAssetModel(AppletAsset appletAsset)
-        {
-	        var viewModel = new AppletAssetModel
-	        {
-		        Manifest = appletAsset.Manifest ?? new AppletManifest(),
-		        Name = appletAsset.Name ?? string.Empty,
-		        MimeType = appletAsset.MimeType ?? string.Empty,
-		        Language = appletAsset.Language ?? string.Empty
-	        };
-
-
-	        if (appletAsset.Policies != null && appletAsset.Policies.Any())
-            {
-                viewModel.Policies = appletAsset.Policies;
-            }
-            
-            return viewModel;
-        }
+            return applets.CollectionItem.Select(a => new AppletViewModel(a)).ToList();
+		}
     }
 }

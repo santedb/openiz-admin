@@ -520,6 +520,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you would like to delete this item?.
+        /// </summary>
+        public static string ConfirmDelete {
+            get {
+                return ResourceManager.GetString("ConfirmDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm Password.
         /// </summary>
         public static string ConfirmPassword {
@@ -1299,6 +1308,15 @@ namespace OpenIZAdmin.Localization {
         public static string Manage {
             get {
                 return ResourceManager.GetString("Manage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manifest.
+        /// </summary>
+        public static string Manifest {
+            get {
+                return ResourceManager.GetString("Manifest", resourceCulture);
             }
         }
         

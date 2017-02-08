@@ -16,7 +16,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.To, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.To, Model.ToList, new { @class = "user-ajax form-control", title = Locale.ToolTip_AlertTo })
+                    @Html.ListBoxFor(m => m.To, Model.ToList, new { @class = "user-search form-control", title = Locale.ToolTip_AlertTo })
                     @Html.ValidationMessageFor(m => m.To, "", new { @class = "text-danger" })
                 </div>
             </div>

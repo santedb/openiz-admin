@@ -19,6 +19,8 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using OpenIZ.Core.Model.AMI.DataTypes;
+using OpenIZ.Core.Model.DataTypes;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {
@@ -26,6 +28,16 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 	{
 		public EditAssigningAuthorityModel()
 		{
+		}
+
+		public EditAssigningAuthorityModel(AssigningAuthorityInfo assigningAuthorityInfo)
+		{
+			this.Key = assigningAuthorityInfo.Id;
+			this.Name = assigningAuthorityInfo.AssigningAuthority.Name;
+			this.Oid = assigningAuthorityInfo.AssigningAuthority.Oid;
+			this.Url = assigningAuthorityInfo.AssigningAuthority.Url;
+			this.DomainName = assigningAuthorityInfo.AssigningAuthority.DomainName;
+			this.Description = assigningAuthorityInfo.AssigningAuthority.Description;
 		}
 
 		[Display(Name = "Description", ResourceType = typeof(Localization.Locale))]
@@ -47,5 +59,28 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 
 		[Display(Name = "Url", ResourceType = typeof(Localization.Locale))]
 		public string Url { get; set; }
+
+		/// <summary>
+		/// Converts a <see cref="EditAssigningAuthorityModel"/> instance to an <see cref="AssigningAuthorityInfo"/> instance.
+		/// </summary>
+		/// <returns>Returns an <see cref="AssigningAuthorityInfo"/> instance.</returns>
+		public AssigningAuthorityInfo ToAssigningAuthorityInfo()
+		{
+			var assigningAuthorityInfo = new AssigningAuthorityInfo
+			{
+				Id = this.Key,
+				AssigningAuthority = new AssigningAuthority
+				{
+					Key = this.Key,
+					Url = this.Url,
+					DomainName = this.DomainName,
+					Description = this.Description,
+					Oid = this.Oid,
+					Name = this.Name
+				}
+			};
+
+			return assigningAuthorityInfo;
+		}
 	}
 }

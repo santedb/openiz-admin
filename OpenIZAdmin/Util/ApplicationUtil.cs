@@ -74,7 +74,7 @@ namespace OpenIZAdmin.Util
 				ApplicationName = appInfo.Name,
                 CreationTime = appInfo.Application.CreationTime.DateTime,
                 //CreationTime = (appInfo.Application.CreationTime.DateTime != null) ? CommonUtil.ToRequiredDate(appInfo.Application.CreationTime.DateTime, true) : null,
-                HasPolicies = CommonUtil.IsPolicy(appInfo.Policies),
+                HasPolicies = appInfo.Policies?.Any() == true,
 				IsObsolete = appInfo.Application.ObsoletionTime != null,
 				Policies = appInfo.Policies?.Select(PolicyUtil.ToPolicyViewModel).OrderBy(q => q.Name).ToList() ?? new List<PolicyViewModel>()
 			};

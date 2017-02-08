@@ -18,6 +18,8 @@
  */
 
 using System.ComponentModel.DataAnnotations;
+using OpenIZ.Core.Model.AMI.DataTypes;
+using OpenIZ.Core.Model.DataTypes;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {
@@ -44,5 +46,20 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 
 		[Display(Name = "Url", ResourceType = typeof(Localization.Locale))]
 		public string Url { get; set; }
+
+		public AssigningAuthorityInfo ToAssigningAuthorityInfo()
+		{
+			return new AssigningAuthorityInfo
+			{
+				AssigningAuthority = new AssigningAuthority
+				{
+					Name = this.Name,
+					Oid = this.Oid,
+					DomainName = this.DomainName,
+					Description = this.Description,
+					Url = this.Url
+				}
+			};
+		}
 	}
 }

@@ -29,6 +29,7 @@ using System.IO.Compression;
 using System.Web.Mvc;
 using System.Xml.Serialization;
 using Elmah;
+using OpenIZAdmin.Models.AppletModels.ViewModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -41,12 +42,17 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Downloads an applet.
 		/// </summary>
-		/// <param name="appletId">The id of the applet to download.</param>
+		/// <param name="id">The id of the applet to download.</param>
 		/// <returns>Returns the applet.</returns>
 		[HttpGet]
-		public ActionResult Download(string appletId)
+		public ActionResult Download(string id)
 		{
-			var applet = this.AmiClient.GetApplet(appletId);
+			if (id.EndsWith("/"))
+			{
+				id = id.Remove(id.LastIndexOf("/"));
+			}
+
+			var applet = this.AmiClient.GetApplet(id);
 
 			var stream = new MemoryStream();
 
@@ -160,7 +166,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (CommonUtil.IsValidString(id))
 			{
-				AppletManifestInfo applet = AppletUtil.GetApplet(this.AmiClient, id);
+				var applet = AppletUtil.GetApplet(this.AmiClient, id);
 
 				if (applet == null)
 				{
@@ -169,7 +175,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return View(AppletUtil.ToAppletViewModel(applet));
+				return View(new AppletViewModel(applet));
 			}
 
 			TempData["error"] = Locale.Applet + " " + Locale.NotFound;

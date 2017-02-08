@@ -1,6 +1,6 @@
 ﻿$(document).ready(function ()
 {
-    $(".user-ajax").select2({
+    $(".user-search").select2({
         ajax: {
             url: "/User/SearchAjax",
             dataType: 'json',

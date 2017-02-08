@@ -19,6 +19,7 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using OpenIZ.Core.Model.AMI.DataTypes;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels.ViewModels
 {
@@ -26,6 +27,16 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels.ViewModels
 	{
 		public AssigningAuthorityViewModel()
 		{
+		}
+
+		public AssigningAuthorityViewModel(AssigningAuthorityInfo assigningAuthority)
+		{
+			this.Key = assigningAuthority.Id;
+			this.Name = assigningAuthority.AssigningAuthority.Name;
+			this.Oid = assigningAuthority.AssigningAuthority.Oid;
+			this.Url = assigningAuthority.AssigningAuthority.Url;
+			this.DomainName = assigningAuthority.AssigningAuthority.DomainName;
+			this.Description = assigningAuthority.AssigningAuthority.Description;
 		}
 
 		[Display(Name = "Description", ResourceType = typeof(Localization.Locale))]

@@ -17,9 +17,13 @@
  * Date: 2016-8-1
  */
 
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.DataTypes;
+using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Models.MaterialModels
 {
@@ -66,5 +70,19 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// Gets or sets a list of quantity concepts of the material.
 		/// </summary>
 		public List<SelectListItem> QuantityConcepts { get; set; }
+
+		public Material ToMaterial()
+		{
+			return new Material
+			{
+				Key = Guid.NewGuid(),
+				Names = new List<EntityName>
+				{
+					new EntityName(NameUseKeys.OfficialRecord, this.Name)
+				},
+				FormConceptKey = Guid.Parse(this.FormConcept),
+				QuantityConceptKey = Guid.Parse(this.QuantityConcept)
+			};
+		}
 	}
 }

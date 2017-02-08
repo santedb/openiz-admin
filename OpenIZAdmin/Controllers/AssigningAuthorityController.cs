@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -59,13 +60,21 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateAssigningAuthorityModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				var assigningAuthority = this.AmiClient.CreateAssigningAuthority(AssigningAuthorityUtil.ToCreateAssigningAuthorityModel(model));
+				if (ModelState.IsValid)
+				{
+					var assigningAuthority = this.AmiClient.CreateAssigningAuthority(model.ToAssigningAuthorityInfo());
 
-				TempData["success"] = Locale.AssigningAuthority + " " + Locale.Created + " " + Locale.Successfully;                
-                return RedirectToAction("ViewAssigningAuthority", new { key = assigningAuthority.Id });
-            }
+					TempData["success"] = Locale.AssigningAuthority + " " + Locale.Created + " " + Locale.Successfully;
+
+					return RedirectToAction("ViewAssigningAuthority", new { key = assigningAuthority.Id });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.AssigningAuthority;
 
@@ -80,17 +89,28 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Delete(Guid key)
 		{
-			var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == key).CollectionItem.FirstOrDefault();
-
-			if (assigningAuthority == null)
+			try
 			{
-				TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+				var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == key).CollectionItem.FirstOrDefault();
+
+				if (assigningAuthority == null)
+				{
+					TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+					return RedirectToAction("Index");
+				}
+
+				this.AmiClient.DeleteAssigningAuthority(key.ToString());
+
+				TempData["success"] = Locale.AssigningAuthority + " " + Locale.Deleted + " " + Locale.Successfully;
+
 				return RedirectToAction("Index");
 			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
 
-			this.AmiClient.DeleteAssigningAuthority(key.ToString());
-
-			TempData["success"] = Locale.AssigningAuthority + " " + Locale.Deleted + " " + Locale.Successfully;
+			TempData["error"] = Locale.UnableToDelete + " " + Locale.AssigningAuthority;
 
 			return RedirectToAction("Index");
 		}
@@ -98,31 +118,50 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Edit(Guid key)
 		{
-			var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == key).CollectionItem.FirstOrDefault();
 
-			if (assigningAuthority == null)
+			try
 			{
-				TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
-				return RedirectToAction("Index");
+				var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == key).CollectionItem.FirstOrDefault();
+
+				if (assigningAuthority == null)
+				{
+					TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+					return RedirectToAction("Index");
+				}
+
+				return View(new EditAssigningAuthorityModel(assigningAuthority));
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			return View(AssigningAuthorityUtil.ToEditAssigningAuthorityModel(assigningAuthority));
+			TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+			return RedirectToAction("Index");
 		}
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditAssigningAuthorityModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				this.AmiClient.UpdateAssigningAuthority(model.Key.ToString(), AssigningAuthorityUtil.ToAssigningAuthorityInfo(model));
+				if (ModelState.IsValid)
+				{
+					this.AmiClient.UpdateAssigningAuthority(model.Key.ToString(), model.ToAssigningAuthorityInfo());
 
-				TempData["success"] = Locale.AssigningAuthority + " " + Locale.Edited + " " + Locale.Successfully;
-                return RedirectToAction("ViewAssigningAuthority", new { key = model.Key });                
+					TempData["success"] = Locale.AssigningAuthority + " " + Locale.Edited + " " + Locale.Successfully;
+					return RedirectToAction("ViewAssigningAuthority", new { key = model.Key });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
-			return RedirectToAction("Index");
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.AssigningAuthority;
+
+			return View(model);
 		}
 
 		/// <summary>
@@ -150,7 +189,7 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["searchTerm"] = searchTerm;
 
-				return PartialView("_AssigningAuthoritySearchResultsPartial", results.Select(AssigningAuthorityUtil.ToAssigningAuthorityViewModel));
+				return PartialView("_AssigningAuthoritySearchResultsPartial", results.Select(a => new AssigningAuthorityViewModel(a)));
 			}
 
 			TempData["error"] = Locale.InvalidSearch;
@@ -170,7 +209,7 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index");
 			}
 
-			return View(AssigningAuthorityUtil.ToAssigningAuthorityViewModel(assigningAuthority));
+			return View(new AssigningAuthorityViewModel(assigningAuthority));
 		}
 	}
 }

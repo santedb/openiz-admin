@@ -17,11 +17,10 @@
  * Date: 2016-7-8
  */
 
-using OpenIZ.Core.Applets.Model;
+using OpenIZ.Core.Model.AMI.Applet;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Security.AccessControl;
 
 namespace OpenIZAdmin.Models.AppletModels.ViewModels
 {
@@ -35,7 +34,18 @@ namespace OpenIZAdmin.Models.AppletModels.ViewModels
 		/// </summary>
 		public AppletViewModel()
 		{
-            this.Assets = new List<AppletAssetModel>();
+			this.Assets = new List<AppletViewAssetModel>();
+		}
+
+		public AppletViewModel(AppletManifestInfo appletManifestInfo) : this()
+		{
+			this.Author = appletManifestInfo.AppletManifest.Info.Author;
+			this.Group = appletManifestInfo.AppletManifest.Info.GetGroupName("en");
+			this.Id = appletManifestInfo.AppletManifest.Info.Id;
+			this.PublicKeyToken = appletManifestInfo.AppletManifest.Info.PublicKeyToken;
+			this.Version = appletManifestInfo.AppletManifest.Info.Version;
+			this.Name = string.Join(", ", appletManifestInfo.AppletManifest.Info.Names.Select(l => l.Value));
+			this.Assets = appletManifestInfo.AppletManifest.Assets.Select(a => new AppletViewAssetModel(a)).OrderBy(q => q.Name).ToList();
 		}
 
 		/// <summary>
@@ -56,53 +66,38 @@ namespace OpenIZAdmin.Models.AppletModels.ViewModels
 			this.Version = version;
 		}
 
-        public List<AppletAssetModel> Assets { get; set; }
+		public List<AppletViewAssetModel> Assets { get; set; }
 
-        /// <summary>
-        /// Gets or sets the author of the applet.
-        /// </summary>
-        [Display(Name = "Author", ResourceType = typeof(Localization.Locale))]
-        public string Author { get; set; }
+		/// <summary>
+		/// Gets or sets the author of the applet.
+		/// </summary>
+		[Display(Name = "Author", ResourceType = typeof(Localization.Locale))]
+		public string Author { get; set; }
 
-        /// <summary>
-        /// Gets or sets the author of the applet.
-        /// </summary>
-        //[Display(Name = "Author", ResourceType = typeof(Localization.Locale))]
-        public int AssetCount
-        {
-            get
-            {
-                if (Assets != null && Assets.Any())                
-                    return Assets.Count();                
-                else
-                    return 0;
-            }                       
-        }
+		/// <summary>
+		/// Gets or sets the group of the applet.
+		/// </summary>
+		[Display(Name = "Group", ResourceType = typeof(Localization.Locale))]
+		public string Group { get; set; }
 
-        /// <summary>
-        /// Gets or sets the group of the applet.
-        /// </summary>
-        [Display(Name = "Group", ResourceType = typeof(Localization.Locale))]
-        public string Group { get; set; }
+		/// <summary>
+		/// Gets or sets the id of the applet.
+		/// </summary>
+		[Display(Name = "Id", ResourceType = typeof(Localization.Locale))]
+		public string Id { get; set; }
 
-        /// <summary>
-        /// Gets or sets the id of the applet.
-        /// </summary>
-        [Display(Name = "Id", ResourceType = typeof(Localization.Locale))]
-        public string Id { get; set; }
+		/// <summary>
+		/// Gets or sets the name of the applet.
+		/// </summary>
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of the applet.
-        /// </summary>
-        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        public string Name { get; set; }
+		public string PublicKeyToken { get; set; }
 
-        public string PublicKeyToken { get; set; }        
-
-        /// <summary>
-        /// Gets or sets the version of the applet.
-        /// </summary>
-        [Display(Name = "Version", ResourceType = typeof(Localization.Locale))]
-        public string Version { get; set; }
+		/// <summary>
+		/// Gets or sets the version of the applet.
+		/// </summary>
+		[Display(Name = "Version", ResourceType = typeof(Localization.Locale))]
+		public string Version { get; set; }
 	}
 }
