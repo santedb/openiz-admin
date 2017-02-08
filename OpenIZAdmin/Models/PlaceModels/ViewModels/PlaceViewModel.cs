@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Models.PlaceModels.ViewModels
@@ -47,6 +48,26 @@ namespace OpenIZAdmin.Models.PlaceModels.ViewModels
 			if (place.TypeConcept != null)
 			{
 				this.Type = string.Join(" ", place.TypeConcept.ConceptNames.Select(c => c.Name));
+			}
+
+			var childPlaces = place.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child)
+						.Select(r => r.TargetEntity)
+						.OfType<Place>()
+						.Select(p => new RelatedPlaceModel(p));
+
+			if (childPlaces.Any())
+			{
+				this.RelatedPlaces.AddRange(childPlaces);
+			}
+
+			var parentPlaces = place.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent)
+									.Select(r => r.TargetEntity)
+									.OfType<Place>()
+									.Select(p => new RelatedPlaceModel(p));
+
+			if (parentPlaces.Any())
+			{
+				this.RelatedPlaces.AddRange(parentPlaces);
 			}
 		}
 

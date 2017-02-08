@@ -20,12 +20,10 @@
 using Elmah;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
-using OpenIZ.Core.Model.Query;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.PlaceModels;
 using OpenIZAdmin.Models.PlaceModels.ViewModels;
-using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -41,9 +39,9 @@ namespace OpenIZAdmin.Controllers
 	public class PlaceController : BaseController
 	{
 		/// <summary>
-		/// Displays the create policy view.
+		/// Displays the create place view.
 		/// </summary>
-		/// <returns>Returns the create policy view.</returns>
+		/// <returns>Returns the create place view.</returns>
 		[HttpGet]
 		public ActionResult Create()
 		{
@@ -63,10 +61,11 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var place = this.ImsiClient.Create<Place>(PlaceUtil.ToPlace(model));
+					var place = this.ImsiClient.Create<Place>(model.ToPlace());
 
-                    TempData["success"] = Locale.Place + " " + Locale.Successfully + " " + Locale.Created;                    
-                    return RedirectToAction("ViewPlace", new { key = place.Key, versionKey = place.VersionKey });
+					TempData["success"] = Locale.Place + " " + Locale.Successfully + " " + Locale.Created;
+
+					return RedirectToAction("ViewPlace", new { id = place.Key });
 				}
 				catch (Exception e)
 				{
@@ -79,62 +78,53 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Displays the create policy view.
+		/// Displays the create place view.
 		/// </summary>
-		/// <returns>Returns the create policy view.</returns>
+		/// <param name="id">The id of the place to delete.</param>
+		/// <returns>Returns the create place view.</returns>
 		[HttpGet]
-		public ActionResult Delete(string key, string versionKey)
-		{
-			if (!string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key))
-			{
-				Guid placeId = Guid.Empty;
-				Guid placeVersion = Guid.Empty;
-
-				if (Guid.TryParse(key, out placeId) && Guid.TryParse(versionKey, out placeVersion))
-				{
-					List<KeyValuePair<string, object>> query = new List<KeyValuePair<string, object>>();
-
-					if (placeVersion != Guid.Empty)
-					{
-						query.AddRange(QueryExpressionBuilder.BuildQuery<Place>(c => c.Key == placeId && c.VersionKey == placeVersion));
-					}
-					else
-					{
-						query.AddRange(QueryExpressionBuilder.BuildQuery<Place>(c => c.Key == placeId));
-					}
-
-					var place = this.ImsiClient.Query<Place>(QueryExpressionParser.BuildLinqExpression<Place>(new NameValueCollection(query.ToArray()))).Item.OfType<Place>().FirstOrDefault();
-
-					if (place == null)
-					{
-						TempData["error"] = Locale.Place + " " + Locale.NotFound;
-						return RedirectToAction("Index");
-					}
-
-					this.ImsiClient.Obsolete<Place>(place);
-
-					return View("Index");
-				}
-			}
-			return View("Index");
-		}
-
-		/// <summary>
-		/// Retrieves the place entity by id and version key
-		/// </summary>
-		/// <param name="key">The place identifier.</param>
-		/// <param name="versionKey">The place version identifier.</param>
-		/// <returns>Returns the place edit view.</returns>
-		[HttpGet]
-		public ActionResult Edit(Guid key)
+		public ActionResult Delete(Guid id)
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Place>(p => p.Key == key, 0, null, true);
+				var place = this.ImsiClient.Get<Place>(id, null) as Place;
+
+				if (place == null)
+				{
+					TempData["error"] = Locale.Place + " " + Locale.NotFound;
+
+					return RedirectToAction("Index");
+				}
+
+				this.ImsiClient.Obsolete<Place>(place);
+
+				return RedirectToAction("Index");
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
+
+			TempData["error"] = Locale.UnableToDelete + " " + Locale.Place;
+
+			return RedirectToAction("Index");
+		}
+
+		/// <summary>
+		/// Gets a place by id.
+		/// </summary>
+		/// <param name="id">The id of the place to retrieve.</param>
+		/// <returns>Returns the place edit view.</returns>
+		[HttpGet]
+		public ActionResult Edit(Guid id)
+		{
+			try
+			{
+				var bundle = this.ImsiClient.Query<Place>(p => p.Key == id && p.ObsoletionTime == null, 0, null, true);
 
 				bundle.Reconstitute();
 
-				var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == key);
+				var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == id && p.ObsoletionTime == null);
 
 				if (place == null)
 				{
@@ -142,7 +132,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return View(PlaceUtil.ToEditPlaceModel(place));
+				return View(new EditPlaceModel(place));
 			}
 			catch (Exception e)
 			{
@@ -162,12 +152,20 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditPlaceModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				var place = this.ImsiClient.Update<Place>(PlaceUtil.ToPlace(model));
+				if (ModelState.IsValid)
+				{
+					var place = this.ImsiClient.Update<Place>(model.ToPlace());
 
-                TempData["success"] = Locale.Place + " " + Locale.Successfully + " " + Locale.Updated;
-                return RedirectToAction("ViewPlace", new { key = place.Key, versionKey = place.VersionKey });
+					TempData["success"] = Locale.Place + " " + Locale.Successfully + " " + Locale.Updated;
+
+					return RedirectToAction("ViewPlace", new { id = place.Key });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Place;
@@ -189,7 +187,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
-			var placeList = new List<PlaceViewModel>();
+			var viewModels = new List<PlaceViewModel>();
 
 			if (ModelState.IsValid)
 			{
@@ -199,10 +197,10 @@ namespace OpenIZAdmin.Controllers
 
 				bundle.Reconstitute();
 
-				placeList = bundle.Item.OfType<Place>().Select(PlaceUtil.ToPlaceViewModel).OrderBy(p => p.Name).ToList();
+				viewModels = bundle.Item.OfType<Place>().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 			}
 
-			return PartialView("_PlaceSearchResultsPartial", placeList);
+			return PartialView("_PlaceSearchResultsPartial", viewModels);
 		}
 
 		/// <summary>
@@ -213,17 +211,17 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult SearchAjax(string searchTerm)
 		{
-			var placeList = new List<PlaceViewModel>();
+			var viewModels = new List<PlaceViewModel>();
 
 			if (ModelState.IsValid)
 			{
 				searchTerm = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(searchTerm);
-                var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation);
+				var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation);
 
-				placeList = places.Item.OfType<Place>().Select(PlaceUtil.ToPlaceViewModel).OrderBy(p => p.Name).ToList();
+				viewModels = places.Item.OfType<Place>().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 			}
 
-			return Json(placeList, JsonRequestBehavior.AllowGet);
+			return Json(viewModels, JsonRequestBehavior.AllowGet);
 		}
 
 		/// <summary>
@@ -248,7 +246,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return View(PlaceUtil.ToPlaceViewModel(place));
+				return View(new PlaceViewModel(place));
 			}
 			catch (Exception e)
 			{

@@ -223,6 +223,7 @@
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\ConceptController.cs" />
     <Compile Include="Controllers\LocaleController.cs" />
+    <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PlaceController.cs" />
     <Compile Include="Controllers\AssigningAuthorityController.cs" />
     <Compile Include="Controllers\PolicyController.cs" />

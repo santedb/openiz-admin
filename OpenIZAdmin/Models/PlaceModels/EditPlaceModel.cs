@@ -23,6 +23,7 @@ using System.ComponentModel.DataAnnotations;
 using OpenIZ.Core.Model.Entities;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Constants;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
@@ -74,5 +75,17 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// Gets or sets the list of related place models.
 		/// </summary>
 		public List<RelatedPlaceModel> RelatedPlaces { get; set; }
+
+		public Place ToPlace()
+		{
+			return new Place
+			{
+				Key = this.Key,
+				Names = new List<EntityName>
+				{
+					new EntityName(NameUseKeys.OfficialRecord, this.Name)
+				}
+			};
+		}
 	}
 }
