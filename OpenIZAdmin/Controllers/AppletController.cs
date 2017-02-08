@@ -167,6 +167,11 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (CommonUtil.IsValidString(id))
 			{
+				if (id.HasTrailingForwardSlash())
+				{
+					id = id.RemoveTrailingForwardSlash();
+				}
+
 				var applet = AppletUtil.GetApplet(this.AmiClient, id);
 
 				if (applet == null)

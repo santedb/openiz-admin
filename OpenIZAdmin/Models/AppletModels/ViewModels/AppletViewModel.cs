@@ -66,6 +66,12 @@ namespace OpenIZAdmin.Models.AppletModels.ViewModels
 			this.Version = version;
 		}
 
+		/// <summary>
+		/// Gets or sets the author of the applet.
+		/// </summary>
+		public int AssetCount => this.Assets?.Count ?? 0;
+
+
 		public List<AppletViewAssetModel> Assets { get; set; }
 
 		/// <summary>
