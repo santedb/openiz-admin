@@ -346,7 +346,6 @@
     <Compile Include="Util\PlaceUtil.cs" />
     <Compile Include="Util\AssigningAuthorityUtil.cs" />
     <Compile Include="Util\PolicyUtil.cs" />
-    <Compile Include="Util\RealmUtil.cs" />
     <Compile Include="Util\RoleUtil.cs" />
     <Compile Include="Util\UserUtil.cs" />
   </ItemGroup>

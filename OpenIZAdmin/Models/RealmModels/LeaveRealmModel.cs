@@ -19,6 +19,7 @@
 
 using OpenIZAdmin.Models.RealmModels.ViewModels;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Models.Domain;
 
 namespace OpenIZAdmin.Models.RealmModels
 {
@@ -26,6 +27,12 @@ namespace OpenIZAdmin.Models.RealmModels
 	{
 		public LeaveRealmModel()
 		{
+		}
+
+		public LeaveRealmModel(Realm realm)
+		{
+			this.CurrentRealm = new RealmViewModel(realm);
+			this.Map(realm);
 		}
 
 		[Required]

@@ -32,6 +32,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.RealmModels.ViewModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -128,9 +129,9 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index", "Home");
 			}
 
-			Realm realm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).Single();
+			var realm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).Single();
 
-			return View(RealmUtil.GenerateRealmViewModel(realm));
+			return View(new RealmViewModel(realm));
 		}
 
 		/// <summary>
@@ -253,11 +254,9 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult LeaveRealm()
 		{
-			Realm realm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).Single();
+			var realm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).FirstOrDefault();
 
-			LeaveRealmModel leaveRealmModel = RealmUtil.GenerateLeaveRealmModel(realm);
-
-			return View(leaveRealmModel);
+			return View(new LeaveRealmModel(realm));
 		}
 
 		/// <summary>

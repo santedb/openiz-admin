@@ -20,6 +20,7 @@
 using OpenIZAdmin.Localization;
 using System;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Models.Domain;
 
 namespace OpenIZAdmin.Models.RealmModels.ViewModels
 {
@@ -33,6 +34,11 @@ namespace OpenIZAdmin.Models.RealmModels.ViewModels
 		/// </summary>
 		public RealmViewModel()
 		{
+		}
+
+		public RealmViewModel(Realm realm)
+		{
+			this.Map(realm);
 		}
 
 		[Display(Name = "Address", ResourceType = typeof(Locale))]
