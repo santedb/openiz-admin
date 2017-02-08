@@ -30,6 +30,7 @@ using System.Web.Mvc;
 using System.Xml.Serialization;
 using Elmah;
 using OpenIZAdmin.Models.AppletModels.ViewModels;
+using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -47,9 +48,9 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Download(string id)
 		{
-			if (id.EndsWith("/"))
+			if (id.HasTrailingForwardSlash())
 			{
-				id = id.Remove(id.LastIndexOf("/"));
+				id = id.RemoveTrailingForwardSlash();
 			}
 
 			var applet = this.AmiClient.GetApplet(id);

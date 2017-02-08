@@ -19,6 +19,8 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 {
@@ -32,6 +34,13 @@ namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 		/// </summary>
 		public MaterialSearchResultViewModel()
 		{
+		}
+
+		public MaterialSearchResultViewModel(Material material)
+		{
+			this.CreationTime = material.CreationTime.DateTime;
+			this.Key = material.Key.Value;
+			this.Name = string.Join(", ", material.Names.SelectMany(m => m.Component).Select(c => c.Value));
 		}
 
 		/// <summary>
@@ -50,10 +59,5 @@ namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
-
-		/// <summary>
-		/// Gets or sets the version key of the material.
-		/// </summary>
-		public Guid? VersionKey { get; set; }
 	}
 }

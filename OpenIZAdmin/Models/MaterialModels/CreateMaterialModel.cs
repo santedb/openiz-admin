@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
@@ -39,6 +40,12 @@ namespace OpenIZAdmin.Models.MaterialModels
 		{
 			this.FormConcepts = new List<SelectListItem>();
 			this.QuantityConcepts = new List<SelectListItem>();
+		}
+
+		public CreateMaterialModel(IEnumerable<Concept> formConcepts, IEnumerable<Concept> quantityConcepts)
+		{
+			this.FormConcepts.AddRange(formConcepts.Select(c => new SelectListItem { Text = c.Mnemonic, Value = c.Key?.ToString() }));
+			this.QuantityConcepts.AddRange(quantityConcepts.Select(c => new SelectListItem { Text = c.Mnemonic, Value = c.Key?.ToString() }));
 		}
 
 		/// <summary>

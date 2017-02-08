@@ -42,11 +42,6 @@ namespace OpenIZAdmin.Services.Http
 	/// </summary>
 	public class RestClientService : RestClientBase
 	{
-		/// <summary>
-		/// The internal reference to the service client configuration section.
-		/// </summary>
-		//private readonly ServiceClientConfigurationSection configuration = InternalConfiguration.GetServiceClientConfiguration();
-
 		// Poor man's cache
 		private static readonly ConcurrentDictionary<string, Lazy<ServiceClientDescription>> endpoints = new ConcurrentDictionary<string, Lazy<ServiceClientDescription>>();
 

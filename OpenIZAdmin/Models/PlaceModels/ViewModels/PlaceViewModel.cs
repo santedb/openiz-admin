@@ -96,10 +96,5 @@ namespace OpenIZAdmin.Models.PlaceModels.ViewModels
 		/// Gets or sets the type of the place.
 		/// </summary>
 		public string Type { get; set; }
-
-		/// <summary>
-		/// Gets or sets the verion key of the place.
-		/// </summary>
-		public Guid? VersionKey { get; set; }
 	}
 }

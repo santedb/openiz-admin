@@ -195,8 +195,6 @@ namespace OpenIZAdmin.Controllers
 
 				var bundle = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null);
 
-				bundle.Reconstitute();
-
 				viewModels = bundle.Item.OfType<Place>().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 			}
 

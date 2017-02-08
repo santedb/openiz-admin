@@ -72,7 +72,7 @@ namespace OpenIZAdmin.Services.Http.Security
 				this.httpHeaders.Remove("Authorization");
 			}
 
-			this.httpHeaders.Add("Authorization", string.Format("Bearer {0}", this.Request.Cookies.Get("access_token")?.Value));
+			this.httpHeaders.Add("Authorization", $"Bearer {this.Request.Cookies.Get("access_token")?.Value}");
 
 			return this.httpHeaders;
 		}

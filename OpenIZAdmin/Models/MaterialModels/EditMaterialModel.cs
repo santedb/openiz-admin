@@ -20,7 +20,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.DataTypes;
+using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Models.MaterialModels
 {
@@ -36,6 +40,14 @@ namespace OpenIZAdmin.Models.MaterialModels
 		{
 			this.FormConcepts = new List<SelectListItem>();
 			this.QuantityConcepts = new List<SelectListItem>();
+		}
+
+		public EditMaterialModel(Material material)
+		{
+			this.FormConcept = material.FormConceptKey?.ToString();
+			this.Key = material.Key.Value;
+			this.Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value));
+			this.QuantityConcept = material.QuantityConceptKey?.ToString();
 		}
 
 		/// <summary>
@@ -73,9 +85,17 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// </summary>
 		public List<SelectListItem> QuantityConcepts { get; set; }
 
-		/// <summary>
-		/// Gets or sets the version key of the material.
-		/// </summary>
-		public Guid? VersionKey { get; set; }
+		public Material ToMaterial()
+		{
+			return new Material
+			{
+				FormConceptKey = Guid.Parse(this.FormConcept),
+				Names = new List<EntityName>
+				{
+					new EntityName(NameUseKeys.OfficialRecord, this.Name)
+				},
+				QuantityConceptKey = Guid.Parse(this.QuantityConcept)
+			};
+		}
 	}
 }

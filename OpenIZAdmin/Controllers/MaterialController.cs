@@ -29,6 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -51,8 +52,13 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the create view.</returns>
 		[HttpGet]
 		public ActionResult Create()
-		{			
-			return View(MaterialUtil.ToCreateMaterialModel(ImsiClient));
+		{
+			var formConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null).Item.OfType<Concept>();
+			var quantityConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null).Item.OfType<Concept>();
+
+			var model = new CreateMaterialModel(formConcepts, quantityConcepts);
+
+			return View(model);
 		}
 
 		/// <summary>
@@ -64,62 +70,92 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateMaterialModel model)
 		{
-			if (ModelState.IsValid)
-			{				
-				var material = this.ImsiClient.Create(MaterialUtil.ToCreateMaterial(model));
+			try
+			{
+				if (ModelState.IsValid)
+				{
+					var material = this.ImsiClient.Create(model.ToMaterial());
 
-				TempData["success"] = Locale.Material + " " + Locale.Created + " " + Locale.Successfully;
-                return RedirectToAction("ViewMaterial", new { key = material.Key, versionKey = material.VersionKey });
-            }
+					TempData["success"] = Locale.Material + " " + Locale.Created + " " + Locale.Successfully;
+
+					return RedirectToAction("ViewMaterial", new { id = material.Key });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.Material;
+
 			return View(model);
 		}
 
 		/// <summary>
 		/// Deletion of a material.
 		/// </summary>
-		/// <param name="key">The key of the material.</param>
-		/// <param name="versionKey">The version key of the material.</param>
+		/// <param name="id">The id of the material.</param>
 		/// <returns>Returns the to the material search page.</returns>
 		[HttpGet]
-		public ActionResult Delete(Guid key, Guid versionKey)
+		public ActionResult Delete(Guid id)
 		{
-			if (key != Guid.Empty)
+			try
 			{
-				var material = this.ImsiClient.Get<Material>(key, versionKey) as Material;
+				var material = this.ImsiClient.Get<Material>(id, null) as Material;
+
+				if (material == null)
+				{
+					TempData["error"] = Locale.Place + " " + Locale.NotFound;
+
+					return RedirectToAction("Index");
+				}
+
 				this.ImsiClient.Obsolete<Material>(material);
-				return View("Index");
+
+				return RedirectToAction("Index");
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.UnableToDelete + " " + Locale.Material;
-			return View("Index");
+
+			return RedirectToAction("Index");
 		}
 
 		/// <summary>
 		/// Edit for material.
 		/// </summary>
-		/// <param name="key">The key of the material.</param>
-		/// <param name="versionKey">The version key of the material.</param>
+		/// <param name="id">The key of the material.</param>
 		/// <returns>Returns the edited material.</returns>
 		[HttpGet]
-		public ActionResult Edit(Guid key, Guid versionKey)
+		public ActionResult Edit(Guid id)
 		{
-			if (key != Guid.Empty)
+			try
 			{
-				var material = this.ImsiClient.Get<Material>(key, versionKey) as Material;
+				var bundle = this.ImsiClient.Query<Material>(m => m.Key == id && m.ObsoletionTime == null, 0, null, true);
+
+				bundle.Reconstitute();
+
+				var material = bundle.Item.OfType<Material>().FirstOrDefault(m => m.Key == id && m.ObsoletionTime == null);
 
 				if (material == null)
 				{
 					TempData["error"] = Locale.Material + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
-				}				
+				}
 
-				return View(MaterialUtil.ToEditMaterialModel(ImsiClient, material));
+				return View(MaterialUtil.ToEditMaterialModel(this.ImsiClient, material));
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.Material + " " + Locale.NotFound;
+
 			return RedirectToAction("Index");
 		}
 
@@ -132,25 +168,37 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditMaterialModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				var material = this.ImsiClient.Get<Material>(model.Key, model.VersionKey) as Material;
-
-				if (material == null)
+				if (ModelState.IsValid)
 				{
-					TempData["error"] = Locale.Material + " " + Locale.NotFound;
+					var bundle = this.ImsiClient.Query<Material>(m => m.Key == model.Key && m.ObsoletionTime == null, 0, null, true);
 
-					return RedirectToAction("Index");
-				}                
+					bundle.Reconstitute();
 
-                var updatedMaterial = MaterialUtil.ToUpdateMaterial(model, material);
-				var result = this.ImsiClient.Update<Material>(updatedMaterial);
+					var material = bundle.Item.OfType<Material>().FirstOrDefault(m => m.Key == model.Key && m.ObsoletionTime == null);
 
-				TempData["success"] = Locale.Material + " " + Locale.Updated + " " + Locale.Successfully;
-				return RedirectToAction("ViewMaterial", new { key = result.Key, versionKey = result.VersionKey });
+					if (material == null)
+					{
+						TempData["error"] = Locale.Material + " " + Locale.NotFound;
+
+						return RedirectToAction("Index");
+					}
+
+					var updatedMaterial = model.ToMaterial();
+					var result = this.ImsiClient.Update<Material>(updatedMaterial);
+
+					TempData["success"] = Locale.Material + " " + Locale.Updated + " " + Locale.Successfully;
+					return RedirectToAction("ViewMaterial", new { id = result.Key });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Material;
+
 			return RedirectToAction("Index");
 		}
 
@@ -180,7 +228,7 @@ namespace OpenIZAdmin.Controllers
 				var bundle = this.ImsiClient.Query<Material>(m => m.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null);
 
 				TempData["searchTerm"] = searchTerm;
-				return PartialView("_MaterialSearchResultsPartial", bundle.Item.OfType<Material>().Select(MaterialUtil.ToMaterialSearchResultViewModel));
+				return PartialView("_MaterialSearchResultsPartial", bundle.Item.OfType<Material>().Select(m => new MaterialSearchResultViewModel(m)));
 			}
 
 			TempData["error"] = Locale.Material + " " + Locale.NotFound;
@@ -192,22 +240,36 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// View for material.
 		/// </summary>
-		/// <param name="key">The key of the material.</param>
-		/// <param name="versionKey">The version key of the material.</param>
+		/// <param name="id">The id of the material.</param>
 		/// <returns>Returns the view for a material.</returns>
 		[HttpGet]
-		public ActionResult ViewMaterial(Guid key, Guid versionKey)
+		public ActionResult ViewMaterial(Guid id)
 		{
-			var material = this.ImsiClient.Get<Material>(key, versionKey) as Material;
-
-			if (material == null)
+			try
 			{
-				TempData["error"] = Locale.Material + " " + Locale.NotFound;
+				var bundle = this.ImsiClient.Query<Material>(m => m.Key == id && m.ObsoletionTime == null, 0, null, true);
 
-				return RedirectToAction("Index");
+				bundle.Reconstitute();
+
+				var material = bundle.Item.OfType<Material>().FirstOrDefault(m => m.Key == id && m.ObsoletionTime == null);
+
+				if (material == null)
+				{
+					TempData["error"] = Locale.Material + " " + Locale.NotFound;
+
+					return RedirectToAction("Index");
+				}
+
+				return View(new MaterialViewModel(material));
 			}
-            
-			return View(MaterialUtil.ToMaterialViewModel(material, key, versionKey));
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
+
+			TempData["error"] = Locale.Material + " " + Locale.NotFound;
+
+			return RedirectToAction("Index");
 		}
 	}
 }

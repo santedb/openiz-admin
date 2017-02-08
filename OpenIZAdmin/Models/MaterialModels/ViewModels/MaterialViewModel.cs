@@ -19,6 +19,8 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 {
@@ -32,6 +34,14 @@ namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 		/// </summary>
 		public MaterialViewModel()
 		{
+		}
+
+		public MaterialViewModel(Material material)
+		{
+			this.Key = material.Key.Value;
+			this.Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value));
+			this.FormConcept = material.FormConcept.Mnemonic;
+			this.QuantityConcept = material.QuantityConcept.Mnemonic;
 		}
 
 		/// <summary>
@@ -56,10 +66,5 @@ namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 		/// </summary>
 		[Display(Name = "QuantityConcept", ResourceType = typeof(Localization.Locale))]
 		public string QuantityConcept { get; set; }
-
-		/// <summary>
-		/// Gets or sets the version key of the material.
-		/// </summary>
-		public Guid VersionKey { get; set; }
 	}
 }

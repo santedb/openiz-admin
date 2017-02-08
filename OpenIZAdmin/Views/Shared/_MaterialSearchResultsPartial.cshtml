@@ -32,24 +32,21 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td><span class="glyphicon glyphicon-grain pull-left" aria-hidden="true"></span></td>                            
+                            <td><span class="glyphicon glyphicon-grain pull-left" aria-hidden="true"></span></td>
                             <td>
-                                @if (item.CreationTime != null)
-                                {                                    
-                                    @item.CreationTime.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
-                                }
+                                @item.CreationTime.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP)
                             </td>
                             <td>@item.Name</td>
                             <td class="col-md-3 centerButton">
-                                <a class="btn btn-primary" href="/Material/ViewMaterial?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
+                                <a class="btn btn-primary" href="/Material/ViewMaterial/@item.Key">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>                           
-                                <a class="btn btn-warning" href="/Material/Edit?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
+                                <a class="btn btn-warning" href="/Material/Edit/@item.Key">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>                            
-                                <a class="btn btn-danger" href="/Material/Delete?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
+                                <a class="btn btn-danger" href="/Material/Delete/@item.Key">
                                     @Locale.Delete
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>

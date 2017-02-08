@@ -227,7 +227,6 @@
     <Compile Include="Controllers\PlaceController.cs" />
     <Compile Include="Controllers\AssigningAuthorityController.cs" />
     <Compile Include="Controllers\PolicyController.cs" />
-    <Compile Include="Controllers\ProviderController.cs" />
     <Compile Include="Controllers\RealmController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -307,9 +306,6 @@
     <Compile Include="Models\PolicyModels\CreatePolicyModel.cs" />
     <Compile Include="Models\PolicyModels\EditPolicyModel.cs" />
     <Compile Include="Models\PolicyModels\ViewModels\PolicyViewModel.cs" />
-    <Compile Include="Models\ProviderModels\CreateProviderModel.cs" />
-    <Compile Include="Models\ProviderModels\EditProviderModel.cs" />
-    <Compile Include="Models\ProviderModels\ViewModels\ProviderViewModel.cs" />
     <Compile Include="Models\RealmModels\JoinRealmModel.cs" />
     <Compile Include="Models\RealmModels\LeaveRealmModel.cs" />
     <Compile Include="Models\RealmModels\UpdateRealmModel.cs" />
@@ -350,7 +346,6 @@
     <Compile Include="Util\PlaceUtil.cs" />
     <Compile Include="Util\AssigningAuthorityUtil.cs" />
     <Compile Include="Util\PolicyUtil.cs" />
-    <Compile Include="Util\ProviderUtil.cs" />
     <Compile Include="Util\RealmUtil.cs" />
     <Compile Include="Util\RoleUtil.cs" />
     <Compile Include="Util\UserUtil.cs" />
@@ -465,10 +460,6 @@
     <Content Include="Views\Policy\ViewPolicy.cshtml" />
     <Content Include="Views\Concept\Create.cshtml" />
     <Content Include="Views\Device\ViewDevice.cshtml" />
-    <Content Include="Views\Provider\Index.cshtml" />
-    <Content Include="Views\Provider\Create.cshtml" />
-    <Content Include="Views\Provider\Edit.cshtml" />
-    <Content Include="Views\Provider\ViewProvider.cshtml" />
     <Content Include="Views\User\Edit.cshtml" />
     <Content Include="Views\Role\Edit.cshtml" />
     <Content Include="Views\Shared\_LoadingBar.cshtml" />
