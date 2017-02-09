@@ -19,6 +19,9 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Models.PolicyModels.ViewModels
 {
@@ -26,6 +29,33 @@ namespace OpenIZAdmin.Models.PolicyModels.ViewModels
 	{
 		public PolicyViewModel()
 		{
+		}
+
+		public PolicyViewModel(SecurityPolicy securityPolicy)
+		{
+			this.CreationTime = securityPolicy.CreationTime.DateTime;
+			this.CanOverride = securityPolicy.CanOverride;
+			this.IsPublic = securityPolicy.IsPublic;
+			this.Key = securityPolicy.Key.Value;
+			this.Name = securityPolicy.Name;
+			this.Oid = securityPolicy.Oid;
+			this.IsObsolete = securityPolicy.ObsoletionTime != null;
+		}
+
+		public PolicyViewModel(SecurityPolicyInfo securityPolicyInfo)
+		{
+			this.CreationTime = securityPolicyInfo.Policy.CreationTime.DateTime;
+			this.CanOverride = securityPolicyInfo.Policy.CanOverride;
+			this.IsPublic = securityPolicyInfo.Policy.IsPublic;
+			this.Key = securityPolicyInfo.Policy.Key.Value;
+			this.Name = securityPolicyInfo.Policy.Name;
+			this.Oid = securityPolicyInfo.Policy.Oid;
+			this.IsObsolete = securityPolicyInfo.Policy.ObsoletionTime != null;
+		}
+
+		public PolicyViewModel(SecurityPolicyInstance securityPolicyInstance) : this(securityPolicyInstance.Policy)
+		{
+			this.Grant = Enum.GetName(typeof(PolicyGrantType), securityPolicyInstance.GrantType);
 		}
 
 		[Display(Name = "CanOverride", ResourceType = typeof(Localization.Locale))]

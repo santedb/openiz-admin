@@ -108,7 +108,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var application = this.AmiClient.CreateApplication(ApplicationUtil.ToSecurityApplication(model));
+				var application = this.AmiClient.CreateApplication(model.ToSecurityApplication());
 
 				TempData["success"] = Locale.Application + " " + Locale.Created + " " + Locale.Successfully;
 

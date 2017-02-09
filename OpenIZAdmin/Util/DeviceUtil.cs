@@ -132,38 +132,14 @@ namespace OpenIZAdmin.Util
 			var viewModel = new DeviceViewModel
 			{
                 CreationTime = deviceInfo.Device.CreationTime.DateTime,
-                //CreationTime = (deviceInfo.Device.CreationTime.DateTime != null) ? CommonUtil.ToRequiredDate(deviceInfo.Device.CreationTime.DateTime, true) : null,
                 Id = deviceInfo.Device.Key.Value,
 				Name = deviceInfo.Name,
 				DeviceSecret = deviceInfo.DeviceSecret,
-				Policies = deviceInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList(),
+				Policies = deviceInfo.Policies.Select(p => new PolicyViewModel(p.Policy)).ToList(),
                 UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime,
-                //UpdatedTime = (deviceInfo.Device.UpdatedTime != null) ? CommonUtil.ToRequiredDateFromDateTimeOffset(deviceInfo.Device.UpdatedTime, true) : null,
-                IsObsolete = (deviceInfo.Device.ObsoletionTime != null) ? true : false,
-				HasPolicies = (deviceInfo.Policies.Any()) ? true : false
+                IsObsolete = deviceInfo.Device.ObsoletionTime != null,
+				HasPolicies = deviceInfo.Policies.Any()
 			};
-
-			return viewModel;
-		}
-
-		/// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.ViewModels.DeviceViewModel"/>.
-		/// </summary>
-		/// <param name="device">The security device to convert.</param>
-		/// <param name="searchTerm">The string search parameter.</param>
-		/// <returns>Returns a DeviceViewModel model.</returns>
-		public static DeviceViewModel ToDeviceViewModel(SecurityDevice device, string searchTerm)
-		{
-			DeviceViewModel viewModel = new DeviceViewModel();
-
-            viewModel.CreationTime = device.CreationTime.DateTime;
-            //viewModel.CreationTime = (device.CreationTime.DateTime != null) ? CommonUtil.ToRequiredDate(device.CreationTime.DateTime, true) : null;
-			viewModel.Id = device.Key.Value;
-			viewModel.Name = device.Name;
-			viewModel.Policies = device.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p.Policy)).ToList();
-            viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
-            //viewModel.UpdatedTime = (device.UpdatedTime?.DateTime != null) ? CommonUtil.ToRequiredDateFromDateTimeOffset(device.UpdatedTime?.DateTime, true) : null;
-			viewModel.IsObsolete = (device.ObsoletionTime != null) ? true : false;
 
 			return viewModel;
 		}
@@ -176,16 +152,16 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a EditDeviceModel object.</returns>
 		public static EditDeviceModel ToEditDeviceModel(AmiServiceClient client, SecurityDeviceInfo deviceInfo)
 		{
-			EditDeviceModel viewModel = new EditDeviceModel();
-
-			viewModel.Device = deviceInfo.Device;
-			viewModel.CreationTime = deviceInfo.Device.CreationTime.DateTime;
-			viewModel.Id = deviceInfo.Device.Key.Value;
-			viewModel.DeviceSecret = deviceInfo.DeviceSecret;
-			viewModel.Name = deviceInfo.Name;
-			viewModel.UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime;
-
-			viewModel.DevicePolicies = (deviceInfo.Policies != null && deviceInfo.Policies.Any()) ? viewModel.DevicePolicies = deviceInfo.Policies.Select(p => PolicyUtil.ToPolicyViewModel(p)).OrderBy(q => q.Name).ToList() : new List<PolicyViewModel>();
+			var viewModel = new EditDeviceModel
+			{
+				Device = deviceInfo.Device,
+				CreationTime = deviceInfo.Device.CreationTime.DateTime,
+				Id = deviceInfo.Device.Key.Value,
+				DeviceSecret = deviceInfo.DeviceSecret,
+				Name = deviceInfo.Name,
+				UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime,
+				DevicePolicies = deviceInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList()
+			};
 
 			if (viewModel.DevicePolicies.Any())
 			{
@@ -196,16 +172,6 @@ namespace OpenIZAdmin.Util
 			viewModel.PoliciesList.AddRange(CommonUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }).OrderBy(q => q.Text));
 
 			return viewModel;
-		}
-
-		/// <summary>
-		/// Gets the list of policies that a device has - used for UI display purposes
-		/// </summary>
-		/// <param name="policyInstances">A list of SecurityPolicyInstance objects.</param>
-		/// <returns>Returns a IEnumerable<PolicyViewModel> model.</returns>
-		internal static IEnumerable<PolicyViewModel> GetDevicePolicies(List<SecurityPolicyInstance> policyInstances)
-		{
-			return policyInstances.Select(PolicyUtil.ToPolicyViewModel);
 		}
 
 		/// <summary>

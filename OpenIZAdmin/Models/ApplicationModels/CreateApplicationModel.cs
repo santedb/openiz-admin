@@ -21,6 +21,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Models.ApplicationModels
 {
@@ -67,5 +69,22 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		/// Gets or sets a list of policies assocated with the application.
 		/// </summary>
 		public List<SelectListItem> PolicyList { get; set; }
+
+		public SecurityApplicationInfo ToSecurityApplication()
+		{
+			var securityApplicationId = Guid.NewGuid();
+			return new SecurityApplicationInfo
+			{
+				Application = new SecurityApplication
+				{
+					Key = securityApplicationId,
+					Name = this.ApplicationName,
+					ApplicationSecret = this.ApplicationSecret
+				},
+				Id = securityApplicationId,
+				Name = this.ApplicationName,
+				ApplicationSecret = this.ApplicationSecret
+			};
+		}
 	}
 }

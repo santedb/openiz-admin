@@ -21,6 +21,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.PolicyModels
 {
@@ -29,6 +32,20 @@ namespace OpenIZAdmin.Models.PolicyModels
 		public EditPolicyModel()
 		{
 			this.GrantsList = new List<SelectListItem>();
+		}
+
+		public EditPolicyModel(SecurityPolicyInfo securityPolicyInfo) : this()
+		{
+			this.CanOverride = securityPolicyInfo.CanOverride;
+			this.Grant = (int)securityPolicyInfo.Grant;
+			this.IsPublic = securityPolicyInfo.Policy.IsPublic;
+			this.Key = securityPolicyInfo.Policy.Key.Value;
+			this.Name = securityPolicyInfo.Name;
+			this.Oid = securityPolicyInfo.Oid;
+			this.GrantsList.Add(new SelectListItem { Text = Locale.Select, Value = "" });
+			this.GrantsList.Add(new SelectListItem { Text = Locale.Deny, Value = "0" });
+			this.GrantsList.Add(new SelectListItem { Text = Locale.Elevate, Value = "1" });
+			this.GrantsList.Add(new SelectListItem { Text = Locale.Grant, Value = "2" });
 		}
 
 		[Display(Name = "CanOverride", ResourceType = typeof(Localization.Locale))]
@@ -54,5 +71,19 @@ namespace OpenIZAdmin.Models.PolicyModels
 		[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Oid { get; set; }
+
+		public SecurityPolicyInfo ToSecurityPolicyInfo(SecurityPolicyInfo securityPolicyInfo)
+		{
+			return new SecurityPolicyInfo(new SecurityPolicyInstance(securityPolicyInfo.Policy, (PolicyGrantType)this.Grant))
+			{
+				Policy = new SecurityPolicy
+				{
+					CanOverride = this.CanOverride,
+					Name = this.Name,
+					Oid = this.Oid
+				}
+
+			};
+		}
 	}
 }

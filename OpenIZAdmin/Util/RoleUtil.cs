@@ -59,7 +59,7 @@ namespace OpenIZAdmin.Util
 				Description = role.Role.Description,
 				Id = role.Id.ToString(),
 				Name = role.Role.Name,
-				RolePolicies = (role.Policies != null && role.Policies.Any()) ? role.Policies.Select(PolicyUtil.ToPolicyViewModel).OrderBy(q => q.Name).ToList() : new List<PolicyViewModel>()
+				RolePolicies = role.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList()
 			};
 
 			if (viewModel.RolePolicies.Any())
@@ -91,7 +91,7 @@ namespace OpenIZAdmin.Util
 
 			if (roleInfo.Policies?.Any() == true)
 			{
-				viewModel.Policies = roleInfo.Policies.Select(PolicyUtil.ToPolicyViewModel).OrderBy(q => q.Name).ToList();
+				viewModel.Policies = roleInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList();
 			}
 
 			return viewModel;
@@ -103,25 +103,6 @@ namespace OpenIZAdmin.Util
 		/// <param name="model">The <see cref="CreateRoleModel"/> instance to convert.</param>
 		/// <returns>Returns a SecurityRoleInfo model.</returns>
 		public static SecurityRoleInfo ToSecurityRoleInfo(CreateRoleModel model)
-		{
-			var roleInfo = new SecurityRoleInfo
-			{
-				Role = new SecurityRole
-				{
-					Description = model.Description
-				},
-				Name = model.Name
-			};
-
-			return roleInfo;
-		}
-
-		/// <summary>
-		/// Converts a <see cref="EditRoleModel"/> to a <see cref="SecurityRoleInfo"/>.
-		/// </summary>
-		/// <param name="model">The <see cref="EditRoleModel"/> instance to convert.</param>
-		/// <returns>Returns a SecurityRoleInfo model.</returns>
-		public static SecurityRoleInfo ToSecurityRoleInfo(EditRoleModel model)
 		{
 			var roleInfo = new SecurityRoleInfo
 			{

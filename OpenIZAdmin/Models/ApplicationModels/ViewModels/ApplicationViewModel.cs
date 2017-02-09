@@ -21,6 +21,9 @@ using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Models.ApplicationModels.ViewModels
 {
@@ -35,6 +38,20 @@ namespace OpenIZAdmin.Models.ApplicationModels.ViewModels
 		public ApplicationViewModel()
 		{
 			this.Policies = new List<PolicyViewModel>();
+		}
+
+		public ApplicationViewModel(SecurityApplicationInfo securityApplicationInfo) : this()
+		{
+			this.Id = securityApplicationInfo.Id.Value;
+			this.ApplicationName = securityApplicationInfo.Name;
+			this.CreationTime = securityApplicationInfo.Application.CreationTime.DateTime;
+			this.HasPolicies = securityApplicationInfo.Policies?.Any() == true;
+			this.IsObsolete = securityApplicationInfo.Application.ObsoletionTime != null;
+
+			if (this.HasPolicies)
+			{
+				this.Policies = securityApplicationInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList();
+			}
 		}
 
 		/// <summary>
@@ -75,10 +92,5 @@ namespace OpenIZAdmin.Models.ApplicationModels.ViewModels
 		/// Gets or sets the list of policies associated with the application.
 		/// </summary>
 		public List<PolicyViewModel> Policies { get; set; }
-
-		/// <summary>
-		/// Gets or sets the updated time of the application.
-		/// </summary>
-		public DateTime? UpdatedTime { get; set; }
 	}
 }

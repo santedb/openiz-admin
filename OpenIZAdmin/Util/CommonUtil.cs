@@ -34,21 +34,6 @@ namespace OpenIZAdmin.Util
 		/// <summary>
 		/// Verifies a valid string parameter
 		/// </summary>
-		/// <param name="id">The id string to validate </param>
-		/// <returns>Returns true if valid, false if empty or whitespace</returns>
-		public static Guid ConvertStringToGuid(string id)
-		{
-			Guid key = Guid.Empty;
-
-			if (IsValidString(id) && Guid.TryParse(id, out key))
-				return key;
-			else
-				return Guid.NewGuid();
-		}
-
-		/// <summary>
-		/// Verifies a valid string parameter
-		/// </summary>
 		/// <param name="key">The string to validate</param>
 		/// <returns>Returns true if valid, false if empty or whitespace</returns>
 		public static bool IsValidString(string key)
@@ -63,7 +48,7 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a list of policies</returns>
 		internal static IEnumerable<PolicyViewModel> GetAllPolicies(AmiServiceClient client)
 		{
-			return client.GetPolicies(r => r.ObsoletionTime == null).CollectionItem.Select(PolicyUtil.ToPolicyViewModel);
+			return client.GetPolicies(r => r.ObsoletionTime == null).CollectionItem.Select(p => new PolicyViewModel(p));
 		}
 
 		/// <summary>
@@ -76,13 +61,9 @@ namespace OpenIZAdmin.Util
 		{
 			var policies = new List<SecurityPolicy>();
 
-			if (policyList != null && policyList.Any())
+			if (policyList.Any())
 			{
-				var guidList = new List<Guid>();
-				foreach (string id in policyList)
-				{
-					guidList.Add(ConvertStringToGuid(id));
-				}
+				var guidList = policyList.Select(Guid.Parse).ToList();
 
 				policies.AddRange(from key
 								  in guidList

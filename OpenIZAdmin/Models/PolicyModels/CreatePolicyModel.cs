@@ -20,6 +20,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.AMI.Auth;
 
 namespace OpenIZAdmin.Models.PolicyModels
 {
@@ -47,5 +48,15 @@ namespace OpenIZAdmin.Models.PolicyModels
 		[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Oid { get; set; }
+
+		public SecurityPolicyInfo ToSecurityPolicyInfo()
+		{
+			return new SecurityPolicyInfo
+			{
+				CanOverride = this.CanOverride,
+				Name = this.Name,
+				Oid = this.Oid
+			};
+		}
 	}
 }

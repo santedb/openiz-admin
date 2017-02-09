@@ -76,7 +76,7 @@ namespace OpenIZAdmin.Util
                 //CreationTime = (appInfo.Application.CreationTime.DateTime != null) ? CommonUtil.ToRequiredDate(appInfo.Application.CreationTime.DateTime, true) : null,
                 HasPolicies = appInfo.Policies?.Any() == true,
 				IsObsolete = appInfo.Application.ObsoletionTime != null,
-				Policies = appInfo.Policies?.Select(PolicyUtil.ToPolicyViewModel).OrderBy(q => q.Name).ToList() ?? new List<PolicyViewModel>()
+				Policies = appInfo.Policies?.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList() ?? new List<PolicyViewModel>()
 			};
 
 			return viewModel;
@@ -95,7 +95,7 @@ namespace OpenIZAdmin.Util
 				Id = appInfo.Id.Value,
 				ApplicationName = appInfo.Name,
 				CreationTime = appInfo.Application.CreationTime.DateTime,
-				ApplicationPolicies = appInfo.Policies?.Select(PolicyUtil.ToPolicyViewModel).OrderBy(q => q.Name).ToList() ?? new List<PolicyViewModel>()
+				ApplicationPolicies = appInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList()
 			};
 
 			if (viewModel.ApplicationPolicies.Any())
@@ -107,28 +107,6 @@ namespace OpenIZAdmin.Util
 			viewModel.PoliciesList.AddRange(CommonUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }));
 
 			return viewModel;
-		}
-
-		/// <summary>
-		/// Converts a <see cref="OpenIZAdmin.Models.ApplicationModels.CreateApplicationModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo"/>.
-		/// </summary>
-		/// <param name="model">The CreateApplicationModel to convert.</param>
-		/// <returns>Returns a security application object.</returns>
-		public static SecurityApplicationInfo ToSecurityApplication(CreateApplicationModel model)
-		{
-			SecurityApplicationInfo appInfo = new SecurityApplicationInfo();
-			appInfo.Application = new SecurityApplication();
-			Guid appGuid = Guid.NewGuid();
-
-			appInfo.Application.Key = appGuid;
-			appInfo.Application.Name = model.ApplicationName;
-			appInfo.Application.ApplicationSecret = model.ApplicationSecret;
-
-			appInfo.Id = appGuid;
-			appInfo.Name = model.ApplicationName;
-			appInfo.ApplicationSecret = model.ApplicationSecret;
-
-			return appInfo;
 		}
 
 		/// <summary>

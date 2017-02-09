@@ -96,7 +96,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			CreatePolicyModel model = new CreatePolicyModel();
+			var model = new CreatePolicyModel();
 
 			model.GrantsList.Add(new SelectListItem { Text = Locale.Select, Value = "" });
 			model.GrantsList.Add(new SelectListItem { Text = Locale.Deny, Value = "0" });
@@ -117,14 +117,12 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				SecurityPolicyInfo policy = PolicyUtil.ToSecurityPolicy(model);
-
 				try
 				{
-                    policy = this.AmiClient.CreatePolicy(policy);
+                    var policy = this.AmiClient.CreatePolicy(model.ToSecurityPolicyInfo());
 
 					TempData["success"] = Locale.Policy + " " + Locale.Created + " " + Locale.Successfully;
-					return RedirectToAction("ViewPolicy", new { key = policy.Policy.Key.ToString() });
+					return RedirectToAction("ViewPolicy", new { id = policy.Policy.Key.ToString() });
 				}
 				catch (Exception e)
 				{
@@ -143,21 +141,18 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Delete(string id)
+		public ActionResult Delete(Guid id)
 		{
-			if (CommonUtil.IsValidString(id))
+			try
 			{
-				try
-				{
-					this.AmiClient.DeletePolicy(id);
-					TempData["success"] = Locale.Policy + " " + Locale.Deleted + " " + Locale.Successfully;
+				this.AmiClient.DeletePolicy(id.ToString());
+				TempData["success"] = Locale.Policy + " " + Locale.Deleted + " " + Locale.Successfully;
 
-					return RedirectToAction("Index");
-				}
-				catch (Exception e)
-				{
-					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				}
+				return RedirectToAction("Index");
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.UnableToDelete + " " + Locale.Policy;
@@ -166,19 +161,16 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Retrieves the policy entity by id
+		/// Retrieves the policy entity by id.
 		/// </summary>
-		/// <param name="key">The policy identifier.</param>
+		/// <param name="id">The policy identifier.</param>
 		/// <returns>Returns the policy edit view.</returns>
 		[HttpGet]
-		public ActionResult Edit(string key)
+		public ActionResult Edit(Guid id)
 		{
-			Guid policyId = Guid.Empty;
-			SecurityPolicyInfo policyInfo = null;
-
-			if (CommonUtil.IsValidString(key) && Guid.TryParse(key, out policyId))
+			try
 			{
-				policyInfo = PolicyUtil.GetPolicy(this.AmiClient, policyId);
+				var policyInfo = PolicyUtil.GetPolicy(this.AmiClient, id);
 
 				if (policyInfo == null)
 				{
@@ -187,7 +179,12 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return View(PolicyUtil.ToEditPolicyModel(policyInfo));
+				return View(new EditPolicyModel(policyInfo));
+
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.Policy + " " + Locale.NotFound;
@@ -208,7 +205,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					SecurityPolicyInfo policy = PolicyUtil.GetPolicy(this.AmiClient, model.Key);
+					var policy = PolicyUtil.GetPolicy(this.AmiClient, model.Key);
 
 					if (policy == null)
 					{
@@ -217,7 +214,7 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
-					SecurityPolicyInfo policyInfo = PolicyUtil.ToSecurityPolicy(model, policy);
+					SecurityPolicyInfo policyInfo = model.ToSecurityPolicyInfo(policy);
 
 					this.AmiClient.UpdatePolicy(model.Key.ToString(), policyInfo);
 
@@ -263,7 +260,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["searchTerm"] = searchTerm;
 
-					return PartialView("_PolicySearchResultsPartial", collection.CollectionItem.Select(PolicyUtil.ToPolicyViewModel));
+					return PartialView("_PolicySearchResultsPartial", collection.CollectionItem.Select(p => new PolicyViewModel(p)));
 				}
 			}
 			catch (Exception e)
@@ -283,22 +280,24 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="key">The policy identifier search string.</param>
 		/// <returns>Returns a policy view that matches the search term.</returns>
 		[HttpGet]
-		public ActionResult ViewPolicy(string key)
+		public ActionResult ViewPolicy(Guid id)
 		{
-			Guid policyId = Guid.Empty;
-
-			if (CommonUtil.IsValidString(key) && Guid.TryParse(key, out policyId))
+			try
 			{
-				var result = this.AmiClient.GetPolicies(r => r.Key == policyId);
+				var result = this.AmiClient.GetPolicies(r => r.Key == id);
 
-				if (result.CollectionItem.Count == 0)
+				if (!result.CollectionItem.Any())
 				{
 					TempData["error"] = Locale.Policy + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
 
-				return View(PolicyUtil.ToPolicyViewModel(result.CollectionItem.FirstOrDefault()));
+				return View(new PolicyViewModel(result.CollectionItem.First()));
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.Policy + " " + Locale.NotFound;
