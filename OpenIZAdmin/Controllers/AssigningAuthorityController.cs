@@ -17,16 +17,15 @@
  * Date: 2016-7-30
  */
 
+using Elmah;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AssigningAuthorityModels;
 using OpenIZAdmin.Models.AssigningAuthorityModels.ViewModels;
-using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -118,7 +117,6 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Edit(Guid key)
 		{
-
 			try
 			{
 				var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == key).CollectionItem.FirstOrDefault();

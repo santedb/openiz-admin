@@ -21,17 +21,13 @@ using Elmah;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Constants;
-using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.DAL;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AccountModels;
 using OpenIZAdmin.Util;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -52,12 +48,12 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// The internal reference to the <see cref="ApplicationSignInManager"/> instance.
 		/// </summary>
-		private ApplicationUserManager userManager;        
+		private ApplicationUserManager userManager;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AccountController"/> class.
-        /// </summary>
-        public AccountController()
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AccountController"/> class.
+		/// </summary>
+		public AccountController()
 		{
 		}
 
@@ -103,85 +99,83 @@ namespace OpenIZAdmin.Controllers
 			}
 		}
 
-        /// <summary>
-        /// Displays the change password view.
-        /// </summary>
-        /// <returns>Returns the change password view.</returns>
-        [HttpGet]
-        public ActionResult ChangePassword()
-        {
-            ChangePasswordModel model = new ChangePasswordModel();      
-            try
-            {
-                var userId = Guid.Parse(User.Identity.GetUserId());
-                SecurityUserInfo user = this.AmiClient.GetUser(userId.ToString());
+		/// <summary>
+		/// Displays the change password view.
+		/// </summary>
+		/// <returns>Returns the change password view.</returns>
+		[HttpGet]
+		public ActionResult ChangePassword()
+		{
+			ChangePasswordModel model = new ChangePasswordModel();
+			try
+			{
+				var userId = Guid.Parse(User.Identity.GetUserId());
+				SecurityUserInfo user = this.AmiClient.GetUser(userId.ToString());
 
-                if (user != null)                
-                    model.Username = user.UserName;                
-                else                
-                    TempData["error"] = Locale.User + " " + Locale.NotFound;                
-            }
-            catch(Exception e)
-            {
+				if (user != null)
+					model.Username = user.UserName;
+				else
+					TempData["error"] = Locale.User + " " + Locale.NotFound;
+			}
+			catch (Exception e)
+			{
 #if DEBUG
-                Trace.TraceError("Unable to change password: {0}", e.StackTrace);
+				Trace.TraceError("Unable to change password: {0}", e.StackTrace);
 #endif
-                Trace.TraceError("Unable to change password: {0}", e.Message);
-            }
+				Trace.TraceError("Unable to change password: {0}", e.Message);
+			}
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        /// <summary>
-        /// Changes the password of a user.
-        /// </summary>
-        /// <param name="model">The model containing the users new password.</param>
-        /// <returns>Returns the Home Index view.</returns>
-        [HttpPost]
-		[ValidateAntiForgeryToken]        
-        public async Task<ActionResult> ChangePassword(ChangePasswordModel model)
-        {
+		/// <summary>
+		/// Changes the password of a user.
+		/// </summary>
+		/// <param name="model">The model containing the users new password.</param>
+		/// <returns>Returns the Home Index view.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<ActionResult> ChangePassword(ChangePasswordModel model)
+		{
 			if (ModelState.IsValid)
-			{                                
+			{
 				try
 				{
-                    var userId = Guid.Parse(User.Identity.GetUserId());
-                    SecurityUserInfo user = this.AmiClient.GetUser(userId.ToString());                    
+					var userId = Guid.Parse(User.Identity.GetUserId());
+					SecurityUserInfo user = this.AmiClient.GetUser(userId.ToString());
 
-                    if (user != null && !user.Lockout.GetValueOrDefault(false))
+					if (user != null && !user.Lockout.GetValueOrDefault(false))
 					{
-                        var result = await SignInManager.PasswordSignInAsync(model.Username, model.CurrentPassword, false, shouldLockout: false);
+						var result = await SignInManager.PasswordSignInAsync(model.Username, model.CurrentPassword, false, shouldLockout: false);
 
-                        if (result == SignInStatus.Success)
-                        {
-                            user.Password = model.Password;
-                            user = this.AmiClient.UpdateUser(userId, user);
-                        }
-                        else
-                        {
-                            TempData["error"] = Locale.InvalidCurrrentPassword;
-                            return View(model);
-                        }
-						
+						if (result == SignInStatus.Success)
+						{
+							user.Password = model.Password;
+							user = this.AmiClient.UpdateUser(userId, user);
+						}
+						else
+						{
+							TempData["error"] = Locale.InvalidCurrrentPassword;
+							return View(model);
+						}
 					}
 
 					TempData["success"] = Locale.PasswordChanged + " " + Locale.Successfully;
-                    return RedirectToAction("Index", "Home");
-                }
+					return RedirectToAction("Index", "Home");
+				}
 				catch (Exception e)
 				{
 					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 #if DEBUG
-                    Trace.TraceError("Unable to change password: {0}", e.StackTrace);
+					Trace.TraceError("Unable to change password: {0}", e.StackTrace);
 #endif
-                    Trace.TraceError("Unable to change password: {0}", e.Message);
-
-                }
+					Trace.TraceError("Unable to change password: {0}", e.Message);
+				}
 			}
 
 			TempData["error"] = Locale.UnableToChangePassword;
-            return View(model);            
-        }
+			return View(model);
+		}
 
 		/// <summary>
 		/// Displays the login view.
@@ -251,21 +245,21 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns a Update Profile model.</returns>
 		[HttpGet]
 		public ActionResult Manage()
-		{                        
-            try
-            {                
-                var userId = Guid.Parse(User.Identity.GetUserId());                
-                var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, userId);                
-                return View(AccountUtil.ToUpdateProfileModel(this.ImsiClient, this.AmiClient, userEntity));
-            }
-            catch (Exception e)
-            {
-                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-            }
+		{
+			try
+			{
+				var userId = Guid.Parse(User.Identity.GetUserId());
+				var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, userId);
+				return View(AccountUtil.ToUpdateProfileModel(this.ImsiClient, this.AmiClient, userEntity));
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
 
-            TempData["error"] = Locale.UnableToUpdate + " " + Locale.Profile;            
-            return View("Index", "Home");            
-        }
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Profile;
+			return View("Index", "Home");
+		}
 
 		/// <summary>
 		/// Updates a user's profile.
@@ -275,42 +269,40 @@ namespace OpenIZAdmin.Controllers
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult UpdateProfile(UpdateProfileModel model)
-		{            
-            if (ModelState.IsValid)
-            {
-                try
-                {                    
-                    var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, Guid.Parse(User.Identity.GetUserId()));
-                    var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
+		{
+			if (ModelState.IsValid)
+			{
+				try
+				{
+					var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, Guid.Parse(User.Identity.GetUserId()));
+					var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
 
-                    if (userEntity == null || securityUserInfo == null)
-                    {
-                        TempData["error"] = Locale.User + " " + Locale.NotFound;
+					if (userEntity == null || securityUserInfo == null)
+					{
+						TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-                        return RedirectToAction("Index", "Home");
-                    }
-                   
-                    UserEntity updatedUserEntity = AccountUtil.ToUpdateUserEntity(model, userEntity);                                                                                      
-                    SecurityUserInfo securityInfo = AccountUtil.ToSecurityUserInfo(model, userEntity, securityUserInfo, this.AmiClient);                                        
+						return RedirectToAction("Index", "Home");
+					}
 
-                    this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, securityInfo);                    
-                    this.ImsiClient.Update<UserEntity>(updatedUserEntity);
-                    
+					UserEntity updatedUserEntity = AccountUtil.ToUpdateUserEntity(model, userEntity);
+					SecurityUserInfo securityInfo = AccountUtil.ToSecurityUserInfo(model, userEntity, securityUserInfo, this.AmiClient);
 
-                    TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;
-                    return RedirectToAction("Index", "Home");
-                }
+					this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, securityInfo);
+					this.ImsiClient.Update<UserEntity>(updatedUserEntity);
 
-                catch (Exception e)
-                {
-                    ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-                }
-            }
+					TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;
+					return RedirectToAction("Index", "Home");
+				}
+				catch (Exception e)
+				{
+					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				}
+			}
 
-            TempData["error"] = Locale.UnableToUpdate + " " + Locale.Profile;
-            //return View("Manage", model);            
-            return RedirectToAction("Index", "Home");
-        }
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Profile;
+			//return View("Manage", model);
+			return RedirectToAction("Index", "Home");
+		}
 
 		/// <summary>
 		/// Disposes of any managed resources
