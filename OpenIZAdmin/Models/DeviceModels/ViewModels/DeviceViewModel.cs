@@ -21,6 +21,9 @@ using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 {
@@ -31,9 +34,30 @@ namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 			this.Policies = new List<PolicyViewModel>();
 		}
 
+		public DeviceViewModel(SecurityDevice securityDevice)
+		{
+			this.CreationTime = securityDevice.CreationTime.DateTime;
+			this.Id = securityDevice.Key.Value;
+			this.Name = securityDevice.Name;
+			this.UpdatedTime = securityDevice.UpdatedTime?.DateTime;
+			this.IsObsolete = securityDevice.ObsoletionTime != null;
+		}
+
+		public DeviceViewModel(SecurityDeviceInfo securityDeviceInfo) : this()
+		{
+			this.CreationTime = securityDeviceInfo.Device.CreationTime.DateTime;
+			this.Id = securityDeviceInfo.Device.Key.Value;
+			this.Name = securityDeviceInfo.Name;
+			this.DeviceSecret = securityDeviceInfo.DeviceSecret;
+			this.Policies = securityDeviceInfo.Policies.Select(p => new PolicyViewModel(p.Policy)).ToList();
+			this.UpdatedTime = securityDeviceInfo.Device.UpdatedTime?.DateTime;
+			this.IsObsolete = securityDeviceInfo.Device.ObsoletionTime != null;
+			this.HasPolicies = securityDeviceInfo.Policies.Any();
+		}
+
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy hh:mm:ss tt}")]
-        public DateTime CreationTime { get; set; }
+		[DisplayFormat(DataFormatString = "{0:dd/mm/yyyy hh:mm:ss tt}")]
+		public DateTime CreationTime { get; set; }
 
 		[Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
 		public string DeviceSecret { get; set; }
@@ -50,7 +74,7 @@ namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 
 		public List<PolicyViewModel> Policies { get; set; }
 
-        [DisplayFormat(DataFormatString = "{0:dd/mm/yyyy hh:mm:ss tt}")]
-        public DateTime? UpdatedTime { get; set; }
+		[DisplayFormat(DataFormatString = "{0:dd/mm/yyyy hh:mm:ss tt}")]
+		public DateTime? UpdatedTime { get; set; }
 	}
 }

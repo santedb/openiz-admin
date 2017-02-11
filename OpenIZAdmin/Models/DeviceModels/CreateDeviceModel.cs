@@ -18,6 +18,8 @@
  */
 
 using System.ComponentModel.DataAnnotations;
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Models.DeviceModels
 {
@@ -48,5 +50,17 @@ namespace OpenIZAdmin.Models.DeviceModels
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
+
+		public SecurityDeviceInfo ToSecurityDeviceInfo()
+		{
+			return new SecurityDeviceInfo
+			{
+				Device = new SecurityDevice
+				{
+					DeviceSecret = this.DeviceSecret,
+					Name = this.Name
+				}
+			};
+		}
 	}
 }

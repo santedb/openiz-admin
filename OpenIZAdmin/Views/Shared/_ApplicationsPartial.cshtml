@@ -10,26 +10,26 @@
         </span>
         <div class="pull-right">
             <span class="text-primary h4">@Locale.New</span>
-            <a href="~/Application/Create" class="glyphicon glyphicon-plus-sign"></a>
+            <a href="@Url.Action("Create", "Application", null)" class="glyphicon glyphicon-plus-sign"></a>
         </div>
-</div>
-    <div class="panel panel-body">        
-        @if (Model.Count() > 0)
+    </div>
+    <div class="panel panel-body">
+        @if (Model.Any())
         {
             <table class="table table-bordered" id="applicationPoliciesTable">
                 <thead>
                     <tr>
                         <th></th>
-                        <th>                            
+                        <th>
                             @Locale.ApplicationName
-                        </th>                       
+                        </th>
                         <th>
                             @Locale.CreationTime
-                        </th>                        
+                        </th>
                         <th>
                             @Locale.HasPolicies
-                        </th>                        
-                        <th></th>                        
+                        </th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -37,32 +37,28 @@
                     {
                         <tr>
                             <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>
-                            <td>@item.ApplicationName</td>                            
-                            <td>
-                                @if (item.CreationTime != null)
-                                {                                    
-                                    @item.CreationTime.ToLocalTime().ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
-                                }                                
-                            </td>                                                   
+                            <td>@item.ApplicationName</td>
+                            <td>@item.CreationTime.ToLocalTime().ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP)</td>
                             <td>
                                 @if (item.HasPolicies)
                                 {
                                     <text>@Locale.Yes</text>
-                                }
+}
                                 else
                                 {
                                     <text>@Locale.No</text>
-                                }
-                            </td>                            
+}
+                            </td>
                             <td class="col-md-3 centerButton">
-                                <a class="btn btn-primary" href="/Application/ViewApplication/@item.Id">
+                                <a class="btn btn-primary" href="@Url.Action("ViewApplication", "Application", new { id = item.Id })">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
-                                </a>                            
-                                <a class="btn btn-warning" href="/Application/Edit/Edit?key=@item.Id">
+                                </a>
+                                <a class="btn btn-warning" href="@Url.Action("Edit", "Application", new { id = item.Id })">
+        >
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
-                                </a>                            
+                                </a>
                                 @if (!item.IsObsolete)
                                 {
                                     using (Html.BeginForm("Delete", "Application", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
@@ -73,7 +69,7 @@
                                             @Locale.Deactivate
                                             <span class="glyphicon glyphicon-log-out"></span>
                                         </button>
-                                    }
+}
                                 }
                                 else
                                 {
@@ -85,12 +81,12 @@
                                             @Locale.Activate
                                             <span class="glyphicon glyphicon-upload"></span>
                                         </button>
-                                    }
+}
                                 }
 
                             </td>
                         </tr>
-                    }
+}
                 </tbody>
             </table>
         }

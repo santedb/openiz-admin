@@ -127,15 +127,19 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the Index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Delete(string id)
+		public ActionResult Delete(Guid id)
 		{
-			if (CommonUtil.IsValidString(id))
+			try
 			{
-				this.AmiClient.DeleteApplication(id);
+				this.AmiClient.DeleteApplication(id.ToString());
 
 				TempData["success"] = Locale.Application + " " + Locale.Deleted + " " + Locale.Successfully;
 
 				return RedirectToAction("Index");
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.UnableToDelete + " " + Locale.Application;
@@ -144,19 +148,16 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Gets the application object to edit
+		/// Displays the edit application view.
 		/// </summary>
-		/// <param name="key">The id of the application to be edited.</param>
-		/// <returns>Returns the Edit view.</returns>
+		/// <param name="id">The id of the application to be edit.</param>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpGet]
-		public ActionResult Edit(string key)
+		public ActionResult Edit(Guid id)
 		{
-			Guid appKey = Guid.Empty;
-			SecurityApplicationInfo application = null;
-
-			if (CommonUtil.IsValidString(key) && Guid.TryParse(key, out appKey))
+			try
 			{
-				application = ApplicationUtil.GetApplication(this.AmiClient, appKey);
+				var application = this.AmiClient.GetApplication(id.ToString());
 
 				if (application == null)
 				{
@@ -167,39 +168,50 @@ namespace OpenIZAdmin.Controllers
 
 				return View(ApplicationUtil.ToEditApplicationModel(this.AmiClient, application));
 			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
 
-			TempData["error"] = Localization.Locale.Device + " " + Locale.NotFound;
+			TempData["error"] = Locale.Application + " " + Locale.NotFound;
 
 			return RedirectToAction("Index");
 		}
 
 		/// <summary>
-		/// Appies the changes to the application object
+		/// Updates a security application.
 		/// </summary>
 		/// <param name="model">The model containing the updated application information.</param>
-		/// <returns>Returns the application view.</returns>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditApplicationModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				var appEntity = ApplicationUtil.GetApplication(this.AmiClient, model.Id);
-
-				if (appEntity == null)
+				if (ModelState.IsValid)
 				{
-					TempData["error"] = Locale.Application + " " + Locale.NotFound;
+					var appEntity = ApplicationUtil.GetApplication(this.AmiClient, model.Id);
 
-					return RedirectToAction("Index");
+					if (appEntity == null)
+					{
+						TempData["error"] = Locale.Application + " " + Locale.NotFound;
+
+						return RedirectToAction("Index");
+					}
+
+					var appInfo = ApplicationUtil.ToSecurityApplicationInfo(this.AmiClient, model, appEntity);
+
+					this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
+
+					TempData["success"] = Locale.Application + " " + Locale.Updated + " " + Locale.Successfully;
+
+					return RedirectToAction("ViewApplication", new { id = appInfo.Id.ToString() });
 				}
-
-				var appInfo = ApplicationUtil.ToSecurityApplicationInfo(this.AmiClient, model, appEntity);
-
-				this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
-
-				TempData["success"] = Locale.Application + " " + Locale.Updated + " " + Locale.Successfully;
-
-				return RedirectToAction("ViewApplication", new { id = appInfo.Id.ToString() });
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Application;
@@ -214,7 +226,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Index()
 		{
-			TempData["searchType"] = Locale.Application;
+			TempData["searchType"] = "Application";
 			return View();
 		}
 
@@ -232,7 +244,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (CommonUtil.IsValidString(searchTerm))
 				{
-					var collection = this.AmiClient.GetApplications(d => d.Name.Contains(searchTerm));
+					var collection = this.AmiClient.GetApplications(a => a.Name.Contains(searchTerm));
 
 					TempData["searchTerm"] = searchTerm;
 
@@ -256,9 +268,9 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The application identifier search parameter to apply to the query.</param>
 		/// <returns>Returns the ViewApplication view.</returns>
 		[HttpGet]
-		public ActionResult ViewApplication(string id)
+		public ActionResult ViewApplication(Guid id)
 		{
-			if (CommonUtil.IsValidString(id))
+			try
 			{
 				var result = ApplicationUtil.GetApplication(this.AmiClient, id);
 
@@ -270,6 +282,10 @@ namespace OpenIZAdmin.Controllers
 				}
 
 				return View(ApplicationUtil.ToApplicationViewModel(result));
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.Application + " " + Locale.NotFound;

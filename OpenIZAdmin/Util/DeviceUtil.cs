@@ -37,54 +37,6 @@ namespace OpenIZAdmin.Util
 	public static class DeviceUtil
 	{
 		/// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.ViewModels.DeviceViewModel"/>.
-		/// </summary>
-		/// <param name="device">The security device to delete the policy from.</param>
-		/// <returns>Returns a DeviceViewModel model.</returns>
-		public static DeviceViewModel DeletePolicy(SecurityDevice device)
-		{
-			DeviceViewModel viewModel = new DeviceViewModel();
-
-            viewModel.CreationTime = device.CreationTime.DateTime;
-            //viewModel.CreationTime = (device.CreationTime.DateTime != null) ? CommonUtil.ToRequiredDateFromDateTimeOffset(device.CreationTime.DateTime, true) : null;
-            viewModel.Id = device.Key.Value;
-			viewModel.Name = device.Name;
-            viewModel.UpdatedTime = device.UpdatedTime?.DateTime;
-            //viewModel.UpdatedTime = (device.UpdatedTime?.DateTime != null) ? CommonUtil.ToRequiredDateFromDateTimeOffset(device.UpdatedTime?.DateTime, true) : null;
-            viewModel.IsObsolete = (device.ObsoletionTime != null) ? true : false;
-
-			return viewModel;
-		}
-
-		/// <summary>
-		/// Queries for a specific device by device key
-		/// </summary>
-		/// <param name="client">The AMI service client</param>
-		/// /// <param name="key">The device guid identifier key </param>
-		/// <returns>Returns device object, null if not found</returns>
-		public static SecurityDeviceInfo GetDevice(AmiServiceClient client, Guid key)
-		{
-			try
-			{
-				var result = client.GetDevices(r => r.Id == key);
-
-				if (result.CollectionItem.Count != 0)
-				{
-					return result.CollectionItem.FirstOrDefault();
-				}
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve device: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve device: {0}", e.Message);
-			}
-
-			return null;
-		}
-
-		/// <summary>
 		/// Gets a list of all devices.
 		/// </summary>
 		/// <param name="client">The <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.</param>
@@ -92,56 +44,7 @@ namespace OpenIZAdmin.Util
 		internal static IEnumerable<DeviceViewModel> GetAllDevices(AmiServiceClient client)
 		{
 			// HACK
-			return client.GetDevices(d => d.Name != string.Empty).CollectionItem.Select(DeviceUtil.ToDeviceViewModel);
-		}
-
-		/// <summary>
-		/// Gets a policy that matches the search parameter
-		/// </summary>
-		/// <param name="client">The Ami Service Client.</param>
-		/// <param name="name">The search string parameter applied to the Name field.</param>
-		/// <returns>Returns a SecurityPolicyInfo object that matches the search parameter</returns>
-		private static SecurityPolicyInfo GetPolicy(AmiServiceClient client, string name)
-		{
-			try
-			{
-				var result = client.GetPolicies(r => r.Name == name);
-				if (result.CollectionItem.Count != 0)
-				{
-					return result.CollectionItem.FirstOrDefault();
-				}
-			}
-			catch (Exception e)
-			{
-#if DEBUG
-				Trace.TraceError("Unable to retrieve policy: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to retrieve policy: {0}", e.Message);
-			}
-
-			return null;
-		}
-
-		/// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.ViewModels.DeviceViewModel"/>.
-		/// </summary>
-		/// <param name="deviceInfo">The security device to convert.</param>
-		/// <returns>Returns a DeviceViewModel model.</returns>
-		public static DeviceViewModel ToDeviceViewModel(SecurityDeviceInfo deviceInfo)
-		{
-			var viewModel = new DeviceViewModel
-			{
-                CreationTime = deviceInfo.Device.CreationTime.DateTime,
-                Id = deviceInfo.Device.Key.Value,
-				Name = deviceInfo.Name,
-				DeviceSecret = deviceInfo.DeviceSecret,
-				Policies = deviceInfo.Policies.Select(p => new PolicyViewModel(p.Policy)).ToList(),
-                UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime,
-                IsObsolete = deviceInfo.Device.ObsoletionTime != null,
-				HasPolicies = deviceInfo.Policies.Any()
-			};
-
-			return viewModel;
+			return client.GetDevices(d => d.Name != string.Empty).CollectionItem.Select(d => new DeviceViewModel(d));
 		}
 
 		/// <summary>
@@ -172,44 +75,6 @@ namespace OpenIZAdmin.Util
 			viewModel.PoliciesList.AddRange(CommonUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }).OrderBy(q => q.Text));
 
 			return viewModel;
-		}
-
-		/// <summary>
-		/// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.CreateDeviceModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo"/>.
-		/// </summary>
-		/// <param name="model">The create device model to convert.</param>
-		/// <returns>Returns a SecurityDeviceInfo object.</returns>
-		public static SecurityDeviceInfo ToSecurityDevice(CreateDeviceModel model)
-		{
-			return new SecurityDeviceInfo
-			{
-				Device = new SecurityDevice
-				{
-					DeviceSecret = model.DeviceSecret,
-					Name = model.Name
-				}
-			};
-		}
-
-		/// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo"/>
-		/// </summary>
-		/// /// <param name="device">The device object to activate.</param>
-		/// <returns>Returns a security device info object.</returns>
-		public static SecurityDeviceInfo ToActivateSecurityDeviceInfo(SecurityDevice device)
-		{
-			var deviceInfo = new SecurityDeviceInfo
-			{
-				Device = device,
-				DeviceSecret = device.DeviceSecret,
-				Name = device.Name,
-				Id = device.Key.Value
-			};
-
-			deviceInfo.Device.ObsoletedBy = null;
-			deviceInfo.Device.ObsoletionTime = null;
-
-			return deviceInfo;
 		}
 
 		/// <summary>
