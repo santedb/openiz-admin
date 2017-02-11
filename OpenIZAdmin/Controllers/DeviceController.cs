@@ -38,10 +38,10 @@ namespace OpenIZAdmin.Controllers
 	public class DeviceController : BaseController
 	{
 		/// <summary>
-		/// Activates a device.
+		/// Activate a device.
 		/// </summary>
-		/// <param name="id">The id of the device to be activated.</param>
-		/// <returns>Returns the index view.</returns>
+		/// <param name="id">The id of the device to activate.</param>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Activate(Guid id)
@@ -78,9 +78,9 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Initialization method for Create action.
+		/// Displays the create device view.
 		/// </summary>
-		/// <returns>Returns the Create view.</returns>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpGet]
 		public ActionResult Create()
 		{
@@ -93,10 +93,10 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Creates a new device.
+		/// Creates a device.
 		/// </summary>
-		/// <param name="model">The model with the name and device secret of the device to be created.</param>
-		/// <returns>Returns the ViewDevice view.</returns>
+		/// <param name="model">The model containing the device information.</param>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateDeviceModel model)
@@ -125,8 +125,8 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Deletes a device.
 		/// </summary>
-		/// <param name="id">The id of the device to be deleted.</param>
-		/// <returns>Returns the ViewDevice view.</returns>
+		/// <param name="id">The id of the device to delete.</param>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(Guid id)
@@ -149,10 +149,10 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Gets the device object to edit
+		/// Displays the edit device view.
 		/// </summary>
-		/// <param name="id">The id of the device to be edited.</param>
-		/// <returns>Returns the Edit view.</returns>
+		/// <param name="id">The id of the device to edit.</param>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpGet]
 		public ActionResult Edit(Guid id)
 		{
@@ -182,7 +182,7 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Updates a device.
 		/// </summary>
-		/// <param name="model">The model containing the updated device information.</param>
+		/// <param name="model">The model containing the device information.</param>
 		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -221,9 +221,9 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Gets all device objects
+		/// Displays the index view.
 		/// </summary>
-		/// <returns>Returns the index view.</returns>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Device";
@@ -231,10 +231,10 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Gets a device list based on the search parameter applied to the Name field
+		/// Gets a list of devices based on a search term.
 		/// </summary>
-		/// <param name="searchTerm">The search parameter to apply to the query.</param>
-		/// <returns>Returns the index view.</returns>
+		/// <param name="searchTerm">The search term to use to find the devices.</param>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
@@ -263,10 +263,10 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Searches for a device object with the supplied device id.
+		/// Displays the view device view.
 		/// </summary>
-		/// <param name="id">The device identifier search parameter to apply to the query.</param>
-		/// <returns>Returns the ViewDevice view.</returns>
+		/// <param name="id">The id of the device to view.</param>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpGet]
 		public ActionResult ViewDevice(Guid id)
 		{
