@@ -36,23 +36,12 @@ namespace OpenIZAdmin.Util
 	public static class RoleUtil
 	{
 		/// <summary>
-		/// Gets a role by key.
+		/// Converts a <see cref="SecurityRoleInfo"/> to a <see cref="EditRoleModel"/>.
 		/// </summary>
-		/// <param name="client">The AMI service client instance.</param>
-		/// /// <param name="roleId">The id of the role.</param>
-		/// <returns>Returns SecurityRoleInfo object, null if not found.</returns>
-		public static SecurityRoleInfo GetRole(AmiServiceClient client, Guid roleId)
-		{
-			return client.GetRole(roleId.ToString());
-		}
-       
-        /// <summary>
-        /// Converts a <see cref="SecurityRoleInfo"/> to a <see cref="EditRoleModel"/>.
-        /// </summary>
-        /// <param name="client">The Ami Service Client.</param>
-        /// <param name="role">The SecurityRoleInfo object to convert.</param>
-        /// <returns>Returns a EditRoleModel model.</returns>
-        public static EditRoleModel ToEditRoleModel(AmiServiceClient client, SecurityRoleInfo role)
+		/// <param name="client">The Ami Service Client.</param>
+		/// <param name="role">The SecurityRoleInfo object to convert.</param>
+		/// <returns>Returns a EditRoleModel model.</returns>
+		public static EditRoleModel ToEditRoleModel(AmiServiceClient client, SecurityRoleInfo role)
 		{
 			var viewModel = new EditRoleModel
 			{
@@ -74,50 +63,7 @@ namespace OpenIZAdmin.Util
 		}
 
 		/// <summary>
-		/// Converts a <see cref="SecurityRoleInfo"/> to a <see cref="RoleViewModel"/>.
-		/// </summary>
-		/// <param name="roleInfo">The SecurityRoleInfo object to convert.</param>
-		/// <returns>Returns a RoleViewModel model.</returns>
-		public static RoleViewModel ToRoleViewModel(SecurityRoleInfo roleInfo)
-		{
-			var viewModel = new RoleViewModel
-			{
-				Description = roleInfo.Role.Description,
-				Id = roleInfo.Id.Value,
-				Name = roleInfo.Name,
-				HasPolicies = roleInfo.Policies?.Any() == true,
-				IsObsolete = roleInfo.Role.ObsoletionTime != null
-			};
-
-			if (roleInfo.Policies?.Any() == true)
-			{
-				viewModel.Policies = roleInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList();
-			}
-
-			return viewModel;
-		}
-
-		/// <summary>
-		/// Converts a <see cref="CreateRoleModel"/> instance to a <see cref="SecurityRoleInfo"/> instance.
-		/// </summary>
-		/// <param name="model">The <see cref="CreateRoleModel"/> instance to convert.</param>
-		/// <returns>Returns a SecurityRoleInfo model.</returns>
-		public static SecurityRoleInfo ToSecurityRoleInfo(CreateRoleModel model)
-		{
-			var roleInfo = new SecurityRoleInfo
-			{
-				Role = new SecurityRole
-				{
-					Description = model.Description
-				},
-				Name = model.Name
-			};
-
-			return roleInfo;
-		}
-
-		/// <summary>
-		/// Converts a <see cref="EditRoleModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo"/>.
+		/// Converts a <see cref="EditRoleModel"/> to a <see cref="SecurityRoleInfo"/>.
 		/// </summary>
 		/// <param name="model">The EditRoleModel object to convert.</param>
 		/// <returns>Returns a SecurityRoleInfo model.</returns>
@@ -128,7 +74,10 @@ namespace OpenIZAdmin.Util
 
 			var addPoliciesList = CommonUtil.GetNewPolicies(amiClient, model.Policies);
 
-			roleInfo.Policies = addPoliciesList.Select(p => new SecurityPolicyInfo(p)).ToList();
+			roleInfo.Policies = addPoliciesList.Select(p => new SecurityPolicyInfo(p)
+			{
+				Grant = PolicyGrantType.Grant
+			}).ToList();
 
 			return roleInfo;
 		}
@@ -140,7 +89,7 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a IEnumerable RoleViewModel list.</returns>
 		internal static IEnumerable<RoleViewModel> GetAllRoles(AmiServiceClient client)
 		{
-			return client.GetRoles(r => r.ObsoletionTime == null).CollectionItem.Select(RoleUtil.ToRoleViewModel);
+			return client.GetRoles(r => r.ObsoletionTime == null).CollectionItem.Select(r => new RoleViewModel(r));
 		}
 	}
 }

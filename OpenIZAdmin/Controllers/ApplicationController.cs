@@ -51,32 +51,33 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Activate(string id)
+		public ActionResult Activate(Guid id)
 		{
-			Guid appKey = Guid.Empty;
-			SecurityApplicationInfo appInfo = null;
-
-			if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out appKey))
+			try
 			{
-				appInfo = ApplicationUtil.GetApplication(this.AmiClient, appKey);
+				var securityApplicationInfo = this.AmiClient.GetApplication(id.ToString());
 
-				if (appInfo == null)
+				if (securityApplicationInfo == null)
 				{
 					TempData["error"] = Locale.Policy + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
 
-				appInfo.Id = appKey;
-				appInfo.Application.ObsoletedBy = null;
-				appInfo.Application.ObsoletionTime = null;
-				appInfo.Application.ObsoletionTimeXml = null;
+				securityApplicationInfo.Id = id;
+				securityApplicationInfo.Application.ObsoletedBy = null;
+				securityApplicationInfo.Application.ObsoletionTime = null;
+				securityApplicationInfo.Application.ObsoletionTimeXml = null;
 
-				this.AmiClient.UpdateApplication(id, appInfo);
+				this.AmiClient.UpdateApplication(id.ToString(), securityApplicationInfo);
 
 				TempData["success"] = Locale.Policy + " " + Locale.Activated + " " + Locale.Successfully;
 
 				return RedirectToAction("Index");
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.UnableToActivate + " " + Locale.Application;
@@ -191,7 +192,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var appEntity = ApplicationUtil.GetApplication(this.AmiClient, model.Id);
+					var appEntity = this.AmiClient.GetApplication(model.Id.ToString());
 
 					if (appEntity == null)
 					{
@@ -248,7 +249,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["searchTerm"] = searchTerm;
 
-					return PartialView("_ApplicationsPartial", collection.CollectionItem.Select(ApplicationUtil.ToApplicationViewModel));
+					return PartialView("_ApplicationsPartial", collection.CollectionItem.Select(a => new ApplicationViewModel(a)));
 				}
 			}
 			catch (Exception e)
@@ -272,7 +273,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var result = ApplicationUtil.GetApplication(this.AmiClient, id);
+				var result = this.AmiClient.GetApplication(id.ToString());
 
 				if (result == null)
 				{
@@ -281,7 +282,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return View(ApplicationUtil.ToApplicationViewModel(result));
+				return View(new ApplicationViewModel(result));
 			}
 			catch (Exception e)
 			{

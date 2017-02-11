@@ -21,6 +21,8 @@ using OpenIZAdmin.Models.RoleModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using OpenIZ.Core.Model.AMI.Auth;
 
 namespace OpenIZAdmin.Models.UserModels.ViewModels
 {
@@ -36,8 +38,20 @@ namespace OpenIZAdmin.Models.UserModels.ViewModels
 		{
 		}
 
+		public UserViewModel(SecurityUserInfo securityUserInfo)
+		{
+			this.Email = securityUserInfo.Email;
+			this.HasRoles = securityUserInfo.Roles?.Any() == true;
+			this.IsLockedOut = securityUserInfo.Lockout.GetValueOrDefault(false);
+			this.IsObsolete = securityUserInfo.User.ObsoletionTime != null;
+			this.LastLoginTime = securityUserInfo.User.LastLoginTime?.DateTime;
+			this.PhoneNumber = securityUserInfo.User.PhoneNumber;
+			this.Roles = securityUserInfo.Roles.Select(r => new RoleViewModel(r));
+			this.UserId = securityUserInfo.UserId.Value;
+			this.Username = securityUserInfo.UserName;
+		}
+
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-        //[DisplayFormat(DataFormatString = Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP)]
         public DateTimeOffset CreationTime { get; set; }
 
 		/// <summary>

@@ -2680,6 +2680,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to reset.
+        /// </summary>
+        public static string UnableToReset {
+            get {
+                return ResourceManager.GetString("UnableToReset", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to retrieve.
         /// </summary>
         public static string UnableToRetrieve {

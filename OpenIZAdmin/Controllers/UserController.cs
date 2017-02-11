@@ -31,6 +31,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Elmah;
 using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Controllers
@@ -55,13 +56,11 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Activate(string id)
+		public ActionResult Activate(Guid id)
 		{
-			var userKey = Guid.Empty;
-
-			if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out userKey))
+			try
 			{
-				var user = UserUtil.GetSecurityUserInfo(this.AmiClient, userKey);
+				var user = this.AmiClient.GetUser(id.ToString());
 
 				if (user == null)
 				{
@@ -70,21 +69,26 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				user.UserId = userKey;
+				user.UserId = id;
 				user.User.ObsoletedBy = null;
 				user.User.ObsoletedByKey = null;
 				user.User.ObsoletionTime = null;
 				user.User.ObsoletionTimeXml = null;
 
-				this.AmiClient.UpdateUser(userKey, user);
+				this.AmiClient.UpdateUser(id, user);
 
 				TempData.Clear();
 				TempData["success"] = Locale.User + " " + Locale.Activated + " " + Locale.Successfully;
 
 				return RedirectToAction("Index");
 			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
 
 			TempData["error"] = Locale.UnableToActivate + " " + Locale.User;
+
 			return RedirectToAction("Index");
 		}
 
@@ -95,11 +99,6 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			//var model = new CreateUserModel();
-
-			//model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
-			//model.RolesList.AddRange(RoleUtil.GetAllRoles(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
-
 			return View(UserUtil.ToCreateUserModel(this.AmiClient));
 		}
 
@@ -112,40 +111,48 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateUserModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-                //check if username exists
-                if(UserUtil.CheckForUserName(this.ImsiClient, model.Username))
-                {
-                    TempData["error"] = Locale.UserNameExists;                                        
-                }
-                else
-                {
-                    var user = UserUtil.ToSecurityUserInfo(model);
-                    user = this.AmiClient.CreateUser(user);
+				if (ModelState.IsValid)
+				{
+					//check if username exists
+					if (UserUtil.CheckForUserName(this.ImsiClient, model.Username))
+					{
+						TempData["error"] = Locale.UserNameExists;
+					}
+					else
+					{
+						var user = UserUtil.ToSecurityUserInfo(model);
+						user = this.AmiClient.CreateUser(user);
 
-                    var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, user.UserId.Value);
-                    //var userEntity = UserUtil.ToCreateUserEntity(this.ImsiClient, model, user.UserId.Value);
+						var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, user.UserId.Value);
 
-                    if (userEntity == null)
-                    {
-                        TempData["error"] = Locale.UnableToRetrieveNewUser;
-                        return RedirectToAction("Index");
-                    }
+						if (userEntity == null)
+						{
+							TempData["error"] = Locale.UnableToRetrieveNewUser;
+							return RedirectToAction("Index");
+						}
 
-                    userEntity = UserUtil.ToCreateUserEntity(this.ImsiClient, model, userEntity);                                 
-                    this.ImsiClient.Update<UserEntity>(userEntity);
+						userEntity = UserUtil.ToCreateUserEntity(this.ImsiClient, model, userEntity);
+						this.ImsiClient.Update<UserEntity>(userEntity);
 
-                    TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;
-                    return RedirectToAction("Edit", new { id = user.UserId.ToString() });
-                }				
+						TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;
+						return RedirectToAction("Edit", new { id = user.UserId.ToString() });
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
 			model.RolesList.AddRange(RoleUtil.GetAllRoles(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
 
-            if(string.IsNullOrEmpty(TempData["error"].ToString()))
-                TempData["error"] = Locale.UnableToCreate + " " + Locale.User;
+			if (TempData.ContainsKey("error") && TempData["error"] == null)
+			{
+				TempData["error"] = Locale.UnableToCreate + " " + Locale.User;
+			}
 
 			return View(model);
 		}
@@ -157,17 +164,23 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Delete(string id)
+		public ActionResult Delete(Guid id)
 		{
-			if (CommonUtil.IsValidString(id))
+			try
 			{
-				this.AmiClient.DeleteUser(id);
+				this.AmiClient.DeleteUser(id.ToString());
 
 				TempData["success"] = Locale.User + " " + Locale.Deactivated + " " + Locale.Successfully;
+
 				return RedirectToAction("Index");
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.UnableToDeactivate + " " + Locale.User;
+
 			return RedirectToAction("Index");
 		}
 
@@ -177,13 +190,11 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The user identifier.</param>
 		/// <returns>Returns the user edit view.</returns>
 		[HttpGet]
-		public ActionResult Edit(string id)
+		public ActionResult Edit(Guid id)
 		{
-			var userId = Guid.Empty;
-
-			if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out userId))
+			try
 			{
-				var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, userId);
+				var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, id);
 
 				// used as a check for users, incase an imported user doesn't have a user entity
 				if (userEntity == null)
@@ -191,13 +202,17 @@ namespace OpenIZAdmin.Controllers
 					userEntity = this.ImsiClient.Create<UserEntity>(new UserEntity
 					{
 						Key = Guid.NewGuid(),
-						SecurityUserKey = userId
+						SecurityUserKey = id
 					});
 				}
 
 				var model = UserUtil.ToEditUserModel(this.ImsiClient, this.AmiClient, userEntity);
 
 				return View(model);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.User + " " + Locale.NotFound;
@@ -213,28 +228,36 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditUserModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, model.UserId);                
-                
-                if (userEntity == null)
+				if (ModelState.IsValid)
 				{
-					TempData["error"] = Locale.User + " " + Locale.NotFound;
-					return RedirectToAction("Index");
+					var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, model.UserId);
+
+					if (userEntity == null)
+					{
+						TempData["error"] = Locale.User + " " + Locale.NotFound;
+						return RedirectToAction("Index");
+					}
+
+					//this is for tracking changes/troubleshooting - can be compacted later
+					var updatedUserEntity = UserUtil.ToUpdateUserEntity(model, userEntity);
+					var securityInfo = UserUtil.ToSecurityUserInfo(model, userEntity, this.AmiClient);
+
+					this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, securityInfo);
+					this.ImsiClient.Update<UserEntity>(updatedUserEntity);
+
+					TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;
+					return RedirectToAction("ViewUser", new { id = userEntity.SecurityUserKey.ToString() });
 				}
-               
-                //this is for tracking changes/troubleshooting - can be compacted later
-                UserEntity updatedUserEntity = UserUtil.ToUpdateUserEntity(model, userEntity);
-                SecurityUserInfo securityInfo = UserUtil.ToSecurityUserInfo(model, userEntity, this.AmiClient);
-
-				this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, securityInfo);				
-                this.ImsiClient.Update<UserEntity>(updatedUserEntity);
-
-				TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;                
-                return RedirectToAction("ViewUser", new { id = userEntity.SecurityUserKey.ToString() });
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.User;
+
 			return View(model);
 		}
 
@@ -256,20 +279,32 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult ResetPassword(Guid id)
 		{
-			var user = this.AmiClient.GetUser(id.ToString());
-
-			if (user == null)
+			try
 			{
-				TempData["error"] = Locale.User + " " + Locale.NotFound;
-				return Redirect(Request.UrlReferrer?.ToString());
+				var user = this.AmiClient.GetUser(id.ToString());
+
+				if (user == null)
+				{
+					TempData["error"] = Locale.User + " " + Locale.NotFound;
+					return Redirect(Request.UrlReferrer?.ToString());
+				}
+
+				var model = new ResetPasswordModel
+				{
+					UserId = id
+				};
+
+				return View(model);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			var model = new ResetPasswordModel
-			{
-				UserId = id
-			};
+			TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-			return View(model);
+			return Redirect(Request.UrlReferrer?.ToString());
+
 		}
 
 		/// <summary>
@@ -281,23 +316,33 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult ResetPassword(ResetPasswordModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				var user = this.AmiClient.GetUser(model.UserId.ToString());
-
-				if (user == null)
+				if (ModelState.IsValid)
 				{
-					TempData["error"] = Locale.User + " " + Locale.NotFound;
-					return Redirect(Request.UrlReferrer?.ToString());
+					var user = this.AmiClient.GetUser(model.UserId.ToString());
+
+					if (user == null)
+					{
+						TempData["error"] = Locale.User + " " + Locale.NotFound;
+						return Redirect(Request.UrlReferrer?.ToString());
+					}
+
+					user.Password = model.Password;
+
+					this.AmiClient.UpdateUser(model.UserId, user);
+
+					TempData["success"] = Locale.Password + " " + Locale.Reset + " " + Locale.Successfully;
+
+					return RedirectToAction("Index", "Home");
 				}
-
-				user.Password = model.Password;
-
-				this.AmiClient.UpdateUser(model.UserId, user);
-
-				TempData["success"] = Locale.Password + " " + Locale.Reset + " " + Locale.Successfully;
-				return RedirectToAction("Index", "Home");
 			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
+
+			TempData["error"] = Locale.UnableToReset + " " + Locale.Password;
 
 			return View(model);
 		}
@@ -312,15 +357,22 @@ namespace OpenIZAdmin.Controllers
 		{
 			var users = new List<UserViewModel>();
 
-			if (CommonUtil.IsValidString(searchTerm))
+			try
 			{
-				var collection = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
+				if (CommonUtil.IsValidString(searchTerm))
+				{
+					var collection = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
 
-				TempData["searchTerm"] = searchTerm;
+					TempData["searchTerm"] = searchTerm;
 
-				users.AddRange(collection.CollectionItem.Select(UserUtil.ToUserViewModel));
+					users.AddRange(collection.CollectionItem.Select(u => new UserViewModel(u)));
 
-				return PartialView("_UsersPartial", users);
+					return PartialView("_UsersPartial", users);
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.User + " " + Locale.NotFound;
@@ -343,7 +395,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				var users = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
 
-				userList = users.CollectionItem.Select(UserUtil.ToUserViewModel).ToList();
+				userList = users.CollectionItem.Select(u => new UserViewModel(u)).ToList();
 			}
 
 			return Json(userList, JsonRequestBehavior.AllowGet);
@@ -355,51 +407,57 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The user identifier search string.</param>
 		/// <returns>Returns a user view that matches the search term.</returns>
 		[HttpGet]
-		public ActionResult ViewUser(string id)
+		public ActionResult ViewUser(Guid id)
 		{
-			var userId = Guid.Empty;
-
-			if (!Guid.TryParse(id, out userId))
+			try
 			{
-				TempData["error"] = Locale.User + " " + Locale.NotFound;
-				return RedirectToAction("Index");
-			}
+				var userInfo = this.AmiClient.GetUser(id.ToString());
 
-			var userInfo = this.AmiClient.GetUser(id);
-
-			if (userInfo == null)
-			{
-				TempData["error"] = Locale.User + " " + Locale.NotFound;
-				return RedirectToAction("Index");
-			}
-
-			var viewModel = UserUtil.ToUserViewModel(this.ImsiClient, userInfo);
-			var user = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, userId);
-
-			// used as a check for users, incase an imported user doesn't have a user entity
-			if (user == null)
-			{
-				user = this.ImsiClient.Create<UserEntity>(new UserEntity
+				if (userInfo == null)
 				{
-					Key = Guid.NewGuid(),
-					SecurityUserKey = userId
-				});
+					TempData["error"] = Locale.User + " " + Locale.NotFound;
+					return RedirectToAction("Index");
+				}
+
+				var user = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, id);
+
+				// used as a check for users, incase an imported user doesn't have a user entity
+				if (user == null)
+				{
+					user = this.ImsiClient.Create<UserEntity>(new UserEntity
+					{
+						Key = Guid.NewGuid(),
+						SecurityUserKey = id
+					});
+				}
+
+				var given = user.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
+				var family = user.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
+
+				var viewModel = new UserViewModel(userInfo)
+				{
+					Name = string.Join(" ", given) + " " + string.Join(" ", family)
+				};
+
+				var healthFacility = user.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+
+				if (healthFacility?.TargetEntityKey != null)
+				{
+					var place = this.ImsiClient.Get<Place>(healthFacility.TargetEntityKey.Value, null) as Place;
+
+					viewModel.HealthFacility = string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value));
+				}
+
+				return View(viewModel);
 			}
-
-            var given = user.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();            
-            var family = user.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
-
-            viewModel.Name = string.Join(" ", given) + " " + string.Join(" ", family);
-
-            var healthFacility = user.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-			if (healthFacility?.TargetEntityKey != null)
+			catch (Exception e)
 			{
-				var place = this.ImsiClient.Get<Place>(healthFacility.TargetEntityKey.Value, null) as Place;
-
-				viewModel.HealthFacility = string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value));
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			return View(viewModel);
+			TempData["error"] = Locale.User + " " + Locale.NotFound;
+
+			return RedirectToAction("Index");
 		}
 	}
 }

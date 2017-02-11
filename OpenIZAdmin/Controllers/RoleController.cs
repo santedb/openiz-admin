@@ -63,22 +63,20 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateRoleModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				SecurityRoleInfo roleInfo = RoleUtil.ToSecurityRoleInfo(model);
-
-				try
+				if (ModelState.IsValid)
 				{
-					var role = this.AmiClient.CreateRole(roleInfo);
+					var role = this.AmiClient.CreateRole(model.ToSecurityRoleInfo());
 
 					TempData["success"] = Locale.Role + " " + Locale.Created + " " + Locale.Successfully;
 
-					return RedirectToAction("ViewRole", new { id = role.Id.ToString() });
+					return RedirectToAction("ViewRole", new {id = role.Id.ToString()});
 				}
-				catch (Exception e)
-				{
-					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.Role;
@@ -93,21 +91,19 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the Index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Delete(string id)
+		public ActionResult Delete(Guid id)
 		{
-			if (CommonUtil.IsValidString(id))
+			try
 			{
-				try
-				{
-					this.AmiClient.DeleteRole(id);
-					TempData["success"] = Locale.Role + " " + Locale.Deleted + " " + Locale.Successfully;
+				this.AmiClient.DeleteRole(id.ToString());
 
-					return RedirectToAction("Index");
-				}
-				catch (Exception e)
-				{
-					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				}
+				TempData["success"] = Locale.Role + " " + Locale.Deleted + " " + Locale.Successfully;
+
+				return RedirectToAction("Index");
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.UnableToDelete + " " + Locale.Role;
@@ -121,29 +117,24 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The id of the role to edit.</param>
 		/// <returns>Returns the edit view.</returns>
 		[HttpGet]
-		public ActionResult Edit(string id)
+		public ActionResult Edit(Guid id)
 		{
-			Guid roleId = Guid.Empty;
-
-			if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out roleId))
+			try
 			{
-				try
+				var securityRoleInfo = this.AmiClient.GetRole(id.ToString());
+
+				if (securityRoleInfo == null)
 				{
-					var role = this.AmiClient.GetRole(roleId.ToString());
+					TempData["error"] = Locale.Role + " " + Locale.NotFound;
 
-					if (role == null)
-					{
-						TempData["error"] = Locale.Role + " " + Locale.NotFound;
-
-						return RedirectToAction("Index");
-					}
-
-					return View(RoleUtil.ToEditRoleModel(this.AmiClient, role));
+					return RedirectToAction("Index");
 				}
-				catch (Exception e)
-				{
-					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				}
+
+				return View(RoleUtil.ToEditRoleModel(this.AmiClient, securityRoleInfo));
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.Role + " " + Locale.NotFound;
@@ -164,7 +155,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var roleInfo = RoleUtil.GetRole(this.AmiClient, Guid.Parse(model.Id));
+					var roleInfo = this.AmiClient.GetRole(model.Id);
 
 					if (roleInfo == null)
 					{
@@ -176,6 +167,7 @@ namespace OpenIZAdmin.Controllers
 					this.AmiClient.UpdateRole(roleInfo.Id.ToString(), RoleUtil.ToSecurityRoleInfo(this.AmiClient, model, roleInfo));
 
 					TempData["success"] = Locale.Role + " " + Locale.Updated + " " + Locale.Successfully;
+
 					return RedirectToAction("ViewRole", new { id = roleInfo.Id.ToString() });
 				}
 				catch (Exception e)
@@ -218,7 +210,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["searchTerm"] = searchTerm;
 
-					return PartialView("_RolesPartial", collection.CollectionItem.Select(r => RoleUtil.ToRoleViewModel(r)));
+					return PartialView("_RolesPartial", collection.CollectionItem.Select(r => new RoleViewModel(r)));
 				}
 			}
 			catch (Exception e)
@@ -238,22 +230,24 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The identifier of the role object</param>
 		/// <returns>Returns the ViewRole view.</returns>
 		[HttpGet]
-		public ActionResult ViewRole(string id)
+		public ActionResult ViewRole(Guid id)
 		{
-			Guid roleId = Guid.Empty;
-
-			if (CommonUtil.IsValidString(id) && Guid.TryParse(id, out roleId))
+			try
 			{
-				SecurityRoleInfo role = RoleUtil.GetRole(this.AmiClient, roleId);
+				var securityRoleInfo = this.AmiClient.GetRole(id.ToString());
 
-				if (role == null)
+				if (securityRoleInfo == null)
 				{
 					TempData["error"] = Locale.Role + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
 
-				return View(RoleUtil.ToRoleViewModel(role));
+				return View(new RoleViewModel(securityRoleInfo));
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.Role + " " + Locale.NotFound;

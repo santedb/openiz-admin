@@ -225,18 +225,18 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Searches for a place to view details.
 		/// </summary>
-		/// <param name="key">The place identifier search string.</param>
+		/// <param name="id">The place identifier search string.</param>
 		/// <returns>Returns a place view that matches the search term.</returns>
 		[HttpGet]
-		public ActionResult ViewPlace(Guid key)
+		public ActionResult ViewPlace(Guid id)
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Place>(p => p.Key == key, 0, null, true);
+				var bundle = this.ImsiClient.Query<Place>(p => p.Key == id, 0, null, true);
 
 				bundle.Reconstitute();
 
-				var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == key);
+				var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == id);
 
 				if (place == null)
 				{

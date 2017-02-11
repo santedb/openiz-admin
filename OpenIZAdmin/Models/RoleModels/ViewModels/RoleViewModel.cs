@@ -21,6 +21,9 @@ using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using OpenIZ.Core.Model.AMI.Auth;
+using System.Linq;
+using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Models.RoleModels.ViewModels
 {
@@ -29,6 +32,16 @@ namespace OpenIZAdmin.Models.RoleModels.ViewModels
 		public RoleViewModel()
 		{
 			this.Policies = new List<PolicyViewModel>();
+		}
+
+		public RoleViewModel(SecurityRoleInfo securityRoleInfo)
+		{
+			this.Description = securityRoleInfo.Role.Description;
+			this.HasPolicies = securityRoleInfo.Policies.Any();
+			this.Id = securityRoleInfo.Id.Value;
+			this.IsObsolete = securityRoleInfo.Role.ObsoletionTime != null;
+			this.Name = securityRoleInfo.Name;
+			this.Policies = securityRoleInfo.Policies.Select(p => new PolicyViewModel(new SecurityPolicyInstance(p.Policy, p.Grant))).OrderBy(q => q.Name).ToList();
 		}
 
 		[Display(Name = "Description", ResourceType = typeof(Localization.Locale))]

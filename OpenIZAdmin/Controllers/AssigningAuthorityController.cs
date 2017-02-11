@@ -43,8 +43,9 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Returns an action result create view
+		/// Displays the create view.
 		/// </summary>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpGet]
 		public ActionResult Create()
 		{
@@ -52,9 +53,9 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Displays the create view.
+		/// Displays the create assigning authority view.
 		/// </summary>
-		/// <returns>Returns the create view.</returns>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateAssigningAuthorityModel model)
@@ -83,14 +84,14 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Deletes an assigning authority.
 		/// </summary>
-		/// <param name="key">The id of the assigning authority to be deleted.</param>
-		/// <returns>Returns the index view.</returns>
+		/// <param name="id">The id of the assigning authority to delete.</param>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpGet]
-		public ActionResult Delete(Guid key)
+		public ActionResult Delete(Guid id)
 		{
 			try
 			{
-				var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == key).CollectionItem.FirstOrDefault();
+				var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == id).CollectionItem.FirstOrDefault();
 
 				if (assigningAuthority == null)
 				{
@@ -98,7 +99,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				this.AmiClient.DeleteAssigningAuthority(key.ToString());
+				this.AmiClient.DeleteAssigningAuthority(id.ToString());
 
 				TempData["success"] = Locale.AssigningAuthority + " " + Locale.Deleted + " " + Locale.Successfully;
 
@@ -114,12 +115,17 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
+		/// <summary>
+		/// Displays the edit assigning authority view.
+		/// </summary>
+		/// <param name="id">The id of the assigning authority to edit.</param>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpGet]
-		public ActionResult Edit(Guid key)
+		public ActionResult Edit(Guid id)
 		{
 			try
 			{
-				var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == key).CollectionItem.FirstOrDefault();
+				var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == id).CollectionItem.FirstOrDefault();
 
 				if (assigningAuthority == null)
 				{
@@ -138,6 +144,11 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
+		/// <summary>
+		/// Updates an assigning authority.
+		/// </summary>
+		/// <param name="model">The model containing the assigning authority information.</param>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditAssigningAuthorityModel model)
@@ -163,8 +174,9 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Returns an action result index view
+		/// Displays the index view.
 		/// </summary>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpGet]
 		public ActionResult Index()
 		{
@@ -173,9 +185,10 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Displays the search view.
+		/// Searches for an assigning authority which matches the given search term.
 		/// </summary>
-		/// <returns>Returns the search view.</returns>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
@@ -196,18 +209,35 @@ namespace OpenIZAdmin.Controllers
 			return PartialView("_AssigningAuthoritySearchResultsPartial", assigningAuthorities);
 		}
 
+		/// <summary>
+		/// Displays the view assigning authority view.
+		/// </summary>
+		/// <param name="id">The id of the assigning authority to view.</param>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpGet]
-		public ActionResult ViewAssigningAuthority(Guid key)
+		public ActionResult ViewAssigningAuthority(Guid id)
 		{
-			var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == key).CollectionItem.FirstOrDefault();
-
-			if (assigningAuthority == null)
+			try
 			{
-				TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
-				return RedirectToAction("Index");
+				var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == id).CollectionItem.FirstOrDefault();
+
+				if (assigningAuthority == null)
+				{
+					TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+					return RedirectToAction("Index");
+				}
+
+				return View(new AssigningAuthorityViewModel(assigningAuthority));
+
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			return View(new AssigningAuthorityViewModel(assigningAuthority));
+			TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+
+			return RedirectToAction("Index");
 		}
 	}
 }

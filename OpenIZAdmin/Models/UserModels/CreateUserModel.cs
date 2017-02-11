@@ -19,7 +19,9 @@
 
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.AMI.Auth;
 
 namespace OpenIZAdmin.Models.UserModels
 {
@@ -94,5 +96,16 @@ namespace OpenIZAdmin.Models.UserModels
 		[Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "UsernameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Username { get; set; }
+
+	    public SecurityUserInfo ToSecurityUserInfo()
+	    {
+		    return new SecurityUserInfo
+		    {
+			    Email = this.Email,
+			    Password = this.Password,
+			    UserName = this.Username,
+			    Roles = this.Roles.Select(r => new SecurityRoleInfo {Name = r}).ToList()
+		    };
+	    }
 	}
 }

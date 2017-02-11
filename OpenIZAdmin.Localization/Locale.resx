@@ -1092,4 +1092,7 @@
   <data name="Manifest" xml:space="preserve">
     <value>Manifest</value>
   </data>
+  <data name="UnableToReset" xml:space="preserve">
+    <value>Unable to reset</value>
+  </data>
 </root>
