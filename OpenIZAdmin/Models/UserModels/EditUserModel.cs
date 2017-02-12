@@ -131,7 +131,6 @@ namespace OpenIZAdmin.Models.UserModels
 		/// <summary>
 		/// Gets or sets the current roles of the user.
 		/// </summary>
-		//[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
 		public IEnumerable<RoleViewModel> UserRoles { get; set; }
 	}
 }

@@ -41,12 +41,6 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		}
 
 		/// <summary>
-		/// Gets or sets the id of the application.
-		/// </summary>
-		//[Required]
-		public string ApplicationId { get; set; }
-
-		/// <summary>
 		/// Gets or sets the name of the application.
 		/// </summary>
 		[Required]

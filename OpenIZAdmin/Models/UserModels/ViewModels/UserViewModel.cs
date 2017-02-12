@@ -83,10 +83,8 @@ namespace OpenIZAdmin.Models.UserModels.ViewModels
 		/// Gets or sets the last login time of the user.
 		/// </summary>
 		[Display(Name = "LastLoginTime", ResourceType = typeof(Localization.Locale))]
-        //[DisplayFormat(DataFormatString = Constants.DATETIME_FORMAT_STRING)]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
         public DateTime? LastLoginTime { get; set; }
-        //public string LastLoginTime { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the user.
