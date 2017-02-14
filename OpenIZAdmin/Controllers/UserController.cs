@@ -206,6 +206,10 @@ namespace OpenIZAdmin.Controllers
 					});
 				}
 
+				var securityUser = this.AmiClient.GetUser(userEntity.SecurityUserKey?.ToString());
+
+				userEntity.SecurityUser = securityUser.User;
+
 				var model = UserUtil.ToEditUserModel(this.ImsiClient, this.AmiClient, userEntity);
 
 				return View(model);
