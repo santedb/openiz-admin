@@ -285,6 +285,11 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a security user info model.</returns>
 		public static SecurityUserInfo ToSecurityUserInfo(EditUserModel model, UserEntity user, AmiServiceClient client)
 		{
+			if (user.SecurityUser == null)
+			{
+				user.SecurityUser = client.GetUser(model.UserId.ToString())?.User;
+			}
+
 			var userInfo = new SecurityUserInfo
 			{
 				Email = model.Email,
