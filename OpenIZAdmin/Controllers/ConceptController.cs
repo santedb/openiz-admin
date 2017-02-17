@@ -215,7 +215,7 @@ namespace OpenIZAdmin.Controllers
 
 				bundle.Reconstitute();
 
-				var concept = bundle.Item.OfType<Concept>().FirstOrDefault();
+				var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == model.Key && c.ObsoletionTime == null);
 
 				if (concept == null)
 				{
@@ -318,7 +318,7 @@ namespace OpenIZAdmin.Controllers
 
 			bundle.Reconstitute();
 
-			var concept = bundle.Item.OfType<Concept>().FirstOrDefault();
+			var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == key && c.ObsoletionTime == null);
 
 			if (concept == null)
 			{
