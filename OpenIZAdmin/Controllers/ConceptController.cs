@@ -30,6 +30,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -53,26 +54,19 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			CreateConceptModel model = new CreateConceptModel();
+			var model = new CreateConceptModel();
 
 			var languages = LanguageUtil.GetLanguageList();
 
-			model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
+			var bundle = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
 
-			var conceptClasses = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
-			for (var i = 0; i < conceptClasses.Count; i++)
-			{
-				if (conceptClasses.Item[i].Type == "ConceptClass")
-				{
-					model.ConceptClassList.Add(new SelectListItem()
-					{
-						Text = (conceptClasses.Item[i] as ConceptClass).Mnemonic,
-						Value = (conceptClasses.Item[i] as ConceptClass).Key.Value.ToString(),
-					});
-				}
-			}
+			bundle.Reconstitute();
 
-			model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
+			var conceptClasses = bundle.Item.OfType<ConceptClass>();
+
+			model.ConceptClassList.AddRange(conceptClasses.ToSelectList().OrderBy(c => c.Text));
+
+			model.LanguageList = languages.Select(l => new SelectListItem {Text = l.DisplayName, Value = l.TwoLetterCountryCode, Selected = l.TwoLetterCountryCode == Locale.EN}).OrderBy(l => l.Text).ToList();
 
 			return View(model);
 		}
@@ -86,27 +80,20 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateConceptModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				try
+				if (ModelState.IsValid)
 				{
-					var concept = ConceptUtil.ToConcept(model);
-
-					concept.CreatedBy = new OpenIZ.Core.Model.Security.SecurityUser
-					{
-						Key = Guid.Parse(User.Identity.GetUserId())
-					};
-
-					var result = this.ImsiClient.Create<Concept>(concept);
+					var concept = this.ImsiClient.Create<Concept>(model.ToConcept());
 
 					TempData["success"] = Locale.Concept + " " + Locale.Created + " " + Locale.Successfully;
 
-					return RedirectToAction("ViewConcept", new { key = result.Key, versionKey = result.VersionKey });
+					return RedirectToAction("ViewConcept", new { key = concept.Key });
 				}
-				catch (Exception e)
-				{
-					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.Concept;
@@ -118,42 +105,48 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+		/// <summary>
+		/// Deletes a concept.
+		/// </summary>
+		/// <param name="id">The id of the concept to delete.</param>
+		/// <returns>Returns the index view.</returns>
 		[HttpGet]
-		public ActionResult Delete(Guid key, Guid versionKey)
+		public ActionResult Delete(Guid id)
 		{
-			var concept = this.ImsiClient.Get<Concept>(key, versionKey) as Concept;
-
-			if (concept == null)
+			try
 			{
-				TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+				var concept = this.ImsiClient.Get<Concept>(id, null) as Concept;
+
+				if (concept == null)
+				{
+					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+					return RedirectToAction("Index");
+				}
+
+				this.ImsiClient.Obsolete<Concept>(concept);
+
+				TempData["success"] = Locale.Concept + " " + Locale.Deleted + " " + Locale.Successfully;
+
 				return RedirectToAction("Index");
 			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
 
-			this.ImsiClient.Obsolete<Concept>(concept);
+			TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 
-			TempData["success"] = Locale.Concept + " " + Locale.Deleted + " " + Locale.Successfully;
 			return RedirectToAction("Index");
 		}
 
 		[HttpGet]
-		public ActionResult Edit(Guid key, Guid versionKey)
+		public ActionResult Edit(Guid id)
 		{
-			var query = new List<KeyValuePair<string, object>>();
-			var referenceTermQuery = new List<KeyValuePair<string, object>>();
-
-			if (versionKey != Guid.Empty)
-			{
-				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == key && c.VersionKey == versionKey));
-			}
-			else
-			{
-				query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == key));
-			}
-			var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
+			var bundle = this.ImsiClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null);
 
 			bundle.Reconstitute();
 
-			var concept = bundle.Item.OfType<Concept>().FirstOrDefault();
+			var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);
 
 			if (concept == null)
 			{
@@ -161,7 +154,7 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index");
 			}
 
-			concept.SetDelayLoad(true);
+			var referenceTermQuery = new List<KeyValuePair<string, object>>();
 
 			foreach (var conceptReferenceTerm in concept.ReferenceTerms)
 			{
@@ -170,9 +163,7 @@ namespace OpenIZAdmin.Controllers
 
 			var referenceTerms = this.ImsiClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ReferenceTerm>();
 
-			var editConceptModel = ConceptUtil.ToEditConceptModel(concept);
-
-			editConceptModel.ReferenceTerms = new List<ReferenceTermModel>();
+			var editConceptModel = new EditConceptModel(concept);
 
 			editConceptModel.ReferenceTerms.AddRange(referenceTerms.Select(r => new ReferenceTermModel
 			{
@@ -224,9 +215,9 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				for (var i = 0; i < model.Languages.Count(); i++)
+				for (var i = 0; i < model.Languages.Count; i++)
 				{
-					if (model.Name[i] != "")
+					if (model.Name[i] != string.Empty)
 					{
 						if (concept.ConceptNames.Count > i)
 						{
@@ -237,7 +228,7 @@ namespace OpenIZAdmin.Controllers
 						}
 						else
 						{
-							concept.ConceptNames.Add(new ConceptName()
+							concept.ConceptNames.Add(new ConceptName
 							{
 								Language = model.Languages[i],
 								Name = model.Name[i]
@@ -254,7 +245,7 @@ namespace OpenIZAdmin.Controllers
 
 				var conceptClass = conceptClasses.FirstOrDefault(c => c.Name == model.ConceptClass);
 
-                concept.Class = conceptClass;
+				concept.Class = conceptClass;
 
 				var result = this.ImsiClient.Update<Concept>(concept);
 
@@ -312,30 +303,42 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult ViewConcept(Guid key, Guid versionKey)
+		public ActionResult ViewConcept(Guid id)
 		{
-			var bundle = this.ImsiClient.Query<Concept>(c => c.Key == key && c.VersionKey == versionKey && c.ObsoletionTime == null);
-
-			bundle.Reconstitute();
-
-			var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == key && c.ObsoletionTime == null);
-
-			if (concept == null)
+			try
 			{
-				TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-				return RedirectToAction("Index");
+				var bundle = this.ImsiClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null);
+
+				bundle.Reconstitute();
+
+				var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);
+
+				if (concept == null)
+				{
+					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+
+					return RedirectToAction("Index");
+				}
+
+				var conceptViewModel = new ConceptViewModel(concept);
+
+				conceptViewModel.ReferenceTerms.AddRange(concept.ReferenceTerms.Select(r => new ReferenceTermModel
+				{
+					Mnemonic = r.ReferenceTerm.Mnemonic,
+					Name = string.Join(", ", r.ReferenceTerm.DisplayNames.Select(d => d.Name)),
+					Key = r.Key.Value
+				}));
+
+				return View(conceptViewModel);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			var conceptViewModel = ConceptUtil.ToConceptViewModel(concept);
+			TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 
-			conceptViewModel.ReferenceTerms.AddRange(concept.ReferenceTerms.Select(r => new ReferenceTermModel
-			{
-				Mnemonic = r.ReferenceTerm.Mnemonic,
-				Name = string.Join(", ", r.ReferenceTerm.DisplayNames.Select(d => d.Name)),
-				Key = r.Key.Value
-			}));
-
-			return View(conceptViewModel);
+			return RedirectToAction("Index");
 		}
 	}
 }

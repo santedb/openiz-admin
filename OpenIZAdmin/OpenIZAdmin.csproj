@@ -242,6 +242,7 @@
     <Compile Include="DAL\IRepository.cs" />
     <Compile Include="DAL\IUnitOfWork.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
+    <Compile Include="Extensions\ConceptExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Filters\LanguageActionFilter.cs" />
     <Compile Include="Global.asax.cs">
@@ -256,7 +257,7 @@
     <Compile Include="Models\ConceptSetModels\CreateConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\EditConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\ViewModels\ConceptSetViewModel.cs" />
-    <Compile Include="Models\DebugModels\ViewModels\SubmitBugReportViewModel.cs" />
+    <Compile Include="Models\DebugModels\SubmitBugReportModel.cs" />
     <Compile Include="Models\FacilitiesModel.cs" />
     <Compile Include="Models\MaterialModels\EditMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\CreateMaterialModel.cs" />
@@ -290,7 +291,6 @@
     <Compile Include="Models\ConceptModels\EditConceptModel.cs" />
     <Compile Include="Models\ConceptModels\ViewModels\ConceptSearchResultViewModel.cs" />
     <Compile Include="Models\ConceptModels\ViewModels\ConceptViewModel.cs" />
-    <Compile Include="Models\ConceptModels\ViewModels\DetailedConceptViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DebugModels\ViewModels\AssemblyInfoViewModel.cs" />
     <Compile Include="Models\DeviceModels\CreateDeviceModel.cs" />
@@ -333,14 +333,11 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Util\AccountUtil.cs" />
     <Compile Include="Util\AlertUtil.cs" />
-    <Compile Include="Util\AppletUtil.cs" />
     <Compile Include="Util\ApplicationUtil.cs" />
     <Compile Include="Util\CertificateUtil.cs" />
     <Compile Include="Util\CommonUtil.cs" />
-    <Compile Include="Util\ConceptSetUtil.cs" />
     <Compile Include="Util\HomeUtil.cs" />
     <Compile Include="Util\MaterialUtil.cs" />
-    <Compile Include="Util\ConceptUtil.cs" />
     <Compile Include="Util\DeviceUtil.cs" />
     <Compile Include="Util\LanguageUtil.cs" />
     <Compile Include="Util\RoleUtil.cs" />

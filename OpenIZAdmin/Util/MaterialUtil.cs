@@ -22,9 +22,6 @@ using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Models.MaterialModels;
-using OpenIZAdmin.Models.MaterialModels.ViewModels;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -38,7 +35,7 @@ namespace OpenIZAdmin.Util
 		/// <summary>
 		/// Converts a <see cref="Material"/> instance to a <see cref="EditMaterialModel"/> instance.
 		/// </summary>
-		/// <param name="imsiClient">The Imsi service client.</param>        
+		/// <param name="imsiClient">The Imsi service client.</param>
 		/// <param name="material">The material to convert.</param>
 		/// <returns>Returns a EditMaterialModel view model.</returns>
 		public static EditMaterialModel ToEditMaterialModel(ImsiServiceClient imsiClient, Material material)
@@ -56,6 +53,5 @@ namespace OpenIZAdmin.Util
 
 			return model;
 		}
-
 	}
 }

@@ -250,7 +250,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				var userId = Guid.Parse(User.Identity.GetUserId());
 				var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, userId);
-				return View(AccountUtil.ToUpdateProfileModel(this.ImsiClient, this.AmiClient, userEntity));
+				return View(AccountUtil.ToUpdateProfileModel(this.ImsiClient, userEntity));
 			}
 			catch (Exception e)
 			{

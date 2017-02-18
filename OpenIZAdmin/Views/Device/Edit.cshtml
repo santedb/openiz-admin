@@ -20,7 +20,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.CreationTime, new { @class = "col-md-2 control-label" })
                         <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.CreationTime, Constants.DATETIME_FORMAT_VIEW_WITH_TIMESTAMP, new { @class = "form-control", @readonly = "readonly", title = Locale.ToolTip_CreationTime })
+                            @Html.TextBoxFor(m => m.CreationTime, Constants.DateTimeFormatViewWithTimestamp, new { @class = "form-control", @readonly = "readonly", title = Locale.ToolTip_CreationTime })
                             @Html.ValidationMessageFor(m => m.CreationTime, "", new { @class = "text-danger" })
                         </div>
                     </div>
@@ -84,12 +84,7 @@
                                 @foreach (var item in Model.DevicePolicies)
                                 {
                                     <tr>
-                                        <td>
-                                            @if(item.CreationTime != null)
-                                            {
-                                                @item.CreationTime.ToLocalTime().ToString(Constants.DATETIME_FORMAT_VIEW_WITH_TIMESTAMP);
-                                            }
-                                        </td>
+                                        <td>@item.CreationTime.ToLocalTime().ToString(Constants.DateTimeFormatViewWithTimestamp)</td>
                                         <td>@item.Name</td>
                                         <td>@item.Grant</td>
                                         <td>@item.IsPublic</td>

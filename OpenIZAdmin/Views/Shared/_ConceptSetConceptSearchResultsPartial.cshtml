@@ -26,7 +26,7 @@
                             <td>
                                 @if (item.CreationTime != null)
                                 {                                    
-                                    @item.CreationTime.ToLocalTime().ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
+                                    @item.CreationTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp);
                                 }
                             </td>
                             <td>@item.Mnemonic</td>

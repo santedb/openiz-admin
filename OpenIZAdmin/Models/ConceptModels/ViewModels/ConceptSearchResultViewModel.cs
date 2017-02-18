@@ -46,11 +46,11 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 		public ConceptSearchResultViewModel(Concept concept)
 		{
 			this.CreationTime = concept.CreationTime.DateTime;
-			this.Key = concept.Key.GetValueOrDefault();
+			this.IsReadOnly = concept.IsSystemConcept;
+			this.Key = concept.Key.Value;
 			this.Mnemonic = concept.Mnemonic;
 			this.Names = concept.ConceptNames.Select(c => c.Name).ToList();
 			this.Type = ConceptType.Concept;
-			this.VersionKey = concept.VersionKey;
 		}
 
 		/// <summary>
@@ -61,7 +61,8 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 		public ConceptSearchResultViewModel(ConceptSet conceptSet)
 		{
 			this.CreationTime = conceptSet.CreationTime.DateTime;
-			this.Key = conceptSet.Key.GetValueOrDefault();
+			this.IsReadOnly = false;
+			this.Key = conceptSet.Key.Value;
 			this.Mnemonic = conceptSet.Mnemonic;
 			this.Names = new List<string> { conceptSet.Name };
 			this.Type = ConceptType.ConceptSet;
@@ -72,6 +73,11 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 		/// </summary>
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime CreationTime { get; set; }
+
+		/// <summary>
+		/// Gets or sets whether the concept/concept set is readonly.
+		/// </summary>
+		public bool IsReadOnly { get; set; }
 
 		/// <summary>
 		/// Gets or sets the key of the concept or concept set.
@@ -95,10 +101,5 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 		/// </summary>
 		[Display(Name = "Type", ResourceType = typeof(Localization.Locale))]
 		public ConceptType Type { get; set; }
-
-		/// <summary>
-		/// Gets or sets the version key of the concept or concept set.
-		/// </summary>
-		public Guid? VersionKey { get; set; }
 	}
 }

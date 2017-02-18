@@ -20,6 +20,8 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using OpenIZ.Core.Model.DataTypes;
 
 namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 {
@@ -36,6 +38,20 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 			this.Names = new List<string>();
 			this.Languages = new List<string>();
 			this.ReferenceTerms = new List<ReferenceTermModel>();
+		}
+
+		public ConceptViewModel(Concept concept) : this()
+		{
+			this.Class = concept.Class?.Name;
+			this.CreationTime = concept.CreationTime.DateTime;
+			this.Key = concept.Key.Value;
+			this.Mnemonic = concept.Mnemonic;
+
+			concept.ConceptNames.ForEach(c =>
+			{
+				this.Names.Add(c.Name);
+				this.Languages.Add(c.Language);
+			});
 		}
 
         /// <summary>
@@ -77,10 +93,5 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 		/// </summary>
 		[Display(Name = "ReferenceTerms", ResourceType = typeof(Localization.Locale))]
 		public List<ReferenceTermModel> ReferenceTerms { get; set; }
-
-		/// <summary>
-		/// Gets or sets the version key of the concept.
-		/// </summary>
-		public Guid VersionKey { get; set; }
 	}
 }

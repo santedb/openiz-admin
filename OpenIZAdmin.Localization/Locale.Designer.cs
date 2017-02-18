@@ -331,6 +331,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your issue has been successfully submitted to the central ticketing system.
+        /// </summary>
+        public static string BugSubmittedSuccessfully {
+            get {
+                return ResourceManager.GetString("BugSubmittedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Business Rules.
         /// </summary>
         public static string BusinessRules {
@@ -1996,6 +2005,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Steps to reproduce cannot exceed 4000 characters.
+        /// </summary>
+        public static string StepsToReproduceTooLong {
+            get {
+                return ResourceManager.GetString("StepsToReproduceTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Subject.
         /// </summary>
         public static string Subject {
@@ -2073,6 +2091,15 @@ namespace OpenIZAdmin.Localization {
         public static string System {
             get {
                 return ResourceManager.GetString("System", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For your reference, your ticket ID# is:.
+        /// </summary>
+        public static string TicketReferenceId {
+            get {
+                return ResourceManager.GetString("TicketReferenceId", resourceCulture);
             }
         }
         

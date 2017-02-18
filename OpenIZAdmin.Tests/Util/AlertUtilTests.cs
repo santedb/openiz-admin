@@ -109,7 +109,7 @@ namespace OpenIZAdmin.Tests.Util
 		[TestMethod]
 		public void TestToAlertMessageInfo()
 		{
-			var actual = AlertUtil.ToAlertMessageInfo(this.alertViewModel);
+			var actual = this.alertViewModel.ToAlertMessageInfo();
 
 			Assert.AreEqual("body", actual.AlertMessage.Body);
 		}
@@ -120,7 +120,7 @@ namespace OpenIZAdmin.Tests.Util
 		[TestMethod]
 		public void TestToAlertViewModel()
 		{
-			var actual = AlertUtil.ToAlertViewModel(this.alertMessageInfo);
+			var actual = new AlertViewModel(this.alertMessageInfo);
 
 			Assert.AreEqual("this is some body text of an alert message", actual.Body);
 			Assert.AreEqual(Guid.Parse("3B4A85D4-9D4E-4D4F-A027-32B69648A6A9"), actual.CreatedBy);
@@ -140,7 +140,7 @@ namespace OpenIZAdmin.Tests.Util
 		{
 			this.alertMessageInfo.AlertMessage.Body = string.Empty;
 
-			var actual = AlertUtil.ToAlertViewModel(this.alertMessageInfo);
+			var actual = new AlertViewModel(this.alertMessageInfo);
 
 			Assert.AreEqual(string.Empty, actual.Body);
 			Assert.AreEqual(Guid.Parse("3B4A85D4-9D4E-4D4F-A027-32B69648A6A9"), actual.CreatedBy);

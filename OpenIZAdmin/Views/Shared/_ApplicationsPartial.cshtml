@@ -38,7 +38,7 @@
                         <tr>
                             <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>
                             <td>@item.ApplicationName</td>
-                            <td>@item.CreationTime.ToLocalTime().ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP)</td>
+                            <td>@item.CreationTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
                             <td>
                                 @if (item.HasPolicies)
                                 {

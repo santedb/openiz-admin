@@ -21,14 +21,39 @@ using OpenIZ.Core.Model.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
 {
+	/// <summary>
+	/// Represents an edit concept set model.
+	/// </summary>
 	public class EditConceptSetModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EditConceptSetModel"/> class.
+		/// </summary>
 		public EditConceptSetModel()
 		{
 			this.Concepts = new List<Concept>();
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EditConceptSetModel"/> class
+		/// with a specific <see cref="ConceptSet"/> instance.
+		/// </summary>
+		/// <param name="conceptSet">The <see cref="ConceptSet"/> instance.</param>
+		public EditConceptSetModel(ConceptSet conceptSet)
+		{
+			this.Concepts = conceptSet.Concepts;
+			this.CreatedBy = conceptSet.CreatedBy?.UserName;
+			this.CreationTime = conceptSet.CreationTime.DateTime;
+			this.Key = conceptSet.Key.Value;
+			this.Mnemonic = conceptSet.Mnemonic;
+			this.Name = conceptSet.Name;
+			this.Oid = conceptSet.Oid;
+			this.Url = conceptSet.Url;
+			this.ConceptDeletion.AddRange(this.Concepts.Select(c => false));
 		}
 
 		public List<bool> ConceptDeletion { get; set; }
@@ -62,5 +87,18 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 
 		[Required]
 		public string Url { get; set; }
+
+		public ConceptSet ToConceptSet()
+		{
+			return new ConceptSet
+			{
+				CreationTime = this.CreationTime,
+				Key = this.Key,
+				Mnemonic = this.Mnemonic,
+				Name = this.Name,
+				Oid = this.Oid,
+				Url = this.Url
+			};
+		}
 	}
 }

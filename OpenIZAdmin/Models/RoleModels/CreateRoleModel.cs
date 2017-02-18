@@ -20,6 +20,7 @@
 using System.ComponentModel.DataAnnotations;
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.RoleModels
 {
@@ -38,18 +39,22 @@ namespace OpenIZAdmin.Models.RoleModels
 		/// <summary>
 		/// Gets or sets the description of the role.
 		/// </summary>
-		[Display(Name = "Description")]
-		[StringLength(1000, ErrorMessageResourceName = "DescriptionTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Description", ResourceType = typeof(Locale))]
+		[StringLength(1000, ErrorMessageResourceName = "DescriptionTooLong", ErrorMessageResourceType = typeof(Locale))]
 		public string Description { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the role.
 		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Converts a <see cref="CreateRoleModel"/> instance to a <see cref="SecurityRoleInfo"/> instance.
+		/// </summary>
+		/// <returns>Returns a <see cref="SecurityRoleInfo"/> instance.</returns>
 		public SecurityRoleInfo ToSecurityRoleInfo()
 		{
 			return new SecurityRoleInfo

@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.ConceptSetModels.ViewModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -50,16 +51,20 @@ namespace OpenIZAdmin.Controllers
 			var query = new List<KeyValuePair<string, object>>();
 
 			query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Key == model.ConceptToAdd));
+
 			var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
 
 			bundle.Reconstitute();
 
 			var concept = bundle.Item.OfType<Concept>().FirstOrDefault();
+
 			model.Concepts.Add(concept);
+
 			if (model.ConceptDeletion == null)
 			{
 				model.ConceptDeletion = new List<bool>();
 			}
+
 			model.ConceptDeletion.Add(false);
 
 			return PartialView("_ConceptList", model);
@@ -72,9 +77,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			var model = new CreateConceptSetModel();
-
-			return View(model);
+			return View();
 		}
 
 		/// <summary>
@@ -110,9 +113,9 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult Delete(Guid key)
+		public ActionResult Delete(Guid id)
 		{
-			var conceptSet = this.ImsiClient.Get<ConceptSet>(key, null) as ConceptSet;
+			var conceptSet = this.ImsiClient.Get<ConceptSet>(id, null) as ConceptSet;
 
 			if (conceptSet == null)
 			{
@@ -127,13 +130,13 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		[HttpGet]
-		public ActionResult Edit(Guid key)
+		public ActionResult Edit(Guid id)
 		{
-			var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == key && c.ObsoletionTime == null);
+			var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == id && c.ObsoletionTime == null);
 
 			bundle.Reconstitute();
 
-			var conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault();
+			var conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);
 
 			if (conceptSet == null)
 			{
@@ -141,7 +144,7 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index", "Concept");
 			}
 
-			var model = ConceptSetUtil.ToEditConceptSetModel(conceptSet);
+			var model = new EditConceptSetModel(conceptSet);
 
 			return View(model);
 		}
@@ -165,7 +168,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index", "Concept");
 				}
 
-				conceptSet = ConceptSetUtil.ToConceptSet(model);
+				conceptSet = model.ToConceptSet();
 
 				for (var i = 0; i < model.ConceptDeletion.Count; i++)
 				{
@@ -217,31 +220,31 @@ namespace OpenIZAdmin.Controllers
 			var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
 
 			viewModels.AddRange(bundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
+
 			var keys = model.Concepts.Select(m => m.Key).Distinct();
-			if (keys != null)
-			{
-				viewModels = viewModels.Where(m => !keys.Any(n => n.Value == m.Key)).ToList();
-			};
+
+			viewModels = viewModels.Where(m => !keys.Any(n => n.Value == m.Key)).ToList();
 
 			return PartialView("_ConceptSetConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
 		}
 
 		[HttpGet]
-		public ActionResult ViewConceptSet(Guid key)
+		public ActionResult ViewConceptSet(Guid id)
 		{
-			var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == key);
+			var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == id && c.ObsoletionTime == null);
 
 			bundle.Reconstitute();
 
-			var conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault();
+			var conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);
 
 			if (conceptSet == null)
 			{
-				TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+				TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
+
 				return RedirectToAction("Index");
 			}
 
-			var viewModel = ConceptSetUtil.ToConceptSetViewModel(conceptSet);
+			var viewModel = new ConceptSetViewModel(conceptSet);
 
 			return View(viewModel);
 		}

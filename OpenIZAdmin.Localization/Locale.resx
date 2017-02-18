@@ -1095,4 +1095,13 @@
   <data name="UnableToReset" xml:space="preserve">
     <value>Unable to reset</value>
   </data>
+  <data name="BugSubmittedSuccessfully" xml:space="preserve">
+    <value>Your issue has been successfully submitted to the central ticketing system</value>
+  </data>
+  <data name="StepsToReproduceTooLong" xml:space="preserve">
+    <value>Steps to reproduce cannot exceed 4000 characters</value>
+  </data>
+  <data name="TicketReferenceId" xml:space="preserve">
+    <value>For your reference, your ticket ID# is:</value>
+  </data>
 </root>

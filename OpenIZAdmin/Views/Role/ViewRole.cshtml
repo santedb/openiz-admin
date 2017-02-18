@@ -26,7 +26,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
                         <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.Description, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.TextAreaFor(m => m.Description, new { @class = "form-control", cols = "20", rows = "3", @readonly = "readonly" })
                         </div>
                     </div>                   
                 </div>
@@ -60,12 +60,7 @@
                                     @foreach (var item in Model.Policies)
                                     {
                                         <tr>                                                
-                                            <td>
-                                                @if (item.CreationTime != null)
-                                                {                                                        
-                                                    @item.CreationTime.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
-                                                }
-                                            </td>
+                                            <td>@item.CreationTime.ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
                                             <td>@item.Name</td>
                                             <td>@item.Grant</td>
                                             <td>@item.IsPublic</td>

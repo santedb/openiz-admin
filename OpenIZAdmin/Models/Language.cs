@@ -46,12 +46,12 @@ namespace OpenIZAdmin.Models
 		/// <summary>
 		/// Gets or sets the display name of the language.
 		/// </summary>
-		public string DisplayName { get; set; }
+		public string DisplayName { get; }
 
 		/// <summary>
 		/// Gets or sets the two letter language code of the language.
 		/// </summary>
-		public string TwoLetterCountryCode { get; set; }
+		public string TwoLetterCountryCode { get; }
 
 		/// <summary>
 		/// Compares if two languages are not equal.
@@ -72,17 +72,12 @@ namespace OpenIZAdmin.Models
 		/// <returns>Returns true if the languages are equal.</returns>
 		public static bool operator ==(Language left, Language right)
 		{
-			if (System.Object.ReferenceEquals(left, right))
+			if (object.ReferenceEquals(left, right))
 			{
 				return true;
 			}
 
-			if ((left == null) || (right == null))
-			{
-				return false;
-			}
-
-			return left.TwoLetterCountryCode == right.TwoLetterCountryCode;
+			return left?.TwoLetterCountryCode == right?.TwoLetterCountryCode;
 		}
 
 		/// <summary>
@@ -92,12 +87,7 @@ namespace OpenIZAdmin.Models
 		/// <returns>Returns true if the language is equal.</returns>
 		public override bool Equals(object obj)
 		{
-			if (obj == null)
-			{
-				return false;
-			}
-
-			Language language = obj as Language;
+			var language = obj as Language;
 
 			if (language == null)
 			{

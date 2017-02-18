@@ -30,6 +30,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.AppletModels.ViewModels;
+using OpenIZAdmin.Models.DebugModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -52,7 +54,7 @@ namespace OpenIZAdmin.Controllers
 
 			var viewModel = new DashboardViewModel
 			{
-				Applets = AppletUtil.GetApplets(this.AmiClient),
+				Applets = this.AmiClient.GetApplets().CollectionItem.Select(a => new AppletViewModel(a)),
 				CertificateRequests = new List<CertificateSigningRequestViewModel>(), //CertificateUtil.GetAllCertificateSigningRequests(this.client),
 				Devices = DeviceUtil.GetAllDevices(this.AmiClient).OrderBy(d => d.CreationTime).ThenBy(d => d.Name).Take(15),
 				Roles = RoleUtil.GetAllRoles(this.AmiClient).OrderBy(r => r.Name).Take(15)
@@ -72,16 +74,16 @@ namespace OpenIZAdmin.Controllers
 			{
 				var userId = Guid.Parse(User.Identity.GetUserId());
 
-				var userEntity = this.AmiClient.GetUser(userId.ToString());
+				var securityUserInfo = this.AmiClient.GetUser(userId.ToString());
 
-				if (userEntity == null)
+				if (securityUserInfo == null)
 				{
 					TempData["error"] = Locale.User + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
 
-				var model = HomeUtil.ToSubmitBugReport(userEntity);
+				var model = new SubmitBugReportModel(securityUserInfo);
 
 				return View(model);
 			}
@@ -102,21 +104,21 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the Index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult SubmitBugReport(SubmitBugReportViewModel model)
+		public ActionResult SubmitBugReport(SubmitBugReportModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				try
+				if (ModelState.IsValid)
 				{
-					DiagnosticReport report = HomeUtil.ToDiagnosticReport(this.ImsiClient, model);
+					var report = model.ToDiagnosticReport(UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, Guid.Parse(User.Identity.GetUserId())));
 					report = AmiClient.SubmitDiagnosticReport(report);
 					model.TransactionMessage = report.CorrelationId;
 					model.Success = true;
 				}
-				catch (Exception e)
-				{
-					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			return View(model);
@@ -127,12 +129,18 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <returns>Returns the version information.</returns>
 		[HttpGet]
-		[TokenAuthorize]
 		public ActionResult VersionInformation()
 		{
 			var viewModel = new VersionViewModel(typeof(MvcApplication).Assembly);
 
-			viewModel.Assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Select(a => new AssemblyInfoViewModel(a)).Where(a => a.Title != null).OrderBy(a => a.Title));
+			try
+			{
+				viewModel.Assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Select(a => new AssemblyInfoViewModel(a)).Where(a => a.Title != null).OrderBy(a => a.Title));
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
 
 			return View(viewModel);
 		}

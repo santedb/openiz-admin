@@ -51,7 +51,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			var model = new CreateAlertModel { PriorityList = AlertUtil.CreatePrioritySelectList() };
+			var model = new CreateAlertModel();
 
 			return View(model);
 		}
@@ -75,8 +75,6 @@ namespace OpenIZAdmin.Controllers
 
 				return RedirectToAction("Index", "Home");
 			}
-
-			model.PriorityList = AlertUtil.CreatePrioritySelectList();
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.Alert;
 
@@ -126,7 +124,7 @@ namespace OpenIZAdmin.Controllers
 
 			var alerts = this.AmiClient.GetAlerts(a => a.To == username && a.Flags != AlertMessageFlags.Acknowledged && a.ObsoletionTime == null);
 
-			models.AddRange(alerts.CollectionItem.Where(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged && a.AlertMessage.ObsoletionTime == null).Select(AlertUtil.ToAlertViewModel));
+			models.AddRange(alerts.CollectionItem.Where(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged && a.AlertMessage.ObsoletionTime == null).Select(a => new AlertViewModel(a)));
 
 			return PartialView("_AlertsPartial", models.OrderBy(x => x.Flags).ThenByDescending(a => a.Time));
 		}
@@ -180,8 +178,6 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult ViewAlert(Guid id)
 		{
-			var viewModel = new AlertViewModel();
-
 			var alert = this.AmiClient.GetAlerts(a => a.Key == id).CollectionItem.FirstOrDefault();
 
 			if (alert == null)
@@ -189,7 +185,7 @@ namespace OpenIZAdmin.Controllers
 				return Redirect(Request.UrlReferrer?.ToString());
 			}
 
-			viewModel = AlertUtil.ToAlertViewModel(alert);
+			var viewModel = new AlertViewModel(alert);
 
 			return View(viewModel);
 		}

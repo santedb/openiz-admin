@@ -19,6 +19,8 @@
 
 using OpenIZ.Core.Alert.Alerting;
 using System;
+using OpenIZ.Core.Model.AMI.Alerting;
+using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Models.AlertModels.ViewModels
 {
@@ -32,6 +34,18 @@ namespace OpenIZAdmin.Models.AlertModels.ViewModels
 		/// </summary>
 		public AlertViewModel()
 		{
+		}
+
+		public AlertViewModel(AlertMessageInfo alertMessageInfo)
+		{
+			this.Body = alertMessageInfo.AlertMessage.Body;
+			this.CreatedBy = alertMessageInfo.AlertMessage.CreatedBy?.Key.Value ?? Guid.Empty;
+			this.Flags = alertMessageInfo.AlertMessage.Flags;
+			this.From = alertMessageInfo.AlertMessage.From;
+			this.Id = alertMessageInfo.Id;
+			this.Subject = alertMessageInfo.AlertMessage.Subject;
+			this.Time = alertMessageInfo.AlertMessage.CreationTime.DateTime;
+			this.To = alertMessageInfo.AlertMessage.To;
 		}
 
 		/// <summary>
@@ -73,5 +87,26 @@ namespace OpenIZAdmin.Models.AlertModels.ViewModels
 		/// Gets or sets the to section of the alert.
 		/// </summary>
 		public string To { get; set; }
+
+		public AlertMessageInfo ToAlertMessageInfo()
+		{
+			return new AlertMessageInfo
+			{
+				AlertMessage = new AlertMessage
+				{
+					Body = this.Body,
+					CreatedBy = new SecurityUser
+					{
+						Key = this.CreatedBy
+					},
+					Flags = this.Flags,
+					From = this.From,
+					Subject = this.Subject,
+					TimeStamp = this.Time,
+					To = this.To
+				},
+				Id = this.Id
+			};
+		}
 	}
 }

@@ -41,9 +41,9 @@ namespace OpenIZAdmin.DAL
 	public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenIZAdmin.DAL.ApplicationSignInManager"/> class
-		/// with a specified <see cref="OpenIZAdmin.DAL.ApplicationUserManager"/> instance and a
-		/// specified <see cref="Microsoft.Owin.Security.IAuthenticationManager"/> instance.
+		/// Initializes a new instance of the <see cref="ApplicationSignInManager"/> class
+		/// with a specified <see cref="ApplicationUserManager"/> instance and a
+		/// specified <see cref="IAuthenticationManager"/> instance.
 		/// </summary>
 		/// <param name="userManager">The user manager instance.</param>
 		/// <param name="authenticationManager">The authentication manager instance.</param>
@@ -88,24 +88,24 @@ namespace OpenIZAdmin.DAL
 		/// <returns>Returns a sign in status.</returns>
 		public override async Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
 		{
-			Realm currentRealm = RealmConfig.GetCurrentRealm();
+			var currentRealm = RealmConfig.GetCurrentRealm();
 
 			if (currentRealm == null)
 			{
 				throw new InvalidOperationException("Must be joined to realm before attempting to sign in");
 			}
 
-			using (HttpClient client = new HttpClient())
+			using (var client = new HttpClient())
 			{
 				client.DefaultRequestHeaders.Add("Authorization", "BASIC " + Convert.ToBase64String(Encoding.UTF8.GetBytes(currentRealm.ApplicationId + ":" + currentRealm.ApplicationSecret)));
 
-				StringContent content = new StringContent(string.Format("grant_type=password&username={0}&password={1}&scope={2}/imsi", userName, password, currentRealm.Address));
+				var content = new StringContent($"grant_type=password&username={userName}&password={password}&scope={currentRealm.Address}/imsi");
 
 				// HACK: have to remove the headers before adding them...
 				content.Headers.Remove("Content-Type");
 				content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
 
-				var result = await client.PostAsync(string.Format("{0}/auth/oauth2_token", currentRealm.Address), content);
+				var result = await client.PostAsync($"{currentRealm.Address}/auth/oauth2_token", content);
 
 				if (result.IsSuccessStatusCode)
 				{
@@ -130,25 +130,33 @@ namespace OpenIZAdmin.DAL
 
 			var response = JObject.Parse(responseAsString);
 
-			string accessToken = response.GetValue("access_token").ToString();
-			string expiresIn = response.GetValue("expires_in").ToString();
-			string tokenType = response.GetValue("token_type").ToString();
+			var accessToken = response.GetValue("access_token").ToString();
+			var expiresIn = response.GetValue("expires_in").ToString();
+			var tokenType = response.GetValue("token_type").ToString();
 #if DEBUG
 			Trace.TraceInformation("Access token: {0}", accessToken);
 			Trace.TraceInformation("Expires in: {0}", expiresIn);
 			Trace.TraceInformation("Token type {0}", tokenType);
 #endif
-			Dictionary<string, string> authenticationDictionary = new Dictionary<string, string>();
+			var authenticationDictionary = new Dictionary<string, string>
+			{
+				{ "username", username },
+				{ "access_token", accessToken },
+				{ "token_type", tokenType }
+			};
 
-			authenticationDictionary.Add("username", username);
-			authenticationDictionary.Add("access_token", accessToken);
-			authenticationDictionary.Add("token_type", tokenType);
+			var properties = new AuthenticationProperties(authenticationDictionary)
+			{
+				IsPersistent = false
+			};
 
-			AuthenticationProperties properties = new AuthenticationProperties(authenticationDictionary);
+			var securityToken = new JwtSecurityToken(accessToken);
 
-			properties.IsPersistent = false;
-
-			JwtSecurityToken securityToken = new JwtSecurityToken(accessToken);
+			// if the user is not a part of the administrators group, we don't allow them to login
+			if (securityToken.Claims.Where(c => c.Type == "role").Select(c => c.Value).All(c => c != Constants.Administrators))
+			{
+				return SignInStatus.Failure;
+			}
 
 			var user = await this.UserManager.FindByIdAsync(securityToken.Claims.First(c => c.Type == "sub").Value);
 
@@ -160,28 +168,20 @@ namespace OpenIZAdmin.DAL
 					UserName = securityToken.Claims.First(c => c.Type == "unique_name").Value
 				};
 
-				string email = securityToken.Claims.FirstOrDefault(c => c.Type == "email")?.Value;
+				var email = securityToken.Claims.FirstOrDefault(c => c.Type == "email")?.Value;
 
 				if (email != null)
 				{
 					if (email.StartsWith("mailto:"))
 					{
-						int mailto = email.LastIndexOf("mailto:");
 						email = email.Substring(7, email.Length - 7);
 					}
 
 					user.Email = email;
 				}
 
-				foreach (var claim in securityToken.Claims)
+				foreach (var identityUserClaim in securityToken.Claims.Select(claim => new IdentityUserClaim { ClaimType = claim.Type, ClaimValue = claim.Value, UserId = securityToken.Claims.First(c => c.Type == "sub").Value }))
 				{
-					IdentityUserClaim identityUserClaim = new IdentityUserClaim
-					{
-						ClaimType = claim.Type,
-						ClaimValue = claim.Value,
-						UserId = securityToken.Claims.First(c => c.Type == "sub").Value
-					};
-
 					user.Claims.Add(identityUserClaim);
 				}
 
@@ -191,13 +191,11 @@ namespace OpenIZAdmin.DAL
 				{
 					return SignInStatus.Failure;
 				}
-				else
-				{
-					var userIdentity = await this.CreateUserIdentityAsync(user);
 
-					this.AuthenticationManager.SignIn(properties, userIdentity);
-					this.AccessToken = accessToken;
-				}
+				var userIdentity = await this.CreateUserIdentityAsync(user);
+
+				this.AuthenticationManager.SignIn(properties, userIdentity);
+				this.AccessToken = accessToken;
 			}
 			else
 			{

@@ -31,6 +31,22 @@ namespace OpenIZAdmin
 	{
 		private const string RealmCacheKey = "JoinedToRealm";
 
+		/// <summary>
+		/// Gets the current realm of the application.
+		/// </summary>
+		/// <returns>Returns the current realm of the application.</returns>
+		public static Realm GetCurrentRealm()
+		{
+			Realm currentRealm = null;
+
+			using (IUnitOfWork unitOfWork = new EntityUnitOfWork(new ApplicationDbContext()))
+			{
+				currentRealm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).Single();
+			}
+
+			return currentRealm;
+		}
+
 		public static void Initialize()
 		{
 			if (IsJoinedToRealm())
@@ -58,22 +74,6 @@ namespace OpenIZAdmin
 			}
 
 			return isJoinedToRealm;
-		}
-
-		/// <summary>
-		/// Gets the current realm of the application.
-		/// </summary>
-		/// <returns>Returns the current realm of the application.</returns>
-		public static Realm GetCurrentRealm()
-		{
-			Realm currentRealm = null;
-
-			using (IUnitOfWork unitOfWork = new EntityUnitOfWork(new ApplicationDbContext()))
-			{
-				currentRealm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).Single();
-			}
-
-			return currentRealm;
 		}
 	}
 }

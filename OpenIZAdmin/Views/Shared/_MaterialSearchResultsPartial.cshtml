@@ -9,7 +9,7 @@
         </span>
         <div class="pull-right">
             <span class="text-primary h4">@Locale.New</span>
-            <a href="~/Material/Create" class="glyphicon glyphicon-plus-sign"></a>
+            <a href="@Url.Action("Create", "Material", null)" class="glyphicon glyphicon-plus-sign"></a>
         </div>
 </div>
     <div class="panel panel-body">
@@ -33,9 +33,7 @@
                     {
                         <tr>
                             <td><span class="glyphicon glyphicon-grain pull-left" aria-hidden="true"></span></td>
-                            <td>
-                                @item.CreationTime.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP)
-                            </td>
+                            <td>@item.CreationTime.ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
                             <td>@item.Name</td>
                             <td class="col-md-3 centerButton">
                                 <a class="btn btn-primary" href="/Material/ViewMaterial/@item.Key">

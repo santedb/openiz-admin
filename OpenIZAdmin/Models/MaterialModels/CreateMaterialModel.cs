@@ -42,7 +42,13 @@ namespace OpenIZAdmin.Models.MaterialModels
 			this.QuantityConcepts = new List<SelectListItem>();
 		}
 
-		public CreateMaterialModel(IEnumerable<Concept> formConcepts, IEnumerable<Concept> quantityConcepts)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CreateMaterialModel"/> class
+		/// with a specific set of form concepts and quantity concepts.
+		/// </summary>
+		/// <param name="formConcepts"></param>
+		/// <param name="quantityConcepts"></param>
+		public CreateMaterialModel(IEnumerable<Concept> formConcepts, IEnumerable<Concept> quantityConcepts) : this()
 		{
 			this.FormConcepts.AddRange(formConcepts.Select(c => new SelectListItem { Text = c.Mnemonic, Value = c.Key?.ToString() }));
 			this.QuantityConcepts.AddRange(quantityConcepts.Select(c => new SelectListItem { Text = c.Mnemonic, Value = c.Key?.ToString() }));
@@ -78,6 +84,10 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// </summary>
 		public List<SelectListItem> QuantityConcepts { get; set; }
 
+		/// <summary>
+		/// Converts a <see cref="CreateMaterialModel"/> instance to a <see cref="Material"/> instance.
+		/// </summary>
+		/// <returns>Returns a <see cref="Material"/> instance.</returns>
 		public Material ToMaterial()
 		{
 			return new Material

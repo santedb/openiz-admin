@@ -45,14 +45,7 @@ namespace OpenIZAdmin.Services.Entity
 		/// <summary>
 		/// The internal reference to the <see cref="ImsiServiceClient"/> instance.
 		/// </summary>
-		private readonly ImsiServiceClient serviceClient = new ImsiServiceClient(new RestClientService(Constants.IMSI));
-
-		/// <summary>
-		/// The internal reference to the <see cref="MemoryCache"/> instance. 
-		/// </summary>
-		private readonly MemoryCache Cache = MemoryCache.Default;
-
-		private const string CacheConceptKey = "Concept.{0}";
+		private readonly ImsiServiceClient serviceClient = new ImsiServiceClient(new RestClientService(Constants.Imsi));
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="WebEntitySourceProvider"/> class
@@ -127,27 +120,6 @@ namespace OpenIZAdmin.Services.Entity
 			{
 				if (key.HasValue && key.Value != Guid.Empty)
 				{
-					//if (typeof(TObject) == typeof(Concept))
-					//{
-					//	var concept = this.Cache.Get(string.Format(CacheConceptKey, key));
-
-					//	if (concept == null)
-					//	{
-					//		response = this.serviceClient.Get<TObject>(key.Value, null) as TObject;
-
-					//		var policy = new CacheItemPolicy
-					//		{
-					//			AbsoluteExpiration = DateTime.UtcNow + TimeSpan.FromHours(24)
-					//		};
-
-					//		Cache.Add(new CacheItem(string.Format(CacheConceptKey, key), response), policy);
-					//	}
-					//}
-					//else
-					//{
-					//	response = this.serviceClient.Get<TObject>(key.Value, null) as TObject;
-					//}
-
 					response = this.serviceClient.Get<TObject>(key.Value, null) as TObject;
 				}
 			}

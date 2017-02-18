@@ -21,6 +21,7 @@ using OpenIZ.Core.Model.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using OpenIZAdmin.Models.ConceptModels.ViewModels;
 
 namespace OpenIZAdmin.Models.ConceptSetModels.ViewModels
@@ -36,6 +37,17 @@ namespace OpenIZAdmin.Models.ConceptSetModels.ViewModels
 		public ConceptSetViewModel()
 		{
 			this.Concepts = new List<ConceptViewModel>();
+		}
+
+		public ConceptSetViewModel(ConceptSet conceptSet) : this()
+		{
+			this.Concepts = conceptSet.Concepts.Select(c => new ConceptViewModel(c)).ToList();
+			this.CreationTime = conceptSet.CreationTime.DateTime;
+			this.Key = conceptSet.Key.Value;
+			this.Mnemonic = conceptSet.Mnemonic;
+			this.Name = conceptSet.Name;
+			this.Oid = conceptSet.Oid;
+			this.Url = conceptSet.Url;
 		}
 
 		/// <summary>

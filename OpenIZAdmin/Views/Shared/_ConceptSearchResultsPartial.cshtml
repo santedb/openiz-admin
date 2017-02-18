@@ -5,8 +5,8 @@
 }
 
 <div class="panel panel-default">
-    <div class="panel-heading">        
-        <span class="panel-title">@Locale.SearchResults</span>        
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.SearchResults</span>
     </div>
     <div class="panel panel-body">
         @if (Model.Any())
@@ -18,7 +18,7 @@
                         <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
                         <th>@Html.DisplayNameFor(m => m.Names)</th>
                         <th>@Html.DisplayNameFor(m => m.Type)</th>
-                        <th></th>                       
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -26,41 +26,39 @@
                     {
                         if (item.Type == ConceptType.Concept)
                         {
-                        <tr>                           
-                            <td>
-                                @if (item.CreationTime != null)
-                                {
-                                    DateTime date = item.CreationTime.ToLocalTime();
-                                    @date.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
-                                }
-                            </td>
+                            <tr>
+                                <td>@item.CreationTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
 
-                            <td>@item.Mnemonic</td>
+                                <td>@item.Mnemonic</td>
 
-                            <td>
-                                @if (item.Names.Any())
-                                {
-                                    string.Join(", ", item.Names);
-                                }                                
-                            </td>
+                                <td>
+                                    @if (item.Names.Any())
+                                    {
+                                        string.Join(", ", item.Names);
+                                    }
+                                </td>
 
-                            <td>@Locale.Concept</td>
+                                <td>@Locale.Concept</td>
 
-                            <td class="col-md-3 centerButton">
-                                <a class="btn btn-primary text-white" href="/Concept/ViewConcept?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
-                                    @Locale.View
-                                    <span class="glyphicon glyphicon-eye-open"></span>
-                                </a>                          
-                                <a class="btn btn-warning text-white" href="/Concept/Edit?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
-                                    @Locale.Edit
-                                    <span class="glyphicon glyphicon-edit"></span>
-                                </a>                            
-                                <a class="btn btn-danger text-white" href="/Concept/Delete?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
-                                    @Locale.Delete
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                </a>
-                            </td>
-                        </tr>}
+                                <td class="col-md-3 centerButton">
+                                    <a class="btn btn-primary text-white" href="@Url.Action("ViewConcept", "Concept", new { id = item.Key })">
+                                        @Locale.View
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                    </a>
+                                    <a class="btn btn-warning text-white" href="@Url.Action("Edit", "Concept", new {id = item.Key})">
+                                        @Locale.Edit
+                                        <span class="glyphicon glyphicon-edit"></span>
+                                    </a>
+
+                                    @if (!item.IsReadOnly)
+                                    {
+                                        <a class="btn btn-danger text-white" href="@Url.Action("Delete", "Concept", new {id = item.Key})">
+                                            @Locale.Delete
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </a>
+                                    }
+                                </td>
+                            </tr>}
                         else
                         {
                             <tr>
@@ -69,28 +67,28 @@
                                 @if (!item.Names.Any())
                                 {
                                     <td></td>
-                                }
+}
                                 else
                                 {
                                     <td>@string.Join(", ", item.Names)</td>
-                                }
+}
                                 <td>@Locale.ConceptSet</td>
                                 <td class="col-md-3 centerButton">
-                                    <a class="btn btn-primary text-white" href="/ConceptSet/ViewConceptSet?key=@item.Key">
+                                    <a class="btn btn-primary text-white" href="@Url.Action("ViewConceptSet", "ConceptSet", new { id = item.Key })">
                                         @Locale.View
                                         <span class="glyphicon glyphicon-eye-open"></span>
-                                    </a>                               
-                                    <a class="btn btn-warning text-white" href="/ConceptSet/Edit?key=@item.Key">
+                                    </a>
+                                    <a class="btn btn-warning text-white" href="@Url.Action("Edit", "ConceptSet", new { id = item.Key })">
                                         @Locale.Edit
                                         <span class="glyphicon glyphicon-edit"></span>
-                                    </a>                               
-                                    <a class="btn btn-danger text-white" href="/ConceptSet/Delete?key=@item.Key&versionKey=@item.VersionKey.GetValueOrDefault()">
+                                    </a>
+                                    <a class="btn btn-danger text-white" href="@Url.Action("Delete", "ConceptSet", new { id = item.Key })">
                                         @Locale.Delete
                                         <span class="glyphicon glyphicon-remove"></span>
                                     </a>
                                 </td>
                             </tr>
-                        }
+}
                     }
 
                 </tbody>

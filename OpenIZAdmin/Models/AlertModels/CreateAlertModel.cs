@@ -21,6 +21,7 @@ using OpenIZAdmin.Localization;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using OpenIZ.Core.Alert.Alerting;
 
 namespace OpenIZAdmin.Models.AlertModels
 {
@@ -34,7 +35,25 @@ namespace OpenIZAdmin.Models.AlertModels
 		/// </summary>
 		public CreateAlertModel()
 		{
-			this.PriorityList = new List<SelectListItem>();
+			this.PriorityList = new List<SelectListItem>
+			{
+				new SelectListItem
+				{
+					Text = Locale.Alert,
+					Value = ((int)AlertMessageFlags.Alert).ToString()
+				},
+				new SelectListItem
+				{
+					Text = Locale.HighPriority,
+					Value = ((int)AlertMessageFlags.HighPriority).ToString()
+				},
+				new SelectListItem
+				{
+					Text = Locale.System,
+					Value = ((int)AlertMessageFlags.System).ToString()
+				}
+			};
+
 			this.ToList = new List<SelectListItem>();
 		}
 

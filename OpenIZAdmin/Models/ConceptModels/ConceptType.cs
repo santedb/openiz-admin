@@ -28,7 +28,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// Represents a concept.
 		/// </summary>
 		Concept = 0,
-		
+
 		/// <summary>
 		/// Represents a concept set.
 		/// </summary>

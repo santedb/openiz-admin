@@ -7,36 +7,18 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using OpenIZAdmin.Models.DebugModels;
 
 namespace OpenIZAdmin.Util
 {
     public static class HomeUtil
     {
-        /// <summary>
-		/// Converts a <see cref="SubmitBugReportViewModel"/> to a <see cref="SecurityPolicyInfo"/>.
-		/// </summary>
-		/// <param name="userInfo">The current user info.</param>
-		/// <returns>Returns a SubmitBugReportViewModel model.</returns>
-		public static SubmitBugReportViewModel ToSubmitBugReport(SecurityUserInfo userInfo)
-        {
-            var viewModel = new SubmitBugReportViewModel
-            {
-                Reporter = userInfo.UserName,
-                AttachBugInfo = true,
-                Key = (Guid)userInfo.UserId,
-                Success = false                
-            };
-            
-            return viewModel;
-        }
-
-
-        /// <summary>
-		/// Converts a <see cref="SubmitBugReportViewModel"/> to a <see cref="SecurityPolicyInfo"/>.
+		/// <summary>
+		/// Converts a <see cref="SubmitBugReportModel"/> to a <see cref="SecurityPolicyInfo"/>.
 		/// </summary>
 		/// <param name="model">The bug report model.</param>
 		/// <returns>Returns a DiagnosticReport object.</returns>
-		public static DiagnosticReport ToDiagnosticReport(ImsiServiceClient imsiClient, SubmitBugReportViewModel model)
+		public static DiagnosticReport ToDiagnosticReport(ImsiServiceClient imsiClient, SubmitBugReportModel model)
         {
             var report = new DiagnosticReport();
 

@@ -22,50 +22,43 @@ namespace OpenIZAdmin.Util
 	/// </summary>
 	public static class AccountUtil
 	{
-        /// <summary>
+		public static List<SelectListItem> GetPhoneTypeList(ImsiServiceClient imsiClient)
+		{
+			var phoneTypes = new List<SelectListItem>
+			{
+				new SelectListItem { Text = string.Empty, Value = string.Empty }
+			};
+
+			var bundle = imsiClient.Query<ConceptSet>(c => c.Mnemonic == "TelecomAddressUse");
+
+			var telecoms = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Mnemonic == "TelecomAddressUse");
+
+			if (telecoms != null)
+			{
+				phoneTypes.AddRange(from con
+									in telecoms.Concepts
+									let name = string.Join(" ", con.ConceptNames.Select(n => n.Name).Select(c => c.ToString()))
+									select new SelectListItem { Text = name, Value = con.Key.ToString() });
+			}
+
+			return phoneTypes;
+		}
+
+
+		/// <summary>
 		/// Converts a user entity to a edit user model.
 		/// </summary>
 		/// <param name="imsiClient">The Imsi Service Client client.</param>
-		/// <param name="amiClient">The Ami service client.</param>
 		/// <param name="userEntity">The user entity to convert to a edit user model.</param>
 		/// <returns>Returns a edit user model.</returns>
-		public static List<SelectListItem> GetPhoneTypeList(ImsiServiceClient imsiClient)
-        {
-            var phoneTypeList = new List<SelectListItem>();
-            phoneTypeList.Add(new SelectListItem { Text = "", Value = "" });
-
-            var bundle = imsiClient.Query<ConceptSet>(c => c.Mnemonic == "TelecomAddressUse");
-            var telecomList = bundle.Item.OfType<ConceptSet>().ToList().FirstOrDefault();
-            
-            foreach (Concept con in telecomList.Concepts)
-            {
-                string name = string.Join("", con.ConceptNames.Select(n => n.Name)?.Select(c => c.ToString()));
-                phoneTypeList.Add(new SelectListItem { Text = name, Value = con.Key.ToString() });
-            }
-
-            return phoneTypeList;
-        }
-
-
-        /// <summary>
-        /// Converts a user entity to a edit user model.
-        /// </summary>
-        /// <param name="imsiClient">The Imsi Service Client client.</param>
-        /// <param name="amiClient">The Ami service client.</param>
-        /// <param name="userEntity">The user entity to convert to a edit user model.</param>
-        /// <returns>Returns a edit user model.</returns>
-        public static UpdateProfileModel ToUpdateProfileModel(ImsiServiceClient imsiClient, AmiServiceClient amiClient, UserEntity userEntity)
+		public static UpdateProfileModel ToUpdateProfileModel(ImsiServiceClient imsiClient, UserEntity userEntity)
 		{
-			var securityUserInfo = amiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
-
 			var model = new UpdateProfileModel
 			{
 				Surname = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList(),
 				GivenNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList(),
-				PhoneNumber = userEntity.SecurityUser.PhoneNumber,
 				Email = userEntity.SecurityUser.Email
 			};
-
 
 			model.SurnamesList.AddRange(model.Surname.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 			model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
@@ -82,51 +75,59 @@ namespace OpenIZAdmin.Util
 					var place = imsiClient.Get<Place>(healthFacility.TargetEntityKey.Value, null) as Place;
 					string facilityName = string.Join(" ", place.Names.SelectMany(n => n.Component)?.Select(c => c.Value));
 
-					var facility = new List<FacilitiesModel>();
-					facility.Add(new FacilitiesModel(facilityName, facilityId));
+					var facility = new List<FacilitiesModel>
+					{
+						new FacilitiesModel(facilityName, facilityId)
+					};
 
 					model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Text = f.Name, Value = f.Id }));
 
-					model.Facilities.Add(facilityId.ToString());
+					model.Facilities.Add(facilityId);
 				}
 			}
 
-			//model.Language = userEntity.LanguageCommunication.Select(l => l.Key).FirstOrDefault().GetValueOrDefault(Guid.Empty);
-			//model.Language.Add(userEntity.LanguageCommunication.Select(l => l.LanguageCode).FirstOrDefault());
 			model.Language = userEntity.LanguageCommunication.Select(l => l.LanguageCode).FirstOrDefault();
+
 			model.LanguageList = new List<SelectListItem>
 			{
 				new SelectListItem
 				{
-					Text = "",
-					Value = ""
+					Text = string.Empty,
+					Value = string.Empty
 				},
 				new SelectListItem
 				{
+					Selected = model.Language == Locale.EN,
 					Text = Locale.English,
 					Value = Locale.EN
 				},
 				new SelectListItem
 				{
+					Selected = model.Language == Locale.SW,
 					Text = Locale.Kiswahili,
 					Value = Locale.SW
 				}
 			};
 
-            model.PhoneTypeList = GetPhoneTypeList(imsiClient);
+			model.PhoneTypeList = GetPhoneTypeList(imsiClient);
 
-            //default to mobile phone unless entry exists
-            if(!string.IsNullOrWhiteSpace(userEntity.SecurityUser.PhoneNumber))
-            {
-                //need to assign phone type when property is accessible
-                model.PhoneType = "";
-            }
-            else
-            {                
-                model.PhoneType = Constants.MOBILE_PHONE_TYPE_GUID;
-            }
+			if (userEntity.Telecoms.Any())
+			{
+				if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
+				{
+					model.PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;
+					model.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
+				}
+				else
+				{
+					model.PhoneNumber = userEntity.Telecoms.First().Value;
+					model.PhoneType = userEntity.Telecoms.First().AddressUseKey.Value.ToString();
+				}
 
-            return model;
+				model.PhoneTypeList = model.PhoneTypeList.Select(p => new SelectListItem { Selected = p.Value == model.PhoneType, Text = p.Text, Value = p.Value }).ToList();
+			}
+
+			return model;
 		}
 
 		/// <summary>

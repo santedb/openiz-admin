@@ -35,16 +35,50 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a list of languages.</returns>
 		public static IEnumerable<Language> GetLanguageList()
 		{
-			CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
+			var cultures = CultureInfo.GetCultures(CultureTypes.AllCultures);
 
-			HashSet<Language> languages = new HashSet<Language>();
+			var languages = new List<Language>();
 
-			foreach (var item in cultures.Where(c => c.TwoLetterISOLanguageName.Length == 2).Select(c => c).OrderBy(c => c.DisplayName).Select(c => new Language(c.TwoLetterISOLanguageName, c.DisplayName)).Distinct())
+			foreach (var item in cultures.Where(c => c.TwoLetterISOLanguageName.Length == 2)
+				.Select(c => c)
+				.Select(c => new Language(c.TwoLetterISOLanguageName, c.DisplayName))
+				.Distinct(new LanguageEqualityComparer())
+				.Where(item => !languages.Contains(item)))
 			{
 				languages.Add(item);
 			}
 
 			return languages.AsEnumerable();
+		}
+	}
+
+	/// <summary>
+	/// Represents a language equality comparer.
+	/// </summary>
+	internal class LanguageEqualityComparer : IEqualityComparer<Language>
+	{
+		/// <summary>
+		/// Determines whether the specified objects are equal.
+		/// </summary>
+		/// <returns>
+		/// true if the specified objects are equal; otherwise, false.
+		/// </returns>
+		/// <param name="x">The first object of type <paramref name="T"/> to compare.</param><param name="y">The second object of type <paramref name="T"/> to compare.</param>
+		public bool Equals(Language x, Language y)
+		{
+			return x == y;
+		}
+
+		/// <summary>
+		/// Returns a hash code for the specified object.
+		/// </summary>
+		/// <returns>
+		/// A hash code for the specified object.
+		/// </returns>
+		/// <param name="obj">The <see cref="T:System.Object"/> for which a hash code is to be returned.</param><exception cref="T:System.ArgumentNullException">The type of <paramref name="obj"/> is a reference type and <paramref name="obj"/> is null.</exception>
+		public int GetHashCode(Language obj)
+		{
+			return obj.GetHashCode();
 		}
 	}
 }

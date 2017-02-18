@@ -43,14 +43,7 @@
                             <td>@item.AdministrativeContactName</td>
                             <td>@item.AdministrativeContactEmail</td>
                             <td>@item.DistinguishedName</td>
-                            @*<td>@item.SubmissionTime.ToLocalTime()</td>*@
-                            <td>
-                                @if (item.SubmissionTime != null)
-                                {
-                                    DateTime date = item.SubmissionTime.ToLocalTime();
-                                    @date.ToString(Constants.DATETIME_FORMAT_STRING_WITH_TIMESTAMP);
-                                }
-                            </td>
+                            <td>@item.SubmissionTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
                             <td>
                                 <a class="btn btn-primary" href="/Applet/Applet?appletId=@item.DistinguishedName.ToString()">
                                     @Locale.View

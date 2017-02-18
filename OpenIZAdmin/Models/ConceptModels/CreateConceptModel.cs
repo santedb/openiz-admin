@@ -17,6 +17,8 @@
  * Date: 2016-8-1
  */
 
+using OpenIZ.Core.Model.DataTypes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
@@ -52,5 +54,26 @@ namespace OpenIZAdmin.Models.ConceptModels
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
+
+		public Concept ToConcept()
+		{
+			return new Concept
+			{
+				Class = new ConceptClass
+				{
+					Key = Guid.Parse(this.ConceptClass)
+				},
+				ConceptNames = new List<ConceptName>
+				{
+					new ConceptName
+					{
+						Language = this.Language,
+						Name = this.Name
+					}
+				},
+				Key = Guid.NewGuid(),
+				Mnemonic = this.Mnemonic,
+			};
+		}
 	}
 }

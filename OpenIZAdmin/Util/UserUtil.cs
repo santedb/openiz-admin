@@ -42,17 +42,6 @@ namespace OpenIZAdmin.Util
 	public static class UserUtil
 	{
 		/// <summary>
-		/// Gets a security user info.
-		/// </summary>
-		/// <param name="client">The AMI service client.</param>
-		/// <param name="userId">The id of the user to be retrieved.</param>
-		/// <returns>Returns a security user.</returns>
-		public static SecurityUserInfo GetSecurityUserInfo(AmiServiceClient client, Guid userId)
-		{
-			return client.GetUser(userId.ToString());
-		}
-
-		/// <summary>
 		/// Gets a user entity.
 		/// </summary>
 		/// <param name="client">The IMSI service client.</param>
@@ -89,8 +78,7 @@ namespace OpenIZAdmin.Util
         /// <returns>Returns a CreateUserModel view.</returns>
         public static UserEntity ToCreateUserEntity(ImsiServiceClient imsiClient, CreateUserModel model, UserEntity userEntity)
 		{            
-			if (model.Roles.Contains(Constants.CLINICAL_STAFF)) //|| model.Roles.Contains(Constants.VACCINATOR) ||
-                //model.Roles.Contains(Constants.MIDDLE_LEVEL_OFFICER) || model.Roles.Contains(Constants.NATIONAL_LEVEL_OFFICER) )
+			if (model.Roles.Contains(Constants.ClinicalStaff))
 			{
 				var provider = imsiClient.Create<Provider>(new Provider { Key = Guid.NewGuid() });
 

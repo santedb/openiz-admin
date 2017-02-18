@@ -1,4 +1,4 @@
-﻿@model OpenIZAdmin.Models.DebugModels.ViewModels.SubmitBugReportViewModel
+﻿@model OpenIZAdmin.Models.DebugModels.SubmitBugReportModel
 @{
     ViewBag.Title = Locale.SubmitBugReport;
 }
@@ -7,63 +7,61 @@
     <div class="panel-heading">
         <span class="panel-title">@Locale.SubmitBugReport</span>
     </div>
-    
-        @if (Model.Success)
-        {
-            <div class="panel panel-body panel-default">
-                <div class="form-group alert-success">
-                    <div class="col-md-12 text-center">
-                        Your issue has been successfully submitted to the central ticketing system                        
-                    </div>
-                    <div class="col-md-12 text-center">                        
-                        For your reference, your ticket ID# is: <strong>@Model.TransactionMessage</strong>
-                    </div>
+
+    @if (Model.Success)
+    {
+        <div class="panel panel-body panel-default">
+            <div class="form-group alert-success">
+                <div class="col-md-12 text-center">
+                    @Locale.BugSubmittedSuccessfully
+                </div>
+                <div class="col-md-12 text-center">
+                    @Locale.TicketReferenceId <strong>@Model.TransactionMessage</strong>
                 </div>
             </div>
-        }
-        else
-        {
+        </div>
+    }
+    else
+    {
 
-            <div class="panel panel-body panel-default">
+        <div class="panel panel-body panel-default">
 
-            @using (Html.BeginForm("SubmitBugReport", "Home", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            @using (Html.BeginForm("SubmitBugReport", "Home", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
-                    @Html.HiddenFor(m => m.Key)
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.Key)
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Reporter, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.Reporter, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Reporter, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Reporter, new { @class = "form-control", @readonly = "readonly" })
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.BugDetails, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-8">
-                            @Html.TextAreaFor(m => m.BugDetails, new { @class = "form-control", cols = "10", rows = "10" })
-                            @Html.ValidationMessageFor(m => m.BugDetails, "", new { @class = "text-danger" })
-                        </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.BugDetails, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextAreaFor(m => m.BugDetails, new { @class = "form-control", cols = "10", rows = "10" })
+                        @Html.ValidationMessageFor(m => m.BugDetails, "", new { @class = "text-danger" })
                     </div>
+                </div>
 
-                    @*<div class="form-group">
-                            <div class="col-md-2">
-                                @Html.CheckBoxFor(m => m.AttachBugInfo, new { @class = "col-md-offset-2" })
-                            </div>
-                            <div class="col-md-6">
-                                @Locale.AttachBugInfo
-                            </div>
-                        </div>*@
-
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="@Locale.Submit" class="btn btn-primary" />
-                        </div>
+                <div class="form-group">
+                    <div class="col-md-2">
+                        @Html.CheckBoxFor(m => m.AttachBugInfo, new { @class = "col-md-offset-2" })
                     </div>
+                    <div class="col-md-6">
+                        @Locale.AttachBugInfo
+                    </div>
+                </div>
 
-                }
-            </div>
-        }
-    </div>
-
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="@Locale.Submit" class="btn btn-primary" />
+                    </div>
+                </div>
+}
+        </div>
+    }
+</div>

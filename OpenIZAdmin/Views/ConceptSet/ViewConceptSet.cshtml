@@ -7,7 +7,7 @@
     <div class="panel-heading">
         <span class="panel-title">@(Locale.View + " " + Locale.ConceptSet) @Model.Name</span>
         <div class="pull-right">
-            <a href="~/ConceptSet/Edit/Edit?key=@Model.Key" title="@Locale.ToolTip_Edit">
+            <a href="@Url.Action("Edit", new { id = Model.Key })" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-edit"></span>
                 <span class="text-primary h4">@Locale.Edit</span>
             </a>
@@ -46,7 +46,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.CreationTime, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.CreationTime, Constants.DATETIME_FORMAT_VIEW_WITH_TIMESTAMP, new { @class = "form-control", @readonly = "readonly" })
+                    @Html.TextBoxFor(m => m.CreationTime, Constants.DateTimeFormatViewWithTimestamp, new { @class = "form-control", @readonly = "readonly" })
                 </div>                
             </div>
         </div>

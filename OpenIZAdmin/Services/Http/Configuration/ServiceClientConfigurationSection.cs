@@ -139,7 +139,7 @@ namespace OpenIZAdmin.Services.Http.Configuration
 								Timeout = 30000
 							}
 						},
-						Name = Constants.ACS
+						Name = Constants.Acs
 					},
 					new ServiceClientDescription
 					{
@@ -158,7 +158,7 @@ namespace OpenIZAdmin.Services.Http.Configuration
 								Timeout = 30000
 							}
 						},
-						Name = Constants.AMI
+						Name = Constants.Ami
 					},
 					new ServiceClientDescription
 					{
@@ -178,7 +178,7 @@ namespace OpenIZAdmin.Services.Http.Configuration
 								Timeout = 30000
 							}
 						},
-						Name = Constants.IMSI
+						Name = Constants.Imsi
 					}
 				}
 			};

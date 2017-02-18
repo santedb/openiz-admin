@@ -29,6 +29,7 @@ using OpenIZAdmin.Util;
 using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Web.Mvc;
 using System.Xml.Serialization;
 
@@ -75,7 +76,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Index()
 		{
-			var applets = AppletUtil.GetApplets(this.AmiClient);
+			var applets = this.AmiClient.GetApplets().CollectionItem.Select(a => new AppletViewModel(a)).ToList();
 
 			return View(applets);
 		}
@@ -172,7 +173,7 @@ namespace OpenIZAdmin.Controllers
 					id = id.RemoveTrailingForwardSlash();
 				}
 
-				var applet = AppletUtil.GetApplet(this.AmiClient, id);
+				var applet = this.AmiClient.GetApplet(id);
 
 				if (applet == null)
 				{
