@@ -17,10 +17,10 @@
  * Date: 2016-7-30
  */
 
+using OpenIZ.Core.Model.AMI.Auth;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.AMI.Auth;
 
 namespace OpenIZAdmin.Models.PolicyModels
 {

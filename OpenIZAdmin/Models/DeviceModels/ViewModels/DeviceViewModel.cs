@@ -17,13 +17,13 @@
  * Date: 2016-7-8
  */
 
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 {

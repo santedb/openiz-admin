@@ -75,14 +75,14 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 		public DateTime CreationTime { get; set; }
 
 		/// <summary>
-		/// Gets or sets whether the concept/concept set is readonly.
-		/// </summary>
-		public bool IsReadOnly { get; set; }
-
-		/// <summary>
 		/// Gets or sets the key of the concept or concept set.
 		/// </summary>
 		public Guid Id { get; set; }
+
+		/// <summary>
+		/// Gets or sets whether the concept/concept set is readonly.
+		/// </summary>
+		public bool IsReadOnly { get; set; }
 
 		/// <summary>
 		/// Gets or sets the mnemonic of the concept or concept set.

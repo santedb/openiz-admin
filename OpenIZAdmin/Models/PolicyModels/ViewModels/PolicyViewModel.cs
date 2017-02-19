@@ -17,11 +17,10 @@
  * Date: 2016-7-30
  */
 
-using System;
-using System.ComponentModel.DataAnnotations;
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Util;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.PolicyModels.ViewModels
 {
@@ -67,6 +66,8 @@ namespace OpenIZAdmin.Models.PolicyModels.ViewModels
 		[Display(Name = "Grant", ResourceType = typeof(Localization.Locale))]
 		public string Grant { get; set; }
 
+		public Guid Id { get; set; }
+
 		/// <summary>
 		/// Gets or sets the obsolete status of the policy.
 		/// </summary>
@@ -74,8 +75,6 @@ namespace OpenIZAdmin.Models.PolicyModels.ViewModels
 
 		[Display(Name = "IsPublic", ResourceType = typeof(Localization.Locale))]
 		public bool IsPublic { get; set; }
-
-		public Guid Id { get; set; }
 
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }

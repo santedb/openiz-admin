@@ -18,7 +18,6 @@
  */
 
 using Elmah;
-using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.RoleModels;
@@ -71,7 +70,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.Role + " " + Locale.Created + " " + Locale.Successfully;
 
-					return RedirectToAction("ViewRole", new {id = role.Id.ToString()});
+					return RedirectToAction("ViewRole", new { id = role.Id.ToString() });
 				}
 			}
 			catch (Exception e)

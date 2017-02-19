@@ -17,10 +17,10 @@
  * Date: 2016-7-17
  */
 
-using System.ComponentModel.DataAnnotations;
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Localization;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.RoleModels
 {

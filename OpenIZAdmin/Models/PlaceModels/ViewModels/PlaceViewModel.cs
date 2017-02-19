@@ -17,12 +17,12 @@
  * Date: 2016-7-23
  */
 
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using OpenIZ.Core.Model.Constants;
-using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Models.PlaceModels.ViewModels
 {
@@ -78,11 +78,6 @@ namespace OpenIZAdmin.Models.PlaceModels.ViewModels
 		public DateTime CreationTime { get; set; }
 
 		/// <summary>
-		/// Gets or sets a list of places related to the place.
-		/// </summary>
-		public List<RelatedPlaceModel> RelatedPlaces { get; set; }
-
-		/// <summary>
 		/// Gets or sets key of the place.
 		/// </summary>
 		public Guid Id { get; set; }
@@ -91,6 +86,11 @@ namespace OpenIZAdmin.Models.PlaceModels.ViewModels
 		/// Gets or sets the name of the place.
 		/// </summary>
 		public string Name { get; set; }
+
+		/// <summary>
+		/// Gets or sets a list of places related to the place.
+		/// </summary>
+		public List<RelatedPlaceModel> RelatedPlaces { get; set; }
 
 		/// <summary>
 		/// Gets or sets the type of the place.

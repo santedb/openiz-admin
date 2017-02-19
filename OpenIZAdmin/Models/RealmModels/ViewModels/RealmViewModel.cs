@@ -18,9 +18,9 @@
  */
 
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.Domain;
 using System;
 using System.ComponentModel.DataAnnotations;
-using OpenIZAdmin.Models.Domain;
 
 namespace OpenIZAdmin.Models.RealmModels.ViewModels
 {

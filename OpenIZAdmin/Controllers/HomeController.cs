@@ -19,19 +19,18 @@
 
 using Elmah;
 using Microsoft.AspNet.Identity;
-using OpenIZ.Core.Model.AMI.Diagnostics;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models;
+using OpenIZAdmin.Models.AppletModels.ViewModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
+using OpenIZAdmin.Models.DebugModels;
 using OpenIZAdmin.Models.DebugModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Models.AppletModels.ViewModels;
-using OpenIZAdmin.Models.DebugModels;
 
 namespace OpenIZAdmin.Controllers
 {

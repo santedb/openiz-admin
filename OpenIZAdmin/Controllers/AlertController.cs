@@ -17,6 +17,7 @@
  * Date: 2016-11-14
  */
 
+using Elmah;
 using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Alert.Alerting;
 using OpenIZAdmin.Attributes;
@@ -28,7 +29,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -78,7 +78,6 @@ namespace OpenIZAdmin.Controllers
 
 					return RedirectToAction("Index", "Home");
 				}
-
 			}
 			catch (Exception e)
 			{

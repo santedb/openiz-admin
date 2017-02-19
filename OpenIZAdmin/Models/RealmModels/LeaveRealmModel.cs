@@ -17,9 +17,9 @@
  * Date: 2016-7-13
  */
 
+using OpenIZAdmin.Models.Domain;
 using OpenIZAdmin.Models.RealmModels.ViewModels;
 using System.ComponentModel.DataAnnotations;
-using OpenIZAdmin.Models.Domain;
 
 namespace OpenIZAdmin.Models.RealmModels
 {

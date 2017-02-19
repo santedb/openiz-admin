@@ -71,7 +71,6 @@ namespace OpenIZAdmin.Models.AppletModels.ViewModels
 		/// </summary>
 		public int AssetCount => this.Assets?.Count ?? 0;
 
-
 		public List<AppletViewAssetModel> Assets { get; set; }
 
 		/// <summary>

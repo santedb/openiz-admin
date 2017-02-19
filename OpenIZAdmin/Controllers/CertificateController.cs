@@ -23,7 +23,6 @@ using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.CertificateModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
-using OpenIZAdmin.Util;
 using System;
 using System.Linq;
 using System.Web.Mvc;

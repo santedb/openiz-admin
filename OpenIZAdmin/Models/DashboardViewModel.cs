@@ -21,7 +21,6 @@ using OpenIZAdmin.Models.AppletModels.ViewModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
 using OpenIZAdmin.Models.DeviceModels.ViewModels;
 using OpenIZAdmin.Models.RoleModels.ViewModels;
-using OpenIZAdmin.Models.UserModels.ViewModels;
 using System.Collections.Generic;
 
 namespace OpenIZAdmin.Models

@@ -17,6 +17,7 @@
  * Date: 2016-8-14
  */
 
+using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
@@ -24,7 +25,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.AMI.Auth;
 
 namespace OpenIZAdmin.Models.DeviceModels
 {

@@ -25,14 +25,13 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.Domain;
 using OpenIZAdmin.Models.RealmModels;
-using OpenIZAdmin.Util;
+using OpenIZAdmin.Models.RealmModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using OpenIZAdmin.Models.RealmModels.ViewModels;
 
 namespace OpenIZAdmin.Controllers
 {

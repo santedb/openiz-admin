@@ -38,30 +38,30 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// </summary>
 		[DataType(DataType.Password)]
 		[Display(Name = "ConfirmPassword", ResourceType = typeof(Localization.Locale))]
-        [StringLength(255, ErrorMessageResourceName = "PasswordLength", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d]{8,}$", ErrorMessageResourceName = "PasswordStrength", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "ConfirmPasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(255, ErrorMessageResourceName = "PasswordLength", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d]{8,}$", ErrorMessageResourceName = "PasswordStrength", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "ConfirmPasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string ConfirmPassword { get; set; }
 
-        /// <summary>
+		/// <summary>
 		/// Gets or sets the current user password of the model.
 		/// </summary>
 		[DataType(DataType.Password)]
-        [Display(Name = "CurrentPassword", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "CurrentPasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]        
-        public string CurrentPassword { get; set; }
+		[Display(Name = "CurrentPassword", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "CurrentPasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		public string CurrentPassword { get; set; }
 
-        /// <summary>
-        /// Gets or sets the password of the model.
-        /// </summary>
-        [DataType(DataType.Password)]
+		/// <summary>
+		/// Gets or sets the password of the model.
+		/// </summary>
+		[DataType(DataType.Password)]
 		[Display(Name = "Password", ResourceType = typeof(Localization.Locale))]
-        [StringLength(255, ErrorMessageResourceName = "PasswordLength", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d]{8,}$", ErrorMessageResourceName = "PasswordStrength", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string Password { get; set; }        
+		[StringLength(255, ErrorMessageResourceName = "PasswordLength", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d]{8,}$", ErrorMessageResourceName = "PasswordStrength", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		public string Password { get; set; }
 
-        public string Username { get; set; }
-    }
+		public string Username { get; set; }
+	}
 }

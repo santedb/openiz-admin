@@ -17,11 +17,11 @@
  * Date: 2016-11-16
  */
 
+using OpenIZ.Core.Alert.Alerting;
 using OpenIZAdmin.Localization;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using OpenIZ.Core.Alert.Alerting;
 
 namespace OpenIZAdmin.Models.AlertModels
 {

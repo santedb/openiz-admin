@@ -17,14 +17,13 @@
  * Date: 2016-7-8
  */
 
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Models.ApplicationModels.ViewModels
 {
@@ -34,7 +33,7 @@ namespace OpenIZAdmin.Models.ApplicationModels.ViewModels
 	public class ApplicationViewModel
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ApplicationViewModel"/> class. 
+		/// Initializes a new instance of the <see cref="ApplicationViewModel"/> class.
 		/// </summary>
 		public ApplicationViewModel()
 		{
@@ -71,12 +70,12 @@ namespace OpenIZAdmin.Models.ApplicationModels.ViewModels
 		/// Gets or sets the creation time of the application.
 		/// </summary>
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-		public DateTime CreationTime { get; set; }        
+		public DateTime CreationTime { get; set; }
 
-        /// <summary>
-        /// Gets or sets whether the application has policies associated.
-        /// </summary>
-        [Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets whether the application has policies associated.
+		/// </summary>
+		[Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
 		public bool HasPolicies { get; set; }
 
 		/// <summary>

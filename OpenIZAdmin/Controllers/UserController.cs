@@ -17,12 +17,11 @@
  * Date: 2016-7-17
  */
 
-using OpenIZ.Core.Model.AMI.Auth;
+using Elmah;
 using OpenIZ.Core.Model.Constants;
-using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
-using OpenIZ.Core.Model.Roles;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.UserModels;
 using OpenIZAdmin.Models.UserModels.ViewModels;
@@ -31,9 +30,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Elmah;
-using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -311,7 +307,6 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.User + " " + Locale.NotFound;
 
 			return Redirect(Request.UrlReferrer?.ToString());
-
 		}
 
 		/// <summary>

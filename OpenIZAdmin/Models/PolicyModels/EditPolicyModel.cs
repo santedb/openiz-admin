@@ -17,13 +17,13 @@
  * Date: 2016-11-16
  */
 
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.PolicyModels
 {
@@ -57,11 +57,11 @@ namespace OpenIZAdmin.Models.PolicyModels
 
 		public List<SelectListItem> GrantsList { get; set; }
 
-		[Display(Name = "IsPublic", ResourceType = typeof(Localization.Locale))]
-		public bool IsPublic { get; set; }
-
 		[Required]
 		public Guid Id { get; set; }
+
+		[Display(Name = "IsPublic", ResourceType = typeof(Localization.Locale))]
+		public bool IsPublic { get; set; }
 
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
@@ -82,7 +82,6 @@ namespace OpenIZAdmin.Models.PolicyModels
 					Name = this.Name,
 					Oid = this.Oid
 				}
-
 			};
 		}
 	}

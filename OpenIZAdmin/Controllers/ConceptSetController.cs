@@ -23,12 +23,11 @@ using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ConceptModels.ViewModels;
 using OpenIZAdmin.Models.ConceptSetModels;
-using OpenIZAdmin.Util;
+using OpenIZAdmin.Models.ConceptSetModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Models.ConceptSetModels.ViewModels;
 
 namespace OpenIZAdmin.Controllers
 {

@@ -17,8 +17,6 @@
  * Date: 2016-7-8
  */
 
-using OpenIZAdmin.Util;
-
 namespace OpenIZAdmin.Models
 {
 	/// <summary>

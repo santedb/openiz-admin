@@ -17,6 +17,7 @@
  * Date: 2016-7-23
  */
 
+using Elmah;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
@@ -29,7 +30,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {

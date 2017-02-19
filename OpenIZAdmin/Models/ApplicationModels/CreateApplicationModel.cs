@@ -17,12 +17,12 @@
  * Date: 2016-11-14
  */
 
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Security;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Models.ApplicationModels
 {

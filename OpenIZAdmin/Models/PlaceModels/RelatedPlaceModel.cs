@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using OpenIZ.Core.Model.Entities;
+using System;
 using System.Linq;
-using System.Web;
-using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
@@ -16,7 +14,6 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// </summary>
 		public RelatedPlaceModel()
 		{
-			
 		}
 
 		public RelatedPlaceModel(Place place)

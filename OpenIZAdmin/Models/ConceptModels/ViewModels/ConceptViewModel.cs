@@ -17,11 +17,10 @@
  * Date: 2016-7-23
  */
 
+using OpenIZ.Core.Model.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using OpenIZ.Core.Model.DataTypes;
 
 namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 {
@@ -54,11 +53,11 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 			});
 		}
 
-        /// <summary>
-        /// Gets or sets the class of the concept.
-        /// </summary>
-        [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
-        public string Class { get; set; }
+		/// <summary>
+		/// Gets or sets the class of the concept.
+		/// </summary>
+		[Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
+		public string Class { get; set; }
 
 		/// <summary>
 		/// Gets or sets the creation time of the concept.

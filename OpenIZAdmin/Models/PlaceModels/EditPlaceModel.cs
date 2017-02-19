@@ -17,13 +17,13 @@
  * Date: 2016-8-14
  */
 
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using OpenIZ.Core.Model.Entities;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.Constants;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
@@ -62,11 +62,6 @@ namespace OpenIZAdmin.Models.PlaceModels
 		public string Name { get; set; }
 
 		/// <summary>
-		/// Gets or sets the related places select list.
-		/// </summary>
-		public List<SelectListItem> RelatedPlacesList { get; set; }
-
-		/// <summary>
 		/// Gets or sets the related places.
 		/// </summary>
 		public List<string> RelatedPlaceKeys { get; set; }
@@ -75,6 +70,11 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// Gets or sets the list of related place models.
 		/// </summary>
 		public List<RelatedPlaceModel> RelatedPlaces { get; set; }
+
+		/// <summary>
+		/// Gets or sets the related places select list.
+		/// </summary>
+		public List<SelectListItem> RelatedPlacesList { get; set; }
 
 		public Place ToPlace()
 		{

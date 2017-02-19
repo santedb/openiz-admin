@@ -1,51 +1,37 @@
 ﻿/*
  * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you 
- * may not use this file except in compliance with the License. You may 
- * obtain a copy of the License at 
- * 
- * http://www.apache.org/licenses/LICENSE-2.0 
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the 
- * License for the specific language governing permissions and limitations under 
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * User: khannan
  * Date: 2016-5-31
  */
+
+using Elmah;
 using System;
-using System.Collections.Generic;
-using System.Configuration;
 using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Net.Http;
 using System.Runtime.Caching;
-using System.Text;
-using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using Elmah;
-using Elmah.Io.Client;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Newtonsoft.Json.Linq;
-using OpenIZ.Messaging.AMI.Client;
-using OpenIZAdmin.DAL;
-using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin
 {
 	/// <summary>
 	/// Represents global configuration for the application.
 	/// </summary>
-    public class MvcApplication : System.Web.HttpApplication
+	public class MvcApplication : System.Web.HttpApplication
 	{
 		/// <summary>
 		/// The memory cache for the application.
@@ -53,15 +39,25 @@ namespace OpenIZAdmin
 		public static readonly MemoryCache MemoryCache = MemoryCache.Default;
 
 		/// <summary>
+		/// Called when the application encounters an unexpected error.
+		/// </summary>
+		/// <param name="sender">The sender of the error.</param>
+		/// <param name="e">The event arguments.</param>
+		protected void Application_Error(object sender, EventArgs e)
+		{
+			ErrorLog.GetDefault(HttpContext.Current).Log(new Error(Server.GetLastError(), HttpContext.Current));
+		}
+
+		/// <summary>
 		/// Called when the application starts.
 		/// </summary>
 		protected void Application_Start()
-        {
-            AreaRegistration.RegisterAllAreas();
+		{
+			AreaRegistration.RegisterAllAreas();
 
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
+			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+			RouteConfig.RegisterRoutes(RouteTable.Routes);
+			BundleConfig.RegisterBundles(BundleTable.Bundles);
 
 			// realm initialization
 			RealmConfig.Initialize();
@@ -89,7 +85,7 @@ namespace OpenIZAdmin
 			//});
 
 			Trace.TraceInformation("Application started");
-        }
+		}
 
 		//private string SignIn()
 		//{
@@ -122,15 +118,5 @@ namespace OpenIZAdmin
 		//		return accessToken;
 		//	}
 		//}
-
-		/// <summary>
-		/// Called when the application encounters an unexpected error.
-		/// </summary>
-		/// <param name="sender">The sender of the error.</param>
-		/// <param name="e">The event arguments.</param>
-		protected void Application_Error(object sender, EventArgs e)
-		{
-			ErrorLog.GetDefault(HttpContext.Current).Log(new Error(Server.GetLastError(), HttpContext.Current));
-		}
 	}
 }

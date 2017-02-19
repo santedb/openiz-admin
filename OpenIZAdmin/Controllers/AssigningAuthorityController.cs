@@ -228,7 +228,6 @@ namespace OpenIZAdmin.Controllers
 				}
 
 				return View(new AssigningAuthorityViewModel(assigningAuthority));
-
 			}
 			catch (Exception e)
 			{

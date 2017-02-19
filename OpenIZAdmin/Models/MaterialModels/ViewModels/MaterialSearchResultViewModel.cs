@@ -17,10 +17,10 @@
  * Date: 2016-7-23
  */
 
+using OpenIZ.Core.Model.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 {

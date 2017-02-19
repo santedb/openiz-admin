@@ -17,9 +17,9 @@
  * Date: 2016-7-9
  */
 
-using System.ComponentModel.DataAnnotations;
 using OpenIZ.Core.Model.AMI.Security;
 using OpenIZAdmin.Localization;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.CertificateModels
 {

@@ -81,10 +81,10 @@ namespace OpenIZAdmin.Models.DebugModels.ViewModels
 		/// </summary>
 		public string Title { get; set; }
 
-        /// <summary>
+		/// <summary>
 		/// Gets or sets the current user id.
 		/// </summary>
-        public string UserKey { get; set; }
+		public string UserKey { get; set; }
 
 		/// <summary>
 		/// Gets or sets the version information of the version information.

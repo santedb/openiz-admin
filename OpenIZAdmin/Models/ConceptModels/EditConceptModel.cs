@@ -17,13 +17,13 @@
  * Date: 2016-11-15
  */
 
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.DataTypes;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {

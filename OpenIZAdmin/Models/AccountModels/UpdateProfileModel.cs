@@ -17,8 +17,6 @@
  * Date: 2016-9-5
  */
 
-using OpenIZ.Core.Model.AMI.Auth;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
@@ -34,38 +32,38 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// Initializes a new instance of the <see cref="UpdateProfileModel"/> class.
 		/// </summary>
 		public UpdateProfileModel()
-		{            
-            this.Facilities = new List<string>();
-            this.FacilityList = new List<SelectListItem>();            
-            this.GivenNames = new List<string>();
-            this.GivenNamesList = new List<SelectListItem>();            
-            this.LanguageList = new List<SelectListItem>();
-            this.PhoneTypeList = new List<SelectListItem>();
-            this.Surname = new List<string>();
-            this.SurnamesList = new List<SelectListItem>();
-        }
+		{
+			this.Facilities = new List<string>();
+			this.FacilityList = new List<SelectListItem>();
+			this.GivenNames = new List<string>();
+			this.GivenNamesList = new List<SelectListItem>();
+			this.LanguageList = new List<SelectListItem>();
+			this.PhoneTypeList = new List<SelectListItem>();
+			this.Surname = new List<string>();
+			this.SurnamesList = new List<SelectListItem>();
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Gets or sets the email address of the user.
-		/// </summary>		
-        public string Email { get; set; }
+		/// </summary>
+		public string Email { get; set; }
 
-        /// <summary>
-        /// Gets or sets the id of the facility of the user.
-        /// </summary>
-        [Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
-		public string FacilityId { get; set; }
-        
-        /// <summary>
+		/// <summary>
 		/// Gets or sets the id of the facility of the user.
 		/// </summary>
 		[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
-        public List<string> Facilities { get; set; }
+		public List<string> Facilities { get; set; }
 
-        /// <summary>
-        /// Gets or sets the list of facilities.
-        /// </summary>
-        public List<SelectListItem> FacilityList { get; set; }        
+		/// <summary>
+		/// Gets or sets the id of the facility of the user.
+		/// </summary>
+		[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
+		public string FacilityId { get; set; }
+
+		/// <summary>
+		/// Gets or sets the list of facilities.
+		/// </summary>
+		public List<SelectListItem> FacilityList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the givens names of the user.
@@ -73,7 +71,7 @@ namespace OpenIZAdmin.Models.AccountModels
 		[Display(Name = "Names", ResourceType = typeof(Localization.Locale))]
 		public List<string> GivenNames { get; set; }
 
-        /// <summary>
+		/// <summary>
 		/// Gets or sets the list of given names of the user.
 		/// </summary>
 		public List<SelectListItem> GivenNamesList { get; set; }
@@ -84,12 +82,13 @@ namespace OpenIZAdmin.Models.AccountModels
 		[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Language { get; set; }
-        //public List<string> Language { get; set; }
 
-        /// <summary>
-        /// Gets or sets the list of languages.
-        /// </summary>
-        public List<SelectListItem> LanguageList { get; set; }
+		//public List<string> Language { get; set; }
+
+		/// <summary>
+		/// Gets or sets the list of languages.
+		/// </summary>
+		public List<SelectListItem> LanguageList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the phone number of the user.
@@ -108,16 +107,15 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// </summary>
 		public List<SelectListItem> PhoneTypeList { get; set; }
 
-        /// <summary>
-        /// Gets or sets the family names of the user.
-        /// </summary>
-        [Display(Name = "Surname", ResourceType = typeof(Localization.Locale))]
-        public List<string> Surname { get; set; }
+		/// <summary>
+		/// Gets or sets the family names of the user.
+		/// </summary>
+		[Display(Name = "Surname", ResourceType = typeof(Localization.Locale))]
+		public List<string> Surname { get; set; }
 
-        /// <summary>
+		/// <summary>
 		/// Gets or sets the list of family names of the user.
 		/// </summary>
-        public List<SelectListItem> SurnamesList { get; set; }
-
-    }
+		public List<SelectListItem> SurnamesList { get; set; }
+	}
 }

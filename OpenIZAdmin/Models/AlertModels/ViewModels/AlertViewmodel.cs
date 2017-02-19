@@ -18,9 +18,9 @@
  */
 
 using OpenIZ.Core.Alert.Alerting;
-using System;
 using OpenIZ.Core.Model.AMI.Alerting;
 using OpenIZ.Core.Model.Security;
+using System;
 
 namespace OpenIZAdmin.Models.AlertModels.ViewModels
 {

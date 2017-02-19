@@ -18,10 +18,10 @@
  */
 
 using Elmah;
-using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Query;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ConceptModels;
 using OpenIZAdmin.Models.ConceptModels.ViewModels;
@@ -30,7 +30,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -66,7 +65,7 @@ namespace OpenIZAdmin.Controllers
 
 			model.ConceptClassList.AddRange(conceptClasses.ToSelectList().OrderBy(c => c.Text));
 
-			model.LanguageList = languages.Select(l => new SelectListItem {Text = l.DisplayName, Value = l.TwoLetterCountryCode, Selected = l.TwoLetterCountryCode == Locale.EN}).OrderBy(l => l.Text).ToList();
+			model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode, Selected = l.TwoLetterCountryCode == Locale.EN }).OrderBy(l => l.Text).ToList();
 
 			return View(model);
 		}

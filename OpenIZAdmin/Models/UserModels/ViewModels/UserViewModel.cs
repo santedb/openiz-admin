@@ -17,12 +17,12 @@
  * Date: 2016-7-8
  */
 
+using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Models.RoleModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using OpenIZ.Core.Model.AMI.Auth;
 
 namespace OpenIZAdmin.Models.UserModels.ViewModels
 {
@@ -52,7 +52,7 @@ namespace OpenIZAdmin.Models.UserModels.ViewModels
 		}
 
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-        public DateTimeOffset CreationTime { get; set; }
+		public DateTimeOffset CreationTime { get; set; }
 
 		/// <summary>
 		/// Gets or sets the email address of the user.
@@ -83,13 +83,13 @@ namespace OpenIZAdmin.Models.UserModels.ViewModels
 		/// Gets or sets the last login time of the user.
 		/// </summary>
 		[Display(Name = "LastLoginTime", ResourceType = typeof(Localization.Locale))]
-        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-        public DateTime? LastLoginTime { get; set; }
+		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
+		public DateTime? LastLoginTime { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of the user.
-        /// </summary>
-        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the name of the user.
+		/// </summary>
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
 		/// <summary>

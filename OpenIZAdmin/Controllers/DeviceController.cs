@@ -18,7 +18,6 @@
  */
 
 using Elmah;
-using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.DeviceModels;
