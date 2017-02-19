@@ -34,14 +34,18 @@ namespace OpenIZAdmin.Models.RoleModels.ViewModels
 			this.Policies = new List<PolicyViewModel>();
 		}
 
-		public RoleViewModel(SecurityRoleInfo securityRoleInfo)
+		public RoleViewModel(SecurityRoleInfo securityRoleInfo) : this()
 		{
 			this.Description = securityRoleInfo.Role.Description;
 			this.HasPolicies = securityRoleInfo.Policies.Any();
 			this.Id = securityRoleInfo.Id.Value;
 			this.IsObsolete = securityRoleInfo.Role.ObsoletionTime != null;
 			this.Name = securityRoleInfo.Name;
-			this.Policies = securityRoleInfo.Policies.Select(p => new PolicyViewModel(new SecurityPolicyInstance(p.Policy, p.Grant))).OrderBy(q => q.Name).ToList();
+
+			if (this.HasPolicies)
+			{
+				this.Policies = securityRoleInfo.Policies.Select(p => new PolicyViewModel(new SecurityPolicyInstance(p.Policy, p.Grant))).OrderBy(q => q.Name).ToList();
+			}
 		}
 
 		[Display(Name = "Description", ResourceType = typeof(Localization.Locale))]

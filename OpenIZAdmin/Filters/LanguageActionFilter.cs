@@ -32,6 +32,14 @@ namespace OpenIZAdmin.Filters
 	public class LanguageActionFilter : IActionFilter
 	{
 		/// <summary>
+		/// Initializes a new instance of the <see cref="LanguageActionFilter"/> class.
+		/// </summary>
+		public LanguageActionFilter()
+		{
+			
+		}
+
+		/// <summary>
 		/// Called when the action is executed.
 		/// </summary>
 		/// <param name="filterContext">The filter context for the request.</param>

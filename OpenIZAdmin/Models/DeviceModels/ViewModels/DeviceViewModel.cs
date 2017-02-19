@@ -49,10 +49,14 @@ namespace OpenIZAdmin.Models.DeviceModels.ViewModels
 			this.Id = securityDeviceInfo.Device.Key.Value;
 			this.Name = securityDeviceInfo.Name;
 			this.DeviceSecret = securityDeviceInfo.DeviceSecret;
-			this.Policies = securityDeviceInfo.Policies.Select(p => new PolicyViewModel(p.Policy)).ToList();
 			this.UpdatedTime = securityDeviceInfo.Device.UpdatedTime?.DateTime;
 			this.IsObsolete = securityDeviceInfo.Device.ObsoletionTime != null;
 			this.HasPolicies = securityDeviceInfo.Policies.Any();
+
+			if (this.HasPolicies)
+			{
+				this.Policies = securityDeviceInfo.Policies.Select(p => new PolicyViewModel(new SecurityPolicyInstance(p.Policy, p.GrantType))).OrderBy(q => q.Name).ToList();
+			}
 		}
 
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]

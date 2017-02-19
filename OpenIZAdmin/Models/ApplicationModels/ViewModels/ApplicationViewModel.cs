@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Models.ApplicationModels.ViewModels
@@ -50,7 +51,7 @@ namespace OpenIZAdmin.Models.ApplicationModels.ViewModels
 
 			if (this.HasPolicies)
 			{
-				this.Policies = securityApplicationInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList();
+				this.Policies = securityApplicationInfo.Policies.Select(p => new PolicyViewModel(new SecurityPolicyInstance(p.Policy, p.GrantType))).OrderBy(q => q.Name).ToList();
 			}
 		}
 
