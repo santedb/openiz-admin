@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.AMI.Auth;
 
 namespace OpenIZAdmin.Models.ApplicationModels
 {
@@ -15,6 +17,16 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		{
 			this.Policies = new List<string>();
 			this.PoliciesList = new List<SelectListItem>();
+		}
+
+		public EditApplicationModel(SecurityApplicationInfo securityApplicationInfo) : this()
+		{
+			this.ApplicationName = securityApplicationInfo.Application.Name;
+			this.ApplicationPolicies = securityApplicationInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(p => p.Name).ToList();
+			this.CreationTime = securityApplicationInfo.Application.CreationTime.DateTime;
+			this.HasPolicies = this.ApplicationPolicies.Any();
+			this.Id = securityApplicationInfo.Id.Value;
+			this.Policies = this.ApplicationPolicies.Select(p => p.Key.ToString()).ToList();
 		}
 
 		//policies added by the user

@@ -88,7 +88,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.Concept + " " + Locale.Created + " " + Locale.Successfully;
 
-					return RedirectToAction("ViewConcept", new { key = concept.Key });
+					return RedirectToAction("ViewConcept", new { id = concept.Key });
 				}
 			}
 			catch (Exception e)
@@ -251,7 +251,7 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.Concept + " " + Locale.Updated + " " + Locale.Successfully;
 
-				return RedirectToAction("Edit", new { key = result.Key, versionKey = result.VersionKey });
+				return RedirectToAction("Edit", new { id = result.Key });
 			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Concept;

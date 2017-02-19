@@ -18,33 +18,6 @@ namespace OpenIZAdmin.Util
 	public static class ApplicationUtil
 	{
 		/// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo"/> to a <see cref="OpenIZAdmin.Models.ApplicationModels.EditApplicationModel"/>
-		/// </summary>
-		/// <param name="client">The Ami Service Client.</param>
-		/// /// <param name="appInfo">The SecurityApplicationInfo object to convert to a EditApplicationModel.</param>
-		/// <returns>Returns a edit application object.</returns>
-		public static EditApplicationModel ToEditApplicationModel(AmiServiceClient client, SecurityApplicationInfo appInfo)
-		{
-			var viewModel = new EditApplicationModel
-			{
-				Id = appInfo.Id.Value,
-				ApplicationName = appInfo.Name,
-				CreationTime = appInfo.Application.CreationTime.DateTime,
-				ApplicationPolicies = appInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList()
-			};
-
-			if (viewModel.ApplicationPolicies.Any())
-			{
-				viewModel.Policies = viewModel.ApplicationPolicies.Select(p => p.Key.ToString()).ToList();
-			}
-
-			viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
-			viewModel.PoliciesList.AddRange(CommonUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }));
-
-			return viewModel;
-		}
-
-		/// <summary>
 		/// Converts a <see cref="OpenIZAdmin.Models.ApplicationModels.EditApplicationModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo"/>
 		/// </summary>
 		/// <param name="model">The edit device model to convert.</param>

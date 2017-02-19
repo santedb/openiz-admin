@@ -39,7 +39,7 @@ namespace OpenIZAdmin.Services.Http.Security
 		/// with a specified <see cref="IPrincipal"/> instance.
 		/// </summary>
 		/// <param name="principal"></param>
-		public AmiCredentials(IPrincipal principal) : this(principal, null)
+		public AmiCredentials(IPrincipal principal) : this(principal, request: null)
 		{
 		}
 
@@ -57,6 +57,24 @@ namespace OpenIZAdmin.Services.Http.Security
 		}
 
 		/// <summary>
+		/// Initializes a new instance of the <see cref="AmiCredentials"/> class
+		/// with a specific <see cref="IPrincipal"/> instance and
+		/// a <see cref="string"/> access token.
+		/// </summary>
+		/// <param name="principal">The <see cref="IPrincipal"/> instance.</param>
+		/// <param name="accessToken">The access token.</param>
+		public AmiCredentials(IPrincipal principal, string accessToken) : base(principal)
+		{
+			this.httpHeaders = new Dictionary<string, string>();
+			this.AccessToken = accessToken;
+		}
+
+		/// <summary>
+		/// Gets or sets the access token.
+		/// </summary>
+		public string AccessToken { get; }
+
+		/// <summary>
 		/// Gets the HTTP request message.
 		/// </summary>
 		public HttpRequestBase Request { get; }
@@ -72,7 +90,14 @@ namespace OpenIZAdmin.Services.Http.Security
 				this.httpHeaders.Remove("Authorization");
 			}
 
-			this.httpHeaders.Add("Authorization", $"Bearer {this.Request.Cookies.Get("access_token")?.Value}");
+			if (this.Request == null)
+			{
+				this.httpHeaders.Add("Authorization", $"Bearer {this.AccessToken}");
+			}
+			else
+			{
+				this.httpHeaders.Add("Authorization", $"Bearer {this.Request.Cookies.Get("access_token")?.Value}");
+			}
 
 			return this.httpHeaders;
 		}

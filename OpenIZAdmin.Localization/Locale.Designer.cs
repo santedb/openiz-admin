@@ -241,6 +241,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warning, application is not active.
+        /// </summary>
+        public static string ApplicationNotActive {
+            get {
+                return ResourceManager.GetString("ApplicationNotActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Applications.
         /// </summary>
         public static string Applications {
@@ -723,6 +732,15 @@ namespace OpenIZAdmin.Localization {
         public static string Device {
             get {
                 return ResourceManager.GetString("Device", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning, device is not active.
+        /// </summary>
+        public static string DeviceNotActive {
+            get {
+                return ResourceManager.GetString("DeviceNotActive", resourceCulture);
             }
         }
         
@@ -1236,15 +1254,6 @@ namespace OpenIZAdmin.Localization {
         public static string Latitude {
             get {
                 return ResourceManager.GetString("Latitude", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Leave Realm.
-        /// </summary>
-        public static string Leave_Realm {
-            get {
-                return ResourceManager.GetString("Leave Realm", resourceCulture);
             }
         }
         
@@ -2851,7 +2860,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to updated .
+        ///   Looks up a localized string similar to Updated .
         /// </summary>
         public static string Updated {
             get {

@@ -712,7 +712,7 @@
     <value>Unable to upload applet</value>
   </data>
   <data name="Updated" xml:space="preserve">
-    <value>updated </value>
+    <value>Updated </value>
   </data>
   <data name="Priority" xml:space="preserve">
     <value>Priority</value>
@@ -1100,5 +1100,11 @@
   </data>
   <data name="TicketReferenceId" xml:space="preserve">
     <value>For your reference, your ticket ID# is:</value>
+  </data>
+  <data name="DeviceNotActive" xml:space="preserve">
+    <value>Warning, device is not active</value>
+  </data>
+  <data name="ApplicationNotActive" xml:space="preserve">
+    <value>Warning, application is not active</value>
   </data>
 </root>

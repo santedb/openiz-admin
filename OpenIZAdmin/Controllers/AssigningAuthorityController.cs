@@ -68,7 +68,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.AssigningAuthority + " " + Locale.Created + " " + Locale.Successfully;
 
-					return RedirectToAction("ViewAssigningAuthority", new { key = assigningAuthority.Id });
+					return RedirectToAction("ViewAssigningAuthority", new { id = assigningAuthority.Id });
 				}
 			}
 			catch (Exception e)
@@ -160,7 +160,7 @@ namespace OpenIZAdmin.Controllers
 					this.AmiClient.UpdateAssigningAuthority(model.Key.ToString(), model.ToAssigningAuthorityInfo());
 
 					TempData["success"] = Locale.AssigningAuthority + " " + Locale.Edited + " " + Locale.Successfully;
-					return RedirectToAction("ViewAssigningAuthority", new { key = model.Key });
+					return RedirectToAction("ViewAssigningAuthority", new { id = model.Key });
 				}
 			}
 			catch (Exception e)

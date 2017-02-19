@@ -51,7 +51,7 @@ namespace OpenIZAdmin
 		{
 			if (IsJoinedToRealm())
 			{
-				MemoryCache.Default.Set(RealmCacheKey, true, ObjectCache.InfiniteAbsoluteExpiration);
+				MvcApplication.MemoryCache.Set(RealmCacheKey, true, ObjectCache.InfiniteAbsoluteExpiration);
 			}
 		}
 
@@ -61,7 +61,7 @@ namespace OpenIZAdmin
 		/// <returns>Returns true if the application is joined to a realm.</returns>
 		public static bool IsJoinedToRealm()
 		{
-			bool isJoinedToRealm = MemoryCache.Default.Get(RealmCacheKey) != null;
+			bool isJoinedToRealm = MvcApplication.MemoryCache.Get(RealmCacheKey) != null;
 
 			if (isJoinedToRealm)
 			{

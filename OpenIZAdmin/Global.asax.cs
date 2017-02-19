@@ -18,9 +18,13 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
+using System.Net.Http;
+using System.Runtime.Caching;
+using System.Text;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
@@ -29,6 +33,12 @@ using System.Web.Routing;
 using Elmah;
 using Elmah.Io.Client;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Newtonsoft.Json.Linq;
+using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.DAL;
+using OpenIZAdmin.Services.Http;
+using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin
 {
@@ -36,7 +46,12 @@ namespace OpenIZAdmin
 	/// Represents global configuration for the application.
 	/// </summary>
     public class MvcApplication : System.Web.HttpApplication
-    {
+	{
+		/// <summary>
+		/// The memory cache for the application.
+		/// </summary>
+		public static readonly MemoryCache MemoryCache = MemoryCache.Default;
+
 		/// <summary>
 		/// Called when the application starts.
 		/// </summary>
@@ -51,8 +66,62 @@ namespace OpenIZAdmin
 			// realm initialization
 			RealmConfig.Initialize();
 
+			//ThreadPool.QueueUserWorkItem(state =>
+			//{
+			//	var accessToken = this.SignIn();
+
+			//	if (accessToken != null)
+			//	{
+			//		var restClientService = new RestClientService(Constants.Ami)
+			//		{
+			//			Credentials = new AmiCredentials(null, accessToken)
+			//		};
+
+			//		var client = new AmiServiceClient(restClientService);
+
+			//		var policies = client.GetPolicies(p => p.ObsoletionTime == null);
+
+			//		foreach (var securityPolicyInfo in policies.CollectionItem)
+			//		{
+			//			MvcApplication.MemoryCache.Set(securityPolicyInfo.Policy.Key.Value.ToString(), securityPolicyInfo.Policy, ObjectCache.InfiniteAbsoluteExpiration);
+			//		}
+			//	}
+			//});
+
 			Trace.TraceInformation("Application started");
         }
+
+		//private string SignIn()
+		//{
+		//	string accessToken = null;
+
+		//	using (var client = new HttpClient())
+		//	{
+		//		var currentRealm = RealmConfig.GetCurrentRealm();
+
+		//		if (RealmConfig.IsJoinedToRealm())
+		//		{
+		//			client.DefaultRequestHeaders.Add("Authorization", "BASIC " + Convert.ToBase64String(Encoding.UTF8.GetBytes(currentRealm.ApplicationId + ":" + currentRealm.ApplicationSecret)));
+
+		//			var content = new StringContent($"grant_type=password&username={currentRealm.ApplicationId}&password={currentRealm.ApplicationSecret}&scope={currentRealm.Address}/imsi");
+
+		//			// HACK: have to remove the headers before adding them...
+		//			content.Headers.Remove("Content-Type");
+		//			content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+
+		//			var result = client.PostAsync($"{currentRealm.Address}/auth/oauth2_token", content).Result;
+
+		//			if (result.IsSuccessStatusCode)
+		//			{
+		//				var response = JObject.Parse(result.Content.ReadAsStringAsync().Result);
+
+		//				accessToken = response.GetValue("access_token").ToString();
+		//			}
+		//		}
+
+		//		return accessToken;
+		//	}
+		//}
 
 		/// <summary>
 		/// Called when the application encounters an unexpected error.

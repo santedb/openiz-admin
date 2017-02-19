@@ -47,7 +47,7 @@
                                     </a>
                                     <a class="btn btn-warning text-white" href="@Url.Action("Edit", "Concept", new {id = item.Key})">
                                         @Locale.Edit
-                                        <span class="glyphicon glyphicon-edit"></span>
+                                        <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
 
                                     @if (!item.IsReadOnly)
@@ -56,7 +56,7 @@
                                             @Locale.Delete
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </a>
-                                    }
+}
                                 </td>
                             </tr>}
                         else
@@ -80,7 +80,7 @@
                                     </a>
                                     <a class="btn btn-warning text-white" href="@Url.Action("Edit", "ConceptSet", new { id = item.Key })">
                                         @Locale.Edit
-                                        <span class="glyphicon glyphicon-edit"></span>
+                                        <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
                                     <a class="btn btn-danger text-white" href="@Url.Action("Delete", "ConceptSet", new { id = item.Key })">
                                         @Locale.Delete

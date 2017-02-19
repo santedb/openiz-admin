@@ -1,0 +1,100 @@
+﻿@using OpenIZ.Core.Alert.Alerting
+@model IEnumerable<OpenIZAdmin.Models.AlertModels.ViewModels.AlertViewModel>
+@{
+    ViewBag.Title = Locale.Alerts;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">
+            @Locale.Alerts
+        </span>
+        <div class="pull-right">
+            <span class="text-primary h4">@Locale.New</span>
+            <a href="@Url.Action("Create", "Alert", null)" class="glyphicon glyphicon-plus-sign"></a>
+        </div>
+    </div>
+    <div class="panel panel-body">
+        @if (Model.Any())
+        {
+            <table class="table" id="alertsTable">
+                <thead>
+                <tr>
+                    <th>
+                        @Locale.To
+                    </th>
+                    <th>
+                        @Locale.From
+                    </th>
+                    <th>
+                        @Locale.Subject
+                    </th>
+                    <th>
+                        @Locale.Time
+                    </th>
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody id="alert-results">
+                @foreach (var item in Model)
+                {
+                    var style = "";
+                    if (item.Flags == AlertMessageFlags.Alert)
+                    {
+                        style = "bg-danger";
+                    }
+                    if (item.Flags == AlertMessageFlags.HighPriority)
+                    {
+                        style = "bg-warning";
+                    }
+                    else if (item.Flags == AlertMessageFlags.System)
+                    {
+                        style = "bg-success";
+                    }
+                    <tr class="@style">
+                        <td>
+                            @item.To
+                        </td>
+                        <td>
+                            @item.From
+                        </td>
+                        <td>
+                            @item.Subject
+                        </td>
+                        <td>
+                            @item.Time
+                        </td>
+                        <td>
+                            <a class="btn btn-primary" href="@Url.Action("ViewAlert", "Alert", new {id = item.Id})">
+                                @Locale.View
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </a>
+                            @using (Html.BeginForm("Read", "Alert", new {id = item.Id}, FormMethod.Post, new {@class = "inlineForm form-horizontal", role = "form"}))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span>@Locale.Acknowledge</button>}
+
+                            @using (Html.BeginForm("Delete", "Alert", new {id = item.Id}, FormMethod.Post, new {@class = "inlineForm form-horizontal", role = "form"}))
+                            {
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>@Locale.Delete</button>}
+                        </td>
+                    </tr>}
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>@Locale.NoApplicationsFound</p>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            $("#alertsTable").DataTable();
+        });
+</script>
+}

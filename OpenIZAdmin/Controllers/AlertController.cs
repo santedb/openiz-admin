@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Elmah;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -65,15 +66,23 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateAlertModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				var alertMessageInfo = AlertUtil.ToAlertMessageInfo(this.AmiClient, model, User);
+				if (ModelState.IsValid)
+				{
+					var alertMessageInfo = AlertUtil.ToAlertMessageInfo(this.AmiClient, model, User);
 
-				this.AmiClient.CreateAlert(alertMessageInfo);
+					this.AmiClient.CreateAlert(alertMessageInfo);
 
-				TempData["success"] = Locale.Alert + " " + Locale.Created + " " + Locale.Successfully;
+					TempData["success"] = Locale.Alert + " " + Locale.Created + " " + Locale.Successfully;
 
-				return RedirectToAction("Index", "Home");
+					return RedirectToAction("Index", "Home");
+				}
+
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.Alert;
@@ -90,23 +99,34 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(Guid id)
 		{
-			var alert = this.AmiClient.GetAlerts(a => a.Key == id).CollectionItem.FirstOrDefault();
-
-			if (alert == null)
+			try
 			{
-				TempData["error"] = Locale.Alert + " " + Locale.NotFound;
-				return View("_NotFound", model: "Not Found");
+				var alert = this.AmiClient.GetAlerts(a => a.Key == id).CollectionItem.FirstOrDefault();
+
+				if (alert == null)
+				{
+					TempData["error"] = Locale.Alert + " " + Locale.NotFound;
+					return View("_NotFound", model: "Not Found");
+				}
+
+				alert.AlertMessage.ObsoletionTime = DateTimeOffset.Now;
+				alert.AlertMessage.ObsoletedBy = new OpenIZ.Core.Model.Security.SecurityUser
+				{
+					Key = Guid.Parse(User.Identity.GetUserId())
+				};
+
+				this.AmiClient.UpdateAlert(alert.Id.ToString(), alert);
+
+				TempData["success"] = Locale.Alert + " " + Locale.Updated + " " + Locale.Successfully;
+
+				return RedirectToAction("Index", "Home");
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			alert.AlertMessage.ObsoletionTime = DateTimeOffset.Now;
-			alert.AlertMessage.ObsoletedBy = new OpenIZ.Core.Model.Security.SecurityUser
-			{
-				Key = Guid.Parse(User.Identity.GetUserId())
-			};
-
-			this.AmiClient.UpdateAlert(alert.Id.ToString(), alert);
-
-			TempData["success"] = Locale.Alert + " " + Locale.Updated + " " + Locale.Successfully;
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Alert;
 
 			return RedirectToAction("Index", "Home");
 		}
@@ -114,19 +134,30 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Gets a list of alerts.
 		/// </summary>
-		/// <returns>Returns a list of alerts.</returns>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpGet]
-		public ActionResult GetAlerts()
+		public ActionResult Index()
 		{
 			var models = new List<AlertViewModel>();
 
-			var username = User.Identity.GetUserName();
+			try
+			{
+				var username = User.Identity.GetUserName();
 
-			var alerts = this.AmiClient.GetAlerts(a => a.To == username && a.Flags != AlertMessageFlags.Acknowledged && a.ObsoletionTime == null);
+				var alerts = this.AmiClient.GetAlerts(a => a.To == username && a.Flags != AlertMessageFlags.Acknowledged && a.ObsoletionTime == null);
 
-			models.AddRange(alerts.CollectionItem.Where(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged && a.AlertMessage.ObsoletionTime == null).Select(a => new AlertViewModel(a)));
+				models.AddRange(alerts.CollectionItem.Where(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged && a.AlertMessage.ObsoletionTime == null).Select(a => new AlertViewModel(a)));
 
-			return PartialView("_AlertsPartial", models.OrderBy(x => x.Flags).ThenByDescending(a => a.Time));
+				return View(models.OrderBy(x => x.Flags).ThenByDescending(a => a.Time));
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
+
+			TempData["error"] = Locale.UnableToRetrieve + " " + Locale.Alerts;
+
+			return View(models);
 		}
 
 		/// <summary>
@@ -136,10 +167,21 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ContentResult NewAlerts()
 		{
-			var username = User.Identity.GetUserName();
-			var results = this.AmiClient.GetAlerts(a => a.To == username && a.Flags != AlertMessageFlags.Acknowledged && a.ObsoletionTime == null);
+			var count = 0;
 
-			var count = results.CollectionItem.Count(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged && a.AlertMessage.ObsoletionTime == null);
+			try
+			{
+				var username = User.Identity.GetUserName();
+				var results = this.AmiClient.GetAlerts(a => a.To == username && a.Flags != AlertMessageFlags.Acknowledged && a.ObsoletionTime == null);
+
+				count = results.CollectionItem.Count(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged && a.AlertMessage.ObsoletionTime == null);
+
+				return Content(count.ToString());
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
 
 			return Content(count.ToString());
 		}
@@ -153,19 +195,30 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Read(Guid id)
 		{
-			var alert = this.AmiClient.GetAlerts(a => a.Key == id).CollectionItem.FirstOrDefault();
-
-			if (alert == null)
+			try
 			{
-				TempData["error"] = Locale.Alert + " " + Locale.NotFound;
+				var alert = this.AmiClient.GetAlerts(a => a.Key == id).CollectionItem.FirstOrDefault();
+
+				if (alert == null)
+				{
+					TempData["error"] = Locale.Alert + " " + Locale.NotFound;
+					return RedirectToAction("Index", "Home");
+				}
+
+				alert.AlertMessage.Flags = AlertMessageFlags.Acknowledged;
+
+				this.AmiClient.UpdateAlert(alert.Id.ToString(), alert);
+
+				TempData["success"] = Locale.Alert + " " + Locale.Updated + " " + Locale.Successfully;
+
 				return RedirectToAction("Index", "Home");
 			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
 
-			alert.AlertMessage.Flags = AlertMessageFlags.Acknowledged;
-
-			this.AmiClient.UpdateAlert(alert.Id.ToString(), alert);
-
-			TempData["success"] = Locale.Alert + " " + Locale.Updated + " " + Locale.Successfully;
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Alert;
 
 			return RedirectToAction("Index", "Home");
 		}
@@ -178,16 +231,29 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult ViewAlert(Guid id)
 		{
-			var alert = this.AmiClient.GetAlerts(a => a.Key == id).CollectionItem.FirstOrDefault();
-
-			if (alert == null)
+			try
 			{
-				return Redirect(Request.UrlReferrer?.ToString());
+				var alert = this.AmiClient.GetAlerts(a => a.Key == id).CollectionItem.FirstOrDefault();
+
+				if (alert == null)
+				{
+					TempData["error"] = Locale.Alert + " " + Locale.NotFound;
+
+					return RedirectToAction("Index");
+				}
+
+				var viewModel = new AlertViewModel(alert);
+
+				return View(viewModel);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			var viewModel = new AlertViewModel(alert);
+			TempData["error"] = Locale.Alert + " " + Locale.NotFound;
 
-			return View(viewModel);
+			return RedirectToAction("Index");
 		}
 	}
 }

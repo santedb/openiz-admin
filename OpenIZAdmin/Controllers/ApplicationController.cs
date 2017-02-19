@@ -73,7 +73,7 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.Policy + " " + Locale.Activated + " " + Locale.Successfully;
 
-				return RedirectToAction("Index");
+				return RedirectToAction("ViewApplication", new { id = securityApplicationInfo.Id });
 			}
 			catch (Exception e)
 			{
@@ -107,13 +107,20 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateApplicationModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				var application = this.AmiClient.CreateApplication(model.ToSecurityApplication());
+				if (ModelState.IsValid)
+				{
+					var application = this.AmiClient.CreateApplication(model.ToSecurityApplication());
 
-				TempData["success"] = Locale.Application + " " + Locale.Created + " " + Locale.Successfully;
+					TempData["success"] = Locale.Application + " " + Locale.Created + " " + Locale.Successfully;
 
-				return RedirectToAction("ViewApplication", new { id = application.Id.ToString() });
+					return RedirectToAction("ViewApplication", new { id = application.Id.ToString() });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.Application;
@@ -158,16 +165,21 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var application = this.AmiClient.GetApplication(id.ToString());
+				var securityApplicationInfo = this.AmiClient.GetApplication(id.ToString());
 
-				if (application == null)
+				if (securityApplicationInfo == null)
 				{
 					TempData["error"] = Locale.Application + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
 
-				return View(ApplicationUtil.ToEditApplicationModel(this.AmiClient, application));
+				var model = new EditApplicationModel(securityApplicationInfo);
+
+				model.PoliciesList.Add(new SelectListItem { Text = string.Empty, Value = string.Empty });
+				model.PoliciesList.AddRange(CommonUtil.GetAllPolicies(this.AmiClient).Select(p => new SelectListItem { Text = p.Name, Value = p.Key.ToString() }));
+
+				return View(model);
 			}
 			catch (Exception e)
 			{

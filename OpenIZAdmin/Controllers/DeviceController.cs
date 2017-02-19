@@ -65,7 +65,7 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.Device + " " + Locale.Activated + " " + Locale.Successfully;
 
-				return RedirectToAction("Index");
+				return RedirectToAction("ViewDevice", new { id = securityDeviceInfo.Id });
 			}
 			catch (Exception e)
 			{
@@ -109,7 +109,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.Device + " " + Locale.Created + " " + Locale.Successfully;
 
-					return RedirectToAction("ViewDevice", new { id = device.Id.ToString() });
+					return RedirectToAction("ViewDevice", new { id = device.Id });
 				}
 			}
 			catch (Exception e)

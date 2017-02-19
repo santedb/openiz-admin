@@ -66,13 +66,13 @@
 
                                         <button type="submit" class="formButton btn btn-danger">
                                             @Locale.Deactivate
-                                            <span class="glyphicon glyphicon-log-out"></span>
+                                            <span class="glyphicon glyphicon-remove"></span>
                                         </button>
 }
                                 }
                                 else
                                 {
-                                    using (Html.BeginForm("Activate", "Application", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm-horizontal", role = "form" }))
+                                    using (Html.BeginForm("Activate", "Application", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
 

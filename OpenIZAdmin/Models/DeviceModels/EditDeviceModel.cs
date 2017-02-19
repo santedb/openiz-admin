@@ -53,6 +53,7 @@ namespace OpenIZAdmin.Models.DeviceModels
 			this.Device = securityDeviceInfo.Device;
 			this.CreationTime = securityDeviceInfo.Device.CreationTime.DateTime;
 			this.Id = securityDeviceInfo.Device.Key.Value;
+			this.IsObsolete = securityDeviceInfo.Device.ObsoletionTime != null;
 			this.DeviceSecret = securityDeviceInfo.DeviceSecret;
 			this.Name = securityDeviceInfo.Name;
 			this.UpdatedTime = securityDeviceInfo.Device.UpdatedTime?.DateTime;
@@ -87,6 +88,11 @@ namespace OpenIZAdmin.Models.DeviceModels
 		/// </summary>
 		[Required]
 		public Guid Id { get; set; }
+
+		/// <summary>
+		/// Gets or sets whether the device is obsolete.
+		/// </summary>
+		public bool IsObsolete { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the device.
