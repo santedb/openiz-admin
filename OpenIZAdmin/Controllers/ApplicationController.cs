@@ -59,7 +59,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (securityApplicationInfo == null)
 				{
-					TempData["error"] = Locale.Policy + " " + Locale.NotFound;
+					TempData["error"] = Locale.Application + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}
