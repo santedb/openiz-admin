@@ -1107,4 +1107,7 @@
   <data name="ApplicationNotActive" xml:space="preserve">
     <value>Warning, application is not active</value>
   </data>
+  <data name="CmcRequest" xml:space="preserve">
+    <value>CMC Request</value>
+  </data>
 </root>

@@ -26,7 +26,7 @@ namespace OpenIZAdmin.Models.ApplicationModels
 			this.CreationTime = securityApplicationInfo.Application.CreationTime.DateTime;
 			this.HasPolicies = this.ApplicationPolicies.Any();
 			this.Id = securityApplicationInfo.Id.Value;
-			this.Policies = this.ApplicationPolicies.Select(p => p.Key.ToString()).ToList();
+			this.Policies = this.ApplicationPolicies.Select(p => p.Id.ToString()).ToList();
 		}
 
 		//policies added by the user

@@ -157,10 +157,10 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					this.AmiClient.UpdateAssigningAuthority(model.Key.ToString(), model.ToAssigningAuthorityInfo());
+					this.AmiClient.UpdateAssigningAuthority(model.Id.ToString(), model.ToAssigningAuthorityInfo());
 
 					TempData["success"] = Locale.AssigningAuthority + " " + Locale.Edited + " " + Locale.Successfully;
-					return RedirectToAction("ViewAssigningAuthority", new { id = model.Key });
+					return RedirectToAction("ViewAssigningAuthority", new { id = model.Id });
 				}
 			}
 			catch (Exception e)

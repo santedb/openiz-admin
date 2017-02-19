@@ -25,15 +25,15 @@
                             <td>@item.Name</td>
                             <td>@item.Oid</td>
                             <td class="col-md-2 centerButton">
-                                <a class="btn btn-primary" href="@Url.Action("ViewAssigningAuthority", "AssigningAuthority", new { id = item.Key })">
+                                <a class="btn btn-primary" href="@Url.Action("ViewAssigningAuthority", "AssigningAuthority", new { id = item.Id })">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>                            
-                                <a class="btn btn-warning" href="@Url.Action("Edit", "AssigningAuthority", new { id = item.Key })">
+                                <a class="btn btn-warning" href="@Url.Action("Edit", "AssigningAuthority", new { id = item.Id })">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>                            
-                                <a class="btn btn-danger" href="@Url.Action("Delete", "AssigningAuthority", new { id = item.Key })">
+                                <a class="btn btn-danger" href="@Url.Action("Delete", "AssigningAuthority", new { id = item.Id })">
                                     @Locale.Delete
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>

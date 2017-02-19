@@ -19,6 +19,7 @@
 
 using System;
 using System.ComponentModel.DataAnnotations;
+using OpenIZ.Core.Model.AMI.Security;
 
 namespace OpenIZAdmin.Models.CertificateModels.ViewModels
 {
@@ -28,10 +29,23 @@ namespace OpenIZAdmin.Models.CertificateModels.ViewModels
 	public class CertificateSigningRequestViewModel
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenIZAdmin.Models.CertificateModels.ViewModels.CertificateSigningRequestViewModel"/> class.
+		/// Initializes a new instance of the <see cref="CertificateSigningRequestViewModel"/> class.
 		/// </summary>
 		public CertificateSigningRequestViewModel()
 		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CertificateSigningRequestViewModel"/> class
+		/// with a specific <see cref="SubmissionInfo"/> instance.
+		/// </summary>
+		/// <param name="submissionInfo">The <see cref="SubmissionInfo"/> instance.</param>
+		public CertificateSigningRequestViewModel(SubmissionInfo submissionInfo)
+		{
+			this.AdministrativeContactEmail = submissionInfo.EMail;
+			this.AdministrativeContactName = submissionInfo.AdminContact;
+			this.DistinguishedName = submissionInfo.DistinguishedName;
+			this.SubmissionTime = Convert.ToDateTime(submissionInfo.SubmittedWhen);
 		}
 
 		/// <summary>

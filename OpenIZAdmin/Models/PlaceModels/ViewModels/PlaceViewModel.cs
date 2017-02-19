@@ -42,7 +42,7 @@ namespace OpenIZAdmin.Models.PlaceModels.ViewModels
 		public PlaceViewModel(Place place) : this()
 		{
 			this.CreationTime = place.CreationTime.DateTime;
-			this.Key = place.Key.Value;
+			this.Id = place.Key.Value;
 			this.Name = string.Join(", ", place.Names.SelectMany(e => e.Component).Select(c => c.Value));
 
 			if (place.TypeConcept != null)
@@ -85,7 +85,7 @@ namespace OpenIZAdmin.Models.PlaceModels.ViewModels
 		/// <summary>
 		/// Gets or sets key of the place.
 		/// </summary>
-		public Guid Key { get; set; }
+		public Guid Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the place.

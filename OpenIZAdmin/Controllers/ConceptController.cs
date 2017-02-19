@@ -169,7 +169,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				Mnemonic = r.Mnemonic,
 				Name = string.Join(" ", r.DisplayNames.Select(d => d.Name)),
-				Key = r.Key.Value
+				Id = r.Key.Value
 			}));
 
 			var conceptClasses = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
@@ -202,11 +202,11 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var bundle = this.ImsiClient.Query<Concept>(c => c.Key == model.Key && c.ObsoletionTime == null);
+				var bundle = this.ImsiClient.Query<Concept>(c => c.Key == model.Id && c.ObsoletionTime == null);
 
 				bundle.Reconstitute();
 
-				var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == model.Key && c.ObsoletionTime == null);
+				var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == model.Id && c.ObsoletionTime == null);
 
 				if (concept == null)
 				{
@@ -326,7 +326,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					Mnemonic = r.ReferenceTerm.Mnemonic,
 					Name = string.Join(", ", r.ReferenceTerm.DisplayNames.Select(d => d.Name)),
-					Key = r.Key.Value
+					Id = r.Key.Value
 				}));
 
 				return View(conceptViewModel);

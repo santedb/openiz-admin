@@ -39,7 +39,7 @@ namespace OpenIZAdmin.Models.PolicyModels
 			this.CanOverride = securityPolicyInfo.CanOverride;
 			this.Grant = (int)securityPolicyInfo.Grant;
 			this.IsPublic = securityPolicyInfo.Policy.IsPublic;
-			this.Key = securityPolicyInfo.Policy.Key.Value;
+			this.Id = securityPolicyInfo.Policy.Key.Value;
 			this.Name = securityPolicyInfo.Name;
 			this.Oid = securityPolicyInfo.Oid;
 			this.GrantsList.Add(new SelectListItem { Text = Locale.Select, Value = "" });
@@ -61,7 +61,7 @@ namespace OpenIZAdmin.Models.PolicyModels
 		public bool IsPublic { get; set; }
 
 		[Required]
-		public Guid Key { get; set; }
+		public Guid Id { get; set; }
 
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]

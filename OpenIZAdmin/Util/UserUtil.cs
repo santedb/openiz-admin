@@ -33,6 +33,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Util
 {
@@ -114,23 +115,6 @@ namespace OpenIZAdmin.Util
 		}
 
 		/// <summary>
-		/// Creates a new CreateUserModel for the Create User View
-		/// </summary>
-		/// <param name="imsiClient">The Imsi Service Client client.</param>
-		/// <param name="amiClient">The Ami service client.</param>
-		/// <param name="userEntity">The user entity to convert to a edit user model.</param>
-		/// <returns>Returns a CreateUserModel view.</returns>
-		public static CreateUserModel ToCreateUserModel(AmiServiceClient amiClient)//ImsiServiceClient imsiClient, 
-		{
-			var model = new CreateUserModel();
-
-			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
-			model.RolesList.AddRange(RoleUtil.GetAllRoles(amiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
-
-			return model;
-		}
-
-		/// <summary>
 		/// Converts a user entity to a edit user model.
 		/// </summary>
 		/// <param name="imsiClient">The Imsi Service Client client.</param>
@@ -170,12 +154,12 @@ namespace OpenIZAdmin.Util
 				model.Facilities.Add(place.Key.Value.ToString());
 			}
 
-			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
-			model.RolesList.AddRange(RoleUtil.GetAllRoles(amiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }));
+			model.RolesList = RoleUtil.GetAllRoles(amiClient).ToSelectList("Name", "Id");
 
 			model.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
 
 			model.PhoneTypeList = AccountUtil.GetPhoneTypeList(imsiClient);
+
             //default to mobile phone unless entry exists
             if (!string.IsNullOrWhiteSpace(userEntity.SecurityUser.PhoneNumber))
             {
@@ -185,30 +169,10 @@ namespace OpenIZAdmin.Util
             else
             {
                 //mobile phone - e161f90e-5939-430e-861a-f8e885cc353d	
-                model.PhoneType = "e161f90e-5939-430e-861a-f8e885cc353d";
+	            model.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
             }
 
             return model;
-		}
-
-		/// <summary>
-		/// Converts a <see cref="OpenIZAdmin.Models.UserModels.CreateUserModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityUserInfo"/>.
-		/// </summary>
-		/// <param name="model">The create user object to convert.</param>
-		/// <returns>Returns a SecurityUserInfo model.</returns>
-		public static SecurityUserInfo ToSecurityUserInfo(CreateUserModel model)
-		{
-			var userInfo = new SecurityUserInfo
-			{
-				Email = model.Email,
-				Password = model.Password,
-				UserName = model.Username,
-				Roles = new List<SecurityRoleInfo>()
-			};
-
-			userInfo.Roles.AddRange(model.Roles.Select(r => new SecurityRoleInfo { Name = r }));
-
-			return userInfo;
 		}
 
 		/// <summary>

@@ -32,13 +32,13 @@
                             <td>@item.Grant</td>
                             <td>@item.CanOverride</td>
                             <td class="col-md-3 centerButton">
-                                <a class="btn btn-primary" href="@Url.Action("ViewPolicy", "Policy", new { id = item.Key })">
+                                <a class="btn btn-primary" href="@Url.Action("ViewPolicy", "Policy", new { id = item.Id })">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
                                 @if (!item.IsObsolete)
                                 {
-                                    using (Html.BeginForm("Delete", "Policy", new { id = item.Key }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form", id = "deactivate-policy-form" }))
+                                    using (Html.BeginForm("Delete", "Policy", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form", id = "deactivate-policy-form" }))
                                     {
                                         @Html.AntiForgeryToken()
 

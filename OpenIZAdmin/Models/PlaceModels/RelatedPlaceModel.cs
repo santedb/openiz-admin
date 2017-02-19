@@ -22,7 +22,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		public RelatedPlaceModel(Place place)
 		{
 			this.CreationTime = place.CreationTime.DateTime;
-			this.Key = place.Key.Value;
+			this.Id = place.Key.Value;
 			this.Name = string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value));
 
 			if (place.TypeConcept != null)
@@ -36,7 +36,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <summary>
 		/// Gets or sets the key of the related place.
 		/// </summary>
-		public Guid Key { get; set; }
+		public Guid Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the related place.

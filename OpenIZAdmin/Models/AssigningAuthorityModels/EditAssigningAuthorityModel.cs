@@ -32,7 +32,7 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 
 		public EditAssigningAuthorityModel(AssigningAuthorityInfo assigningAuthorityInfo)
 		{
-			this.Key = assigningAuthorityInfo.Id;
+			this.Id = assigningAuthorityInfo.Id;
 			this.Name = assigningAuthorityInfo.AssigningAuthority.Name;
 			this.Oid = assigningAuthorityInfo.AssigningAuthority.Oid;
 			this.Url = assigningAuthorityInfo.AssigningAuthority.Url;
@@ -47,7 +47,7 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		[Required]
 		public string DomainName { get; set; }
 
-		public Guid Key { get; set; }
+		public Guid Id { get; set; }
 
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required]
@@ -68,10 +68,10 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		{
 			var assigningAuthorityInfo = new AssigningAuthorityInfo
 			{
-				Id = this.Key,
+				Id = this.Id,
 				AssigningAuthority = new AssigningAuthority
 				{
-					Key = this.Key,
+					Key = this.Id,
 					Url = this.Url,
 					DomainName = this.DomainName,
 					Description = this.Description,

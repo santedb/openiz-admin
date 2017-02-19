@@ -457,6 +457,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to CMC Request.
+        /// </summary>
+        public static string CmcRequest {
+            get {
+                return ResourceManager.GetString("CmcRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Common Name.
         /// </summary>
         public static string CommonName {

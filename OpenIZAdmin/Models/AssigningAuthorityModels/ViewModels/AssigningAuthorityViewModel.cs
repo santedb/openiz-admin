@@ -31,7 +31,7 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels.ViewModels
 
 		public AssigningAuthorityViewModel(AssigningAuthorityInfo assigningAuthority)
 		{
-			this.Key = assigningAuthority.Id;
+			this.Id = assigningAuthority.Id;
 			this.Name = assigningAuthority.AssigningAuthority.Name;
 			this.Oid = assigningAuthority.AssigningAuthority.Oid;
 			this.Url = assigningAuthority.AssigningAuthority.Url;
@@ -45,7 +45,7 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels.ViewModels
 		[Display(Name = "DomainName", ResourceType = typeof(Localization.Locale))]
 		public string DomainName { get; set; }
 
-		public Guid Key { get; set; }
+		public Guid Id { get; set; }
 
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }

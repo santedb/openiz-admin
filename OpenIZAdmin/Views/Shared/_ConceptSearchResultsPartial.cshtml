@@ -41,18 +41,18 @@
                                 <td>@Locale.Concept</td>
 
                                 <td class="col-md-3 centerButton">
-                                    <a class="btn btn-primary text-white" href="@Url.Action("ViewConcept", "Concept", new { id = item.Key })">
+                                    <a class="btn btn-primary text-white" href="@Url.Action("ViewConcept", "Concept", new { id = item.Id })">
                                         @Locale.View
                                         <span class="glyphicon glyphicon-eye-open"></span>
                                     </a>
-                                    <a class="btn btn-warning text-white" href="@Url.Action("Edit", "Concept", new {id = item.Key})">
+                                    <a class="btn btn-warning text-white" href="@Url.Action("Edit", "Concept", new {id = item.Id })">
                                         @Locale.Edit
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
 
                                     @if (!item.IsReadOnly)
                                     {
-                                        <a class="btn btn-danger text-white" href="@Url.Action("Delete", "Concept", new {id = item.Key})">
+                                        <a class="btn btn-danger text-white" href="@Url.Action("Delete", "Concept", new {id = item.Id })">
                                             @Locale.Delete
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </a>
@@ -74,15 +74,15 @@
 }
                                 <td>@Locale.ConceptSet</td>
                                 <td class="col-md-3 centerButton">
-                                    <a class="btn btn-primary text-white" href="@Url.Action("ViewConceptSet", "ConceptSet", new { id = item.Key })">
+                                    <a class="btn btn-primary text-white" href="@Url.Action("ViewConceptSet", "ConceptSet", new { id = item.Id })">
                                         @Locale.View
                                         <span class="glyphicon glyphicon-eye-open"></span>
                                     </a>
-                                    <a class="btn btn-warning text-white" href="@Url.Action("Edit", "ConceptSet", new { id = item.Key })">
+                                    <a class="btn btn-warning text-white" href="@Url.Action("Edit", "ConceptSet", new { id = item.Id })">
                                         @Locale.Edit
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
-                                    <a class="btn btn-danger text-white" href="@Url.Action("Delete", "ConceptSet", new { id = item.Key })">
+                                    <a class="btn btn-danger text-white" href="@Url.Action("Delete", "ConceptSet", new { id = item.Id })">
                                         @Locale.Delete
                                         <span class="glyphicon glyphicon-remove"></span>
                                     </a>

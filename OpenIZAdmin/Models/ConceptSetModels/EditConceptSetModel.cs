@@ -48,7 +48,7 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 			this.Concepts = conceptSet.Concepts;
 			this.CreatedBy = conceptSet.CreatedBy?.UserName;
 			this.CreationTime = conceptSet.CreationTime.DateTime;
-			this.Key = conceptSet.Key.Value;
+			this.Id = conceptSet.Key.Value;
 			this.Mnemonic = conceptSet.Mnemonic;
 			this.Name = conceptSet.Name;
 			this.Oid = conceptSet.Oid;
@@ -72,7 +72,7 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		[Display(Name = "Creation Time")]
 		public DateTime CreationTime { get; set; }
 
-		public Guid Key { get; set; }
+		public Guid Id { get; set; }
 
 		[Required]
 		public string Mnemonic { get; set; }
@@ -93,7 +93,7 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 			return new ConceptSet
 			{
 				CreationTime = this.CreationTime,
-				Key = this.Key,
+				Key = this.Id,
 				Mnemonic = this.Mnemonic,
 				Name = this.Name,
 				Oid = this.Oid,

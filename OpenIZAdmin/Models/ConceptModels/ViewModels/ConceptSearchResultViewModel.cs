@@ -47,7 +47,7 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 		{
 			this.CreationTime = concept.CreationTime.DateTime;
 			this.IsReadOnly = concept.IsSystemConcept;
-			this.Key = concept.Key.Value;
+			this.Id = concept.Key.Value;
 			this.Mnemonic = concept.Mnemonic;
 			this.Names = concept.ConceptNames.Select(c => c.Name).ToList();
 			this.Type = ConceptType.Concept;
@@ -62,7 +62,7 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 		{
 			this.CreationTime = conceptSet.CreationTime.DateTime;
 			this.IsReadOnly = false;
-			this.Key = conceptSet.Key.Value;
+			this.Id = conceptSet.Key.Value;
 			this.Mnemonic = conceptSet.Mnemonic;
 			this.Names = new List<string> { conceptSet.Name };
 			this.Type = ConceptType.ConceptSet;
@@ -82,7 +82,7 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 		/// <summary>
 		/// Gets or sets the key of the concept or concept set.
 		/// </summary>
-		public Guid Key { get; set; }
+		public Guid Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the mnemonic of the concept or concept set.

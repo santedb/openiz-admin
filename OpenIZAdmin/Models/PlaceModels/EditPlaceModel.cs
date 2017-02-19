@@ -49,12 +49,12 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <param name="place">The <see cref="Place"/> instance.</param>
 		public EditPlaceModel(Place place) : this()
 		{
-			this.Key = place.Key.Value;
+			this.Id = place.Key.Value;
 			this.Name = string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value));
 		}
 
 		[Required]
-		public Guid Key { get; set; }
+		public Guid Id { get; set; }
 
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
@@ -80,7 +80,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		{
 			return new Place
 			{
-				Key = this.Key,
+				Key = this.Id,
 				Names = new List<EntityName>
 				{
 					new EntityName(NameUseKeys.OfficialRecord, this.Name)

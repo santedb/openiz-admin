@@ -27,7 +27,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		{
 		}
 
-		public Guid Key { get; set; }
+		public Guid Id { get; set; }
 
 		public string Mnemonic { get; set; }
 

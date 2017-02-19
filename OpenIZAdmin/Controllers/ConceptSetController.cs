@@ -155,7 +155,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == model.Key && c.ObsoletionTime == null);
+				var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == model.Id && c.ObsoletionTime == null);
 
 				bundle.Reconstitute();
 
@@ -223,7 +223,7 @@ namespace OpenIZAdmin.Controllers
 
 			var keys = model.Concepts.Select(m => m.Key).Distinct();
 
-			viewModels = viewModels.Where(m => !keys.Any(n => n.Value == m.Key)).ToList();
+			viewModels = viewModels.Where(m => !keys.Any(n => n.Value == m.Id)).ToList();
 
 			return PartialView("_ConceptSetConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
 		}

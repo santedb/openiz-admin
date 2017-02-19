@@ -106,6 +106,6 @@ namespace OpenIZAdmin.Models.UserModels
 			    UserName = this.Username,
 			    Roles = this.Roles.Select(r => new SecurityRoleInfo {Name = r}).ToList()
 		    };
-	    }
+		}
 	}
 }

@@ -55,7 +55,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		{
 			this.ConceptClass = concept.Class.Name;
 			this.CreationTime = concept.CreationTime.DateTime;
-			this.Key = concept.Key.Value;
+			this.Id = concept.Key.Value;
 			this.Languages = concept.ConceptNames.Select(c => c.Language).ToList();
 			this.Name = concept.ConceptNames.Select(c => c.Name).ToList();
 
@@ -81,7 +81,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
 		public DateTimeOffset CreationTime { get; set; }
 
-		public Guid Key { get; set; }
+		public Guid Id { get; set; }
 
 		public List<SelectListItem> LanguageList { get; set; }
 

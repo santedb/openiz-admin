@@ -177,7 +177,7 @@ namespace OpenIZAdmin.Controllers
 				var model = new EditApplicationModel(securityApplicationInfo);
 
 				model.PoliciesList.Add(new SelectListItem { Text = string.Empty, Value = string.Empty });
-				model.PoliciesList.AddRange(CommonUtil.GetAllPolicies(this.AmiClient).Select(p => new SelectListItem { Text = p.Name, Value = p.Key.ToString() }));
+				model.PoliciesList.AddRange(CommonUtil.GetAllPolicies(this.AmiClient).Select(p => new SelectListItem { Text = p.Name, Value = p.Id.ToString() }));
 
 				return View(model);
 			}

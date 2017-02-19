@@ -25,6 +25,7 @@ using OpenIZAdmin.Models.CertificateModels;
 using OpenIZAdmin.Models.CertificateModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
+using System.Linq;
 using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
@@ -129,16 +130,20 @@ namespace OpenIZAdmin.Controllers
 		{
 			var viewModel = new CertificateIndexViewModel();
 
+			TempData["searchType"] = "Certificate";
+
 			try
 			{
-				viewModel.CertificateSigningRequests = CertificateUtil.GetAllCertificateSigningRequests(this.AmiClient);
+				var certificateSigningRequests = this.AmiClient.GetCertificateSigningRequests(c => c.ResolvedWhen == null);
+
+				viewModel.CertificateSigningRequests = certificateSigningRequests.CollectionItem.Select(c => new CertificateSigningRequestViewModel(c));
+
+				return View(viewModel);
 			}
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
-
-			TempData["searchType"] = "Certificate";
 
 			return View(viewModel);
 		}
@@ -168,7 +173,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				SubmissionRequest submissionRequest = CertificateUtil.ToSubmissionRequest(model);
+				var submissionRequest = model.ToSubmissionRequest();
 
 				SubmissionResult result = null;
 
@@ -178,7 +183,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.CertificateSigningRequestSuccessfullySubmitted;
 
-					return RedirectToAction("Index");
+					return RedirectToAction("ViewCertificateSigningRequest", new { id = result.RequestId });
 				}
 				catch (Exception e)
 				{
@@ -209,7 +214,7 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The id of the certificate signing request.</param>
 		/// <returns>Returns a view with the certificate signing request.</returns>
 		[HttpGet]
-		public ActionResult ViewCertificateSigningRequest(string id)
+		public ActionResult ViewCertificateSigningRequest(int id)
 		{
 			TempData["error"] = Locale.UnableToFindSpecifiedCertificateSigningRequest;
 

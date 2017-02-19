@@ -36,7 +36,7 @@ namespace OpenIZAdmin.Models.PolicyModels.ViewModels
 			this.CreationTime = securityPolicy.CreationTime.DateTime;
 			this.CanOverride = securityPolicy.CanOverride;
 			this.IsPublic = securityPolicy.IsPublic;
-			this.Key = securityPolicy.Key.Value;
+			this.Id = securityPolicy.Key.Value;
 			this.Name = securityPolicy.Name;
 			this.Oid = securityPolicy.Oid;
 			this.IsObsolete = securityPolicy.ObsoletionTime != null;
@@ -47,7 +47,7 @@ namespace OpenIZAdmin.Models.PolicyModels.ViewModels
 			this.CreationTime = securityPolicyInfo.Policy.CreationTime.DateTime;
 			this.CanOverride = securityPolicyInfo.Policy.CanOverride;
 			this.IsPublic = securityPolicyInfo.Policy.IsPublic;
-			this.Key = securityPolicyInfo.Policy.Key.Value;
+			this.Id = securityPolicyInfo.Policy.Key.Value;
 			this.Name = securityPolicyInfo.Policy.Name;
 			this.Oid = securityPolicyInfo.Policy.Oid;
 			this.IsObsolete = securityPolicyInfo.Policy.ObsoletionTime != null;
@@ -75,7 +75,7 @@ namespace OpenIZAdmin.Models.PolicyModels.ViewModels
 		[Display(Name = "IsPublic", ResourceType = typeof(Localization.Locale))]
 		public bool IsPublic { get; set; }
 
-		public Guid Key { get; set; }
+		public Guid Id { get; set; }
 
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }

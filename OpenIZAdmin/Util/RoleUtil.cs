@@ -53,11 +53,11 @@ namespace OpenIZAdmin.Util
 
 			if (viewModel.RolePolicies.Any())
 			{
-				viewModel.Policies = viewModel.RolePolicies.Select(p => p.Key.ToString()).ToList();
+				viewModel.Policies = viewModel.RolePolicies.Select(p => p.Id.ToString()).ToList();
 			}
 
 			viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
-			viewModel.PoliciesList.AddRange(CommonUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }).OrderBy(q => q.Text));
+			viewModel.PoliciesList.AddRange(CommonUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }).OrderBy(q => q.Text));
 
 			return viewModel;
 		}

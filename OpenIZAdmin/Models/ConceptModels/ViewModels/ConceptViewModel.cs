@@ -44,7 +44,7 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 		{
 			this.Class = concept.Class?.Name;
 			this.CreationTime = concept.CreationTime.DateTime;
-			this.Key = concept.Key.Value;
+			this.Id = concept.Key.Value;
 			this.Mnemonic = concept.Mnemonic;
 
 			concept.ConceptNames.ForEach(c =>
@@ -69,7 +69,7 @@ namespace OpenIZAdmin.Models.ConceptModels.ViewModels
 		/// <summary>
 		/// Gets or sets the key of the concept.
 		/// </summary>
-		public Guid Key { get; set; }
+		public Guid Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of languages associated with the concept.

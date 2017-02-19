@@ -19,7 +19,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Extensions
 {
@@ -50,6 +52,55 @@ namespace OpenIZAdmin.Extensions
 			clonedList[index] = value;
 
 			return clonedList.AsEnumerable();
+		}
+
+		/// <summary>
+		/// Converts a list of items to a select list.
+		/// </summary>
+		/// <typeparam name="T">The type of items in the list.</typeparam>
+		/// <param name="source">The source list.</param>
+		/// <param name="textPropertyName">The text property name.</param>
+		/// <param name="valuePropertyName">The value property name.</param>
+		/// <param name="selectedExpression">An expression which evaluates to ensuring items are selected.</param>
+		/// <returns>Returns a select list.</returns>
+		public static List<SelectListItem> ToSelectList<T>(this IEnumerable<T> source, string textPropertyName, string valuePropertyName, Expression<Func<T, bool>> selectedExpression = null)
+		{
+			if (source == null)
+			{
+				throw new ArgumentNullException(nameof(source), "Value cannot be null");
+			}
+
+			var clonedList = new List<T>(source);
+
+			var selectList = new List<SelectListItem>
+			{
+				new SelectListItem { Text = string.Empty, Value = string.Empty }
+			};
+
+			if (string.IsNullOrEmpty(textPropertyName) || string.IsNullOrWhiteSpace(textPropertyName))
+			{
+				throw new ArgumentNullException(nameof(textPropertyName), "Value cannot be null");
+			}
+
+			if (string.IsNullOrEmpty(valuePropertyName) || string.IsNullOrWhiteSpace(valuePropertyName))
+			{
+				throw new ArgumentNullException(nameof(valuePropertyName), "Value cannot be null");
+			}
+
+			selectList.AddRange(selectedExpression == null ? 
+				clonedList.Select(x => new SelectListItem
+				{
+					Text = x.GetType().GetProperty(textPropertyName).GetValue(x).ToString(),
+					Value = x.GetType().GetProperty(valuePropertyName).GetValue(x).ToString()
+				}) : 
+				clonedList.Select(x => new SelectListItem
+				{
+					Selected = Convert.ToBoolean(selectedExpression.Compile().DynamicInvoke(x)),
+					Text = x.GetType().GetProperty(textPropertyName).GetValue(x).ToString(),
+					Value = x.GetType().GetProperty(valuePropertyName).GetValue(x).ToString()
+				}));
+
+			return selectList.OrderBy(x => x.Text).ToList();
 		}
 	}
 }

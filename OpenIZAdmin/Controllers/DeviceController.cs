@@ -170,7 +170,7 @@ namespace OpenIZAdmin.Controllers
 				var model = new EditDeviceModel(securityDeviceInfo);
 
 				model.PoliciesList.Add(new SelectListItem { Text = string.Empty, Value = string.Empty });
-				model.PoliciesList.AddRange(CommonUtil.GetAllPolicies(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }).OrderBy(q => q.Text));
+				model.PoliciesList.AddRange(CommonUtil.GetAllPolicies(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }).OrderBy(q => q.Text));
 
 				return View(model);
 			}

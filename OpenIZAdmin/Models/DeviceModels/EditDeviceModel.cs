@@ -58,7 +58,7 @@ namespace OpenIZAdmin.Models.DeviceModels
 			this.Name = securityDeviceInfo.Name;
 			this.UpdatedTime = securityDeviceInfo.Device.UpdatedTime?.DateTime;
 			this.DevicePolicies = securityDeviceInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList();
-			this.Policies = this.DevicePolicies.Select(p => p.Key.ToString()).ToList();
+			this.Policies = this.DevicePolicies.Select(p => p.Id.ToString()).ToList();
 		}
 
 		/// <summary>

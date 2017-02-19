@@ -43,7 +43,7 @@ namespace OpenIZAdmin.Models.ConceptSetModels.ViewModels
 		{
 			this.Concepts = conceptSet.Concepts.Select(c => new ConceptViewModel(c)).ToList();
 			this.CreationTime = conceptSet.CreationTime.DateTime;
-			this.Key = conceptSet.Key.Value;
+			this.Id = conceptSet.Key.Value;
 			this.Mnemonic = conceptSet.Mnemonic;
 			this.Name = conceptSet.Name;
 			this.Oid = conceptSet.Oid;
@@ -64,7 +64,7 @@ namespace OpenIZAdmin.Models.ConceptSetModels.ViewModels
 		/// <summary>
 		/// Gets or sets the key of the concept.
 		/// </summary>
-		public Guid Key { get; set; }
+		public Guid Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the mnemonic of the concept.

@@ -18,6 +18,8 @@
  */
 
 using System.ComponentModel.DataAnnotations;
+using OpenIZ.Core.Model.AMI.Security;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.CertificateModels
 {
@@ -38,7 +40,7 @@ namespace OpenIZAdmin.Models.CertificateModels
 		/// </summary>
 		[Required]
 		[EmailAddress]
-		[Display(Name = "Administrative Contact Email")]
+		[Display(Name = "AdministrativeContactEmail", ResourceType = typeof(Locale))]
 		public string AdministrativeContactEmail { get; set; }
 
 		/// <summary>
@@ -46,14 +48,28 @@ namespace OpenIZAdmin.Models.CertificateModels
 		/// </summary>
 		[Required]
 		[StringLength(255)]
-		[Display(Name = "Administrative Contact Name")]
+		[Display(Name = "AdministrativeContactName", ResourceType = typeof(Locale))]
 		public string AdministrativeContactName { get; set; }
 
 		/// <summary>
 		/// Gets or sets the cmc request of the submission request.
 		/// </summary>
 		[Required]
-		[Display(Name = "CMC Request")]
+		[Display(Name = "CmcRequest", ResourceType = typeof(Locale))]
 		public string CmcRequest { get; set; }
+
+		/// <summary>
+		/// Converts a <see cref="SubmitCertificateSigningRequestModel"/> instance to a <see cref="SubmissionRequest"/> instance.
+		/// </summary>
+		/// <returns>Returns a <see cref="SubmissionRequest"/> instance.</returns>
+		public SubmissionRequest ToSubmissionRequest()
+		{
+			return new SubmissionRequest
+			{
+				AdminAddress = this.AdministrativeContactEmail,
+				AdminContactName = this.AdministrativeContactName,
+				CmcRequest = this.CmcRequest
+			};
+		}
 	}
 }

@@ -36,15 +36,15 @@
                             <td>@item.CreationTime.ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
                             <td>@item.Name</td>
                             <td class="col-md-3 centerButton">
-                                <a class="btn btn-primary" href="/Material/ViewMaterial/@item.Key">
+                                <a class="btn btn-primary" href="/Material/ViewMaterial/@item.Id">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>                           
-                                <a class="btn btn-warning" href="/Material/Edit/@item.Key">
+                                <a class="btn btn-warning" href="/Material/Edit/@item.Id">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>                            
-                                <a class="btn btn-danger" href="/Material/Delete/@item.Key">
+                                <a class="btn btn-danger" href="/Material/Delete/@item.Id">
                                     @Locale.Delete
                                     <span class="glyphicon glyphicon-remove"></span>
                                 </a>

@@ -45,7 +45,7 @@ namespace OpenIZAdmin.Models.MaterialModels
 		public EditMaterialModel(Material material)
 		{
 			this.FormConcept = material.FormConceptKey?.ToString();
-			this.Key = material.Key.Value;
+			this.Id = material.Key.Value;
 			this.Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value));
 			this.QuantityConcept = material.QuantityConceptKey?.ToString();
 		}
@@ -64,7 +64,7 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// <summary>
 		/// Gets or sets the key of the material.
 		/// </summary>
-		public Guid Key { get; set; }
+		public Guid Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the material.

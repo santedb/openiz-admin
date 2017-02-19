@@ -26,7 +26,7 @@ namespace OpenIZAdmin.Models.DebugModels
 	    public SubmitBugReportModel(SecurityUserInfo securityUserInfo)
 	    {
 		    this.AttachBugInfo = true;
-		    this.Key = securityUserInfo.UserId.Value;
+		    this.Id = securityUserInfo.UserId.Value;
 			this.Reporter = securityUserInfo.UserName;
 			this.Success = false;
 	    }
@@ -42,7 +42,7 @@ namespace OpenIZAdmin.Models.DebugModels
         public string BugDetails { get; set; }
 
         [Required]
-        public Guid Key { get; set; }
+        public Guid Id { get; set; }
 
         public string Reporter { get; set; }
 

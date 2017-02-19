@@ -33,6 +33,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Elmah;
 using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -99,7 +100,11 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			return View(UserUtil.ToCreateUserModel(this.AmiClient));
+			var model = new CreateUserModel();
+
+			model.RolesList = model.RolesList = RoleUtil.GetAllRoles(this.AmiClient).ToSelectList("Name", "Name");
+
+			return View(model);
 		}
 
 		/// <summary>
@@ -122,8 +127,7 @@ namespace OpenIZAdmin.Controllers
 					}
 					else
 					{
-						var user = UserUtil.ToSecurityUserInfo(model);
-						user = this.AmiClient.CreateUser(user);
+						var user = this.AmiClient.CreateUser(model.ToSecurityUserInfo());
 
 						var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, user.UserId.Value);
 
@@ -146,8 +150,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			model.RolesList.Add(new SelectListItem { Text = "", Value = "" });
-			model.RolesList.AddRange(RoleUtil.GetAllRoles(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Name }));
+			model.RolesList = RoleUtil.GetAllRoles(this.AmiClient).ToSelectList("Name", "Name");
 
 			if (TempData.ContainsKey("error") && TempData["error"] == null)
 			{

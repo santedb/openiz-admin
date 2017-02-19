@@ -25,10 +25,24 @@ namespace OpenIZAdmin.Models.CertificateModels.ViewModels
 	{
 		public CertificateIndexViewModel()
 		{
+			this.CertificateRevocations = new List<CertificateRevocationListViewModel>();
+			this.Certificates = new List<CertificateViewModel>();
+			this.CertificateSigningRequests = new List<CertificateSigningRequestViewModel>();
 		}
 
+		/// <summary>
+		/// Gets or sets the list of certificates revocations.
+		/// </summary>
 		public IEnumerable<CertificateRevocationListViewModel> CertificateRevocations { get; set; }
+
+		/// <summary>
+		/// Gets or sets the list of certificates.
+		/// </summary>
 		public IEnumerable<CertificateViewModel> Certificates { get; set; }
+
+		/// <summary>
+		/// Gets or sets the list of certificate signing requests.
+		/// </summary>
 		public IEnumerable<CertificateSigningRequestViewModel> CertificateSigningRequests { get; set; }
 	}
 }

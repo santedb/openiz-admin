@@ -172,11 +172,11 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var bundle = this.ImsiClient.Query<Material>(m => m.Key == model.Key && m.ObsoletionTime == null, 0, null, true);
+					var bundle = this.ImsiClient.Query<Material>(m => m.Key == model.Id && m.ObsoletionTime == null, 0, null, true);
 
 					bundle.Reconstitute();
 
-					var material = bundle.Item.OfType<Material>().FirstOrDefault(m => m.Key == model.Key && m.ObsoletionTime == null);
+					var material = bundle.Item.OfType<Material>().FirstOrDefault(m => m.Key == model.Id && m.ObsoletionTime == null);
 
 					if (material == null)
 					{

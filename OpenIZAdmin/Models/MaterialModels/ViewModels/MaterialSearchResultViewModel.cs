@@ -39,7 +39,7 @@ namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 		public MaterialSearchResultViewModel(Material material)
 		{
 			this.CreationTime = material.CreationTime.DateTime;
-			this.Key = material.Key.Value;
+			this.Id = material.Key.Value;
 			this.Name = string.Join(", ", material.Names.SelectMany(m => m.Component).Select(c => c.Value));
 		}
 
@@ -52,7 +52,7 @@ namespace OpenIZAdmin.Models.MaterialModels.ViewModels
 		/// <summary>
 		/// Gets or sets th key of the material.
 		/// </summary>
-		public Guid Key { get; set; }
+		public Guid Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the material.
