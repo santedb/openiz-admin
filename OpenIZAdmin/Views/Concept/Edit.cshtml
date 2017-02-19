@@ -13,30 +13,30 @@
         <div class="panel panel-body panel-default">
 
             @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
 
 
             <div class="form-group">
-                @Html.LabelFor(m => m.ConceptClass, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.ConceptClass, new {@class = "col-md-2 control-label"})
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.ConceptClass, new { @class = "form-control", @readonly = "readonly", title = Locale.ToolTip_ConceptClass })
-                    @Html.ValidationMessageFor(m => m.ConceptClass, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.ConceptClass, new {@class = "form-control", @readonly = "readonly", title = Locale.ToolTip_ConceptClass})
+                    @Html.ValidationMessageFor(m => m.ConceptClass, "", new {@class = "text-danger"})
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.CreationTime, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.CreationTime, new {@class = "col-md-2 control-label"})
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.CreationTime, Constants.DateTimeFormatViewWithTimestamp, new { @class = "form-control", @readonly = "readonly", title = Locale.ToolTip_CreationTime })                    
+                    @Html.TextBoxFor(m => m.CreationTime, Constants.DateTimeFormatViewWithTimestamp, new {@class = "form-control", @readonly = "readonly", title = Locale.ToolTip_CreationTime})
                 </div>
             </div>
-           
+
             <div class="form-group"></div>
-                @Html.LabelFor(m => m.SelectedLanguage, new { @class = "col-md-2 control-label" })
-                <div class="col-md-6">
-                    @Html.DropDownListFor(m => m.SelectedLanguage, Model.LanguageList, new { @class = "form-control", @id = "languageList", title = Locale.ToolTip_Language })
-                    @Html.ValidationMessageFor(m => m.SelectedLanguage, "", new { @class = "text-danger" })
-                </div>
-                <a href="#" id="btnAdd"><i class="glyphicon glyphicon-plus-sign"></i>Add Language</a>
+            @Html.LabelFor(m => m.SelectedLanguage, new {@class = "col-md-2 control-label"})
+            <div class="col-md-6">
+                @Html.DropDownListFor(m => m.SelectedLanguage, Model.LanguageList, new {@class = "form-control", @id = "languageList", title = Locale.ToolTip_Language})
+                @Html.ValidationMessageFor(m => m.SelectedLanguage, "", new {@class = "text-danger"})
+            </div>
+            <a href="#" id="btnAdd"><i class="glyphicon glyphicon-plus-sign"></i>Add Language</a>
             @Html.HiddenFor(m => m.Id)
             <div class="row">
                 <div class="col-md-12">
@@ -52,13 +52,13 @@
                                         <li class="active">
                                             <a href="#@language" data-toggle="tab">@Model.Languages[i]</a>
                                         </li>
-}
+                                    }
                                     else
                                     {
                                         <li>
                                             <a href="#@language" data-toggle="tab">@Model.Languages[i]</a>
                                         </li>
-}
+                                    }
                                     i++;
                                 }
                             </ul>
@@ -69,24 +69,25 @@
                                     if (i == 0)
                                     {
                                         <div id="@language" class="tab-pane active">
-                                            @Html.LabelFor(m => m.Name, new { @class = "control-label" })
-                                            @Html.TextBoxFor(m => m.Name[i], new { @class = "form-control" })
-                                            @Html.LabelFor(m => m.Languages, new { @class = "control-label" })
-                                            @Html.TextBoxFor(m => m.Languages[i], new { @class = "form-control", @readonly = "readonly" })
+                                            @Html.LabelFor(m => m.Name, new {@class = "control-label"})
+                                            @Html.TextBoxFor(m => m.Name[i], new {@class = "form-control"})
+                                            @Html.LabelFor(m => m.Languages, new {@class = "control-label"})
+                                            @Html.TextBoxFor(m => m.Languages[i], new {@class = "form-control", @readonly = "readonly"})
                                         </div>
-}
+                                    }
                                     else
                                     {
                                         <div id="@language" class="tab-pane">
-                                            @Html.LabelFor(m => m.Name, new { @class = "control-label" })
-                                            @Html.TextBoxFor(m => m.Name[i], new { @class = "form-control" })
-                                            @Html.LabelFor(m => m.Languages, new { @class = "control-label" })
-                                            @Html.TextBoxFor(m => m.Languages[i], new { @class = "form-control", @readonly = "readonly" })
+                                            @Html.LabelFor(m => m.Name, new {@class = "control-label"})
+                                            @Html.TextBoxFor(m => m.Name[i], new {@class = "form-control"})
+                                            @Html.LabelFor(m => m.Languages, new {@class = "control-label"})
+                                            @Html.TextBoxFor(m => m.Languages[i], new {@class = "form-control", @readonly = "readonly"})
                                         </div>
-}
+                                    }
                                     i++;
                                 }
-                            </div>  }
+                            </div>
+                        }
 
                     </div>
 
@@ -94,6 +95,7 @@
 
             </div>
         </div>
+        <a href="@(Request.UrlReferrer ?? new Uri("/"))" class="btn btn-danger">@Locale.Cancel</a>
         <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">
             @Locale.Submit
         </button>

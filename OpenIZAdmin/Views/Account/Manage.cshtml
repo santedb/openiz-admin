@@ -62,6 +62,7 @@
 
             <div class="form-group">
                 <div class="col-md-10 pull-right">
+                    <a href="@(Request.UrlReferrer ?? new Uri("/"))" class="btn btn-danger">@Locale.Cancel</a>
                     <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Save</button>
                 </div>
             </div>
