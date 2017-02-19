@@ -48,36 +48,6 @@ namespace OpenIZAdmin.Util
 		}
 
 		/// <summary>
-		/// Converts a <see cref="OpenIZ.Core.Model.Security.SecurityDevice"/> to a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/>
-		/// </summary>
-		/// <param name="client">The Ami Service Client.</param>
-		/// /// <param name="deviceInfo">The device object to convert to a EditDeviceModel.</param>
-		/// <returns>Returns a EditDeviceModel object.</returns>
-		public static EditDeviceModel ToEditDeviceModel(AmiServiceClient client, SecurityDeviceInfo deviceInfo)
-		{
-			var viewModel = new EditDeviceModel
-			{
-				Device = deviceInfo.Device,
-				CreationTime = deviceInfo.Device.CreationTime.DateTime,
-				Id = deviceInfo.Device.Key.Value,
-				DeviceSecret = deviceInfo.DeviceSecret,
-				Name = deviceInfo.Name,
-				UpdatedTime = deviceInfo.Device.UpdatedTime?.DateTime,
-				DevicePolicies = deviceInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList()
-			};
-
-			if (viewModel.DevicePolicies.Any())
-			{
-				viewModel.Policies = viewModel.DevicePolicies.Select(p => p.Key.ToString()).ToList();
-			}
-
-			viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
-			viewModel.PoliciesList.AddRange(CommonUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }).OrderBy(q => q.Text));
-
-			return viewModel;
-		}
-
-		/// <summary>
 		/// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo"/>
 		/// </summary>
 		/// <param name="model">The edit device model to convert.</param>

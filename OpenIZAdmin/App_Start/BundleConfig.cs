@@ -55,6 +55,9 @@ namespace OpenIZAdmin
 						"~/Scripts/place-search.js",
 						"~/Scripts/user-search.js"));
 
+			bundles.Add(new ScriptBundle("~/bundles/ui-customizations").Include(
+						"~/Scripts/ui-customizations.js"));
+
 			bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
 					  "~/Scripts/bootstrap.min.js",
 					  "~/Scripts/respond.min.js"));

@@ -46,7 +46,7 @@
                 <ul class="nav pull-right" role="menu" aria-labelledby="menu">
                     <li class="dropdown" id="language-change-dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                            <span class="glyphicon glyphicon-globe"></span> @OpenIZAdmin.Localization.Locale.ChangeLanguage <span class="caret"></span>
+                            <span class="glyphicon glyphicon-globe"></span> @Locale.ChangeLanguage <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu">
                             <li>
@@ -56,7 +56,7 @@
                             </li>
                             <li>
                                 <a href="#" language="@Locale.SW" class="change-language">
-                                    Kiswahili
+                                    @Locale.Kiswahili
                                 </a>
                             </li>
                         </ul>
@@ -75,25 +75,26 @@
                     <li><a href="/Home"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> @Locale.Dashboard</a></li>
                     @if (User.Identity.IsAuthenticated && Request.Cookies["access_token"]?.Value != null)
                     {
-                        <li><a href="/Applet"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span> @Locale.Applets</a></li>
-                        <li><a href="/Application"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> @Locale.Applications</a></li>
-                        <li><a href="/AssigningAuthority"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> @Locale.AssigningAuthorities</a></li>
+                        <li><a href="@Url.Action("Index", "Applet")"><span class="glyphicon glyphicon-copy" aria-hidden="true"></span> @Locale.Applets</a></li>
+                        <li><a href="@Url.Action("Index", "Application")"><span class="glyphicon glyphicon-star" aria-hidden="true"></span> @Locale.Applications</a></li>
+                        <li><a href="@Url.Action("Index", "AssigningAuthority")"><span class="glyphicon glyphicon-lock" aria-hidden="true"></span> @Locale.AssigningAuthorities</a></li>
                         @*<li><a href="/Certificate"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span> @Locale.Certificates</a></li>*@
-                        <li><a href="/Concept"><span class="glyphicon glyphicon-compressed" aria-hidden="true"></span> @Locale.Concepts</a></li>
-                        <li><a href="/Device"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> @Locale.Devices</a></li>
-                        <li><a href="/Material"><span class="glyphicon glyphicon-oil" aria-hidden="true"></span> @Locale.Material</a></li>
-                        <li><a href="/Place"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> @Locale.Places</a></li>
-                        <li><a href="/Policy"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> @Locale.Policies</a></li>
-                        @*<li><a href="/Provider"><span class="glyphicon glyphicon-heart" aria-hidden="true"></span> @Locale.Providers</a></li>*@
-                        <li><a href="/Realm"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> @Locale.RealmManagement</a></li>
-                        <li><a href="/Role"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Locale.Roles</a></li>
-                        <li><a href="/User"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Locale.Users</a></li>
-                        <li><a href="/Home/VersionInformation"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Locale.About</a></li>}
+                        <li><a href="@Url.Action("Index", "Concept")"><span class="glyphicon glyphicon-compressed" aria-hidden="true"></span> @Locale.Concepts</a></li>
+                        <li><a href="@Url.Action("Index", "Device")"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> @Locale.Devices</a></li>
+                        <li><a href="@Url.Action("Index", "Material")"><span class="glyphicon glyphicon-oil" aria-hidden="true"></span> @Locale.Material</a></li>
+                        <li><a href="@Url.Action("Index", "Place")"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> @Locale.Places</a></li>
+                        <li><a href="@Url.Action("Index", "Policy")"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> @Locale.Policies</a></li>
+                        <li><a href="@Url.Action("Index", "Realm")"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> @Locale.RealmManagement</a></li>
+                        <li><a href="@Url.Action("Index", "Role")"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Locale.Roles</a></li>
+                        <li><a href="@Url.Action("Index", "User")"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Locale.Users</a></li>
+                        <li><a href="@Url.Action("VersionInformation", "Home")"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Locale.About</a></li>}
                 </ul>
             </div>
 
             <div id="alert-partial-container">
             </div>
+
+            @Html.Partial("_ConfirmDelete")
 
             <div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
                 @RenderBody()
@@ -123,6 +124,7 @@
     @Scripts.Render("~/bundles/datatables")
     @Scripts.Render("~/bundles/select2")
     @Scripts.Render("~/bundles/ajax-search")
+    @Scripts.Render("~/bundles/ui-customizations")
 
 
 

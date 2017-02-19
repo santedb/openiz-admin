@@ -22,43 +22,94 @@ using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.AMI.Auth;
 
 namespace OpenIZAdmin.Models.DeviceModels
 {
+	/// <summary>
+	/// Represents an edit device model.
+	/// </summary>
 	public class EditDeviceModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EditDeviceModel"/> class.
+		/// </summary>
 		public EditDeviceModel()
 		{
+			this.DevicePolicies = new List<PolicyViewModel>();
 			this.Policies = new List<string>();
 			this.PoliciesList = new List<SelectListItem>();
 		}
 
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-		public DateTimeOffset CreationTime { get; set; }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EditDeviceModel"/> class
+		/// with a specific <see cref="SecurityDeviceInfo"/> instance.
+		/// </summary>
+		/// <param name="securityDeviceInfo">The <see cref="SecurityDeviceInfo"/> instance.</param>
+		public EditDeviceModel(SecurityDeviceInfo securityDeviceInfo) : this()
+		{
+			this.Device = securityDeviceInfo.Device;
+			this.CreationTime = securityDeviceInfo.Device.CreationTime.DateTime;
+			this.Id = securityDeviceInfo.Device.Key.Value;
+			this.DeviceSecret = securityDeviceInfo.DeviceSecret;
+			this.Name = securityDeviceInfo.Name;
+			this.UpdatedTime = securityDeviceInfo.Device.UpdatedTime?.DateTime;
+			this.DevicePolicies = securityDeviceInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList();
+			this.Policies = this.DevicePolicies.Select(p => p.Key.ToString()).ToList();
+		}
 
-		//holds the original device object
+		/// <summary>
+		/// Gets or sets the creation time of the device.
+		/// </summary>
+		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+		public DateTime CreationTime { get; set; }
+
+		/// <summary>
+		/// Gets or sets the security device.
+		/// </summary>
 		public SecurityDevice Device { get; set; }
 
+		/// <summary>
+		/// Gets or sets the list of policies associated with the device.
+		/// </summary>
 		public IEnumerable<PolicyViewModel> DevicePolicies { get; set; }
 
+		/// <summary>
+		/// Gets or sets the device secret.
+		/// </summary>
 		[Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
 		public string DeviceSecret { get; set; }
 
+		/// <summary>
+		/// Gets or sets the id of the device.
+		/// </summary>
 		[Required]
 		public Guid Id { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name of the device.
+		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Gets or sets the list of policies associated with the device.
+		/// </summary>
 		[Display(Name = "Policies", ResourceType = typeof(Localization.Locale))]
 		public List<string> Policies { get; set; }
 
-		//policies autopopulate
+		/// <summary>
+		/// Gets or sets the select list of policies.
+		/// </summary>
 		public List<SelectListItem> PoliciesList { get; set; }
 
+		/// <summary>
+		/// Gets or sets the updated time of the device.
+		/// </summary>
 		public DateTime? UpdatedTime { get; set; }
 	}
 }

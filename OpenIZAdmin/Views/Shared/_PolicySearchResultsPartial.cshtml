@@ -38,14 +38,14 @@
                                 </a>
                                 @if (!item.IsObsolete)
                                 {
-                                    using (Html.BeginForm("Delete", "Policy", new { id = item.Key }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                    using (Html.BeginForm("Delete", "Policy", new { id = item.Key }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form", id = "deactivate-policy-form" }))
                                     {
                                         @Html.AntiForgeryToken()
 
-                                        <button type="submit" class="formButton btn btn-danger">
+                                        <a href="#" class="formButton btn btn-danger" onclick="showModal('deactivate-policy-form')">
                                             @Locale.Deactivate
                                             <span class="glyphicon glyphicon-log-out"></span>
-                                        </button>
+                                        </a>
 }
                                 }
 

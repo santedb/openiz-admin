@@ -59,7 +59,7 @@
                                     @item.Time
                                 </td>
                                 <td>
-                                    @Html.ActionLink(Locale.View, "ViewAlert", new { id = item.Id }, new { @class = "btn btn-primary" })
+                                    @Html.ActionLink(Locale.View, "ViewAlert", "Alert", new { id = item.Id }, new { @class = "btn btn-primary" })
                                 </td>
                             </tr>}
                     </tbody>
@@ -68,7 +68,7 @@
             <div class="modal-footer">
                 <div class="form-group">
                     <div class="col-md-offset-9 col-md-3">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">@Locale.Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">@Locale.Close</button>
                     </div>
                 </div>
             </div>

@@ -167,7 +167,12 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return View(DeviceUtil.ToEditDeviceModel(this.AmiClient, securityDeviceInfo));
+				var model = new EditDeviceModel(securityDeviceInfo);
+
+				model.PoliciesList.Add(new SelectListItem { Text = string.Empty, Value = string.Empty });
+				model.PoliciesList.AddRange(CommonUtil.GetAllPolicies(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Key.ToString() }).OrderBy(q => q.Text));
+
+				return View(model);
 			}
 			catch (Exception e)
 			{
@@ -186,7 +191,7 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit(EditDeviceModel model)
+		public ActionResult Edit([Bind(Exclude = "CreationTime")] EditDeviceModel model)
 		{
 			try
 			{
