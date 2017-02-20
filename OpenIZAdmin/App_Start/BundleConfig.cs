@@ -70,6 +70,7 @@ namespace OpenIZAdmin
 						"~/Content/datatables.css",
 						"~/Content/select2.min.css",
 						"~/Content/toastr.min.css",
+						"~/Content/metro-bootstrap.min.css",
 						"~/Content/styles.css"));
 
 #if !DEBUG
