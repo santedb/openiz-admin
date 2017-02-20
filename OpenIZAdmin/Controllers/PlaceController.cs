@@ -156,11 +156,24 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var place = this.ImsiClient.Update<Place>(model.ToPlace());
+					var bundle = this.ImsiClient.Query<Place>(p => p.Key == model.Id && p.ClassConceptKey == EntityClassKeys.Place && p.ObsoletionTime == null, 0, null, true);
+
+					bundle.Reconstitute();
+
+					var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == model.Id && p.ClassConceptKey == EntityClassKeys.Place && p.ObsoletionTime == null);
+
+					if (place == null)
+					{
+						TempData["error"] = Locale.Place + " " + Locale.NotFound;
+
+						return RedirectToAction("Index");
+					}
+
+					var updatedPlace = this.ImsiClient.Update<Place>(model.ToPlace(place));
 
 					TempData["success"] = Locale.Place + " " + Locale.Successfully + " " + Locale.Updated;
 
-					return RedirectToAction("ViewPlace", new { id = place.Key });
+					return RedirectToAction("ViewPlace", new { id = updatedPlace.Key });
 				}
 			}
 			catch (Exception e)
@@ -169,6 +182,7 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Place;
+
 			return View(model);
 		}
 

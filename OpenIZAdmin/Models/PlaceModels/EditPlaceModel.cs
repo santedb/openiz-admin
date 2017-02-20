@@ -24,13 +24,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
 	/// <summary>
 	/// Represents an edit place model.
 	/// </summary>
-	public class EditPlaceModel
+	public class EditPlaceModel : EditEntityModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditPlaceModel"/> class.
@@ -47,18 +48,17 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// with a specific <see cref="Place"/> instance.
 		/// </summary>
 		/// <param name="place">The <see cref="Place"/> instance.</param>
-		public EditPlaceModel(Place place) : this()
+		public EditPlaceModel(Place place) : base(place)
 		{
-			this.Id = place.Key.Value;
 			this.Name = string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value));
 		}
 
-		[Required]
-		public Guid Id { get; set; }
-
+		/// <summary>
+		/// Gets or sets the name of the place.
+		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
 		/// <summary>
@@ -76,16 +76,17 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// </summary>
 		public List<SelectListItem> RelatedPlacesList { get; set; }
 
-		public Place ToPlace()
+		/// <summary>
+		/// Converts a <see cref="EditPlaceModel"/> instance to a <see cref="Place"/> instance.
+		/// </summary>
+		/// <param name="place">The <see cref="Place"/> instance.</param>
+		/// <returns>Returns a <see cref="Place"/> instance.</returns>
+		public Place ToPlace(Place place)
 		{
-			return new Place
-			{
-				Key = this.Id,
-				Names = new List<EntityName>
-				{
-					new EntityName(NameUseKeys.OfficialRecord, this.Name)
-				}
-			};
+			place.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.OfficialRecord);
+			place.Names.Add(new EntityName(NameUseKeys.OfficialRecord, this.Name));
+
+			return place;
 		}
 	}
 }

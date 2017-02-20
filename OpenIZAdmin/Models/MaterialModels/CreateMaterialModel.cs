@@ -43,18 +43,6 @@ namespace OpenIZAdmin.Models.MaterialModels
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="CreateMaterialModel"/> class
-		/// with a specific set of form concepts and quantity concepts.
-		/// </summary>
-		/// <param name="formConcepts"></param>
-		/// <param name="quantityConcepts"></param>
-		public CreateMaterialModel(IEnumerable<Concept> formConcepts, IEnumerable<Concept> quantityConcepts) : this()
-		{
-			this.FormConcepts.AddRange(formConcepts.Select(c => new SelectListItem { Text = c.Mnemonic, Value = c.Key?.ToString() }));
-			this.QuantityConcepts.AddRange(quantityConcepts.Select(c => new SelectListItem { Text = c.Mnemonic, Value = c.Key?.ToString() }));
-		}
-
-		/// <summary>
 		/// Gets or sets the form concept for the material.
 		/// </summary>
 		[Display(Name = "FormConcept", ResourceType = typeof(Localization.Locale))]
@@ -70,7 +58,7 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
 		/// <summary>
@@ -90,16 +78,28 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// <returns>Returns a <see cref="Material"/> instance.</returns>
 		public Material ToMaterial()
 		{
-			return new Material
+			var material = new Material
 			{
 				Key = Guid.NewGuid(),
 				Names = new List<EntityName>
 				{
-					new EntityName(NameUseKeys.OfficialRecord, this.Name)
-				},
-				FormConceptKey = Guid.Parse(this.FormConcept),
-				QuantityConceptKey = Guid.Parse(this.QuantityConcept)
+					new EntityName(NameUseKeys.Assigned, this.Name)
+				}
 			};
+
+			Guid formConceptKey, quantityConceptKey;
+
+			if (Guid.TryParse(this.FormConcept, out formConceptKey))
+			{
+				material.FormConceptKey = formConceptKey;
+			}
+
+			if (Guid.TryParse(this.QuantityConcept, out quantityConceptKey))
+			{
+				material.QuantityConceptKey = quantityConceptKey;
+			}
+
+			return material;
 		}
 	}
 }

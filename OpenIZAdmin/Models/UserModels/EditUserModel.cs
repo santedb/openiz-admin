@@ -66,7 +66,7 @@ namespace OpenIZAdmin.Models.UserModels
 			this.Surnames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
 			this.SurnameList.AddRange(this.Surnames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 			this.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
-			this.UserId = securityUserInfo.UserId.Value;
+			this.Id = securityUserInfo.UserId.Value;
 			this.UserRoles = securityUserInfo.Roles.Select(r => new RoleViewModel(r)).OrderBy(q => q.Name).ToList();
 
 			if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
@@ -160,7 +160,7 @@ namespace OpenIZAdmin.Models.UserModels
 		/// Gets or sets the user id of the user.
 		/// </summary>
 		[Required]
-		public Guid UserId { get; set; }
+		public Guid Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the current roles of the user.
@@ -177,7 +177,7 @@ namespace OpenIZAdmin.Models.UserModels
 			var securityUserInfo = new SecurityUserInfo
 			{
 				Email = this.Email,
-				UserId = this.UserId,
+				UserId = this.Id,
 				User = userEntity.SecurityUser
 			};
 

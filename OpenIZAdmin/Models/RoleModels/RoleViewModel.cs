@@ -23,49 +23,44 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Models.Core;
 using OpenIZAdmin.Models.PolicyModels;
 
 namespace OpenIZAdmin.Models.RoleModels
 {
-	public class RoleViewModel
+	/// <summary>
+	/// Represents a role view model.
+	/// </summary>
+	public class RoleViewModel : SecurityViewModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RoleViewModel"/> class.
+		/// </summary>
 		public RoleViewModel()
 		{
-			this.Policies = new List<PolicyViewModel>();
 		}
 
-		public RoleViewModel(SecurityRole securityRole) : this(new SecurityRoleInfo(securityRole))
-		{
-		}
-
-		public RoleViewModel(SecurityRoleInfo securityRoleInfo) : this()
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RoleViewModel"/> class
+		/// with a specific <see cref="SecurityRoleInfo"/> instance.
+		/// </summary>
+		/// <param name="securityRoleInfo">The <see cref="SecurityRoleInfo"/> instance.</param>
+		public RoleViewModel(SecurityRoleInfo securityRoleInfo) : base(securityRoleInfo)
 		{
 			this.Description = securityRoleInfo.Role.Description;
-			this.HasPolicies = securityRoleInfo.Policies.Any();
-			this.Id = securityRoleInfo.Id.Value;
-			this.IsObsolete = securityRoleInfo.Role.ObsoletionTime != null;
 			this.Name = securityRoleInfo.Name;
-
-			if (this.HasPolicies)
-			{
-				this.Policies = securityRoleInfo.Policies.Select(p => new PolicyViewModel(new SecurityPolicyInstance(p.Policy, p.Grant))).OrderBy(q => q.Name).ToList();
-			}
 		}
 
+		/// <summary>
+		/// Gets or sets the description of the role.
+		/// </summary>
 		[Display(Name = "Description", ResourceType = typeof(Localization.Locale))]
 		public string Description { get; set; }
 
-		[Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
-		public bool HasPolicies { get; set; }
-
-		[Display(Name = "Id", ResourceType = typeof(Localization.Locale))]
-		public Guid Id { get; set; }
-
-		public bool IsObsolete { get; set; }
-
+		/// <summary>
+		/// Gets or sets the name of the role.
+		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
-
-		public List<PolicyViewModel> Policies { get; set; }
 	}
 }

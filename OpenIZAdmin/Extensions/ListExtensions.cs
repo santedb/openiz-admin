@@ -61,7 +61,7 @@ namespace OpenIZAdmin.Extensions
 		/// <param name="source">The source list.</param>
 		/// <param name="textPropertyName">The text property name.</param>
 		/// <param name="valuePropertyName">The value property name.</param>
-		/// <param name="selectedExpression">An expression which evaluates to ensuring items are selected.</param>
+		/// <param name="selectedExpression">An expression which evaluates to set selected items.</param>
 		/// <returns>Returns a select list.</returns>
 		public static List<SelectListItem> ToSelectList<T>(this IEnumerable<T> source, string textPropertyName, string valuePropertyName, Expression<Func<T, bool>> selectedExpression = null)
 		{

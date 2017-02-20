@@ -24,13 +24,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.MaterialModels
 {
 	/// <summary>
 	/// Represents a model to edit a material.
 	/// </summary>
-	public class EditMaterialModel
+	public class EditMaterialModel : EditEntityModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditMaterialModel"/> class.
@@ -41,11 +42,10 @@ namespace OpenIZAdmin.Models.MaterialModels
 			this.QuantityConcepts = new List<SelectListItem>();
 		}
 
-		public EditMaterialModel(Material material)
+		public EditMaterialModel(Material material) : base(material)
 		{
 			this.FormConcept = material.FormConceptKey?.ToString();
-			this.Id = material.Key.Value;
-			this.Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value));
+			this.Name = string.Join(" ", material.Names.Where(n => n.NameUseKey == NameUseKeys.Assigned).SelectMany(n => n.Component).Select(c => c.Value));
 			this.QuantityConcept = material.QuantityConceptKey?.ToString();
 		}
 
@@ -61,16 +61,11 @@ namespace OpenIZAdmin.Models.MaterialModels
 		public List<SelectListItem> FormConcepts { get; set; }
 
 		/// <summary>
-		/// Gets or sets the key of the material.
-		/// </summary>
-		public Guid Id { get; set; }
-
-		/// <summary>
 		/// Gets or sets the name of the material.
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
 		/// <summary>
@@ -84,17 +79,29 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// </summary>
 		public List<SelectListItem> QuantityConcepts { get; set; }
 
-		public Material ToMaterial()
+		/// <summary>
+		/// Converts an <see cref="EditMaterialModel"/> instance to a <see cref="Material"/> instance.
+		/// </summary>
+		/// <param name="material">The <see cref="Material"/> instance.</param>
+		/// <returns>Returns a <see cref="Material"/> instance.</returns>
+		public Material ToMaterial(Material material)
 		{
-			return new Material
+			material.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.Assigned);
+			material.Names.Add(new EntityName(NameUseKeys.Assigned, this.Name));
+
+			Guid formConceptKey, quantityConceptKey;
+
+			if (Guid.TryParse(this.FormConcept, out formConceptKey))
 			{
-				FormConceptKey = Guid.Parse(this.FormConcept),
-				Names = new List<EntityName>
-				{
-					new EntityName(NameUseKeys.OfficialRecord, this.Name)
-				},
-				QuantityConceptKey = Guid.Parse(this.QuantityConcept)
-			};
+				material.FormConceptKey = formConceptKey;
+			}
+
+			if (Guid.TryParse(this.QuantityConcept, out quantityConceptKey))
+			{
+				material.QuantityConceptKey = quantityConceptKey;
+			}
+
+			return material;
 		}
 	}
 }

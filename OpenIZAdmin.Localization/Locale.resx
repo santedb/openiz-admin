@@ -279,9 +279,6 @@
   <data name="Id" xml:space="preserve">
     <value>Id</value>
   </data>
-  <data name="UpdatedTime" xml:space="preserve">
-    <value>Updated Time</value>
-  </data>
   <data name="NoDevicesAdded" xml:space="preserve">
     <value>No devices have been added</value>
   </data>
@@ -316,10 +313,10 @@
     <value>Please select a search type</value>
   </data>
   <data name="MnemonicTooLong" xml:space="preserve">
-    <value>The mnemonic field must not exceed 255 characters</value>
+    <value>The mnemonic cannot exceed 255 characters</value>
   </data>
-  <data name="NameTooLong" xml:space="preserve">
-    <value>The name field must not exceed 255 characters</value>
+  <data name="NameLength255" xml:space="preserve">
+    <value>The name cannot exceed 255 characters</value>
   </data>
   <data name="NameRequired" xml:space="preserve">
     <value>The name field is required</value>
@@ -355,13 +352,13 @@
     <value>The first name field is required</value>
   </data>
   <data name="FirstNameTooLong" xml:space="preserve">
-    <value>The first name field must not exceed 255 characters</value>
+    <value>The first name cannot exceed 255 characters</value>
   </data>
   <data name="LastNameRequired" xml:space="preserve">
     <value>The last name field is required</value>
   </data>
   <data name="LastNameTooLong" xml:space="preserve">
-    <value>The last name field must not exceed 255 characters</value>
+    <value>The last name cannot exceed 255 characters</value>
   </data>
   <data name="EmailRequired" xml:space="preserve">
     <value>The email field is required</value>
@@ -507,8 +504,8 @@
   <data name="Providers" xml:space="preserve">
     <value>Providers</value>
   </data>
-  <data name="DescriptionTooLong" xml:space="preserve">
-    <value>The description field must be not exceed 1000 characters</value>
+  <data name="DescriptionLength255" xml:space="preserve">
+    <value>The description cannot exceed 255 characters</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Loading</value>
@@ -765,8 +762,8 @@
   <data name="DeviceSecretRequired" xml:space="preserve">
     <value>Device Secret required</value>
   </data>
-  <data name="DeviceSecretTooLong" xml:space="preserve">
-    <value>The device secret field must not exceed 255 characters</value>
+  <data name="DeviceSecret64" xml:space="preserve">
+    <value>The device secret cannot exceed 64 characters</value>
   </data>
   <data name="AddUsers" xml:space="preserve">
     <value>Add Users</value>
@@ -1148,5 +1145,17 @@
   </data>
   <data name="NoAssociatedManufacturedMaterials" xml:space="preserve">
     <value>No associated manufactured materials</value>
+  </data>
+  <data name="NameLength64" xml:space="preserve">
+    <value>The name cannot exceed 64 characters</value>
+  </data>
+  <data name="NameLength50" xml:space="preserve">
+    <value>The name cannot exceed 50 characters</value>
+  </data>
+  <data name="UrlInvalid" xml:space="preserve">
+    <value>Please enter a valid URL</value>
+  </data>
+  <data name="NoAssociatedPolicies" xml:space="preserve">
+    <value>No associated policies</value>
   </data>
 </root>

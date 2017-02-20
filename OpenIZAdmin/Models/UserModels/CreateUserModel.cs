@@ -98,8 +98,8 @@ namespace OpenIZAdmin.Models.UserModels
 		/// Gets or sets the username of the user.
 		/// </summary>
 		[Display(Name = "Username", ResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(255, ErrorMessageResourceName = "UsernameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(255, ErrorMessageResourceName = "UsernameTooLong", ErrorMessageResourceType = typeof(Locale))]
 		public string Username { get; set; }
 
 		/// <summary>

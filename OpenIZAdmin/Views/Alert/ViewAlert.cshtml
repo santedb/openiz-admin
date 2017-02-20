@@ -6,32 +6,33 @@
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        @Model.Subject
-        @Model.Time.ToLocalTime().ToString("dddd MMM yyyy hh:mm:ss tt")
+        @Model.Time.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)
+
+        @Locale.From <strong>@Model.From</strong>
     </div>
 
     <div class="panel panel-body">
         <div class="form-group">
             <div class="col-md-10">
-                @Locale.From <strong>@Model.From</strong>
+                @Locale.Subject @Model.Subject
             </div>
         </div>
 
-        <hr />
-
-        <div class="col-md-10">
+        <div class="col-md-12">
             <div class="form-group">
                 <div class="col-md-10 grey rounded-corners">
-                    <div>
-                        @Model.Body
-                    </div>
+                    @Model.Body
                 </div>
-                <div class="col-md-2">
-                    @using (Html.BeginForm("Read", "Alert", new { id = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span>@Locale.Acknowledge</button>}
-                </div>
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+                @using (Html.BeginForm("Read", "Alert", new {id = Model.Id}, FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
+                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span>@Locale.Acknowledge</button>}
             </div>
         </div>
     </div>

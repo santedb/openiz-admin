@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.PolicyModels;
 
 namespace OpenIZAdmin.Models.DeviceModels
@@ -56,7 +57,6 @@ namespace OpenIZAdmin.Models.DeviceModels
 			this.IsObsolete = securityDeviceInfo.Device.ObsoletionTime != null;
 			this.DeviceSecret = securityDeviceInfo.DeviceSecret;
 			this.Name = securityDeviceInfo.Name;
-			this.UpdatedTime = securityDeviceInfo.Device.UpdatedTime?.DateTime;
 			this.DevicePolicies = securityDeviceInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList();
 			this.Policies = this.DevicePolicies.Select(p => p.Id.ToString()).ToList();
 		}
@@ -64,7 +64,7 @@ namespace OpenIZAdmin.Models.DeviceModels
 		/// <summary>
 		/// Gets or sets the creation time of the device.
 		/// </summary>
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
 		public DateTime CreationTime { get; set; }
 
 		/// <summary>
@@ -80,7 +80,7 @@ namespace OpenIZAdmin.Models.DeviceModels
 		/// <summary>
 		/// Gets or sets the device secret.
 		/// </summary>
-		[Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
+		[StringLength(64, ErrorMessageResourceName = "DeviceSecret64", ErrorMessageResourceType = typeof(Locale))]
 		public string DeviceSecret { get; set; }
 
 		/// <summary>
@@ -97,25 +97,20 @@ namespace OpenIZAdmin.Models.DeviceModels
 		/// <summary>
 		/// Gets or sets the name of the device.
 		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of policies associated with the device.
 		/// </summary>
-		[Display(Name = "Policies", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Policies", ResourceType = typeof(Locale))]
 		public List<string> Policies { get; set; }
 
 		/// <summary>
 		/// Gets or sets the select list of policies.
 		/// </summary>
 		public List<SelectListItem> PoliciesList { get; set; }
-
-		/// <summary>
-		/// Gets or sets the updated time of the device.
-		/// </summary>
-		public DateTime? UpdatedTime { get; set; }
 	}
 }

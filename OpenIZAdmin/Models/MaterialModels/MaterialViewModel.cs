@@ -20,14 +20,16 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.MaterialModels
 {
 	/// <summary>
 	/// Represents a material view model.
 	/// </summary>
-	public class MaterialViewModel
+	public class MaterialViewModel : EntityViewModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MaterialViewModel"/> class.
@@ -36,12 +38,16 @@ namespace OpenIZAdmin.Models.MaterialModels
 		{
 		}
 
-		public MaterialViewModel(Material material)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MaterialViewModel"/> class
+		/// with a specific <see cref="Material"/> instance.
+		/// </summary>
+		/// <param name="material">The <see cref="Material"/> instance.</param>
+		public MaterialViewModel(Material material) : base(material)
 		{
-			this.Id = material.Key.Value;
-			this.Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value));
-			this.FormConcept = material.FormConcept.Mnemonic;
-			this.QuantityConcept = material.QuantityConcept.Mnemonic;
+			this.FormConcept = material.FormConcept?.ConceptNames.Any() == true ? string.Join(" ", material.FormConcept?.ConceptNames.Select(c => c.Name)) : material.FormConcept?.Mnemonic;
+			this.Name = string.Join(" ", material.Names.Where(n => n.NameUseKey == NameUseKeys.Assigned).SelectMany(n => n.Component).Select(c => c.Value));
+			this.QuantityConcept = material.QuantityConcept?.ConceptNames.Any() == true ? string.Join(" ", material.QuantityConcept?.ConceptNames.Select(c => c.Name)) : material.QuantityConcept?.Mnemonic;
 		}
 
 		/// <summary>
@@ -49,17 +55,6 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// </summary>
 		[Display(Name = "FormConcept", ResourceType = typeof(Localization.Locale))]
 		public string FormConcept { get; set; }
-
-		/// <summary>
-		/// Gets or sets the key of the material.
-		/// </summary>
-		public Guid Id { get; set; }
-
-		/// <summary>
-		/// Gets or sets the name of the material.
-		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the quantity concept of the material.

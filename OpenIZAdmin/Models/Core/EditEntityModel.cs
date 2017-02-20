@@ -14,36 +14,46 @@
  * the License.
  * 
  * User: Nityan
- * Date: 2017-2-19
+ * Date: 2017-2-20
  */
-
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
 using OpenIZ.Core.Model.Entities;
-using OpenIZAdmin.Models.Core;
+using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.EntityIdentifierModels;
 
-namespace OpenIZAdmin.Models.OrganizationModels
+namespace OpenIZAdmin.Models.Core
 {
 	/// <summary>
-	/// Represents an organization search result view model.
+	/// Represents an edit entity model.
 	/// </summary>
-	public class OrganizationSearchResultViewModel : EntityViewModel
+	public abstract class EditEntityModel
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OrganizationSearchResultViewModel"/> class.
+		/// Initializes a new instance of the <see cref="EditEntityModel"/> class.
 		/// </summary>
-		public OrganizationSearchResultViewModel()
+		protected EditEntityModel()
 		{
-			
+
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OrganizationSearchResultViewModel"/> class
-		/// with a specific <see cref="Organization"/> instance.
+		/// Initializes a new instance of the <see cref="EditEntityModel"/> class
+		/// with a specific <see cref="Entity"/> instance.
 		/// </summary>
-		/// <param name="organization">The <see cref="Organization"/> instance.</param>
-		public OrganizationSearchResultViewModel(Organization organization) : base(organization)
+		/// <param name="entity">The <see cref="Entity"/> instance.</param>
+		protected EditEntityModel(Entity entity)
 		{
+			this.Id = entity.Key.Value;
 		}
+
+		/// <summary>
+		/// Gets or sets the id of the entity.
+		/// </summary>
+		[Required]
+		public Guid Id { get; set; }
 	}
 }

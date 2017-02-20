@@ -19,67 +19,54 @@
         {
             <table class="table" id="alertsTable">
                 <thead>
-                <tr>
-                    <th>
-                        @Locale.To
-                    </th>
-                    <th>
-                        @Locale.From
-                    </th>
-                    <th>
-                        @Locale.Subject
-                    </th>
-                    <th>
-                        @Locale.Time
-                    </th>
-                    <th></th>
-                </tr>
+                    <tr>
+                        <th>
+                            @Locale.To
+                        </th>
+                        <th>
+                            @Locale.From
+                        </th>
+                        <th>
+                            @Locale.Subject
+                        </th>
+                        <th>
+                            @Locale.Time
+                        </th>
+                        <th></th>
+                    </tr>
                 </thead>
                 <tbody id="alert-results">
-                @foreach (var item in Model)
-                {
-                    var style = "";
-                    if (item.Flags == AlertMessageFlags.Alert)
+                    @foreach (var item in Model)
                     {
-                        style = "bg-danger";
-                    }
-                    if (item.Flags == AlertMessageFlags.HighPriority)
-                    {
-                        style = "bg-warning";
-                    }
-                    else if (item.Flags == AlertMessageFlags.System)
-                    {
-                        style = "bg-success";
-                    }
-                    <tr class="@style">
-                        <td>
-                            @item.To
-                        </td>
-                        <td>
-                            @item.From
-                        </td>
-                        <td>
-                            @item.Subject
-                        </td>
-                        <td>
-                            @item.Time
-                        </td>
-                        <td>
-                            <a class="btn btn-primary" href="@Url.Action("ViewAlert", "Alert", new {id = item.Id})">
-                                @Locale.View
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                            </a>
-                            @using (Html.BeginForm("Read", "Alert", new {id = item.Id}, FormMethod.Post, new {@class = "inlineForm form-horizontal", role = "form"}))
-                            {
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span>@Locale.Acknowledge</button>}
+                        <tr>
+                            <td>
+                                @item.To
+                            </td>
+                            <td>
+                                @item.From
+                            </td>
+                            <td>
+                                @item.Subject
+                            </td>
+                            <td>
+                                @item.Time
+                            </td>
+                            <td>
+                                <a class="btn btn-primary" href="@Url.Action("ViewAlert", "Alert", new {id = item.Id})">
+                                    @Locale.View
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                                @using (Html.BeginForm("Read", "Alert", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span>@Locale.Acknowledge</button>}
 
-                            @using (Html.BeginForm("Delete", "Alert", new {id = item.Id}, FormMethod.Post, new {@class = "inlineForm form-horizontal", role = "form"}))
-                            {
-                                @Html.AntiForgeryToken()
-                                <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>@Locale.Delete</button>}
-                        </td>
-                    </tr>}
+                                @using (Html.BeginForm("Delete", "Alert", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+                                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>@Locale.Delete</button>}
+                            </td>
+                        </tr>}
                 </tbody>
             </table>
         }
@@ -93,8 +80,9 @@
 @section scripts
 {
     <script>
-        $(document).ready(function () {
+        $(document).ready(function ()
+        {
             $("#alertsTable").DataTable();
         });
-</script>
+    </script>
 }

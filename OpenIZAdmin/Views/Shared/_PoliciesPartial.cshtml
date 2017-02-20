@@ -1,0 +1,49 @@
+﻿@model IEnumerable<OpenIZAdmin.Models.PolicyModels.PolicyViewModel>
+@{
+    ViewBag.Title = Locale.PolicySearchResults;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.Details</span>
+    </div>
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @if (Model.Any())
+                        {
+                            <label class="control-label">@Locale.Policies</label>
+                            <table class="table table-striped table-bordered" id="policyTable">
+                                <thead>
+                                    <tr>
+                                        <th>@Locale.CreationTime</th>
+                                        <th>@Locale.Name</th>
+                                        <th>@Locale.Grant</th>
+                                        <th>@Locale.IsPublic</th>
+                                        <th>@Locale.Oid</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.CreationTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
+                                            <td>@item.Name</td>
+                                            <td>@item.Grant</td>
+                                            <td>@item.IsPublic</td>
+                                            <td>@item.Oid</td>
+                                        </tr>}
+
+                                </tbody>
+                            </table>}
+                        else
+                        {
+                            <p>@Locale.NoAssociatedPolicies</p>}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -276,7 +276,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, model.UserId);
+					var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, model.Id);
 
 					if (userEntity == null)
 					{
@@ -288,7 +288,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (updatedUserEntity.SecurityUser == null)
 					{
-						updatedUserEntity.SecurityUser = this.AmiClient.GetUser(model.UserId.ToString())?.User;
+						updatedUserEntity.SecurityUser = this.AmiClient.GetUser(model.Id.ToString())?.User;
 					}
 
 					var securityInfo = model.ToSecurityUserInfo(updatedUserEntity);
@@ -347,7 +347,7 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new ResetPasswordModel
 				{
-					UserId = id
+					Id = id
 				};
 
 				return View(model);
@@ -375,7 +375,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var user = this.AmiClient.GetUser(model.UserId.ToString());
+					var user = this.AmiClient.GetUser(model.Id.ToString());
 
 					if (user == null)
 					{
@@ -385,7 +385,7 @@ namespace OpenIZAdmin.Controllers
 
 					user.Password = model.Password;
 
-					this.AmiClient.UpdateUser(model.UserId, user);
+					this.AmiClient.UpdateUser(model.Id, user);
 
 					TempData["success"] = Locale.Password + " " + Locale.Reset + " " + Locale.Successfully;
 

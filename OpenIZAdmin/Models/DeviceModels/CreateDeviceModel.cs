@@ -40,7 +40,7 @@ namespace OpenIZAdmin.Models.DeviceModels
 		/// </summary>
 		[Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "DeviceSecretRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(255, ErrorMessageResourceName = "DeviceSecretTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(64, ErrorMessageResourceName = "DeviceSecret64", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string DeviceSecret { get; set; }
 
 		/// <summary>
@@ -48,7 +48,7 @@ namespace OpenIZAdmin.Models.DeviceModels
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
 		public SecurityDeviceInfo ToSecurityDeviceInfo()

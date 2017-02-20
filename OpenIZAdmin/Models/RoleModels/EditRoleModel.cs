@@ -46,6 +46,9 @@ namespace OpenIZAdmin.Models.RoleModels
 		[StringLength(1000, ErrorMessageResourceName = "DescriptionTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Description { get; set; }
 
+		/// <summary>
+		/// Gets or sets the id of the role.
+		/// </summary>
 		[Required]
 		public string Id { get; set; }
 
@@ -54,14 +57,23 @@ namespace OpenIZAdmin.Models.RoleModels
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(255, ErrorMessageResourceName = "NameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Gets or sets the list of policies associated with the role.
+		/// </summary>
 		[Display(Name = "Policies", ResourceType = typeof(Localization.Locale))]
 		public List<string> Policies { get; set; }
 
+		/// <summary>
+		/// Gets or sets the policy list.
+		/// </summary>
 		public List<SelectListItem> PoliciesList { get; set; }
 
+		/// <summary>
+		/// Gets or sets the policies associated with the role.
+		/// </summary>
 		public IEnumerable<PolicyViewModel> RolePolicies { get; set; }
 	}
 }

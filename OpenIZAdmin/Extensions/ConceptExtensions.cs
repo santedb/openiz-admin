@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.DataTypes;
@@ -49,8 +50,9 @@ namespace OpenIZAdmin.Extensions
 		/// Converts a <see cref="IEnumerable{T}"/> of <see cref="Concept"/> to a <see cref="IEnumerable{T}"/> of <see cref="SelectListItem"/>.
 		/// </summary>
 		/// <param name="source">The list of concepts to convert.</param>
+		/// <param name="selectedExpression">An expression which evaluates to set selected items.</param>
 		/// <returns>Returns a <see cref="IEnumerable{T}"/> of <see cref="SelectListItem"/>.</returns>
-		public static IEnumerable<SelectListItem> ToSelectList(this IEnumerable<Concept> source)
+		public static IEnumerable<SelectListItem> ToSelectList(this IEnumerable<Concept> source, Expression<Func<Concept, bool>> selectedExpression = null)
 		{
 			if (source == null)
 			{
@@ -62,9 +64,21 @@ namespace OpenIZAdmin.Extensions
 				new SelectListItem { Text = string.Empty, Value = string.Empty }
 			};
 
-			selectList.AddRange(source.Select(c => new SelectListItem { Text = string.Join(" ", c.ConceptNames.Select(n => n.Name)), Value = c.Key.ToString() }));
+			selectList.AddRange(
+				selectedExpression != null ?
+				source.Select(c => new SelectListItem
+				{
+					Selected = Convert.ToBoolean(selectedExpression.Compile().DynamicInvoke(c)),
+					Text = c.ConceptNames.Any() ? string.Join(" ", c.ConceptNames.Select(n => n.Name)) : c.Mnemonic,
+					Value = c.Key.ToString()
+				}) :
+				source.Select(c => new SelectListItem
+				{
+					Text = c.ConceptNames.Any() ? string.Join(" ", c.ConceptNames.Select(n => n.Name)) : c.Mnemonic,
+					Value = c.Key.ToString()
+				}));
 
-			return selectList;
+			return selectList.OrderBy(c => c.Text);
 		}
 
 		/// <summary>

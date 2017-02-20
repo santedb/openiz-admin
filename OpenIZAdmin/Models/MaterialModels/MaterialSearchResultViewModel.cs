@@ -20,14 +20,16 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.MaterialModels
 {
 	/// <summary>
 	/// Represents a material search result view model.
 	/// </summary>
-	public class MaterialSearchResultViewModel
+	public class MaterialSearchResultViewModel : EntityViewModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MaterialSearchResultViewModel"/> class.
@@ -36,28 +38,14 @@ namespace OpenIZAdmin.Models.MaterialModels
 		{
 		}
 
-		public MaterialSearchResultViewModel(Material material)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MaterialSearchResultViewModel"/> class
+		/// with a specific <see cref="Material"/> instance.
+		/// </summary>
+		/// <param name="material">The <see cref="Material"/> instance.</param>
+		public MaterialSearchResultViewModel(Material material) : base(material)
 		{
-			this.CreationTime = material.CreationTime.DateTime;
-			this.Id = material.Key.Value;
-			this.Name = string.Join(", ", material.Names.SelectMany(m => m.Component).Select(c => c.Value));
+			this.Name = string.Join(", ", material.Names.Where(n => n.NameUseKey == NameUseKeys.Assigned).SelectMany(m => m.Component).Select(c => c.Value));
 		}
-
-		/// <summary>
-		/// Gets or sets the creation time of the material.
-		/// </summary>
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-		public DateTime CreationTime { get; set; }
-
-		/// <summary>
-		/// Gets or sets th key of the material.
-		/// </summary>
-		public Guid Id { get; set; }
-
-		/// <summary>
-		/// Gets or sets the name of the material.
-		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		public string Name { get; set; }
 	}
 }

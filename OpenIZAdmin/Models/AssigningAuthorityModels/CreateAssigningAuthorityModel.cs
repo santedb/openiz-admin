@@ -20,33 +20,61 @@
 using OpenIZ.Core.Model.AMI.DataTypes;
 using OpenIZ.Core.Model.DataTypes;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {
+	/// <summary>
+	/// Represents a create assigning authority model.
+	/// </summary>
 	public class CreateAssigningAuthorityModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CreateAssigningAuthorityModel"/> class.
+		/// </summary>
 		public CreateAssigningAuthorityModel()
 		{
 		}
 
-		[Display(Name = "Description", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the description of the assigning authority.
+		/// </summary>
+		[Display(Name = "Description", ResourceType = typeof(Locale))]
 		public string Description { get; set; }
 
-		[Display(Name = "DomainName", ResourceType = typeof(Localization.Locale))]
-		[Required]
+		/// <summary>
+		/// Gets or sets the domain name of the assigning authority.
+		/// </summary>
+		[Display(Name = "DomainName", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string DomainName { get; set; }
 
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required]
+		/// <summary>
+		/// Gets or sets the name of the assigning authority.
+		/// </summary>
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(50, ErrorMessageResourceName = "NameLength50", ErrorMessageResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
-		[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
-		[Required]
+		/// <summary>
+		/// Gets or sets the OID of the assigning authority.
+		/// </summary>
+		[Display(Name = "Oid", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string Oid { get; set; }
 
-		[Display(Name = "Url", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the URL of the assigning authority.
+		/// </summary>
+		[Display(Name = "Url", ResourceType = typeof(Locale))]
+		[Url(ErrorMessageResourceName = "UrlInvalid", ErrorMessageResourceType = typeof(Locale))]
 		public string Url { get; set; }
 
+		/// <summary>
+		/// Converts a <see cref="CreateAssigningAuthorityModel"/> instance to an <see cref="AssigningAuthorityInfo"/> instance.
+		/// </summary>
+		/// <returns>Returns an <see cref="AssigningAuthorityInfo"/> instance.</returns>
 		public AssigningAuthorityInfo ToAssigningAuthorityInfo()
 		{
 			return new AssigningAuthorityInfo

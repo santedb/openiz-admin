@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.PolicyModels;
 
 namespace OpenIZAdmin.Models.ApplicationModels
@@ -30,18 +31,20 @@ namespace OpenIZAdmin.Models.ApplicationModels
 			this.IsObsolete = securityApplicationInfo.Application.ObsoletionTime != null;
 		}
 
-		[Display(Name = "AddPolicies", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "AddPolicies", ResourceType = typeof(Locale))]
 		public List<string> AddPolicies { get; set; }
 
-		[Display(Name = "ApplicationName", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "ApplicationName", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
 		public string ApplicationName { get; set; }
 
 		public IEnumerable<PolicyViewModel> ApplicationPolicies { get; set; }
 
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
 		public DateTime CreationTime { get; set; }
 
-		[Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "HasPolicies", ResourceType = typeof(Locale))]
 		public bool HasPolicies { get; set; }
 
 		[Required]
@@ -52,7 +55,7 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		/// </summary>
 		public bool IsObsolete { get; set; }
 
-		[Display(Name = "Policies", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Policies", ResourceType = typeof(Locale))]
 		public List<string> Policies { get; set; }
 
 		public List<SelectListItem> PoliciesList { get; set; }

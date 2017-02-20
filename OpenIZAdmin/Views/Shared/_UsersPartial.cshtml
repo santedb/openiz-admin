@@ -61,21 +61,21 @@
                                 }
                             </td>
                             <td class="col-md-4 centerButton">                                
-                                    <a class="btn btn-primary" href="/User/ViewUser/@item.UserId">
+                                    <a class="btn btn-primary" href="/User/ViewUser/@item.Id">
                                         @Locale.View
                                         <span class="glyphicon glyphicon-eye-open"></span>
                                     </a>                                    
-                                    <a class="btn btn-warning" href="/User/Edit/@item.UserId">
+                                    <a class="btn btn-warning" href="/User/Edit/@item.Id">
                                         @Locale.Edit
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>                                    
-                                    <a class="btn btn-danger" href="/User/ResetPassword/@item.UserId">
+                                    <a class="btn btn-danger" href="/User/ResetPassword/@item.Id">
                                         @(Locale.Reset + " " + Locale.Password)
                                         <span class="glyphicon glyphicon-alert"></span>
                                     </a>                                    
                                     @if (!item.IsObsolete)
                                     {
-                                        using (Html.BeginForm("Delete", "User", new { id = item.UserId }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                        using (Html.BeginForm("Delete", "User", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                         {
                                             @Html.AntiForgeryToken()
 
@@ -87,7 +87,7 @@
                                     }
                                     else
                                     {
-                                        using (Html.BeginForm("Activate", "User", new { id = item.UserId }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                        using (Html.BeginForm("Activate", "User", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                         {
                                             @Html.AntiForgeryToken()
 

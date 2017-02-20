@@ -43,8 +43,9 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		/// <summary>
 		/// Gets or sets the name of the application.
 		/// </summary>
-		[Required]
 		[Display(Name = "ApplicationName", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string ApplicationName { get; set; }
 
 		/// <summary>

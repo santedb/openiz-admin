@@ -29,6 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -55,7 +56,11 @@ namespace OpenIZAdmin.Controllers
 			var formConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null).Item.OfType<Concept>();
 			var quantityConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null).Item.OfType<Concept>();
 
-			var model = new CreateMaterialModel(formConcepts, quantityConcepts);
+			var model = new CreateMaterialModel
+			{
+				FormConcepts = formConcepts.ToSelectList().ToList(),
+				QuantityConcepts = quantityConcepts.ToSelectList().ToList()
+			};
 
 			return View(model);
 		}
@@ -84,6 +89,12 @@ namespace OpenIZAdmin.Controllers
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
+
+			var formConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null).Item.OfType<Concept>();
+			var quantityConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null).Item.OfType<Concept>();
+
+			model.FormConcepts = formConcepts.ToSelectList().ToList();
+			model.QuantityConcepts = quantityConcepts.ToSelectList().ToList();
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.Material;
 
@@ -134,11 +145,11 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Material>(m => m.Key == id && m.ObsoletionTime == null, 0, null, true);
+				var bundle = this.ImsiClient.Query<Material>(m => m.Key == id && m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null, 0, null, true);
 
 				bundle.Reconstitute();
 
-				var material = bundle.Item.OfType<Material>().FirstOrDefault(m => m.Key == id && m.ObsoletionTime == null);
+				var material = bundle.Item.OfType<Material>().FirstOrDefault(m => m.Key == id && m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null);
 
 				if (material == null)
 				{
@@ -147,7 +158,16 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return View(MaterialUtil.ToEditMaterialModel(this.ImsiClient, material));
+				var formConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null).Item.OfType<Concept>();
+				var quantityConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null).Item.OfType<Concept>();
+
+				var model = new EditMaterialModel(material)
+				{
+					FormConcepts = formConcepts.ToSelectList(c => c.Key == material.FormConceptKey).ToList(),
+					QuantityConcepts = quantityConcepts.ToSelectList(c => c.Key == material.QuantityConceptKey).ToList()
+				};
+
+				return View(model);
 			}
 			catch (Exception e)
 			{
@@ -185,11 +205,11 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
-					var updatedMaterial = model.ToMaterial();
-					var result = this.ImsiClient.Update<Material>(updatedMaterial);
+					var updatedMaterial = this.ImsiClient.Update<Material>(model.ToMaterial(material));
 
 					TempData["success"] = Locale.Material + " " + Locale.Updated + " " + Locale.Successfully;
-					return RedirectToAction("ViewMaterial", new { id = result.Key });
+
+					return RedirectToAction("ViewMaterial", new { id = updatedMaterial.Key });
 				}
 			}
 			catch (Exception e)
@@ -197,9 +217,15 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
+			//var formConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null).Item.OfType<Concept>();
+			//var quantityConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null).Item.OfType<Concept>();
+
+			//model.FormConcepts = formConcepts.ToSelectList(c => c.Key == material.FormConceptKey).ToList();
+			//model.QuantityConcepts = quantityConcepts.ToSelectList(c => c.Key == material.QuantityConceptKey).ToList();
+
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Material;
 
-			return RedirectToAction("Index");
+			return View(model);
 		}
 
 		/// <summary>
@@ -228,7 +254,7 @@ namespace OpenIZAdmin.Controllers
 				var bundle = this.ImsiClient.Query<Material>(m => m.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null);
 
 				TempData["searchTerm"] = searchTerm;
-				return PartialView("_MaterialSearchResultsPartial", bundle.Item.OfType<Material>().Select(m => new MaterialSearchResultViewModel(m)));
+				return PartialView("_MaterialSearchResultsPartial", bundle.Item.OfType<Material>().Where(m => m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null).Select(m => new MaterialSearchResultViewModel(m)));
 			}
 
 			TempData["error"] = Locale.Material + " " + Locale.NotFound;
@@ -247,17 +273,27 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Material>(m => m.Key == id && m.ObsoletionTime == null, 0, null, true);
+				var bundle = this.ImsiClient.Query<Material>(m => m.Key == id && m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null, 0, null, true);
 
 				bundle.Reconstitute();
 
-				var material = bundle.Item.OfType<Material>().FirstOrDefault(m => m.Key == id && m.ObsoletionTime == null);
+				var material = bundle.Item.OfType<Material>().FirstOrDefault(m => m.Key == id && m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null);
 
 				if (material == null)
 				{
 					TempData["error"] = Locale.Material + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
+				}
+
+				if (material.FormConcept == null && material.FormConceptKey.HasValue && material.FormConceptKey != Guid.Empty)
+				{
+					material.FormConcept = this.ImsiClient.Get<Concept>(material.FormConceptKey.Value, null) as Concept;
+				}
+
+				if (material.QuantityConcept == null && material.QuantityConceptKey.HasValue && material.QuantityConceptKey != Guid.Empty)
+				{
+					material.QuantityConcept = this.ImsiClient.Get<Concept>(material.QuantityConceptKey.Value, null) as Concept;
 				}
 
 				return View(new MaterialViewModel(material));

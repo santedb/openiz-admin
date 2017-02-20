@@ -718,11 +718,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The description field must be not exceed 1000 characters.
+        ///   Looks up a localized string similar to The description cannot exceed 255 characters.
         /// </summary>
-        public static string DescriptionTooLong {
+        public static string DescriptionLength255 {
             get {
-                return ResourceManager.GetString("DescriptionTooLong", resourceCulture);
+                return ResourceManager.GetString("DescriptionLength255", resourceCulture);
             }
         }
         
@@ -772,20 +772,20 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The device secret cannot exceed 64 characters.
+        /// </summary>
+        public static string DeviceSecret64 {
+            get {
+                return ResourceManager.GetString("DeviceSecret64", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Device Secret required.
         /// </summary>
         public static string DeviceSecretRequired {
             get {
                 return ResourceManager.GetString("DeviceSecretRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The device secret field must not exceed 255 characters.
-        /// </summary>
-        public static string DeviceSecretTooLong {
-            get {
-                return ResourceManager.GetString("DeviceSecretTooLong", resourceCulture);
             }
         }
         
@@ -952,7 +952,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The first name field must not exceed 255 characters.
+        ///   Looks up a localized string similar to The first name cannot exceed 255 characters.
         /// </summary>
         public static string FirstNameTooLong {
             get {
@@ -1276,7 +1276,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The last name field must not exceed 255 characters.
+        ///   Looks up a localized string similar to The last name cannot exceed 255 characters.
         /// </summary>
         public static string LastNameTooLong {
             get {
@@ -1465,7 +1465,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The mnemonic field must not exceed 255 characters.
+        ///   Looks up a localized string similar to The mnemonic cannot exceed 255 characters.
         /// </summary>
         public static string MnemonicTooLong {
             get {
@@ -1479,6 +1479,33 @@ namespace OpenIZAdmin.Localization {
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name cannot exceed 255 characters.
+        /// </summary>
+        public static string NameLength255 {
+            get {
+                return ResourceManager.GetString("NameLength255", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name cannot exceed 50 characters.
+        /// </summary>
+        public static string NameLength50 {
+            get {
+                return ResourceManager.GetString("NameLength50", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name cannot exceed 64 characters.
+        /// </summary>
+        public static string NameLength64 {
+            get {
+                return ResourceManager.GetString("NameLength64", resourceCulture);
             }
         }
         
@@ -1497,15 +1524,6 @@ namespace OpenIZAdmin.Localization {
         public static string Names {
             get {
                 return ResourceManager.GetString("Names", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The name field must not exceed 255 characters.
-        /// </summary>
-        public static string NameTooLong {
-            get {
-                return ResourceManager.GetString("NameTooLong", resourceCulture);
             }
         }
         
@@ -1569,6 +1587,15 @@ namespace OpenIZAdmin.Localization {
         public static string NoAssociatedManufacturedMaterials {
             get {
                 return ResourceManager.GetString("NoAssociatedManufacturedMaterials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No associated policies.
+        /// </summary>
+        public static string NoAssociatedPolicies {
+            get {
+                return ResourceManager.GetString("NoAssociatedPolicies", resourceCulture);
             }
         }
         
@@ -2986,15 +3013,6 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Updated Time.
-        /// </summary>
-        public static string UpdatedTime {
-            get {
-                return ResourceManager.GetString("UpdatedTime", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Update profile.
         /// </summary>
         public static string UpdateProfile {
@@ -3027,6 +3045,15 @@ namespace OpenIZAdmin.Localization {
         public static string Url {
             get {
                 return ResourceManager.GetString("Url", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid URL.
+        /// </summary>
+        public static string UrlInvalid {
+            get {
+                return ResourceManager.GetString("UrlInvalid", resourceCulture);
             }
         }
         

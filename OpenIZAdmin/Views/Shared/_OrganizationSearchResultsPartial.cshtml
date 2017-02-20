@@ -20,10 +20,13 @@
                     <tr>
                         <th></th>
                         <th>
-                            @Locale.CreationTime
+                            @Html.DisplayNameFor(m => m.CreationTime)
                         </th>
                         <th>
-                            @Locale.Name
+                            @Html.DisplayNameFor(m => m.Name)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Type)
                         </th>
                         <th></th>
                     </tr>
@@ -35,6 +38,7 @@
                             <td><span class="glyphicon glyphicon-equalizer pull-left" aria-hidden="true"></span></td>
                             <td>@item.CreationTime.ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
                             <td>@item.Name</td>
+                            <td>@item.Type</td>
                             <td class="col-md-3 centerButton">
                                 <a class="btn btn-primary" href="@Url.Action("ViewOrganization", "Organization", new { id = item.Id })">
                                     @Locale.View

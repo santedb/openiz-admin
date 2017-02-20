@@ -21,6 +21,7 @@ using OpenIZ.Core.Model.AMI.DataTypes;
 using OpenIZ.Core.Model.DataTypes;
 using System;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {
@@ -40,24 +41,45 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 			this.Description = assigningAuthorityInfo.AssigningAuthority.Description;
 		}
 
-		[Display(Name = "Description", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the description of the assigning authority.
+		/// </summary>
+		[Display(Name = "Description", ResourceType = typeof(Locale))]
 		public string Description { get; set; }
 
-		[Display(Name = "DomainName", ResourceType = typeof(Localization.Locale))]
-		[Required]
+		/// <summary>
+		/// Gets or sets the domain name of the assigning authority.
+		/// </summary>
+		[Display(Name = "DomainName", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string DomainName { get; set; }
 
+		/// <summary>
+		/// Gets or sets the id of the assigning authority.
+		/// </summary>
+		[Required]
 		public Guid Id { get; set; }
 
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required]
+		/// <summary>
+		/// Gets or sets the name of the assigning authority.
+		/// </summary>
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(50, ErrorMessageResourceName = "NameLength50", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
-		[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
-		[Required]
+		/// <summary>
+		/// Gets or sets the OID of the assigning authority.
+		/// </summary>
+		[Display(Name = "Oid", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string Oid { get; set; }
 
-		[Display(Name = "Url", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the URL of the assigning authority.
+		/// </summary>
+		[Display(Name = "Url", ResourceType = typeof(Locale))]
+		[Url(ErrorMessageResourceName = "UrlInvalid", ErrorMessageResourceType = typeof(Locale))]
 		public string Url { get; set; }
 
 		/// <summary>

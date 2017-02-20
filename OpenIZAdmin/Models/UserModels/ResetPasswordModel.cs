@@ -55,6 +55,6 @@ namespace OpenIZAdmin.Models.UserModels
 		/// Gets or sets the user id of the model.
 		/// </summary>
 		[Required]
-		public Guid UserId { get; set; }
+		public Guid Id { get; set; }
 	}
 }

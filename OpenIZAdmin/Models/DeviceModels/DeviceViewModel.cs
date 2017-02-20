@@ -17,68 +17,39 @@
  * Date: 2016-7-8
  */
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Models.PolicyModels;
+using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.Core;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.DeviceModels
 {
-	public class DeviceViewModel
+	/// <summary>
+	/// Represents a device view model.
+	/// </summary>
+	public class DeviceViewModel : SecurityViewModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DeviceViewModel"/> class.
+		/// </summary>
 		public DeviceViewModel()
 		{
-			this.Policies = new List<PolicyViewModel>();
 		}
 
-		public DeviceViewModel(SecurityDevice securityDevice)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DeviceViewModel"/> class
+		/// with a specific <see cref="SecurityDeviceInfo"/> instance.
+		/// </summary>
+		/// <param name="securityDeviceInfo">The <see cref="SecurityDeviceInfo"/> instance.</param>
+		public DeviceViewModel(SecurityDeviceInfo securityDeviceInfo) : base(securityDeviceInfo)
 		{
-			this.CreationTime = securityDevice.CreationTime.DateTime;
-			this.Id = securityDevice.Key.Value;
-			this.Name = securityDevice.Name;
-			this.UpdatedTime = securityDevice.UpdatedTime?.DateTime;
-			this.IsObsolete = securityDevice.ObsoletionTime != null;
-		}
-
-		public DeviceViewModel(SecurityDeviceInfo securityDeviceInfo) : this()
-		{
-			this.CreationTime = securityDeviceInfo.Device.CreationTime.DateTime;
-			this.Id = securityDeviceInfo.Device.Key.Value;
 			this.Name = securityDeviceInfo.Name;
-			this.DeviceSecret = securityDeviceInfo.DeviceSecret;
-			this.UpdatedTime = securityDeviceInfo.Device.UpdatedTime?.DateTime;
-			this.IsObsolete = securityDeviceInfo.Device.ObsoletionTime != null;
-			this.HasPolicies = securityDeviceInfo.Policies.Any();
-
-			if (this.HasPolicies)
-			{
-				this.Policies = securityDeviceInfo.Policies.Select(p => new PolicyViewModel(new SecurityPolicyInstance(p.Policy, p.GrantType))).OrderBy(q => q.Name).ToList();
-			}
 		}
 
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-		[DisplayFormat(DataFormatString = "{0:dd/mm/yyyy hh:mm:ss tt}")]
-		public DateTime CreationTime { get; set; }
-
-		[Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
-		public string DeviceSecret { get; set; }
-
-		[Display(Name = "HasPolicies", ResourceType = typeof(Localization.Locale))]
-		public bool HasPolicies { get; set; }
-
-		public Guid Id { get; set; }
-
-		public bool IsObsolete { get; set; }
-
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the name of the device.
+		/// </summary>
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		public string Name { get; set; }
-
-		public List<PolicyViewModel> Policies { get; set; }
-
-		[DisplayFormat(DataFormatString = "{0:dd/mm/yyyy hh:mm:ss tt}")]
-		public DateTime? UpdatedTime { get; set; }
 	}
 }

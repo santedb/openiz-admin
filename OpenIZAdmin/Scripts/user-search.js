@@ -19,7 +19,7 @@
                 return {
                     results: $.map(data, function (o)
                     {
-                        return { id: o.UserId, text: o.Username };
+                        return { id: o.Id, text: o.Username };
                     }),
                     pagination: {
                         more: (params.page * 30) < data.length

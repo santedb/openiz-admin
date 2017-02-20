@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZAdmin.Models.Core;
 using OpenIZAdmin.Models.RoleModels;
 
 namespace OpenIZAdmin.Models.UserModels
@@ -29,14 +30,14 @@ namespace OpenIZAdmin.Models.UserModels
 	/// <summary>
 	/// Represents a user view model.
 	/// </summary>
-	public class UserViewModel
+	public class UserViewModel : SecurityViewModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="UserViewModel"/> class.
 		/// </summary>
 		public UserViewModel()
 		{
-			this.Roles = new List<RoleViewModel>();
+
 		}
 
 		/// <summary>
@@ -44,12 +45,11 @@ namespace OpenIZAdmin.Models.UserModels
 		/// with a specific <see cref="SecurityUserInfo"/> instance.
 		/// </summary>
 		/// <param name="securityUserInfo">The <see cref="SecurityUserInfo"/> instance.</param>
-		public UserViewModel(SecurityUserInfo securityUserInfo) : this()
+		public UserViewModel(SecurityUserInfo securityUserInfo) : base(securityUserInfo)
 		{
 			this.Email = securityUserInfo.Email;
 			this.HasRoles = securityUserInfo.Roles?.Any() == true;
 			this.IsLockedOut = securityUserInfo.Lockout.GetValueOrDefault(false);
-			this.IsObsolete = securityUserInfo.User.ObsoletionTime != null;
 			this.LastLoginTime = securityUserInfo.User.LastLoginTime?.DateTime;
 			this.PhoneNumber = securityUserInfo.User.PhoneNumber;
 
@@ -58,7 +58,6 @@ namespace OpenIZAdmin.Models.UserModels
 				this.Roles = securityUserInfo.Roles.Select(r => new RoleViewModel(r));
 			}
 
-			this.UserId = securityUserInfo.UserId.Value;
 			this.Username = securityUserInfo.UserName;
 		}
 
@@ -81,11 +80,6 @@ namespace OpenIZAdmin.Models.UserModels
 		/// </summary>
 		[Display(Name = "LockedOut", ResourceType = typeof(Localization.Locale))]
 		public bool IsLockedOut { get; set; }
-
-		/// <summary>
-		/// Gets or sets the obsolete status of the user.
-		/// </summary>
-		public bool IsObsolete { get; set; }
 
 		/// <summary>
 		/// Gets or sets the last login time of the user.
@@ -111,12 +105,6 @@ namespace OpenIZAdmin.Models.UserModels
 		/// </summary>
 		[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
 		public IEnumerable<RoleViewModel> Roles { get; set; }
-
-		/// <summary>
-		/// Gets or sets the id of the user.
-		/// </summary>
-		[Display(Name = "UserId", ResourceType = typeof(Localization.Locale))]
-		public Guid UserId { get; set; }
 
 		/// <summary>
 		/// Gets or sets the username of the user.
