@@ -17,11 +17,11 @@
  * Date: 2016-7-8
  */
 
-using OpenIZAdmin.Models.AppletModels.ViewModels;
-using OpenIZAdmin.Models.CertificateModels.ViewModels;
-using OpenIZAdmin.Models.DeviceModels.ViewModels;
-using OpenIZAdmin.Models.RoleModels.ViewModels;
 using System.Collections.Generic;
+using OpenIZAdmin.Models.AppletModels;
+using OpenIZAdmin.Models.CertificateModels;
+using OpenIZAdmin.Models.DeviceModels;
+using OpenIZAdmin.Models.RoleModels;
 
 namespace OpenIZAdmin.Models
 {

@@ -1,4 +1,4 @@
-﻿@model OpenIZAdmin.Models.OrganizationModels.ViewModels.OrganizationViewModel
+﻿@model OpenIZAdmin.Models.OrganizationModels.OrganizationViewModel
 @{
     ViewBag.Title = Locale.View + " " +  Locale.Organization;
 }
@@ -12,31 +12,44 @@
                 <span class="text-primary h4">@Locale.Edit</span>
             </a>
         </div>
-    </div>           
+    </div>
     <div class="panel panel-body">
         <div class="row">
             <div class="col-md-12">
                 <div class="form-horizontal">
                     <div class="form-group">
-                        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                        @Html.LabelFor(m => m.Name, new {@class = "col-md-2 control-label"})
                         <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.Name, new {@class = "form-control", @readonly = "readonly"})
                         </div>
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(m => m.FormConcept, new { @class = "col-md-2 control-label" })
+                        @Html.LabelFor(m => m.Industry, new {@class = "col-md-2 control-label"})
                         <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.FormConcept, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.Industry, new {@class = "form-control", @readonly = "readonly"})
                         </div>
                     </div>
                     <div class="form-group">
-                        @Html.LabelFor(m => m.QuantityConcept, new { @class = "col-md-2 control-label" })
+                        @Html.LabelFor(m => m.Type, new {@class = "col-md-2 control-label"})
                         <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.QuantityConcept, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.Type, new {@class = "form-control", @readonly = "readonly"})
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>    
+    </div>
 </div>
+
+@Html.Partial("_IdentifiersPartial", Model.Identifiers)
+
+@Html.Partial("_ManufacturedMaterialsPartial", Model.ManufacturedMaterials)
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#identifiersTable").DataTable();
+            $("#manufacturedMaterialsTable").DataTable();
+        });
+    </script>
+}

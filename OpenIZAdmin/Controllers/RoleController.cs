@@ -21,7 +21,6 @@ using Elmah;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.RoleModels;
-using OpenIZAdmin.Models.RoleModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;

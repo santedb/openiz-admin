@@ -24,7 +24,6 @@ using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.UserModels;
-using OpenIZAdmin.Models.UserModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;

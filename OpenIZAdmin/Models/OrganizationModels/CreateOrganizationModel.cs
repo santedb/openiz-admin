@@ -16,11 +16,9 @@
  * User: Nityan
  * Date: 2017-2-19
  */
-using System;
+
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Localization;
@@ -47,7 +45,7 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		/// Converts a <see cref="CreateOrganizationModel"/> instance to an <see cref="Organization"/> instance.
 		/// </summary>
 		/// <returns>Returns a <see cref="Organization"/> instance.</returns>
-		public Organization ToOrganization()
+		public OpenIZ.Core.Model.Entities.Organization ToOrganization()
 		{
 			return new Organization
 			{

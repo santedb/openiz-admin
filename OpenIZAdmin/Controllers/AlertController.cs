@@ -23,7 +23,6 @@ using OpenIZ.Core.Alert.Alerting;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AlertModels;
-using OpenIZAdmin.Models.AlertModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;

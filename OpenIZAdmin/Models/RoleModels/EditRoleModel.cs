@@ -17,10 +17,10 @@
  * Date: 2016-9-5
  */
 
-using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.PolicyModels;
 
 namespace OpenIZAdmin.Models.RoleModels
 {

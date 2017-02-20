@@ -28,9 +28,7 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.MaterialModels;
-using OpenIZAdmin.Models.MaterialModels.ViewModels;
 using OpenIZAdmin.Models.OrganizationModels;
-using OpenIZAdmin.Models.OrganizationModels.ViewModels;
 using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Controllers
@@ -226,7 +224,7 @@ namespace OpenIZAdmin.Controllers
 				var bundle = this.ImsiClient.Query<Organization>(m => m.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && m.ClassConceptKey == EntityClassKeys.Organization && m.ObsoletionTime == null);
 
 				TempData["searchTerm"] = searchTerm;
-				return PartialView("_OrganizationSearchResultsPartial", bundle.Item.OfType<Organization>().Select(m => new OrganizationSearchResultViewModel(m)));
+				return PartialView("_OrganizationSearchResultsPartial", bundle.Item.OfType<Organization>().Select(o => new OrganizationSearchResultViewModel(o)));
 			}
 
 			TempData["error"] = Locale.Material + " " + Locale.NotFound;

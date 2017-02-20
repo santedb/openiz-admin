@@ -21,7 +21,6 @@ using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Models.DeviceModels;
-using OpenIZAdmin.Models.DeviceModels.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 

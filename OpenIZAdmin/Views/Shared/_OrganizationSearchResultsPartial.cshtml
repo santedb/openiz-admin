@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OpenIZAdmin.Models.MaterialModels.ViewModels.MaterialSearchResultViewModel>
+﻿@model IEnumerable<OpenIZAdmin.Models.OrganizationModels.OrganizationSearchResultViewModel>
 @{
     ViewBag.Title = Locale.Organizations;
 }
@@ -32,7 +32,7 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td><span class="glyphicon glyphicon-grain pull-left" aria-hidden="true"></span></td>
+                            <td><span class="glyphicon glyphicon-equalizer pull-left" aria-hidden="true"></span></td>
                             <td>@item.CreationTime.ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
                             <td>@item.Name</td>
                             <td class="col-md-3 centerButton">

@@ -16,11 +16,11 @@
  * User: Nityan
  * Date: 2017-2-19
  */
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Localization;
@@ -45,7 +45,7 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		/// with a specific <see cref="Organization"/> instance.
 		/// </summary>
 		/// <param name="organization"></param>
-		public EditOrganizationModel(Organization organization)
+		public EditOrganizationModel(OpenIZ.Core.Model.Entities.Organization organization)
 		{
 			this.Id = organization.Key.Value;
 			this.Name = string.Join(" ", organization.Names.SelectMany(n => n.Component).Select(c => c.Value));
@@ -67,9 +67,9 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		/// Converts an <see cref="EditOrganizationModel"/> instance to an <see cref="Organization"/> instance.
 		/// </summary>
 		/// <returns>Returns an <see cref="Organization"/> instance.</returns>
-		public Organization ToOrganization()
+		public OpenIZ.Core.Model.Entities.Organization ToOrganization()
 		{
-			return new Organization
+			return new OpenIZ.Core.Model.Entities.Organization
 			{
 				Key = this.Id,
 				Names = new List<EntityName>

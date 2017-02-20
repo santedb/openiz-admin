@@ -20,12 +20,12 @@
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
-using OpenIZAdmin.Models.RoleModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.RoleModels;
 
 namespace OpenIZAdmin.Models.UserModels
 {

@@ -24,7 +24,6 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.MaterialModels;
-using OpenIZAdmin.Models.MaterialModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;

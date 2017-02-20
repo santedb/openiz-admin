@@ -21,13 +21,12 @@ using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Query;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.ConceptModels.ViewModels;
 using OpenIZAdmin.Models.ConceptSetModels;
-using OpenIZAdmin.Models.ConceptSetModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.ConceptModels;
 
 namespace OpenIZAdmin.Controllers
 {

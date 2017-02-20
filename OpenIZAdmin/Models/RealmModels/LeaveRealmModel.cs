@@ -18,7 +18,6 @@
  */
 
 using OpenIZAdmin.Models.Domain;
-using OpenIZAdmin.Models.RealmModels.ViewModels;
 using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.RealmModels

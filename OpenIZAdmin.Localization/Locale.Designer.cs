@@ -1114,11 +1114,29 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Identifiers.
+        /// </summary>
+        public static string Identifiers {
+            get {
+                return ResourceManager.GetString("Identifiers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incorrect Username or Password.
         /// </summary>
         public static string IncorrectUsernameOrPassword {
             get {
                 return ResourceManager.GetString("IncorrectUsernameOrPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Industry.
+        /// </summary>
+        public static string Industry {
+            get {
+                return ResourceManager.GetString("Industry", resourceCulture);
             }
         }
         
@@ -1339,6 +1357,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lot number.
+        /// </summary>
+        public static string LotNumber {
+            get {
+                return ResourceManager.GetString("LotNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage.
         /// </summary>
         public static string Manage {
@@ -1353,6 +1380,24 @@ namespace OpenIZAdmin.Localization {
         public static string Manifest {
             get {
                 return ResourceManager.GetString("Manifest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manufactured Material.
+        /// </summary>
+        public static string ManufacturedMaterial {
+            get {
+                return ResourceManager.GetString("ManufacturedMaterial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manufactured Materials.
+        /// </summary>
+        public static string ManufacturedMaterials {
+            get {
+                return ResourceManager.GetString("ManufacturedMaterials", resourceCulture);
             }
         }
         
@@ -1510,6 +1555,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No associated identifiers.
+        /// </summary>
+        public static string NoAssociatedIdentifiers {
+            get {
+                return ResourceManager.GetString("NoAssociatedIdentifiers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No associated manufactured materials.
+        /// </summary>
+        public static string NoAssociatedManufacturedMaterials {
+            get {
+                return ResourceManager.GetString("NoAssociatedManufacturedMaterials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No devices have been added.
         /// </summary>
         public static string NoDevicesAdded {
@@ -1605,6 +1668,15 @@ namespace OpenIZAdmin.Localization {
         public static string NoUsersAdded {
             get {
                 return ResourceManager.GetString("NoUsersAdded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Obsoletion Time.
+        /// </summary>
+        public static string ObsoletionTime {
+            get {
+                return ResourceManager.GetString("ObsoletionTime", resourceCulture);
             }
         }
         
@@ -3027,6 +3099,15 @@ namespace OpenIZAdmin.Localization {
         public static string Users {
             get {
                 return ResourceManager.GetString("Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value.
+        /// </summary>
+        public static string Value {
+            get {
+                return ResourceManager.GetString("Value", resourceCulture);
             }
         }
         

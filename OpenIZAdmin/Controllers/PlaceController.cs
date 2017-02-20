@@ -23,7 +23,6 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.PlaceModels;
-using OpenIZAdmin.Models.PlaceModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Globalization;

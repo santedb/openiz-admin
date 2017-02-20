@@ -22,7 +22,6 @@ using OpenIZ.Core.Model.AMI.Security;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.CertificateModels;
-using OpenIZAdmin.Models.CertificateModels.ViewModels;
 using System;
 using System.Linq;
 using System.Web.Mvc;

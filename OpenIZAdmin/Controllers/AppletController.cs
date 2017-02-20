@@ -24,7 +24,6 @@ using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AppletModels;
-using OpenIZAdmin.Models.AppletModels.ViewModels;
 using OpenIZAdmin.Util;
 using System;
 using System.IO;

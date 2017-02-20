@@ -25,7 +25,6 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.Domain;
 using OpenIZAdmin.Models.RealmModels;
-using OpenIZAdmin.Models.RealmModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

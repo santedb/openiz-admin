@@ -1122,4 +1122,31 @@
   <data name="PhoneNumberTooLong" xml:space="preserve">
     <value>The phone number field cannot exceed 25 characters</value>
   </data>
+  <data name="LotNumber" xml:space="preserve">
+    <value>Lot number</value>
+  </data>
+  <data name="Industry" xml:space="preserve">
+    <value>Industry</value>
+  </data>
+  <data name="Identifiers" xml:space="preserve">
+    <value>Identifiers</value>
+  </data>
+  <data name="NoAssociatedIdentifiers" xml:space="preserve">
+    <value>No associated identifiers</value>
+  </data>
+  <data name="Value" xml:space="preserve">
+    <value>Value</value>
+  </data>
+  <data name="ObsoletionTime" xml:space="preserve">
+    <value>Obsoletion Time</value>
+  </data>
+  <data name="ManufacturedMaterial" xml:space="preserve">
+    <value>Manufactured Material</value>
+  </data>
+  <data name="ManufacturedMaterials" xml:space="preserve">
+    <value>Manufactured Materials</value>
+  </data>
+  <data name="NoAssociatedManufacturedMaterials" xml:space="preserve">
+    <value>No associated manufactured materials</value>
+  </data>
 </root>

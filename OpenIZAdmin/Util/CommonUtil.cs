@@ -19,10 +19,10 @@
 
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
-using OpenIZAdmin.Models.PolicyModels.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenIZAdmin.Models.PolicyModels;
 
 namespace OpenIZAdmin.Util
 {
