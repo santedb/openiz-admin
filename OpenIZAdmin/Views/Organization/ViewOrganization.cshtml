@@ -1,13 +1,13 @@
-﻿@model OpenIZAdmin.Models.MaterialModels.ViewModels.MaterialViewModel
+﻿@model OpenIZAdmin.Models.OrganizationModels.ViewModels.OrganizationViewModel
 @{
-    ViewBag.Title = Locale.View + " " +  Locale.Material;
+    ViewBag.Title = Locale.View + " " +  Locale.Organization;
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.View + " " + Locale.Material)</span>
+        <span class="panel-title">@(Locale.View + " " + Locale.Organization)</span>
         <div class="pull-right">
-            <a href="@Url.Action("Edit", "Material", new { id = Model.Id })" title="@Locale.ToolTip_Edit">
+            <a href="@Url.Action("Edit", "Organization", new { id = Model.Id })" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-pencil"></span>
                 <span class="text-primary h4">@Locale.Edit</span>
             </a>

@@ -34,6 +34,10 @@ namespace OpenIZAdmin.Models.RoleModels.ViewModels
 			this.Policies = new List<PolicyViewModel>();
 		}
 
+		public RoleViewModel(SecurityRole securityRole) : this(new SecurityRoleInfo(securityRole))
+		{
+		}
+
 		public RoleViewModel(SecurityRoleInfo securityRoleInfo) : this()
 		{
 			this.Description = securityRoleInfo.Role.Description;

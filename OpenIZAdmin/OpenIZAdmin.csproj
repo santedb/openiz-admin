@@ -258,11 +258,15 @@
     <Compile Include="Models\ConceptSetModels\EditConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\ViewModels\ConceptSetViewModel.cs" />
     <Compile Include="Models\DebugModels\SubmitBugReportModel.cs" />
-    <Compile Include="Models\FacilitiesModel.cs" />
+    <Compile Include="Models\FacilityModel.cs" />
     <Compile Include="Models\MaterialModels\EditMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\CreateMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\ViewModels\MaterialViewModel.cs" />
     <Compile Include="Models\MaterialModels\ViewModels\MaterialSearchResultViewModel.cs" />
+    <Compile Include="Models\OrganizationModels\CreateOrganizationModel.cs" />
+    <Compile Include="Models\OrganizationModels\EditOrganizationModel.cs" />
+    <Compile Include="Models\OrganizationModels\ViewModels\OrganizationSearchResultViewModel.cs" />
+    <Compile Include="Models\OrganizationModels\ViewModels\OrganizationViewModel.cs" />
     <Compile Include="Models\PlaceModels\RelatedPlaceModel.cs" />
     <Compile Include="Models\UserModels\ResetPasswordModel.cs" />
     <Compile Include="Models\AccountModels\ManageModel.cs" />
@@ -446,7 +450,7 @@
     <Content Include="Views\Place\Edit.cshtml" />
     <Content Include="Views\Device\Create.cshtml" />
     <Content Include="Views\User\ViewUser.cshtml" />
-    <Content Include="Views\Account\Manage.cshtml" />
+    <Content Include="Views\Account\UpdateProfile.cshtml" />
     <Content Include="Views\Policy\Index.cshtml" />
     <Content Include="Views\Policy\Create.cshtml" />
     <Content Include="Views\Shared\_PolicySearchResultsPartial.cshtml" />
@@ -490,6 +494,11 @@
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Shared\_ConfirmDelete.cshtml" />
     <Content Include="Views\Alert\Index.cshtml" />
+    <Content Include="Views\Organization\Create.cshtml" />
+    <Content Include="Views\Organization\Edit.cshtml" />
+    <Content Include="Views\Organization\Index.cshtml" />
+    <Content Include="Views\Organization\ViewOrganization.cshtml" />
+    <Content Include="Views\Shared\_OrganizationSearchResultsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

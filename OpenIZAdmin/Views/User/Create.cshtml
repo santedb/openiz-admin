@@ -7,7 +7,7 @@
     <div class="panel-heading">
         <span class="panel-title">@(Locale.Create + " " + Locale.User)</span>
     </div>
-    <div class="panel panel-body panel-default">
+    <div class="panel panel-body">
         @using (Html.BeginForm("Create", "User", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
@@ -63,16 +63,16 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.Facilities, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Facility, new { @class = "col-md-2 control-label" })
                 <div class="col-md-6">
-                    @Html.ListBoxFor(m => m.Facilities, new List<SelectListItem>(), new { @class = "place-search form-control", title = Locale.ToolTip_Facilities })
-                    @Html.ValidationMessageFor(m => m.Facilities, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(m => m.Facility, new List<SelectListItem>(), new { @class = "place-search form-control", multiple = "multiple", title = Locale.ToolTip_Facilities })
+                    @Html.ValidationMessageFor(m => m.Facility, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <a href="@(Request.UrlReferrer ?? new Uri("/"))" class="btn btn-danger">@Locale.Cancel</a>
+                    <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
                     <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
                 </div>
             </div>}

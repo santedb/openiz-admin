@@ -63,5 +63,10 @@ namespace OpenIZAdmin
 		/// The IMSI endpoint name.
 		/// </summary>
 		public const string Imsi = "IMSI";
+
+		/// <summary>
+		/// The concept set mnemonic for TelecomAddressUse.
+		/// </summary>
+		public const string TelecomAddressUse = "TelecomAddressUse";
 	}
 }

@@ -70,7 +70,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.AmiClient.UpdateApplication(id.ToString(), securityApplicationInfo);
 
-				TempData["success"] = Locale.Policy + " " + Locale.Activated + " " + Locale.Successfully;
+				TempData["success"] = Locale.Application + " " + Locale.Activated + " " + Locale.Successfully;
 
 				return RedirectToAction("ViewApplication", new { id = securityApplicationInfo.Id });
 			}

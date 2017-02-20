@@ -27,10 +27,14 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AccountModels;
 using OpenIZAdmin.Util;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Constants;
+using OpenIZAdmin.Models;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -244,13 +248,88 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <returns>Returns a Update Profile model.</returns>
 		[HttpGet]
-		public ActionResult Manage()
+		public ActionResult UpdateProfile()
 		{
 			try
 			{
-				var userId = Guid.Parse(User.Identity.GetUserId());
-				var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, userId);
-				return View(AccountUtil.ToUpdateProfileModel(this.ImsiClient, userEntity));
+				var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, Guid.Parse(User.Identity.GetUserId()));
+
+				if (userEntity.SecurityUser == null)
+				{
+					userEntity.SecurityUser = this.AmiClient.GetUser(userEntity.SecurityUserKey.ToString())?.User;
+				}
+
+				var model = new UpdateProfileModel(userEntity);
+
+				var facilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+
+				var place = facilityRelationship?.TargetEntity as Place;
+
+				if (facilityRelationship?.TargetEntityKey.HasValue == true && place == null)
+				{
+					place = this.ImsiClient.Get<Place>(facilityRelationship.TargetEntityKey.Value, null) as Place;
+				}
+
+				if (place != null)
+				{
+					var facility = new List<FacilityModel>
+					{
+						new FacilityModel(string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value)), place.Key?.ToString())
+					};
+
+					model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Text = f.Name, Value = f.Id, Selected = f.Id == place.Key?.ToString() }));
+					model.Facility = place.Key?.ToString();
+				}
+
+				model.PhoneTypeList = AccountUtil.GetPhoneTypeList(this.ImsiClient);
+				model.PhoneTypeList = model.PhoneTypeList.Select(p => new SelectListItem { Selected = p.Value == model.PhoneType, Text = p.Text, Value = p.Value }).OrderBy(p => p.Text).ToList();
+
+				return View(model);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
+
+			TempData["error"] = Locale.UnableToRetrieve + " " + Locale.Profile;
+
+			return Redirect(Request.UrlReferrer.ToString());
+		}
+
+		/// <summary>
+		/// Updates a user's profile.
+		/// </summary>
+		/// <param name="model">The user information to update.</param>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult UpdateProfile(UpdateProfileModel model)
+		{
+			try
+			{
+				if (ModelState.IsValid)
+				{
+					var userId = Guid.Parse(User.Identity.GetUserId());
+
+					var securityUserInfo = this.AmiClient.GetUser(userId.ToString());
+					var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, userId);
+
+					if (securityUserInfo == null || userEntity == null)
+					{
+						TempData["error"] = Locale.User + " " + Locale.NotFound;
+
+						return RedirectToAction("Index", "Home");
+					}
+
+					securityUserInfo.User.Email = model.Email;
+
+					this.AmiClient.UpdateUser(userId, securityUserInfo);
+					this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
+
+					TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;
+
+					return RedirectToAction("Index", "Home");
+				}
 			}
 			catch (Exception e)
 			{
@@ -258,50 +337,8 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Profile;
-			return View("Index", "Home");
-		}
 
-		/// <summary>
-		/// Updates a user's profile.
-		/// </summary>
-		/// <param name="model">The model containing the user profile information to be updated.</param>
-		/// <returns>Returns the index view.</returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult UpdateProfile(UpdateProfileModel model)
-		{
-			if (ModelState.IsValid)
-			{
-				try
-				{
-					var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, Guid.Parse(User.Identity.GetUserId()));
-					var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUser.Key.Value.ToString());
-
-					if (userEntity == null || securityUserInfo == null)
-					{
-						TempData["error"] = Locale.User + " " + Locale.NotFound;
-
-						return RedirectToAction("Index", "Home");
-					}
-
-					UserEntity updatedUserEntity = AccountUtil.ToUpdateUserEntity(model, userEntity);
-					SecurityUserInfo securityInfo = AccountUtil.ToSecurityUserInfo(model, userEntity, securityUserInfo, this.AmiClient);
-
-					this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, securityInfo);
-					this.ImsiClient.Update<UserEntity>(updatedUserEntity);
-
-					TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;
-					return RedirectToAction("Index", "Home");
-				}
-				catch (Exception e)
-				{
-					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				}
-			}
-
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Profile;
-			//return View("Manage", model);
-			return RedirectToAction("Index", "Home");
+			return View(model);
 		}
 
 		/// <summary>

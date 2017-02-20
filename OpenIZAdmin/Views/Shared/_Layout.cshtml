@@ -82,6 +82,7 @@
                         <li><a href="@Url.Action("Index", "Concept")"><span class="glyphicon glyphicon-compressed" aria-hidden="true"></span> @Locale.Concepts</a></li>
                         <li><a href="@Url.Action("Index", "Device")"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span> @Locale.Devices</a></li>
                         <li><a href="@Url.Action("Index", "Material")"><span class="glyphicon glyphicon-oil" aria-hidden="true"></span> @Locale.Material</a></li>
+                        <li><a href="@Url.Action("Index", "Organization")"><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span> @Locale.Organization</a></li>
                         <li><a href="@Url.Action("Index", "Place")"><span class="glyphicon glyphicon-globe" aria-hidden="true"></span> @Locale.Places</a></li>
                         <li><a href="@Url.Action("Index", "Policy")"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> @Locale.Policies</a></li>
                         <li><a href="@Url.Action("Index", "Realm")"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> @Locale.RealmManagement</a></li>
@@ -90,11 +91,6 @@
                         <li><a href="@Url.Action("VersionInformation", "Home")"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Locale.About</a></li>}
                 </ul>
             </div>
-
-            <div id="alert-partial-container">
-            </div>
-
-            @Html.Partial("_ConfirmDelete")
 
             <div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
                 @RenderBody()
@@ -131,27 +127,34 @@
     @RenderSection("scripts", required: false)
     <script type="text/javascript">
 
-        $("#language-change-dropdown").on('click', function (event) {
+        $("#language-change-dropdown").on('click', function (event)
+        {
             var attr = $(this).attr("class");
 
-            if (attr === "dropdown open") {
+            if (attr === "dropdown open")
+            {
                 $(this).attr("class", "dropdown");
-            } else {
+            } else
+            {
                 $(this).attr("class", "dropdown open");
             }
         });
 
-        $("#profile-change-dropdown").on('click', function (event) {
+        $("#profile-change-dropdown").on('click', function (event)
+        {
             var attr = $(this).attr("class");
 
-            if (attr === "dropdown open") {
+            if (attr === "dropdown open")
+            {
                 $(this).attr("class", "dropdown");
-            } else {
+            } else
+            {
                 $(this).attr("class", "dropdown open");
             }
         });
 
-        $(".change-language").on('click', function () {
+        $(".change-language").on('click', function ()
+        {
             var language = $(this).attr("language");
             console.log(language);
 
@@ -159,78 +162,56 @@
 
             $.ajax({
                 url: "/Locale/ChangeLanguage?language=" + language,
-                success: function (data) {
+                success: function (data)
+                {
                     console.log(data);
                     window.location.reload();
                 },
-                error: function (error) {
+                error: function (error)
+                {
                     console.log(error);
                 },
                 type: "POST"
             });
         });
 
-        $("#alert-modal-button").on('click', function () {
-            $.ajax({
-                url: "/Alert/GetAlerts",
-                success: function (data) {
-                    $('.modal-backdrop').first().remove();
-                    $('#alert-partial-container').html(data);
-                    $('#alert-modal').modal("show");
-                },
-                error: function (error) {
-                    console.log(error);
-                },
-                type: "GET"
-            });
-        });
-
-        $("#create-alert-modal-button").on('click', function () {
-            $.ajax({
-                url: "/Alert/CreateAlert",
-                success: function (data) {
-                    $('.modal-backdrop').first().remove();
-                    $('#alert-partial-container').html(data);
-                    $('#create-alert-modal').modal("show");
-                },
-                error: function (error) {
-                    console.log(error);
-                },
-                type: "GET"
-            });
-        });
-
-        $(document).ready(function () {
+        $(document).ready(function ()
+        {
             newAlerts();
+
+            $("#reset").on("click", function ()
+            {
+                $("#SearchTerm").val('');
+                window.location.reload();
+            });
+
         });
 
         window.setInterval(newAlerts(), 5000);
 
-        function newAlerts() {
+        function newAlerts()
+        {
             $.ajax({
                 url: "/Alert/NewAlerts",
-                success: function (data) {
+                success: function (data)
+                {
                     $('#new-alerts').html(data);
                 },
-                error: function (error) {
+                error: function (error)
+                {
                     console.log(error);
                 },
                 type: "GET"
             });
         }
 
-        $(document).ready(function () {
-            $("#reset").on("click", function () {
-                $("#SearchTerm").val('');
-                window.location.reload();
-            });
-        });
-
-        function hideLoadingBar() {
+        function hideLoadingBar()
+        {
             $("#loading-bar").hide();
         }
 
-        function showLoadingBar() {
+        function showLoadingBar()
+        {
             $("#loading-bar").show();
         }
 

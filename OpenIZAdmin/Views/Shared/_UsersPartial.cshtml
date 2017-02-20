@@ -8,7 +8,7 @@
         <span class="panel-title">@Locale.Users</span>            
             <div class="pull-right">
                 <span class="text-primary h4">@Locale.New</span>
-                <a href="~/User/Create" class="glyphicon glyphicon-plus-sign"></a>
+                <a href="@Url.Action("Create", "User")" class="glyphicon glyphicon-plus-sign"></a>
             </div>
 </div>
     <div class="panel panel-body">
@@ -105,7 +105,7 @@
         }
         else
         {
-            <p>@Locale.NoUsersAdded</p>
+            <p>@(Locale.No  + " " + Locale.Users + " " + Locale.Found)</p>
         }
 
 

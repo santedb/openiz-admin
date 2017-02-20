@@ -22,13 +22,13 @@ namespace OpenIZAdmin.Models
 	/// <summary>
 	/// Represents a facilities model.
 	/// </summary>
-	public class FacilitiesModel
+	public class FacilityModel
 	{
-		public FacilitiesModel()
+		public FacilityModel()
 		{
 		}
 
-		public FacilitiesModel(string name, string id)
+		public FacilityModel(string name, string id)
 		{
 			this.Name = name;
 			this.Id = id;

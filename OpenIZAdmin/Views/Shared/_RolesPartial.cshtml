@@ -10,11 +10,11 @@
         </span>
         <div class="pull-right">
             <span class="text-primary h4">@Locale.New</span>
-            <a href="~/Role/Create" class="glyphicon glyphicon-plus-sign"></a>
+            <a href="@Url.Action("Create", "Role")" class="glyphicon glyphicon-plus-sign"></a>
         </div>
 </div>
     <div class="panel panel-body">
-        @if (Model.Count() > 0)
+        @if (Model.Any())
         {
             <table class="table table-bordered" id="rolesSearchTable">
                 <thead>
@@ -50,11 +50,11 @@
                                 }
                             </td> 
                             <td class="centerButton">
-                                <a class="btn btn-primary" href="/Role/ViewRole/@item.Id">
+                                <a class="btn btn-primary" href="@Url.Action("ViewRole", "Role", new { id = item.Id })">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>                          
-                                <a class="btn btn-warning" href="/Role/Edit/@item.Id">
+                                <a class="btn btn-warning" href="@Url.Action("Edit", "Role", new { id = item.Id })">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>

@@ -17,23 +17,10 @@
  * Date: 2016-7-30
  */
 
-using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Constants;
-using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
-using OpenIZ.Core.Model.Roles;
-using OpenIZ.Messaging.AMI.Client;
 using OpenIZ.Messaging.IMSI.Client;
-using OpenIZAdmin.Models;
-using OpenIZAdmin.Models.AccountModels;
-using OpenIZAdmin.Models.RoleModels.ViewModels;
-using OpenIZAdmin.Models.UserModels;
-using OpenIZAdmin.Models.UserModels.ViewModels;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web.Mvc;
-using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Util
 {
@@ -50,9 +37,11 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a user entity or null if no user entity is found.</returns>
 		public static bool CheckForUserName(ImsiServiceClient client, string userName)
 		{
-			var bundle = client.Query<UserEntity>(u => u.SecurityUser.UserName == userName);
+			var bundle = client.Query<UserEntity>(u => u.SecurityUser.UserName == userName && u.ObsoletionTime == null);
 
-			return bundle.Item.OfType<UserEntity>().FirstOrDefault() != null;
+			bundle.Reconstitute();
+
+			return bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.SecurityUser.UserName == userName) != null;
 		}
 
 		/// <summary>
@@ -63,205 +52,11 @@ namespace OpenIZAdmin.Util
 		/// <returns>Returns a user entity or null if no user entity is found.</returns>
 		public static UserEntity GetUserEntityBySecurityUserKey(ImsiServiceClient client, Guid securityUserId)
 		{
-			var bundle = client.Query<UserEntity>(u => u.SecurityUserKey == securityUserId && u.ObsoletionTime == null);
+			var bundle = client.Query<UserEntity>(u => u.SecurityUserKey == securityUserId && u.ObsoletionTime == null, 0, null, true);
 
 			bundle.Reconstitute();
 
 			return bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.SecurityUserKey == securityUserId);
-		}
-
-        /// <summary>
-        /// Creates a new CreateUserModel for the Create User View
-        /// </summary>
-        /// <param name="imsiClient">The Imsi Service Client client.</param>
-        /// <param name="model">The CreateUserModel containing the user information to be assigned.</param>
-        /// <param name="userEntity">The user entity to convert to a edit user model.</param>
-        /// <returns>Returns a CreateUserModel view.</returns>
-        public static UserEntity ToCreateUserEntity(ImsiServiceClient imsiClient, CreateUserModel model, UserEntity userEntity)
-		{            
-			if (model.Roles.Contains(Constants.ClinicalStaff))
-			{
-				var provider = imsiClient.Create<Provider>(new Provider { Key = Guid.NewGuid() });
-
-				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, provider)
-				{
-					SourceEntityKey = userEntity.Key.Value
-				});
-			}
-
-			if (model.Surnames.Any() || model.GivenNames.Any())
-			{
-				var name = new EntityName
-				{
-					NameUse = new Concept
-					{
-						Key = NameUseKeys.OfficialRecord
-					},
-					Component = new List<EntityNameComponent>()
-				};
-
-				name.Component.AddRange(model.Surnames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
-				name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
-
-				userEntity.Names = new List<EntityName> { name };
-			}
-
-			if (model.Facilities != null && model.Facilities.Any())
-			{
-				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
-			}
-
-			return userEntity;
-		}
-
-		/// <summary>
-		/// Converts a user entity to a edit user model.
-		/// </summary>
-		/// <param name="imsiClient">The Imsi Service Client client.</param>
-		/// <param name="amiClient">The Ami service client.</param>
-		/// <param name="userEntity">The user entity to convert to a edit user model.</param>
-		/// <returns>Returns a edit user model.</returns>
-		public static EditUserModel ToEditUserModel(ImsiServiceClient imsiClient, AmiServiceClient amiClient, UserEntity userEntity)
-		{
-			var securityUserInfo = amiClient.GetUser(userEntity.SecurityUserKey.Value.ToString());
-
-			var model = new EditUserModel
-			{
-				Email = userEntity.SecurityUser.Email,
-				Surnames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList(),
-				GivenNames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList(),
-				UserId = userEntity.SecurityUserKey.GetValueOrDefault(Guid.Empty),
-				PhoneNumber = securityUserInfo.User.PhoneNumber
-			};
-
-			model.CreationTime = securityUserInfo.User.CreationTime.DateTime;
-			model.UserRoles = (securityUserInfo.Roles != null && securityUserInfo.Roles.Any()) ? securityUserInfo.Roles.Select(r => new RoleViewModel(r)).OrderBy(q => q.Name).ToList() : new List<RoleViewModel>();
-
-			model.SurnameList.AddRange(model.Surnames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-			model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-
-			var healthFacilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-
-			if (healthFacilityRelationship != null && healthFacilityRelationship.TargetEntityKey != null)
-			{
-				var place = imsiClient.Get<Place>(healthFacilityRelationship.TargetEntityKey.Value, null) as Place;
-				string facilityName = string.Join(" ", place.Names.SelectMany(n => n.Component)?.Select(c => c.Value));
-
-				var facility = new List<FacilitiesModel>();
-				facility.Add(new FacilitiesModel(facilityName, place.Key.Value.ToString()));
-
-				model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Text = f.Name, Value = f.Id }));
-				model.Facilities.Add(place.Key.Value.ToString());
-			}
-
-			model.RolesList = RoleUtil.GetAllRoles(amiClient).ToSelectList("Name", "Id");
-
-			model.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
-
-			model.PhoneTypeList = AccountUtil.GetPhoneTypeList(imsiClient);
-
-            //default to mobile phone unless entry exists
-            if (!string.IsNullOrWhiteSpace(userEntity.SecurityUser.PhoneNumber))
-            {
-                //need to assign phone type when property is accessible
-                model.PhoneType = "";
-            }
-            else
-            {
-                //mobile phone - e161f90e-5939-430e-861a-f8e885cc353d	
-	            model.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
-            }
-
-            return model;
-		}
-
-		/// <summary>
-		/// Converts a <see cref="UpdateProfileModel"/> instance to a <see cref="UserEntity"/> instance.
-		/// </summary>
-		/// <param name="model">The edit user object to convert.</param>
-		/// <param name="userEntity">The user entity instance.</param>                
-		/// <returns>Returns a UserEntity object with the updated info.</returns>
-		public static UserEntity ToUpdateUserEntity(EditUserModel model, UserEntity userEntity)
-		{
-			if (model.Surnames.Any() || model.GivenNames.Any())
-			{
-				var name = new EntityName
-				{
-					NameUse = new Concept
-					{
-						Key = NameUseKeys.OfficialRecord
-					},
-					Component = new List<EntityNameComponent>()
-				};
-
-				name.Component.AddRange(model.Surnames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
-				name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
-
-				userEntity.Names = new List<EntityName> { name };
-			}
-
-			var serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-
-			if (model.Facilities != null && model.Facilities.Any())
-			{
-				if (serviceLocation != null)
-				{
-					userEntity.Relationships.First(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
-				}
-				else
-				{
-					userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
-				}
-			}
-			else
-			{
-				if (serviceLocation != null)
-				{
-					userEntity.Relationships.RemoveAll(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-				}
-			}
-
-			//need to strip versionkey so update will work
-			userEntity.CreationTime = DateTimeOffset.Now;
-			userEntity.VersionKey = null;
-
-			return userEntity;
-		}
-
-		/// <summary>
-		/// Converts a <see cref="EditUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
-		/// </summary>
-		/// <param name="model">The create user object to convert.</param>
-		/// <param name="user">The user entity instance.</param>
-		/// <param name="client">The AMI service client instance. </param>
-		/// <returns>Returns a security user info model.</returns>
-		public static SecurityUserInfo ToSecurityUserInfo(EditUserModel model, UserEntity user, AmiServiceClient client)
-		{
-			if (user.SecurityUser == null)
-			{
-				user.SecurityUser = client.GetUser(model.UserId.ToString())?.User;
-			}
-
-			var userInfo = new SecurityUserInfo
-			{
-				Email = model.Email,
-				Roles = new List<SecurityRoleInfo>(),
-				User = user.SecurityUser,
-				UserId = model.UserId
-			};
-
-			userInfo.User.Email = model.Email;
-			userInfo.User.PhoneNumber = model.PhoneNumber;
-
-			if (model.Roles.Any())
-			{
-				foreach (var role in model.Roles.Select(client.GetRole).Where(role => role?.Role != null))
-				{
-					userInfo.Roles.Add(role);
-				}
-			}
-
-			return userInfo;
 		}
 	}
 }

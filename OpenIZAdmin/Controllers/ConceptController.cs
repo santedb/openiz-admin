@@ -109,7 +109,8 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <param name="id">The id of the concept to delete.</param>
 		/// <returns>Returns the index view.</returns>
-		[HttpGet]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult Delete(Guid id)
 		{
 			try

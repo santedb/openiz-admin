@@ -96,7 +96,8 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <param name="id">The id of the material.</param>
 		/// <returns>Returns the to the material search page.</returns>
-		[HttpGet]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult Delete(Guid id)
 		{
 			try
@@ -105,7 +106,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (material == null)
 				{
-					TempData["error"] = Locale.Place + " " + Locale.NotFound;
+					TempData["error"] = Locale.Material + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
 				}

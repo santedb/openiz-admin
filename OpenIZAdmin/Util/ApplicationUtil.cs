@@ -2,13 +2,7 @@
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Models.ApplicationModels;
-using OpenIZAdmin.Models.ApplicationModels.ViewModels;
-using OpenIZAdmin.Models.PolicyModels.ViewModels;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Web.Mvc;
 
 namespace OpenIZAdmin.Util
 {

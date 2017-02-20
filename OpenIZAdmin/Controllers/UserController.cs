@@ -30,6 +30,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Roles;
+using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Models;
+using OpenIZAdmin.Models.AccountModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -96,9 +102,10 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			var model = new CreateUserModel();
-
-			model.RolesList = model.RolesList = RoleUtil.GetAllRoles(this.AmiClient).ToSelectList("Name", "Name");
+			var model = new CreateUserModel
+			{
+				RolesList = RoleUtil.GetAllRoles(this.AmiClient).ToSelectList("Name", "Name")
+			};
 
 			return View(model);
 		}
@@ -133,10 +140,20 @@ namespace OpenIZAdmin.Controllers
 							return RedirectToAction("Index");
 						}
 
-						userEntity = UserUtil.ToCreateUserEntity(this.ImsiClient, model, userEntity);
-						this.ImsiClient.Update<UserEntity>(userEntity);
+						if (model.Roles.Contains(Constants.ClinicalStaff))
+						{
+							var provider = this.ImsiClient.Create<Provider>(new Provider { Key = Guid.NewGuid() });
+
+							userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, provider)
+							{
+								SourceEntityKey = userEntity.Key.Value
+							});
+						}
+
+						this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
 
 						TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;
+
 						return RedirectToAction("Edit", new { id = user.UserId.ToString() });
 					}
 				}
@@ -205,11 +222,35 @@ namespace OpenIZAdmin.Controllers
 					});
 				}
 
-				var securityUser = this.AmiClient.GetUser(userEntity.SecurityUserKey?.ToString());
+				var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUserKey.ToString());
 
-				userEntity.SecurityUser = securityUser.User;
+				var model = new EditUserModel(userEntity, securityUserInfo)
+				{
+					RolesList = RoleUtil.GetAllRoles(this.AmiClient).ToSelectList("Name", "Id")
+				};
 
-				var model = UserUtil.ToEditUserModel(this.ImsiClient, this.AmiClient, userEntity);
+				var facilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+
+				var place = facilityRelationship?.TargetEntity as Place;
+
+				if (facilityRelationship?.TargetEntityKey.HasValue == true && place == null)
+				{
+					place = this.ImsiClient.Get<Place>(facilityRelationship.TargetEntityKey.Value, null) as Place;
+				}
+
+				if (place != null)
+				{
+					var facility = new List<FacilityModel>
+					{
+						new FacilityModel(string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value)), place.Key?.ToString())
+					};
+
+					model.Facility = place.Key?.ToString();
+					model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Selected = f.Id == model.Facility, Text = f.Name, Value = f.Id }));
+				}
+
+				model.PhoneTypeList = AccountUtil.GetPhoneTypeList(this.ImsiClient);
+				model.PhoneTypeList = model.PhoneTypeList.Select(p => new SelectListItem { Selected = p.Value == model.PhoneType, Text = p.Text, Value = p.Value }).OrderBy(p => p.Text).ToList();
 
 				return View(model);
 			}
@@ -219,6 +260,7 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			TempData["error"] = Locale.User + " " + Locale.NotFound;
+
 			return RedirectToAction("Index");
 		}
 
@@ -243,14 +285,24 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
-					//this is for tracking changes/troubleshooting - can be compacted later
-					var updatedUserEntity = UserUtil.ToUpdateUserEntity(model, userEntity);
-					var securityInfo = UserUtil.ToSecurityUserInfo(model, userEntity, this.AmiClient);
+					var updatedUserEntity = this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
+
+					if (updatedUserEntity.SecurityUser == null)
+					{
+						updatedUserEntity.SecurityUser = this.AmiClient.GetUser(model.UserId.ToString())?.User;
+					}
+
+					var securityInfo = model.ToSecurityUserInfo(updatedUserEntity);
+
+					if (model.Roles.Any())
+					{
+						securityInfo.Roles.AddRange(model.Roles.Select(this.AmiClient.GetRole).Where(r => r.Role != null));
+					}
 
 					this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, securityInfo);
-					this.ImsiClient.Update<UserEntity>(updatedUserEntity);
 
 					TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;
+
 					return RedirectToAction("ViewUser", new { id = userEntity.SecurityUserKey.ToString() });
 				}
 			}
@@ -258,6 +310,8 @@ namespace OpenIZAdmin.Controllers
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
+
+			model.RolesList = RoleUtil.GetAllRoles(this.AmiClient).ToSelectList("Name", "Id");
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.User;
 
@@ -271,7 +325,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Index()
 		{
-			TempData["searchType"] = Locale.User;
+			TempData["searchType"] = "User";
 			return View(new List<UserViewModel>());
 		}
 
@@ -421,32 +475,37 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var user = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, id);
+				var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, id);
 
 				// used as a check for users, incase an imported user doesn't have a user entity
-				if (user == null)
+				if (userEntity == null)
 				{
-					user = this.ImsiClient.Create<UserEntity>(new UserEntity
+					userEntity = this.ImsiClient.Create<UserEntity>(new UserEntity
 					{
 						Key = Guid.NewGuid(),
 						SecurityUserKey = id
 					});
 				}
 
-				var given = user.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
-				var family = user.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
+				var given = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
+				var family = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
 
 				var viewModel = new UserViewModel(userInfo)
 				{
 					Name = string.Join(" ", given) + " " + string.Join(" ", family)
 				};
 
-				var healthFacility = user.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+				var facilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 
-				if (healthFacility?.TargetEntityKey != null)
+				var place = facilityRelationship?.TargetEntity as Place;
+
+				if (facilityRelationship?.TargetEntityKey.HasValue == true && place == null)
 				{
-					var place = this.ImsiClient.Get<Place>(healthFacility.TargetEntityKey.Value, null) as Place;
+					place = this.ImsiClient.Get<Place>(facilityRelationship.TargetEntityKey.Value, null) as Place;
+				}
 
+				if (place != null)
+				{
 					viewModel.HealthFacility = string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value));
 				}
 

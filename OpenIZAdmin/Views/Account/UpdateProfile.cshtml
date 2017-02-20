@@ -7,13 +7,20 @@
     <div class="panel-heading">
         <span class="panel-title">@Locale.UpdateProfile</span>
     </div>
-    <div class="panel panel-body panel-default">
+    <div class="panel panel-body">
 
         @using (Html.BeginForm("UpdateProfile", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
-            @Html.HiddenFor(m => m.Email)
-                        
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", title = Locale.ToolTip_UserEmail })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
             <div class="form-group">
                 @Html.LabelFor(m => m.GivenNames, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
@@ -23,18 +30,18 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.Surname, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Surnames, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.Surname, Model.SurnamesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple", title = Locale.ToolTip_SurnamesListBox })
-                    @Html.ValidationMessageFor(m => m.Surname, "", new { @class = "text-danger" })
+                    @Html.ListBoxFor(m => m.Surnames, Model.SurnamesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple", title = Locale.ToolTip_SurnamesListBox })
+                    @Html.ValidationMessageFor(m => m.Surnames, "", new { @class = "text-danger" })
                 </div>
-            </div>                                                
+            </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.Facilities, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Facility, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.Facilities, Model.FacilityList, new { @class = "place-search form-control", title = Locale.ToolTip_Facilities })
-                    @Html.ValidationMessageFor(m => m.Facilities, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(m => m.Facility, Model.FacilityList, new { @class = "place-search form-control", multiple = "multiple", title = Locale.ToolTip_Facilities })
+                    @Html.ValidationMessageFor(m => m.Facility, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -56,13 +63,14 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
                 <div class="col-md-6">
-                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", title = Locale.ToolTip_PhoneNumber })
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-10 pull-right">
-                    <a href="@(Request.UrlReferrer ?? new Uri("/"))" class="btn btn-danger">@Locale.Cancel</a>
+                    <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
                     <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Save</button>
                 </div>
             </div>
@@ -73,21 +81,14 @@
 @section scripts
 {
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function ()
+        {
 
             $('.dynamic-dropdown').select2({
                 tags: true,
                 tokenSeparators: [','],
                 width: '100%'
             });
-
-            $('.dynamic-dropdown-limited').select2({
-                tags: true,
-                tokenSeparators: [','],
-                width: '100%',
-                maximumSelectionLength: 1
-            });
         });
     </script>
-
 }

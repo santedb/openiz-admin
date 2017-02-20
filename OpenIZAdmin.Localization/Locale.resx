@@ -1110,4 +1110,16 @@
   <data name="CmcRequest" xml:space="preserve">
     <value>CMC Request</value>
   </data>
+  <data name="Organization" xml:space="preserve">
+    <value>Organization</value>
+  </data>
+  <data name="Organizations" xml:space="preserve">
+    <value>Organizations</value>
+  </data>
+  <data name="InvalidPhoneNumber" xml:space="preserve">
+    <value>Please enter a valid phone number</value>
+  </data>
+  <data name="PhoneNumberTooLong" xml:space="preserve">
+    <value>The phone number field cannot exceed 25 characters</value>
+  </data>
 </root>

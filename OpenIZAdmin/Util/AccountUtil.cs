@@ -1,18 +1,26 @@
-﻿using Microsoft.AspNet.Identity.Owin;
-using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Constants;
+﻿/*
+ * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * User: Nityan
+ * Date: 2017-2-11
+ */
+
 using OpenIZ.Core.Model.DataTypes;
-using OpenIZ.Core.Model.Entities;
-using OpenIZ.Messaging.AMI.Client;
 using OpenIZ.Messaging.IMSI.Client;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models;
-using OpenIZAdmin.Models.AccountModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
 using System.Web.Mvc;
 
 namespace OpenIZAdmin.Util
@@ -22,6 +30,11 @@ namespace OpenIZAdmin.Util
 	/// </summary>
 	public static class AccountUtil
 	{
+		/// <summary>
+		/// Gets a list of phone types.
+		/// </summary>
+		/// <param name="imsiClient">The <see cref="ImsiServiceClient"/> instance.</param>
+		/// <returns>Returns a select list of phone types.</returns>
 		public static List<SelectListItem> GetPhoneTypeList(ImsiServiceClient imsiClient)
 		{
 			var phoneTypes = new List<SelectListItem>
@@ -29,9 +42,9 @@ namespace OpenIZAdmin.Util
 				new SelectListItem { Text = string.Empty, Value = string.Empty }
 			};
 
-			var bundle = imsiClient.Query<ConceptSet>(c => c.Mnemonic == "TelecomAddressUse");
+			var bundle = imsiClient.Query<ConceptSet>(c => c.Mnemonic == Constants.TelecomAddressUse);
 
-			var telecoms = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Mnemonic == "TelecomAddressUse");
+			var telecoms = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Mnemonic == Constants.TelecomAddressUse);
 
 			if (telecoms != null)
 			{
@@ -43,206 +56,5 @@ namespace OpenIZAdmin.Util
 
 			return phoneTypes;
 		}
-
-
-		/// <summary>
-		/// Converts a user entity to a edit user model.
-		/// </summary>
-		/// <param name="imsiClient">The Imsi Service Client client.</param>
-		/// <param name="userEntity">The user entity to convert to a edit user model.</param>
-		/// <returns>Returns a edit user model.</returns>
-		public static UpdateProfileModel ToUpdateProfileModel(ImsiServiceClient imsiClient, UserEntity userEntity)
-		{
-			var model = new UpdateProfileModel
-			{
-				Surname = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList(),
-				GivenNames = userEntity.Names.Where(n => n.NameUse.Key == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList(),
-				Email = userEntity.SecurityUser.Email
-			};
-
-			model.SurnamesList.AddRange(model.Surname.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-			model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-
-			//----would like to make this more compact - not happy with this code block - START ------//
-			var facilityId = userEntity.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).Select(r => r.Key).FirstOrDefault()?.ToString();
-
-			if (facilityId != null && facilityId.Any())
-			{
-				var healthFacility = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-
-				if (healthFacility?.TargetEntityKey != null)
-				{
-					var place = imsiClient.Get<Place>(healthFacility.TargetEntityKey.Value, null) as Place;
-					string facilityName = string.Join(" ", place.Names.SelectMany(n => n.Component)?.Select(c => c.Value));
-
-					var facility = new List<FacilitiesModel>
-					{
-						new FacilitiesModel(facilityName, facilityId)
-					};
-
-					model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Text = f.Name, Value = f.Id }));
-
-					model.Facilities.Add(facilityId);
-				}
-			}
-
-			model.Language = userEntity.LanguageCommunication.Select(l => l.LanguageCode).FirstOrDefault();
-
-			model.LanguageList = new List<SelectListItem>
-			{
-				new SelectListItem
-				{
-					Text = string.Empty,
-					Value = string.Empty
-				},
-				new SelectListItem
-				{
-					Selected = model.Language == Locale.EN,
-					Text = Locale.English,
-					Value = Locale.EN
-				},
-				new SelectListItem
-				{
-					Selected = model.Language == Locale.SW,
-					Text = Locale.Kiswahili,
-					Value = Locale.SW
-				}
-			};
-
-			model.PhoneTypeList = GetPhoneTypeList(imsiClient);
-
-			if (userEntity.Telecoms.Any())
-			{
-				if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
-				{
-					model.PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;
-					model.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
-				}
-				else
-				{
-					model.PhoneNumber = userEntity.Telecoms.First().Value;
-					model.PhoneType = userEntity.Telecoms.First().AddressUseKey.Value.ToString();
-				}
-
-				model.PhoneTypeList = model.PhoneTypeList.Select(p => new SelectListItem { Selected = p.Value == model.PhoneType, Text = p.Text, Value = p.Value }).ToList();
-			}
-
-			return model;
-		}
-
-		/// <summary>
-		/// Converts a <see cref="UpdateProfileModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
-		/// </summary>
-		/// <param name="model">The create user object to convert.</param>
-		/// <param name="user">The user entity instance.</param>        
-		/// <param name="securityUserInfo">The user security info instance.</param>        
-		/// <param name="client">The Ami Service client for retrieving info.</param>       
-		/// <returns>Returns a security user info model.</returns>
-		public static SecurityUserInfo ToSecurityUserInfo(UpdateProfileModel model, UserEntity user, SecurityUserInfo securityUserInfo, AmiServiceClient client)
-		{
-			var userInfo = new SecurityUserInfo
-			{
-				Email = model.Email,
-				Roles = new List<SecurityRoleInfo>(),
-				User = user.SecurityUser,
-				UserId = user.Key,
-				Password = securityUserInfo.Password,
-				UserName = securityUserInfo.UserName
-			};
-
-			userInfo.User.Email = model.Email;
-			userInfo.User.PhoneNumber = model.PhoneNumber;
-
-			//get any roles assigned to the user and add for the update
-			if (securityUserInfo.Roles.Any())
-			{
-				foreach (var role in securityUserInfo.Roles)
-				{
-					userInfo.Roles.Add(role);
-				}
-			}
-
-			return userInfo;
-		}
-
-		/// <summary>
-		/// Converts a <see cref="UpdateProfileModel"/> instance to a <see cref="UserEntity"/> instance.
-		/// </summary>
-		/// <param name="model">The edit user object to convert.</param>
-		/// <param name="userEntity">The user entity instance.</param>                
-		/// <returns>Returns a UserEntity object with the updated info.</returns>
-		public static UserEntity ToUpdateUserEntity(UpdateProfileModel model, UserEntity userEntity)
-		{
-			if (model.Surname.Any() || model.GivenNames.Any())
-			{
-				var name = new EntityName
-				{
-					NameUse = new Concept
-					{
-						Key = NameUseKeys.OfficialRecord
-					},
-					Component = new List<EntityNameComponent>()
-				};
-
-				name.Component.AddRange(model.Surname.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
-				name.Component.AddRange(model.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
-
-				userEntity.Names = new List<EntityName> { name };
-			}
-
-
-			//!!!-----------THIS IS CAUSING THE UPDATE TO FAIL--------------------------STARTS
-			//var serviceLocation = userEntity.Relationships.FirstOrDefault(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-
-			//if (model.Facilities != null && model.Facilities.Any())
-			//{
-			//	if (serviceLocation != null)
-			//	{
-			//		userEntity.Relationships.First(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).TargetEntityKey = Guid.Parse(model.Facilities.First());
-			//	}
-			//	else
-			//	{
-			//		userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, Guid.Parse(model.Facilities.First())));
-			//	}
-			//}
-			//else
-			//{
-			//	if (serviceLocation != null)
-			//	{
-			//		userEntity.Relationships.RemoveAll(e => e.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-			//	}
-			//}
-			//!!!-----------THIS IS CAUSING THE UPDATE TO FAIL--------------------------ENDS
-
-
-			//REMOVED
-			//Guid facKey = Guid.Empty;
-			//if (Guid.TryParse(model.FacilityId.First(), out facKey))
-			//{
-			//	if (!Guid.Equals(model.PreviousFacilityKey, facKey))
-			//	{
-			//		userEntity.Relationships.RemoveAll(c => c.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation && c.SourceEntityKey == model.PreviousFacilityKey && c.TargetEntityKey == userEntity.Key);
-			//		userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, userEntity.Key)
-			//		{
-			//			SourceEntityKey = facKey,
-			//          InversionIndicator = true
-			//		});
-			//	}
-			//} 
-
-
-			if (!string.IsNullOrWhiteSpace(model.Language))
-			{
-				userEntity.LanguageCommunication.Clear();
-				userEntity.LanguageCommunication.Add(new PersonLanguageCommunication(model.Language, true));
-			}
-
-			//need to strip versionkey so update will work
-			userEntity.CreationTime = DateTimeOffset.Now;
-			userEntity.VersionKey = null;
-
-			return userEntity;
-		}
-
 	}
 }

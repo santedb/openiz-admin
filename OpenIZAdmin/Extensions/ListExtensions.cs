@@ -34,15 +34,15 @@ namespace OpenIZAdmin.Extensions
 		/// Replaces an element in a list.
 		/// </summary>
 		/// <typeparam name="T">The type of the list.</typeparam>
-		/// <param name="me">The list to perform the replace operation on.</param>
+		/// <param name="source">The list to perform the replace operation on.</param>
 		/// <param name="match">The predicate match.</param>
 		/// <param name="value">The new value to be inserted into the list.</param>
 		/// <returns>Returns the list with the update value.</returns>
-		public static IEnumerable<T> Replace<T>(this IEnumerable<T> me, Predicate<T> match, T value)
+		public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, Predicate<T> match, T value)
 		{
-			var clonedList = new List<T>(me);
+			var clonedList = source.ToList();
 
-			var index = clonedList.FindIndex(match);
+			var index = source.ToList().FindIndex(match);
 
 			if (index == -1)
 			{

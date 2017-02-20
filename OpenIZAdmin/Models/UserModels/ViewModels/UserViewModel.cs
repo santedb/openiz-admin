@@ -36,9 +36,15 @@ namespace OpenIZAdmin.Models.UserModels.ViewModels
 		/// </summary>
 		public UserViewModel()
 		{
+			this.Roles = new List<RoleViewModel>();
 		}
 
-		public UserViewModel(SecurityUserInfo securityUserInfo)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="UserViewModel"/> class
+		/// with a specific <see cref="SecurityUserInfo"/> instance.
+		/// </summary>
+		/// <param name="securityUserInfo">The <see cref="SecurityUserInfo"/> instance.</param>
+		public UserViewModel(SecurityUserInfo securityUserInfo) : this()
 		{
 			this.Email = securityUserInfo.Email;
 			this.HasRoles = securityUserInfo.Roles?.Any() == true;
@@ -46,13 +52,15 @@ namespace OpenIZAdmin.Models.UserModels.ViewModels
 			this.IsObsolete = securityUserInfo.User.ObsoletionTime != null;
 			this.LastLoginTime = securityUserInfo.User.LastLoginTime?.DateTime;
 			this.PhoneNumber = securityUserInfo.User.PhoneNumber;
-			this.Roles = securityUserInfo.Roles.Select(r => new RoleViewModel(r));
+
+			if (this.HasRoles)
+			{
+				this.Roles = securityUserInfo.Roles.Select(r => new RoleViewModel(r));
+			}
+
 			this.UserId = securityUserInfo.UserId.Value;
 			this.Username = securityUserInfo.UserName;
 		}
-
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-		public DateTimeOffset CreationTime { get; set; }
 
 		/// <summary>
 		/// Gets or sets the email address of the user.

@@ -111,7 +111,8 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-		[HttpGet]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult Delete(Guid id)
 		{
 			var conceptSet = this.ImsiClient.Get<ConceptSet>(id, null) as ConceptSet;

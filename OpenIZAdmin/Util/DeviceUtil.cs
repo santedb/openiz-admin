@@ -22,12 +22,8 @@ using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Models.DeviceModels;
 using OpenIZAdmin.Models.DeviceModels.ViewModels;
-using OpenIZAdmin.Models.PolicyModels.ViewModels;
-using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Web.Mvc;
 
 namespace OpenIZAdmin.Util
 {
@@ -36,17 +32,6 @@ namespace OpenIZAdmin.Util
 	/// </summary>
 	public static class DeviceUtil
 	{
-		/// <summary>
-		/// Gets a list of all devices.
-		/// </summary>
-		/// <param name="client">The <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.</param>
-		/// <returns>Returns a list of devices.</returns>
-		internal static IEnumerable<DeviceViewModel> GetAllDevices(AmiServiceClient client)
-		{
-			// HACK
-			return client.GetDevices(d => d.Name != string.Empty).CollectionItem.Select(d => new DeviceViewModel(d));
-		}
-
 		/// <summary>
 		/// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo"/>
 		/// </summary>
@@ -68,6 +53,17 @@ namespace OpenIZAdmin.Util
 			}
 
 			return deviceInfo;
+		}
+
+		/// <summary>
+		/// Gets a list of all devices.
+		/// </summary>
+		/// <param name="client">The <see cref="OpenIZ.Messaging.AMI.Client.AmiServiceClient"/> instance.</param>
+		/// <returns>Returns a list of devices.</returns>
+		internal static IEnumerable<DeviceViewModel> GetAllDevices(AmiServiceClient client)
+		{
+			// HACK
+			return client.GetDevices(d => d.Name != string.Empty).CollectionItem.Select(d => new DeviceViewModel(d));
 		}
 	}
 }

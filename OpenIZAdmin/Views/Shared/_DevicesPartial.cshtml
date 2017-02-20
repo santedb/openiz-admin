@@ -9,7 +9,7 @@
         </span>
         <div class="pull-right">
             <span class="text-primary h4">@Locale.New</span>
-            <a href="@Url.Action("Create", "Device", null)" class="glyphicon glyphicon-plus-sign"></a>
+            <a href="@Url.Action("Create", "Device")" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
     <div class="panel panel-body">
@@ -73,10 +73,10 @@
                                     {
                                         @Html.AntiForgeryToken()
 
-                                        <a href="#" class="formButton btn btn-danger" onclick="showModal('deactivate-device-form')">
+                                        <button type="submit" class="formButton btn btn-danger">
                                             @Locale.Deactivate
                                             <span class="glyphicon glyphicon-remove"></span>
-                                        </a>
+                                        </button>
 }
                                 }
                                 else

@@ -79,5 +79,5 @@ namespace OpenIZAdmin.Util
 
 			return policies;
 		}
-    }
+	}
 }

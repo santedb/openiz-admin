@@ -1,15 +1,15 @@
 ﻿@model IEnumerable<OpenIZAdmin.Models.MaterialModels.ViewModels.MaterialSearchResultViewModel>
 @{
-    ViewBag.Title = Locale.Materials;
+    ViewBag.Title = Locale.Organizations;
 }
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="panel-title">
-            @Locale.Materials
+            @Locale.Organizations
         </span>
         <div class="pull-right">
             <span class="text-primary h4">@Locale.New</span>
-            <a href="@Url.Action("Create", "Material")" class class="glyphicon glyphicon-plus-sign"></a>
+            <a href="@Url.Action("Create", "Organization")" class="glyphicon glyphicon-plus-sign"></a>
         </div>
     </div>
     <div class="panel panel-body">
@@ -36,15 +36,15 @@
                             <td>@item.CreationTime.ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
                             <td>@item.Name</td>
                             <td class="col-md-3 centerButton">
-                                <a class="btn btn-primary" href="@Url.Action("ViewMaterial", "Material", new { id = item.Id })">
+                                <a class="btn btn-primary" href="@Url.Action("ViewOrganization", "Organization", new { id = item.Id })">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
-                                <a class="btn btn-warning" href="@Url.Action("Edit", "Material", new { id = item.Id })">
+                                <a class="btn btn-warning" href="@Url.Action("Edit", "Organization", new { id = item.Id })">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
-                                @using (Html.BeginForm("Delete", "Material", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                @using (Html.BeginForm("Delete", "Organization", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                 {
                                     @Html.AntiForgeryToken()
 
@@ -61,7 +61,7 @@
         }
         else
         {
-            <p>@(Locale.No + " " + Locale.Materials + " " + Locale.Found)</p>
+            <p>@(Locale.No + " " + Locale.Organizations + " " + Locale.Found)</p>
         }
 
 

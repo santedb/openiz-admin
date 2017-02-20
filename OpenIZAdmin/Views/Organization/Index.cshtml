@@ -1,0 +1,18 @@
+﻿@model IEnumerable<OpenIZAdmin.Models.OrganizationModels.ViewModels.OrganizationSearchResultViewModel>
+@{
+    ViewBag.Title = Locale.Organization;
+}
+<div id="search-partial">
+    @Html.Partial("_SearchPartial", new OpenIZAdmin.Models.SearchModel())
+</div>
+@section scripts{
+    <script>
+        $(document).ready(function ()
+        {
+            $('#search-partial').bind("DOMSubtreeModified", function ()
+            {
+                $("#organizationSearchTable").DataTable();
+            });
+        });
+    </script>
+}

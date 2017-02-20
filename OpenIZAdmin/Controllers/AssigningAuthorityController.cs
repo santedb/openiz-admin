@@ -86,7 +86,8 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <param name="id">The id of the assigning authority to delete.</param>
 		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
-		[HttpGet]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult Delete(Guid id)
 		{
 			try

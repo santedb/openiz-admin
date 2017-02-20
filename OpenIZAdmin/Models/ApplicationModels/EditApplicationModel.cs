@@ -27,9 +27,9 @@ namespace OpenIZAdmin.Models.ApplicationModels
 			this.HasPolicies = this.ApplicationPolicies.Any();
 			this.Id = securityApplicationInfo.Id.Value;
 			this.Policies = this.ApplicationPolicies.Select(p => p.Id.ToString()).ToList();
+			this.IsObsolete = securityApplicationInfo.Application.ObsoletionTime != null;
 		}
 
-		//policies added by the user
 		[Display(Name = "AddPolicies", ResourceType = typeof(Localization.Locale))]
 		public List<string> AddPolicies { get; set; }
 
@@ -46,6 +46,11 @@ namespace OpenIZAdmin.Models.ApplicationModels
 
 		[Required]
 		public Guid Id { get; set; }
+
+		/// <summary>
+		/// Gets or sets whether the application is obsolete.
+		/// </summary>
+		public bool IsObsolete { get; set; }
 
 		[Display(Name = "Policies", ResourceType = typeof(Localization.Locale))]
 		public List<string> Policies { get; set; }

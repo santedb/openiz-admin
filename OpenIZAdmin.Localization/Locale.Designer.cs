@@ -1150,6 +1150,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a valid phone number.
+        /// </summary>
+        public static string InvalidPhoneNumber {
+            get {
+                return ResourceManager.GetString("InvalidPhoneNumber", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid search, please check your search criteria.
         /// </summary>
         public static string InvalidSearch {
@@ -1627,6 +1636,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Organization.
+        /// </summary>
+        public static string Organization {
+            get {
+                return ResourceManager.GetString("Organization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Organizations.
+        /// </summary>
+        public static string Organizations {
+            get {
+                return ResourceManager.GetString("Organizations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password.
         /// </summary>
         public static string Password {
@@ -1677,6 +1704,15 @@ namespace OpenIZAdmin.Localization {
         public static string Phone {
             get {
                 return ResourceManager.GetString("Phone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The phone number field cannot exceed 25 characters.
+        /// </summary>
+        public static string PhoneNumberTooLong {
+            get {
+                return ResourceManager.GetString("PhoneNumberTooLong", resourceCulture);
             }
         }
         

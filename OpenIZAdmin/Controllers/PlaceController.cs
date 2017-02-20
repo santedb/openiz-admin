@@ -82,7 +82,8 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <param name="id">The id of the place to delete.</param>
 		/// <returns>Returns the create place view.</returns>
-		[HttpGet]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
 		public ActionResult Delete(Guid id)
 		{
 			try
