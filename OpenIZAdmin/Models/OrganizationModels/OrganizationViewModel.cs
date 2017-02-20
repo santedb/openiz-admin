@@ -50,7 +50,7 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		{
 			if (organization.IndustryConcept != null)
 			{
-				this.Industry = string.Join(" ", organization.IndustryConcept.ConceptNames.Select(c => c.Name));
+				this.IndustryConcept = string.Join(" ", organization.IndustryConcept.ConceptNames.Select(c => c.Name));
 			}
 
 			this.ManufacturedMaterials = organization.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct)
@@ -65,7 +65,7 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		/// Gets or sets the industry of the organization.
 		/// </summary>
 		[Display(Name = "Industry", ResourceType = typeof(Locale))]
-		public string Industry { get; set; }
+		public string IndustryConcept { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of manufactured materials associated with the organization.

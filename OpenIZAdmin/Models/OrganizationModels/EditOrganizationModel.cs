@@ -21,16 +21,18 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web.Mvc;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.OrganizationModels
 {
 	/// <summary>
 	/// Represents an edit organization model.
 	/// </summary>
-	public class EditOrganizationModel
+	public class EditOrganizationModel : EditEntityModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditOrganizationModel"/> class.
@@ -45,38 +47,47 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		/// with a specific <see cref="Organization"/> instance.
 		/// </summary>
 		/// <param name="organization"></param>
-		public EditOrganizationModel(OpenIZ.Core.Model.Entities.Organization organization)
+		public EditOrganizationModel(Organization organization) : base(organization)
 		{
-			this.Id = organization.Key.Value;
-			this.Name = string.Join(" ", organization.Names.SelectMany(n => n.Component).Select(c => c.Value));
+			this.IndustryConcept = organization.IndustryConceptKey?.ToString();
 		}
 
 		/// <summary>
-		/// Gets or sets the id of the organization.
+		/// Gets or sets the industry concept of the organization.
 		/// </summary>
-		[Required]
-		public Guid Id { get; set; }
+		[Display(Name = "IndustryConcept", ResourceType = typeof(Locale))]
+		public string IndustryConcept { get; set; }
+
+		/// <summary>
+		/// Gets or sets the list of industry concepts.
+		/// </summary>
+		public List<SelectListItem> IndustryConcepts { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the organization.
 		/// </summary>
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
 		/// <summary>
 		/// Converts an <see cref="EditOrganizationModel"/> instance to an <see cref="Organization"/> instance.
 		/// </summary>
 		/// <returns>Returns an <see cref="Organization"/> instance.</returns>
-		public OpenIZ.Core.Model.Entities.Organization ToOrganization()
+		public Organization ToOrganization(Organization organization)
 		{
-			return new OpenIZ.Core.Model.Entities.Organization
+			organization.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.OfficialRecord);
+			organization.Names.Add(new EntityName(NameUseKeys.OfficialRecord, this.Name));
+
+			Guid industryConceptKey;
+
+			if (Guid.TryParse(this.IndustryConcept, out industryConceptKey))
 			{
-				Key = this.Id,
-				Names = new List<EntityName>
-				{
-					new EntityName(NameUseKeys.OfficialRecord, this.Name)
-				}
-			};
+				organization.IndustryConceptKey = industryConceptKey;
+			}
+
+			return organization;
 		}
 	}
 }

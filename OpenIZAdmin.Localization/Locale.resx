@@ -1158,4 +1158,7 @@
   <data name="NoAssociatedPolicies" xml:space="preserve">
     <value>No associated policies</value>
   </data>
+  <data name="IndustryConcept" xml:space="preserve">
+    <value>Industry Concept</value>
+  </data>
 </root>

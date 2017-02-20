@@ -123,6 +123,8 @@ namespace OpenIZAdmin.Controllers
 
 				this.ImsiClient.Obsolete<Material>(material);
 
+				TempData["success"] = Locale.Material + " " + Locale.Deleted + " " + Locale.Successfully;
+
 				return RedirectToAction("Index");
 			}
 			catch (Exception e)

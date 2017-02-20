@@ -1141,6 +1141,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Industry Concept.
+        /// </summary>
+        public static string IndustryConcept {
+            get {
+                return ResourceManager.GetString("IndustryConcept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Information.
         /// </summary>
         public static string Information {

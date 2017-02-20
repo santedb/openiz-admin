@@ -26,10 +26,9 @@ using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.MaterialModels;
 using OpenIZAdmin.Models.OrganizationModels;
-using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -53,14 +52,21 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			return View();
+			var industryConceptSet = this.ImsiClient.Get<ConceptSet>(ConceptSetKeys.IndustryCode, null) as ConceptSet;
+
+			var model = new CreateOrganizationModel
+			{
+				IndustryConcepts = industryConceptSet?.Concepts.ToSelectList().ToList()
+			};
+
+			return View(model);
 		}
 
 		/// <summary>
-		/// Creates a material.
+		/// Creates a organization.
 		/// </summary>
-		/// <param name="model">The model containing the information to create a material.</param>
-		/// <returns>Returns the created material.</returns>
+		/// <param name="model">The model containing the information to create a organization.</param>
+		/// <returns>Returns the created organization.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateOrganizationModel model)
@@ -69,11 +75,11 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var material = this.ImsiClient.Create(model.ToOrganization());
+					var organization = this.ImsiClient.Create(model.ToOrganization());
 
 					TempData["success"] = Locale.Organization + " " + Locale.Created + " " + Locale.Successfully;
 
-					return RedirectToAction("ViewOrganization", new { id = material.Key });
+					return RedirectToAction("ViewOrganization", new { id = organization.Key });
 				}
 			}
 			catch (Exception e)
@@ -81,23 +87,22 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToCreate + " " + Locale.Material;
+			var industryConceptSet = this.ImsiClient.Get<ConceptSet>(ConceptSetKeys.IndustryCode, null) as ConceptSet;
+
+			model.IndustryConcepts = industryConceptSet.Concepts.ToSelectList(c => c.Key == Guid.Parse(model.IndustryConcept)).ToList();
+
+			TempData["error"] = Locale.UnableToCreate + " " + Locale.Organization;
 
 			return View(model);
 		}
 
-		/// <summary>
-		/// Deletion of a material.
-		/// </summary>
-		/// <param name="id">The id of the material.</param>
-		/// <returns>Returns the to the material search page.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(Guid id)
 		{
 			try
 			{
-				var organization = this.ImsiClient.Get<Material>(id, null) as Material;
+				var organization = this.ImsiClient.Get<Organization>(id, null) as Organization;
 
 				if (organization == null)
 				{
@@ -106,7 +111,9 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				this.ImsiClient.Obsolete<Material>(organization);
+				this.ImsiClient.Obsolete<Organization>(organization);
+
+				TempData["success"] = Locale.Organization + " " + Locale.Deleted + " " + Locale.Successfully;
 
 				return RedirectToAction("Index");
 			}
@@ -120,21 +127,16 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-		/// <summary>
-		/// Edit for material.
-		/// </summary>
-		/// <param name="id">The key of the material.</param>
-		/// <returns>Returns the edited material.</returns>
 		[HttpGet]
 		public ActionResult Edit(Guid id)
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Organization>(m => m.Key == id && m.ObsoletionTime == null, 0, null, true);
+				var bundle = this.ImsiClient.Query<Organization>(m => m.Key == id && m.ClassConceptKey == EntityClassKeys.Organization && m.ObsoletionTime == null, 0, null, true);
 
 				bundle.Reconstitute();
 
-				var organization = bundle.Item.OfType<Organization>().FirstOrDefault(m => m.Key == id && m.ObsoletionTime == null);
+				var organization = bundle.Item.OfType<Organization>().FirstOrDefault(m => m.Key == id && m.ClassConceptKey == EntityClassKeys.Organization && m.ObsoletionTime == null);
 
 				if (organization == null)
 				{
@@ -155,11 +157,6 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-		/// <summary>
-		/// Edit for material.
-		/// </summary>
-		/// <param name="model">The model containing the information of the edit material.</param>
-		/// <returns>Returns the edit for a material.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditOrganizationModel model)
@@ -168,11 +165,11 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var bundle = this.ImsiClient.Query<Organization>(m => m.Key == model.Id && m.ObsoletionTime == null, 0, null, true);
+					var bundle = this.ImsiClient.Query<Organization>(m => m.Key == model.Id && m.ClassConceptKey == EntityClassKeys.Organization && m.ObsoletionTime == null, 0, null, true);
 
 					bundle.Reconstitute();
 
-					var organization = bundle.Item.OfType<Organization>().FirstOrDefault(m => m.Key == model.Id && m.ObsoletionTime == null);
+					var organization = bundle.Item.OfType<Organization>().FirstOrDefault(m => m.Key == model.Id && m.ClassConceptKey == EntityClassKeys.Organization && m.ObsoletionTime == null);
 
 					if (organization == null)
 					{
@@ -181,11 +178,11 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
-					var result = this.ImsiClient.Update<Organization>(model.ToOrganization());
+					var updatedOrganization = this.ImsiClient.Update<Organization>(model.ToOrganization(organization));
 
 					TempData["success"] = Locale.Organization + " " + Locale.Updated + " " + Locale.Successfully;
 
-					return RedirectToAction("ViewOrganization", new { id = result.Key });
+					return RedirectToAction("ViewOrganization", new { id = updatedOrganization.Key });
 				}
 			}
 			catch (Exception e)
@@ -210,10 +207,10 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Searches for a material.
+		/// Searches for a organization.
 		/// </summary>
 		/// <param name="searchTerm">The search term.</param>
-		/// <returns>Returns a list of materials which match the search term.</returns>
+		/// <returns>Returns a list of organizations which match the search term.</returns>
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
@@ -227,17 +224,17 @@ namespace OpenIZAdmin.Controllers
 				return PartialView("_OrganizationSearchResultsPartial", bundle.Item.OfType<Organization>().Select(o => new OrganizationSearchResultViewModel(o)));
 			}
 
-			TempData["error"] = Locale.Material + " " + Locale.NotFound;
+			TempData["error"] = Locale.Organization + " " + Locale.NotFound;
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_OrganizationSearchResultsPartial", results);
 		}
 
 		/// <summary>
-		/// View for material.
+		/// View for organization.
 		/// </summary>
-		/// <param name="id">The id of the material.</param>
-		/// <returns>Returns the view for a material.</returns>
+		/// <param name="id">The id of the organization.</param>
+		/// <returns>Returns the view for a organization.</returns>
 		[HttpGet]
 		public ActionResult ViewOrganization(Guid id)
 		{
