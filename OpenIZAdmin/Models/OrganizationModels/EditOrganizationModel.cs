@@ -50,6 +50,8 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		public EditOrganizationModel(Organization organization) : base(organization)
 		{
 			this.IndustryConcept = organization.IndustryConceptKey?.ToString();
+			this.IndustryConcepts = new List<SelectListItem>();
+			this.Name = string.Join(" ", organization.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Select(c => c.Value));
 		}
 
 		/// <summary>

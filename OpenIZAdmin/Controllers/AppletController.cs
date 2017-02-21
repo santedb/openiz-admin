@@ -99,60 +99,67 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Upload(UploadAppletModel model)
 		{
-			var fileInfo = new FileInfo(model.File.FileName);
-
-			if (ModelState.IsValid)
+			try
 			{
-				AppletManifest manifest = null;
-
-				switch (fileInfo.Extension)
-				{
-					case ".pak":
-
-						try
-						{
-							AppletPackage package;
-							using (var stream = new GZipStream(model.File.InputStream, CompressionMode.Decompress))
-							{
-								var serializer = new XmlSerializer(typeof(AppletPackage));
-								package = (AppletPackage)serializer.Deserialize(stream);
-							}
-
-							using (var stream = new MemoryStream(package.Manifest))
-							{
-								manifest = AppletManifest.Load(stream);
-							}
-						}
-						catch (Exception e)
-						{
-							ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-							ModelState.AddModelError(nameof(model.File), Locale.UnableToUploadApplet);
-						}
-
-						break;
-
-					default:
-						ModelState.AddModelError(nameof(model.File), Locale.UnableToUploadApplet);
-						break;
-				}
-
-				// ensure that the model state wasn't invalidated when attempting to serialize the applet file
 				if (ModelState.IsValid)
 				{
-					var manifestInfo = new AppletManifestInfo(manifest)
+					var fileInfo = new FileInfo(model.File.FileName);
+
+					AppletManifest manifest = null;
+
+					switch (fileInfo.Extension)
 					{
-						FileExtension = fileInfo.Extension
-					};
+						case ".pak":
 
-					this.AmiClient.CreateApplet(manifestInfo);
+							try
+							{
+								AppletPackage package;
+								using (var stream = new GZipStream(model.File.InputStream, CompressionMode.Decompress))
+								{
+									var serializer = new XmlSerializer(typeof(AppletPackage));
+									package = (AppletPackage)serializer.Deserialize(stream);
+								}
 
-					TempData["success"] = Locale.Applet + " " + Locale.Uploaded + " " + Locale.Successfully;
+								using (var stream = new MemoryStream(package.Manifest))
+								{
+									manifest = AppletManifest.Load(stream);
+								}
+							}
+							catch (Exception e)
+							{
+								ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+								ModelState.AddModelError(nameof(model.File), Locale.UnableToUpload + " " + Locale.Applet);
+							}
 
-					return RedirectToAction("Index");
+							break;
+
+						default:
+							ModelState.AddModelError(nameof(model.File), Locale.UnableToUpload + " " + Locale.Applet);
+							break;
+					}
+
+					// ensure that the model state wasn't invalidated when attempting to serialize the applet file
+					if (ModelState.IsValid)
+					{
+						var manifestInfo = new AppletManifestInfo(manifest)
+						{
+							FileExtension = fileInfo.Extension
+						};
+
+						this.AmiClient.CreateApplet(manifestInfo);
+
+						TempData["success"] = Locale.Applet + " " + Locale.Uploaded + " " + Locale.Successfully;
+
+						return RedirectToAction("Index");
+					}
 				}
 			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
 
-			TempData["error"] = Locale.UnableToUploadApplet;
+			TempData["error"] = Locale.UnableToUpload + " " + Locale.Applet;
 
 			return View(model);
 		}

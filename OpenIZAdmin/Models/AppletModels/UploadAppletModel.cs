@@ -19,6 +19,7 @@
 
 using System.ComponentModel.DataAnnotations;
 using System.Web;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.AppletModels
 {
@@ -37,7 +38,9 @@ namespace OpenIZAdmin.Models.AppletModels
 		/// <summary>
 		/// Gets or sets the applet content.
 		/// </summary>
-		[Required]
+		[Display(Name = "File", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "FileRequired", ErrorMessageResourceType = typeof(Locale))]
+		[FileExtensions(Extensions = ".pak", ErrorMessageResourceName = "InvalidFileExtension", ErrorMessageResourceType = typeof(Locale))]
 		public HttpPostedFileBase File { get; set; }
 	}
 }

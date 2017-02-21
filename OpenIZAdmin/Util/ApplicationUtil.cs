@@ -29,7 +29,10 @@ namespace OpenIZAdmin.Util
 			if (policyList.Any())
 			{
 				appInfo.Policies.Clear();
-				appInfo.Policies.AddRange(policyList.Select(p => new SecurityPolicyInstance(p, PolicyGrantType.Grant)));
+				appInfo.Policies.AddRange(policyList.Select(p => new SecurityPolicyInfo(p)
+				{
+					Grant = PolicyGrantType.Grant
+				}));
 			}
 
 			return appInfo;

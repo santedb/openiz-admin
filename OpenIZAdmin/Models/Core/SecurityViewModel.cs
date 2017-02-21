@@ -47,21 +47,6 @@ namespace OpenIZAdmin.Models.Core
 		/// Initializes a new instance of the <see cref="SecurityViewModel"/> class
 		/// with a specific policy list.
 		/// </summary>
-		/// <param name="policies">The <see cref="SecurityPolicyInstance"/> list.</param>
-		private SecurityViewModel(IEnumerable<SecurityPolicyInstance> policies) : this()
-		{
-			this.HasPolicies = policies?.Any() == true;
-
-			if (this.HasPolicies)
-			{
-				this.Policies = policies.Select(p => new PolicyViewModel(new SecurityPolicyInstance(p.Policy, p.GrantType))).OrderBy(q => q.Name).ToList();
-			}
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SecurityViewModel"/> class
-		/// with a specific policy list.
-		/// </summary>
 		/// <param name="policies">The <see cref="SecurityPolicyInfo"/> list.</param>
 		private SecurityViewModel(IEnumerable<SecurityPolicyInfo> policies) : this()
 		{
@@ -71,21 +56,6 @@ namespace OpenIZAdmin.Models.Core
 			{
 				this.Policies = policies.Select(p => new PolicyViewModel(new SecurityPolicyInstance(p.Policy, p.Grant))).OrderBy(q => q.Name).ToList();
 			}
-		}
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SecurityViewModel"/> class
-		/// with a specific <see cref="SecurityEntity"/> instance
-		/// and a specific <see cref="SecurityPolicyInstance"/> list.
-		/// </summary>
-		/// <param name="securityEntity">The <see cref="SecurityEntity"/> instance.</param>
-		/// <param name="policies">The <see cref="SecurityPolicyInstance"/> list.</param>
-		private SecurityViewModel(SecurityEntity securityEntity, IEnumerable<SecurityPolicyInstance> policies) : this(policies)
-		{
-			this.CreationTime = securityEntity.CreationTime.DateTime;
-			this.Id = securityEntity.Key.Value;
-			this.IsObsolete = securityEntity.ObsoletionTime != null;
-			this.ObsoletionTime = securityEntity.ObsoletionTime?.DateTime;
 		}
 
 		/// <summary>
@@ -137,6 +107,7 @@ namespace OpenIZAdmin.Models.Core
 		/// Initializes a new instance of the <see cref="SecurityViewModel"/> class
 		/// with a specific <see cref="SecurityRoleInfo"/> instance.
 		/// </summary>
+		/// <param name="securityEntity">The <see cref="SecurityEntity"/> instance.</param>
 		/// <param name="roles">The <see cref="SecurityRoleInfo"/> list.</param>
 		protected SecurityViewModel(SecurityEntity securityEntity, IEnumerable<SecurityRoleInfo> roles) : this(securityEntity, roles.SelectMany(r => r.Policies))
 		{

@@ -705,9 +705,6 @@
   <data name="UnableToUpdate" xml:space="preserve">
     <value>Unable to update</value>
   </data>
-  <data name="UnableToUploadApplet" xml:space="preserve">
-    <value>Unable to upload applet</value>
-  </data>
   <data name="Updated" xml:space="preserve">
     <value>Updated </value>
   </data>
@@ -730,7 +727,7 @@
     <value>Applet</value>
   </data>
   <data name="UnableToUpload" xml:space="preserve">
-    <value>UnableToUpload</value>
+    <value>Unable to upload</value>
   </data>
   <data name="Download" xml:space="preserve">
     <value>Download</value>
@@ -1160,5 +1157,14 @@
   </data>
   <data name="IndustryConcept" xml:space="preserve">
     <value>Industry Concept</value>
+  </data>
+  <data name="File" xml:space="preserve">
+    <value>File</value>
+  </data>
+  <data name="FileRequired" xml:space="preserve">
+    <value>Please select a file to upload</value>
+  </data>
+  <data name="InvalidFileExtension" xml:space="preserve">
+    <value>Unsupported file extension</value>
   </data>
 </root>

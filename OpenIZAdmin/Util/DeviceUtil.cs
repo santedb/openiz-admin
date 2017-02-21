@@ -48,7 +48,10 @@ namespace OpenIZAdmin.Util
 			if (policyList.Any())
 			{
 				deviceInfo.Policies.Clear();
-				deviceInfo.Policies.AddRange(policyList.Select(p => new SecurityPolicyInstance(p, PolicyGrantType.Grant)));
+				deviceInfo.Policies.AddRange(policyList.Select(p => new SecurityPolicyInfo(p)
+				{
+					Grant = PolicyGrantType.Grant
+				}));
 			}
 
 			return deviceInfo;

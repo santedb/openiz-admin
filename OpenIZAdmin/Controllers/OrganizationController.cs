@@ -145,7 +145,14 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return View(new EditOrganizationModel(organization));
+				var industryConceptSet = this.ImsiClient.Get<ConceptSet>(ConceptSetKeys.IndustryCode, null) as ConceptSet;
+
+				var model = new EditOrganizationModel(organization)
+				{
+					IndustryConcepts = industryConceptSet?.Concepts.ToSelectList().ToList()
+				};
+
+				return View(model);
 			}
 			catch (Exception e)
 			{
@@ -190,9 +197,13 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
+			var industryConceptSet = this.ImsiClient.Get<ConceptSet>(ConceptSetKeys.IndustryCode, null) as ConceptSet;
+
+			model.IndustryConcepts = industryConceptSet?.Concepts.ToSelectList().ToList();
+
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Organization;
 
-			return RedirectToAction("Index");
+			return View(model);
 		}
 
 		/// <summary>

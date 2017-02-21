@@ -57,31 +57,6 @@
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
-                                @if (!item.IsObsolete)
-                                {
-                                    using (Html.BeginForm("Delete", "Device", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form", id = "deactivate-device-form" }))
-                                    {
-                                        @Html.AntiForgeryToken()
-
-                                        <button type="submit" class="formButton btn btn-danger">
-                                            @Locale.Deactivate
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </button>
-}
-                                }
-                                else
-                                {
-                                    using (Html.BeginForm("Activate", "Device", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
-                                    {
-                                        @Html.AntiForgeryToken()
-
-                                        <button type="submit" class="formButton btn btn-success">
-                                            @Locale.Activate
-                                            <span class="glyphicon glyphicon-upload"></span>
-                                        </button>
-}
-                                }
-
                             </td>
                         </tr>
 }

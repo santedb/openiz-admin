@@ -934,6 +934,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to File.
+        /// </summary>
+        public static string File {
+            get {
+                return ResourceManager.GetString("File", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a file to upload.
+        /// </summary>
+        public static string FileRequired {
+            get {
+                return ResourceManager.GetString("FileRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to First name.
         /// </summary>
         public static string FirstName {
@@ -1173,6 +1191,15 @@ namespace OpenIZAdmin.Localization {
         public static string InvalidEmailAddress {
             get {
                 return ResourceManager.GetString("InvalidEmailAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unsupported file extension.
+        /// </summary>
+        public static string InvalidFileExtension {
+            get {
+                return ResourceManager.GetString("InvalidFileExtension", resourceCulture);
             }
         }
         
@@ -2995,20 +3022,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to UnableToUpload.
+        ///   Looks up a localized string similar to Unable to upload.
         /// </summary>
         public static string UnableToUpload {
             get {
                 return ResourceManager.GetString("UnableToUpload", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to upload applet.
-        /// </summary>
-        public static string UnableToUploadApplet {
-            get {
-                return ResourceManager.GetString("UnableToUploadApplet", resourceCulture);
             }
         }
         
