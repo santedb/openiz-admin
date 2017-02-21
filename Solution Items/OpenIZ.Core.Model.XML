@@ -3324,19 +3324,6 @@
             Semantic equality function
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.Entities.EntityName.ToString">
-            <summary>
-            Gets the string representation of the entity name.
-            </summary>
-            <returns>Returns a string representation of the entity name.</returns>
-        </member>
-        <member name="M:OpenIZ.Core.Model.Entities.EntityName.ToString(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.EntityNameComponent,System.Boolean}})">
-            <summary>
-            Gets the string representation of the entity name with a given filter expression.
-            </summary>
-            <param name="filterExpression">The filter expression to use to filter the entity name components.</param>
-            <returns>Returns a string representation of the entity name.</returns>
-        </member>
         <member name="T:OpenIZ.Core.Model.Entities.EntityNameComponent">
             <summary>
             Represents a name component which is bound to a name
@@ -4925,13 +4912,6 @@
         <member name="T:OpenIZ.Core.Model.ExtensionMethods">
             <summary>
             Reflection tools
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.ExtensionMethods.Convert``1(System.Object)">
-            <summary>
-            The purpose of this method is to convert object <paramref name="me"/> to <typeparamref name="TReturn"/>. Why? 
-            Because if you have an instance of Act that actually needs to be a SubstanceAdministration we can't just cast
-            so we have to copy.
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.ExtensionMethods.HashCode(System.Byte[])">
