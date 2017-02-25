@@ -40,7 +40,6 @@ namespace OpenIZAdmin.Models.AppletModels
 		/// </summary>
 		[Display(Name = "File", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "FileRequired", ErrorMessageResourceType = typeof(Locale))]
-		[FileExtensions(Extensions = ".pak", ErrorMessageResourceName = "InvalidFileExtension", ErrorMessageResourceType = typeof(Locale))]
 		public HttpPostedFileBase File { get; set; }
 	}
 }

@@ -21,15 +21,27 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.PolicyModels
 {
+	/// <summary>
+	/// Represents a policy view model class.
+	/// </summary>
 	public class PolicyViewModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PolicyViewModel"/> class.
+		/// </summary>
 		public PolicyViewModel()
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PolicyViewModel"/> class
+		/// with a specific <see cref="SecurityPolicy"/> instance.
+		/// </summary>
+		/// <param name="securityPolicy">The security policy.</param>
 		public PolicyViewModel(SecurityPolicy securityPolicy)
 		{
 			this.CreationTime = securityPolicy.CreationTime.DateTime;
@@ -41,6 +53,11 @@ namespace OpenIZAdmin.Models.PolicyModels
 			this.IsObsolete = securityPolicy.ObsoletionTime != null;
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PolicyViewModel"/> class
+		/// with a specific <see cref="SecurityPolicyInfo"/> instance.
+		/// </summary>
+		/// <param name="securityPolicyInfo">The security policy information.</param>
 		public PolicyViewModel(SecurityPolicyInfo securityPolicyInfo)
 		{
 			this.CreationTime = securityPolicyInfo.Policy.CreationTime.DateTime;
@@ -52,20 +69,41 @@ namespace OpenIZAdmin.Models.PolicyModels
 			this.IsObsolete = securityPolicyInfo.Policy.ObsoletionTime != null;
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PolicyViewModel"/> class
+		/// with a specific <see cref="SecurityPolicyInstance"/> instance.
+		/// </summary>
+		/// <param name="securityPolicyInstance">The security policy instance.</param>
 		public PolicyViewModel(SecurityPolicyInstance securityPolicyInstance) : this(securityPolicyInstance.Policy)
 		{
 			this.Grant = Enum.GetName(typeof(PolicyGrantType), securityPolicyInstance.GrantType);
 		}
 
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance can override.
+		/// </summary>
+		/// <value><c>true</c> if this instance can override; otherwise, <c>false</c>.</value>
 		[Display(Name = "CanOverride", ResourceType = typeof(Localization.Locale))]
 		public bool CanOverride { get; set; }
 
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the creation time.
+		/// </summary>
+		/// <value>The creation time.</value>
+		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
 		public DateTime CreationTime { get; set; }
 
-		[Display(Name = "Grant", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the grant.
+		/// </summary>
+		/// <value>The grant.</value>
+		[Display(Name = "Grant", ResourceType = typeof(Locale))]
 		public string Grant { get; set; }
 
+		/// <summary>
+		/// Gets or sets the identifier.
+		/// </summary>
+		/// <value>The identifier.</value>
 		public Guid Id { get; set; }
 
 		/// <summary>
@@ -73,13 +111,25 @@ namespace OpenIZAdmin.Models.PolicyModels
 		/// </summary>
 		public bool IsObsolete { get; set; }
 
-		[Display(Name = "IsPublic", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is public.
+		/// </summary>
+		/// <value><c>true</c> if this instance is public; otherwise, <c>false</c>.</value>
+		[Display(Name = "IsPublic", ResourceType = typeof(Locale))]
 		public bool IsPublic { get; set; }
 
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the name.
+		/// </summary>
+		/// <value>The name.</value>
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
-		[Display(Name = "OIDAllCaps", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the oid.
+		/// </summary>
+		/// <value>The oid.</value>
+		[Display(Name = "OIDAllCaps", ResourceType = typeof(Locale))]
 		public string Oid { get; set; }
 	}
 }
