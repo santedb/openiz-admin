@@ -17,10 +17,10 @@
  * Date: 2016-11-14
  */
 
-using System;
 using OpenIZ.Core.Alert.Alerting;
 using OpenIZ.Core.Model.AMI.Alerting;
 using OpenIZ.Core.Model.Security;
+using System;
 
 namespace OpenIZAdmin.Models.AlertModels
 {

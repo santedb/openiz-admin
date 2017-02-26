@@ -19,12 +19,12 @@
 
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using OpenIZAdmin.Models.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.MaterialModels
 {

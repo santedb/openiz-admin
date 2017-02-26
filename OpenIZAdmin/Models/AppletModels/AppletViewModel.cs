@@ -17,10 +17,10 @@
  * Date: 2016-7-8
  */
 
+using OpenIZ.Core.Model.AMI.Applet;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using OpenIZ.Core.Model.AMI.Applet;
 
 namespace OpenIZAdmin.Models.AppletModels
 {

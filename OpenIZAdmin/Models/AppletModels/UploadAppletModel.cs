@@ -17,9 +17,9 @@
  * Date: 2016-7-13
  */
 
+using OpenIZAdmin.Localization;
 using System.ComponentModel.DataAnnotations;
 using System.Web;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.AppletModels
 {

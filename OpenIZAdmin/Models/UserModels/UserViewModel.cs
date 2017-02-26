@@ -17,13 +17,13 @@
  * Date: 2016-7-8
  */
 
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZAdmin.Models.Core;
+using OpenIZAdmin.Models.RoleModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZAdmin.Models.Core;
-using OpenIZAdmin.Models.RoleModels;
 
 namespace OpenIZAdmin.Models.UserModels
 {
@@ -37,7 +37,6 @@ namespace OpenIZAdmin.Models.UserModels
 		/// </summary>
 		public UserViewModel()
 		{
-
 		}
 
 		/// <summary>

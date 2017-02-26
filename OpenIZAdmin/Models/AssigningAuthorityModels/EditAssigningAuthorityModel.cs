@@ -19,9 +19,9 @@
 
 using OpenIZ.Core.Model.AMI.DataTypes;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Localization;
 using System;
 using System.ComponentModel.DataAnnotations;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {

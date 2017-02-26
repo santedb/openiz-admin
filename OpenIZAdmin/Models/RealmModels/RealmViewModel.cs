@@ -17,10 +17,10 @@
  * Date: 2016-7-15
  */
 
-using System;
-using System.ComponentModel.DataAnnotations;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Domain;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.RealmModels
 {

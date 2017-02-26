@@ -17,9 +17,9 @@
  * Date: 2016-7-8
  */
 
+using OpenIZ.Core.Applets.Model;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using OpenIZ.Core.Applets.Model;
 
 namespace OpenIZAdmin.Models.AppletModels
 {

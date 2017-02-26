@@ -17,17 +17,15 @@
  * Date: 2016-7-17
  */
 
-using System;
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.Entities;
+using OpenIZAdmin.Localization;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.Constants;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZ.Core.Model.Entities;
-using OpenIZ.Core.Model.Roles;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.UserModels
 {

@@ -17,17 +17,14 @@
  * Date: 2016-9-5
  */
 
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.Entities;
+using OpenIZAdmin.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Constants;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZ.Core.Model.Entities;
-using OpenIZAdmin.Extensions;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.AccountModels
 {
@@ -195,7 +192,7 @@ namespace OpenIZAdmin.Models.AccountModels
 			var facility = Guid.Empty;
 
 			// only update the facility if it actually changes
-			if (!string.IsNullOrEmpty(this.Facility) && 
+			if (!string.IsNullOrEmpty(this.Facility) &&
 				Guid.TryParse(this.Facility, out facility) &&
 				userEntity.Relationships.Find(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation && r.TargetEntityKey == facility) == null)
 			{

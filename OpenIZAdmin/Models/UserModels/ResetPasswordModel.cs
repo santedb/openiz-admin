@@ -44,17 +44,17 @@ namespace OpenIZAdmin.Models.UserModels
 		public string ConfirmPassword { get; set; }
 
 		/// <summary>
+		/// Gets or sets the user id of the model.
+		/// </summary>
+		[Required]
+		public Guid Id { get; set; }
+
+		/// <summary>
 		/// Gets or sets the password of the model.
 		/// </summary>
 		[DataType(DataType.Password)]
 		[Display(Name = "Password", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Password { get; set; }
-
-		/// <summary>
-		/// Gets or sets the user id of the model.
-		/// </summary>
-		[Required]
-		public Guid Id { get; set; }
 	}
 }

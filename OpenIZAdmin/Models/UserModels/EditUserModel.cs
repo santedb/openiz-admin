@@ -20,12 +20,12 @@
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using OpenIZAdmin.Models.RoleModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Models.RoleModels;
 
 namespace OpenIZAdmin.Models.UserModels
 {
@@ -118,6 +118,12 @@ namespace OpenIZAdmin.Models.UserModels
 		public List<SelectListItem> GivenNamesList { get; set; }
 
 		/// <summary>
+		/// Gets or sets the user id of the user.
+		/// </summary>
+		[Required]
+		public Guid Id { get; set; }
+
+		/// <summary>
 		/// Gets or sets the phone number of the user.
 		/// </summary>
 		[Display(Name = "Phone", ResourceType = typeof(Localization.Locale))]
@@ -155,12 +161,6 @@ namespace OpenIZAdmin.Models.UserModels
 		/// </summary>
 		[Display(Name = "Surname", ResourceType = typeof(Localization.Locale))]
 		public List<string> Surnames { get; set; }
-
-		/// <summary>
-		/// Gets or sets the user id of the user.
-		/// </summary>
-		[Required]
-		public Guid Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the current roles of the user.

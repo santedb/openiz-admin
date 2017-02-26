@@ -17,9 +17,9 @@
  * Date: 2016-7-8
  */
 
+using OpenIZ.Core.Model.AMI.DataTypes;
 using System;
 using System.ComponentModel.DataAnnotations;
-using OpenIZ.Core.Model.AMI.DataTypes;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {
