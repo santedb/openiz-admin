@@ -60,7 +60,7 @@ namespace OpenIZAdmin.Models.AccountModels
 			this.SurnamesList.AddRange(this.Surnames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 			this.GivenNamesList.AddRange(this.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 
-			this.Language = userEntity.LanguageCommunication.Where(l => l.IsPreferred).Select(l => l.LanguageCode).FirstOrDefault();
+			this.Language = userEntity.LanguageCommunication.FirstOrDefault(l => l.IsPreferred)?.LanguageCode;
 
 			this.LanguageList = new List<SelectListItem>
 			{
@@ -189,7 +189,7 @@ namespace OpenIZAdmin.Models.AccountModels
 				userEntity.Names = new List<EntityName> { name };
 			}
 
-			var facility = Guid.Empty;
+			Guid facility;
 
 			// only update the facility if it actually changes
 			if (!string.IsNullOrEmpty(this.Facility) &&
