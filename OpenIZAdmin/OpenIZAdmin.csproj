@@ -261,6 +261,7 @@
     <Compile Include="Models\Core\EntityViewModel.cs" />
     <Compile Include="Models\Core\SecurityViewModel.cs" />
     <Compile Include="Models\DebugModels\SubmitBugReportModel.cs" />
+    <Compile Include="Models\EntityIdentifierModels\EntityIdentifierEditModel.cs" />
     <Compile Include="Models\EntityIdentifierModels\EntityIdentifierViewModel.cs" />
     <Compile Include="Models\FacilityModel.cs" />
     <Compile Include="Models\ManufacturedMaterialModels\ManufacturedMaterialViewModel.cs" />

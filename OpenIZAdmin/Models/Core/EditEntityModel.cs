@@ -19,7 +19,11 @@
 
 using OpenIZ.Core.Model.Entities;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web.Mvc;
+using OpenIZAdmin.Models.EntityIdentifierModels;
 
 namespace OpenIZAdmin.Models.Core
 {
@@ -33,6 +37,8 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		protected EditEntityModel()
 		{
+			this.Identifiers = new List<EntityIdentifierEditModel>();
+			this.TypeList = new List<SelectListItem>();
 		}
 
 		/// <summary>
@@ -40,9 +46,11 @@ namespace OpenIZAdmin.Models.Core
 		/// with a specific <see cref="Entity"/> instance.
 		/// </summary>
 		/// <param name="entity">The <see cref="Entity"/> instance.</param>
-		protected EditEntityModel(Entity entity)
+		protected EditEntityModel(Entity entity) : this()
 		{
 			this.Id = entity.Key.Value;
+			this.Identifiers = entity.Identifiers.Select(i => new EntityIdentifierEditModel(i)).OrderBy(i => i.Name).ToList();
+			this.TypeList = entity.Identifiers.Select(i => new SelectListItem { Text = i.Authority.Name, Value = i.AuthorityKey?.ToString() }).ToList();
 		}
 
 		/// <summary>
@@ -50,5 +58,17 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		[Required]
 		public Guid Id { get; set; }
+
+		/// <summary>
+		/// Gets or sets the identifiers.
+		/// </summary>
+		/// <value>The identifiers.</value>
+		public List<EntityIdentifierEditModel> Identifiers { get; set; }
+
+		/// <summary>
+		/// Gets or sets the type list.
+		/// </summary>
+		/// <value>The type list.</value>
+		public List<SelectListItem> TypeList { get; set; }
 	}
 }
