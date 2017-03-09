@@ -2797,6 +2797,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Type Concept.
+        /// </summary>
+        public static string TypeConcept {
+            get {
+                return ResourceManager.GetString("TypeConcept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to accept certificate signing request.
         /// </summary>
         public static string UnableToAcceptCertificateSigningRequest {

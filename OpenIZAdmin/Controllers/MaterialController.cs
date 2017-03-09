@@ -53,13 +53,15 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			var formConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null).Item.OfType<Concept>();
-			var quantityConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null).Item.OfType<Concept>();
+			var formConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null);
+			var quantityConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null);
+			var typeConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Material && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Material && m.ObsoletionTime == null);
 
 			var model = new CreateMaterialModel
 			{
 				FormConcepts = formConcepts.ToSelectList().ToList(),
-				QuantityConcepts = quantityConcepts.ToSelectList().ToList()
+				QuantityConcepts = quantityConcepts.ToSelectList().ToList(),
+				TypeConcepts = typeConcepts.ToSelectList().ToList()
 			};
 
 			return View(model);
@@ -90,11 +92,13 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			var formConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null).Item.OfType<Concept>();
-			var quantityConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null).Item.OfType<Concept>();
+			var formConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null);
+			var quantityConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null);
+			var typeConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Material && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Material && m.ObsoletionTime == null);
 
 			model.FormConcepts = formConcepts.ToSelectList().ToList();
 			model.QuantityConcepts = quantityConcepts.ToSelectList().ToList();
+			model.TypeConcepts = typeConcepts.ToSelectList().ToList();
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.Material;
 
@@ -160,13 +164,15 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var formConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null).Item.OfType<Concept>();
-				var quantityConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null).Item.OfType<Concept>();
+				var formConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null);
+				var quantityConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null);
+				var typeConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Material && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Material && m.ObsoletionTime == null);
 
 				var model = new EditMaterialModel(material)
 				{
 					FormConcepts = formConcepts.ToSelectList(c => c.Key == material.FormConceptKey).ToList(),
-					QuantityConcepts = quantityConcepts.ToSelectList(c => c.Key == material.QuantityConceptKey).ToList()
+					QuantityConcepts = quantityConcepts.ToSelectList(c => c.Key == material.QuantityConceptKey).ToList(),
+					TypeConcepts = typeConcepts.ToSelectList(c => c.Key == material.TypeConceptKey).ToList()
 				};
 
 				return View(model);

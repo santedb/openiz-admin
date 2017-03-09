@@ -23,6 +23,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.MaterialModels
 {
@@ -38,12 +40,13 @@ namespace OpenIZAdmin.Models.MaterialModels
 		{
 			this.FormConcepts = new List<SelectListItem>();
 			this.QuantityConcepts = new List<SelectListItem>();
+			this.TypeConcepts = new List<SelectListItem>();
 		}
 
 		/// <summary>
 		/// Gets or sets the form concept for the material.
 		/// </summary>
-		[Display(Name = "FormConcept", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "FormConcept", ResourceType = typeof(Locale))]
 		public string FormConcept { get; set; }
 
 		/// <summary>
@@ -54,21 +57,34 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// <summary>
 		/// Gets or sets the name of the material.
 		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the quantity concept of the material.
 		/// </summary>
-		[Display(Name = "QuantityConcept", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "QuantityConcept", ResourceType = typeof(Locale))]
 		public string QuantityConcept { get; set; }
 
 		/// <summary>
 		/// Gets or sets a list of quantity concepts of the material.
 		/// </summary>
 		public List<SelectListItem> QuantityConcepts { get; set; }
+
+		/// <summary>
+		/// Gets or sets the type concept.
+		/// </summary>
+		/// <value>The type concept.</value>
+		[Display(Name = "TypeConcept", ResourceType = typeof(Locale))]
+		public string TypeConcept { get; set; }
+
+		/// <summary>
+		/// Gets or sets the type concepts.
+		/// </summary>
+		/// <value>The type concepts.</value>
+		public List<SelectListItem> TypeConcepts { get; set; }
 
 		/// <summary>
 		/// Converts a <see cref="CreateMaterialModel"/> instance to a <see cref="Material"/> instance.
@@ -85,7 +101,7 @@ namespace OpenIZAdmin.Models.MaterialModels
 				}
 			};
 
-			Guid formConceptKey, quantityConceptKey;
+			Guid formConceptKey, quantityConceptKey, typeConceptKey;
 
 			if (Guid.TryParse(this.FormConcept, out formConceptKey))
 			{
@@ -95,6 +111,11 @@ namespace OpenIZAdmin.Models.MaterialModels
 			if (Guid.TryParse(this.QuantityConcept, out quantityConceptKey))
 			{
 				material.QuantityConceptKey = quantityConceptKey;
+			}
+
+			if (Guid.TryParse(this.TypeConcept, out typeConceptKey))
+			{
+				material.TypeConceptKey = typeConceptKey;
 			}
 
 			return material;

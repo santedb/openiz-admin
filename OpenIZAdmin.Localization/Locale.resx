@@ -1167,4 +1167,7 @@
   <data name="InvalidFileExtension" xml:space="preserve">
     <value>Unsupported file extension</value>
   </data>
+  <data name="TypeConcept" xml:space="preserve">
+    <value>Type Concept</value>
+  </data>
 </root>

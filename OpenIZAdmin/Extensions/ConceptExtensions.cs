@@ -47,11 +47,12 @@ namespace OpenIZAdmin.Extensions
 		}
 
 		/// <summary>
-		/// Converts a <see cref="IEnumerable{T}"/> of <see cref="Concept"/> to a <see cref="IEnumerable{T}"/> of <see cref="SelectListItem"/>.
+		/// Converts a <see cref="IEnumerable{T}" /> of <see cref="Concept" /> to a <see cref="IEnumerable{T}" /> of <see cref="SelectListItem" />.
 		/// </summary>
 		/// <param name="source">The list of concepts to convert.</param>
 		/// <param name="selectedExpression">An expression which evaluates to set selected items.</param>
-		/// <returns>Returns a <see cref="IEnumerable{T}"/> of <see cref="SelectListItem"/>.</returns>
+		/// <returns>Returns a <see cref="IEnumerable{T}" /> of <see cref="SelectListItem" />.</returns>
+		/// <exception cref="System.ArgumentNullException">If the source is null.</exception>
 		public static IEnumerable<SelectListItem> ToSelectList(this IEnumerable<Concept> source, Expression<Func<Concept, bool>> selectedExpression = null)
 		{
 			if (source == null)

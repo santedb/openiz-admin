@@ -22,6 +22,7 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Models.Core;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.MaterialModels
 {
@@ -47,18 +48,26 @@ namespace OpenIZAdmin.Models.MaterialModels
 			this.FormConcept = material.FormConcept?.ConceptNames.Any() == true ? string.Join(" ", material.FormConcept?.ConceptNames.Select(c => c.Name)) : material.FormConcept?.Mnemonic;
 			this.Name = string.Join(" ", material.Names.Where(n => n.NameUseKey == NameUseKeys.Assigned).SelectMany(n => n.Component).Select(c => c.Value));
 			this.QuantityConcept = material.QuantityConcept?.ConceptNames.Any() == true ? string.Join(" ", material.QuantityConcept?.ConceptNames.Select(c => c.Name)) : material.QuantityConcept?.Mnemonic;
+			this.TypeConcept = material.TypeConcept?.ConceptNames.Any() == true ? string.Join(" ", material.TypeConcept?.ConceptNames.Select(c => c.Name)) : material.TypeConcept?.Mnemonic;
 		}
 
 		/// <summary>
 		/// Gets or sets the form concept of the material.
 		/// </summary>
-		[Display(Name = "FormConcept", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "FormConcept", ResourceType = typeof(Locale))]
 		public string FormConcept { get; set; }
 
 		/// <summary>
 		/// Gets or sets the quantity concept of the material.
 		/// </summary>
-		[Display(Name = "QuantityConcept", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "QuantityConcept", ResourceType = typeof(Locale))]
 		public string QuantityConcept { get; set; }
+
+		/// <summary>
+		/// Gets or sets the type concept.
+		/// </summary>
+		/// <value>The type concept.</value>
+		[Display(Name = "TypeConcept", ResourceType = typeof(Locale))]
+		public string TypeConcept { get; set; }
 	}
 }

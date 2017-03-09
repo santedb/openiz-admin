@@ -24,7 +24,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Principal;
 using System.Web.Mvc;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.MaterialModels
 {
@@ -40,13 +42,19 @@ namespace OpenIZAdmin.Models.MaterialModels
 		{
 			this.FormConcepts = new List<SelectListItem>();
 			this.QuantityConcepts = new List<SelectListItem>();
+			this.TypeConcepts = new List<SelectListItem>();
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EditMaterialModel"/> class.
+		/// </summary>
+		/// <param name="material">The material.</param>
 		public EditMaterialModel(Material material) : base(material)
 		{
 			this.FormConcept = material.FormConceptKey?.ToString();
 			this.Name = string.Join(" ", material.Names.Where(n => n.NameUseKey == NameUseKeys.Assigned).SelectMany(n => n.Component).Select(c => c.Value));
 			this.QuantityConcept = material.QuantityConceptKey?.ToString();
+			this.TypeConcept = material.TypeConceptKey?.ToString();
 		}
 
 		/// <summary>
@@ -80,6 +88,19 @@ namespace OpenIZAdmin.Models.MaterialModels
 		public List<SelectListItem> QuantityConcepts { get; set; }
 
 		/// <summary>
+		/// Gets or sets the type concept.
+		/// </summary>
+		/// <value>The type concept.</value>
+		[Display(Name = "TypeConcept", ResourceType = typeof(Locale))]
+		public string TypeConcept { get; set; }
+
+		/// <summary>
+		/// Gets or sets the type concepts.
+		/// </summary>
+		/// <value>The type concepts.</value>
+		public List<SelectListItem> TypeConcepts { get; set; }
+
+		/// <summary>
 		/// Converts an <see cref="EditMaterialModel"/> instance to a <see cref="Material"/> instance.
 		/// </summary>
 		/// <param name="material">The <see cref="Material"/> instance.</param>
@@ -89,7 +110,7 @@ namespace OpenIZAdmin.Models.MaterialModels
 			material.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.Assigned);
 			material.Names.Add(new EntityName(NameUseKeys.Assigned, this.Name));
 
-			Guid formConceptKey, quantityConceptKey;
+			Guid formConceptKey, quantityConceptKey, typeConceptKey;
 
 			if (Guid.TryParse(this.FormConcept, out formConceptKey))
 			{
@@ -99,6 +120,11 @@ namespace OpenIZAdmin.Models.MaterialModels
 			if (Guid.TryParse(this.QuantityConcept, out quantityConceptKey))
 			{
 				material.QuantityConceptKey = quantityConceptKey;
+			}
+
+			if (Guid.TryParse(this.TypeConcept, out typeConceptKey))
+			{
+				material.TypeConceptKey = typeConceptKey;
 			}
 
 			return material;
