@@ -52,7 +52,20 @@ namespace OpenIZAdmin.Models.MaterialModels
 		public EditMaterialModel(Material material) : base(material)
 		{
 			this.FormConcept = material.FormConceptKey?.ToString();
-			this.Name = string.Join(" ", material.Names.Where(n => n.NameUseKey == NameUseKeys.Assigned).SelectMany(n => n.Component).Select(c => c.Value));
+
+			if (material.Names.Any(n => n.NameUseKey == NameUseKeys.Assigned))
+			{
+				this.Name = string.Join(" ", material.Names.Where(n => n.NameUseKey == NameUseKeys.Assigned).SelectMany(n => n.Component).Select(c => c.Value));
+			}
+			else if (material.Names.Any(n => n.NameUseKey == NameUseKeys.OfficialRecord))
+			{
+				this.Name = string.Join(" ", material.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Select(c => c.Value));
+			}
+			else
+			{
+				this.Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value));
+			}
+
 			this.QuantityConcept = material.QuantityConceptKey?.ToString();
 			this.TypeConcept = material.TypeConceptKey?.ToString();
 		}

@@ -45,9 +45,22 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// <param name="material">The <see cref="Material"/> instance.</param>
 		public MaterialViewModel(Material material) : base(material)
 		{
-			this.FormConcept = material.FormConcept?.ConceptNames.Any() == true ? string.Join(" ", material.FormConcept?.ConceptNames.Select(c => c.Name)) : material.FormConcept?.Mnemonic;
-			this.Name = string.Join(" ", material.Names.Where(n => n.NameUseKey == NameUseKeys.Assigned).SelectMany(n => n.Component).Select(c => c.Value));
-			this.QuantityConcept = material.QuantityConcept?.ConceptNames.Any() == true ? string.Join(" ", material.QuantityConcept?.ConceptNames.Select(c => c.Name)) : material.QuantityConcept?.Mnemonic;
+			this.FormConcept = material.FormConcept?.ConceptNames.Any() == true ? string.Join(" ", material.FormConcept?.ConceptNames.Select(c => c.Name)) + " " + material.FormConcept?.Mnemonic : material.FormConcept?.Mnemonic;
+
+			if (material.Names.Any(n => n.NameUseKey == NameUseKeys.Assigned))
+			{
+				this.Name = string.Join(" ", material.Names.Where(n => n.NameUseKey == NameUseKeys.Assigned).SelectMany(n => n.Component).Select(c => c.Value));
+			}
+			else if (material.Names.Any(n => n.NameUseKey == NameUseKeys.OfficialRecord))
+			{
+				this.Name = string.Join(" ", material.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Select(c => c.Value));
+			}
+			else
+			{
+				this.Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value));
+			}
+
+			this.QuantityConcept = material.QuantityConcept?.ConceptNames.Any() == true ? string.Join(" ", material.QuantityConcept?.ConceptNames.Select(c => c.Name)) + " " + material.QuantityConcept?.Mnemonic : material.QuantityConcept?.Mnemonic;
 			this.TypeConcept = material.TypeConcept?.ConceptNames.Any() == true ? string.Join(" ", material.TypeConcept?.ConceptNames.Select(c => c.Name)) : material.TypeConcept?.Mnemonic;
 		}
 

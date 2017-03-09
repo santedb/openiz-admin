@@ -43,7 +43,18 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// <param name="material">The <see cref="Material"/> instance.</param>
 		public MaterialSearchResultViewModel(Material material) : base(material)
 		{
-			this.Name = string.Join(", ", material.Names.Where(n => n.NameUseKey == NameUseKeys.Assigned).SelectMany(m => m.Component).Select(c => c.Value));
+			if (material.Names.Any(n => n.NameUseKey == NameUseKeys.Assigned))
+			{
+				this.Name = string.Join(" ", material.Names.Where(n => n.NameUseKey == NameUseKeys.Assigned).SelectMany(n => n.Component).Select(c => c.Value));
+			}
+			else if (material.Names.Any(n => n.NameUseKey == NameUseKeys.OfficialRecord))
+			{
+				this.Name = string.Join(" ", material.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Select(c => c.Value));
+			}
+			else
+			{
+				this.Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value));
+			}
 		}
 	}
 }
