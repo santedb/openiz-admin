@@ -304,6 +304,11 @@ namespace OpenIZAdmin.Controllers
 					material.QuantityConcept = this.ImsiClient.Get<Concept>(material.QuantityConceptKey.Value, null) as Concept;
 				}
 
+				if (material.TypeConcept == null && material.TypeConceptKey.HasValue && material.TypeConceptKey != Guid.Empty)
+				{
+					material.TypeConcept = this.ImsiClient.Get<Concept>(material.TypeConceptKey.Value, null) as Concept;
+				}
+
 				return View(new MaterialViewModel(material));
 			}
 			catch (Exception e)

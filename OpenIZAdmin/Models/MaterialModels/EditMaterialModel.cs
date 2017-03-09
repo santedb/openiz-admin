@@ -73,7 +73,7 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// <summary>
 		/// Gets or sets the form concept of the material.
 		/// </summary>
-		[Display(Name = "FormConcept", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "FormConcept", ResourceType = typeof(Locale))]
 		public string FormConcept { get; set; }
 
 		/// <summary>
@@ -84,15 +84,15 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// <summary>
 		/// Gets or sets the name of the material.
 		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the quantity concept of the material.
 		/// </summary>
-		[Display(Name = "QuantityConcept", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "QuantityConcept", ResourceType = typeof(Locale))]
 		public string QuantityConcept { get; set; }
 
 		/// <summary>
@@ -120,6 +120,7 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// <returns>Returns a <see cref="Material"/> instance.</returns>
 		public Material ToMaterial(Material material)
 		{
+			material.CreationTime = DateTimeOffset.Now;
 			material.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.Assigned);
 			material.Names.Add(new EntityName(NameUseKeys.Assigned, this.Name));
 
@@ -139,6 +140,8 @@ namespace OpenIZAdmin.Models.MaterialModels
 			{
 				material.TypeConceptKey = typeConceptKey;
 			}
+
+			material.VersionKey = null;
 
 			return material;
 		}

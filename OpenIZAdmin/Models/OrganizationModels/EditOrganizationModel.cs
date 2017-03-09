@@ -73,11 +73,13 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		public string Name { get; set; }
 
 		/// <summary>
-		/// Converts an <see cref="EditOrganizationModel"/> instance to an <see cref="Organization"/> instance.
+		/// Converts an <see cref="EditOrganizationModel" /> instance to an <see cref="Organization" /> instance.
 		/// </summary>
-		/// <returns>Returns an <see cref="Organization"/> instance.</returns>
+		/// <param name="organization">The organization.</param>
+		/// <returns>Returns an <see cref="Organization" /> instance.</returns>
 		public Organization ToOrganization(Organization organization)
 		{
+			organization.CreationTime = DateTimeOffset.Now;
 			organization.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.OfficialRecord);
 			organization.Names.Add(new EntityName(NameUseKeys.OfficialRecord, this.Name));
 
@@ -87,6 +89,8 @@ namespace OpenIZAdmin.Models.OrganizationModels
 			{
 				organization.IndustryConceptKey = industryConceptKey;
 			}
+
+			organization.VersionKey = null;
 
 			return organization;
 		}

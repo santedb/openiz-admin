@@ -17,6 +17,7 @@
  * Date: 2016-8-14
  */
 
+using System;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Models.Core;
@@ -82,8 +83,10 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <returns>Returns a <see cref="Place"/> instance.</returns>
 		public Place ToPlace(Place place)
 		{
+			place.CreationTime = DateTimeOffset.Now;
 			place.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.OfficialRecord);
 			place.Names.Add(new EntityName(NameUseKeys.OfficialRecord, this.Name));
+			place.VersionKey = null;
 
 			return place;
 		}
