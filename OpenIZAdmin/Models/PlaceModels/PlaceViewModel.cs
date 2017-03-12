@@ -38,27 +38,27 @@ namespace OpenIZAdmin.Models.PlaceModels
 			this.RelatedPlaces = new List<RelatedPlaceModel>();
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PlaceViewModel"/> class.
+		/// </summary>
+		/// <param name="place">The place.</param>
 		public PlaceViewModel(Place place) : base(place)
 		{
+			this.RelatedPlaces = new List<RelatedPlaceModel>();
+
 			var childPlaces = place.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child)
 						.Select(r => r.TargetEntity)
 						.OfType<Place>()
 						.Select(p => new RelatedPlaceModel(p));
 
-			if (childPlaces.Any())
-			{
-				this.RelatedPlaces.AddRange(childPlaces);
-			}
+			this.RelatedPlaces.AddRange(childPlaces);
 
 			var parentPlaces = place.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent)
 									.Select(r => r.TargetEntity)
 									.OfType<Place>()
 									.Select(p => new RelatedPlaceModel(p));
 
-			if (parentPlaces.Any())
-			{
-				this.RelatedPlaces.AddRange(parentPlaces);
-			}
+			this.RelatedPlaces.AddRange(parentPlaces);
 		}
 
 		/// <summary>

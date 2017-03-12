@@ -53,7 +53,7 @@ namespace OpenIZAdmin.Models.OrganizationModels
 				this.IndustryConcept = string.Join(" ", organization.IndustryConcept.ConceptNames.Select(c => c.Name));
 			}
 
-			this.ManufacturedMaterials = organization.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct)
+			this.ManufacturedMaterials = organization.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct)
 													.Select(r => r.TargetEntity)
 													.OfType<ManufacturedMaterial>()
 													.Select(m => new ManufacturedMaterialViewModel(m))

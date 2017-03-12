@@ -17,12 +17,14 @@
  * Date: 2016-8-1
  */
 
+using System.Collections.Generic;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Models.Core;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.ManufacturedMaterialModels;
 
 namespace OpenIZAdmin.Models.MaterialModels
 {
@@ -60,8 +62,14 @@ namespace OpenIZAdmin.Models.MaterialModels
 				this.Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value));
 			}
 
+			this.ManufacturedMaterials = material.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct)
+													.Select(r => r.TargetEntity)
+													.OfType<ManufacturedMaterial>()
+													.Select(m => new ManufacturedMaterialViewModel(m))
+													.OrderBy(m => m.Name)
+													.ToList();
+
 			this.QuantityConcept = material.QuantityConcept?.ConceptNames.Any() == true ? string.Join(" ", material.QuantityConcept?.ConceptNames.Select(c => c.Name)) + " " + material.QuantityConcept?.Mnemonic : material.QuantityConcept?.Mnemonic;
-			this.TypeConcept = material.TypeConcept?.ConceptNames.Any() == true ? string.Join(" ", material.TypeConcept?.ConceptNames.Select(c => c.Name)) : material.TypeConcept?.Mnemonic;
 		}
 
 		/// <summary>
@@ -71,16 +79,15 @@ namespace OpenIZAdmin.Models.MaterialModels
 		public string FormConcept { get; set; }
 
 		/// <summary>
+		/// Gets or sets the manufactured materials.
+		/// </summary>
+		/// <value>The manufactured materials.</value>
+		public List<ManufacturedMaterialViewModel> ManufacturedMaterials { get; set; }
+
+		/// <summary>
 		/// Gets or sets the quantity concept of the material.
 		/// </summary>
 		[Display(Name = "QuantityConcept", ResourceType = typeof(Locale))]
 		public string QuantityConcept { get; set; }
-
-		/// <summary>
-		/// Gets or sets the type concept.
-		/// </summary>
-		/// <value>The type concept.</value>
-		[Display(Name = "TypeConcept", ResourceType = typeof(Locale))]
-		public string TypeConcept { get; set; }
 	}
 }

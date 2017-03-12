@@ -258,6 +258,11 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
+				for (var i = 0; i < place.Relationships.Count(r => (r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child || r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent) && r.TargetEntity == null && r.TargetEntityKey.HasValue); i++)
+				{
+					place.Relationships[i].TargetEntity = this.ImsiClient.Get<Place>(place.Relationships[i].TargetEntityKey.Value, null) as Place;
+				}
+
 				return View(new PlaceViewModel(place));
 			}
 			catch (Exception e)

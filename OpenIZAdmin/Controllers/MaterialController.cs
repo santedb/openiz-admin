@@ -309,6 +309,11 @@ namespace OpenIZAdmin.Controllers
 					material.TypeConcept = this.ImsiClient.Get<Concept>(material.TypeConceptKey.Value, null) as Concept;
 				}
 
+				for (var i = 0; i < material.Relationships.Count(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.TargetEntity == null && r.TargetEntityKey.HasValue); i++)
+				{
+					material.Relationships[i].TargetEntity = this.ImsiClient.Get<ManufacturedMaterial>(material.Relationships[i].TargetEntityKey.Value, null) as ManufacturedMaterial;
+				}
+
 				return View(new MaterialViewModel(material));
 			}
 			catch (Exception e)
