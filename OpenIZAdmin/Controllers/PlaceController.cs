@@ -25,9 +25,12 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.PlaceModels;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -38,13 +41,45 @@ namespace OpenIZAdmin.Controllers
 	public class PlaceController : BaseController
 	{
 		/// <summary>
+		/// The health facility mnemonic.
+		/// </summary>
+		private readonly string healthFacilityMnemonic = ConfigurationManager.AppSettings["HealthFacilityTypeConceptMnemonic"];
+
+		/// <summary>
+		/// The place type mnemonic.
+		/// </summary>
+		private readonly string placeTypeMnemonic = ConfigurationManager.AppSettings["PlaceTypeConceptMnemonic"];
+
+		/// <summary>
 		/// Displays the create place view.
 		/// </summary>
 		/// <returns>Returns the create place view.</returns>
 		[HttpGet]
 		public ActionResult Create()
 		{
-			return View();
+			var typeConcepts = new List<Concept>();
+
+			if (!string.IsNullOrEmpty(this.healthFacilityMnemonic) && !string.IsNullOrWhiteSpace(this.healthFacilityMnemonic))
+			{
+				typeConcepts.AddRange(this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == this.healthFacilityMnemonic && c.ObsoletionTime == null).Item.OfType<ConceptSet>().SelectMany(c => c.Concepts));
+			}
+
+			if (!string.IsNullOrEmpty(this.placeTypeMnemonic) && !string.IsNullOrWhiteSpace(this.placeTypeMnemonic))
+			{
+				typeConcepts.AddRange(this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == this.placeTypeMnemonic && c.ObsoletionTime == null).Item.OfType<ConceptSet>().SelectMany(c => c.Concepts));
+			}
+
+			if (!typeConcepts.Any())
+			{
+				typeConcepts.AddRange(this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null));
+			}
+
+			var model = new CreatePlaceModel
+			{
+				TypeConcepts = typeConcepts.ToSelectList().ToList()
+			};
+
+			return View(model);
 		}
 
 		/// <summary>

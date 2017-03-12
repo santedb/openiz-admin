@@ -22,38 +22,69 @@ using OpenIZ.Core.Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
+	/// <summary>
+	/// Class CreatePlaceModel.
+	/// </summary>
 	public class CreatePlaceModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CreatePlaceModel"/> class.
+		/// </summary>
 		public CreatePlaceModel()
 		{
+			this.TypeConcepts = new List<SelectListItem>();
 		}
 
-		[Display(Name = "Latitude", ResourceType = typeof(Localization.Locale))]
-		public double? Latitude { get; set; }
-
-		[Display(Name = "Longitude", ResourceType = typeof(Localization.Locale))]
-		public double? Longitude { get; set; }
-
+		/// <summary>
+		/// Gets or sets the name.
+		/// </summary>
+		/// <value>The name.</value>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Gets or sets the type concept.
+		/// </summary>
+		/// <value>The type concept.</value>
+		[Display(Name = "TypeConcept", ResourceType = typeof(Locale))]
+		public string TypeConcept { get; set; }
+
+		/// <summary>
+		/// Gets or sets the type concepts.
+		/// </summary>
+		/// <value>The type concepts.</value>
+		public List<SelectListItem> TypeConcepts { get; set; }
+
+		/// <summary>
+		/// Converts a <see cref="CreatePlaceModel"/> instance to a <see cref="Place"/> instance.
+		/// </summary>
+		/// <returns>Returns the converted place instance.</returns>
 		public Place ToPlace()
 		{
-			return new Place
+			var place = new Place
 			{
 				Key = Guid.NewGuid(),
-				Lat = this.Latitude,
-				Lng = this.Longitude,
 				Names = new List<EntityName>
 				{
 					new EntityName(NameUseKeys.OfficialRecord, this.Name)
 				}
 			};
+
+			Guid typeConceptKey;
+
+			if (Guid.TryParse(this.TypeConcept, out typeConceptKey))
+			{
+				place.TypeConceptKey = typeConceptKey;
+			}
+
+			return place;
 		}
 	}
 }

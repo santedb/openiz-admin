@@ -20,24 +20,17 @@
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.Latitude, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.TypeConcept, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Latitude, new { @class = "form-control", title = Locale.ToolTip_PlaceLatitude })
-                    @Html.ValidationMessageFor(m => m.Latitude, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(m => m.TypeConcept, Model.TypeConcepts, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.TypeConcept, "", new { @class = "text-danger" })
                 </div>
             </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Longitude, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.Longitude, new { @class = "form-control", title = Locale.ToolTip_PlaceLongitude })
-                        @Html.ValidationMessageFor(m => m.Longitude, "", new { @class = "text-danger" })
-                    </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
+                    <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
-                        <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
-                    </div>
-                </div>}
+            </div>}
     </div>
 </div>
