@@ -32,6 +32,8 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNet.Identity;
+using OpenIZAdmin.Security;
 
 namespace OpenIZAdmin.DAL
 {
@@ -40,6 +42,14 @@ namespace OpenIZAdmin.DAL
 	/// </summary>
 	public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ApplicationSignInManager"/> class.
+		/// </summary>
+		public ApplicationSignInManager() : base(null, null)
+		{
+			
+		}
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ApplicationSignInManager"/> class
 		/// with a specified <see cref="ApplicationUserManager"/> instance and a
@@ -76,6 +86,53 @@ namespace OpenIZAdmin.DAL
 		public static ApplicationSignInManager Create(IdentityFactoryOptions<ApplicationSignInManager> options, IOwinContext context)
 		{
 			return new ApplicationSignInManager(context.GetUserManager<ApplicationUserManager>(), context.Authentication);
+		}
+
+		/// <summary>
+		/// Login to the IMS as the device.
+		/// </summary>
+		/// <returns>Returns an IPrincipal representing the logged in device or null if the login fails.</returns>
+		/// <exception cref="System.InvalidOperationException">If the application is not joined to a realm.</exception>
+		public DeviceIdentity LoginAsDevice()
+		{
+			DeviceIdentity deviceIdentity = null;
+
+			using (var client = new HttpClient())
+			using (var unitOfWork = new EntityUnitOfWork(new ApplicationDbContext()))
+			{
+				var realm = unitOfWork.RealmRepository.AsQueryable().SingleOrDefault(r => r.ObsoletionTime == null);
+
+				if (realm == null)
+				{
+					throw new InvalidOperationException("Not joined to realm");
+				}
+
+				client.DefaultRequestHeaders.Add("Authorization", "BASIC " + Convert.ToBase64String(Encoding.UTF8.GetBytes(realm.ApplicationId + ":" + realm.ApplicationSecret)));
+
+				var content = new StringContent($"grant_type=password&username={realm.DeviceId}&password={realm.DeviceSecret}&scope={$"{realm.Address}/imsi"}");
+
+				// HACK: have to remove the headers before adding them...
+				content.Headers.Remove("Content-Type");
+				content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+
+				var result = client.PostAsync($"{realm.Address}/auth/oauth2_token", content).Result;
+
+				if (result.IsSuccessStatusCode)
+				{
+					var response = JObject.Parse(result.Content.ReadAsStringAsync().Result);
+
+					var accessToken = response.GetValue("access_token").ToString();
+#if DEBUG
+					Trace.TraceInformation($"Access token: {accessToken}");
+#endif
+					deviceIdentity = new DeviceIdentity(Guid.NewGuid(), realm.DeviceId, true)
+					{
+						AccessToken = accessToken
+					};
+				}
+			}
+
+			return deviceIdentity;
 		}
 
 		/// <summary>

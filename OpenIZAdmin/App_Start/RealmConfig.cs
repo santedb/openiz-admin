@@ -29,7 +29,10 @@ namespace OpenIZAdmin
 	/// </summary>
 	public static class RealmConfig
 	{
-		private const string RealmCacheKey = "JoinedToRealm";
+		/// <summary>
+		/// The realm cache key.
+		/// </summary>
+		public const string RealmCacheKey = "JoinedToRealm";
 
 		/// <summary>
 		/// Gets the current realm of the application.
@@ -47,6 +50,9 @@ namespace OpenIZAdmin
 			return currentRealm;
 		}
 
+		/// <summary>
+		/// Initializes this instance.
+		/// </summary>
 		public static void Initialize()
 		{
 			if (IsJoinedToRealm())

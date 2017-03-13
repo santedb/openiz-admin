@@ -28,9 +28,15 @@ using OpenIZAdmin.Models.RealmModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.Security;
+using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Services.Http;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -188,8 +194,10 @@ namespace OpenIZAdmin.Controllers
 					realm = unitOfWork.RealmRepository.Create();
 
 					realm.Map(model);
+					realm.DeviceId = Environment.MachineName + "-" + Guid.NewGuid().ToString().ToUpper();
+					realm.DeviceSecret = Guid.NewGuid().ToString().ToUpper();
 
-					IEnumerable<Realm> activeRealms = unitOfWork.RealmRepository.AsQueryable().Where(r => r.ObsoletionTime == null).AsEnumerable();
+					var activeRealms = unitOfWork.RealmRepository.AsQueryable().Where(r => r.ObsoletionTime == null).AsEnumerable();
 
 					foreach (var activeRealm in activeRealms)
 					{
@@ -201,11 +209,71 @@ namespace OpenIZAdmin.Controllers
 					unitOfWork.Save();
 				}
 
-				SignInStatus result = SignInStatus.Failure;
-
 				try
 				{
-					result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, false, shouldLockout: false);
+					var result = await this.SignInManager.PasswordSignInAsync(model.Username, model.Password, false, false);
+
+					switch (result)
+					{
+						case SignInStatus.Success:
+							Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
+							using (var amiServiceClient = new AmiServiceClient(new RestClientService(Constants.Ami, this.HttpContext)))
+							{
+								var synchronizers = amiServiceClient.GetRoles(r => r.Name == "SYNCHRONIZERS").CollectionItem.FirstOrDefault();
+								var device = amiServiceClient.GetRoles(r => r.Name == "DEVICE").CollectionItem.FirstOrDefault();
+
+								var securityUserInfo = new SecurityUserInfo
+								{
+									Password = realm.DeviceSecret,
+									Roles = new List<SecurityRoleInfo>
+									{
+										device,
+										synchronizers
+									},
+									UserName = realm.DeviceId,
+									User = new SecurityUser
+									{
+										Key = Guid.NewGuid(),
+										UserClass = UserClassKeys.ApplictionUser,
+										UserName = realm.DeviceId,
+										SecurityHash = Guid.NewGuid().ToString()
+									},
+								};
+
+								amiServiceClient.CreateUser(securityUserInfo);
+
+								var securityDeviceInfo = new SecurityDeviceInfo
+								{
+									Device = new SecurityDevice
+									{
+										DeviceSecret = realm.DeviceSecret,
+										Name = realm.DeviceId
+									}
+								};
+
+								amiServiceClient.CreateDevice(securityDeviceInfo);
+							}
+
+							MvcApplication.MemoryCache.Set(RealmConfig.RealmCacheKey, true, ObjectCache.InfiniteAbsoluteExpiration);
+							break;
+
+						default:
+							var addedRealm = unitOfWork.RealmRepository.Get(r => r.Address == model.Address).FirstOrDefault();
+
+							if (addedRealm != null)
+							{
+								unitOfWork.RealmRepository.Delete(addedRealm.Id);
+								unitOfWork.Save();
+							}
+
+							ModelState.AddModelError("", Locale.IncorrectUsernameOrPassword);
+
+							return View(model);
+					}
+
+					TempData["success"] = Locale.RealmJoined + " " + Locale.Successfully;
+
+					return RedirectToAction("Index", "Home");
 				}
 				catch (Exception e)
 				{
@@ -215,29 +283,6 @@ namespace OpenIZAdmin.Controllers
 					unitOfWork.RealmRepository.Delete(addedRealm.Id);
 					unitOfWork.Save();
 				}
-
-				switch (result)
-				{
-					case SignInStatus.Success:
-						Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
-						break;
-
-					default:
-						var addedRealm = unitOfWork.RealmRepository.Get(r => r.Address == model.Address).FirstOrDefault();
-
-						if (addedRealm != null)
-						{
-							unitOfWork.RealmRepository.Delete(addedRealm.Id);
-							unitOfWork.Save();
-						}
-
-						ModelState.AddModelError("", Locale.IncorrectUsernameOrPassword);
-						return View(model);
-				}
-
-				TempData["success"] = Locale.RealmJoined + " " + Locale.Successfully;
-
-				return RedirectToAction("Index", "Home");
 			}
 
 			TempData["error"] = Locale.UnableToJoinRealm;
@@ -268,7 +313,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				Realm realm = unitOfWork.RealmRepository.FindById(model.CurrentRealm.Id);
+				var realm = unitOfWork.RealmRepository.FindById(model.CurrentRealm.Id);
 
 				if (realm == null)
 				{
@@ -291,47 +336,6 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.UnableToLeaveRealm;
 
 			return View(model);
-		}
-
-		/// <summary>
-		/// Switches a realm.
-		/// </summary>
-		/// <param name="realmId">The id of the realm to switch to.</param>
-		/// <returns>Returns the login view if the realm is switched successfully.</returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult SwitchRealm(Guid realmId)
-		{
-			if (realmId != Guid.Empty)
-			{
-				Realm realm = unitOfWork.RealmRepository.FindById(realmId);
-
-				if (realm == null)
-				{
-					TempData["error"] = Locale.Realm + " " + Locale.NotFound;
-
-					return RedirectToAction("Index");
-				}
-
-				realm.ObsoletionTime = null;
-
-				Realm currentRealm = unitOfWork.RealmRepository.AsQueryable().Single(r => r.ObsoletionTime == null);
-
-				currentRealm.ObsoletionTime = DateTime.UtcNow;
-
-				unitOfWork.RealmRepository.Update(currentRealm);
-				unitOfWork.RealmRepository.Update(realm);
-				unitOfWork.Save();
-
-				TempData["success"] = Locale.RealmSwitched + " " + Locale.Successfully;
-				HttpContext.GetOwinContext().Authentication.SignOut();
-
-				return RedirectToAction("Login", "Account");
-			}
-
-			TempData["error"] = Locale.UnableToSwitchRealm;
-
-			return View();
 		}
 
 		/// <summary>

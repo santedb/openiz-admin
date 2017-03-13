@@ -328,6 +328,7 @@
     <Compile Include="Models\UserModels\UserViewModel.cs" />
     <Compile Include="Models\DebugModels\VersionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\DeviceIdentity.cs" />
     <Compile Include="Services\Entity\WebEntitySourceProvider.cs" />
     <Compile Include="Services\Http\Configuration\ServiceClientConfigurationSection.cs" />
     <Compile Include="Services\Http\RestClientService.cs" />

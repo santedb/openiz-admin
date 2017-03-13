@@ -17,12 +17,15 @@
  * Date: 2016-11-19
  */
 
+using System.Security.Principal;
+using System.Web;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
 using System.Web.Mvc;
+using OpenIZAdmin.DAL;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -59,6 +62,36 @@ namespace OpenIZAdmin.Controllers
 			this.AmiClient?.Dispose();
 			this.ImsiClient?.Dispose();
 			base.Dispose(disposing);
+		}
+
+		/// <summary>
+		/// Gets the device service client.
+		/// </summary>
+		/// <returns>Returns an AMI service client instance or null.</returns>
+		protected AmiServiceClient GetDeviceServiceClient()
+		{
+			AmiServiceClient client = null;
+
+			using (var signInManager = new ApplicationSignInManager())
+			{
+				var deviceIdentity = signInManager.LoginAsDevice();
+
+				if (deviceIdentity == null)
+				{
+					return null;
+				}
+
+				this.Request.Cookies.Add(new HttpCookie("access_token", deviceIdentity.AccessToken));
+
+				var restClientService = new RestClientService(Constants.Ami)
+				{
+					Credentials = new AmiCredentials(new GenericPrincipal(deviceIdentity, null), this.Request)
+				};
+
+				client = new AmiServiceClient(restClientService);
+			}
+
+			return client;
 		}
 
 		/// <summary>

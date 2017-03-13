@@ -34,6 +34,8 @@ using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Query;
+using System.Web;
+using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin.Services.Http
 {
@@ -42,8 +44,15 @@ namespace OpenIZAdmin.Services.Http
 	/// </summary>
 	public class RestClientService : RestClientBase
 	{
-		// Poor man's cache
+		/// <summary>
+		/// The endpoints.
+		/// </summary>
 		private static readonly ConcurrentDictionary<string, Lazy<ServiceClientDescription>> endpoints = new ConcurrentDictionary<string, Lazy<ServiceClientDescription>>();
+
+		/// <summary>
+		/// The current endpoint name.
+		/// </summary>
+		private readonly string endpointName;
 
 		/// <summary>
 		/// Initializes a new instance <see cref="RestClientService"/> class
@@ -54,12 +63,24 @@ namespace OpenIZAdmin.Services.Http
 			(key) => new Lazy<ServiceClientDescription>(
 				() => InternalConfiguration.GetServiceClientConfiguration().Clients.Find(x => x.Name == key))).Value)
 		{
+			this.endpointName = endpointName;
 			Trace.TraceInformation("Current Entity Source: {0}", EntitySource.Current.Provider.GetType().Name);
 
 			this.Requesting += (o, e) =>
 			{
 				EntitySource.Current = new EntitySource(new WebEntitySourceProvider(this.Credentials));
 			};
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RestClientService"/> class.
+		/// </summary>
+		/// <param name="endpointName">Name of the endpoint.</param>
+		/// <param name="httpContext">The HTTP context.</param>
+		public RestClientService(string endpointName, HttpContextBase httpContext) : this(endpointName)
+		{
+			Accept = "application/xml";
+			Credentials = new ImsCredentials(httpContext.User, httpContext.Request);
 		}
 
 		/// <summary>
@@ -78,8 +99,19 @@ namespace OpenIZAdmin.Services.Http
 		/// <value>The client certificate.</value>
 		public X509Certificate2Collection ClientCertificates { get; set; }
 
+		/// <summary>
+		/// Creates the HTTP request.
+		/// </summary>
+		/// <param name="url">The URL.</param>
+		/// <param name="query">The query.</param>
+		/// <returns>WebRequest.</returns>
 		protected override WebRequest CreateHttpRequest(string url, NameValueCollection query)
 		{
+			if (this.Description == null)
+			{
+				this.Description = InternalConfiguration.GetServiceClientConfiguration().Clients.Find(d => d.Name == endpointName);
+			}
+
 			var retVal = (HttpWebRequest)base.CreateHttpRequest(url, query);
 
 			// Certs?

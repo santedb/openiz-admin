@@ -75,6 +75,22 @@ namespace OpenIZAdmin.Models.Domain
 		public DateTime CreationTime { get; set; }
 
 		/// <summary>
+		/// Gets or sets the device identifier.
+		/// </summary>
+		/// <value>The device identifier.</value>
+		[Required]
+		[StringLength(255)]
+		public string DeviceId { get; set; }
+
+		/// <summary>
+		/// Gets or sets the device secret.
+		/// </summary>
+		/// <value>The device secret.</value>
+		[Required]
+		[StringLength(255)]
+		public string DeviceSecret { get; set; }
+
+		/// <summary>
 		/// Gets or sets the id of the realm.
 		/// </summary>
 		[Key]
