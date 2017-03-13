@@ -2615,6 +2615,11 @@
             Creates a new entity identifier
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.EntityIdentifier.#ctor(System.String,System.String)">
+            <summary>
+            Creates a new entity identifier with specified nsid
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.DataTypes.ActIdentifier">
             <summary>
             Act identifier
@@ -4912,6 +4917,13 @@
         <member name="T:OpenIZ.Core.Model.ExtensionMethods">
             <summary>
             Reflection tools
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.Convert``1(System.Object)">
+            <summary>
+            The purpose of this method is to convert object <paramref name="me"/> to <typeparamref name="TReturn"/>. Why? 
+            Because if you have an instance of Act that actually needs to be a SubstanceAdministration we can't just cast
+            so we have to copy.
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.ExtensionMethods.HashCode(System.Byte[])">

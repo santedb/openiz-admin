@@ -20,9 +20,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Solution Items\OpenIZ.Core.Applets.dll = Solution Items\OpenIZ.Core.Applets.dll
 		Solution Items\OpenIZ.Core.Model.AMI.dll = Solution Items\OpenIZ.Core.Model.AMI.dll
 		Solution Items\OpenIZ.Core.Model.dll = Solution Items\OpenIZ.Core.Model.dll
+		Solution Items\OpenIZ.Core.Model.RISI.dll = Solution Items\OpenIZ.Core.Model.RISI.dll
 		Solution Items\OpenIZ.Core.PCL.dll = Solution Items\OpenIZ.Core.PCL.dll
 		Solution Items\OpenIZ.Messaging.AMI.Client.dll = Solution Items\OpenIZ.Messaging.AMI.Client.dll
 		Solution Items\OpenIZ.Messaging.IMSI.Client.dll = Solution Items\OpenIZ.Messaging.IMSI.Client.dll
+		Solution Items\OpenIZ.Messaging.RISI.Client.dll = Solution Items\OpenIZ.Messaging.RISI.Client.dll
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenIZAdmin.Localization", "OpenIZAdmin.Localization\OpenIZAdmin.Localization.csproj", "{1D9B8ECA-559D-449D-8611-A5DBD36028E3}"
