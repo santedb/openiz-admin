@@ -142,7 +142,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				var username = User.Identity.GetUserName();
 
-				var alerts = this.AmiClient.GetAlerts(a => a.To == username && a.Flags != AlertMessageFlags.Acknowledged && a.ObsoletionTime == null);
+				var alerts = this.AmiClient.GetAlerts(a => a.To == username && a.ObsoletionTime == null);
 
 				models.AddRange(alerts.CollectionItem.Where(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged && a.AlertMessage.ObsoletionTime == null).Select(a => new AlertViewModel(a)));
 
@@ -170,7 +170,7 @@ namespace OpenIZAdmin.Controllers
 			try
 			{
 				var username = User.Identity.GetUserName();
-				var results = this.AmiClient.GetAlerts(a => a.To == username && a.Flags != AlertMessageFlags.Acknowledged && a.ObsoletionTime == null);
+				var results = this.AmiClient.GetAlerts(a => a.To == username && a.ObsoletionTime == null);
 
 				count = results.CollectionItem.Count(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged && a.AlertMessage.ObsoletionTime == null);
 

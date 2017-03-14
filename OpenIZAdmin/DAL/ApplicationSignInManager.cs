@@ -43,14 +43,6 @@ namespace OpenIZAdmin.DAL
 	public class ApplicationSignInManager : SignInManager<ApplicationUser, string>
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ApplicationSignInManager"/> class.
-		/// </summary>
-		public ApplicationSignInManager() : base(null, null)
-		{
-			
-		}
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="ApplicationSignInManager"/> class
 		/// with a specified <see cref="ApplicationUserManager"/> instance and a
 		/// specified <see cref="IAuthenticationManager"/> instance.
@@ -93,7 +85,7 @@ namespace OpenIZAdmin.DAL
 		/// </summary>
 		/// <returns>Returns an IPrincipal representing the logged in device or null if the login fails.</returns>
 		/// <exception cref="System.InvalidOperationException">If the application is not joined to a realm.</exception>
-		public DeviceIdentity LoginAsDevice()
+		public static DeviceIdentity LoginAsDevice()
 		{
 			DeviceIdentity deviceIdentity = null;
 

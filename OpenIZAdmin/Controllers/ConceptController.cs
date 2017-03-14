@@ -306,24 +306,34 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null);
-
-				bundle.Reconstitute();
-
-				var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);
+				var concept = MvcApplication.MemoryCache.Get(id.ToString()) as Concept;
 
 				if (concept == null)
 				{
-					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+					var bundle = this.ImsiClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null);
 
-					return RedirectToAction("Index");
+					bundle.Reconstitute();
+
+					concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);
+
+					if (concept == null)
+					{
+						TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+
+						return RedirectToAction("Index");
+					}
 				}
 
 				var conceptViewModel = new ConceptViewModel(concept);
 
+				for (var i = 0; i < concept.ReferenceTerms.Count(r => r.ReferenceTerm == null && r.RelationshipTypeKey.HasValue); i++)
+				{
+					concept.ReferenceTerms[i].ReferenceTerm = this.ImsiClient.Get<ReferenceTerm>(concept.ReferenceTerms[i].ReferenceTermKey.Value, null) as ReferenceTerm;
+				}
+
 				conceptViewModel.ReferenceTerms.AddRange(concept.ReferenceTerms.Select(r => new ReferenceTermModel
 				{
-					Mnemonic = r.ReferenceTerm.Mnemonic,
+					Mnemonic = r.ReferenceTerm?.Mnemonic,
 					Name = string.Join(", ", r.ReferenceTerm.DisplayNames.Select(d => d.Name)),
 					Id = r.Key.Value
 				}));

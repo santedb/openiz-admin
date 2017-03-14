@@ -70,28 +70,21 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns an AMI service client instance or null.</returns>
 		protected AmiServiceClient GetDeviceServiceClient()
 		{
-			AmiServiceClient client = null;
+			var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
 
-			using (var signInManager = new ApplicationSignInManager())
+			if (deviceIdentity == null)
 			{
-				var deviceIdentity = signInManager.LoginAsDevice();
-
-				if (deviceIdentity == null)
-				{
-					return null;
-				}
-
-				this.Request.Cookies.Add(new HttpCookie("access_token", deviceIdentity.AccessToken));
-
-				var restClientService = new RestClientService(Constants.Ami)
-				{
-					Credentials = new AmiCredentials(new GenericPrincipal(deviceIdentity, null), this.Request)
-				};
-
-				client = new AmiServiceClient(restClientService);
+				return null;
 			}
 
-			return client;
+			this.Request.Cookies.Add(new HttpCookie("access_token", deviceIdentity.AccessToken));
+
+			var restClientService = new RestClientService(Constants.Ami)
+			{
+				Credentials = new AmiCredentials(new GenericPrincipal(deviceIdentity, null), this.Request)
+			};
+
+			return new AmiServiceClient(restClientService);
 		}
 
 		/// <summary>

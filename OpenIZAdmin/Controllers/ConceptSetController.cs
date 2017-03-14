@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using Elmah;
 using OpenIZAdmin.Models.ConceptModels;
 
 namespace OpenIZAdmin.Controllers
@@ -227,25 +228,46 @@ namespace OpenIZAdmin.Controllers
 			return PartialView("_ConceptSetConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
 		}
 
+		/// <summary>
+		/// Views the concept set.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>ActionResult.</returns>
 		[HttpGet]
 		public ActionResult ViewConceptSet(Guid id)
 		{
-			var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == id && c.ObsoletionTime == null);
-
-			bundle.Reconstitute();
-
-			var conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);
-
-			if (conceptSet == null)
+			try
 			{
-				TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
+				var conceptSet = MvcApplication.MemoryCache.Get(id.ToString()) as ConceptSet;
 
-				return RedirectToAction("Index");
+				if (conceptSet == null)
+				{
+					var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == id && c.ObsoletionTime == null);
+
+					bundle.Reconstitute();
+
+					conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);
+
+					if (conceptSet == null)
+					{
+						TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
+
+						return RedirectToAction("Index");
+					}
+				}
+
+				var viewModel = new ConceptSetViewModel(conceptSet);
+
+				return View(viewModel);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			var viewModel = new ConceptSetViewModel(conceptSet);
+			TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
 
-			return View(viewModel);
+			return RedirectToAction("Index");
 		}
 	}
 }

@@ -62,6 +62,9 @@ namespace OpenIZAdmin
 			// realm initialization
 			RealmConfig.Initialize();
 
+			// quartz initialization
+			QuartzConfig.Initialize();
+
 			//ThreadPool.QueueUserWorkItem(state =>
 			//{
 			//	var accessToken = this.SignIn();

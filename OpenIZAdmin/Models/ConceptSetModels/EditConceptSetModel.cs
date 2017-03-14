@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
 {
@@ -36,6 +37,7 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		public EditConceptSetModel()
 		{
 			this.Concepts = new List<Concept>();
+			this.ConceptDeletion = new List<bool>();
 		}
 
 		/// <summary>
@@ -43,7 +45,7 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		/// with a specific <see cref="ConceptSet"/> instance.
 		/// </summary>
 		/// <param name="conceptSet">The <see cref="ConceptSet"/> instance.</param>
-		public EditConceptSetModel(ConceptSet conceptSet)
+		public EditConceptSetModel(ConceptSet conceptSet) : this()
 		{
 			this.Concepts = conceptSet.Concepts;
 			this.CreatedBy = conceptSet.CreatedBy?.UserName;
@@ -56,38 +58,90 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 			this.ConceptDeletion.AddRange(this.Concepts.Select(c => false));
 		}
 
+		/// <summary>
+		/// Gets or sets the concept deletion.
+		/// </summary>
+		/// <value>The concept deletion.</value>
 		public List<bool> ConceptDeletion { get; set; }
 
 		public string ConceptMnemonic { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name of the concept.
+		/// </summary>
+		/// <value>The name of the concept.</value>
 		public string ConceptName { get; set; }
 
+		/// <summary>
+		/// Gets or sets the concepts.
+		/// </summary>
+		/// <value>The concepts.</value>
 		public List<Concept> Concepts { get; set; }
 
+		/// <summary>
+		/// Gets or sets the concept to add.
+		/// </summary>
+		/// <value>The concept to add.</value>
 		public Guid ConceptToAdd { get; set; }
 
+		/// <summary>
+		/// Gets or sets the created by.
+		/// </summary>
+		/// <value>The created by.</value>
 		[Display(Name = "Created By")]
 		public string CreatedBy { get; set; }
 
-		[Display(Name = "Creation Time")]
+		/// <summary>
+		/// Gets or sets the creation time.
+		/// </summary>
+		/// <value>The creation time.</value>
+		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
 		public DateTime CreationTime { get; set; }
 
+		/// <summary>
+		/// Gets or sets the identifier.
+		/// </summary>
+		/// <value>The identifier.</value>
 		public Guid Id { get; set; }
 
+		/// <summary>
+		/// Gets or sets the mnemonic.
+		/// </summary>
+		/// <value>The mnemonic.</value>
 		[Required]
 		public string Mnemonic { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name.
+		/// </summary>
+		/// <value>The name.</value>
 		[Required]
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Gets or sets the oid.
+		/// </summary>
+		/// <value>The oid.</value>
 		[Required]
 		public string Oid { get; set; }
 
+		/// <summary>
+		/// Gets or sets the searched concepts.
+		/// </summary>
+		/// <value>The searched concepts.</value>
 		public List<Concept> SearchedConcepts { get; set; }
 
+		/// <summary>
+		/// Gets or sets the URL.
+		/// </summary>
+		/// <value>The URL.</value>
 		[Required]
 		public string Url { get; set; }
 
+		/// <summary>
+		/// To the concept set.
+		/// </summary>
+		/// <returns>ConceptSet.</returns>
 		public ConceptSet ToConceptSet()
 		{
 			return new ConceptSet
