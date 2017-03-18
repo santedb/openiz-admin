@@ -257,6 +257,11 @@
             Gets or sets the protocol data related to the protocol
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.Acts.ActProtocol.Sequence">
+            <summary>
+            Represents the sequence of the act in the protocol
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.Acts.ActProtocol.StateData">
             <summary>
             Represents any state data related to the act / protocol link
@@ -480,6 +485,11 @@
         <member name="P:OpenIZ.Core.Model.Acts.Protocol.Definition">
             <summary>
             Contains instructions which the handler class can understand
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Acts.Protocol.Oid">
+            <summary>
+            Gets or sets the OID
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.Acts.Protocol.SemanticEquals(System.Object)">
@@ -2157,6 +2167,11 @@
         <member name="P:OpenIZ.Core.Model.DataTypes.AssigningAuthority.AuthorityScope">
             <summary>
             Gets concept sets to which this concept is a member
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.AssigningAuthority.ToMinimal">
+            <summary>
+            Represent the AA as a minimal info
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.DataTypes.AssigningAuthority.Refresh">

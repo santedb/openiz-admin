@@ -190,6 +190,11 @@
             Definition of the query
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Data.Warehouse.DatamartStoredQuery.Properties">
+            <summary>
+            Gets or sets the property names for the schema element
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Data.Warehouse.DatamartStoredQuery.Definition">
             <summary>
             Definition of the query
@@ -1355,37 +1360,59 @@
             <summary>
             Represents an act repository service.
             </summary>
-            TODO: Should the entire interface be genericised? 
+            TODO: Should the entire interface be genericised?
         </member>
         <member name="M:OpenIZ.Core.Services.IActRepositoryService.Find``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
             <summary>
             Finds acts based on a specific query.
             </summary>
+            <typeparam name="TAct">The type of the act.</typeparam>
+            <param name="query">The query.</param>
+            <param name="offset">The offset.</param>
+            <param name="count">The count.</param>
+            <param name="totalResults">The total results.</param>
+            <returns>Returns a list of acts which match the specific query.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IActRepositoryService.Get``1(System.Guid,System.Guid)">
             <summary>
-            Get the specified act
+            Get the specified act.
             </summary>
+            <typeparam name="TAct">The type of the act.</typeparam>
+            <param name="key">The key.</param>
+            <param name="versionId">The version identifier.</param>
+            <returns>Returns the act.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IActRepositoryService.Insert``1(``0)">
             <summary>
-            Insert the specified act
+            Insert the specified act.
             </summary>
+            <typeparam name="TAct">The type of the act.</typeparam>
+            <param name="act">The act.</param>
+            <returns>Returns the act.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IActRepositoryService.Obsolete``1(System.Guid)">
             <summary>
             Obsoletes a specific act.
             </summary>
+            <typeparam name="TAct">The type of the act.</typeparam>
+            <param name="key">The key.</param>
+            <returns>Returns the act.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IActRepositoryService.Save``1(``0)">
             <summary>
             Inserts or updates the specific act.
             </summary>
+            <typeparam name="TAct">The type of the act.</typeparam>
+            <param name="act">The act.</param>
+            <returns>Returns the act.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IActRepositoryService.Validate``1(``0)">
             <summary>
             Validates an act.
             </summary>
+            <typeparam name="TAct">The type of the act.</typeparam>
+            <param name="act">The act.</param>
+            <returns>Returns the act.</returns>
         </member>
         <member name="T:OpenIZ.Core.Services.IAssigningAuthorityRepositoryService">
             <summary>
@@ -1446,18 +1473,30 @@
             <summary>
             Inserts all the data in the provided bundle in one transaction
             </summary>
+            <param name="bundle">The bundle.</param>
+            <returns>Returns the created bundle.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IBatchRepositoryService.Obsolete(OpenIZ.Core.Model.Collection.Bundle)">
             <summary>
-            Obsoletes all data in the provided bundle in one transaction
+            Obsoletes all data in the provided bundle in one transaction.
             </summary>
+            <param name="bundle">The bundle.</param>
+            <returns>Returns the obsoleted bundle.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IBatchRepositoryService.Update(OpenIZ.Core.Model.Collection.Bundle)">
             <summary>
-            Updates all the data in the provided bundle in one transaction
+            Updates all the data in the provided bundle in one transaction.
             </summary>
+            <param name="bundle">The bundle.</param>
+            <returns>Returns the updated bundle.</returns>
         </member>
-        <!-- Badly formed XML comment ignored for member "M:OpenIZ.Core.Services.IBatchRepositoryService.Validate(OpenIZ.Core.Model.Collection.Bundle)" -->
+        <member name="M:OpenIZ.Core.Services.IBatchRepositoryService.Validate(OpenIZ.Core.Model.Collection.Bundle)">
+            <summary>
+            Validates the specified bundle.
+            </summary>
+            <param name="bundle">The bundle.</param>
+            <returns>Returns the bundle.</returns>
+        </member>
         <member name="T:OpenIZ.Core.Services.DetectedIssuePriorityType">
             <summary>
             Detected issue priority
@@ -1559,7 +1598,12 @@
             Create a care plan controlling the creation of encounters
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.ICarePlanService.CreateCarePlan(OpenIZ.Core.Model.Roles.Patient,System.Boolean,System.Guid[])">
+        <member name="M:OpenIZ.Core.Services.ICarePlanService.CreateCarePlan(OpenIZ.Core.Model.Roles.Patient,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Creates a care plan for the patient with the specified protocolsonly
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ICarePlanService.CreateCarePlan(OpenIZ.Core.Model.Roles.Patient,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.Object},System.Guid[])">
             <summary>
             Creates a care plan for the patient with the specified protocolsonly
             </summary>
@@ -2053,37 +2097,48 @@
         </member>
         <member name="M:OpenIZ.Core.Services.IRepositoryService`1.Get(System.Guid)">
             <summary>
-            Gets the specified data
+            Gets the specified model.
             </summary>
+            <param name="key">The key.</param>
+            <returns>Returns the model.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IRepositoryService`1.Find(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}})">
             <summary>
-            Finds the specified data
+            Finds the specified data.
             </summary>
-            <returns></returns>
+            <param name="query">The query.</param>
+            <returns>Returns a list of identified data.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IRepositoryService`1.Find(System.Linq.Expressions.Expression{System.Func{`0,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
             <summary>
-            Finds the specified data
+            Finds the specified data.
             </summary>
-            <returns></returns>
+            <param name="query">The query.</param>
+            <param name="offset">The offset.</param>
+            <param name="count">The count.</param>
+            <param name="totalResults">The total results.</param>
+            <returns>Returns a list of identified data.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IRepositoryService`1.Insert(`0)">
             <summary>
-            Inserts the specified data
+            Inserts the specified data.
             </summary>
+            <param name="data">The data.</param>
+            <returns>TModel.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IRepositoryService`1.Save(`0)">
             <summary>
-            Saves the specified data
+            Saves the specified data.
             </summary>
+            <param name="data">The data.</param>
+            <returns>Returns the model.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IRepositoryService`1.Obsolete(System.Guid)">
             <summary>
-            Obsoletes the specified data
+            Obsoletes the specified data.
             </summary>
-            <param name="key"></param>
-            <returns></returns>
+            <param name="key">The key.</param>
+            <returns>Returns the model.</returns>
         </member>
         <member name="T:OpenIZ.Core.Services.IEntityRepositoryService">
             <summary>
@@ -2314,8 +2369,8 @@
             Searches for a organization using a given query.
             </summary>
             <param name="query">The query to use for searching for the organization.</param>
-            <param name="count">The count of the organizations to return.</param>
             <param name="offset">The offset for the search results.</param>
+            <param name="count">The count of the organizations to return.</param>
             <param name="totalCount">The total count of the search results.</param>
             <returns>Returns a list of organizations who match the specified query.</returns>
         </member>
@@ -2420,7 +2475,7 @@
         </member>
         <member name="M:OpenIZ.Core.Services.IPersistableQueryProvider.Query``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@,System.Guid)">
             <summary>
-            Performs a query which 
+            Performs a query which
             </summary>
             <typeparam name="TEntity">The underlying entity type which is being queried</typeparam>
             <param name="query">The query to be executed</param>
@@ -2540,7 +2595,7 @@
         </member>
         <member name="M:OpenIZ.Core.Services.IQueryPersistenceService.RegisterQuerySet(System.Guid,System.Collections.Generic.IEnumerable{System.Guid},System.Object)">
             <summary>
-            Register a query set 
+            Register a query set
             </summary>
             <param name="queryId">The unique identifier for the query</param>
             <param name="results">The results to be stored in the query</param>
@@ -2879,6 +2934,7 @@
             <summary>
             Add the specified service provider
             </summary>
+            <param name="serviceType">Type of the service.</param>
         </member>
         <member name="T:OpenIZ.Core.Services.IStockManagementRepositoryService">
             <summary>
@@ -2903,8 +2959,13 @@
         </member>
         <member name="M:OpenIZ.Core.Services.IStockManagementRepositoryService.FindAdjustments(System.Guid,System.Guid,System.Nullable{System.DateTimeOffset},System.Nullable{System.DateTimeOffset})">
             <summary>
-            Find adjustments matching the specified 
+            Find adjustments matching the specified
             </summary>
+            <param name="manufacturedMaterialKey">The manufactured material key.</param>
+            <param name="placeKey">The place key.</param>
+            <param name="startPeriod">The start period.</param>
+            <param name="endPeriod">The end period.</param>
+            <returns>IEnumerable&lt;Act&gt;.</returns>
         </member>
         <member name="T:OpenIZ.Core.Services.IThreadPoolService">
             <summary>
@@ -2924,6 +2985,11 @@
         <member name="M:OpenIZ.Core.Services.IThreadPoolService.QueueUserWorkItem(System.TimeSpan,System.Action{System.Object},System.Object)">
             <summary>
             Queue a user work item
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IThreadPoolService.QueueNonPooledWorkItem(System.Action{System.Object},System.Object)">
+            <summary>
+            Creates a normal thread which is not in the pool
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Protocol.IClinicalProtocol">
@@ -2951,7 +3017,7 @@
             Gets the name of the protocol
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Protocol.IClinicalProtocol.Calculate(OpenIZ.Core.Model.Roles.Patient)">
+        <member name="M:OpenIZ.Core.Protocol.IClinicalProtocol.Calculate(OpenIZ.Core.Model.Roles.Patient,System.Collections.Generic.IDictionary{System.String,System.Object})">
             <summary>
             Calculate the clinical protocol for the given patient
             </summary>
@@ -2961,10 +3027,37 @@
             Update the care plan based on new data
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Protocol.IClinicalProtocol.Initialize(OpenIZ.Core.Model.Roles.Patient)">
+            <summary>
+            Called prior to performing calculation of the care protocol allowing the object to prepare the object for whatever 
+            pre-requisite data is needed for the protocol
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Protocol.SimpleCarePlanService">
             <summary>
             Represents a care plan service that can bundle protocol acts together 
             based on their start/stop times
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Protocol.SimpleCarePlanService.ParameterDictionary`2">
+            <summary>
+            Represents a parameter dictionary
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Protocol.SimpleCarePlanService.ParameterDictionary`2.Add(`0,`1)">
+            <summary>
+            Add new item key
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Protocol.SimpleCarePlanService.ParameterDictionary`2.Remove(`0)">
+            <summary>
+            Remove key
+            </summary>
+            <param name="key"></param>
+        </member>
+        <member name="P:OpenIZ.Core.Protocol.SimpleCarePlanService.ParameterDictionary`2.Item(`0)">
+            <summary>
+            Indexer
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Protocol.SimpleCarePlanService.#ctor">
@@ -2989,7 +3082,12 @@
             <param name="p"></param>
             <returns></returns>
         </member>
-        <member name="M:OpenIZ.Core.Protocol.SimpleCarePlanService.CreateCarePlan(OpenIZ.Core.Model.Roles.Patient,System.Boolean,System.Guid[])">
+        <member name="M:OpenIZ.Core.Protocol.SimpleCarePlanService.CreateCarePlan(OpenIZ.Core.Model.Roles.Patient,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Create a care plan
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Protocol.SimpleCarePlanService.CreateCarePlan(OpenIZ.Core.Model.Roles.Patient,System.Boolean,System.Collections.Generic.IDictionary{System.String,System.Object},System.Guid[])">
             <summary>
             Create a care plan with the specified protocols only
             </summary>
