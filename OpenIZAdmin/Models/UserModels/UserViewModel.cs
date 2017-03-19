@@ -52,6 +52,8 @@ namespace OpenIZAdmin.Models.UserModels
 			this.LastLoginTime = securityUserInfo.User.LastLoginTime?.DateTime;
 			this.PhoneNumber = securityUserInfo.User.PhoneNumber;
 
+			this.Roles = new List<RoleViewModel>();
+
 			if (this.HasRoles)
 			{
 				this.Roles = securityUserInfo.Roles.Select(r => new RoleViewModel(r));

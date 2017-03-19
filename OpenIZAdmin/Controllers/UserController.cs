@@ -383,6 +383,8 @@ namespace OpenIZAdmin.Controllers
 						return Redirect(Request.UrlReferrer?.ToString());
 					}
 
+					// null out the user, since we are only updating the password
+					user.User = null;
 					user.Password = model.Password;
 
 					this.AmiClient.UpdateUser(model.Id, user);
