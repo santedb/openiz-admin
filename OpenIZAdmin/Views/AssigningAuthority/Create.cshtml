@@ -37,18 +37,26 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.DomainName, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.DomainName, new {@class = "col-md-2 control-label"})
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.DomainName, new { @class = "form-control", title = Locale.ToolTip_DomainName })
-                    @Html.ValidationMessageFor(m => m.DomainName, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.DomainName, new {@class = "form-control", title = Locale.ToolTip_DomainName})
+                    @Html.ValidationMessageFor(m => m.DomainName, "", new {@class = "text-danger"})
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.ValidationRegex, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextAreaFor(m => m.Description, new { @class = "form-control", title = Locale.ToolTip_AssigningAuthorityDescription })
-                    @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.ValidationRegex, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ValidationRegex, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Description, new {@class = "col-md-2 control-label"})
+                <div class="col-md-8">
+                    @Html.TextAreaFor(m => m.Description, new {@class = "form-control", title = Locale.ToolTip_AssigningAuthorityDescription})
+                    @Html.ValidationMessageFor(m => m.Description, "", new {@class = "text-danger"})
                 </div>
             </div>
 

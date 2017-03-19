@@ -54,8 +54,10 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Displays the create assigning authority view.
 		/// </summary>
-		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
+		/// <param name="model">The model.</param>
+		/// <returns>Returns an <see cref="ActionResult" /> instance.</returns>
 		[HttpPost]
+		[ValidateInput(false)]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateAssigningAuthorityModel model)
 		{

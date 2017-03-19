@@ -25,12 +25,22 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {
+	/// <summary>
+	/// Represents an edit assigning authority model.
+	/// </summary>
 	public class EditAssigningAuthorityModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EditAssigningAuthorityModel"/> class.
+		/// </summary>
 		public EditAssigningAuthorityModel()
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EditAssigningAuthorityModel"/> class.
+		/// </summary>
+		/// <param name="assigningAuthorityInfo">The assigning authority information.</param>
 		public EditAssigningAuthorityModel(AssigningAuthorityInfo assigningAuthorityInfo)
 		{
 			this.Id = assigningAuthorityInfo.Id;
@@ -39,6 +49,7 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 			this.Url = assigningAuthorityInfo.AssigningAuthority.Url;
 			this.DomainName = assigningAuthorityInfo.AssigningAuthority.DomainName;
 			this.Description = assigningAuthorityInfo.AssigningAuthority.Description;
+			this.ValidationRegex = assigningAuthorityInfo.AssigningAuthority.ValidationRegex;
 		}
 
 		/// <summary>
@@ -83,6 +94,13 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		public string Url { get; set; }
 
 		/// <summary>
+		/// Gets or sets the validation regex.
+		/// </summary>
+		/// <value>The validation regex.</value>
+		[Display(Name = "ValidationRegex", ResourceType = typeof(Locale))]
+		public string ValidationRegex { get; set; }
+
+		/// <summary>
 		/// Converts a <see cref="EditAssigningAuthorityModel"/> instance to an <see cref="AssigningAuthorityInfo"/> instance.
 		/// </summary>
 		/// <returns>Returns an <see cref="AssigningAuthorityInfo"/> instance.</returns>
@@ -98,7 +116,8 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 					DomainName = this.DomainName,
 					Description = this.Description,
 					Oid = this.Oid,
-					Name = this.Name
+					Name = this.Name,
+					ValidationRegex = this.ValidationRegex
 				}
 			};
 

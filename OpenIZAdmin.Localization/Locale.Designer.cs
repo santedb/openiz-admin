@@ -3166,6 +3166,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Validation Regular Expression.
+        /// </summary>
+        public static string ValidationRegex {
+            get {
+                return ResourceManager.GetString("ValidationRegex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Value.
         /// </summary>
         public static string Value {

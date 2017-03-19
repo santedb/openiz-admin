@@ -20,15 +20,26 @@
 using OpenIZ.Core.Model.AMI.DataTypes;
 using System;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {
+	/// <summary>
+	/// Class AssigningAuthorityViewModel.
+	/// </summary>
 	public class AssigningAuthorityViewModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AssigningAuthorityViewModel"/> class.
+		/// </summary>
 		public AssigningAuthorityViewModel()
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AssigningAuthorityViewModel"/> class.
+		/// </summary>
+		/// <param name="assigningAuthority">The assigning authority.</param>
 		public AssigningAuthorityViewModel(AssigningAuthorityInfo assigningAuthority)
 		{
 			this.Id = assigningAuthority.Id;
@@ -37,23 +48,54 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 			this.Url = assigningAuthority.AssigningAuthority.Url;
 			this.DomainName = assigningAuthority.AssigningAuthority.DomainName;
 			this.Description = assigningAuthority.AssigningAuthority.Description;
+			this.ValidationRegex = assigningAuthority.AssigningAuthority.ValidationRegex;
 		}
 
-		[Display(Name = "Description", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the description.
+		/// </summary>
+		/// <value>The description.</value>
+		[Display(Name = "Description", ResourceType = typeof(Locale))]
 		public string Description { get; set; }
 
-		[Display(Name = "DomainName", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the name of the domain.
+		/// </summary>
+		/// <value>The name of the domain.</value>
+		[Display(Name = "DomainName", ResourceType = typeof(Locale))]
 		public string DomainName { get; set; }
 
+		/// <summary>
+		/// Gets or sets the identifier.
+		/// </summary>
+		/// <value>The identifier.</value>
 		public Guid Id { get; set; }
 
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the name.
+		/// </summary>
+		/// <value>The name.</value>
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
-		[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the oid.
+		/// </summary>
+		/// <value>The oid.</value>
+		[Display(Name = "Oid", ResourceType = typeof(Locale))]
 		public string Oid { get; set; }
+		/// <summary>
+		/// Gets or sets the regex.
+		/// </summary>
+		/// <value>The regex.</value>
+		[Display(Name = "ValidationRegex", ResourceType = typeof(Locale))]
+		public string ValidationRegex { get; set; }
 
-		[Display(Name = "Url", ResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the URL.
+		/// </summary>
+		/// <value>The URL.</value>
+		[Display(Name = "Url", ResourceType = typeof(Locale))]
 		public string Url { get; set; }
 	}
 }

@@ -72,6 +72,13 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		public string Url { get; set; }
 
 		/// <summary>
+		/// Gets or sets the validation regex.
+		/// </summary>
+		/// <value>The validation regex.</value>
+		[Display(Name = "ValidationRegex", ResourceType = typeof(Locale))]
+		public string ValidationRegex { get; set; }
+
+		/// <summary>
 		/// Converts a <see cref="CreateAssigningAuthorityModel"/> instance to an <see cref="AssigningAuthorityInfo"/> instance.
 		/// </summary>
 		/// <returns>Returns an <see cref="AssigningAuthorityInfo"/> instance.</returns>
@@ -81,11 +88,12 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 			{
 				AssigningAuthority = new AssigningAuthority
 				{
+					Description = this.Description,
+					DomainName = this.DomainName,
 					Name = this.Name,
 					Oid = this.Oid,
-					DomainName = this.DomainName,
-					Description = this.Description,
-					Url = this.Url
+					Url = this.Url,
+					ValidationRegex = this.ValidationRegex
 				}
 			};
 		}

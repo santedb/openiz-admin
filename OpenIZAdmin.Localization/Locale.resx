@@ -1170,4 +1170,7 @@
   <data name="TypeConcept" xml:space="preserve">
     <value>Type Concept</value>
   </data>
+  <data name="ValidationRegex" xml:space="preserve">
+    <value>Validation Regular Expression</value>
+  </data>
 </root>
