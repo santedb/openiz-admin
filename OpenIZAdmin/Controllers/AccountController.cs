@@ -20,22 +20,19 @@
 using Elmah;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.DAL;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.AccountModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.Constants;
-using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Models;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -168,7 +165,6 @@ namespace OpenIZAdmin.Controllers
 
 					if (result == SignInStatus.Success)
 					{
-
 						securityUser.User = null;
 						securityUser.Password = model.Password;
 
