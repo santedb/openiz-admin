@@ -34,6 +34,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Models;
 
 namespace OpenIZAdmin.Controllers
@@ -110,23 +111,28 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult ChangePassword()
 		{
-			ChangePasswordModel model = new ChangePasswordModel();
+			var model = new ChangePasswordModel();
+
 			try
 			{
-				var userId = Guid.Parse(User.Identity.GetUserId());
-				SecurityUserInfo user = this.AmiClient.GetUser(userId.ToString());
+				var securityUser = this.AmiClient.GetUser(this.User.Identity.GetUserId());
 
-				if (user != null)
-					model.Username = user.UserName;
-				else
+				if (securityUser == null)
+				{
+					// if the user is null yet they are logged in, we need to log them out for security purposes
 					TempData["error"] = Locale.User + " " + Locale.NotFound;
+
+					HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+					Response.Cookies.Remove("access_token");
+
+					return RedirectToAction("Login", "Account");
+				}
+
+				model.Username = securityUser.UserName;
 			}
 			catch (Exception e)
 			{
-#if DEBUG
-				Trace.TraceError("Unable to change password: {0}", e.StackTrace);
-#endif
-				Trace.TraceError("Unable to change password: {0}", e.Message);
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
 			return View(model);
@@ -141,43 +147,49 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> ChangePassword(ChangePasswordModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				try
+				if (ModelState.IsValid)
 				{
-					var userId = Guid.Parse(User.Identity.GetUserId());
-					SecurityUserInfo user = this.AmiClient.GetUser(userId.ToString());
+					var securityUser = this.AmiClient.GetUser(this.User.Identity.GetUserId());
 
-					if (user != null && !user.Lockout.GetValueOrDefault(false))
+					if (securityUser == null)
 					{
-						var result = await SignInManager.PasswordSignInAsync(model.Username, model.CurrentPassword, false, shouldLockout: false);
+						// if the user is null yet they are logged in, we need to log them out for security purposes
+						TempData["error"] = Locale.User + " " + Locale.NotFound;
 
-						if (result == SignInStatus.Success)
-						{
-							user.Password = model.Password;
-							user = this.AmiClient.UpdateUser(userId, user);
-						}
-						else
-						{
-							TempData["error"] = Locale.InvalidCurrrentPassword;
-							return View(model);
-						}
+						HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+						Response.Cookies.Remove("access_token");
+
+						return RedirectToAction("Login", "Account");
 					}
 
-					TempData["success"] = Locale.PasswordChanged + " " + Locale.Successfully;
-					return RedirectToAction("Index", "Home");
-				}
-				catch (Exception e)
-				{
-					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-#if DEBUG
-					Trace.TraceError("Unable to change password: {0}", e.StackTrace);
-#endif
-					Trace.TraceError("Unable to change password: {0}", e.Message);
+					var result = await SignInManager.PasswordSignInAsync(model.Username, model.CurrentPassword, false, false);
+
+					if (result == SignInStatus.Success)
+					{
+
+						securityUser.User = null;
+						securityUser.Password = model.Password;
+
+						this.AmiClient.UpdateUser(securityUser.UserId.Value, securityUser);
+
+						TempData["success"] = Locale.Password + " " + Locale.Updated + " " + Locale.Successfully;
+
+						HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+						Response.Cookies.Remove("access_token");
+
+						return RedirectToAction("Login", "Account");
+					}
 				}
 			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
 
-			TempData["error"] = Locale.UnableToChangePassword;
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Password;
+
 			return View(model);
 		}
 
