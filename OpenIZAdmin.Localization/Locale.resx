@@ -1173,4 +1173,7 @@
   <data name="ValidationRegex" xml:space="preserve">
     <value>Validation Regular Expression</value>
   </data>
+  <data name="ValueCannotBeNull" xml:space="preserve">
+    <value>Value cannot be null</value>
+  </data>
 </root>

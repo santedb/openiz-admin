@@ -8,11 +8,11 @@
         <span class="panel-title">
             @Locale.Applets
         </span>
-            <div class="pull-right">
-                <span class="text-primary h4">@Locale.New</span>
-                <a href="~/Applet/Upload" class="glyphicon glyphicon-plus-sign"></a>
-            </div>
-</div>
+        <div class="pull-right">
+            <span class="text-primary h4">@Locale.New</span>
+            <a href="~/Applet/Upload" class="glyphicon glyphicon-plus-sign"></a>
+        </div>
+    </div>
     <div class="panel panel-body">
         <table class="table table-bordered" id="appletsTable">
             <thead>
@@ -29,7 +29,7 @@
                     <th>
                         @Locale.Version
                     </th>
-                    <th></th>                    
+                    <th></th>
                 </tr>
             </thead>
             <tbody>
@@ -44,7 +44,7 @@
                             <a class="btn btn-primary" href="/Applet/ViewApplet/@(item.Id + "/")">
                                 @Locale.View
                                 <span class="glyphicon glyphicon-eye-open"></span>
-                                                    
+                            </a>
                             <a class="btn btn-primary" href="/Applet/Download/@(item.Id + "/")">
                                 @Locale.Download
                                 <span class="glyphicon glyphicon-download"></span>

@@ -23,6 +23,7 @@ using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Extensions
 {
@@ -32,15 +33,16 @@ namespace OpenIZAdmin.Extensions
 	public static class ConceptExtensions
 	{
 		/// <summary>
-		/// Converts a <see cref="ConceptSet"/> to a <see cref="IEnumerable{T}"/> of <see cref="SelectListItem"/>.
+		/// Converts a <see cref="ConceptSet" /> to a <see cref="IEnumerable{T}" /> of <see cref="SelectListItem" />.
 		/// </summary>
 		/// <param name="source">The concept set to convert.</param>
-		/// <returns>Returns a <see cref="IEnumerable{T}"/> of <see cref="SelectListItem"/>.</returns>
+		/// <returns>Returns a <see cref="IEnumerable{T}" /> of <see cref="SelectListItem" />.</returns>
+		/// <exception cref="System.ArgumentNullException">If the source is null.</exception>
 		public static IEnumerable<SelectListItem> ToSelectList(this ConceptSet source)
 		{
 			if (source == null)
 			{
-				throw new ArgumentNullException(nameof(source), "Value cannot be null");
+				throw new ArgumentNullException(nameof(source), Locale.ValueCannotBeNull);
 			}
 
 			return source.Concepts.ToSelectList();
@@ -57,7 +59,7 @@ namespace OpenIZAdmin.Extensions
 		{
 			if (source == null)
 			{
-				throw new ArgumentNullException(nameof(source), "Value cannot be null");
+				throw new ArgumentNullException(nameof(source), Locale.ValueCannotBeNull);
 			}
 
 			var selectList = new List<SelectListItem>
@@ -91,7 +93,7 @@ namespace OpenIZAdmin.Extensions
 		{
 			if (source == null)
 			{
-				throw new ArgumentNullException(nameof(source), "Value cannot be null");
+				throw new ArgumentNullException(nameof(source), Locale.ValueCannotBeNull);
 			}
 
 			var selectList = new List<SelectListItem>

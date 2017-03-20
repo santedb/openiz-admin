@@ -44,10 +44,18 @@ namespace OpenIZAdmin.Models.EntityIdentifierModels
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EntityIdentifierEditModel"/> class.
 		/// </summary>
-		/// <param name="entityIdentifier">The entity identifier.</param>
-		public EntityIdentifierEditModel(EntityIdentifier entityIdentifier) : this()
+		/// <param name="id">The identifier.</param>
+		public EntityIdentifierEditModel(Guid id) : this()
 		{
-			this.Id = entityIdentifier.Key.Value;
+			this.Id = id;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EntityIdentifierEditModel"/> class.
+		/// </summary>
+		/// <param name="entityIdentifier">The entity identifier.</param>
+		public EntityIdentifierEditModel(EntityIdentifier entityIdentifier) : this(entityIdentifier.Key.Value)
+		{
 			this.Name = entityIdentifier.Authority.Name;
 			this.Type = entityIdentifier.Authority.DomainName;
 			this.Value = entityIdentifier.Value;

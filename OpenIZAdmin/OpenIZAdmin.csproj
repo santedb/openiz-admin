@@ -236,6 +236,7 @@
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\ConceptController.cs" />
     <Compile Include="Controllers\LocaleController.cs" />
+    <Compile Include="Controllers\EntityIdentifierController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PlaceController.cs" />
     <Compile Include="Controllers\AssigningAuthorityController.cs" />
@@ -577,7 +578,6 @@
     <Content Include="Views\AssigningAuthority\Edit.cshtml" />
     <Content Include="Views\Shared\_NotFound.cshtml" />
     <Content Include="Views\Concept\Edit.cshtml" />
-    <Content Include="Views\Policy\Edit.cshtml" />
     <Content Include="Views\Device\Edit.cshtml" />
     <Content Include="Views\Alert\Create.cshtml" />
     <Content Include="Views\Shared\_Error.cshtml" />
@@ -612,6 +612,7 @@
     <Content Include="Views\Shared\_IdentifiersPartial.cshtml" />
     <Content Include="Views\Shared\_ManufacturedMaterialsPartial.cshtml" />
     <Content Include="Views\Shared\_PoliciesPartial.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\_EditIdentifierTemplate.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

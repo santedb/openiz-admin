@@ -26,7 +26,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.RelatedPlaces, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.RelatedPlaceKeys, Model.RelatedPlacesList, new { @class = "place-search form-control", multiple = "multiple", title = Locale.ToolTip_Policies })
+                    @Html.DropDownListFor(m => m.RelatedPlaceKeys, Model.RelatedPlacesList, new { @class = "place-search form-control", multiple = "multiple", title = Locale.ToolTip_Policies })
                     @Html.ValidationMessageFor(m => m.RelatedPlaces, "", new { @class = "text-danger" })
                 </div>
             </div>

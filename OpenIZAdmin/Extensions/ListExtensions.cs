@@ -22,6 +22,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Extensions
 {
@@ -63,11 +64,12 @@ namespace OpenIZAdmin.Extensions
 		/// <param name="valuePropertyName">The value property name.</param>
 		/// <param name="selectedExpression">An expression which evaluates to set selected items.</param>
 		/// <returns>Returns a select list.</returns>
+		/// <exception cref="System.ArgumentNullException">If the source or textPropertyName or valuePropertyName is null.</exception>
 		public static List<SelectListItem> ToSelectList<T>(this IEnumerable<T> source, string textPropertyName, string valuePropertyName, Expression<Func<T, bool>> selectedExpression = null)
 		{
 			if (source == null)
 			{
-				throw new ArgumentNullException(nameof(source), "Value cannot be null");
+				throw new ArgumentNullException(nameof(source), Locale.ValueCannotBeNull);
 			}
 
 			var clonedList = new List<T>(source);
@@ -79,12 +81,12 @@ namespace OpenIZAdmin.Extensions
 
 			if (string.IsNullOrEmpty(textPropertyName) || string.IsNullOrWhiteSpace(textPropertyName))
 			{
-				throw new ArgumentNullException(nameof(textPropertyName), "Value cannot be null");
+				throw new ArgumentNullException(nameof(textPropertyName), Locale.ValueCannotBeNull);
 			}
 
 			if (string.IsNullOrEmpty(valuePropertyName) || string.IsNullOrWhiteSpace(valuePropertyName))
 			{
-				throw new ArgumentNullException(nameof(valuePropertyName), "Value cannot be null");
+				throw new ArgumentNullException(nameof(valuePropertyName), Locale.ValueCannotBeNull);
 			}
 
 			selectList.AddRange(selectedExpression == null ? 

@@ -51,6 +51,9 @@ namespace OpenIZAdmin.Models.PlaceModels
 		public EditPlaceModel(Place place) : base(place)
 		{
 			this.Name = string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value));
+			this.RelatedPlaces = new List<RelatedPlaceModel>();
+			this.RelatedPlaceKeys = new List<string>();
+			this.RelatedPlacesList = new List<SelectListItem>();
 		}
 
 		/// <summary>
