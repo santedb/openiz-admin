@@ -1,7 +1,4 @@
-﻿@using System.Text
-@using System.Web.UI.HtmlControls
-@using OpenIZAdmin.Models.EntityIdentifierModels
-@model OpenIZAdmin.Models.OrganizationModels.EditOrganizationModel
+﻿@model OpenIZAdmin.Models.OrganizationModels.EditOrganizationModel
 @{
     ViewBag.Title = Locale.Edit + " " + Locale.Organization;
 }
@@ -42,7 +39,7 @@
         </div>
     </div>
 
-    <div class="panel panel-default">
+    @*<div class="panel panel-default">
         <div class="panel-heading">
             <span class="panel-title">@(Locale.Edit + " " + Locale.Identifiers)</span>
             <div class="pull-right">
@@ -52,10 +49,10 @@
         </div>
 
         <div class="panel panel-body">
-            @*@foreach (var identifier in Model.Identifiers)
+            @foreach (var identifier in Model.Identifiers)
                             {
                                 @Html.EditorFor(m => identifier, "_EditIdentifierTemplate", identifier.Id)
-                }*@
+                }
 
             <div id="identifiers">
                 @for (int i = 0; i < Model.Identifiers.Count; i++)
@@ -81,7 +78,7 @@
 }
             </div>
         </div>
-    </div>
+    </div>*@
 }
 
 @section Scripts
