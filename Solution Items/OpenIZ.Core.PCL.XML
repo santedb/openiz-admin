@@ -45,6 +45,11 @@
             a dynamic object
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Data.Warehouse.DatamartSchema.#ctor">
+            <summary>
+            Datamart schema
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Data.Warehouse.DatamartSchema.Id">
             <summary>
             Gets or sets the unique identifier for the schema itself
@@ -180,7 +185,12 @@
             Represents a stored query creation statement
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Data.Warehouse.DatamartStoredQuery.ProviderId">
+        <member name="M:OpenIZ.Core.Data.Warehouse.DatamartStoredQuery.#ctor">
+            <summary>
+            Stored query
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Data.Warehouse.DatamartStoredQuery.Id">
             <summary>
             Gets or sets the provider identifier
             </summary>
@@ -198,6 +208,21 @@
         <member name="P:OpenIZ.Core.Data.Warehouse.DatamartStoredQuery.Definition">
             <summary>
             Definition of the query
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Data.Warehouse.DatamartStoredQueryDefinition">
+            <summary>
+            Represents the SQL for an actual query
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Data.Warehouse.DatamartStoredQueryDefinition.ProviderId">
+            <summary>
+            Provider identifier
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Data.Warehouse.DatamartStoredQueryDefinition.Query">
+            <summary>
+            The SQL 
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Data.Warehouse.IDatamartSchemaPropertyContainer">
@@ -2247,22 +2272,22 @@
             Represents the repository handler for materials
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.ManufacturedMaterial,System.Boolean}})">
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.FindManufacturedMaterial(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.ManufacturedMaterial,System.Boolean}})">
             <summary>
             Finds the specified ManufacturedMaterial
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.ManufacturedMaterial,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.FindManufacturedMaterial(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.ManufacturedMaterial,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
             <summary>
             Finds the specified ManufacturedMaterial with the specified restrictions
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.Material,System.Boolean}})">
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.FindMaterial(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.Material,System.Boolean}})">
             <summary>
             Finds the specified material
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.Material,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+        <member name="M:OpenIZ.Core.Services.IMaterialRepositoryService.FindMaterial(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Entities.Material,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
             <summary>
             Finds the specified material with the specified restrictions
             </summary>
