@@ -104,7 +104,7 @@ namespace OpenIZAdmin.Controllers
 				if (alert == null)
 				{
 					TempData["error"] = Locale.Alert + " " + Locale.NotFound;
-					return View("_NotFound", model: "Not Found");
+					return View("_NotFound", model: Locale.NotFound);
 				}
 
 				alert.AlertMessage.ObsoletionTime = DateTimeOffset.Now;
@@ -117,7 +117,7 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.Alert + " " + Locale.Updated + " " + Locale.Successfully;
 
-				return RedirectToAction("Index", "Home");
+				return RedirectToAction("Index");
 			}
 			catch (Exception e)
 			{
@@ -126,7 +126,7 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Alert;
 
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("Index");
 		}
 
 		/// <summary>

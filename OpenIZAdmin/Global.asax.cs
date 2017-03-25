@@ -20,6 +20,7 @@
 using Elmah;
 using System;
 using System.Diagnostics;
+using System.Diagnostics.Tracing;
 using System.Runtime.Caching;
 using System.Web;
 using System.Web.Mvc;
@@ -34,6 +35,11 @@ namespace OpenIZAdmin
 	public class MvcApplication : System.Web.HttpApplication
 	{
 		/// <summary>
+		/// The event source for the application.
+		/// </summary>
+		public const string EventSource = "OpenIZAdmin";
+
+		/// <summary>
 		/// The memory cache for the application.
 		/// </summary>
 		public static readonly MemoryCache MemoryCache = MemoryCache.Default;
@@ -45,9 +51,19 @@ namespace OpenIZAdmin
 		/// <param name="e">The event arguments.</param>
 		protected void Application_Error(object sender, EventArgs e)
 		{
-			Trace.TraceError($"Application error: {this.Server.GetLastError()}");
-			ErrorLog.GetDefault(HttpContext.Current).Log(new Error(this.Server.GetLastError(), HttpContext.Current));
-		}
+			try
+			{
+				ErrorLog.GetDefault(HttpContext.Current).Log(new Error(this.Server.GetLastError(), HttpContext.Current));
+			}
+			catch
+			{
+				// ignored
+			}
+			finally
+			{
+				EventLog.WriteEntry(EventSource, this.Server.GetLastError().ToString(), EventLogEntryType.Error);
+			}
+	}
 
 		/// <summary>
 		/// Called when the application starts.
@@ -66,7 +82,12 @@ namespace OpenIZAdmin
 			// quartz initialization
 			QuartzConfig.Initialize();
 
-			Trace.TraceInformation("Application started");
+			if (!EventLog.SourceExists(EventSource))
+			{
+				EventLog.CreateEventSource(EventSource, "OpenIZAdminLog");
+			}
+
+			EventLog.WriteEntry(EventSource, "Application started", EventLogEntryType.Information);
 		}
 	}
 }

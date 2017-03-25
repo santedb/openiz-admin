@@ -252,7 +252,7 @@ namespace OpenIZAdmin.Controllers
 					{
 						TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
 
-						return RedirectToAction("Index");
+						return RedirectToAction("Index", "Concept");
 					}
 				}
 
@@ -267,7 +267,7 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
 
-			return RedirectToAction("Index");
+			return RedirectToAction("Index", "Concept");
 		}
 	}
 }

@@ -613,6 +613,7 @@
     <Content Include="Views\Shared\_ManufacturedMaterialsPartial.cshtml" />
     <Content Include="Views\Shared\_PoliciesPartial.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\_EditIdentifierTemplate.cshtml" />
+    <Content Include="Views\Certificate\RejectCertificateSigningRequest.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

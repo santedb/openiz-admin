@@ -64,8 +64,6 @@ namespace OpenIZAdmin.Services.Http
 				() => InternalConfiguration.GetServiceClientConfiguration().Clients.Find(x => x.Name == key))).Value)
 		{
 			this.endpointName = endpointName;
-			Trace.TraceInformation("Current Entity Source: {0}", EntitySource.Current.Provider.GetType().Name);
-
 			this.Requesting += (o, e) =>
 			{
 				EntitySource.Current = new EntitySource(new WebEntitySourceProvider(this.Credentials));
@@ -90,7 +88,6 @@ namespace OpenIZAdmin.Services.Http
 		/// <param name="configuration">The configuration instance.</param>
 		public RestClientService(IRestClientDescription configuration) : base(configuration)
 		{
-			Trace.TraceInformation("Current Entity Source: {0}", EntitySource.Current.Provider.GetType().Name);
 		}
 
 		/// <summary>
@@ -265,7 +262,7 @@ namespace OpenIZAdmin.Services.Http
 						var validationResult = this.ValidateResponse(response);
 						if (validationResult != ServiceClientErrorType.Valid)
 						{
-							Trace.TraceError("Response failed validation : {0}", validationResult);
+							EventLog.WriteEntry(MvcApplication.EventSource, $"Response failed validation {validationResult}", EventLogEntryType.Error);
 							throw new WebException("Response validation failed", null, WebExceptionStatus.Success, response);
 						}
 
@@ -291,8 +288,6 @@ namespace OpenIZAdmin.Services.Http
 							serializer = this.Description.Binding.ContentTypeMapper.GetSerializer(responseContentType, typeof(TResult));
 
 							TResult retVal = default(TResult);
-
-							Trace.TraceInformation("Deserializing type: {0}", typeof(TResult).Name);
 
 							// Compression?
 							switch (response.Headers[HttpResponseHeader.ContentEncoding])
@@ -321,12 +316,11 @@ namespace OpenIZAdmin.Services.Http
 				}
 				catch (TimeoutException e)
 				{
-					Trace.TraceError("Request timed out:{0}", e);
-					throw;
+					EventLog.WriteEntry(MvcApplication.EventSource, $"Request timed out { e }", EventLogEntryType.Error);
 				}
 				catch (WebException e)
 				{
-					Trace.TraceError(e.ToString());
+					EventLog.WriteEntry(MvcApplication.EventSource, $"Web exception { e }", EventLogEntryType.Error);
 
 					// status
 					switch (e.Status)
@@ -359,7 +353,7 @@ namespace OpenIZAdmin.Services.Http
 							}
 							catch (Exception dse)
 							{
-								Trace.TraceError("Could not de-serialize error response! {0}", dse);
+								EventLog.WriteEntry(MvcApplication.EventSource, $"Could not de-serialize error response: { dse }", EventLogEntryType.Error);
 							}
 
 							switch (errorResponse.StatusCode)

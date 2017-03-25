@@ -54,8 +54,6 @@ namespace OpenIZAdmin.Scheduler
 				{
 					var client = this.GetServiceClient<ImsiServiceClient>(Constants.Imsi);
 
-					var loadedConcepts = new List<Concept>();
-
 					var concepts = new List<Concept>();
 
 					var offset = 0;

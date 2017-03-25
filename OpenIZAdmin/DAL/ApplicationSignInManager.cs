@@ -113,13 +113,9 @@ namespace OpenIZAdmin.DAL
 				{
 					var response = JObject.Parse(result.Content.ReadAsStringAsync().Result);
 
-					var accessToken = response.GetValue("access_token").ToString();
-#if DEBUG
-					Trace.TraceInformation($"Access token: {accessToken}");
-#endif
 					deviceIdentity = new DeviceIdentity(Guid.NewGuid(), realm.DeviceId, true)
 					{
-						AccessToken = accessToken
+						AccessToken = response.GetValue("access_token").ToString()
 					};
 				}
 			}
@@ -180,13 +176,7 @@ namespace OpenIZAdmin.DAL
 			var response = JObject.Parse(responseAsString);
 
 			var accessToken = response.GetValue("access_token").ToString();
-			var expiresIn = response.GetValue("expires_in").ToString();
 			var tokenType = response.GetValue("token_type").ToString();
-#if DEBUG
-			Trace.TraceInformation("Access token: {0}", accessToken);
-			Trace.TraceInformation("Expires in: {0}", expiresIn);
-			Trace.TraceInformation("Token type {0}", tokenType);
-#endif
 			var authenticationDictionary = new Dictionary<string, string>
 			{
 				{ "username", username },

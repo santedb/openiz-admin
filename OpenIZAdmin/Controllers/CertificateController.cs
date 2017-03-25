@@ -44,6 +44,7 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Accepts a certificate signing request.
 		/// </summary>
+		/// <param name="model">The model.</param>
 		/// <returns>Returns a view with the accepted certificate signing request.</returns>
 		[HttpPost]
 		[ActionName("AcceptCsr")]
@@ -71,6 +72,11 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
+		/// <summary>
+		/// Deletes the certificate.
+		/// </summary>
+		/// <param name="model">The model.</param>
+		/// <returns>ActionResult.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteCertificate(DeleteCertificateModel model)
@@ -159,12 +165,21 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+		/// <summary>
+		/// Submits the certificate signing request.
+		/// </summary>
+		/// <returns>ActionResult.</returns>
 		[HttpGet]
 		public ActionResult SubmitCertificateSigningRequest()
 		{
 			return View();
 		}
 
+		/// <summary>
+		/// Submits the certificate signing request.
+		/// </summary>
+		/// <param name="model">The model.</param>
+		/// <returns>ActionResult.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult SubmitCertificateSigningRequest(SubmitCertificateSigningRequestModel model)
@@ -173,11 +188,9 @@ namespace OpenIZAdmin.Controllers
 			{
 				var submissionRequest = model.ToSubmissionRequest();
 
-				SubmissionResult result = null;
-
 				try
 				{
-					result = this.AmiClient.SubmitCertificateSigningRequest(submissionRequest);
+					var result = this.AmiClient.SubmitCertificateSigningRequest(submissionRequest);
 
 					TempData["success"] = Locale.CertificateSigningRequestSuccessfullySubmitted;
 

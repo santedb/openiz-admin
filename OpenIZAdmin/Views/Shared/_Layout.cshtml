@@ -16,8 +16,8 @@
 </head>
 <body>
     <div class="navigation navbar navbar-fixed-top">
-        <div class="container-fluid navbar-inner">
-            <nav>
+        <div class="container-fluid">
+            <nav class="nav">
                 <a class="logo" href="/">
                     <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
                     OpenIZ Administration
@@ -32,8 +32,7 @@
                     <ul class="nav navbar-nav pull-right">
                         <li>
                             <a href="@Url.Action("Create", "Alert")">
-                                <span class="glyphicon glyphicon-plus">
-                                </span><span id="create-alert"></span>
+                                <span class="glyphicon glyphicon-plus"></span>
                             </a>
                         </li>
                         <li>
@@ -69,7 +68,7 @@
         <div class="row">
 
             <!-- Sidebar -->
-            <div class="col-sm-3 col-md-2 sidebar">
+            <div class="col-xs-2 sidebar">
 
                 <ul class="nav nav-sidebar">
                     <li><a href="@Url.Action("Index", "Home")"><span class="glyphicon glyphicon-home" aria-hidden="true"></span> @Locale.Dashboard</a></li>
@@ -92,13 +91,13 @@
                 </ul>
             </div>
 
-            <div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
+            <div class="content col-md-10 col-md-offset-2 row">
                 @RenderBody()
             </div>
 
 
         </div>
-        <div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main row">
+        <div class="content col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 row">
             <hr />
             <footer>
                 <p>&copy; @DateTime.Now.Year - OpenIZ Administration</p>
@@ -126,6 +125,13 @@
 
     @RenderSection("scripts", required: false)
     <script type="text/javascript">
+
+        window.onload = function()
+        {
+            newAlerts();
+        };
+
+        window.setInterval(newAlerts(), 2000);
 
         $("#language-change-dropdown").on('click', function (event)
         {
@@ -177,17 +183,12 @@
 
         $(document).ready(function ()
         {
-            newAlerts();
-
             $("#reset").on("click", function ()
             {
                 $("#SearchTerm").val('');
                 window.location.reload();
             });
-
         });
-
-        window.setInterval(newAlerts(), 5000);
 
         function newAlerts()
         {

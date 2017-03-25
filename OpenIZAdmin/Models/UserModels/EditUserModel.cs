@@ -79,6 +79,8 @@ namespace OpenIZAdmin.Models.UserModels
 				this.PhoneNumber = userEntity.Telecoms.FirstOrDefault()?.Value;
 				this.PhoneType = userEntity.Telecoms.FirstOrDefault()?.AddressUseKey?.ToString();
 			}
+
+			this.IsObsolete = securityUserInfo.User.ObsoletionTime != null;
 		}
 
 		/// <summary>
@@ -122,6 +124,11 @@ namespace OpenIZAdmin.Models.UserModels
 		/// </summary>
 		[Required]
 		public Guid Id { get; set; }
+
+		/// <summary>
+		/// Gets or sets whether the security entity is obsolete.
+		/// </summary>
+		public bool IsObsolete { get; set; }
 
 		/// <summary>
 		/// Gets or sets the phone number of the user.

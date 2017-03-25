@@ -5,12 +5,12 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@Locale.Users</span>            
-            <div class="pull-right">
-                <span class="text-primary h4">@Locale.New</span>
-                <a href="@Url.Action("Create", "User")" class="glyphicon glyphicon-plus-sign"></a>
-            </div>
-</div>
+        <span class="panel-title">@Locale.Users</span>
+        <div class="pull-right">
+            <span class="text-primary h4">@Locale.New</span>
+            <a href="@Url.Action("Create", "User")" class="glyphicon glyphicon-plus-sign"></a>
+        </div>
+    </div>
     <div class="panel panel-body">
         @if (Model.Any())
         {
@@ -30,7 +30,7 @@
                         <th>
                             @Html.DisplayNameFor(m => m.Roles)
                         </th>
-                        <th></th>                        
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -44,68 +44,40 @@
                                 @if (item.IsLockedOut)
                                 {
                                     <text>@Locale.Yes</text>
-                                }
+}
                                 else
                                 {
                                     <text>@Locale.No</text>
-                                }
+}
                             </td>
-                            <td>                                
+                            <td>
                                 @if (item.HasRoles)
                                 {
                                     <text>@Locale.Yes</text>
-                                }
+}
                                 else
                                 {
                                     <text>@Locale.No</text>
-                                }
+}
                             </td>
-                            <td class="col-md-4 centerButton">                                
-                                    <a class="btn btn-primary" href="/User/ViewUser/@item.Id">
-                                        @Locale.View
-                                        <span class="glyphicon glyphicon-eye-open"></span>
-                                    </a>                                    
-                                    <a class="btn btn-warning" href="/User/Edit/@item.Id">
-                                        @Locale.Edit
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </a>                                    
-                                    <a class="btn btn-danger" href="/User/ResetPassword/@item.Id">
-                                        @(Locale.Reset + " " + Locale.Password)
-                                        <span class="glyphicon glyphicon-alert"></span>
-                                    </a>                                    
-                                    @if (!item.IsObsolete)
-                                    {
-                                        using (Html.BeginForm("Delete", "User", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
-                                        {
-                                            @Html.AntiForgeryToken()
-
-                                            <button type="submit" class="formButton btn btn-danger">
-                                                @Locale.Deactivate
-                                                <span class="glyphicon glyphicon-remove"></span>
-                                            </button>
-                                        }
-                                    }
-                                    else
-                                    {
-                                        using (Html.BeginForm("Activate", "User", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
-                                        {
-                                            @Html.AntiForgeryToken()
-
-                                            <button type="submit" class="formButton btn btn-success">
-                                                @Locale.Activate
-                                                <span class="glyphicon glyphicon-upload"></span>
-                                            </button>
-                                        }
-                                    }                                
+                            <td class="col-md-4 centerButton">
+                                <a class="btn btn-primary" href="@Url.Action("ViewUser", "User", new { id = item.Id })">
+                                    @Locale.View
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                                <a class="btn btn-warning" href="@Url.Action("Edit", "User", new { id = item.Id })">
+                                    @Locale.Edit
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
                             </td>
-                    </tr>
-                    }
+                        </tr>
+}
                 </tbody>
             </table>
         }
         else
         {
-            <p>@(Locale.No  + " " + Locale.Users + " " + Locale.Found)</p>
+            <p>@(Locale.No + " " + Locale.Users + " " + Locale.Found)</p>
         }
 
 
