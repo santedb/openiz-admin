@@ -9,6 +9,9 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.ApplicationModels
 {
+	/// <summary>
+	/// Represents an edit application model.
+	/// </summary>
 	public class EditApplicationModel
 	{
 		/// <summary>

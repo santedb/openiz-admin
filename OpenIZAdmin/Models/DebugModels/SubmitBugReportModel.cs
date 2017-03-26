@@ -41,15 +41,36 @@ namespace OpenIZAdmin.Models.DebugModels
 		[StringLength(4000, ErrorMessageResourceName = "StepsToReproduceTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string BugDetails { get; set; }
 
+		/// <summary>
+		/// Gets or sets the identifier.
+		/// </summary>
+		/// <value>The identifier.</value>
 		[Required]
 		public Guid Id { get; set; }
 
+		/// <summary>
+		/// Gets or sets the reporter.
+		/// </summary>
+		/// <value>The reporter.</value>
 		public string Reporter { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="SubmitBugReportModel"/> is success.
+		/// </summary>
+		/// <value><c>true</c> if success; otherwise, <c>false</c>.</value>
 		public bool Success { get; set; }
 
+		/// <summary>
+		/// Gets or sets the transaction message.
+		/// </summary>
+		/// <value>The transaction message.</value>
 		public string TransactionMessage { get; set; }
 
+		/// <summary>
+		/// Converts a <see cref="SubmitBugReportModel"/> instance to a <see cref="DiagnosticReport"/> instance.
+		/// </summary>
+		/// <param name="submitter">The submitter.</param>
+		/// <returns>Returns a diagnostic report instance.</returns>
 		public DiagnosticReport ToDiagnosticReport(UserEntity submitter)
 		{
 			return new DiagnosticReport

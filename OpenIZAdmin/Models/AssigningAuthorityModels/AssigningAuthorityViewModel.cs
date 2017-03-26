@@ -25,7 +25,7 @@ using OpenIZAdmin.Localization;
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {
 	/// <summary>
-	/// Class AssigningAuthorityViewModel.
+	/// Represents an assigning authority view model.
 	/// </summary>
 	public class AssigningAuthorityViewModel
 	{

@@ -237,8 +237,6 @@ namespace OpenIZAdmin.Controllers
 			}
 		}
 
-		//
-		// POST: /Account/LogOff
 		/// <summary>
 		/// Logs off the user.
 		/// </summary>
@@ -333,6 +331,12 @@ namespace OpenIZAdmin.Controllers
 
 					this.AmiClient.UpdateUser(userId, securityUserInfo);
 					this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
+
+					var user = this.UserManager.FindById(userId.ToString());
+
+					user.Language = model.Language;
+
+					this.UserManager.Update(user);
 
 					TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;
 

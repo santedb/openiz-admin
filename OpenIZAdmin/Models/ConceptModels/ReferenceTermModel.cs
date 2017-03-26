@@ -21,16 +21,34 @@ using System;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
+	/// <summary>
+	/// Represents a reference term model.
+	/// </summary>
 	public class ReferenceTermModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ReferenceTermModel"/> class.
+		/// </summary>
 		public ReferenceTermModel()
 		{
 		}
 
+		/// <summary>
+		/// Gets or sets the identifier.
+		/// </summary>
+		/// <value>The identifier.</value>
 		public Guid Id { get; set; }
 
+		/// <summary>
+		/// Gets or sets the mnemonic.
+		/// </summary>
+		/// <value>The mnemonic.</value>
 		public string Mnemonic { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name.
+		/// </summary>
+		/// <value>The name.</value>
 		public string Name { get; set; }
 	}
 }

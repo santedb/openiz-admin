@@ -67,7 +67,7 @@ namespace OpenIZAdmin.Models.ApplicationModels
 
 
 		/// <summary>
-		/// Converts an <see cref="CreateApplicationModel"/> instance to a <see cref="SecurityApplicationInfo"/> instance.
+		/// Converts a <see cref="CreateApplicationModel"/> instance to a <see cref="SecurityApplicationInfo"/> instance.
 		/// </summary>
 		/// <returns>Returns a security application info instance.</returns>
 		public SecurityApplicationInfo ToSecurityApplication()

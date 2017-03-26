@@ -39,6 +39,10 @@ namespace OpenIZAdmin.Models.ConceptModels
 			this.ReferenceTerms = new List<ReferenceTermModel>();
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ConceptViewModel"/> class.
+		/// </summary>
+		/// <param name="concept">The concept.</param>
 		public ConceptViewModel(Concept concept) : this()
 		{
 			this.Class = concept.Class?.Name;
