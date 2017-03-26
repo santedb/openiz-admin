@@ -51,6 +51,10 @@ namespace OpenIZAdmin.Models.ConceptModels
 			this.ReferenceTerms = new List<ReferenceTermModel>();
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EditConceptModel"/> class.
+		/// </summary>
+		/// <param name="concept">The concept.</param>
 		public EditConceptModel(Concept concept) : this()
 		{
 			this.ConceptClass = concept.Class.Name;
@@ -72,27 +76,67 @@ namespace OpenIZAdmin.Models.ConceptModels
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the concept class.
+		/// </summary>
+		/// <value>The concept class.</value>
 		[Display(Name = "ConceptClass", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string ConceptClass { get; set; }
 
+		/// <summary>
+		/// Gets or sets the concept class list.
+		/// </summary>
+		/// <value>The concept class list.</value>
 		public List<SelectListItem> ConceptClassList { get; set; }
 
+		/// <summary>
+		/// Gets or sets the creation time.
+		/// </summary>
+		/// <value>The creation time.</value>
 		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
 		public DateTimeOffset CreationTime { get; set; }
 
+		/// <summary>
+		/// Gets or sets the identifier.
+		/// </summary>
+		/// <value>The identifier.</value>
 		public Guid Id { get; set; }
 
+		/// <summary>
+		/// Gets or sets the language list.
+		/// </summary>
+		/// <value>The language list.</value>
 		public List<SelectListItem> LanguageList { get; set; }
 
+		/// <summary>
+		/// Gets or sets the languages.
+		/// </summary>
+		/// <value>The languages.</value>
 		public List<string> Languages { get; set; }
 
+		/// <summary>
+		/// Gets or sets the mnemonic.
+		/// </summary>
+		/// <value>The mnemonic.</value>
 		public string Mnemonic { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name.
+		/// </summary>
+		/// <value>The name.</value>
 		public List<string> Name { get; set; }
 
+		/// <summary>
+		/// Gets or sets the reference terms.
+		/// </summary>
+		/// <value>The reference terms.</value>
 		public List<ReferenceTermModel> ReferenceTerms { get; set; }
 
+		/// <summary>
+		/// Gets or sets the selected language.
+		/// </summary>
+		/// <value>The selected language.</value>
 		[Display(Name = "Language", ResourceType = typeof(Locale))]
 		public string SelectedLanguage { get; set; }
 	}

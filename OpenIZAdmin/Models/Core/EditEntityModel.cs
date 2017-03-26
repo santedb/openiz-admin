@@ -37,7 +37,7 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		protected EditEntityModel()
 		{
-			this.Identifiers = new List<EntityIdentifierEditModel>();
+			this.Identifiers = new List<EntityIdentifierModel>();
 			this.TypeList = new List<SelectListItem>();
 		}
 
@@ -49,7 +49,7 @@ namespace OpenIZAdmin.Models.Core
 		protected EditEntityModel(Entity entity) : this()
 		{
 			this.Id = entity.Key.Value;
-			this.Identifiers = entity.Identifiers.Select(i => new EntityIdentifierEditModel(i)).OrderBy(i => i.Name).ToList();
+			this.Identifiers = entity.Identifiers.Select(i => new EntityIdentifierModel(i, entity.Key.Value, entity.Type)).OrderBy(i => i.Name).ToList();
 			this.TypeList = entity.Identifiers.Select(i => new SelectListItem { Text = i.Authority.Name, Value = i.AuthorityKey?.ToString() }).ToList();
 		}
 
@@ -63,7 +63,7 @@ namespace OpenIZAdmin.Models.Core
 		/// Gets or sets the identifiers.
 		/// </summary>
 		/// <value>The identifiers.</value>
-		public List<EntityIdentifierEditModel> Identifiers { get; set; }
+		public List<EntityIdentifierModel> Identifiers { get; set; }
 
 		/// <summary>
 		/// Gets or sets the type list.

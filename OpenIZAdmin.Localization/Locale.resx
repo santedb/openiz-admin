@@ -1176,4 +1176,19 @@
   <data name="ValueCannotBeNull" xml:space="preserve">
     <value>Value cannot be null</value>
   </data>
+  <data name="Identifier" xml:space="preserve">
+    <value>Identifier</value>
+  </data>
+  <data name="Entity" xml:space="preserve">
+    <value>Entity</value>
+  </data>
+  <data name="TypeRequired" xml:space="preserve">
+    <value>Please select a type</value>
+  </data>
+  <data name="ValueRequired" xml:space="preserve">
+    <value>Please enter a value</value>
+  </data>
+  <data name="IdentifierFormatInvalid" xml:space="preserve">
+    <value>The identifier format is not valid</value>
+  </data>
 </root>

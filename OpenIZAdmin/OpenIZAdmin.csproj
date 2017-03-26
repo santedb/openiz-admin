@@ -84,8 +84,8 @@
       <HintPath>..\packages\Microsoft.IdentityModel.Tokens.5.1.3\lib\net451\Microsoft.IdentityModel.Tokens.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="OpenIZ.Core.Alert, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -276,7 +276,7 @@
     <Compile Include="Models\Core\EntityViewModel.cs" />
     <Compile Include="Models\Core\SecurityViewModel.cs" />
     <Compile Include="Models\DebugModels\SubmitBugReportModel.cs" />
-    <Compile Include="Models\EntityIdentifierModels\EntityIdentifierEditModel.cs" />
+    <Compile Include="Models\EntityIdentifierModels\EntityIdentifierModel.cs" />
     <Compile Include="Models\EntityIdentifierModels\EntityIdentifierViewModel.cs" />
     <Compile Include="Models\FacilityModel.cs" />
     <Compile Include="Models\ManufacturedMaterialModels\ManufacturedMaterialViewModel.cs" />
@@ -612,8 +612,10 @@
     <Content Include="Views\Shared\_IdentifiersPartial.cshtml" />
     <Content Include="Views\Shared\_ManufacturedMaterialsPartial.cshtml" />
     <Content Include="Views\Shared\_PoliciesPartial.cshtml" />
-    <Content Include="Views\Shared\EditorTemplates\_EditIdentifierTemplate.cshtml" />
+    <Content Include="Views\EntityIdentifier\Create.cshtml" />
     <Content Include="Views\Certificate\RejectCertificateSigningRequest.cshtml" />
+    <Content Include="Views\Shared\_ManageIdentifiersPartial.cshtml" />
+    <Content Include="Views\EntityIdentifier\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

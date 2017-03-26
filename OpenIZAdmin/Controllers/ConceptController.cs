@@ -138,6 +138,11 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
+		/// <summary>
+		/// Edits the specified concept.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>ActionResult.</returns>
 		[HttpGet]
 		public ActionResult Edit(Guid id)
 		{

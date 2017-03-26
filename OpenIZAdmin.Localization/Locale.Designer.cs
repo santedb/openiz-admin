@@ -880,6 +880,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entity.
+        /// </summary>
+        public static string Entity {
+            get {
+                return ResourceManager.GetString("Entity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error.
         /// </summary>
         public static string Error {
@@ -1128,6 +1137,24 @@ namespace OpenIZAdmin.Localization {
         public static string Id {
             get {
                 return ResourceManager.GetString("Id", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Identifier.
+        /// </summary>
+        public static string Identifier {
+            get {
+                return ResourceManager.GetString("Identifier", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The identifier format is not valid.
+        /// </summary>
+        public static string IdentifierFormatInvalid {
+            get {
+                return ResourceManager.GetString("IdentifierFormatInvalid", resourceCulture);
             }
         }
         
@@ -2806,6 +2833,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select a type.
+        /// </summary>
+        public static string TypeRequired {
+            get {
+                return ResourceManager.GetString("TypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to accept certificate signing request.
         /// </summary>
         public static string UnableToAcceptCertificateSigningRequest {
@@ -3189,6 +3225,15 @@ namespace OpenIZAdmin.Localization {
         public static string ValueCannotBeNull {
             get {
                 return ResourceManager.GetString("ValueCannotBeNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a value.
+        /// </summary>
+        public static string ValueRequired {
+            get {
+                return ResourceManager.GetString("ValueRequired", resourceCulture);
             }
         }
         

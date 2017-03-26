@@ -62,6 +62,10 @@ namespace OpenIZAdmin.Models.AccountModels
 		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Password { get; set; }
 
+		/// <summary>
+		/// Gets or sets the username.
+		/// </summary>
+		/// <value>The username.</value>
 		public string Username { get; set; }
 	}
 }

@@ -19,6 +19,9 @@
 
 namespace OpenIZAdmin.Models.CertificateModels
 {
+	/// <summary>
+	/// Represents a certificate revocation list view model.
+	/// </summary>
 	public class CertificateRevocationListViewModel
 	{
 	}

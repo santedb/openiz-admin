@@ -44,6 +44,11 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
+		/// <summary>
+		/// Adds the specified model.
+		/// </summary>
+		/// <param name="model">The model.</param>
+		/// <returns>ActionResult.</returns>
 		[HttpPost]
 		public ActionResult Add(EditConceptSetModel model)
 		{

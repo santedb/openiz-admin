@@ -221,6 +221,10 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+		/// <summary>
+		/// Displays the index view.
+		/// </summary>
+		/// <returns>ActionResult.</returns>
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Place";

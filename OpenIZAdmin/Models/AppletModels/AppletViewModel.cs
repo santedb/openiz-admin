@@ -37,6 +37,10 @@ namespace OpenIZAdmin.Models.AppletModels
 			this.Assets = new List<AppletViewAssetModel>();
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AppletViewModel"/> class.
+		/// </summary>
+		/// <param name="appletManifestInfo">The applet manifest information.</param>
 		public AppletViewModel(AppletManifestInfo appletManifestInfo) : this()
 		{
 			this.Author = appletManifestInfo.AppletManifest.Info.Author;

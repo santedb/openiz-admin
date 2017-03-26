@@ -61,10 +61,15 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		public List<Guid> Policies { get; set; }
 
 		/// <summary>
-		/// Gets or sets a list of policies assocated with the application.
+		/// Gets or sets a list of policies associated with the application.
 		/// </summary>
 		public List<SelectListItem> PolicyList { get; set; }
 
+
+		/// <summary>
+		/// Converts an <see cref="CreateApplicationModel"/> instance to a <see cref="SecurityApplicationInfo"/> instance.
+		/// </summary>
+		/// <returns>Returns a security application info instance.</returns>
 		public SecurityApplicationInfo ToSecurityApplication()
 		{
 			var securityApplicationId = Guid.NewGuid();

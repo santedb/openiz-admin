@@ -21,8 +21,14 @@ using System.Collections.Generic;
 
 namespace OpenIZAdmin.Models.CertificateModels
 {
+	/// <summary>
+	/// Represents a certificate index view model.
+	/// </summary>
 	public class CertificateIndexViewModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CertificateIndexViewModel"/> class.
+		/// </summary>
 		public CertificateIndexViewModel()
 		{
 			this.CertificateRevocations = new List<CertificateRevocationListViewModel>();

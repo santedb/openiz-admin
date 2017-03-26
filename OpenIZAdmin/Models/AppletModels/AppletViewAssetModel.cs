@@ -35,6 +35,10 @@ namespace OpenIZAdmin.Models.AppletModels
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AppletViewAssetModel"/> class.
+		/// </summary>
+		/// <param name="appletAsset">The applet asset.</param>
 		public AppletViewAssetModel(AppletAsset appletAsset)
 		{
 			this.Manifest = appletAsset.Manifest;

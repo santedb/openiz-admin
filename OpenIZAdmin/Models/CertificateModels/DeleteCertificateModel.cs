@@ -21,12 +21,22 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.CertificateModels
 {
+	/// <summary>
+	/// Class DeleteCertificateModel.
+	/// </summary>
 	public class DeleteCertificateModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="DeleteCertificateModel"/> class.
+		/// </summary>
 		public DeleteCertificateModel()
 		{
 		}
 
+		/// <summary>
+		/// Gets or sets the certificate identifier.
+		/// </summary>
+		/// <value>The certificate identifier.</value>
 		[Required]
 		public string CertificateId { get; set; }
 	}

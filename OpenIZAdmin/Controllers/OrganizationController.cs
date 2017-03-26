@@ -152,15 +152,6 @@ namespace OpenIZAdmin.Controllers
 					IndustryConcepts = industryConceptSet?.Concepts.ToSelectList().ToList()
 				};
 
-				//var assigningAuthorities = this.AmiClient.GetAssigningAuthorities(a => a.ObsoletionTime == null).CollectionItem;
-
-				//var entityRelationshipConceptSet = this.ImsiClient.Get<ConceptSet>(ConceptSetKeys.EntityRelationshipType, null) as ConceptSet;
-
-				//if (entityRelationshipConceptSet != null)
-				//{
-				//	model.TypeList.AddRange(entityRelationshipConceptSet.Concepts.ToSelectList());
-				//}
-
 				return View(model);
 			}
 			catch (Exception e)

@@ -36,20 +36,40 @@ namespace OpenIZAdmin.Models.RealmModels
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RealmViewModel"/> class.
+		/// </summary>
+		/// <param name="realm">The realm.</param>
 		public RealmViewModel(Realm realm)
 		{
 			this.Map(realm);
 		}
 
+		/// <summary>
+		/// Gets or sets the address.
+		/// </summary>
+		/// <value>The address.</value>
 		[Display(Name = "Address", ResourceType = typeof(Locale))]
 		public string Address { get; set; }
 
+		/// <summary>
+		/// Gets or sets the application identifier.
+		/// </summary>
+		/// <value>The application identifier.</value>
 		[Display(Name = "Application Id")]
 		public string ApplicationId { get; set; }
 
+		/// <summary>
+		/// Gets or sets the creation time.
+		/// </summary>
+		/// <value>The creation time.</value>
 		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
 		public DateTime CreationTime { get; set; }
 
+		/// <summary>
+		/// Gets or sets the identifier.
+		/// </summary>
+		/// <value>The identifier.</value>
 		public Guid Id { get; set; }
 	}
 }

@@ -21,15 +21,29 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.CertificateModels
 {
+	/// <summary>
+	/// Represents a reject certificate signing request model.
+	/// </summary>
 	public class RejectCertificateSigningRequestModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="RejectCertificateSigningRequestModel"/> class.
+		/// </summary>
 		public RejectCertificateSigningRequestModel()
 		{
 		}
 
+		/// <summary>
+		/// Gets or sets the certificate identifier.
+		/// </summary>
+		/// <value>The certificate identifier.</value>
 		[Required]
 		public string CertificateId { get; set; }
 
+		/// <summary>
+		/// Gets or sets the revoke reason.
+		/// </summary>
+		/// <value>The revoke reason.</value>
 		[Required]
 		[Display(Name = "Revoke Reason")]
 		public RevokeReason RevokeReason { get; set; }

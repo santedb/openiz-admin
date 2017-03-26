@@ -3,13 +3,23 @@
     ViewBag.Title = Locale.Edit + " " + Locale.Organization;
 }
 
-@using (Html.BeginForm("Edit", "Organization", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <span class="panel-title">@(Locale.Edit + " " + Locale.Organization)</span>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@(Locale.Edit + " " + Locale.Organization)</span>
+        <div class="pull-right">
+            @using (Html.BeginForm("Delete", "Organization", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <button type="submit" class="formButton btn btn-danger">
+                    @Locale.Delete
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>}
         </div>
-        <div class="panel panel-body">
+    </div>
+    <div class="panel panel-body">
+        @using (Html.BeginForm("Edit", "Organization", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
 
             @Html.AntiForgeryToken()
             @Html.HiddenFor(m => m.Id)
@@ -36,88 +46,19 @@
                     <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
                 </div>
             </div>
+        }
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.Identifiers</span>
+        <div class="pull-right">
+            <a href="@Url.Action("Create", "EntityIdentifier", new {id = Model.Id, type = "Organization"})">
+                <span class="text-primary h4">@Locale.New</span>
+                <span class="glyphicon glyphicon-plus-sign"></span>
+            </a>
         </div>
     </div>
-
-    @*<div class="panel panel-default">
-        <div class="panel-heading">
-            <span class="panel-title">@(Locale.Edit + " " + Locale.Identifiers)</span>
-            <div class="pull-right">
-                <span class="text-primary h4">@Locale.New</span>
-                <button type="button" id="add-new-identifier" class="glyphicon glyphicon-plus-sign"></button>
-            </div>
-        </div>
-
-        <div class="panel panel-body">
-            @foreach (var identifier in Model.Identifiers)
-                            {
-                                @Html.EditorFor(m => identifier, "_EditIdentifierTemplate", identifier.Id)
-                }
-
-            <div id="identifiers">
-                @for (int i = 0; i < Model.Identifiers.Count; i++)
-                {
-                    <div class="edit-identifier-group" id="@Model.Identifiers[i].Id">
-                        @Html.HiddenFor(m => Model.Identifiers[i].Id)
-                        <div class="form-group">
-                            @Html.LabelFor(m => Model.Identifiers[i].Type, new { @class = "col-md-2 control-label" })
-                            <div class="col-md-2">
-                                @Html.DropDownListFor(m => Model.Identifiers[i].Type, Model.TypeList, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => Model.Identifiers[i].Type, "", new { @class = "text-danger" })
-                            </div>
-
-                            @Html.LabelFor(m => Model.Identifiers[i].Value, new { @class = "col-md-2 control-label" })
-                            <div class="col-md-4">
-                                @Html.TextBoxFor(m => Model.Identifiers[i].Value, new { @class = "form-control" })
-                                @Html.ValidationMessageFor(m => Model.Identifiers[i].Value, "", new { @class = "text-danger" })
-                            </div>
-
-                            <button type="button" class="btn btn-danger remove-identifier" data-id="@Model.Identifiers[i].Id">@Locale.Delete</button>
-                        </div>
-                    </div>
-}
-            </div>
-        </div>
-    </div>*@
-}
-
-@section Scripts
-{
-    <script type="text/javascript">
-        $(document).ready(function ()
-        {
-            $("#add-new-identifier").on("click", function (event)
-            {
-                event.preventDefault();
-
-                $.ajax('/EntityIdentifier/EditIdentifier',
-                {
-                    method: "GET",
-                    success: function (data)
-                    {
-                        $("#identifiers").append(data);
-                    },
-                    error: function (error)
-                    {
-                        console.log(error);
-                    }
-                });
-            });
-
-            $(".remove-identifier").on("click", function ()
-            {
-                $("#" + $(this).attr("data-id")).remove();
-                reindexForm();
-            });
-        });
-
-        function reindexForm()
-        {
-            $(".edit-identifier-group").each(function (index, value)
-            {
-                $(this).find('#Type').first().attr('name', 'Identifiers[' + (index) + '].Type');
-                $(this).find('#Value').first().attr('name', 'Identifiers[' + (index) + '].Value');
-            });
-        }
-    </script>
-}
+    @Html.Partial("_ManageIdentifiersPartial", Model.Identifiers)
+</div>

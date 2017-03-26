@@ -88,6 +88,10 @@ namespace OpenIZAdmin.Models.AlertModels
 		/// </summary>
 		public string To { get; set; }
 
+		/// <summary>
+		/// Converts an <see cref="AlertViewModel"/> instance to an <see cref="AlertMessageInfo"/> instance.
+		/// </summary>
+		/// <returns>Returns an alert message info instance.</returns>
 		public AlertMessageInfo ToAlertMessageInfo()
 		{
 			return new AlertMessageInfo

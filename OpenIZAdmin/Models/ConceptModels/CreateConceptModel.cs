@@ -25,36 +25,70 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
+	/// <summary>
+	/// Represents a create concept model.
+	/// </summary>
 	public class CreateConceptModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CreateConceptModel"/> class.
+		/// </summary>
 		public CreateConceptModel()
 		{
 			this.LanguageList = new List<SelectListItem>();
 			this.ConceptClassList = new List<SelectListItem>();
 		}
 
+		/// <summary>
+		/// Gets or sets the concept class.
+		/// </summary>
+		/// <value>The concept class.</value>
 		[Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string ConceptClass { get; set; }
 
+		/// <summary>
+		/// Gets or sets the concept class list.
+		/// </summary>
+		/// <value>The concept class list.</value>
 		public List<SelectListItem> ConceptClassList { get; set; }
 
+		/// <summary>
+		/// Gets or sets the language.
+		/// </summary>
+		/// <value>The language.</value>
 		[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Language { get; set; }
 
+		/// <summary>
+		/// Gets or sets the language list.
+		/// </summary>
+		/// <value>The language list.</value>
 		public List<SelectListItem> LanguageList { get; set; }
 
+		/// <summary>
+		/// Gets or sets the mnemonic.
+		/// </summary>
+		/// <value>The mnemonic.</value>
 		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "MnemonicTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Mnemonic { get; set; }
 
+		/// <summary>
+		/// Gets or sets the name.
+		/// </summary>
+		/// <value>The name.</value>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Converts an <see cref="CreateConceptModel"/> instance to a <see cref="Concept"/> instance.
+		/// </summary>
+		/// <returns>Returns a concept instance.</returns>
 		public Concept ToConcept()
 		{
 			return new Concept

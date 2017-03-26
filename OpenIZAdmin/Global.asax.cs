@@ -80,7 +80,7 @@ namespace OpenIZAdmin
 			RealmConfig.Initialize();
 
 			// quartz initialization
-			QuartzConfig.Initialize();
+			//QuartzConfig.Initialize();
 
 			if (!EventLog.SourceExists(EventSource))
 			{
