@@ -19,6 +19,7 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Web;
@@ -37,6 +38,8 @@ namespace OpenIZAdmin
 		/// </summary>
 		public static void Initialize()
 		{
+			Trace.TraceInformation("Initializing Quartz configuration");
+
 			var scheduler = StdSchedulerFactory.GetDefaultScheduler();
 
 			scheduler.Start();
@@ -45,6 +48,8 @@ namespace OpenIZAdmin
 
 			foreach (var type in types)
 			{
+				Trace.TraceInformation($"Adding type: { type } to Quartz scheduler");
+
 				var jobDetail = JobBuilder.Create(type).Build();
 
 				var trigger = TriggerBuilder.Create().StartNow().WithSimpleSchedule(x => x.WithIntervalInMinutes(5).RepeatForever()).Build();

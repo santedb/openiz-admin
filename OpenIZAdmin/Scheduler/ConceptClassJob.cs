@@ -14,7 +14,7 @@
  * the License.
  * 
  * User: khannan
- * Date: 2017-3-13
+ * Date: 2017-3-25
  */
 using System;
 using System.Collections.Generic;
@@ -27,7 +27,6 @@ using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.DAL;
-using OpenIZAdmin.Logging;
 using Quartz;
 
 namespace OpenIZAdmin.Scheduler
@@ -35,7 +34,7 @@ namespace OpenIZAdmin.Scheduler
 	/// <summary>
 	/// Represents a concept scheduler job.
 	/// </summary>
-	public class ConceptJob : BaseJob, IJob
+	public class ConceptClassJob : BaseJob, IJob
 	{
 		/// <summary>
 		/// Called by the <see cref="T:Quartz.IScheduler" /> when a <see cref="T:Quartz.ITrigger" />
@@ -56,49 +55,48 @@ namespace OpenIZAdmin.Scheduler
 				{
 					var client = this.GetServiceClient<ImsiServiceClient>(Constants.Imsi);
 
-					var concepts = new List<Concept>();
-
 					var offset = 0;
 					var totalCount = 1;
 
 					while (offset < totalCount)
 					{
-						var bundle = client.Query<Concept>(c => c.ObsoletionTime == null, offset, 100, true);
+						var bundle = client.Query<Concept>(c => c.ClassKey == ConceptClassKeys.Form && c.ObsoletionTime == null, offset, 100, true);
 
-						if (bundle != null)
-						{
-							bundle.Reconstitute();
-
-							concepts.AddRange(bundle.Item.OfType<Concept>().Where(c => c.ObsoletionTime == null));
-							totalCount = bundle.TotalResults;
-						}
-						else
-						{
-							Trace.TraceError("Bundle is null");
-						}
+						bundle.Reconstitute();
 
 						offset += 100;
+						totalCount = bundle.TotalResults;
+
+						this.MemoryCache.Set(new CacheItem(ConceptClassKeys.Form.ToString(), bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.Form && c.ObsoletionTime == null)), new CacheItemPolicy { SlidingExpiration = new TimeSpan(0, 0, 5, 0), Priority = CacheItemPriority.Default });
 					}
 
-					for (var i = 0; i < concepts.SelectMany(c => c.ReferenceTerms).Count(r => r.ReferenceTerm == null && r.ReferenceTermKey.HasValue); i++)
+					while (offset < totalCount)
 					{
-						for (var j = 0; j < concepts[i].ReferenceTerms.Count(r => r.ReferenceTerm == null && r.ReferenceTermKey.HasValue); j++)
-						{
-							if (concepts[i].ReferenceTerms.Any())
-							{
-								concepts[i].ReferenceTerms[j].ReferenceTerm = client.Get<ReferenceTerm>(concepts[i].ReferenceTerms[j].ReferenceTermKey.Value, null) as ReferenceTerm;
-							}
-						}
+						var bundle = client.Query<Concept>(c => c.ClassKey == ConceptClassKeys.Material && c.ObsoletionTime == null, offset, 100, true);
+
+						bundle.Reconstitute();
+
+						offset += 100;
+						totalCount = bundle.TotalResults;
+
+						this.MemoryCache.Set(new CacheItem(ConceptClassKeys.Material.ToString(), bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.Material && c.ObsoletionTime == null)), new CacheItemPolicy { SlidingExpiration = new TimeSpan(0, 0, 5, 0), Priority = CacheItemPriority.Default });
 					}
 
-					foreach (var concept in concepts)
+					while (offset < totalCount)
 					{
-						this.MemoryCache.Set(new CacheItem(concept.Key?.ToString(), concept), new CacheItemPolicy { SlidingExpiration = new TimeSpan(0, 0, 5, 0), Priority = CacheItemPriority.Default });
+						var bundle = client.Query<Concept>(c => c.ClassKey == ConceptClassKeys.UnitOfMeasure && c.ObsoletionTime == null, offset, 100, true);
+
+						bundle.Reconstitute();
+
+						offset += 100;
+						totalCount = bundle.TotalResults;
+
+						this.MemoryCache.Set(new CacheItem(ConceptClassKeys.UnitOfMeasure.ToString(), bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.UnitOfMeasure && c.ObsoletionTime == null)), new CacheItemPolicy { SlidingExpiration = new TimeSpan(0, 0, 5, 0), Priority = CacheItemPriority.Default });
 					}
 				}
 				catch (Exception e)
 				{
-					Trace.TraceError($"Unable to retrieve concepts: { e }");
+					Trace.TraceError($"Unable to retrieve concepts for concept classes: { e }");
 				}
 			});
 		}

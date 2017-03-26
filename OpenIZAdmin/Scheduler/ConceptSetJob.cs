@@ -18,6 +18,7 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Threading;
@@ -74,9 +75,9 @@ namespace OpenIZAdmin.Scheduler
 						this.MemoryCache.Set(new CacheItem(conceptSet.Key?.ToString(), conceptSet), new CacheItemPolicy { SlidingExpiration = new TimeSpan(0, 0, 5, 0), Priority = CacheItemPriority.Default });
 					}
 				}
-				catch
+				catch (Exception e)
 				{
-					// ignored
+					Trace.TraceError($"Unable to retrieve concept sets: { e }");
 				}
 			});
 		}

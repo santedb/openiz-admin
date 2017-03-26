@@ -26,6 +26,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using OpenIZAdmin.Logging;
 
 namespace OpenIZAdmin
 {
@@ -61,7 +62,7 @@ namespace OpenIZAdmin
 			}
 			finally
 			{
-				EventLog.WriteEntry(EventSource, this.Server.GetLastError().ToString(), EventLogEntryType.Error);
+				Trace.TraceError($"Application error: { e }");
 			}
 	}
 
@@ -80,14 +81,9 @@ namespace OpenIZAdmin
 			RealmConfig.Initialize();
 
 			// quartz initialization
-			//QuartzConfig.Initialize();
+			QuartzConfig.Initialize();
 
-			if (!EventLog.SourceExists(EventSource))
-			{
-				EventLog.CreateEventSource(EventSource, "OpenIZAdminLog");
-			}
-
-			EventLog.WriteEntry(EventSource, "Application started", EventLogEntryType.Information);
+			Trace.TraceInformation("Application started");
 		}
 	}
 }

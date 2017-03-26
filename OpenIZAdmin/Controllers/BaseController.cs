@@ -54,12 +54,19 @@ namespace OpenIZAdmin.Controllers
 		protected ImsiServiceClient ImsiClient { get; private set; }
 
 		/// <summary>
+		/// Gets or sets the concept client.
+		/// </summary>
+		/// <value>The concept client.</value>
+		protected ConceptClient ConceptClient { get; set; }
+
+		/// <summary>
 		/// Dispose of any managed resources.
 		/// </summary>
 		/// <param name="disposing">Whether the current invocation is disposing.</param>
 		protected override void Dispose(bool disposing)
 		{
 			this.AmiClient?.Dispose();
+			this.ConceptClient?.Dispose();
 			this.ImsiClient?.Dispose();
 			base.Dispose(disposing);
 		}
@@ -108,6 +115,7 @@ namespace OpenIZAdmin.Controllers
 			};
 
 			this.ImsiClient = new ImsiServiceClient(imsiRestClient);
+			this.ConceptClient = new ConceptClient(imsiRestClient);
 
 			base.OnActionExecuting(filterContext);
 		}

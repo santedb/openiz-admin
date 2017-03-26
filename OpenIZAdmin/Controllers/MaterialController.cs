@@ -53,9 +53,9 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			var formConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null);
-			var quantityConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null);
-			var typeConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Material && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Material && m.ObsoletionTime == null);
+			var formConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.Form);
+			var quantityConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.UnitOfMeasure);
+			var typeConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.Material);
 
 			var model = new CreateMaterialModel
 			{
@@ -92,9 +92,9 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			var formConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null);
-			var quantityConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null);
-			var typeConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Material && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Material && m.ObsoletionTime == null);
+			var formConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.Form);
+			var quantityConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.UnitOfMeasure);
+			var typeConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.Material);
 
 			model.FormConcepts = formConcepts.ToSelectList().ToList();
 			model.QuantityConcepts = quantityConcepts.ToSelectList().ToList();
@@ -164,9 +164,9 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var formConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null);
-				var quantityConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null);
-				var typeConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Material && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Material && m.ObsoletionTime == null);
+				var formConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.Form);
+				var quantityConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.UnitOfMeasure);
+				var typeConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.Material);
 
 				var model = new EditMaterialModel(material)
 				{
@@ -224,12 +224,6 @@ namespace OpenIZAdmin.Controllers
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
-
-			//var formConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Form && m.ObsoletionTime == null).Item.OfType<Concept>();
-			//var quantityConcepts = this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.UnitOfMeasure && m.ObsoletionTime == null).Item.OfType<Concept>();
-
-			//model.FormConcepts = formConcepts.ToSelectList(c => c.Key == material.FormConceptKey).ToList();
-			//model.QuantityConcepts = quantityConcepts.ToSelectList(c => c.Key == material.QuantityConceptKey).ToList();
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Material;
 
@@ -296,17 +290,17 @@ namespace OpenIZAdmin.Controllers
 
 				if (material.FormConcept == null && material.FormConceptKey.HasValue && material.FormConceptKey != Guid.Empty)
 				{
-					material.FormConcept = this.ImsiClient.Get<Concept>(material.FormConceptKey.Value, null) as Concept;
+					material.FormConcept = this.ConceptClient.GetConcept(material.FormConceptKey.Value);
 				}
 
 				if (material.QuantityConcept == null && material.QuantityConceptKey.HasValue && material.QuantityConceptKey != Guid.Empty)
 				{
-					material.QuantityConcept = this.ImsiClient.Get<Concept>(material.QuantityConceptKey.Value, null) as Concept;
+					material.QuantityConcept = this.ConceptClient.GetConcept(material.QuantityConceptKey.Value);
 				}
 
 				if (material.TypeConcept == null && material.TypeConceptKey.HasValue && material.TypeConceptKey != Guid.Empty)
 				{
-					material.TypeConcept = this.ImsiClient.Get<Concept>(material.TypeConceptKey.Value, null) as Concept;
+					material.TypeConcept = this.ConceptClient.GetConcept(material.TypeConceptKey.Value);
 				}
 
 				for (var i = 0; i < material.Relationships.Count(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.TargetEntity == null && r.TargetEntityKey.HasValue); i++)

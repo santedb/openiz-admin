@@ -32,6 +32,7 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Logging;
 using OpenIZAdmin.Models.EntityIdentifierModels;
 using OpenIZAdmin.Models.OrganizationModels;
 
@@ -73,7 +74,7 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
-				EventLog.WriteEntry(MvcApplication.EventSource, $"Unable to retrieve entity : { e }", EventLogEntryType.Error);
+				Trace.TraceError($"Unable to retrieve entity: { e }");
 			}
 
 			return View(model);
@@ -138,7 +139,7 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
-				EventLog.WriteEntry(MvcApplication.EventSource, $"Unable to create entity identifier: { e }", EventLogEntryType.Error);
+				Trace.TraceError($"Unable to create entity identifier: { e }");
 			}
 
 			model.TypeList = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key").ToList(), identifiers);
@@ -173,7 +174,7 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
-				EventLog.WriteEntry(MvcApplication.EventSource, $"Unable to delete entity identifier: { e }", EventLogEntryType.Error);
+				Trace.TraceError($"Unable to delete entity identifier: { e }");
 			}
 
 			return RedirectToAction("View" + type, type, new { id = entityId });
@@ -219,7 +220,7 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
-				EventLog.WriteEntry(MvcApplication.EventSource, $"Unable to retrieve entity : { e }", EventLogEntryType.Error);
+				Trace.TraceError($"Unable to retrieve entity identifier: { e }");
 			}
 
 			return View(model);
@@ -283,7 +284,7 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
-				EventLog.WriteEntry(MvcApplication.EventSource, $"Unable to create entity identifier: { e }", EventLogEntryType.Error);
+				Trace.TraceError($"Unable to create entity identifier: { e }");
 			}
 
 			if (!string.IsNullOrEmpty(model.Type) && !string.IsNullOrWhiteSpace(model.Type))

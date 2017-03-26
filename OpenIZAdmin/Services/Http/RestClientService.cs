@@ -35,6 +35,7 @@ using System.Security.Cryptography.X509Certificates;
 using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Query;
 using System.Web;
+using OpenIZAdmin.Logging;
 using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin.Services.Http
@@ -141,10 +142,10 @@ namespace OpenIZAdmin.Services.Http
 		protected override TResult InvokeInternal<TBody, TResult>(string method, string url, string contentType, WebHeaderCollection requestHeaders, out WebHeaderCollection responseHeaders, TBody body, NameValueCollection query)
 		{
 
-			if (String.IsNullOrEmpty(method))
+			if (string.IsNullOrEmpty(method))
+			{
 				throw new ArgumentNullException(nameof(method));
-			//if (String.IsNullOrEmpty(url))
-			//    throw new ArgumentNullException(nameof(url));
+			}
 
 			// Three times:
 			// 1. With provided credential
@@ -262,7 +263,7 @@ namespace OpenIZAdmin.Services.Http
 						var validationResult = this.ValidateResponse(response);
 						if (validationResult != ServiceClientErrorType.Valid)
 						{
-							EventLog.WriteEntry(MvcApplication.EventSource, $"Response failed validation {validationResult}", EventLogEntryType.Error);
+							Trace.TraceError($"Response failed validation {validationResult}");
 							throw new WebException("Response validation failed", null, WebExceptionStatus.Success, response);
 						}
 
@@ -316,11 +317,11 @@ namespace OpenIZAdmin.Services.Http
 				}
 				catch (TimeoutException e)
 				{
-					EventLog.WriteEntry(MvcApplication.EventSource, $"Request timed out { e }", EventLogEntryType.Error);
+					Trace.TraceError($"Request timed out: { e }");
 				}
 				catch (WebException e)
 				{
-					EventLog.WriteEntry(MvcApplication.EventSource, $"Web exception { e }", EventLogEntryType.Error);
+					Trace.TraceError($"Web exception: { e }");
 
 					// status
 					switch (e.Status)
@@ -353,7 +354,7 @@ namespace OpenIZAdmin.Services.Http
 							}
 							catch (Exception dse)
 							{
-								EventLog.WriteEntry(MvcApplication.EventSource, $"Could not de-serialize error response: { dse }", EventLogEntryType.Error);
+								Trace.TraceError($"Could not de-serialize error response: { dse }", TraceEventType.Error);
 							}
 
 							switch (errorResponse.StatusCode)
