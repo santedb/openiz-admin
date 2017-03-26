@@ -20,13 +20,11 @@
 using Elmah;
 using System;
 using System.Diagnostics;
-using System.Diagnostics.Tracing;
 using System.Runtime.Caching;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using OpenIZAdmin.Logging;
 
 namespace OpenIZAdmin
 {
@@ -36,14 +34,14 @@ namespace OpenIZAdmin
 	public class MvcApplication : System.Web.HttpApplication
 	{
 		/// <summary>
-		/// The event source for the application.
-		/// </summary>
-		public const string EventSource = "OpenIZAdmin";
-
-		/// <summary>
 		/// The memory cache for the application.
 		/// </summary>
 		public static readonly MemoryCache MemoryCache = MemoryCache.Default;
+
+		/// <summary>
+		/// The cache item policy.
+		/// </summary>
+		public static readonly CacheItemPolicy CacheItemPolicy = new CacheItemPolicy { SlidingExpiration = new TimeSpan(0, 0, 10, 0), Priority = CacheItemPriority.Default };
 
 		/// <summary>
 		/// Called when the application encounters an unexpected error.
@@ -64,12 +62,14 @@ namespace OpenIZAdmin
 			{
 				Trace.TraceError($"Application error: { e }");
 			}
-	}
+		}
 
 		/// <summary>
 		/// Called when the application starts.
 		/// </summary>
-		protected void Application_Start()
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+		protected void Application_Start(object sender, EventArgs e)
 		{
 			AreaRegistration.RegisterAllAreas();
 

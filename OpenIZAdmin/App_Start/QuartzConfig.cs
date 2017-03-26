@@ -52,7 +52,7 @@ namespace OpenIZAdmin
 
 				var jobDetail = JobBuilder.Create(type).Build();
 
-				var trigger = TriggerBuilder.Create().StartNow().WithSimpleSchedule(x => x.WithIntervalInMinutes(5).RepeatForever()).Build();
+				var trigger = TriggerBuilder.Create().StartNow().WithSimpleSchedule(x => x.WithIntervalInMinutes(10).RepeatForever()).Build();
 
 				scheduler.ScheduleJob(jobDetail, trigger);
 			}

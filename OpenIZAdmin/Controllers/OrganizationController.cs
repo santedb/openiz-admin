@@ -52,7 +52,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			var industryConceptSet = this.ImsiClient.Get<ConceptSet>(ConceptSetKeys.IndustryCode, null) as ConceptSet;
+			var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
 
 			var model = new CreateOrganizationModel
 			{
@@ -87,7 +87,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			var industryConceptSet = this.ImsiClient.Get<ConceptSet>(ConceptSetKeys.IndustryCode, null) as ConceptSet;
+			var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
 
 			model.IndustryConcepts = industryConceptSet.Concepts.ToSelectList(c => c.Key == Guid.Parse(model.IndustryConcept)).ToList();
 
@@ -145,7 +145,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var industryConceptSet = this.ImsiClient.Get<ConceptSet>(ConceptSetKeys.IndustryCode, null) as ConceptSet;
+				var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
 
 				var model = new EditOrganizationModel(organization)
 				{
@@ -197,7 +197,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			var industryConceptSet = this.ImsiClient.Get<ConceptSet>(ConceptSetKeys.IndustryCode, null) as ConceptSet;
+			var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
 
 			model.IndustryConcepts = industryConceptSet?.Concepts.ToSelectList().ToList();
 

@@ -110,8 +110,7 @@ namespace OpenIZAdmin.Services.Entity
 		{
 			var response = default(TObject);
 
-			if (!typeof(Bundle).GetTypeInfo().GetCustomAttributes<XmlIncludeAttribute>().Select(x => x.Type).Contains(typeof(TObject)) ||
-				typeof(TObject) == typeof(PhoneticAlgorithm) || typeof(TObject) == typeof(UserEntity))
+			if (!typeof(Bundle).GetTypeInfo().GetCustomAttributes<XmlIncludeAttribute>().Select(x => x.Type).Contains(typeof(TObject)) || typeof(TObject) == typeof(PhoneticAlgorithm))
 			{
 				return null;
 			}

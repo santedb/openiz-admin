@@ -72,7 +72,7 @@ namespace OpenIZAdmin.Scheduler
 
 					foreach (var conceptSet in conceptSets)
 					{
-						this.MemoryCache.Set(new CacheItem(conceptSet.Key?.ToString(), conceptSet), new CacheItemPolicy { SlidingExpiration = new TimeSpan(0, 0, 5, 0), Priority = CacheItemPriority.Default });
+						this.MemoryCache.Set(new CacheItem(conceptSet.Key?.ToString(), conceptSet), MvcApplication.CacheItemPolicy);
 					}
 				}
 				catch (Exception e)

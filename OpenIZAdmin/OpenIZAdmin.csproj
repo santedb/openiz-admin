@@ -344,12 +344,10 @@
     <Compile Include="Models\DebugModels\VersionViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scheduler\BaseJob.cs" />
-    <Compile Include="Scheduler\ConceptClassJob.cs" />
     <Compile Include="Scheduler\ConceptJob.cs" />
     <Compile Include="Scheduler\ConceptSetJob.cs" />
     <Compile Include="Security\DeviceIdentity.cs" />
     <Compile Include="Services\Entity\WebEntitySourceProvider.cs" />
-    <Compile Include="Services\Http\ConceptClient.cs" />
     <Compile Include="Services\Http\Configuration\ServiceClientConfigurationSection.cs" />
     <Compile Include="Services\Http\RestClientService.cs" />
     <Compile Include="Services\Http\Security\AmiCredentials.cs" />

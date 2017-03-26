@@ -17,6 +17,10 @@
  * Date: 2016-11-19
  */
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.Caching;
 using System.Security.Principal;
 using System.Web;
 using OpenIZ.Messaging.AMI.Client;
@@ -26,6 +30,8 @@ using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
 using System.Web.Mvc;
 using OpenIZAdmin.DAL;
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.DataTypes;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -54,19 +60,12 @@ namespace OpenIZAdmin.Controllers
 		protected ImsiServiceClient ImsiClient { get; private set; }
 
 		/// <summary>
-		/// Gets or sets the concept client.
-		/// </summary>
-		/// <value>The concept client.</value>
-		protected ConceptClient ConceptClient { get; set; }
-
-		/// <summary>
 		/// Dispose of any managed resources.
 		/// </summary>
 		/// <param name="disposing">Whether the current invocation is disposing.</param>
 		protected override void Dispose(bool disposing)
 		{
 			this.AmiClient?.Dispose();
-			this.ConceptClient?.Dispose();
 			this.ImsiClient?.Dispose();
 			base.Dispose(disposing);
 		}
@@ -95,6 +94,167 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Gets the form concept.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Concept.</returns>
+		protected Concept GetConcept(Guid key)
+		{
+			var concept = MvcApplication.MemoryCache.Get(key.ToString()) as Concept;
+
+			if (concept == null)
+			{
+				var bundle = this.ImsiClient.Query<Concept>(c => c.Key == key && c.ObsoletionTime == null);
+
+				bundle.Reconstitute();
+
+				concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == key && c.ObsoletionTime == null);
+
+				if (concept != null)
+				{
+					MvcApplication.MemoryCache.Set(new CacheItem(concept.Key?.ToString(), concept), MvcApplication.CacheItemPolicy);
+				}
+			}
+
+			return concept;
+		}
+
+		/// <summary>
+		/// Gets the concept.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Concept.</returns>
+		protected Concept GetConcept(Guid? key)
+		{
+			Concept concept = null;
+
+			if (key.HasValue && key.Value != Guid.Empty)
+			{
+				concept = this.GetConcept(key.Value);
+			}
+
+			return concept;
+		}
+
+		/// <summary>
+		/// Gets the concept set.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>ConceptSet.</returns>
+		protected ConceptSet GetConceptSet(Guid key)
+		{
+			var conceptSet = MvcApplication.MemoryCache.Get(key.ToString()) as ConceptSet;
+
+			if (conceptSet == null)
+			{
+				var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == key && c.ObsoletionTime == null);
+
+				bundle.Reconstitute();
+
+				conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == key && c.ObsoletionTime == null);
+
+				if (conceptSet != null)
+				{
+					MvcApplication.MemoryCache.Set(new CacheItem(key.ToString(), conceptSet), MvcApplication.CacheItemPolicy);
+				}
+			}
+
+			return conceptSet;
+		}
+
+		/// <summary>
+		/// Gets the concept set.
+		/// </summary>
+		/// <param name="mnemonic">The mnemonic.</param>
+		/// <returns>ConceptSet.</returns>
+		protected ConceptSet GetConceptSet(string mnemonic)
+		{
+			var conceptSet = MvcApplication.MemoryCache.Get(mnemonic) as ConceptSet;
+
+			if (conceptSet == null)
+			{
+				var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
+
+				bundle.Reconstitute();
+
+				conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
+
+				if (conceptSet != null)
+				{
+					MvcApplication.MemoryCache.Set(new CacheItem(conceptSet.Key.ToString(), conceptSet), MvcApplication.CacheItemPolicy);
+				}
+			}
+
+			return conceptSet;
+		}
+
+		/// <summary>
+		/// Gets the form concepts.
+		/// </summary>
+		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
+		protected IEnumerable<Concept> GetFormConcepts()
+		{
+			var concepts = MvcApplication.MemoryCache.Get(ConceptClassKeys.Form.ToString());
+
+			if (concepts == null)
+			{
+				var bundle = this.ImsiClient.Query<Concept>(c => c.ClassKey == ConceptClassKeys.Form && c.ObsoletionTime == null);
+
+				bundle.Reconstitute();
+
+				concepts = bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.Form && c.ObsoletionTime == null);
+
+				MvcApplication.MemoryCache.Set(new CacheItem(ConceptClassKeys.Form.ToString(), concepts), MvcApplication.CacheItemPolicy);
+			}
+
+			return concepts as IEnumerable<Concept>;
+		}
+
+		/// <summary>
+		/// Gets the quantity concepts.
+		/// </summary>
+		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
+		protected IEnumerable<Concept> GetQuantityConcepts()
+		{
+			var concepts = MvcApplication.MemoryCache.Get(ConceptClassKeys.UnitOfMeasure.ToString()) as IEnumerable<Concept>;
+
+			if (concepts == null)
+			{
+				var bundle = this.ImsiClient.Query<Concept>(c => c.ClassKey == ConceptClassKeys.UnitOfMeasure && c.ObsoletionTime == null);
+
+				bundle.Reconstitute();
+
+				concepts = bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.UnitOfMeasure && c.ObsoletionTime == null);
+
+				MvcApplication.MemoryCache.Set(new CacheItem(ConceptClassKeys.UnitOfMeasure.ToString(), concepts.ToList()), MvcApplication.CacheItemPolicy);
+			}
+
+			return concepts;
+		}
+
+		/// <summary>
+		/// Gets the type concepts.
+		/// </summary>
+		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
+		protected IEnumerable<Concept> GetTypeConcepts()
+		{
+			var concepts = MvcApplication.MemoryCache.Get(ConceptClassKeys.Material.ToString()) as IEnumerable<Concept>;
+
+			if (concepts == null)
+			{
+				var bundle = this.ImsiClient.Query<Concept>(c => c.ClassKey == ConceptClassKeys.Material && c.ObsoletionTime == null);
+
+				bundle.Reconstitute();
+
+				concepts = bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.Material && c.ObsoletionTime == null);
+
+				MvcApplication.MemoryCache.Set(new CacheItem(ConceptClassKeys.Material.ToString(), concepts.ToList()), MvcApplication.CacheItemPolicy);
+			}
+
+			return concepts;
+		}
+
+		/// <summary>
 		/// Called when the action is executing.
 		/// </summary>
 		/// <param name="filterContext">The filter context of the action executing.</param>
@@ -115,7 +275,6 @@ namespace OpenIZAdmin.Controllers
 			};
 
 			this.ImsiClient = new ImsiServiceClient(imsiRestClient);
-			this.ConceptClient = new ConceptClient(imsiRestClient);
 
 			base.OnActionExecuting(filterContext);
 		}

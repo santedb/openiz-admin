@@ -28,6 +28,7 @@ using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Caching;
 using System.Web.Mvc;
 using OpenIZAdmin.Extensions;
 
@@ -53,9 +54,9 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			var formConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.Form);
-			var quantityConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.UnitOfMeasure);
-			var typeConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.Material);
+			var formConcepts = this.GetFormConcepts();
+			var quantityConcepts = this.GetQuantityConcepts();
+			var typeConcepts = this.GetTypeConcepts();
 
 			var model = new CreateMaterialModel
 			{
@@ -92,9 +93,9 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			var formConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.Form);
-			var quantityConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.UnitOfMeasure);
-			var typeConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.Material);
+			var formConcepts = this.GetFormConcepts();
+			var quantityConcepts = this.GetQuantityConcepts();
+			var typeConcepts = this.GetTypeConcepts();
 
 			model.FormConcepts = formConcepts.ToSelectList().ToList();
 			model.QuantityConcepts = quantityConcepts.ToSelectList().ToList();
@@ -164,9 +165,9 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var formConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.Form);
-				var quantityConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.UnitOfMeasure);
-				var typeConcepts = this.ConceptClient.GetConceptsByConceptClass(ConceptClassKeys.Material);
+				var formConcepts = this.GetFormConcepts();
+				var quantityConcepts = this.GetQuantityConcepts();
+				var typeConcepts = this.GetTypeConcepts();
 
 				var model = new EditMaterialModel(material)
 				{
@@ -288,20 +289,9 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				if (material.FormConcept == null && material.FormConceptKey.HasValue && material.FormConceptKey != Guid.Empty)
-				{
-					material.FormConcept = this.ConceptClient.GetConcept(material.FormConceptKey.Value);
-				}
-
-				if (material.QuantityConcept == null && material.QuantityConceptKey.HasValue && material.QuantityConceptKey != Guid.Empty)
-				{
-					material.QuantityConcept = this.ConceptClient.GetConcept(material.QuantityConceptKey.Value);
-				}
-
-				if (material.TypeConcept == null && material.TypeConceptKey.HasValue && material.TypeConceptKey != Guid.Empty)
-				{
-					material.TypeConcept = this.ConceptClient.GetConcept(material.TypeConceptKey.Value);
-				}
+				material.FormConcept = this.GetConcept(material.FormConceptKey);
+				material.QuantityConcept = this.GetConcept(material.QuantityConceptKey);
+				material.TypeConcept = this.GetConcept(material.TypeConceptKey);
 
 				for (var i = 0; i < material.Relationships.Count(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.TargetEntity == null && r.TargetEntityKey.HasValue); i++)
 				{

@@ -61,12 +61,12 @@ namespace OpenIZAdmin.Controllers
 
 			if (!string.IsNullOrEmpty(this.healthFacilityMnemonic) && !string.IsNullOrWhiteSpace(this.healthFacilityMnemonic))
 			{
-				typeConcepts.AddRange(this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == this.healthFacilityMnemonic && c.ObsoletionTime == null).Item.OfType<ConceptSet>().SelectMany(c => c.Concepts));
+				typeConcepts.AddRange(this.GetConceptSet(this.healthFacilityMnemonic).Concepts);
 			}
 
 			if (!string.IsNullOrEmpty(this.placeTypeMnemonic) && !string.IsNullOrWhiteSpace(this.placeTypeMnemonic))
 			{
-				typeConcepts.AddRange(this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == this.placeTypeMnemonic && c.ObsoletionTime == null).Item.OfType<ConceptSet>().SelectMany(c => c.Concepts));
+				typeConcepts.AddRange(this.GetConceptSet(this.placeTypeMnemonic).Concepts);
 			}
 
 			if (!typeConcepts.Any())
