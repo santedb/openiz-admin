@@ -81,7 +81,7 @@ namespace OpenIZAdmin
 			RealmConfig.Initialize();
 
 			// quartz initialization
-			//QuartzConfig.Initialize();
+			QuartzConfig.Initialize();
 
 			Trace.TraceInformation("Application started");
 		}
