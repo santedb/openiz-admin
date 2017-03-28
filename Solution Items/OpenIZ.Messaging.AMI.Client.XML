@@ -164,6 +164,11 @@
             <param name="id">The id of the alert to retrieve.</param>
             <returns>Returns the alert.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.StatUpdate(System.String)">
+            <summary>
+            Stats the update via a HEAD command
+            </summary>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetAlerts(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Alert.Alerting.AlertMessage,System.Boolean}})">
             <summary>
             Gets a list of alerts.
