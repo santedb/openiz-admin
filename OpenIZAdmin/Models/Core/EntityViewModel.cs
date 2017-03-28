@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZAdmin.Models.EntityRelationshipModels;
 
 namespace OpenIZAdmin.Models.Core
 {
@@ -38,6 +39,7 @@ namespace OpenIZAdmin.Models.Core
 		protected EntityViewModel()
 		{
 			this.Identifiers = new List<EntityIdentifierViewModel>();
+			this.Relationships = new List<EntityRelationshipViewModel>();
 		}
 
 		/// <summary>
@@ -53,7 +55,10 @@ namespace OpenIZAdmin.Models.Core
 			this.IsObsolete = entity.ObsoletionTime.HasValue;
 			this.Name = string.Join(" ", entity.Names.SelectMany(n => n.Component).Select(c => c.Value));
 			this.ObsoletionTime = entity.ObsoletionTime?.DateTime;
-			this.Type = entity.TypeConcept != null ? string.Join(" ", entity.TypeConcept.ConceptNames.Select(c => c.Name)) : "N/A";
+			this.Relationships = entity.Relationships.Select(r => new EntityRelationshipViewModel(r)).OrderBy(r => r.TargetName).ToList();
+			this.Type = entity.TypeConcept != null ? string.Join(" ", entity.TypeConcept.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
+			this.VersionKey = entity.VersionKey;
+			this.VersionSequence = entity.VersionSequence;
 		}
 
 		/// <summary>
@@ -90,9 +95,27 @@ namespace OpenIZAdmin.Models.Core
 		public DateTime? ObsoletionTime { get; set; }
 
 		/// <summary>
+		/// Gets or sets the relationships.
+		/// </summary>
+		/// <value>The relationships.</value>
+		public List<EntityRelationshipViewModel> Relationships { get; set; }
+
+		/// <summary>
 		/// Gets or sets the type of the entity.
 		/// </summary>
 		[Display(Name = "Type", ResourceType = typeof(Locale))]
 		public string Type { get; set; }
+
+		/// <summary>
+		/// Gets or sets the version sequence.
+		/// </summary>
+		/// <value>The version sequence.</value>
+		public decimal? VersionSequence { get; set; }
+
+		/// <summary>
+		/// Gets or sets the version key.
+		/// </summary>
+		/// <value>The version key.</value>
+		public Guid? VersionKey { get; set; }
 	}
 }

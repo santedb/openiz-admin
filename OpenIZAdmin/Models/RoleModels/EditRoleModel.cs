@@ -53,6 +53,12 @@ namespace OpenIZAdmin.Models.RoleModels
 		[Required]
 		public string Id { get; set; }
 
+
+		/// <summary>
+		/// Gets or sets whether the security entity is obsolete.
+		/// </summary>
+		public bool IsObsolete { get; set; }
+
 		/// <summary>
 		/// Gets or sets the name of the role.
 		/// </summary>

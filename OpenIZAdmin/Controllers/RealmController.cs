@@ -32,6 +32,7 @@ using System.Runtime.Caching;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.IdentityModel.Tokens;
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Security;
@@ -217,7 +218,7 @@ namespace OpenIZAdmin.Controllers
 					{
 						case SignInStatus.Success:
 							Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
-							using (var amiServiceClient = new AmiServiceClient(new RestClientService(Constants.Ami, this.HttpContext)))
+							using (var amiServiceClient = new AmiServiceClient(new RestClientService(Constants.Ami, this.HttpContext, this.SignInManager.AccessToken)))
 							{
 								var synchronizers = amiServiceClient.GetRoles(r => r.Name == "SYNCHRONIZERS").CollectionItem.FirstOrDefault();
 								var device = amiServiceClient.GetRoles(r => r.Name == "DEVICE").CollectionItem.FirstOrDefault();

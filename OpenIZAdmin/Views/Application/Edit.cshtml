@@ -1,13 +1,10 @@
-﻿@model OpenIZAdmin.Models.ApplicationModels.EditApplicationModel
+﻿@using OpenIZAdmin.Models
+@model OpenIZAdmin.Models.ApplicationModels.EditApplicationModel
 @{
     ViewBag.Title = Locale.Edit + " " + Locale.Application;
 }
 
-@{
-    if (Model.IsObsolete)
-    {
-        <span class="text-danger text-uppercase">@Locale.ApplicationNotActive</span>}
-}
+@Html.Partial("_ObsoleteWarningPartial", new ObsoleteWarningViewModel(Model.IsObsolete, Locale.ApplicationNotActive))
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -40,7 +37,13 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-8">
                     <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
-                    <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+                    @if (Model.IsObsolete)
+                    {
+                        <button type="submit" class="btn btn-primary" disabled="disabled" title="@Locale.ToolTip_Submit">@Locale.CannotUpdateNotActive</button>  }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+}
                 </div>
             </div>
         </div>

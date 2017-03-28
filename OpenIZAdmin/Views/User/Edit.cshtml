@@ -1,18 +1,22 @@
-﻿@model OpenIZAdmin.Models.UserModels.EditUserModel
+﻿@using OpenIZAdmin.Models
+@model OpenIZAdmin.Models.UserModels.EditUserModel
 @{
     ViewBag.Title = Locale.Edit + " " + Locale.User;
 }
+
+@Html.Partial("_ObsoleteWarningPartial", new ObsoleteWarningViewModel(Model.IsObsolete, Locale.UserNotActive))
 
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="panel-title">@(Locale.Edit + " " + Locale.User)</span>
         <div class="pull-right">
-            <a href="@Url.Action("ResetPassword", "User", new { id = Model.Id })">
-                <span class="text-danger glyphicon glyphicon-warning-sign"></span>
-                <span class="text-danger h4">@(Locale.Reset + " " + Locale.Password)</span>
-            </a>
             @if (!Model.IsObsolete)
             {
+                <a href="@Url.Action("ResetPassword", "User", new { id = Model.Id })">
+                    <span class="text-danger glyphicon glyphicon-warning-sign"></span>
+                    <span class="text-danger h4">@(Locale.Reset + " " + Locale.Password)</span>
+                </a>
+
                 using (Html.BeginForm("Delete", "User", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                 {
                     @Html.AntiForgeryToken()
@@ -105,7 +109,13 @@
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
                                 <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
-                                <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+                                @if (Model.IsObsolete)
+                                {
+                                    <button type="submit" class="btn btn-primary" disabled="disabled" title="@Locale.ToolTip_Submit">@Locale.CannotUpdateNotActive</button>  }
+                                else
+                                {
+                                    <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+}
                             </div>
                         </div>
                     </div>

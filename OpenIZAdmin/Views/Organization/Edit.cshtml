@@ -1,20 +1,39 @@
-﻿@model OpenIZAdmin.Models.OrganizationModels.EditOrganizationModel
+﻿@using OpenIZAdmin.Models
+@model OpenIZAdmin.Models.OrganizationModels.EditOrganizationModel
 @{
     ViewBag.Title = Locale.Edit + " " + Locale.Organization;
 }
+
+@Html.Partial("_ObsoleteWarningPartial", new ObsoleteWarningViewModel(Model.IsObsolete, Locale.OrganizationNotActive))
 
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="panel-title">@(Locale.Edit + " " + Locale.Organization)</span>
         <div class="pull-right">
-            @using (Html.BeginForm("Delete", "Organization", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+            @if (!Model.IsObsolete)
             {
-                @Html.AntiForgeryToken()
+                using (Html.BeginForm("Delete", "Organization", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
 
-                <button type="submit" class="formButton btn btn-danger">
-                    @Locale.Delete
-                    <span class="glyphicon glyphicon-remove"></span>
-                </button>}
+                    <button type="submit" class="formButton btn btn-danger">
+                        @Locale.Deactivate
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                }
+            }
+            else
+            {
+                using (Html.BeginForm("Activate", "Organization", new { id = Model.Id, versionId = Model.VersionKey }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit" class="formButton btn btn-success">
+                        @Locale.Activate
+                        <span class="glyphicon glyphicon-upload"></span>
+                    </button>
+}
+            }
         </div>
     </div>
     <div class="panel panel-body">
@@ -43,7 +62,13 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
-                    <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+                    @if (Model.IsObsolete)
+                    {
+                        <button type="submit" class="btn btn-primary" disabled="disabled" title="@Locale.ToolTip_Submit">@Locale.CannotUpdateNotActive</button>  }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+}
                 </div>
             </div>
         }
@@ -53,12 +78,15 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="panel-title">@Locale.Identifiers</span>
-        <div class="pull-right">
-            <a href="@Url.Action("Create", "EntityIdentifier", new {id = Model.Id, type = "Organization"})">
-                <span class="text-primary h4">@Locale.New</span>
-                <span class="glyphicon glyphicon-plus-sign"></span>
-            </a>
-        </div>
+        @if (!Model.IsObsolete)
+        {
+            <div class="pull-right">
+                <a href="@Url.Action("Create", "EntityIdentifier", new {id = Model.Id, type = "Organization"})">
+                    <span class="text-primary h4">@Locale.New</span>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                </a>
+            </div>
+        }
     </div>
     @Html.Partial("_ManageIdentifiersPartial", Model.Identifiers)
 </div>

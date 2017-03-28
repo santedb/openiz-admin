@@ -26,11 +26,15 @@ using OpenIZAdmin.Models.PlaceModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.UI.WebControls;
+using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Extensions;
+using OpenIZAdmin.Models.EntityRelationshipModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -41,14 +45,54 @@ namespace OpenIZAdmin.Controllers
 	public class PlaceController : BaseController
 	{
 		/// <summary>
-		/// The health facility mnemonic.
+		/// Initializes a new instance of the <see cref="PlaceController"/> class.
 		/// </summary>
-		private readonly string healthFacilityMnemonic = ConfigurationManager.AppSettings["HealthFacilityTypeConceptMnemonic"];
+		public PlaceController()
+		{
+			
+		}
 
 		/// <summary>
-		/// The place type mnemonic.
+		/// Activates the specified identifier.
 		/// </summary>
-		private readonly string placeTypeMnemonic = ConfigurationManager.AppSettings["PlaceTypeConceptMnemonic"];
+		/// <param name="id">The identifier.</param>
+		/// <param name="versionId">The version identifier.</param>
+		/// <returns>ActionResult.</returns>
+		public ActionResult Activate(Guid id, Guid? versionId)
+		{
+			try
+			{
+				var bundle = this.ImsiClient.Query<Place>(p => p.Key == id && p.VersionKey == versionId);
+
+				var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == id && p.VersionKey == versionId);
+
+				if (place == null)
+				{
+					this.TempData["error"] = Locale.UnableToRetrieve + " " + Locale.Place;
+					return RedirectToAction("Edit", new { id = id, versionId = versionId });
+				}
+
+				place.CreationTime = DateTimeOffset.Now;
+				place.ObsoletedByKey = null;
+				place.ObsoletionTime = null;
+				place.VersionKey = null;
+
+				var updatedPlace = this.ImsiClient.Update(place);
+
+				this.TempData["success"] = Locale.Place + " " + Locale.Activated + " " + Locale.Successfully;
+
+				return RedirectToAction("Edit", new { id = id, versionId = updatedPlace.VersionKey });
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to activate place: { e }");
+			}
+
+			this.TempData["error"] = Locale.UnableToActivate + " " + Locale.Place;
+
+			return RedirectToAction("Edit", new { id = id, versionId = versionId });
+		}
 
 		/// <summary>
 		/// Displays the create place view.
@@ -57,26 +101,9 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			var typeConcepts = new List<Concept>();
-
-			if (!string.IsNullOrEmpty(this.healthFacilityMnemonic) && !string.IsNullOrWhiteSpace(this.healthFacilityMnemonic))
-			{
-				typeConcepts.AddRange(this.GetConceptSet(this.healthFacilityMnemonic).Concepts);
-			}
-
-			if (!string.IsNullOrEmpty(this.placeTypeMnemonic) && !string.IsNullOrWhiteSpace(this.placeTypeMnemonic))
-			{
-				typeConcepts.AddRange(this.GetConceptSet(this.placeTypeMnemonic).Concepts);
-			}
-
-			if (!typeConcepts.Any())
-			{
-				typeConcepts.AddRange(this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null));
-			}
-
 			var model = new CreatePlaceModel
 			{
-				TypeConcepts = typeConcepts.ToSelectList().ToList()
+				TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList().ToList()
 			};
 
 			return View(model);
@@ -95,19 +122,207 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var place = this.ImsiClient.Create<Place>(model.ToPlace());
+					var targetPopulationExtensionBundle = this.ImsiClient.Query<ExtensionType>(e => e.Name == Constants.TargetPopulationUrl && e.ObsoletionTime == null, 0, 100, false);
+
+					targetPopulationExtensionBundle.Reconstitute();
+
+					var targetPopulationExtensionType = targetPopulationExtensionBundle.Item.OfType<ExtensionType>().FirstOrDefault(e => e.Name == Constants.TargetPopulationUrl);
+
+					var placeToCreate = model.ToPlace();
+
+					var targetPopulation = BitConverter.GetBytes(model.TargetPopulation);
+
+					Array.Resize(ref targetPopulation, 24);
+
+					placeToCreate.Extensions.Add(new EntityExtension(targetPopulationExtensionType.Key.Value, targetPopulation));
+
+					var createdPlace = this.ImsiClient.Create<Place>(placeToCreate);
 
 					TempData["success"] = Locale.Place + " " + Locale.Successfully + " " + Locale.Created;
 
-					return RedirectToAction("ViewPlace", new { id = place.Key });
+					return RedirectToAction("ViewPlace", new { id = createdPlace.Key, versionId = createdPlace.VersionKey });
 				}
 				catch (Exception e)
 				{
 					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+					Trace.TraceError($"Unable to create place: { e }");
 				}
 			}
 
-			TempData["error"] = Locale.UnableToCreate + " " + Locale.Place;
+			model.TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList().ToList();
+
+			this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Place;
+
+			return View(model);
+		}
+
+		/// <summary>
+		/// Creates the related manufactured material.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpGet]
+		public ActionResult CreateRelatedManufacturedMaterial(Guid id)
+		{
+			try
+			{
+				var place = this.ImsiClient.Get<Place>(id, null) as Place;
+
+				if (place == null)
+				{
+					this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+
+					return RedirectToAction("Edit", new { id = id });
+				}
+
+				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
+				{
+					ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
+				};
+
+				model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.OwnedEntity).ToList());
+
+				return View(model);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to create related place: { e }");
+			}
+
+			this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+
+			return RedirectToAction("Edit", new { id = id });
+		}
+
+		/// <summary>
+		/// Creates the related manufactured material.
+		/// </summary>
+		/// <param name="model">The model.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult CreateRelatedManufacturedMaterial(EntityRelationshipModel model)
+		{
+			try
+			{
+				if (this.ModelState.IsValid)
+				{
+					var place = this.ImsiClient.Get<Place>(model.SourceId, null) as Place;
+
+					if (place == null)
+					{
+						this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
+						return RedirectToAction("Edit", new { id = model.SourceId });
+					}
+
+					place.Relationships.RemoveAll(r => r.TargetEntityKey == model.TargetId && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
+					place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { EffectiveVersionSequenceId = place.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
+
+					this.ImsiClient.Update(place);
+
+					this.TempData["success"] = Locale.Related + " " + Locale.ManufacturedMaterial + " " + Locale.Created + " " + Locale.Successfully;
+
+					return RedirectToAction("Edit", new { id = place.Key.Value });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to create related manufactured material: { e }");
+			}
+
+			this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
+
+			return View(model);
+		}
+
+		/// <summary>
+		/// Creates the related place.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpGet]
+		public ActionResult CreateRelatedPlace(Guid id)
+		{
+			try
+			{
+				var place = this.ImsiClient.Get<Place>(id, null) as Place;
+
+				if (place == null)
+				{
+					this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+
+					return RedirectToAction("Edit", new { id = id });
+				}
+
+				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
+				{
+					ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
+				};
+
+				model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList().ToList());
+
+				return View(model);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to create related place: { e }");
+			}
+
+
+
+			this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+
+			return RedirectToAction("Edit", new { id = id });
+		}
+
+		/// <summary>
+		/// Creates the related place.
+		/// </summary>
+		/// <param name="model">The model.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult CreateRelatedPlace(EntityRelationshipModel model)
+		{
+			try
+			{
+				if (this.ModelState.IsValid)
+				{
+					var place = this.ImsiClient.Get<Place>(model.SourceId, null) as Place;
+
+					if (place == null)
+					{
+						this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.Place;
+						return RedirectToAction("Edit", new { id = model.SourceId });
+					}
+
+					var bundle = new Bundle
+					{
+						Key = Guid.NewGuid()
+					};
+
+					bundle.Item.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { EffectiveVersionSequenceId = place.VersionSequence, Key = Guid.NewGuid(), SourceEntityKey = model.SourceId });
+
+					this.ImsiClient.Create(bundle);
+
+					this.TempData["success"] = Locale.Related + " " + Locale.Place + " " + Locale.Created + " " + Locale.Successfully;
+
+					return RedirectToAction("Edit", new { id = place.Key.Value });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to create related place: { e }");
+			}
+
+			model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList().ToList());
+
+			this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.Place;
+
 			return View(model);
 		}
 
@@ -131,6 +346,8 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
+				this.TempData["success"] = Locale.Place + " " + Locale.Deleted + " " + Locale.Successfully;
+
 				this.ImsiClient.Obsolete<Place>(place);
 
 				return RedirectToAction("Index");
@@ -149,17 +366,18 @@ namespace OpenIZAdmin.Controllers
 		/// Gets a place by id.
 		/// </summary>
 		/// <param name="id">The id of the place to retrieve.</param>
+		/// <param name="versionId">The version identifier.</param>
 		/// <returns>Returns the place edit view.</returns>
 		[HttpGet]
-		public ActionResult Edit(Guid id)
+		public ActionResult Edit(Guid id, Guid? versionId)
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Place>(p => p.Key == id && p.ObsoletionTime == null, 0, null, true);
+				var bundle = this.ImsiClient.Query<Place>(p => p.Key == id && p.VersionKey == versionId, 0, null, true);
 
 				bundle.Reconstitute();
 
-				var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == id && p.ObsoletionTime == null);
+				var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == id && p.VersionKey == versionId);
 
 				if (place == null)
 				{
@@ -167,11 +385,17 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return View(new EditPlaceModel(place));
+				var model = new EditPlaceModel(place)
+				{
+					TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(t => t.Key == place.TypeConceptKey.Value).ToList()
+				};
+
+				return View(model);
 			}
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve place: { e }");
 			}
 
 			TempData["error"] = Locale.Place + " " + Locale.NotFound;
@@ -204,11 +428,21 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
-					var updatedPlace = this.ImsiClient.Update<Place>(model.ToPlace(place));
+					model.TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(t => t.Key == place.TypeConceptKey).ToList();
+
+					var placeToUpdate = model.ToPlace(place);
+
+					var targetPopulation = BitConverter.GetBytes(model.TargetPopulation);
+
+					Array.Resize(ref targetPopulation, 24);
+
+					placeToUpdate.Extensions.Add(new EntityExtension(Constants.TargetPopulationExtensionTypeKey, targetPopulation));
+
+					var updatedPlace = this.ImsiClient.Update<Place>(placeToUpdate);
 
 					TempData["success"] = Locale.Place + " " + Locale.Successfully + " " + Locale.Updated;
 
-					return RedirectToAction("ViewPlace", new { id = updatedPlace.Key });
+					return RedirectToAction("ViewPlace", new { id = updatedPlace.Key, versionId = updatedPlace.VersionKey });
 				}
 			}
 			catch (Exception e)
@@ -216,7 +450,165 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Place;
+			this.TempData["error"] = Locale.UnableToUpdate + " " + Locale.Place;
+
+			return View(model);
+		}
+
+		/// <summary>
+		/// Edits the related manufactured material.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpGet]
+		public ActionResult EditRelatedManufacturedMaterial(Guid id)
+		{
+			try
+			{
+				var place = this.ImsiClient.Get<Place>(id, null) as Place;
+
+				if (place == null)
+				{
+					this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+
+					return RedirectToAction("Edit", new { id = id });
+				}
+
+				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
+				{
+					ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
+				};
+
+				model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.OwnedEntity).ToList());
+
+				return View(model);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to create related place: { e }");
+			}
+
+			this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+
+			return RedirectToAction("Edit", new { id = id });
+		}
+
+		/// <summary>
+		/// Edits the related manufactured material.
+		/// </summary>
+		/// <param name="model">The model.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult EditRelatedManufacturedMaterial(EntityRelationshipModel model)
+		{
+			try
+			{
+				if (this.ModelState.IsValid)
+				{
+					var place = this.ImsiClient.Get<Place>(model.SourceId, null) as Place;
+
+					if (place == null)
+					{
+						this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
+						return RedirectToAction("Edit", new { id = model.SourceId });
+					}
+
+					var bundle = new Bundle
+					{
+						Key = Guid.NewGuid()
+					};
+
+					bundle.Item.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { EffectiveVersionSequenceId = place.VersionSequence, Key = Guid.NewGuid(), SourceEntityKey = model.SourceId });
+
+					this.ImsiClient.Create(bundle);
+
+					this.TempData["success"] = Locale.Related + " " + Locale.ManufacturedMaterial + " " + Locale.Created + " " + Locale.Successfully;
+
+					return RedirectToAction("Edit", new { id = place.Key.Value });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to create related manufactured material: { e }");
+			}
+
+			this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
+
+			return View(model);
+		}
+
+		/// <summary>
+		/// Edits the related place.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <param name="entityRelationshipId">The entity relationship identifier.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpGet]
+		public ActionResult EditRelatedPlace(Guid id, Guid entityRelationshipId)
+		{
+			try
+			{
+				var place = this.ImsiClient.Get<Place>(id, null) as Place;
+
+				if (place == null)
+				{
+					this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+					return RedirectToAction("Edit", new { id = id });
+				}
+
+				var entityRelationship = place.Relationships.Find(r => r.Key == entityRelationshipId);
+
+				var model = new EntityRelationshipModel(entityRelationship, place.Type);
+
+				return View(model);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to edit related place: { e }");
+			}
+
+			this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+			return RedirectToAction("Edit", new { id = id });
+		}
+
+		/// <summary>
+		/// Edits the related place.
+		/// </summary>
+		/// <param name="model">The model.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult EditRelatedPlace(EntityRelationshipModel model)
+		{
+			try
+			{
+				if (this.ModelState.IsValid)
+				{
+					var place = this.ImsiClient.Get<Place>(model.SourceId, null) as Place;
+
+					if (place == null)
+					{
+						this.TempData["error"] = Locale.UnableToUpdate + " " + Locale.Place;
+						return RedirectToAction("Edit", new { id = model.SourceId });
+					}
+
+					place.Relationships.RemoveAll(r => r.Key == model.Id);
+					place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId));
+
+					var updatedPlace = this.ImsiClient.Update<Place>(place);
+
+					return RedirectToAction("Edit", new { id = updatedPlace.Key.Value });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to edit related place: { e }");
+			}
 
 			return View(model);
 		}
@@ -240,18 +632,19 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
-			var viewModels = new List<PlaceViewModel>();
+			var results = new List<PlaceViewModel>();
 
-			if (ModelState.IsValid)
+			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 			{
-				searchTerm = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(searchTerm);
+				var bundle = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))));
 
-				var bundle = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null);
-
-				viewModels = bundle.Item.OfType<Place>().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+				var maxVersionSequence = bundle.Item.OfType<Place>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm)))).Max(p => p.VersionSequence);
+				results = bundle.Item.OfType<Place>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.VersionSequence == maxVersionSequence).Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 			}
 
-			return PartialView("_PlaceSearchResultsPartial", viewModels);
+			TempData["searchTerm"] = searchTerm;
+
+			return PartialView("_PlaceSearchResultsPartial", results);
 		}
 
 		/// <summary>
@@ -266,10 +659,9 @@ namespace OpenIZAdmin.Controllers
 
 			if (ModelState.IsValid)
 			{
-				searchTerm = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(searchTerm);
 				var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation);
 
-				viewModels = places.Item.OfType<Place>().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+				viewModels = places.Item.OfType<Place>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation).Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 			}
 
 			return Json(viewModels, JsonRequestBehavior.AllowGet);
@@ -279,17 +671,18 @@ namespace OpenIZAdmin.Controllers
 		/// Searches for a place to view details.
 		/// </summary>
 		/// <param name="id">The place identifier search string.</param>
+		/// <param name="versionId">The version identifier.</param>
 		/// <returns>Returns a place view that matches the search term.</returns>
 		[HttpGet]
-		public ActionResult ViewPlace(Guid id)
+		public ActionResult ViewPlace(Guid id, Guid? versionId)
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Place>(p => p.Key == id, 0, null, true);
+				var bundle = this.ImsiClient.Query<Place>(p => p.Key == id && p.VersionKey == versionId, 0, null, true);
 
 				bundle.Reconstitute();
 
-				var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == id);
+				var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == id && p.VersionKey == versionId);
 
 				if (place == null)
 				{
@@ -307,9 +700,11 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve place: { e }");
 			}
 
 			TempData["error"] = Locale.Place + " " + Locale.NotFound;
+
 			return RedirectToAction("Index");
 		}
 	}

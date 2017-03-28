@@ -29,10 +29,16 @@ using OpenIZAdmin.Models.AccountModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Newtonsoft.Json;
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.DataTypes;
+using OpenIZ.Core.Model.Roles;
+using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -190,6 +196,92 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Displays the forgot password view.
+		/// </summary>
+		/// <returns>Returns the forgot password view.</returns>
+		[HttpGet]
+		[AllowAnonymous]
+		public ActionResult ForgotPassword()
+		{
+			var model = new ForgotPasswordModel();
+
+			try
+			{
+				var amiServiceClient = GetDeviceServiceClient();
+
+				var twoFactorAuthenticationMechanisms = amiServiceClient.GetTwoFactorMechanisms();
+
+				model.TfaMechanisms = twoFactorAuthenticationMechanisms.CollectionItem.Select(t => new TfaMechanismModel(t)).ToList();
+			}
+			catch (Exception e)
+			{
+				this.TempData["error"] = Locale.UnableTo + " " + Locale.Retrieve + " " + Locale.ForgotPasswordMechanisms;
+
+				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+			}
+
+			return View(model);
+		}
+
+		/// <summary>
+		/// Allows the user to receive a code to reset their password.
+		/// </summary>
+		/// <param name="model">The model.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpPost]
+		[AllowAnonymous]
+		[ValidateAntiForgeryToken]
+		public ActionResult ForgotPassword(ForgotPasswordModel model)
+		{
+			var amiServiceClient = GetDeviceServiceClient();
+
+			try
+			{
+				if (this.ModelState.IsValid)
+				{
+					amiServiceClient.SendTfaSecret(new TfaRequestInfo
+					{
+						Purpose = "PasswordReset",
+						ResetMechanism = model.TfaMechanism,
+						UserName = model.Username,
+						Verification = model.Verification
+					});
+
+					var user = this.AmiClient.GetUsers(u => u.UserName == model.Username && u.ObsoletionTime == null).CollectionItem.FirstOrDefault();
+
+					if (user == null)
+					{
+						this.TempData["error"] = Locale.UnableToReset + " " + Locale.Password;
+						return RedirectToAction("ForgotPassword");
+					}
+
+					var resetPasswordModel = new ResetPasswordModel
+					{
+						UserId = user.UserId.Value
+					};
+
+					this.TempData["success"] = Locale.ResetCodeSent;
+
+					return View("ResetPassword", resetPasswordModel);
+				}
+			}
+			catch (Exception e)
+			{
+				this.TempData["error"] = Locale.UnableTo + " " + Locale.Reset + " " + Locale.Password;
+
+				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+			}
+
+			var twoFactorAuthenticationMechanisms = amiServiceClient.GetTwoFactorMechanisms();
+
+			model.TfaMechanisms = model.TfaMechanisms = twoFactorAuthenticationMechanisms.CollectionItem.Select(t => new TfaMechanismModel(t)).ToList();
+
+			this.TempData["error"] = Locale.UnableToReset + " " + Locale.Password;
+
+			return View(model);
+		}
+
+		/// <summary>
 		/// Displays the login view.
 		/// </summary>
 		/// <param name="returnUrl">The return URL for an unauthenticated user.</param>
@@ -246,7 +338,83 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult LogOff()
 		{
 			HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+			this.Response.Cookies.Remove("access_token");
 			return RedirectToAction("Index", "Home");
+		}
+
+		/// <summary>
+		/// Resets the password.
+		/// </summary>
+		/// <returns>ActionResult.</returns>
+		[HttpGet]
+		[AllowAnonymous]
+		public ActionResult ResetPassword()
+		{
+			return View();
+		}
+
+		/// <summary>
+		/// Resets the password.
+		/// </summary>
+		/// <param name="model">The model.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpPost]
+		[AllowAnonymous]
+		[ActionName("ResetPassword")]
+		public async Task<ActionResult> ResetPasswordAsync(ResetPasswordModel model)
+		{
+			try
+			{
+				// ensure logged out, before device login
+				this.HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+				if (this.ModelState.IsValid)
+				{
+					var amiServiceClient = GetDeviceServiceClient();
+
+					var user = amiServiceClient.GetUser(model.UserId.ToString());
+
+					if (user == null || user?.User?.ObsoletionTime != null)
+					{
+						this.TempData["error"] = Locale.UnableToReset + " " + Locale.Password;
+						return RedirectToAction("ForgotPassword");
+					}
+
+					// null out the other properties, since we are only updating the password
+					user.User = null;
+					user.Lockout = null;
+					user.Roles.Clear();
+
+					user.Password = model.Password;
+
+					this.AmiClient.UpdateUser(user.UserId.Value, user);
+
+					this.TempData["success"] = Locale.Password + " " + Locale.Reset + " " + Locale.Successfully;
+
+					// perform a TFA sign to force the password update
+					var result = await this.SignInManager.TfaSignInAsync(user.UserName, user.Password, model.Code);
+
+					switch (result)
+					{
+						case SignInStatus.Success:
+							// force a signout
+							this.HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+							Response.Cookies.Remove("access_token");
+							return RedirectToAction("Login");
+						default:
+							ModelState.AddModelError("", Locale.IncorrectUsernameOrPassword);
+							break;
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+			}
+
+			this.TempData["error"] = Locale.UnableTo + " " + Locale.Reset + " " + Locale.Password;
+
+			return View("ResetPassword", model);
 		}
 
 		/// <summary>

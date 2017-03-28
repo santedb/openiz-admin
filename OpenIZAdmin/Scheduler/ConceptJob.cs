@@ -50,57 +50,57 @@ namespace OpenIZAdmin.Scheduler
 		/// execution.</remarks>
 		public void Execute(IJobExecutionContext context)
 		{
-			ThreadPool.QueueUserWorkItem(state =>
-			{
-				try
-				{
-					var client = this.GetServiceClient<ImsiServiceClient>(Constants.Imsi);
+			//ThreadPool.QueueUserWorkItem(state =>
+			//{
+			//	try
+			//	{
+			//		var client = this.GetServiceClient<ImsiServiceClient>(Constants.Imsi);
 
-					var concepts = new List<Concept>();
+			//		var concepts = new List<Concept>();
 
-					var offset = 0;
-					var totalCount = 1;
+			//		var offset = 0;
+			//		var totalCount = 1;
 
-					while (offset < totalCount)
-					{
-						var bundle = client.Query<Concept>(c => c.ObsoletionTime == null, offset, 100, true);
+			//		while (offset < totalCount)
+			//		{
+			//			var bundle = client.Query<Concept>(c => c.ObsoletionTime == null, offset, 100, true);
 
-						if (bundle != null)
-						{
-							bundle.Reconstitute();
+			//			if (bundle != null)
+			//			{
+			//				bundle.Reconstitute();
 
-							concepts.AddRange(bundle.Item.OfType<Concept>().Where(c => c.ObsoletionTime == null));
-							totalCount = bundle.TotalResults;
-						}
-						else
-						{
-							Trace.TraceError("Bundle is null");
-						}
+			//				concepts.AddRange(bundle.Item.OfType<Concept>().Where(c => c.ObsoletionTime == null));
+			//				totalCount = bundle.TotalResults;
+			//			}
+			//			else
+			//			{
+			//				Trace.TraceError("Bundle is null");
+			//			}
 
-						offset += 100;
-					}
+			//			offset += 100;
+			//		}
 
-					for (var i = 0; i < concepts.SelectMany(c => c.ReferenceTerms).Count(r => r.ReferenceTerm == null && r.ReferenceTermKey.HasValue); i++)
-					{
-						for (var j = 0; j < concepts[i].ReferenceTerms.Count(r => r.ReferenceTerm == null && r.ReferenceTermKey.HasValue); j++)
-						{
-							if (concepts[i].ReferenceTerms.Any())
-							{
-								concepts[i].ReferenceTerms[j].ReferenceTerm = client.Get<ReferenceTerm>(concepts[i].ReferenceTerms[j].ReferenceTermKey.Value, null) as ReferenceTerm;
-							}
-						}
-					}
+			//		for (var i = 0; i < concepts.SelectMany(c => c.ReferenceTerms).Count(r => r.ReferenceTerm == null && r.ReferenceTermKey.HasValue); i++)
+			//		{
+			//			for (var j = 0; j < concepts[i].ReferenceTerms.Count(r => r.ReferenceTerm == null && r.ReferenceTermKey.HasValue); j++)
+			//			{
+			//				if (concepts[i].ReferenceTerms.Any())
+			//				{
+			//					concepts[i].ReferenceTerms[j].ReferenceTerm = client.Get<ReferenceTerm>(concepts[i].ReferenceTerms[j].ReferenceTermKey.Value, null) as ReferenceTerm;
+			//				}
+			//			}
+			//		}
 
-					foreach (var concept in concepts)
-					{
-						this.MemoryCache.Set(new CacheItem(concept.Key?.ToString(), concept), new CacheItemPolicy { SlidingExpiration = new TimeSpan(0, 0, 5, 0), Priority = CacheItemPriority.Default });
-					}
-				}
-				catch (Exception e)
-				{
-					Trace.TraceError($"Unable to retrieve concepts: { e }");
-				}
-			});
+			//		foreach (var concept in concepts)
+			//		{
+			//			this.MemoryCache.Set(new CacheItem(concept.Key?.ToString(), concept), MvcApplication.CacheItemPolicy);
+			//		}
+			//	}
+			//	catch (Exception e)
+			//	{
+			//		Trace.TraceError($"Unable to retrieve concepts: { e }");
+			//	}
+			//});
 		}
 	}
 }

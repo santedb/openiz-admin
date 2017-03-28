@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using Elmah;
@@ -29,6 +30,7 @@ using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.OrganizationModels;
+using OpenIZAdmin.Models.EntityRelationshipModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -46,6 +48,48 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Activates the specified identifier.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <param name="versionId">The version identifier.</param>
+		/// <returns>ActionResult.</returns>
+		public ActionResult Activate(Guid id, Guid? versionId)
+		{
+			try
+			{
+				var bundle = this.ImsiClient.Query<Organization>(p => p.Key == id && p.VersionKey == versionId);
+
+				var organization = bundle.Item.OfType<Organization>().FirstOrDefault(p => p.Key == id && p.VersionKey == versionId);
+
+				if (organization == null)
+				{
+					this.TempData["error"] = Locale.UnableToRetrieve + " " + Locale.Organization;
+					return RedirectToAction("Edit", new { id = id, versionId = versionId });
+				}
+
+				organization.CreationTime = DateTimeOffset.Now;
+				organization.ObsoletedByKey = null;
+				organization.ObsoletionTime = null;
+				organization.VersionKey = null;
+
+				var updatedOrganization = this.ImsiClient.Update(organization);
+
+				this.TempData["success"] = Locale.Organization + " " + Locale.Activated + " " + Locale.Successfully;
+
+				return RedirectToAction("Edit", new { id = id, versionId = updatedOrganization.VersionKey });
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to activate organization: { e }");
+			}
+
+			this.TempData["error"] = Locale.UnableToActivate + " " + Locale.Organization;
+
+			return RedirectToAction("Edit", new { id = id, versionId = versionId });
+		}
+
+		/// <summary>
 		/// Displays the create view.
 		/// </summary>
 		/// <returns>Returns the create view.</returns>
@@ -56,7 +100,7 @@ namespace OpenIZAdmin.Controllers
 
 			var model = new CreateOrganizationModel
 			{
-				IndustryConcepts = industryConceptSet?.Concepts.ToSelectList().ToList()
+				IndustryConcepts = industryConceptSet.ToSelectList().ToList()
 			};
 
 			return View(model);
@@ -79,12 +123,13 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.Organization + " " + Locale.Created + " " + Locale.Successfully;
 
-					return RedirectToAction("ViewOrganization", new { id = organization.Key });
+					return RedirectToAction("ViewOrganization", new { id = organization.Key, versionId = organization.VersionKey });
 				}
 			}
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to create organization: { e }");
 			}
 
 			var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
@@ -96,6 +141,106 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+		/// <summary>
+		/// Creates the related manufactured material.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpGet]
+		public ActionResult CreateRelatedManufacturedMaterial(Guid id)
+		{
+			try
+			{
+				var organization = this.ImsiClient.Get<Organization>(id, null) as Organization;
+
+				if (organization == null)
+				{
+					this.TempData["error"] = Locale.Organization + " " + Locale.NotFound;
+
+					return RedirectToAction("Edit", new { id = id });
+				}
+
+				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
+				{
+					ExistingRelationships = organization.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
+				};
+
+				var concepts = new List<Concept>
+				{
+					this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct),
+					this.GetConcept(EntityRelationshipTypeKeys.WarrantedProduct)
+				};
+
+				model.RelationshipTypes.AddRange(concepts.ToSelectList());
+
+				return View(model);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to create related place: { e }");
+			}
+
+			this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+
+			return RedirectToAction("Edit", new { id = id });
+		}
+
+		/// <summary>
+		/// Creates the related manufactured material.
+		/// </summary>
+		/// <param name="model">The model.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult CreateRelatedManufacturedMaterial(EntityRelationshipModel model)
+		{
+			try
+			{
+				if (this.ModelState.IsValid)
+				{
+					var organization = this.ImsiClient.Get<Organization>(model.SourceId, null) as Organization;
+
+					if (organization == null)
+					{
+						this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
+						return RedirectToAction("Edit", new { id = model.SourceId });
+					}
+
+					organization.Relationships.RemoveAll(r => r.TargetEntityKey == model.TargetId && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
+					organization.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { EffectiveVersionSequenceId = organization.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
+
+					this.ImsiClient.Update(organization);
+
+					this.TempData["success"] = Locale.Related + " " + Locale.ManufacturedMaterial + " " + Locale.Created + " " + Locale.Successfully;
+
+					return RedirectToAction("Edit", new { id = organization.Key.Value });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to create related manufactured material: { e }");
+			}
+
+			var concepts = new List<Concept>
+			{
+				this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct),
+				this.GetConcept(EntityRelationshipTypeKeys.WarrantedProduct)
+			};
+
+			model.RelationshipTypes.AddRange(concepts.ToSelectList());
+
+			this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
+
+			return View(model);
+		}
+
+		/// <summary>
+		/// Deletes the specified identifier.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>ActionResult.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(Guid id)
@@ -127,16 +272,22 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
+		/// <summary>
+		/// Edits the specified identifier.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <param name="versionId">The version identifier.</param>
+		/// <returns>ActionResult.</returns>
 		[HttpGet]
-		public ActionResult Edit(Guid id)
+		public ActionResult Edit(Guid id, Guid? versionId)
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Organization>(m => m.Key == id && m.ClassConceptKey == EntityClassKeys.Organization && m.ObsoletionTime == null, 0, null, true);
+				var bundle = this.ImsiClient.Query<Organization>(m => m.Key == id && m.VersionKey == versionId && m.ClassConceptKey == EntityClassKeys.Organization, 0, null, true);
 
 				bundle.Reconstitute();
 
-				var organization = bundle.Item.OfType<Organization>().FirstOrDefault(m => m.Key == id && m.ClassConceptKey == EntityClassKeys.Organization && m.ObsoletionTime == null);
+				var organization = bundle.Item.OfType<Organization>().FirstOrDefault(m => m.Key == id && m.VersionKey == versionId && m.ClassConceptKey == EntityClassKeys.Organization);
 
 				if (organization == null)
 				{
@@ -164,6 +315,11 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
+		/// <summary>
+		/// Edits the specified model.
+		/// </summary>
+		/// <param name="model">The model.</param>
+		/// <returns>ActionResult.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditOrganizationModel model)
@@ -189,7 +345,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.Organization + " " + Locale.Updated + " " + Locale.Successfully;
 
-					return RedirectToAction("ViewOrganization", new { id = updatedOrganization.Key });
+					return RedirectToAction("ViewOrganization", new { id = updatedOrganization.Key, versionId = updatedOrganization.VersionKey });
 				}
 			}
 			catch (Exception e)
@@ -229,13 +385,12 @@ namespace OpenIZAdmin.Controllers
 
 			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 			{
-				var bundle = this.ImsiClient.Query<Organization>(m => m.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && m.ClassConceptKey == EntityClassKeys.Organization && m.ObsoletionTime == null);
+				var bundle = this.ImsiClient.Query<Organization>(m => m.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && m.ClassConceptKey == EntityClassKeys.Organization);
 
-				TempData["searchTerm"] = searchTerm;
-				return PartialView("_OrganizationSearchResultsPartial", bundle.Item.OfType<Organization>().Select(o => new OrganizationSearchResultViewModel(o)));
+				var maxVersionSequence = bundle.Item.OfType<Organization>().Where(o => o.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && o.ClassConceptKey == EntityClassKeys.Organization).Max(p => p.VersionSequence);
+				results = bundle.Item.OfType<Organization>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.VersionSequence == maxVersionSequence).Select(o => new OrganizationSearchResultViewModel(o)).OrderBy(o => o.Name).ToList();
 			}
 
-			TempData["error"] = Locale.Organization + " " + Locale.NotFound;
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_OrganizationSearchResultsPartial", results);
@@ -245,17 +400,18 @@ namespace OpenIZAdmin.Controllers
 		/// View for organization.
 		/// </summary>
 		/// <param name="id">The id of the organization.</param>
+		/// <param name="versionId">The version identifier.</param>
 		/// <returns>Returns the view for a organization.</returns>
 		[HttpGet]
-		public ActionResult ViewOrganization(Guid id)
+		public ActionResult ViewOrganization(Guid id, Guid? versionId)
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Organization>(m => m.Key == id && m.ObsoletionTime == null, 0, null, true);
+				var bundle = this.ImsiClient.Query<Organization>(m => m.Key == id && m.VersionKey == versionId, 0, null, true);
 
 				bundle.Reconstitute();
 
-				var organization = bundle.Item.OfType<Organization>().FirstOrDefault(m => m.Key == id && m.ObsoletionTime == null);
+				var organization = bundle.Item.OfType<Organization>().FirstOrDefault(m => m.Key == id && m.VersionKey == versionId);
 
 				if (organization == null)
 				{
@@ -274,6 +430,7 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrive organization: { e }");
 			}
 
 			TempData["error"] = Locale.Organization + " " + Locale.NotFound;

@@ -17,6 +17,9 @@
  * Date: 2016-9-5
  */
 
+using System;
+using System.Security.Policy;
+
 namespace OpenIZAdmin
 {
 	/// <summary>
@@ -65,8 +68,28 @@ namespace OpenIZAdmin
 		public const string Imsi = "IMSI";
 
 		/// <summary>
+		/// The constant for N/A (not applicable).
+		/// </summary>
+		public const string NotApplicable = "N/A";
+
+		/// <summary>
+		/// The target population extension type key.
+		/// </summary>
+		public static readonly Guid TargetPopulationExtensionTypeKey = Guid.Parse("f9552ed8-66aa-4644-b6a8-108ad54f2476");
+
+		/// <summary>
+		/// The target population URL.
+		/// </summary>
+		public const string TargetPopulationUrl = "http://openiz.org/extensions/contrib/bid/targetPopulation";
+
+		/// <summary>
 		/// The concept set mnemonic for TelecomAddressUse.
 		/// </summary>
 		public const string TelecomAddressUse = "TelecomAddressUse";
+
+		/// <summary>
+		/// Access administrative function
+		/// </summary>
+		public const string UnrestrictedAdministration = "1.3.6.1.4.1.33349.3.1.5.9.2.0";
 	}
 }

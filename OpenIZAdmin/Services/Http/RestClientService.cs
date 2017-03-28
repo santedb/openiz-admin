@@ -60,7 +60,7 @@ namespace OpenIZAdmin.Services.Http
 		/// with a specified endpoint name.
 		/// </summary>
 		/// <param name="endpointName">The name of the endpoint to use in the configuration.</param>
-		public RestClientService(string endpointName) : base(endpoints.GetOrAdd(endpointName, 
+		public RestClientService(string endpointName) : this(endpoints.GetOrAdd(endpointName, 
 			(key) => new Lazy<ServiceClientDescription>(
 				() => InternalConfiguration.GetServiceClientConfiguration().Clients.Find(x => x.Name == key))).Value)
 		{
@@ -83,12 +83,28 @@ namespace OpenIZAdmin.Services.Http
 		}
 
 		/// <summary>
+		/// Initializes a new instance of the <see cref="RestClientService"/> class.
+		/// </summary>
+		/// <param name="endpointName">Name of the endpoint.</param>
+		/// <param name="httpContext">The HTTP context.</param>
+		/// <param name="accessToken">The access token.</param>
+		public RestClientService(string endpointName, HttpContextBase httpContext, string accessToken) : this(endpointName)
+		{
+			this.Accept = "application/xml";
+			this.Credentials = new AmiCredentials(httpContext.User, accessToken);
+		}
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="RestClientService"/> class
 		/// with a specified <see cref="IRestClientDescription"/> instance.
 		/// </summary>
 		/// <param name="configuration">The configuration instance.</param>
 		public RestClientService(IRestClientDescription configuration) : base(configuration)
 		{
+			if (this.Description == null)
+			{
+				this.Description = InternalConfiguration.GetServiceClientConfiguration().Clients.Find(d => d.Name == endpointName);
+			}
 		}
 
 		/// <summary>

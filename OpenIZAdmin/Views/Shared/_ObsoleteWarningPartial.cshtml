@@ -1,0 +1,7 @@
+﻿@model OpenIZAdmin.Models.ObsoleteWarningViewModel
+
+@if (Model.IsObsolete)
+{
+    <span class="label label-danger text-uppercase">@Model.WarningMessage</span>
+    <hr/>
+}

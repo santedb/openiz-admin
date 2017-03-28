@@ -24,6 +24,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using OpenIZAdmin.Models.EntityIdentifierModels;
+using OpenIZAdmin.Models.EntityRelationshipModels;
 
 namespace OpenIZAdmin.Models.Core
 {
@@ -38,7 +39,8 @@ namespace OpenIZAdmin.Models.Core
 		protected EditEntityModel()
 		{
 			this.Identifiers = new List<EntityIdentifierModel>();
-			this.TypeList = new List<SelectListItem>();
+			this.Relationships = new List<EntityRelationshipModel>();
+			this.Types = new List<SelectListItem>();
 		}
 
 		/// <summary>
@@ -50,7 +52,10 @@ namespace OpenIZAdmin.Models.Core
 		{
 			this.Id = entity.Key.Value;
 			this.Identifiers = entity.Identifiers.Select(i => new EntityIdentifierModel(i, entity.Key.Value, entity.Type)).OrderBy(i => i.Name).ToList();
-			this.TypeList = entity.Identifiers.Select(i => new SelectListItem { Text = i.Authority.Name, Value = i.AuthorityKey?.ToString() }).ToList();
+			this.IsObsolete = entity.ObsoletionTime != null;
+			this.Relationships = entity.Relationships.Select(r => new EntityRelationshipModel(r, entity.Type) { Quantity = r.Quantity }).ToList();
+			this.Types = entity.Identifiers.Select(i => new SelectListItem { Text = i.Authority.Name, Value = i.AuthorityKey?.ToString() }).ToList();
+			this.VersionKey = entity.VersionKey;
 		}
 
 		/// <summary>
@@ -66,9 +71,27 @@ namespace OpenIZAdmin.Models.Core
 		public List<EntityIdentifierModel> Identifiers { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether this instance is obsolete.
+		/// </summary>
+		/// <value><c>true</c> if this instance is obsolete; otherwise, <c>false</c>.</value>
+		public bool IsObsolete { get; set; }
+
+		/// <summary>
+		/// Gets or sets the relationships.
+		/// </summary>
+		/// <value>The relationships.</value>
+		public List<EntityRelationshipModel> Relationships { get; set; }
+
+		/// <summary>
 		/// Gets or sets the type list.
 		/// </summary>
 		/// <value>The type list.</value>
-		public List<SelectListItem> TypeList { get; set; }
+		public List<SelectListItem> Types { get; set; }
+
+		/// <summary>
+		/// Gets or sets the version key.
+		/// </summary>
+		/// <value>The version key.</value>
+		public Guid? VersionKey { get; set; }
 	}
 }

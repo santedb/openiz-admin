@@ -45,6 +45,7 @@ namespace OpenIZAdmin.Util
 			{
 				Description = role.Role.Description,
 				Id = role.Id.ToString(),
+				IsObsolete = role.Role.ObsoletionTime != null,
 				Name = role.Role.Name,
 				RolePolicies = role.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList()
 			};

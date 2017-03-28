@@ -1096,10 +1096,10 @@
     <value>For your reference, your ticket ID# is:</value>
   </data>
   <data name="DeviceNotActive" xml:space="preserve">
-    <value>Warning, device is not active</value>
+    <value>Warning, this device is not active</value>
   </data>
   <data name="ApplicationNotActive" xml:space="preserve">
-    <value>Warning, application is not active</value>
+    <value>Warning, this application is not active</value>
   </data>
   <data name="CmcRequest" xml:space="preserve">
     <value>CMC Request</value>
@@ -1190,5 +1190,104 @@
   </data>
   <data name="IdentifierFormatInvalid" xml:space="preserve">
     <value>The identifier format is not valid</value>
+  </data>
+  <data name="Relationships" xml:space="preserve">
+    <value>Relationships</value>
+  </data>
+  <data name="Relationship" xml:space="preserve">
+    <value>Relationship</value>
+  </data>
+  <data name="NoAssociatedRelationships" xml:space="preserve">
+    <value>No associated relationships</value>
+  </data>
+  <data name="Related" xml:space="preserve">
+    <value>Related</value>
+  </data>
+  <data name="RelationRequired" xml:space="preserve">
+    <value>Please select a relation</value>
+  </data>
+  <data name="RelationshipType" xml:space="preserve">
+    <value>Relationship type</value>
+  </data>
+  <data name="RelationshipTypeRequired" xml:space="preserve">
+    <value>Please select a relationship type</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="TargetPopulation" xml:space="preserve">
+    <value>Target population</value>
+  </data>
+  <data name="TargetPopulationRequired" xml:space="preserve">
+    <value>Please enter a target population</value>
+  </data>
+  <data name="CannotUpdateNotActive" xml:space="preserve">
+    <value>Cannot update, not active</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="CodeLength4" xml:space="preserve">
+    <value>The code cannot exceed 4 characters</value>
+  </data>
+  <data name="CodeRequired" xml:space="preserve">
+    <value>Please enter a code</value>
+  </data>
+  <data name="InvalidUsername" xml:space="preserve">
+    <value>Invalid Username</value>
+  </data>
+  <data name="NoTfaMechanisms" xml:space="preserve">
+    <value>No two factor authentication mechanisms configured</value>
+  </data>
+  <data name="PasswordLength50" xml:space="preserve">
+    <value>The password cannot exceed 50 characters</value>
+  </data>
+  <data name="TfaMechanismRequired" xml:space="preserve">
+    <value>Please select a reset mechanism</value>
+  </data>
+  <data name="UsernameLength50" xml:space="preserve">
+    <value>The username cannot exceed 50 characters</value>
+  </data>
+  <data name="Retrieve" xml:space="preserve">
+    <value>Retrieve</value>
+  </data>
+  <data name="UnableTo" xml:space="preserve">
+    <value>Unable to</value>
+  </data>
+  <data name="ForgotPasswordMechanisms" xml:space="preserve">
+    <value>Forgot password mechanisms</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Forgot password</value>
+  </data>
+  <data name="Verification" xml:space="preserve">
+    <value>Verification</value>
+  </data>
+  <data name="VerificationLength50" xml:space="preserve">
+    <value>The verification cannot exceed 50 characeters</value>
+  </data>
+  <data name="VerificationRequired" xml:space="preserve">
+    <value>Please enter a verification</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>Next</value>
+  </data>
+  <data name="ResetCodeSent" xml:space="preserve">
+    <value>We have sent you a reset code to reset your password</value>
+  </data>
+  <data name="MaterialNotActive" xml:space="preserve">
+    <value>Warning, this material is not active</value>
+  </data>
+  <data name="OrganizationNotActive" xml:space="preserve">
+    <value>Warning, this organization is not active</value>
+  </data>
+  <data name="PlaceNotActive" xml:space="preserve">
+    <value>Warning, this place is not active</value>
+  </data>
+  <data name="RoleNotActive" xml:space="preserve">
+    <value>Warning, this role is not active</value>
+  </data>
+  <data name="UserNotActive" xml:space="preserve">
+    <value>Warning, this user is not active</value>
   </data>
 </root>

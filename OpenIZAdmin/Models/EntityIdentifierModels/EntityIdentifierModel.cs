@@ -39,7 +39,7 @@ namespace OpenIZAdmin.Models.EntityIdentifierModels
 		public EntityIdentifierModel()
 		{
 			this.ExistingIdentifiers = new List<EntityIdentifierViewModel>();
-			this.TypeList = new List<SelectListItem>();
+			this.Types = new List<SelectListItem>();
 		}
 
 		/// <summary>
@@ -128,7 +128,7 @@ namespace OpenIZAdmin.Models.EntityIdentifierModels
 		/// Gets or sets the type list.
 		/// </summary>
 		/// <value>The type list.</value>
-		public List<SelectListItem> TypeList { get; set; }
+		public List<SelectListItem> Types { get; set; }
 
 		/// <summary>
 		/// Gets or sets the value of the entity identifier.

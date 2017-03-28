@@ -49,7 +49,7 @@ namespace OpenIZAdmin.Logging
 			}
 			else
 			{
-				this.FileName = Path.Combine(Path.GetDirectoryName(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, HttpRuntime.BinDirectory)), Path.GetFileName(this.FileName));
+				this.FileName = Path.Combine(Path.GetDirectoryName(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, this.FileName)), Path.GetFileName(this.FileName));
 			}
 		}
 

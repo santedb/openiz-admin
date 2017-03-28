@@ -39,10 +39,10 @@ using OpenIZAdmin.Models.OrganizationModels;
 namespace OpenIZAdmin.Controllers
 {
 	/// <summary>
-	/// Provides operations for managing organizations.
+	/// Provides operations for managing entity identifiers.
 	/// </summary>
 	[TokenAuthorize]
-	public class EntityIdentifierController : BaseController
+	public class EntityIdentifierController : AssociationController
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EntityIdentifierController"/> class.
@@ -69,7 +69,7 @@ namespace OpenIZAdmin.Controllers
 
 				model.ExistingIdentifiers = entity.Identifiers.Select(i => new EntityIdentifierViewModel(i)).ToList();
 				model.ModelType = type;
-				model.TypeList = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key").ToList(), entity.Identifiers);
+				model.Types = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key").ToList(), entity.Identifiers);
 			}
 			catch (Exception e)
 			{
@@ -133,7 +133,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.TempData["success"] = Locale.Identifier + " " + Locale.Created + " " + Locale.Successfully;
 
-					return RedirectToAction("Edit", model.ModelType, new { id = updatedEntity.Key.Value });
+					return RedirectToAction("Edit", model.ModelType, new { id = updatedEntity.Key.Value, versionId = updatedEntity.VersionKey });
 				}
 			}
 			catch (Exception e)
@@ -142,7 +142,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to create entity identifier: { e }");
 			}
 
-			model.TypeList = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key").ToList(), identifiers);
+			model.Types = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key").ToList(), identifiers);
 
 			this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Identifier;
 
@@ -169,7 +169,7 @@ namespace OpenIZAdmin.Controllers
 
 				var updatedEntity = this.UpdateEntity(entity, modelType);
 
-				return RedirectToAction("View" + type, type, new { id = updatedEntity.Key.Value });
+				return RedirectToAction("View" + type, type, new { id = updatedEntity.Key.Value, versionId = updatedEntity.VersionKey });
 			}
 			catch (Exception e)
 			{
@@ -210,11 +210,11 @@ namespace OpenIZAdmin.Controllers
 
 				if (!string.IsNullOrEmpty(model.Type) && !string.IsNullOrWhiteSpace(model.Type))
 				{
-					model.TypeList = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key", a => a.Key == Guid.Parse(model.Type)), entity.Identifiers);
+					model.Types = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key", a => a.Key == Guid.Parse(model.Type)), entity.Identifiers);
 				}
 				else
 				{
-					model.TypeList = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key"), entity.Identifiers);
+					model.Types = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key"), entity.Identifiers);
 				}
 			}
 			catch (Exception e)
@@ -278,7 +278,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.TempData["success"] = Locale.Identifier + " " + Locale.Created + " " + Locale.Successfully;
 
-					return RedirectToAction("Edit", model.ModelType, new { id = updatedEntity.Key.Value });
+					return RedirectToAction("Edit", model.ModelType, new { id = updatedEntity.Key.Value, versionId = updatedEntity.VersionKey });
 				}
 			}
 			catch (Exception e)
@@ -289,11 +289,11 @@ namespace OpenIZAdmin.Controllers
 
 			if (!string.IsNullOrEmpty(model.Type) && !string.IsNullOrWhiteSpace(model.Type))
 			{
-				model.TypeList = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key", a => a.Key == Guid.Parse(model.Type)), identifiers);
+				model.Types = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key", a => a.Key == Guid.Parse(model.Type)), identifiers);
 			}
 			else
 			{
-				model.TypeList = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key"), identifiers);
+				model.Types = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key"), identifiers);
 			}
 
 			this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Identifier;
@@ -340,46 +340,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Gets the entity.
-		/// </summary>
-		/// <param name="id">The identifier.</param>
-		/// <param name="modelType">Type of the model.</param>
-		/// <returns>Entity.</returns>
-		private Entity GetEntity(Guid id, Type modelType)
-		{
-			var getMethod = this.ImsiClient.GetType().GetRuntimeMethod("Get", new Type[] { typeof(Guid), typeof(Guid?) }).MakeGenericMethod(modelType);
-
-			return getMethod.Invoke(this.ImsiClient, new object[] { id, null }) as Entity;
-		}
-
-		/// <summary>
-		/// Gets the type of the model.
-		/// </summary>
-		/// <param name="type">The type.</param>
-		/// <returns>Returns the type for a given model type.</returns>
-		/// <exception cref="System.ArgumentException">If the model type is not supported.</exception>
-		private Type GetModelType(string type)
-		{
-			Type modelType;
-			switch (type)
-			{
-				case "Material":
-					modelType = typeof(Material);
-					break;
-				case "Place":
-					modelType = typeof(Place);
-					break;
-				case "Organization":
-					modelType = typeof(Organization);
-					break;
-				default:
-					throw new ArgumentException($"Unsupported type: { type }");
-			}
-
-			return modelType;
-		}
-
-		/// <summary>
 		/// Removes the existing identifiers.
 		/// </summary>
 		/// <param name="items">The items.</param>
@@ -407,27 +367,14 @@ namespace OpenIZAdmin.Controllers
 
 			if (!string.IsNullOrEmpty(model.Type) && !string.IsNullOrWhiteSpace(model.Type))
 			{
-				model.TypeList = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key", a => a.Key == Guid.Parse(model.Type)), identifiers);
+				model.Types = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key", a => a.Key == Guid.Parse(model.Type)), identifiers);
 			}
 			else
 			{
-				model.TypeList = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key"), identifiers);
+				model.Types = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key"), identifiers);
 			}
 
 			return model;
-		}
-
-		/// <summary>
-		/// Updates the entity.
-		/// </summary>
-		/// <param name="entity">The entity.</param>
-		/// <param name="modelType">Type of the model.</param>
-		/// <returns>Entity.</returns>
-		private Entity UpdateEntity(Entity entity, Type modelType)
-		{
-			var updateMethod = this.ImsiClient.GetType().GetRuntimeMethods().First(m => m.Name == "Update" && m.IsGenericMethod).MakeGenericMethod(modelType);
-
-			return updateMethod.Invoke(this.ImsiClient, new object[] { entity }) as Entity;
 		}
 	}
 }

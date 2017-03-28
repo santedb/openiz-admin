@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Security.Principal;
@@ -42,6 +43,16 @@ namespace OpenIZAdmin.Controllers
 	public abstract class BaseController : Controller
 	{
 		/// <summary>
+		/// The health facility mnemonic.
+		/// </summary>
+		private readonly string healthFacilityMnemonic = ConfigurationManager.AppSettings["HealthFacilityTypeConceptMnemonic"];
+
+		/// <summary>
+		/// The place type mnemonic.
+		/// </summary>
+		private readonly string placeTypeMnemonic = ConfigurationManager.AppSettings["PlaceTypeConceptMnemonic"];
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="BaseController"/> class.
 		/// </summary>
 		protected BaseController()
@@ -58,6 +69,7 @@ namespace OpenIZAdmin.Controllers
 		/// Gets the <see cref="ImsiServiceClient"/> instance.
 		/// </summary>
 		protected ImsiServiceClient ImsiClient { get; private set; }
+
 
 		/// <summary>
 		/// Dispose of any managed resources.
@@ -163,6 +175,27 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Gets the entity relationship concept set.
+		/// </summary>
+		/// <returns>Returns the entity relationship type concept set.</returns>
+		protected ConceptSet GetEntityRelationshipTypeConceptSet()
+		{
+			var conceptSet = MvcApplication.MemoryCache.Get(ConceptSetKeys.EntityRelationshipType.ToString()) as ConceptSet;
+
+			if (conceptSet == null)
+			{
+				conceptSet = this.ImsiClient.Get<ConceptSet>(ConceptSetKeys.EntityRelationshipType, null) as ConceptSet;
+
+				if (conceptSet != null)
+				{
+					MvcApplication.MemoryCache.Set(ConceptSetKeys.EntityRelationshipType.ToString(), conceptSet, MvcApplication.CacheItemPolicy);
+				}
+			}
+
+			return conceptSet;
+		}
+
+		/// <summary>
 		/// Gets the concept set.
 		/// </summary>
 		/// <param name="mnemonic">The mnemonic.</param>
@@ -211,6 +244,54 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Gets the type concepts.
+		/// </summary>
+		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
+		protected IEnumerable<Concept> GetMaterialTypeConcepts()
+		{
+			var concepts = MvcApplication.MemoryCache.Get(ConceptClassKeys.Material.ToString()) as IEnumerable<Concept>;
+
+			if (concepts == null)
+			{
+				var bundle = this.ImsiClient.Query<Concept>(c => c.ClassKey == ConceptClassKeys.Material && c.ObsoletionTime == null);
+
+				bundle.Reconstitute();
+
+				concepts = bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.Material && c.ObsoletionTime == null);
+
+				MvcApplication.MemoryCache.Set(new CacheItem(ConceptClassKeys.Material.ToString(), concepts.ToList()), MvcApplication.CacheItemPolicy);
+			}
+
+			return concepts;
+		}
+
+		/// <summary>
+		/// Gets the place type concepts.
+		/// </summary>
+		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
+		protected IEnumerable<Concept> GetPlaceTypeConcepts()
+		{
+			var typeConcepts = new List<Concept>();
+
+			if (!string.IsNullOrEmpty(this.healthFacilityMnemonic) && !string.IsNullOrWhiteSpace(this.healthFacilityMnemonic))
+			{
+				typeConcepts.AddRange(this.GetConceptSet(this.healthFacilityMnemonic).Concepts);
+			}
+
+			if (!string.IsNullOrEmpty(this.placeTypeMnemonic) && !string.IsNullOrWhiteSpace(this.placeTypeMnemonic))
+			{
+				typeConcepts.AddRange(this.GetConceptSet(this.placeTypeMnemonic).Concepts);
+			}
+
+			if (!typeConcepts.Any())
+			{
+				typeConcepts.AddRange(this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null));
+			}
+
+			return typeConcepts;
+		}
+
+		/// <summary>
 		/// Gets the quantity concepts.
 		/// </summary>
 		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
@@ -227,28 +308,6 @@ namespace OpenIZAdmin.Controllers
 				concepts = bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.UnitOfMeasure && c.ObsoletionTime == null);
 
 				MvcApplication.MemoryCache.Set(new CacheItem(ConceptClassKeys.UnitOfMeasure.ToString(), concepts.ToList()), MvcApplication.CacheItemPolicy);
-			}
-
-			return concepts;
-		}
-
-		/// <summary>
-		/// Gets the type concepts.
-		/// </summary>
-		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
-		protected IEnumerable<Concept> GetTypeConcepts()
-		{
-			var concepts = MvcApplication.MemoryCache.Get(ConceptClassKeys.Material.ToString()) as IEnumerable<Concept>;
-
-			if (concepts == null)
-			{
-				var bundle = this.ImsiClient.Query<Concept>(c => c.ClassKey == ConceptClassKeys.Material && c.ObsoletionTime == null);
-
-				bundle.Reconstitute();
-
-				concepts = bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.Material && c.ObsoletionTime == null);
-
-				MvcApplication.MemoryCache.Set(new CacheItem(ConceptClassKeys.Material.ToString(), concepts.ToList()), MvcApplication.CacheItemPolicy);
 			}
 
 			return concepts;

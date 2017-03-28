@@ -39,8 +39,8 @@ namespace OpenIZAdmin
 
 			routes.MapRoute(
 				name: "Default",
-				url: "{controller}/{action}/{id}",
-				defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
+				url: "{controller}/{action}/{id}/{versionId}",
+				defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional, versionId = UrlParameter.Optional }
 			);
 		}
 	}

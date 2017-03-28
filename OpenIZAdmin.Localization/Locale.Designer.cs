@@ -241,7 +241,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Warning, application is not active.
+        ///   Looks up a localized string similar to Warning, this application is not active.
         /// </summary>
         public static string ApplicationNotActive {
             get {
@@ -367,6 +367,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot update, not active.
+        /// </summary>
+        public static string CannotUpdateNotActive {
+            get {
+                return ResourceManager.GetString("CannotUpdateNotActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can Override.
         /// </summary>
         public static string CanOverride {
@@ -462,6 +471,33 @@ namespace OpenIZAdmin.Localization {
         public static string CmcRequest {
             get {
                 return ResourceManager.GetString("CmcRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Code.
+        /// </summary>
+        public static string Code {
+            get {
+                return ResourceManager.GetString("Code", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The code cannot exceed 4 characters.
+        /// </summary>
+        public static string CodeLength4 {
+            get {
+                return ResourceManager.GetString("CodeLength4", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a code.
+        /// </summary>
+        public static string CodeRequired {
+            get {
+                return ResourceManager.GetString("CodeRequired", resourceCulture);
             }
         }
         
@@ -745,7 +781,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Warning, device is not active.
+        ///   Looks up a localized string similar to Warning, this device is not active.
         /// </summary>
         public static string DeviceNotActive {
             get {
@@ -993,6 +1029,24 @@ namespace OpenIZAdmin.Localization {
         public static string For {
             get {
                 return ResourceManager.GetString("For", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forgot password.
+        /// </summary>
+        public static string ForgotPassword {
+            get {
+                return ResourceManager.GetString("ForgotPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forgot password mechanisms.
+        /// </summary>
+        public static string ForgotPasswordMechanisms {
+            get {
+                return ResourceManager.GetString("ForgotPasswordMechanisms", resourceCulture);
             }
         }
         
@@ -1249,6 +1303,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid Username.
+        /// </summary>
+        public static string InvalidUsername {
+            get {
+                return ResourceManager.GetString("InvalidUsername", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is Public.
         /// </summary>
         public static string IsPublic {
@@ -1474,6 +1537,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warning, this material is not active.
+        /// </summary>
+        public static string MaterialNotActive {
+            get {
+                return ResourceManager.GetString("MaterialNotActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Materials.
         /// </summary>
         public static string Materials {
@@ -1609,6 +1681,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next.
+        /// </summary>
+        public static string Next {
+            get {
+                return ResourceManager.GetString("Next", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No.
         /// </summary>
         public static string No {
@@ -1659,6 +1740,15 @@ namespace OpenIZAdmin.Localization {
         public static string NoAssociatedPolicies {
             get {
                 return ResourceManager.GetString("NoAssociatedPolicies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No associated relationships.
+        /// </summary>
+        public static string NoAssociatedRelationships {
+            get {
+                return ResourceManager.GetString("NoAssociatedRelationships", resourceCulture);
             }
         }
         
@@ -1735,6 +1825,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No two factor authentication mechanisms configured.
+        /// </summary>
+        public static string NoTfaMechanisms {
+            get {
+                return ResourceManager.GetString("NoTfaMechanisms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not Found.
         /// </summary>
         public static string NotFound {
@@ -1807,6 +1906,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warning, this organization is not active.
+        /// </summary>
+        public static string OrganizationNotActive {
+            get {
+                return ResourceManager.GetString("OrganizationNotActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Organizations.
         /// </summary>
         public static string Organizations {
@@ -1839,6 +1947,15 @@ namespace OpenIZAdmin.Localization {
         public static string PasswordLength {
             get {
                 return ResourceManager.GetString("PasswordLength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The password cannot exceed 50 characters.
+        /// </summary>
+        public static string PasswordLength50 {
+            get {
+                return ResourceManager.GetString("PasswordLength50", resourceCulture);
             }
         }
         
@@ -1893,6 +2010,15 @@ namespace OpenIZAdmin.Localization {
         public static string Place {
             get {
                 return ResourceManager.GetString("Place", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning, this place is not active.
+        /// </summary>
+        public static string PlaceNotActive {
+            get {
+                return ResourceManager.GetString("PlaceNotActive", resourceCulture);
             }
         }
         
@@ -1996,6 +2122,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quantity.
+        /// </summary>
+        public static string Quantity {
+            get {
+                return ResourceManager.GetString("Quantity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Quantity Concept.
         /// </summary>
         public static string QuantityConcept {
@@ -2059,6 +2194,60 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Related.
+        /// </summary>
+        public static string Related {
+            get {
+                return ResourceManager.GetString("Related", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a relation.
+        /// </summary>
+        public static string RelationRequired {
+            get {
+                return ResourceManager.GetString("RelationRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relationship.
+        /// </summary>
+        public static string Relationship {
+            get {
+                return ResourceManager.GetString("Relationship", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relationships.
+        /// </summary>
+        public static string Relationships {
+            get {
+                return ResourceManager.GetString("Relationships", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Relationship type.
+        /// </summary>
+        public static string RelationshipType {
+            get {
+                return ResourceManager.GetString("RelationshipType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a relationship type.
+        /// </summary>
+        public static string RelationshipTypeRequired {
+            get {
+                return ResourceManager.GetString("RelationshipTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reporter.
         /// </summary>
         public static string Reporter {
@@ -2077,6 +2266,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to We have sent you a reset code to reset your password.
+        /// </summary>
+        public static string ResetCodeSent {
+            get {
+                return ResourceManager.GetString("ResetCodeSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retrieve.
+        /// </summary>
+        public static string Retrieve {
+            get {
+                return ResourceManager.GetString("Retrieve", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Role.
         /// </summary>
         public static string Role {
@@ -2091,6 +2298,15 @@ namespace OpenIZAdmin.Localization {
         public static string RoleId {
             get {
                 return ResourceManager.GetString("RoleId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning, this role is not active.
+        /// </summary>
+        public static string RoleNotActive {
+            get {
+                return ResourceManager.GetString("RoleNotActive", resourceCulture);
             }
         }
         
@@ -2307,6 +2523,33 @@ namespace OpenIZAdmin.Localization {
         public static string System {
             get {
                 return ResourceManager.GetString("System", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target population.
+        /// </summary>
+        public static string TargetPopulation {
+            get {
+                return ResourceManager.GetString("TargetPopulation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a target population.
+        /// </summary>
+        public static string TargetPopulationRequired {
+            get {
+                return ResourceManager.GetString("TargetPopulationRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a reset mechanism.
+        /// </summary>
+        public static string TfaMechanismRequired {
+            get {
+                return ResourceManager.GetString("TfaMechanismRequired", resourceCulture);
             }
         }
         
@@ -2842,6 +3085,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to.
+        /// </summary>
+        public static string UnableTo {
+            get {
+                return ResourceManager.GetString("UnableTo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to accept certificate signing request.
         /// </summary>
         public static string UnableToAcceptCertificateSigningRequest {
@@ -3166,6 +3418,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The username cannot exceed 50 characters.
+        /// </summary>
+        public static string UsernameLength50 {
+            get {
+                return ResourceManager.GetString("UsernameLength50", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Username field is required.
         /// </summary>
         public static string UsernameRequired {
@@ -3180,6 +3441,15 @@ namespace OpenIZAdmin.Localization {
         public static string UsernameTooLong {
             get {
                 return ResourceManager.GetString("UsernameTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning, this user is not active.
+        /// </summary>
+        public static string UserNotActive {
+            get {
+                return ResourceManager.GetString("UserNotActive", resourceCulture);
             }
         }
         
@@ -3243,6 +3513,33 @@ namespace OpenIZAdmin.Localization {
         public static string VendorName {
             get {
                 return ResourceManager.GetString("VendorName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verification.
+        /// </summary>
+        public static string Verification {
+            get {
+                return ResourceManager.GetString("Verification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The verification cannot exceed 50 characeters.
+        /// </summary>
+        public static string VerificationLength50 {
+            get {
+                return ResourceManager.GetString("VerificationLength50", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a verification.
+        /// </summary>
+        public static string VerificationRequired {
+            get {
+                return ResourceManager.GetString("VerificationRequired", resourceCulture);
             }
         }
         

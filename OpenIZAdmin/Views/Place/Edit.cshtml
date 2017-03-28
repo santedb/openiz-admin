@@ -1,11 +1,40 @@
-﻿@model OpenIZAdmin.Models.PlaceModels.EditPlaceModel
+﻿@using OpenIZAdmin.Models
+@model OpenIZAdmin.Models.PlaceModels.EditPlaceModel
 @{
     ViewBag.Title = Locale.Edit + " " + Locale.Place;
 }
 
+@Html.Partial("_ObsoleteWarningPartial", new ObsoleteWarningViewModel(Model.IsObsolete, Locale.PlaceNotActive))
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="panel-title">@(Locale.Edit + " " + Locale.Place)</span>
+        <div class="pull-right">
+            @if (!Model.IsObsolete)
+            {
+                using (Html.BeginForm("Delete", "Place", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit" class="formButton btn btn-danger">
+                        @Locale.Deactivate
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                }
+            }
+            else
+            {
+                using (Html.BeginForm("Activate", "Place", new { id = Model.Id, versionId = Model.VersionKey }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <button type="submit" class="formButton btn btn-success">
+                        @Locale.Activate
+                        <span class="glyphicon glyphicon-upload"></span>
+                    </button>
+}
+            }
+        </div>
     </div>
     <div class="panel panel-body">
         @using (Html.BeginForm("Edit", "Place", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -16,25 +45,39 @@
             @Html.HiddenFor(m => m.Id)
 
             <div class="form-group">
-                @Html.LabelFor(m => m.Name, new {@class = "col-md-2 control-label"})
+                @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Name, new {@class = "form-control", title = Locale.ToolTip_PlaceName})
-                    @Html.ValidationMessageFor(m => m.Name, "", new {@class = "text-danger"})
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_PlaceName })
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.RelatedPlaces, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.TargetPopulation, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.DropDownListFor(m => m.RelatedPlaceKeys, Model.RelatedPlacesList, new { @class = "place-search form-control", multiple = "multiple", title = Locale.ToolTip_Policies })
-                    @Html.ValidationMessageFor(m => m.RelatedPlaces, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.TargetPopulation, new { @class = "form-control", title = Locale.ToolTip_PlaceName })
+                    @Html.ValidationMessageFor(m => m.TargetPopulation, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.TypeConcept, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.TypeConcept, Model.TypeConcepts, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.TypeConcept, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
-                    <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+                    @if (Model.IsObsolete)
+                    {
+                        <button type="submit" class="btn btn-primary" disabled="disabled" title="@Locale.ToolTip_Submit">@Locale.CannotUpdateNotActive</button>  }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+}
                 </div>
             </div>
         }
@@ -44,52 +87,47 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="panel-title">@Locale.Identifiers</span>
-        <div class="pull-right">
-            <a href="@Url.Action("Create", "EntityIdentifier", new {id = Model.Id, type = "Place"})">
-                <span class="text-primary h4">@Locale.New</span>
-                <span class="glyphicon glyphicon-plus-sign"></span>
-            </a>
-        </div>
+        @if (!Model.IsObsolete)
+        {
+            <div class="pull-right">
+                <a href="@Url.Action("Create", "EntityIdentifier", new {id = Model.Id, type = "Place"})">
+                    <span class="text-primary h4">@Locale.New</span>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                </a>
+            </div>
+        }
     </div>
     @Html.Partial("_ManageIdentifiersPartial", Model.Identifiers)
 </div>
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">
-            <span class="text-white h4">@Locale.Details</span>
-        </span>
-    </div>
-    <div class="panel panel-body">
-        @if (Model.RelatedPlaces.Any())
+        <span class="panel-title">@Locale.Relationships</span>
+        
+        @if (!Model.IsObsolete)
         {
-            <table class="table table-striped table-bordered" id="viewPlaceTable">
-                <thead>
-                <tr>
-                    <th>@Locale.Name</th>
-                    <th>@Locale.Type</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var item in Model.RelatedPlaces)
-                {
-                    <tr>
-                        <td>@item.Name</td>
-                        <td>@item.Type</td>
-                    </tr>}
-                </tbody>
-            </table>}
-        else
-        {
-            <p>@Locale.NoAdditionalDetails</p>}
+            <div class="pull-right">
+                <a href="@Url.Action("CreateRelatedManufacturedMaterial", "Place", new { id = Model.Id })">
+                    <span class="text-primary h4">@(Locale.New + " " + Locale.ManufacturedMaterial)</span>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                </a>
+
+                <a href="@Url.Action("CreateRelatedPlace", "Place", new { id = Model.Id })">
+                    <span class="text-primary h4">@(Locale.New + " " + Locale.Place)</span>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                </a>
+            </div>
+        }
 
     </div>
+    @Html.Partial("_ManageRelationshipsPartial", Model.Relationships)
 </div>
 
 
 @section scripts{
     <script>
-        $(document).ready(function () {
+        $(document).ready(function ()
+        {
             $("#viewPlaceTable").DataTable();
             $('.dynamic-dropdown').select2({
                 tags: true,

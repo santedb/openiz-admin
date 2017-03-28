@@ -22,9 +22,11 @@ using System;
 using System.Diagnostics;
 using System.Runtime.Caching;
 using System.Web;
+using System.Web.Caching;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using CacheItemPriority = System.Runtime.Caching.CacheItemPriority;
 
 namespace OpenIZAdmin
 {
@@ -41,7 +43,7 @@ namespace OpenIZAdmin
 		/// <summary>
 		/// The cache item policy.
 		/// </summary>
-		public static readonly CacheItemPolicy CacheItemPolicy = new CacheItemPolicy { SlidingExpiration = new TimeSpan(0, 0, 10, 0), Priority = CacheItemPriority.Default };
+		public static readonly CacheItemPolicy CacheItemPolicy = new CacheItemPolicy { SlidingExpiration = new TimeSpan(0, 0, 10, 0), Priority = CacheItemPriority.Default, RemovedCallback = CacheItemRemoved };
 
 		/// <summary>
 		/// Called when the application encounters an unexpected error.
@@ -84,6 +86,11 @@ namespace OpenIZAdmin
 			QuartzConfig.Initialize();
 
 			Trace.TraceInformation("Application started");
+		}
+
+		private static void CacheItemRemoved(CacheEntryRemovedArguments arguments)
+		{
+			Trace.TraceInformation($"Cache item removed key: { arguments.CacheItem.Key } value: { arguments.CacheItem.Value }");
 		}
 	}
 }

@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.PlaceModels
@@ -44,10 +45,18 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// Gets or sets the name.
 		/// </summary>
 		/// <value>The name.</value>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
 		public string Name { get; set; }
+
+		/// <summary>
+		/// Gets or sets the target population.
+		/// </summary>
+		/// <value>The target population.</value>
+		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "TargetPopulation", ErrorMessageResourceType = typeof(Locale))]
+		public long TargetPopulation { get; set; }
 
 		/// <summary>
 		/// Gets or sets the type concept.

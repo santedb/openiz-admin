@@ -124,6 +124,40 @@ namespace OpenIZAdmin.DAL
 		}
 
 		/// <summary>
+		/// Tfas the sign in asynchronous.
+		/// </summary>
+		/// <param name="username">The username.</param>
+		/// <param name="password">The password.</param>
+		/// <param name="tfaSecret">The tfa secret.</param>
+		/// <returns>Task&lt;SignInStatus&gt;.</returns>
+		/// <exception cref="System.InvalidOperationException">Must be joined to realm before attempting to sign in</exception>
+		public async Task<SignInStatus> TfaSignInAsync(string username, string password, string tfaSecret)
+		{
+			var currentRealm = RealmConfig.GetCurrentRealm();
+
+			if (currentRealm == null)
+			{
+				throw new InvalidOperationException("Must be joined to realm before attempting to sign in");
+			}
+
+			using (var client = new HttpClient())
+			{
+				client.DefaultRequestHeaders.Add("Authorization", "BASIC " + Convert.ToBase64String(Encoding.UTF8.GetBytes(currentRealm.ApplicationId + ":" + currentRealm.ApplicationSecret)));
+				client.DefaultRequestHeaders.Add("X-OpenIZ-TfaSecret", tfaSecret);
+
+				var content = new StringContent($"grant_type=password&username={username}&password={password}&scope={currentRealm.Address}/imsi");
+
+				// HACK: have to remove the headers before adding them...
+				content.Headers.Remove("Content-Type");
+				content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+
+				var result = await client.PostAsync($"{currentRealm.Address}/auth/oauth2_token", content);
+
+				return result.IsSuccessStatusCode ? SignInStatus.Success : SignInStatus.Failure;
+			}
+		}
+
+		/// <summary>
 		/// Signs in a user using a username and password.
 		/// </summary>
 		/// <param name="userName">The username of the user.</param>
@@ -192,7 +226,7 @@ namespace OpenIZAdmin.DAL
 			var securityToken = new JwtSecurityToken(accessToken);
 
 			// if the user is not a part of the administrators group, we don't allow them to login
-			if (securityToken.Claims.Where(c => c.Type == "role").Select(c => c.Value).All(c => c != Constants.Administrators))
+			if (securityToken.Claims.Select(c => c.Value).All(c => c != Constants.UnrestrictedAdministration))
 			{
 				return SignInStatus.Failure;
 			}

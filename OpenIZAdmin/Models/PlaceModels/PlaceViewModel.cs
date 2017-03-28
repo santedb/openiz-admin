@@ -17,11 +17,14 @@
  * Date: 2016-7-23
  */
 
+using System;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Models.Core;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
@@ -35,7 +38,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// </summary>
 		public PlaceViewModel()
 		{
-			this.RelatedPlaces = new List<RelatedPlaceModel>();
+
 		}
 
 		/// <summary>
@@ -44,26 +47,17 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <param name="place">The place.</param>
 		public PlaceViewModel(Place place) : base(place)
 		{
-			this.RelatedPlaces = new List<RelatedPlaceModel>();
-
-			var childPlaces = place.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child)
-						.Select(r => r.TargetEntity)
-						.OfType<Place>()
-						.Select(p => new RelatedPlaceModel(p));
-
-			this.RelatedPlaces.AddRange(childPlaces);
-
-			var parentPlaces = place.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent)
-									.Select(r => r.TargetEntity)
-									.OfType<Place>()
-									.Select(p => new RelatedPlaceModel(p));
-
-			this.RelatedPlaces.AddRange(parentPlaces);
+			if (place.Extensions.Any(e => e.ExtensionTypeKey  == Constants.TargetPopulationExtensionTypeKey))
+			{
+				this.TargetPopulation = BitConverter.ToInt64(place.Extensions.First(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey).ExtensionValueXml, 0);
+			}
 		}
 
 		/// <summary>
-		/// Gets or sets a list of places related to the place.
+		/// Gets or sets the target population.
 		/// </summary>
-		public List<RelatedPlaceModel> RelatedPlaces { get; set; }
+		/// <value>The target population.</value>
+		[Required(ErrorMessageResourceName = "TargetPopulation", ErrorMessageResourceType = typeof(Locale))]
+		public long TargetPopulation { get; set; }
 	}
 }

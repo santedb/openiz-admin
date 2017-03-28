@@ -18,13 +18,15 @@
  */
 
 using System;
+using System.Collections.Generic;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Models.Core;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
@@ -38,9 +40,6 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// </summary>
 		public EditPlaceModel()
 		{
-			this.RelatedPlaces = new List<RelatedPlaceModel>();
-			this.RelatedPlaceKeys = new List<string>();
-			this.RelatedPlacesList = new List<SelectListItem>();
 		}
 
 		/// <summary>
@@ -51,33 +50,43 @@ namespace OpenIZAdmin.Models.PlaceModels
 		public EditPlaceModel(Place place) : base(place)
 		{
 			this.Name = string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value));
-			this.RelatedPlaces = new List<RelatedPlaceModel>();
-			this.RelatedPlaceKeys = new List<string>();
-			this.RelatedPlacesList = new List<SelectListItem>();
+
+			if (place.Extensions.Any(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey))
+			{
+				this.TargetPopulation = BitConverter.ToInt64(place.Extensions.First(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey).ExtensionValueXml, 0);
+			}
+
+			this.TypeConcepts = new List<SelectListItem>();
 		}
 
 		/// <summary>
 		/// Gets or sets the name of the place.
 		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
 		/// <summary>
-		/// Gets or sets the related places.
+		/// Gets or sets the target population.
 		/// </summary>
-		public List<string> RelatedPlaceKeys { get; set; }
+		/// <value>The target population.</value>
+		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "TargetPopulation", ErrorMessageResourceType = typeof(Locale))]
+		public long TargetPopulation { get; set; }
 
 		/// <summary>
-		/// Gets or sets the list of related place models.
+		/// Gets or sets the type concept.
 		/// </summary>
-		public List<RelatedPlaceModel> RelatedPlaces { get; set; }
+		/// <value>The type concept.</value>
+		[Display(Name = "TypeConcept", ResourceType = typeof(Locale))]
+		public string TypeConcept { get; set; }
 
 		/// <summary>
-		/// Gets or sets the related places select list.
+		/// Gets or sets the type concepts.
 		/// </summary>
-		public List<SelectListItem> RelatedPlacesList { get; set; }
+		/// <value>The type concepts.</value>
+		public List<SelectListItem> TypeConcepts { get; set; }
 
 		/// <summary>
 		/// Converts a <see cref="EditPlaceModel"/> instance to a <see cref="Place"/> instance.
@@ -87,8 +96,10 @@ namespace OpenIZAdmin.Models.PlaceModels
 		public Place ToPlace(Place place)
 		{
 			place.CreationTime = DateTimeOffset.Now;
+			place.Extensions.RemoveAll(e => e.ExtensionType.Name == Constants.TargetPopulationUrl);
 			place.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.OfficialRecord);
 			place.Names.Add(new EntityName(NameUseKeys.OfficialRecord, this.Name));
+			place.TypeConceptKey = Guid.Parse(this.TypeConcept);
 			place.VersionKey = null;
 
 			return place;
