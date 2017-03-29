@@ -1273,7 +1273,7 @@
     <value>Next</value>
   </data>
   <data name="ResetCodeSent" xml:space="preserve">
-    <value>We have sent you a reset code to reset your password</value>
+    <value>We have sent you a code to reset your password</value>
   </data>
   <data name="MaterialNotActive" xml:space="preserve">
     <value>Warning, this material is not active</value>

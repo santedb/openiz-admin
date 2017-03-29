@@ -2266,7 +2266,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to We have sent you a reset code to reset your password.
+        ///   Looks up a localized string similar to We have sent you a code to reset your password.
         /// </summary>
         public static string ResetCodeSent {
             get {
