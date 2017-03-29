@@ -207,6 +207,10 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
+				// ensure the device/service account is logged out first, so that we have the most recent access token value
+				this.HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+				this.Response.Cookies.Remove("access_token");
+
 				var amiServiceClient = GetDeviceServiceClient();
 
 				var twoFactorAuthenticationMechanisms = amiServiceClient.GetTwoFactorMechanisms();
@@ -365,8 +369,9 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				// ensure logged out, before device login
+				// ensure the device/service account is logged out first, so that we have the most recent access token value
 				this.HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+				this.Response.Cookies.Remove("access_token");
 
 				if (this.ModelState.IsValid)
 				{

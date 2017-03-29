@@ -101,7 +101,7 @@ namespace OpenIZAdmin.DAL
 
 				client.DefaultRequestHeaders.Add("Authorization", "BASIC " + Convert.ToBase64String(Encoding.UTF8.GetBytes(realm.ApplicationId + ":" + realm.ApplicationSecret)));
 
-				var content = new StringContent($"grant_type=password&username={realm.DeviceId}&password={realm.DeviceSecret}&scope={$"{realm.Address}/imsi"}");
+				var content = new StringContent($"grant_type=password&username={realm.DeviceId}&password={realm.DeviceSecret}&scope={realm.Address}/imsi");
 
 				// HACK: have to remove the headers before adding them...
 				content.Headers.Remove("Content-Type");
@@ -113,9 +113,15 @@ namespace OpenIZAdmin.DAL
 				{
 					var response = JObject.Parse(result.Content.ReadAsStringAsync().Result);
 
-					deviceIdentity = new DeviceIdentity(Guid.NewGuid(), realm.DeviceId, true)
+					var accessToken = response.GetValue("access_token").ToString();
+#if DEBUG
+					Trace.TraceInformation($"Access token: {accessToken}");
+#endif
+					var securityToken = new JwtSecurityToken(accessToken);
+
+					deviceIdentity = new DeviceIdentity(Guid.Parse(securityToken.Claims.First(c => c.Type == "sub").Value), realm.DeviceId, true)
 					{
-						AccessToken = response.GetValue("access_token").ToString()
+						AccessToken = accessToken
 					};
 				}
 			}
