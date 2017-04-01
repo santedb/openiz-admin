@@ -817,6 +817,11 @@
             <param name="url">URL.</param>
             <typeparam name="TResult">The 1st type parameter.</typeparam>
         </member>
+        <member name="M:OpenIZ.Core.Http.IRestClient.Get(System.String)">
+            <summary>
+            Perform a raw get
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Http.IRestClient.Description">
             <summary>
             Gets the service client description
@@ -831,6 +836,11 @@
         <member name="E:OpenIZ.Core.Http.IRestClient.Responded">
             <summary>
             Fired after the request has been finished
+            </summary>
+        </member>
+        <member name="E:OpenIZ.Core.Http.IRestClient.ProgressChanged">
+            <summary>
+            Fired when progress has changed
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Http.JsonBodySerializer">
@@ -918,6 +928,16 @@
             Fired on response
             </summary>
         </member>
+        <member name="E:OpenIZ.Core.Http.RestClientBase.ProgressChanged">
+            <summary>
+            Progress has changed
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Http.RestClientBase.FireProgressChanged(System.String,System.String,OpenIZ.Core.Model.Query.NameValueCollection,System.String,System.Int32,System.Single)">
+            <summary>
+            Fire that progress has changed
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Http.RestClientBase.#ctor">
             <summary>
             Initializes a new instance of the <see cref="!:OpenIZ.Core.Http.RestClient"/> class.
@@ -961,6 +981,11 @@
             <typeparam name="T">The 1st type parameter.</typeparam>
             <param name="url">URL.</param>
             <typeparam name="TResult">The 1st type parameter.</typeparam>
+        </member>
+        <member name="M:OpenIZ.Core.Http.RestClientBase.Get(System.String)">
+            <summary>
+            Gets the specified URL in raw format
+            </summary>
         </member>
         <member name="M:OpenIZ.Core.Http.RestClientBase.Invoke``2(System.String,System.String,System.String,``0)">
             <summary>
@@ -1180,6 +1205,21 @@
         <member name="P:OpenIZ.Core.Http.RestResponseEventArgs.StatusCode">
             <summary>
             Identifies the response code
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Http.RestStatusEventArgs">
+            <summary>
+            Status changed event args
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Http.RestStatusEventArgs.#ctor(System.String,System.String,OpenIZ.Core.Model.Query.NameValueCollection,System.String,System.Object,System.Int32,System.Single)">
+            <summary>
+            REST response client event args
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Http.RestStatusEventArgs.Progress">
+            <summary>
+            Gets or sets the progress
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Http.XmlBodySerializer">

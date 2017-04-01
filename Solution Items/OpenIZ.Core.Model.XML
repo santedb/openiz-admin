@@ -3968,11 +3968,6 @@
             True if the class is currently loading associations when accessed
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.IdentifiedData.SetDelayLoad(System.Boolean,System.Collections.Generic.HashSet{System.Nullable{System.Guid}})">
-            <summary>
-            Set delay load
-            </summary>
-        </member>
         <member name="P:OpenIZ.Core.Model.IdentifiedData.Key">
             <summary>
             The internal primary key value of the entity

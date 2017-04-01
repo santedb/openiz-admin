@@ -19,6 +19,11 @@
             Gets or sets whether caching is enabled
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Applets.AppletCollection.AuthenticationAssets">
+            <summary>
+            Get authentication assets
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Applets.AppletCollection.Resolver">
             <summary>
             Asset content resolver called when asset content is null
@@ -595,6 +600,11 @@
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Applets.Model.AppletManifest.StartAsset">
+            <summary>
+            Instructs the host which asset can be used as a starting point
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Applets.Model.AppletManifest.LoginAsset">
             <summary>
             Instructs the host which asset can be used as a starting point
             </summary>
