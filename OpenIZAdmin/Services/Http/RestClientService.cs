@@ -228,7 +228,7 @@ namespace OpenIZAdmin.Services.Http
 								throw new ArgumentNullException(nameof(contentType));
 
 							serializer = this.Description.Binding.ContentTypeMapper.GetSerializer(contentType, typeof(TBody));
-							(body as IdentifiedData)?.SetDelayLoad(false);
+
 							// Serialize and compress with deflate
 							if (this.Description.Binding.Optimize)
 							{
@@ -322,7 +322,6 @@ namespace OpenIZAdmin.Services.Http
 									break;
 							}
 
-							(retVal as IdentifiedData)?.SetDelayLoad(true);
 							return retVal;
 						}
 					}
