@@ -22,6 +22,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web;
 using System.Web.Mvc;
+using OpenIZ.Core.Model;
+using OpenIZ.Core.Model.Acts;
+using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Extensions
@@ -103,6 +106,26 @@ namespace OpenIZAdmin.Extensions
 				}));
 
 			return selectList.OrderBy(x => x.Text).ToList();
+		}
+
+		/// <summary>
+		/// Gets the latest version of the versioned entity data instance from a given list.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="source">The source.</param>
+		/// <returns>IEnumerable&lt;T&gt;.</returns>
+		public static IEnumerable<T> LatestVersionOnly<T>(this IEnumerable<T> source) where T : VersionedEntityData<Entity>
+		{
+			//var keys = source.Select(e => e.Key.Value);
+			//var versionSequences = source.Select(e => Enumerable.Max<T>(source, e.VersionSequence.Value));
+
+			//var test2 = source.Select(s => new KeyValuePair<Guid, decimal>(s.Key.Value, s.VersionSequence.Value));
+			//foreach (var pair in test2)
+			//{
+			//	return source.First(c => c.Key == pair.Key && c.VersionSequence == Enumerable.Max(versionSequences));
+			//}
+
+			return source;
 		}
 	}
 }

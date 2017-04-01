@@ -27,6 +27,20 @@ namespace OpenIZAdmin.Extensions
 	public static class StringExtensions
 	{
 		/// <summary>
+		/// Determines whether a string is contained within another string using a case insensitive comparison.
+		/// </summary>
+		/// <param name="source">The source.</param>
+		/// <param name="value">The value.</param>
+		/// <param name="comparison">The comparison.</param>
+		/// <returns><c>true</c> Returns true if the specified value is contained within the string. Otherwise, <c>false</c>.</returns>
+		public static bool Contains(this string source, string value, StringComparison comparison)
+		{
+			ThrowIfNullSource(source);
+
+			return source.IndexOf(value, comparison) >= 0;
+		}
+
+		/// <summary>
 		/// Determines whether the string has a trailing back slash.
 		/// </summary>
 		/// <param name="source">The source string.</param>

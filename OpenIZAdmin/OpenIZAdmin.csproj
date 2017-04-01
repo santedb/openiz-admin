@@ -228,6 +228,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Attributes\TokenAuthorize.cs" />
+    <Compile Include="Comparer\EntityEqualityComparer.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AssociationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />

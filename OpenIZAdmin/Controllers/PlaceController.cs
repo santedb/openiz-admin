@@ -638,8 +638,8 @@ namespace OpenIZAdmin.Controllers
 			{
 				var bundle = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))));
 
-				var maxVersionSequence = bundle.Item.OfType<Place>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm)))).Max(p => p.VersionSequence);
-				results = bundle.Item.OfType<Place>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.VersionSequence == maxVersionSequence).Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+				var maxVersionSequence = bundle.Item.OfType<Place>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))).Max(p => p.VersionSequence);
+				results = bundle.Item.OfType<Place>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))) && p.VersionSequence == maxVersionSequence).Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 			}
 
 			TempData["searchTerm"] = searchTerm;
