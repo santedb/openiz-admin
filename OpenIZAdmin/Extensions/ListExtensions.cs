@@ -116,16 +116,19 @@ namespace OpenIZAdmin.Extensions
 		/// <returns>IEnumerable&lt;T&gt;.</returns>
 		public static IEnumerable<T> LatestVersionOnly<T>(this IEnumerable<T> source) where T : VersionedEntityData<Entity>
 		{
-			//var keys = source.Select(e => e.Key.Value);
-			//var versionSequences = source.Select(e => Enumerable.Max<T>(source, e.VersionSequence.Value));
+			var latestVersions = new List<T>();
 
-			//var test2 = source.Select(s => new KeyValuePair<Guid, decimal>(s.Key.Value, s.VersionSequence.Value));
-			//foreach (var pair in test2)
-			//{
-			//	return source.First(c => c.Key == pair.Key && c.VersionSequence == Enumerable.Max(versionSequences));
-			//}
+			var keys = source.Select(e => e.Key.Value).Distinct();
 
-			return source;
+
+			foreach (var key in keys)
+			{
+				var maxVersionSequence = source.Where(a => a.Key == key).Select(e => source.Max<T>(a => a.VersionSequence)).FirstOrDefault();
+
+				latestVersions.Add(source.First(a => a.Key == key && a.VersionSequence == maxVersionSequence));
+			}
+
+			return latestVersions;
 		}
 	}
 }

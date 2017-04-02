@@ -387,8 +387,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				var bundle = this.ImsiClient.Query<Organization>(m => m.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && m.ClassConceptKey == EntityClassKeys.Organization);
 
-				var maxVersionSequence = bundle.Item.OfType<Organization>().Where(o => o.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))) && o.ClassConceptKey == EntityClassKeys.Organization).Max(p => p.VersionSequence);
-				results = bundle.Item.OfType<Organization>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))) && p.VersionSequence == maxVersionSequence).Select(o => new OrganizationSearchResultViewModel(o)).OrderBy(o => o.Name).ToList();
+				results = bundle.Item.OfType<Organization>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))).LatestVersionOnly().Select(o => new OrganizationSearchResultViewModel(o)).OrderBy(o => o.Name).ToList();
 			}
 
 			TempData["searchTerm"] = searchTerm;

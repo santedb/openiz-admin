@@ -175,6 +175,19 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Gets the industry code concept set.
+		/// </summary>
+		/// <returns>Returns a concept set.</returns>
+		protected ConceptSet GetIndustryCodeConceptSet()
+		{
+			var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == ConceptSetKeys.IndustryCode && c.ObsoletionTime == null);
+
+			bundle.Reconstitute();
+
+			return bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == ConceptSetKeys.IndustryCode && c.ObsoletionTime == null);
+		}
+
+		/// <summary>
 		/// Gets the entity relationship concept set.
 		/// </summary>
 		/// <returns>Returns the entity relationship type concept set.</returns>
