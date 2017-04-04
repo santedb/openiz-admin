@@ -201,6 +201,75 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteConceptFromSet(Guid setId, Guid conceptId)
+        {
+            //if (ModelState.IsValid)
+            //{
+                var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == setId && c.ObsoletionTime == null);
+
+                bundle.Reconstitute();
+
+                var conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault();
+
+                if (conceptSet == null)
+                {
+                    TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
+
+                    return RedirectToAction("Index", "ConceptSet");
+                }
+
+                //conceptSet = model.ToConceptSet();
+
+                var index = conceptSet.ConceptsXml.FindIndex(a => a.Equals(conceptId));
+                if (index != -1)
+                {
+                    conceptSet.ConceptsXml.RemoveAt(index);
+                }
+
+
+                //var conceptToRemove = conceptSet.ConceptsXml.Contains(conceptId);
+                //resultList.Remove(itemToRemove);
+
+                if (conceptSet.ConceptsXml.Contains(conceptId))
+                {
+                    //conceptSet.ConceptsXml.RemoveAt(i);
+                }
+                //else if (!conceptSet.ConceptsXml.Contains(model.Concepts[i].Key.Value) && !model.ConceptDeletion[i])
+                //{
+                //    conceptSet.ConceptsXml.Add(model.Concepts[i].Key.Value);
+                //}
+
+                //for (var i = 0; i < model.ConceptDeletion.Count; i++)
+                //{
+                //    if (conceptSet.ConceptsXml.Contains(model.Concepts[i].Key.Value) && model.ConceptDeletion[i])
+                //    {
+                //        conceptSet.ConceptsXml.RemoveAt(i);
+                //    }
+                //    else if (!conceptSet.ConceptsXml.Contains(model.Concepts[i].Key.Value) && !model.ConceptDeletion[i])
+                //    {
+                //        conceptSet.ConceptsXml.Add(model.Concepts[i].Key.Value);
+                //    }
+                //}
+
+                var result = this.ImsiClient.Update<ConceptSet>(conceptSet);
+
+                TempData["success"] = Locale.Concept + " " + Locale.Deleted + " " + Locale.Successfully;
+
+                return RedirectToAction("ViewConceptSet", new { id = result.Key });
+                //var model = new EditConceptSetModel(conceptSet);
+
+                //return View(model);
+
+
+            //}
+
+            //TempData["error"] = Locale.UnableToUpdate + " " + Locale.ConceptSet;
+
+            //return View(model);
+        }
+
         /// <summary>
         /// Displays the index view.
         /// </summary>

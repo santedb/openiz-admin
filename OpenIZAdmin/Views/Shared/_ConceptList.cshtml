@@ -17,6 +17,9 @@
                     <th>
                         @Locale.Delete
                     </th>
+                    <th>
+                        
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -36,6 +39,23 @@
                         </td>
                         <td>
                             @Html.CheckBoxFor(m => m.ConceptDeletion[i])
+                        </td>
+                        
+                        <td class="autoFitContents centerButton">
+                            <a class="btn btn-primary" href="@Url.Action("ViewConcept", "Concept", new { id = concept.Key })">
+                                @Locale.View
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </a>
+                                                        
+                            @using (Html.BeginForm("DeleteConceptFromSet", "ConceptSet", new { setId = Model.Id, conceptId = concept.Key }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <button type="submit" class="btn btn-danger">
+                                    @Locale.Delete
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            }
                         </td>
                     </tr>
                     i++;

@@ -95,6 +95,13 @@ a.settings:hover {
 	color: #353535;
 }
 
+/*override so looks like bootstrap button style*/
+.panel a.btn{
+	font-weight: 400;
+	text-decoration: none;
+    font-size: 14px;
+}
+
 .panel a {
 	font-weight: 600;
 	text-decoration: none;

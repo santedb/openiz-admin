@@ -58,40 +58,49 @@
         <span class="panel-title">@Locale.Concepts @Locale.For @Model.Mnemonic</span>        
     </div>
     <div class="panel panel-body">
-        <table class="table table-striped table-bordered">
+        <table class="table table-striped table-bordered" id="conceptListTable">
             <thead>
-                <tr>
-                    <th>
-                        @Locale.ConceptClass
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(m => m.Mnemonic)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(m => m.Name)
-                    </th>
-                </tr>
+            <tr>
+                <th>
+                    @Locale.ConceptClass
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Mnemonic)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(m => m.Name)
+                </th>
+            </tr>
             </thead>
             <tbody>
-                @foreach (var concept in Model.Concepts)
-                {
-                    <tr>
-                        <td>
-                            @concept.Class
-                        </td>
-                        <td>
-                            @concept.Mnemonic
-                        </td>
-                        @if (!concept.Names.Any())
-                        {
-                            <td></td>
-}
-                        else
-                        {
-                            <td>@string.Join(", ", concept.Names)</td>
-}
-                    </tr>}
+            @foreach (var concept in Model.Concepts)
+            {
+                <tr>
+                    <td>
+                        @concept.Class
+                    </td>
+                    <td>
+                        @concept.Mnemonic
+                    </td>
+                    @if (!concept.Names.Any())
+                    {
+                        <td></td>
+                    }
+                    else
+                    {
+                        <td>@string.Join(", ", concept.Names)</td>
+                    }
+                </tr>}
             </tbody>
         </table>
     </div>
 </div>
+
+@section scripts{
+    <script>
+       $(document).ready(function () {
+           
+            $("#conceptListTable").DataTable();
+       });
+    </script>
+}
