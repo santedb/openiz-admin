@@ -28,6 +28,7 @@ using System.Linq;
 using System.Web.Mvc;
 using Elmah;
 using OpenIZAdmin.Models.ConceptModels;
+using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -199,11 +200,55 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-		/// <summary>
+        /// <summary>
+        /// Displays the index view.
+        /// </summary>
+        /// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
+        [HttpGet]
+        public ActionResult Index()
+        {
+            TempData["searchConceptSet"] = "ConceptSet";
+            return View();
+        }
+
+        /// <summary>
 		/// Displays the search view.
 		/// </summary>
 		/// <returns>Returns the search view.</returns>
-		[HttpPost]
+		[HttpGet]
+        public ActionResult Search(string searchTerm)
+        {
+            var viewModels = new List<ConceptSearchResultViewModel>();
+
+            if (CommonUtil.IsValidString(searchTerm))
+            {
+                var conceptBundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
+
+                viewModels.AddRange(conceptBundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
+
+                var conceptSetBundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
+
+                viewModels.AddRange(conceptSetBundle.Item.OfType<ConceptSet>().Select(c => new ConceptSearchResultViewModel(c)));
+
+                TempData["searchTerm"] = searchTerm;
+
+                return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic));
+            }
+            else
+            {
+                TempData["error"] = Locale.InvalidSearch;
+            }
+
+            TempData["searchTerm"] = searchTerm;
+
+            return PartialView("_ConceptSearchResultsPartial", viewModels);
+        }
+
+        /// <summary>
+        /// Displays the search view.
+        /// </summary>
+        /// <returns>Returns the search view.</returns>
+        [HttpPost]
 		public ActionResult Search(EditConceptSetModel model)
 		{
 			var viewModels = new List<ConceptSearchResultViewModel>();

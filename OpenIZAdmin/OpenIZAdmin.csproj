@@ -635,6 +635,7 @@
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Shared\_ObsoleteWarningPartial.cshtml" />
     <Content Include="Views\Shared\_SearchConceptSetPartial.cshtml" />
+    <Content Include="Views\ConceptSet\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

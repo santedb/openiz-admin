@@ -1,0 +1,20 @@
+﻿@model IEnumerable<OpenIZAdmin.Models.ConceptModels.ConceptSearchResultViewModel>
+@{
+    ViewBag.Title = Locale.ConceptSet;
+}
+
+<div id="search-partial">
+    @Html.Partial("_SearchConceptSetPartial", new OpenIZAdmin.Models.ConceptSetSearchModel())
+</div>
+
+
+@section scripts{
+    <script>
+       $(document).ready(function () {
+
+           $('#search-partial').bind("DOMSubtreeModified", function () {
+               $("#conceptSetTable").DataTable();
+           });
+       });
+    </script>
+}
