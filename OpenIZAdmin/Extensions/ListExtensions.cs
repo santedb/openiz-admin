@@ -120,12 +120,16 @@ namespace OpenIZAdmin.Extensions
 
 			var keys = source.Select(e => e.Key.Value).Distinct();
 
-
 			foreach (var key in keys)
 			{
 				var maxVersionSequence = source.Where(a => a.Key == key).Select(e => source.Max<T>(a => a.VersionSequence)).FirstOrDefault();
 
-				latestVersions.Add(source.First(a => a.Key == key && a.VersionSequence == maxVersionSequence));
+				var latestVersion = source.FirstOrDefault(a => a.Key == key && a.VersionSequence == maxVersionSequence);
+
+				if (latestVersion != null)
+				{
+					latestVersions.Add(latestVersion);
+				}
 			}
 
 			return latestVersions;
