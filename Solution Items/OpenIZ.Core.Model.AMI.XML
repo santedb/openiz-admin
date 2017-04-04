@@ -197,7 +197,42 @@
         </member>
         <member name="T:OpenIZ.Core.Model.AMI.Security.SubmissionStatus">
             <summary>
-            Resubmission outcome
+            Represents a submission status.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.AMI.Security.SubmissionStatus.NotComplete">
+            <summary>
+            The submission status is not yet complete.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.AMI.Security.SubmissionStatus.Failed">
+            <summary>
+            The submission status failed.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.AMI.Security.SubmissionStatus.Denied">
+            <summary>
+            The submission status is denied.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.AMI.Security.SubmissionStatus.Issued">
+            <summary>
+            The submission status is issued.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.AMI.Security.SubmissionStatus.IssuedSeparately">
+            <summary>
+            The submission status is issued separately.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.AMI.Security.SubmissionStatus.Submission">
+            <summary>
+            The submission status is submitted.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.AMI.Security.SubmissionStatus.Revoked">
+            <summary>
+            The submission status is revoked.
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info">

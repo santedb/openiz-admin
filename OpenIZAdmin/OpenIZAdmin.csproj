@@ -309,10 +309,8 @@
     <Compile Include="Models\AssigningAuthorityModels\AssigningAuthorityViewModel.cs" />
     <Compile Include="Models\CertificateModels\AcceptCertificateSigningRequestModel.cs" />
     <Compile Include="Models\CertificateModels\DeleteCertificateModel.cs" />
-    <Compile Include="Models\CertificateModels\SubmissionStatus.cs" />
     <Compile Include="Models\CertificateModels\SubmitCertificateSigningRequestModel.cs" />
     <Compile Include="Models\CertificateModels\RejectCertificateSigningRequestModel.cs" />
-    <Compile Include="Models\CertificateModels\RevokeReason.cs" />
     <Compile Include="Models\AccountModels\LoginModel.cs" />
     <Compile Include="Models\AppletModels\AppletViewModel.cs" />
     <Compile Include="Models\CertificateModels\CertificateIndexViewModel.cs" />

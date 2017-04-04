@@ -1290,4 +1290,10 @@
   <data name="UserNotActive" xml:space="preserve">
     <value>Warning, this user is not active</value>
   </data>
+  <data name="RevokeReason" xml:space="preserve">
+    <value>Revoke Reason</value>
+  </data>
+  <data name="RevokeReasonRequired" xml:space="preserve">
+    <value>Please select a revoke reason</value>
+  </data>
 </root>

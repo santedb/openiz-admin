@@ -23,6 +23,7 @@ using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.CertificateModels;
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -51,9 +52,9 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult AcceptCertificateSigningRequest(AcceptCertificateSigningRequestModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				try
+				if (this.ModelState.IsValid)
 				{
 					this.AmiClient.AcceptCertificateSigningRequest(model.CertificateId);
 
@@ -61,13 +62,13 @@ namespace OpenIZAdmin.Controllers
 
 					return RedirectToAction("Index");
 				}
-				catch (Exception e)
-				{
-					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToAcceptCertificateSigningRequest;
+			this.TempData["error"] = Locale.UnableToAcceptCertificateSigningRequest;
 
 			return RedirectToAction("Index");
 		}
@@ -81,9 +82,26 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult DeleteCertificate(DeleteCertificateModel model)
 		{
-			TempData["error"] = Locale.UnableToDelete + " " + Locale.Certificate;
+			try
+			{
+				if (this.ModelState.IsValid)
+				{
+					// var result = this.AmiClient.DeleteCertificate(model.CertificateId);
 
-			return RedirectToAction("Index");
+					this.TempData["success"] = Locale.Certificate + " " + Locale.Deleted + " " + Locale.Successfully;
+
+					return RedirectToAction("Index");
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to delete certificate: { e }");
+			}
+
+			this.TempData["error"] = Locale.UnableToDelete + " " + Locale.Certificate;
+
+			return View(model);
 		}
 
 		/// <summary>
@@ -95,7 +113,19 @@ namespace OpenIZAdmin.Controllers
 		[ActionName("Certificate")]
 		public ActionResult GetCertificate(string id)
 		{
-			TempData["error"] = Locale.UnableToFindSpecifiedCertificate;
+			try
+			{
+				var model = new CertificateViewModel(this.AmiClient.GetCertificateSigningRequest(id));
+
+				return View(model);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve certificate: { e }");
+			}
+
+			this.TempData["error"] = Locale.UnableToFindSpecifiedCertificate;
 
 			return RedirectToAction("Index");
 		}
@@ -108,9 +138,23 @@ namespace OpenIZAdmin.Controllers
 		[ActionName("Certificates")]
 		public ActionResult GetCertificates()
 		{
-			TempData["error"] = Locale.UnableToRetrieveCertificateList;
+			try
+			{
+				var certificates = this.AmiClient.GetCertificateSigningRequests(c => c.RequestID != null);
 
-			return RedirectToAction("Index");
+				var models = certificates.CollectionItem.Select(c => new CertificateViewModel(c));
+
+				return View(models);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve certificate: { e }");
+			}
+
+			TempData["error"] = Locale.UnableTo + " " + Locale.Retrieve + " " + Locale.Certificates;
+
+			return this.RedirectToRequestOrHome();
 		}
 
 		/// <summary>
@@ -120,9 +164,23 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult GetCertificateSigningRequests()
 		{
-			TempData["error"] = Locale.UnableToRetrieveCertificateSigningRequestList;
+			try
+			{
+				var certificates = this.AmiClient.GetCertificateSigningRequests(c => c.RequestID != null);
 
-			return RedirectToAction("Index");
+				var models = certificates.CollectionItem.Select(c => new CertificateViewModel(c));
+
+				return View(models);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve certificate: { e }");
+			}
+
+			TempData["error"] = Locale.UnableTo + " " + Locale.Retrieve + " " + Locale.Certificates;
+
+			return this.RedirectToRequestOrHome();
 		}
 
 		/// <summary>
@@ -147,6 +205,7 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve certificate signing requests: { e }");
 			}
 
 			return View(viewModel);
@@ -155,11 +214,25 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Rejects a certificate signing request.
 		/// </summary>
+		/// <param name="model">The model.</param>
 		/// <returns>Returns a view with the status of the rejection.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult RejectCertificateSigningRequest(RejectCertificateSigningRequestModel model)
 		{
+			try
+			{
+				if (this.ModelState.IsValid)
+				{
+					this.AmiClient.DeleteCertificate(model.CertificateId, model.RevokeReason);
+					//	this.AmiClient.re
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to reject certificate signing requests: { e }");
+			}
 			TempData["error"] = Locale.UnableToRejectCertificateSigningRequest;
 
 			return View(model);

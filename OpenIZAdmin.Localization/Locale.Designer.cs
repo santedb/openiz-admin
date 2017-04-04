@@ -2284,6 +2284,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Revoke Reason.
+        /// </summary>
+        public static string RevokeReason {
+            get {
+                return ResourceManager.GetString("RevokeReason", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a revoke reason.
+        /// </summary>
+        public static string RevokeReasonRequired {
+            get {
+                return ResourceManager.GetString("RevokeReasonRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Role.
         /// </summary>
         public static string Role {
