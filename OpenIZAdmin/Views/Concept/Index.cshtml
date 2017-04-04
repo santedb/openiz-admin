@@ -4,13 +4,18 @@
 }
 <div id="search-partial">
     @Html.Partial("_SearchPartial", new OpenIZAdmin.Models.SearchModel())
+    
+    <br/>
+    
+    @Html.Partial("_SearchConceptSetPartial", new OpenIZAdmin.Models.ConceptSetSearchModel())
 
-    <div class="form-group">
+
+    @*<div class="form-group">
         <div class="pull-right">
             <span>@Locale.NewConceptSet</span>
             <a href="~/ConceptSet/Create" class="glyphicon glyphicon-plus-sign"></a>
         </div>
-    </div>
+    </div>*@
 
 </div>
 

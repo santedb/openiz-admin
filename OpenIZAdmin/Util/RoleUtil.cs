@@ -61,12 +61,14 @@ namespace OpenIZAdmin.Util
 			return viewModel;
 		}
 
-		/// <summary>
-		/// Converts a <see cref="EditRoleModel"/> to a <see cref="SecurityRoleInfo"/>.
-		/// </summary>
-		/// <param name="model">The EditRoleModel object to convert.</param>
-		/// <returns>Returns a SecurityRoleInfo model.</returns>
-		public static SecurityRoleInfo ToSecurityRoleInfo(AmiServiceClient amiClient, EditRoleModel model, SecurityRoleInfo roleInfo)
+        /// <summary>
+        /// Converts a <see cref="EditRoleModel"/> to a <see cref="SecurityRoleInfo"/>.
+        /// </summary>
+        /// <param name="amiClient">The <see cref="AmiServiceClient"/> instance.</param>
+        /// <param name="model">The EditRoleModel object to convert.</param>
+        /// <param name="roleInfo">The SecurityRoleInfo object to assign.</param>
+        /// <returns>Returns a SecurityRoleInfo model.</returns>
+        public static SecurityRoleInfo ToSecurityRoleInfo(AmiServiceClient amiClient, EditRoleModel model, SecurityRoleInfo roleInfo)
 		{
 			roleInfo.Role.Description = model.Description;
 			roleInfo.Name = model.Name;

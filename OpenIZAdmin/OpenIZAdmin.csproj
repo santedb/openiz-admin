@@ -279,6 +279,7 @@
     <Compile Include="Models\ConceptSetModels\CreateConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\EditConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\ConceptSetViewModel.cs" />
+    <Compile Include="Models\ConceptSetSearchModel.cs" />
     <Compile Include="Models\Core\EditEntityModel.cs" />
     <Compile Include="Models\Core\EntityViewModel.cs" />
     <Compile Include="Models\Core\SecurityViewModel.cs" />
@@ -635,6 +636,7 @@
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Shared\_ObsoleteWarningPartial.cshtml" />
+    <Content Include="Views\Shared\_SearchConceptSetPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

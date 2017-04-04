@@ -122,7 +122,7 @@ namespace OpenIZAdmin.Controllers
 				if (ModelState.IsValid)
 				{
 					//check if username exists
-					if (UserUtil.CheckForUserName(this.ImsiClient, model.Username))
+					if (UserUtil.CheckForUserName(this.AmiClient, model.Username))
 					{
 						TempData["error"] = Locale.UserNameExists;
 					}
@@ -147,7 +147,7 @@ namespace OpenIZAdmin.Controllers
 								SourceEntityKey = userEntity.Key.Value
 							});
 						}
-
+                        
 						this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
 
 						TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;

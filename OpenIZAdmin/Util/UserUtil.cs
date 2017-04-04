@@ -21,6 +21,7 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZ.Messaging.IMSI.Client;
 using System;
 using System.Linq;
+using OpenIZ.Messaging.AMI.Client;
 
 namespace OpenIZAdmin.Util
 {
@@ -35,14 +36,10 @@ namespace OpenIZAdmin.Util
 		/// <param name="client">The IMSI service client.</param>
 		/// <param name="userName">The username entered to verify doesn't exist in the database.</param>
 		/// <returns>Returns a user entity or null if no user entity is found.</returns>
-		public static bool CheckForUserName(ImsiServiceClient client, string userName)
+		public static bool CheckForUserName(AmiServiceClient client, string userName)
 		{
-			var bundle = client.Query<UserEntity>(u => u.SecurityUser.UserName == userName && u.ObsoletionTime == null);
-
-			bundle.Reconstitute();
-
-			return bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.SecurityUser.UserName == userName) != null;
-		}
+			return client.GetUsers(u => u.UserName == userName).CollectionItem.Any();			
+        }
 
 		/// <summary>
 		/// Gets a user entity.

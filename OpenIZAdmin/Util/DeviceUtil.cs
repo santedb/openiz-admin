@@ -31,13 +31,14 @@ namespace OpenIZAdmin.Util
 	/// </summary>
 	public static class DeviceUtil
 	{
-		/// <summary>
-		/// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo"/>
-		/// </summary>
-		/// <param name="model">The edit device model to convert.</param>
-		/// <param name="deviceInfo">The device object to apply the changes to.</param>
-		/// <returns>Returns a security device info object.</returns>
-		public static SecurityDeviceInfo ToSecurityDeviceInfo(AmiServiceClient amiClient, EditDeviceModel model, SecurityDeviceInfo deviceInfo)
+        /// <summary>
+        /// Converts a <see cref="OpenIZAdmin.Models.DeviceModels.EditDeviceModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo"/>
+        /// </summary>
+        /// <param name="amiClient">The Ami Service client.</param>
+        /// <param name="model">The edit device model to convert.</param>
+        /// <param name="deviceInfo">The device object to apply the changes to.</param>
+        /// <returns>Returns a security device info object.</returns>
+        public static SecurityDeviceInfo ToSecurityDeviceInfo(AmiServiceClient amiClient, EditDeviceModel model, SecurityDeviceInfo deviceInfo)
 		{
 			deviceInfo.Device.Key = model.Id;
 			deviceInfo.Device.Name = model.Name;
