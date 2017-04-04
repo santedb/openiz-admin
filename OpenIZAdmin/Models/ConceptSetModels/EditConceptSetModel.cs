@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web.Mvc;
 using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
@@ -38,7 +39,13 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		{
 			this.Concepts = new List<Concept>();
 			this.ConceptDeletion = new List<bool>();
-		}
+
+            this.ConceptList =  new List<SelectListItem>();
+            this.SelectedConcepts = new List<string>();
+            
+
+
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditConceptSetModel"/> class
@@ -56,7 +63,11 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 			this.Oid = conceptSet.Oid;
 			this.Url = conceptSet.Url;
 			this.ConceptDeletion.AddRange(this.Concepts.Select(c => false));
-		}
+
+
+            this.ConceptList = new List<SelectListItem>();
+            this.SelectedConcepts = new List<string>();
+        }
 
 		/// <summary>
 		/// Gets or sets the concept deletion.
@@ -78,7 +89,12 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		/// <value>The concepts.</value>
 		public List<Concept> Concepts { get; set; }
 
-		/// <summary>
+
+	    public List<SelectListItem> ConceptList { get; set; }
+	    public List<string> SelectedConcepts { get; set; }
+
+
+	    /// <summary>
 		/// Gets or sets the concept to add.
 		/// </summary>
 		/// <value>The concept to add.</value>

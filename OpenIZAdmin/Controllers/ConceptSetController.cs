@@ -151,7 +151,10 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index", "Concept");
 			}
 
-			var model = new EditConceptSetModel(conceptSet);
+            //viewModel.PoliciesList.Add(new SelectListItem { Text = "", Value = "" });
+            //viewModel.PoliciesList.AddRange(CommonUtil.GetAllPolicies(client).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }).OrderBy(q => q.Text));
+
+            var model = new EditConceptSetModel(conceptSet);
 
 			return View(model);
 		}
@@ -394,5 +397,44 @@ namespace OpenIZAdmin.Controllers
 
 			return RedirectToAction("Index", "Concept");
 		}
-	}
+       
+        /// <summary>
+		/// Searches for a user.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns a list of users which match the search term.</returns>
+		[HttpGet]
+        public ActionResult SearchAjax(string searchterm)
+        {
+            var viewModels = new List<ConceptSearchResultViewModel>();
+
+            var query = new List<KeyValuePair<string, object>>();
+            
+            query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(searchterm)));
+            query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ObsoletionTime == null));
+
+            var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));
+
+            viewModels.AddRange(bundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
+
+            //var keys = model.Concepts.Select(m => m.Key).Distinct();
+
+            //viewModels = viewModels.Where(m => !keys.Any(n => n.Value == m.Id)).ToList();
+            
+            //return PartialView("_ConceptSetConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic).ToList());
+            return Json(viewModels.OrderBy(c => c.Mnemonic).ToList(), JsonRequestBehavior.AllowGet);
+
+
+            //var userList = new List<ConceptSet>();
+
+            ////if (CommonUtil.IsValidString(searchTerm))
+            ////{
+            ////    var users = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
+
+            ////    userList = users.CollectionItem.Select(u => new UserViewModel(u)).ToList();
+            ////}
+
+            //return Json(userList, JsonRequestBehavior.AllowGet);
+        }
+    }
 }

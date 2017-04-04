@@ -50,7 +50,15 @@
                         <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
                     </div>
                 </div>                      
-            </div>                        
+            </div>           
+            
+            <div class="form-group">
+                @Html.LabelFor(m => m.SelectedConcepts, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.ListBoxFor(m => m.SelectedConcepts, Model.ConceptList, new { @class = "concept-search form-control", multiple = "multiple", title = Locale.ToolTip_Policies })
+                    @Html.ValidationMessageFor(m => m.SelectedConcepts, "", new { @class = "text-danger" })
+                </div>
+            </div>             
 
         </div>
         <div id="conceptList">
@@ -59,7 +67,7 @@
 
 
 
-        <div class="panel panel-default">
+        @*<div class="panel panel-default">
             <div class="panel-heading">
                 <span class="panel-title">@Locale.Concept @Locale.Search</span>
             </div>
@@ -88,7 +96,7 @@
         </div>
 
         <div id="concept-search-results">
-        </div>
+        </div>*@
             
     }
 
@@ -96,38 +104,36 @@
 
 
 
-@section scripts{
-    <script>
+@section scripts
+{
+    <script type="text/javascript">
+    
         function addConcept(key, button) {
             $("#conceptToAdd").val(key);
             
             var dataForm = $('#editForm').serializeArray();
             var url = "/ConceptSet/Add";
-            $.ajax({
-                data: dataForm,
-                contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                type: 'POST',
-                cache: false,
-                url: url,
-                success: function (data) {
-                    $('#conceptList').html(data);
-                    $('#conceptListTable').DataTable();
-                    $(button).parent().parent().remove();
-                },
-                error: function (err) {
-                    console.log(err);
-                }
-            })
+                $.ajax({
+                    data: dataForm,
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    type: 'POST',
+                    cache: false,
+                    url: url,
+                    success: function(data) {
+                        $('#conceptList').html(data);
+                        $('#conceptListTable').DataTable();
+                        $(button).parent().parent().remove();
+                    },
+                    error: function(err) {
+                        console.log(err);
+                    }
+                });
+            };
 
-        };
-        $(document).ready(function () {
-            $('#conceptListTable').DataTable();
-            $("#searchConcepts").click(function(){
-                searchConcepts();
-            });
-                function searchConcepts() {
-                    var dataForm = $('#editForm').serializeArray();
-                    console.log(dataForm);
+
+        function searchConcepts() {
+            var dataForm = $('#editForm').serializeArray();
+            console.log(dataForm);
                 $.ajax({
                     url: '@Url.Action("Search", "ConceptSet")',
                     cache: false,
@@ -137,18 +143,37 @@
                     success: function (data) {
                         $('#concept-search-results').html(data);
                         $('#searchResults').DataTable();
-                        
-
                     },
                     error: function (reponse) {
                         console.log("error : " + reponse);
-                    },
+                    }
                 });
-
             };
 
 
+        $(document).ready(function () {
+        
+            $('.dynamic-dropdown').select2({
+                tags: true,
+                tokenSeparators: [','],
+                width: '100%'
+            });
+            $('.dynamic-dropdown-limited').select2({
+                tags: true,
+                tokenSeparators: [','],
+                width: '100%',
+                maximumSelectionLength: 1
+            });
 
+
+            $('#conceptListTable').DataTable();
+
+            $("#searchConcepts").click(function(){
+                searchConcepts();
+            });
+            
         });
-    </script>
+
+</script>    
+
 }
