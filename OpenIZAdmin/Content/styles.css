@@ -28,6 +28,12 @@ span.glyphicon {
 	margin-right: 5px;
 }
 
+.table td.autoFitContents, 
+.table th.autoFitContents {
+    white-space: nowrap;
+    width: 1%;
+}
+
 /*this align all the td's in the centre - bootstrap is default to top*/
 .table tbody>tr>td{
     vertical-align: middle;
