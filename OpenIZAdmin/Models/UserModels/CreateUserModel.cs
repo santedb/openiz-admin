@@ -108,6 +108,7 @@ namespace OpenIZAdmin.Models.UserModels
 		{
 			return new SecurityUserInfo
 			{
+				Lockout = null,
 				Email = this.Email,
 				Password = this.Password,
 				UserName = this.Username,
