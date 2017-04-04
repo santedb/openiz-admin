@@ -23,14 +23,6 @@
             <param name="id">The id of the certificate signing request.</param>
             <returns>Returns the submission result.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.ChangePassword(System.Guid,System.String)">
-            <summary>
-            Changes the password of a user.
-            </summary>
-            <param name="id">The id of the user whose password is to be changed.</param>
-            <param name="password">The new password of the user.</param>
-            <returns>Returns the updated user.</returns>
-        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateAlert(OpenIZ.Core.Model.AMI.Alerting.AlertMessageInfo)">
             <summary>
             Creates an alert message.
@@ -108,6 +100,14 @@
             <param name="assigningAuthorityId">The id of the assigning authority to be deleted.</param>
             <returns>Returns the deleted assigning authority.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.DeleteCertificate(System.String,OpenIZ.Core.Model.AMI.Security.RevokeReason)">
+            <summary>
+            Deletes a specified certificate.
+            </summary>
+            <param name="certificateId">The id of the certificate to be deleted.</param>
+            <param name="reason">The reason the certificate is to be deleted.</param>
+            <returns>Returns the deletion result.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.DeleteDevice(System.String)">
             <summary>
             Deletes a device.
@@ -146,6 +146,13 @@
             Dispose of any managed resources.
             </summary>
             <param name="disposing">Whether the current invocation is disposing.</param>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.DownloadApplet(System.String)">
+            <summary>
+            Downloads the applet.
+            </summary>
+            <param name="appletId">The applet identifier.</param>
+            <returns>Stream.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.FindPolicy(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityPolicy,System.Boolean}})">
             <summary>
@@ -216,11 +223,10 @@
             <param name="id">The id of the assigning authority to retrieve.</param>
             <returns>Returns the assigning authority.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetCertificates(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.AMI.Security.X509Certificate2Info,System.Boolean}})">
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetCertificates">
             <summary>
             Gets a list of certificates.
             </summary>
-            <param name="query">The query expression to use to find the certificates.</param>
             <returns>Returns a collection of certificates which match the specified query.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetCertificateSigningRequest(System.String)">
@@ -270,7 +276,7 @@
             Gets a specific role.
             </summary>
             <param name="id">The id of the role to be retrieved.</param>
-            <returns>Returns the specified user.</returns>
+            <returns>Returns the specified role.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetRoles(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.Security.SecurityRole,System.Boolean}})">
             <summary>
@@ -345,22 +351,6 @@
             <param name="assigningAuthorityId">The id of the assigning authority to be updated.</param>
             <param name="assigningAuthorityInfo">The assigning authority info containing the updated information.</param>
             <returns>Returns the updated assigning authority.</returns>
-        </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateConcept(System.String,OpenIZ.Core.Model.DataTypes.Concept)">
-            <summary>
-            Updates a concept.
-            </summary>
-            <param name="conceptId">The id of the concept to be updated.</param>
-            <param name="concept">The concept containing the updated information.</param>
-            <returns>Returns the updated concept.</returns>
-        </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdatePolicy(System.String,OpenIZ.Core.Model.AMI.Auth.SecurityPolicyInfo)">
-            <summary>
-            Updates a policy.
-            </summary>
-            <param name="policyId">The id of the policy to be updated.</param>
-            <param name="policyInfo">The policy containing the updated information.</param>
-            <returns>Returns the updated policy.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateRole(System.String,OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo)">
             <summary>

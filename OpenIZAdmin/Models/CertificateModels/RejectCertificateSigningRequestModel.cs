@@ -18,6 +18,7 @@
  */
 
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.CertificateModels
 {
@@ -44,8 +45,8 @@ namespace OpenIZAdmin.Models.CertificateModels
 		/// Gets or sets the revoke reason.
 		/// </summary>
 		/// <value>The revoke reason.</value>
-		[Required]
-		[Display(Name = "Revoke Reason")]
-		public RevokeReason RevokeReason { get; set; }
+		[Display(Name = "RevokeReason", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "RevokeReasonRequired", ErrorMessageResourceType = typeof(Locale))]
+		public OpenIZ.Core.Model.AMI.Security.RevokeReason RevokeReason { get; set; }
 	}
 }

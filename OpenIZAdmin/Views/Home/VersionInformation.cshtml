@@ -8,7 +8,7 @@
     <div class="panel-heading">
         <span class="panel-title">@Model.Title</span>
         <div class="pull-right">
-            <a href="~/Home/SubmitBugReport">
+            <a href="@Url.Action("SubmitBugReport", "Home")">
                 <span class="glyphicon glyphicon-plus-sign"></span>
                 @Locale.SubmitBugReport
             </a>
@@ -21,6 +21,7 @@
                 <h4>@Model.Product</h4>
                 <h4>@Model.Company</h4>
                 <h4>@Model.Copyright</h4>
+                <h5>@Model.Version</h5>
             </div>
         </div>  
     </div>

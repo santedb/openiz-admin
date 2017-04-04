@@ -350,5 +350,14 @@ namespace OpenIZAdmin.Controllers
 
 			base.OnActionExecuting(filterContext);
 		}
+
+		/// <summary>
+		/// Redirects the response the URL referrer or to the root of the site if no URL referrer is found.
+		/// </summary>
+		/// <returns>Returns a redirect result.</returns>
+		public RedirectResult RedirectToRequestOrHome()
+		{
+			return this.Redirect(this.Request.UrlReferrer?.ToString() ?? Url.Content("~/"));
+		}
 	}
 }

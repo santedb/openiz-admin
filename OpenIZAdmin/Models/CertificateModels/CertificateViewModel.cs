@@ -19,6 +19,7 @@
 
 using System;
 using System.Security.Cryptography.X509Certificates;
+using OpenIZ.Core.Model.AMI.Security;
 
 namespace OpenIZAdmin.Models.CertificateModels
 {
@@ -39,6 +40,23 @@ namespace OpenIZAdmin.Models.CertificateModels
 		/// with a specified <see cref="System.Security.Cryptography.X509Certificates.X509Certificate2"/> instance.
 		/// </summary>
 		public CertificateViewModel(X509Certificate2 certificate)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CertificateViewModel"/> class.
+		/// </summary>
+		/// <param name="submissionInfo">The submission information.</param>
+		public CertificateViewModel(SubmissionInfo submissionInfo)
+		{
+			this.Id = submissionInfo.RequestID;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CertificateViewModel"/> class.
+		/// </summary>
+		/// <param name="submissionResult">The submission result.</param>
+		public CertificateViewModel(SubmissionResult submissionResult)
 		{
 		}
 
