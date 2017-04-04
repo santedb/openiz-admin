@@ -24,6 +24,7 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ConceptSetModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using Elmah;
@@ -207,7 +208,7 @@ namespace OpenIZAdmin.Controllers
         [HttpGet]
         public ActionResult Index()
         {
-            TempData["searchConceptSet"] = "ConceptSet";
+            TempData["searchType"] = "ConceptSet";
             return View();
         }
 
@@ -218,30 +219,35 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
         public ActionResult Search(string searchTerm)
         {
-            var viewModels = new List<ConceptSearchResultViewModel>();
+	        var viewModels = new List<ConceptSearchResultViewModel>();
 
-            if (CommonUtil.IsValidString(searchTerm))
-            {
-                var conceptBundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
+			try
+	        {
 
-                viewModels.AddRange(conceptBundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
+		        if (CommonUtil.IsValidString(searchTerm))
+		        {
+			        var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
 
-                var conceptSetBundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
+			        viewModels.AddRange(bundle.Item.OfType<ConceptSet>().Select(c => new ConceptSearchResultViewModel(c)));
 
-                viewModels.AddRange(conceptSetBundle.Item.OfType<ConceptSet>().Select(c => new ConceptSearchResultViewModel(c)));
+			        TempData["searchTerm"] = searchTerm;
 
-                TempData["searchTerm"] = searchTerm;
+			        return PartialView("_ConceptSetSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic));
+		        }
+		        else
+		        {
+			        TempData["error"] = Locale.InvalidSearch;
+		        }
+			}
+	        catch (Exception e)
+	        {
+		        ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to search for concept sets: { e }");
+	        }
 
-                return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic));
-            }
-            else
-            {
-                TempData["error"] = Locale.InvalidSearch;
-            }
+            this.TempData["searchTerm"] = searchTerm;
 
-            TempData["searchTerm"] = searchTerm;
-
-            return PartialView("_ConceptSearchResultsPartial", viewModels);
+            return PartialView("_ConceptSetSearchResultsPartial", viewModels);
         }
 
         /// <summary>

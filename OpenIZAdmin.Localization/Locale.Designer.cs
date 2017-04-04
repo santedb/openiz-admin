@@ -574,7 +574,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to concept sets.
+        ///   Looks up a localized string similar to Concept Sets.
         /// </summary>
         public static string ConceptSets {
             get {
