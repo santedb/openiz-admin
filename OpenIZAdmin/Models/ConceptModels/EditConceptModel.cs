@@ -49,6 +49,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 
 			this.Name = new List<string>();
 			this.ReferenceTerms = new List<ReferenceTermModel>();
+            this.Languages = new List<Language>();
 		}
 
 		/// <summary>
@@ -59,21 +60,8 @@ namespace OpenIZAdmin.Models.ConceptModels
 		{
 			this.ConceptClass = concept.Class.Name;
 			this.CreationTime = concept.CreationTime.DateTime;
-			this.Id = concept.Key.Value;
-			this.Languages = concept.ConceptNames.Select(c => c.Language).ToList();
-			this.Name = concept.ConceptNames.Select(c => c.Name).ToList();
-
-			if (!this.Languages.Contains(Locale.EN))
-			{
-				this.Languages.Add(Locale.EN);
-				this.Name.Add(Locale.English);
-			}
-
-			if (!this.Languages.Contains(Locale.SW))
-			{
-				this.Languages.Add(Locale.SW);
-				this.Name.Add(Locale.Kiswahili);
-			}
+			this.Id = concept.Key.Value;			
+            this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();   
 		}
 
 		/// <summary>
@@ -107,19 +95,19 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// Gets or sets the language list.
 		/// </summary>
 		/// <value>The language list.</value>
-		public List<SelectListItem> LanguageList { get; set; }
+		public List<SelectListItem> LanguageList { get; set; }		
 
-		/// <summary>
-		/// Gets or sets the languages.
-		/// </summary>
-		/// <value>The languages.</value>
-		public List<string> Languages { get; set; }
+        /// <summary>
+		/// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
+		/// </summary>		
+		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
+        public List<Language> Languages { get; set; }
 
-		/// <summary>
-		/// Gets or sets the mnemonic.
-		/// </summary>
-		/// <value>The mnemonic.</value>
-		public string Mnemonic { get; set; }
+        /// <summary>
+        /// Gets or sets the mnemonic.
+        /// </summary>
+        /// <value>The mnemonic.</value>
+        public string Mnemonic { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name.

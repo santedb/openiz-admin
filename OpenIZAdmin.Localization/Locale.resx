@@ -1305,4 +1305,13 @@
   <data name="NoLanguagesAssigned" xml:space="preserve">
     <value>No Languages Assigned</value>
   </data>
+  <data name="DisplayName" xml:space="preserve">
+    <value>Display Name</value>
+  </data>
+  <data name="LanguageCode" xml:space="preserve">
+    <value>Language Code</value>
+  </data>
+  <data name="NoAssociatedLanguages" xml:space="preserve">
+    <value>No associated languages</value>
+  </data>
 </root>

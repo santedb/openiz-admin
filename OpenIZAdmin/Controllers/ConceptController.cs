@@ -29,6 +29,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.LanguageModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -45,11 +46,35 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
-		/// <summary>
-		/// Displays the create view.
-		/// </summary>
-		/// <returns>Returns the create view.</returns>
-		[HttpGet]
+        /// <summary>
+        /// Displays the create view.
+        /// </summary>
+        /// <returns>Returns the create view.</returns>
+        [HttpGet]
+        public ActionResult EditLanguage(string id, string type)
+        {
+            var model = new EditLanguageModel();
+
+            var languages = LanguageUtil.GetLanguageList();
+
+            var bundle = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
+
+            bundle.Reconstitute();
+
+            var conceptClasses = bundle.Item.OfType<ConceptClass>();
+
+            model.ConceptClassList.AddRange(conceptClasses.ToSelectList().OrderBy(c => c.Text));
+
+            model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode, Selected = l.TwoLetterCountryCode == Locale.EN }).OrderBy(l => l.Text).ToList();
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Displays the create view.
+        /// </summary>
+        /// <returns>Returns the create view.</returns>
+        [HttpGet]
 		public ActionResult Create()
 		{
 			var model = new CreateConceptModel();
@@ -67,14 +92,14 @@ namespace OpenIZAdmin.Controllers
 			model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode, Selected = l.TwoLetterCountryCode == Locale.EN }).OrderBy(l => l.Text).ToList();
 
 			return View(model);
-		}
+		}       
 
-		/// <summary>
-		/// Creates a concept.
-		/// </summary>
-		/// <param name="model">The model containing the information to create a concept.</param>
-		/// <returns>Returns the created concept.</returns>
-		[HttpPost]
+        /// <summary>
+        /// Creates a concept.
+        /// </summary>
+        /// <param name="model">The model containing the information to create a concept.</param>
+        /// <returns>Returns the created concept.</returns>
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreateConceptModel model)
 		{
@@ -221,24 +246,24 @@ namespace OpenIZAdmin.Controllers
 
 				for (var i = 0; i < model.Languages.Count; i++)
 				{
-					if (model.Name[i] != string.Empty)
-					{
-						if (concept.ConceptNames.Count > i)
-						{
-							if (concept.ConceptNames[i].Language == model.Languages[i])
-							{
-								concept.ConceptNames[i].Name = model.Name[i];
-							}
-						}
-						else
-						{
-							concept.ConceptNames.Add(new ConceptName
-							{
-								Language = model.Languages[i],
-								Name = model.Name[i]
-							});
-						}
-					}
+					//if (model.Name[i] != string.Empty)
+					//{
+					//	if (concept.ConceptNames.Count > i)
+					//	{
+					//		if (concept.ConceptNames[i].Language == model.Languages[i])
+					//		{
+					//			concept.ConceptNames[i].Name = model.Name[i];
+					//		}
+					//	}
+					//	else
+					//	{
+					//		concept.ConceptNames.Add(new ConceptName
+					//		{
+					//			Language = model.Languages[i],
+					//			Name = model.Name[i]
+					//		});
+					//	}
+					//}
 				}
 
 				var conceptClassBundle = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
@@ -263,11 +288,73 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-		/// <summary>
-		/// Displays the index view.
+        /// <summary>
+		/// Edits the specified concept.
 		/// </summary>
-		/// <returns>Returns the index view.</returns>
-		public ActionResult Index()
+		/// <param name="id">The identifier.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpGet]
+        public ActionResult EditConceptLanguages(Guid id)
+        {
+            var bundle = this.ImsiClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null);
+
+            bundle.Reconstitute();
+
+            var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);
+
+            if (concept == null)
+            {
+                TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+                return RedirectToAction("Index");
+            }
+
+            var referenceTermQuery = new List<KeyValuePair<string, object>>();
+
+            foreach (var conceptReferenceTerm in concept.ReferenceTerms)
+            {
+                referenceTermQuery.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.Key == conceptReferenceTerm.ReferenceTerm.Key));
+            }
+
+            var referenceTerms = this.ImsiClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ReferenceTerm>();
+
+            var editConceptModel = new EditConceptModel(concept);
+
+            editConceptModel.ReferenceTerms.AddRange(referenceTerms.Select(r => new ReferenceTermModel
+            {
+                Mnemonic = r.Mnemonic,
+                Name = string.Join(" ", r.DisplayNames.Select(d => d.Name)),
+                Id = r.Key.Value
+            }));
+
+            var conceptClasses = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
+
+            for (var i = 0; i < conceptClasses.Count; i++)
+            {
+                if (conceptClasses.Item[i].Type == concept.Class.Type)
+                {
+                    var selected = concept.Class.Key == (conceptClasses.Item[i] as ConceptClass).Key;
+
+                    editConceptModel.ConceptClassList.Add(new SelectListItem()
+                    {
+                        Text = (conceptClasses.Item[i] as ConceptClass)?.Mnemonic,
+                        Value = (conceptClasses.Item[i] as ConceptClass)?.Key.Value.ToString(),
+                        Selected = selected
+                    });
+                }
+            }
+
+            var languages = LanguageUtil.GetLanguageList();
+
+            editConceptModel.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
+
+            return View(editConceptModel);
+        }
+
+        /// <summary>
+        /// Displays the index view.
+        /// </summary>
+        /// <returns>Returns the index view.</returns>
+        public ActionResult Index()
 		{
 			TempData["searchType"] = "Concept";
 			return View();

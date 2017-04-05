@@ -37,7 +37,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		{
 			this.Names = new List<string>();			
 			this.ReferenceTerms = new List<ReferenceTermModel>();            
-            this.LanguageList = new List<Language>();
+            this.Languages = new List<Language>();
 
         }
 
@@ -51,7 +51,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 			this.CreationTime = concept.CreationTime.DateTime;
 			this.Id = concept.Key.Value;
 			this.Mnemonic = concept.Mnemonic;			
-            this.LanguageList = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();            
+            this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();            
         }
         
         /// <summary>
@@ -75,7 +75,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
 		/// </summary>		
 		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
-        public List<Language> LanguageList { get; set; }        
+        public List<Language> Languages { get; set; }        
 
 		/// <summary>
 		/// Gets or sets the mnemonic of the concept.

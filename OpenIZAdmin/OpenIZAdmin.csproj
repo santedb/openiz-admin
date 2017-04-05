@@ -236,6 +236,7 @@
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\ConceptSetController.cs" />
     <Compile Include="Controllers\EntityRelationshipController.cs" />
+    <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\ManufacturedMaterialController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\ConceptController.cs" />
@@ -275,6 +276,7 @@
     <Compile Include="Models\AppletModels\AppletViewAssetModel.cs" />
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ApplicationViewModel.cs" />
+    <Compile Include="Models\LanguageModels\EditLanguageModel.cs" />
     <Compile Include="Models\ConceptModels\ReferenceTermModel.cs" />
     <Compile Include="Models\ConceptSetModels\CreateConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\EditConceptSetModel.cs" />
@@ -636,6 +638,8 @@
     <Content Include="Views\Shared\_ObsoleteWarningPartial.cshtml" />
     <Content Include="Views\ConceptSet\Index.cshtml" />
     <Content Include="Views\Shared\_ConceptSetSearchResultsPartial.cshtml" />
+    <Content Include="Views\Shared\_ManageLanguagesPartial.cshtml" />
+    <Content Include="Views\Language\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

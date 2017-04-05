@@ -826,6 +826,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Display Name.
+        /// </summary>
+        public static string DisplayName {
+            get {
+                return ResourceManager.GetString("DisplayName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Distinguished name.
         /// </summary>
         public static string DistinguishedName {
@@ -1366,6 +1375,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language Code.
+        /// </summary>
+        public static string LanguageCode {
+            get {
+                return ResourceManager.GetString("LanguageCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select a language.
         /// </summary>
         public static string LanguageRequired {
@@ -1731,6 +1749,15 @@ namespace OpenIZAdmin.Localization {
         public static string NoAssociatedIdentifiers {
             get {
                 return ResourceManager.GetString("NoAssociatedIdentifiers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No associated languages.
+        /// </summary>
+        public static string NoAssociatedLanguages {
+            get {
+                return ResourceManager.GetString("NoAssociatedLanguages", resourceCulture);
             }
         }
         
