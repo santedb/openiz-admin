@@ -21,6 +21,7 @@ using OpenIZ.Core.Model.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
@@ -34,10 +35,11 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		public ConceptViewModel()
 		{
-			this.Names = new List<string>();
-			this.Languages = new List<string>();
-			this.ReferenceTerms = new List<ReferenceTermModel>();
-		}
+			this.Names = new List<string>();			
+			this.ReferenceTerms = new List<ReferenceTermModel>();            
+            this.LanguageList = new List<Language>();
+
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConceptViewModel"/> class.
@@ -48,19 +50,14 @@ namespace OpenIZAdmin.Models.ConceptModels
 			this.Class = concept.Class?.Name;
 			this.CreationTime = concept.CreationTime.DateTime;
 			this.Id = concept.Key.Value;
-			this.Mnemonic = concept.Mnemonic;
-
-			concept.ConceptNames.ForEach(c =>
-			{
-				this.Names.Add(c.Name);
-				this.Languages.Add(c.Language);
-			});
-		}
-
-		/// <summary>
-		/// Gets or sets the class of the concept.
-		/// </summary>
-		[Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
+			this.Mnemonic = concept.Mnemonic;			
+            this.LanguageList = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();            
+        }
+        
+        /// <summary>
+        /// Gets or sets the class of the concept.
+        /// </summary>
+        [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
 		public string Class { get; set; }
 
 		/// <summary>
@@ -74,10 +71,11 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		public Guid Id { get; set; }
 
-		/// <summary>
-		/// Gets or sets the list of languages associated with the concept.
-		/// </summary>
-		public List<string> Languages { get; set; }
+        /// <summary>
+		/// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
+		/// </summary>		
+		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
+        public List<Language> LanguageList { get; set; }        
 
 		/// <summary>
 		/// Gets or sets the mnemonic of the concept.

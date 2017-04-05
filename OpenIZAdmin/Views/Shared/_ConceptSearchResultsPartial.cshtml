@@ -16,8 +16,7 @@
                     <tr>
                         <th>@Html.DisplayNameFor(m => m.CreationTime)</th>
                         <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
-                        <th>@Html.DisplayNameFor(m => m.Names)</th>
-                        <th>@Html.DisplayNameFor(m => m.Type)</th>
+                        <th>@Html.DisplayNameFor(m => m.Names)</th>                        
                         <th></th>
                     </tr>
                 </thead>
@@ -36,14 +35,12 @@
                                 }
                             </td>
 
-                            <td>@Locale.Concept</td>
-
                             <td class="autoFitContents centerButton">
-                                <a class="btn btn-primary text-white" href="@Url.Action("ViewConcept", "Concept", new { id = item.Id })">
+                                <a class="btn btn-primary" href="@Url.Action("ViewConcept", "Concept", new { id = item.Id })">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
-                                <a class="btn btn-warning text-white" href="@Url.Action("Edit", "Concept", new {id = item.Id })">
+                                <a class="btn btn-warning" href="@Url.Action("Edit", "Concept", new {id = item.Id })">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
@@ -54,7 +51,7 @@
                                     {
                                         @Html.AntiForgeryToken()
 
-                                        <button type="submit" class="formButton btn btn-danger">
+                                        <button type="submit" class="btn btn-danger">
                                             @Locale.Delete
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </button>

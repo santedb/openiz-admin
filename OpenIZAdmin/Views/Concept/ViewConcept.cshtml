@@ -28,48 +28,33 @@
                         @Html.TextBoxFor(m => m.CreationTime, Constants.DateTimeFormatViewWithTimestamp, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>
-
-                <ul class="nav nav-tabs">
-                    @{int i = 0;}
-                    @foreach (var language in Model.Languages)
-                    {
-                        if (i == 0)
+                
+                <div class="form-group">                                        
+                        @Html.LabelFor(m => m.LanguageList, new {@class = "col-md-2 control-label"})                    
+                    <div class="container col-md-8">
+                        
+                        @if (Model.LanguageList.Any())
                         {
-                            <li class="active">
-                                <a href="#@language" data-toggle="tab">@Model.Languages[i]</a>
-                            </li>
+                            for (var i = 0; i < Model.LanguageList.Count; i++)
+                            {
+                                                                    
+                                <div class="form-group">
+                                    <div class="col-md-2">
+                                        @Html.TextBoxFor(m => m.LanguageList[i].TwoLetterCountryCode, new { @class = "form-control", @readonly = "readonly" })
+                                    </div>
+                                    <div class="col-md-10">
+                                        @Html.TextBoxFor(m => m.LanguageList[i].DisplayName, new { @class = "form-control", @readonly = "readonly" })
+                                    </div>                                
+                                </div>
+                            }
                         }
                         else
                         {
-                            <li>
-                                <a href="#@language" data-toggle="tab">@Model.Languages[i]</a>
-                            </li>
+                            <p>@Locale.NoLanguagesAssigned</p>
                         }
-                        i++;
-                    }
-                </ul>
-                <div class="tab-content">
-                    @{i = 0;}
-                    @foreach (var language in Model.Languages)
-                    {
-                        if (i == 0)
-                        {                                                     
-                            <div id="@language" class="tab-pane active">
-                                @Html.LabelFor(m => m.Names, new { @class = "control-label" })
-                                @Html.TextBoxFor(m => m.Names[i], new { @class = "form-control", @readonly = "readonly" })
-                            </div>
 
-                        }
-                        else
-                        {                            
-                            <div id="@language" class="tab-pane">
-                                @Html.LabelFor(m => m.Names, new { @class = "control-label" })
-                                @Html.TextBoxFor(m => m.Names[i], new { @class = "form-control", @readonly = "readonly" })
-                            </div>
-                        }
-                        i++;
-                    }
                     </div>
+                </div>                   
             </div>
         </div>
     </div>
@@ -79,11 +64,13 @@
     <div class="panel-heading">
         <span class="panel-title">@Html.DisplayNameFor(m => m.ReferenceTerms)</span>
     </div>
-
     <div class="panel panel-body">
-        <table class="table" id="referenceTermsTable">
-            <caption>@Locale.ReferenceTerms</caption>
-            <thead>
+        
+        @if (Model.ReferenceTerms.Any())
+        {
+            <table class="table" id="referenceTermsTable">
+                <caption>@Locale.ReferenceTerms</caption>
+                <thead>
                 <tr>
                     <th>
                         @Html.DisplayNameFor(m => m.Mnemonic)
@@ -92,8 +79,8 @@
                         @Html.DisplayNameFor(m => m.Names)
                     </th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 @foreach (var referenceTerm in Model.ReferenceTerms)
                 {
                     <tr>
@@ -104,9 +91,16 @@
                         <td>
                             @referenceTerm.Name
                         </td>
-                    </tr>}
-            </tbody>
-        </table>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>@Locale.NoDataAvailable</p>
+        }
+
     </div>
 </div>
 

@@ -1375,6 +1375,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Languages.
+        /// </summary>
+        public static string Languages {
+            get {
+                return ResourceManager.GetString("Languages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last login time.
         /// </summary>
         public static string LastLoginTime {
@@ -1753,6 +1762,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No data available.
+        /// </summary>
+        public static string NoDataAvailable {
+            get {
+                return ResourceManager.GetString("NoDataAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No devices have been added.
         /// </summary>
         public static string NoDevicesAdded {
@@ -1767,6 +1785,15 @@ namespace OpenIZAdmin.Localization {
         public static string NoDevicesFound {
             get {
                 return ResourceManager.GetString("NoDevicesFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Languages Assigned.
+        /// </summary>
+        public static string NoLanguagesAssigned {
+            get {
+                return ResourceManager.GetString("NoLanguagesAssigned", resourceCulture);
             }
         }
         

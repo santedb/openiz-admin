@@ -118,6 +118,11 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+		/// <summary>
+		/// Removes the selected Concept from the Concept Set
+		/// </summary>
+		/// <param name="id"> The Guid of the Concept</param>
+		/// <returns></returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(Guid id)
@@ -136,7 +141,12 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index", "Concept");
 		}
 
-		[HttpGet]
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id">The identifier of the ConceptSet</param>
+        /// <returns>An <see cref="ActionResult"/> instance</returns>
+        [HttpGet]
 		public ActionResult Edit(Guid id)
 		{
 			var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == id && c.ObsoletionTime == null);
@@ -159,7 +169,12 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-		[HttpPost]
+        /// <summary>
+        /// Updates the ConceptSet 
+        /// </summary>
+        /// <param name="model">The <see cref="EditConceptSetModel"/> instance</param>
+        /// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditConceptSetModel model)
 		{
@@ -204,6 +219,12 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="setId"></param>
+        /// <param name="conceptId"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConceptFromSet(Guid setId, Guid conceptId)
@@ -404,13 +425,13 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="searchTerm">The search term.</param>
 		/// <returns>Returns a list of users which match the search term.</returns>
 		[HttpGet]
-        public ActionResult SearchAjax(string searchterm)
+        public ActionResult SearchAjax(string searchTerm)
         {
             var viewModels = new List<ConceptSearchResultViewModel>();
 
             var query = new List<KeyValuePair<string, object>>();
             
-            query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(searchterm)));
+            query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.Mnemonic.Contains(searchTerm)));
             query.AddRange(QueryExpressionBuilder.BuildQuery<Concept>(c => c.ObsoletionTime == null));
 
             var bundle = this.ImsiClient.Query<Concept>(QueryExpressionParser.BuildLinqExpression<Concept>(new NameValueCollection(query.ToArray())));

@@ -1296,4 +1296,13 @@
   <data name="RevokeReasonRequired" xml:space="preserve">
     <value>Please select a revoke reason</value>
   </data>
+  <data name="NoDataAvailable" xml:space="preserve">
+    <value>No data available</value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>Languages</value>
+  </data>
+  <data name="NoLanguagesAssigned" xml:space="preserve">
+    <value>No Languages Assigned</value>
+  </data>
 </root>

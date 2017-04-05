@@ -288,9 +288,9 @@ namespace OpenIZAdmin.Controllers
 
 				viewModels.AddRange(conceptBundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
 
-				var conceptSetBundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
+				//var conceptSetBundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
 
-				viewModels.AddRange(conceptSetBundle.Item.OfType<ConceptSet>().Select(c => new ConceptSearchResultViewModel(c)));
+				//viewModels.AddRange(conceptSetBundle.Item.OfType<ConceptSet>().Select(c => new ConceptSearchResultViewModel(c)));
 
 				TempData["searchTerm"] = searchTerm;
 
@@ -306,6 +306,11 @@ namespace OpenIZAdmin.Controllers
 			return PartialView("_ConceptSearchResultsPartial", viewModels);
 		}
 
+		/// <summary>
+		/// Retrieves the Concept by identifier
+		/// </summary>
+		/// <param name="id">The identifier of the Concept</param>
+		/// <returns></returns>
 		[HttpGet]
 		public ActionResult ViewConcept(Guid id)
 		{

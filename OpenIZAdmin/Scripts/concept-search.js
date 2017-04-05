@@ -15,7 +15,7 @@
 
                 return {
                     results: $.map(data, function (o) {
-                        return { id: o.Id, text: o.Name + " " + o.LotNumber };
+                        return { id: o.Names, text: o.Names };
                     }),
                     pagination: {
                         more: (params.page * 30) < data.length
@@ -27,7 +27,7 @@
         maximumSelectionLength: 1,
         keepSearchResults: true,
         escapeMarkup: function (markup) { return markup; },
-        minimumInputLength: 4,
+        minimumInputLength: 2,
         templateResult: function (data) {
             return "<span class='glyphicon glyphicon-map-marker'>" + data.text + "</span>";
         },
