@@ -60,7 +60,7 @@ namespace OpenIZAdmin.Services.Http
 		/// with a specified endpoint name.
 		/// </summary>
 		/// <param name="endpointName">The name of the endpoint to use in the configuration.</param>
-		public RestClientService(string endpointName) : this(endpoints.GetOrAdd(endpointName, 
+		public RestClientService(string endpointName) : base(endpoints.GetOrAdd(endpointName, 
 			(key) => new Lazy<ServiceClientDescription>(
 				() => InternalConfiguration.GetServiceClientConfiguration().Clients.Find(x => x.Name == key))).Value)
 		{

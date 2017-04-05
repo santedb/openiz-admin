@@ -17,6 +17,7 @@
  * Date: 2016-7-15
  */
 
+using System;
 using OpenIZAdmin.DAL;
 using OpenIZAdmin.Models.Domain;
 using System.Linq;
@@ -67,7 +68,7 @@ namespace OpenIZAdmin
 		/// <returns>Returns true if the application is joined to a realm.</returns>
 		public static bool IsJoinedToRealm()
 		{
-			bool isJoinedToRealm = MvcApplication.MemoryCache.Get(RealmCacheKey) != null;
+			var isJoinedToRealm = Convert.ToBoolean(MvcApplication.MemoryCache.Get(RealmCacheKey));
 
 			if (isJoinedToRealm)
 			{
