@@ -51,7 +51,8 @@ namespace OpenIZAdmin.Models.ConceptModels
 			this.CreationTime = concept.CreationTime.DateTime;
 			this.Id = concept.Key.Value;
 			this.Mnemonic = concept.Mnemonic;			
-            this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();            
+            this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();
+            this.ReferenceTerms = new List<ReferenceTermModel>();
         }
         
         /// <summary>

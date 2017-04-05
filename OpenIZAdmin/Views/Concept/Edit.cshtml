@@ -80,21 +80,12 @@
 
 
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <span class="panel-title">@Locale.Languages</span>        
-        <div class="pull-right">
-            <a href="@Url.Action("Edit", "Language", new { id = Model.Id })">
-                <span class="text-primary h4">@Locale.New</span>
-                <span class="glyphicon glyphicon-plus-sign"></span>
-            </a>
-        </div>        
-    </div>
-    @Html.Partial("_ManageLanguagesPartial", Model.Languages)
-</div>
+@Html.Partial("_ManageLanguagesPartial", Model.Languages)
+
+@Html.Partial("_ReferenceTermsPartial", Model.ReferenceTerms)
 
 
-<div class="panel panel-default">
+@*<div class="panel panel-default">
     <div class="panel-heading">
         <span class="panel-title">@Html.DisplayNameFor(m => m.ReferenceTerms)</span>
     </div>
@@ -136,7 +127,7 @@
         }
 
     </div>
-</div>
+</div>*@
 
 
 

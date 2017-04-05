@@ -640,6 +640,8 @@
     <Content Include="Views\Shared\_ConceptSetSearchResultsPartial.cshtml" />
     <Content Include="Views\Shared\_ManageLanguagesPartial.cshtml" />
     <Content Include="Views\Language\Edit.cshtml" />
+    <Content Include="Views\Shared\_LanguagesPartial.cshtml" />
+    <Content Include="Views\Shared\_ReferenceTermsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
