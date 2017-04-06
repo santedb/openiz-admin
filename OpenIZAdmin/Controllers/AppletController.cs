@@ -141,9 +141,10 @@ namespace OpenIZAdmin.Controllers
 					// ensure that the model state wasn't invalidated when attempting to serialize the applet file
 					if (ModelState.IsValid)
 					{
-						var manifestInfo = new AppletManifestInfo(manifest)
+						var manifestInfo = new AppletManifestInfo
 						{
-							FileExtension = fileInfo.Extension
+							FileExtension = fileInfo.Extension,
+							AppletManifest = manifest
 						};
 
 						this.AmiClient.CreateApplet(manifestInfo);

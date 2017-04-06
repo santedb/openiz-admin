@@ -158,6 +158,11 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index");
 			}
 
+			if (concept.ClassKey.HasValue && concept.ClassKey.Value != Guid.Empty)
+			{
+				concept.Class = this.ImsiClient.Get<ConceptClass>(concept.ClassKey.Value, null) as ConceptClass;
+			}
+
 			var referenceTermQuery = new List<KeyValuePair<string, object>>();
 
 			foreach (var conceptReferenceTerm in concept.ReferenceTerms)
@@ -180,7 +185,7 @@ namespace OpenIZAdmin.Controllers
 
 			for (var i = 0; i < conceptClasses.Count; i++)
 			{
-				if (conceptClasses.Item[i].Type == concept.Class.Type)
+				if (conceptClasses.Item[i].Type == concept.Class?.Type)
 				{
 					var selected = concept.Class.Key == (conceptClasses.Item[i] as ConceptClass).Key;
 
@@ -311,22 +316,22 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var concept = MvcApplication.MemoryCache.Get(id.ToString()) as Concept;
+				var bundle = this.ImsiClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null);
+
+				bundle.Reconstitute();
+
+				var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);
 
 				if (concept == null)
 				{
-					var bundle = this.ImsiClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null);
+					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 
-					bundle.Reconstitute();
+					return RedirectToAction("Index");
+				}
 
-					concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);
-
-					if (concept == null)
-					{
-						TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-
-						return RedirectToAction("Index");
-					}
+				if (concept.ClassKey.HasValue && concept.ClassKey.Value != Guid.Empty)
+				{
+					concept.Class = this.ImsiClient.Get<ConceptClass>(concept.ClassKey.Value, null) as ConceptClass;
 				}
 
 				var conceptViewModel = new ConceptViewModel(concept);
