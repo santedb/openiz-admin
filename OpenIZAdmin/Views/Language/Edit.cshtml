@@ -17,10 +17,10 @@
             @Html.HiddenFor(m => m.ConceptId)
 
             <div class="form-group">
-                @Html.LabelFor(m => m.TwoLetterCountryCodeList, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.TwoLetterCountryCode, new { @class = "col-md-2 control-label" })
                 <div class="col-md-2">
-                    @Html.DropDownListFor(m => m.TwoLetterCountryCodeList, Model.LanguageList, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.TwoLetterCountryCodeList, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(m => m.TwoLetterCountryCode, Model.LanguageList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.TwoLetterCountryCode, "", new { @class = "text-danger" })
                 </div>
 
                 @Html.LabelFor(m => m.DisplayName, new { @class = "col-md-2 control-label" })

@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.LanguageModels;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
@@ -49,7 +50,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 
 			this.Name = new List<string>();
 			this.ReferenceTerms = new List<ReferenceTermModel>();
-            this.Languages = new List<Language>();
+            this.Languages = new List<LanguageModel>();
 		}
 
 		/// <summary>
@@ -61,7 +62,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 			this.ConceptClass = concept.Class.Name;
 			this.CreationTime = concept.CreationTime.DateTime;
 			this.Id = concept.Key.Value;			
-            this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name, concept.Key.Value)).ToList();   
+            this.Languages = concept.ConceptNames.Select(k => new LanguageModel(k.Language, k.Name, concept.Key.Value)).ToList();   
 		}
 
 		/// <summary>
@@ -101,7 +102,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
 		/// </summary>		
 		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
-        public List<Language> Languages { get; set; }
+        public List<LanguageModel> Languages { get; set; }
 
         /// <summary>
         /// Gets or sets the mnemonic.

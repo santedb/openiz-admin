@@ -15,7 +15,7 @@ using OpenIZAdmin.Util;
 namespace OpenIZAdmin.Controllers
 {
     /// <summary>
-    /// 
+    /// Provides operations for managing languages.
     /// </summary>
     public class LanguageController : BaseController
     {        
@@ -38,9 +38,13 @@ namespace OpenIZAdmin.Controllers
                 return RedirectToAction("Index", "Concept");
             }
 
-            var model = new LanguageModel(concept);
-            var languages = LanguageUtil.GetLanguageList();
-            model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode, Selected = l.TwoLetterCountryCode == Locale.EN }).OrderBy(l => l.Text).ToList();
+            var model = new LanguageModel(concept)
+            {
+                LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
+                //TwoLetterCountryCodeList = {[0] = Locale.EN}
+            };
+
+            
 
             return View(model);
         }
@@ -94,9 +98,12 @@ namespace OpenIZAdmin.Controllers
                 return RedirectToAction("Index", "Concept");
             }
 
-            var model = new LanguageModel(concept);
-            var languages = LanguageUtil.GetLanguageList();
-            model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode, Selected = l.TwoLetterCountryCode == Locale.EN }).OrderBy(l => l.Text).ToList();
+            var model = new LanguageModel(langCode, displayName, concept)
+            {
+                LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList()
+            };
+
+            //model.TwoLetterCountryCode = Locale.EN;
 
             return View(model);
         }

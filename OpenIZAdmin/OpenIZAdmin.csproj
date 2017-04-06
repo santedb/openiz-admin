@@ -290,6 +290,7 @@
     <Compile Include="Models\EntityRelationshipModels\EntityRelationshipViewModel.cs" />
     <Compile Include="Models\FacilityModel.cs" />
     <Compile Include="Models\LanguageModels\LanguageModel.cs" />
+    <Compile Include="Models\LanguageModels\LanguageViewModel.cs" />
     <Compile Include="Models\ManufacturedMaterialModels\ManufacturedMaterialViewModel.cs" />
     <Compile Include="Models\MaterialModels\EditMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\CreateMaterialModel.cs" />

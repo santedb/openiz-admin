@@ -43,36 +43,17 @@ namespace OpenIZAdmin.Models
 		{
 			this.DisplayName = displayName;
 			this.TwoLetterCountryCode = code;
-		}
-
-	    /// <summary>
-	    /// Initializes a new instance of the <see cref="Language"/> class
-	    /// with a specified code and display name.
-	    /// </summary>
-	    /// <param name="code">The language code.</param>
-	    /// <param name="displayName">The language display name.</param>
-	    /// <param name="entityId">The identifier associated with the Entity</param>
-	    public Language(string code, string displayName, Guid? entityId)
-        {
-            this.DisplayName = displayName;
-            this.TwoLetterCountryCode = code;
-            this.EntityId = entityId;
-        }
+		}	    
 
         /// <summary>
         /// Gets or sets the display name of the language.
         /// </summary>
-        public string DisplayName { get; }
+        public virtual string DisplayName { get; }
 
 		/// <summary>
 		/// Gets or sets the two letter language code of the language.
 		/// </summary>
-		public string TwoLetterCountryCode { get; }
-
-        /// <summary>
-        /// Gets the Entity Identifier related to the Language entry
-        /// </summary>
-        public Guid? EntityId { get; }
+		public virtual string TwoLetterCountryCode { get; }        
 
         /// <summary>
         /// Compares if two languages are not equal.

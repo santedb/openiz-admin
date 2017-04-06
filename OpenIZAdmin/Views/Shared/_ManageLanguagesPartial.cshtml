@@ -1,76 +1,55 @@
-﻿@model IEnumerable<OpenIZAdmin.Models.Language>
+﻿@model IEnumerable<OpenIZAdmin.Models.LanguageModels.LanguageModel>
 
-
-
-
-@*<div class="panel panel-default">
-    <div class="panel-heading">
-        <span class="panel-title">@Locale.Languages</span>
-        <div class="pull-right">
-            <a href="@Url.Action("Edit", "Language", new { id = Model.Id })">
-                <span class="text-primary h4">@Locale.New</span>
-                <span class="glyphicon glyphicon-plus-sign"></span>
-            </a>
-        </div>
-    </div>*@
-    
-    
-    
-    <div class="panel panel-body">
-        <div class="row">
-            <div class="col-md-12">
-                @if (Model.Any())
-            {
-                    <table class="table table-striped table-bordered" id="languages-table">
-                        <thead>
+        
+<div class="panel panel-body">
+    <div class="row">
+        <div class="col-md-12">
+            @if (Model.Any())
+        {
+                <table class="table table-striped table-bordered" id="languages-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>@Locale.LanguageCode</th>
+                            <th>@Locale.DisplayName</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
                             <tr>
-                                <th></th>
-                                <th>@Locale.LanguageCode</th>
-                                <th>@Locale.DisplayName</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td><span class="glyphicon glyphicon-info-sign"></span></td>
-                                    <td>@item.TwoLetterCountryCode</td>
-                                    <td>@item.DisplayName</td>
-                                    <td class="autoFitContents centerButton">
-                                        <a class="btn btn-warning" href="@Url.Action("Edit", "Language", new { id = item.EntityId, langCode = item.TwoLetterCountryCode, displayName = item.DisplayName })">
-                                            @Locale.Edit
-                                            <span class="glyphicon glyphicon-pencil"></span>
-                                        </a>
-                                        @using (Html.BeginForm("Delete", "Concept", new { id = item.TwoLetterCountryCode }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
-                                        {
-                                            @Html.AntiForgeryToken()
+                                <td><span class="glyphicon glyphicon-info-sign"></span></td>
+                                <td>@item.TwoLetterCountryCode</td>
+                                <td>@item.DisplayName</td>
+                                <td class="autoFitContents centerButton">
+                                    <a class="btn btn-warning" href="@Url.Action("Edit", "Language", new { id = item.ConceptId, langCode = item.TwoLetterCountryCode, displayName = item.DisplayName })">
+                                        @Locale.Edit
+                                        <span class="glyphicon glyphicon-pencil"></span>
+                                    </a>
+                                    @using (Html.BeginForm("Delete", "Concept", new { id = item.TwoLetterCountryCode }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
 
-                                            <button type="submit" class="btn btn-danger">
-                                                @Locale.Delete
-                                                <span class="glyphicon glyphicon-remove"></span>
-                                            </button>
-                                        }
-                                    </td>
-                                </tr>}
+                                        <button type="submit" class="btn btn-danger">
+                                            @Locale.Delete
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </button>
+                                    }
+                                </td>
+                            </tr>}
 
-                        </tbody>
-                    </table>}
-            else
-            {
-                    <p>@Locale.NoAssociatedLanguages</p>}
-            </div>
-
+                    </tbody>
+                </table>}
+        else
+        {
+                <p>@Locale.NoAssociatedLanguages</p>}
         </div>
-    </div> 
-    
-    
-    
-    
-    
 
-    @*@Html.Partial("_ManageLanguagesPartial", Model.Languages)*@
-@*</div>*@
+    </div>
+</div> 
+    
+                    
 
 
 

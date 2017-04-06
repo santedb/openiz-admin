@@ -89,9 +89,11 @@ namespace OpenIZAdmin.Controllers
 
 			model.ConceptClassList.AddRange(conceptClasses.ToSelectList().OrderBy(c => c.Text));
 
-			model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode, Selected = l.TwoLetterCountryCode == Locale.EN }).OrderBy(l => l.Text).ToList();
+            //model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode, Selected = l.TwoLetterCountryCode == Locale.EN }).OrderBy(l => l.Text).ToList();
+		    model.LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList();
 
-			return View(model);
+
+            return View(model);
 		}       
 
         /// <summary>
@@ -121,11 +123,13 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.Concept;
 
-			var languages = LanguageUtil.GetLanguageList();
+			//var languages = LanguageUtil.GetLanguageList();
 
-			model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
+			//model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
+		    model.LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList();
 
-			return View(model);
+
+            return View(model);
 		}
 
 		/// <summary>
