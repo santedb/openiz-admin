@@ -3,16 +3,16 @@
 
 
 
-<div class="panel panel-default">
+@*<div class="panel panel-default">
     <div class="panel-heading">
         <span class="panel-title">@Locale.Languages</span>
-        @*<div class="pull-right">
+        <div class="pull-right">
             <a href="@Url.Action("Edit", "Language", new { id = Model.Id })">
                 <span class="text-primary h4">@Locale.New</span>
                 <span class="glyphicon glyphicon-plus-sign"></span>
             </a>
-        </div>*@
-    </div>
+        </div>
+    </div>*@
     
     
     
@@ -38,7 +38,7 @@
                                     <td>@item.TwoLetterCountryCode</td>
                                     <td>@item.DisplayName</td>
                                     <td class="autoFitContents centerButton">
-                                        <a class="btn btn-warning" href="@Url.Action("Edit", "Language")">
+                                        <a class="btn btn-warning" href="@Url.Action("Edit", "Language", new { id = item.EntityId, langCode = item.TwoLetterCountryCode, displayName = item.DisplayName })">
                                             @Locale.Edit
                                             <span class="glyphicon glyphicon-pencil"></span>
                                         </a>
@@ -70,7 +70,7 @@
     
 
     @*@Html.Partial("_ManageLanguagesPartial", Model.Languages)*@
-</div>
+@*</div>*@
 
 
 

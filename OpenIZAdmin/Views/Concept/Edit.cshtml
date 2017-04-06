@@ -43,7 +43,7 @@
             
             
             
-            <div class="form-group" id="concept-languages">
+            @*<div class="form-group" id="concept-languages">
                 @Html.LabelFor(m => m.Languages, new { @class = "col-md-2 control-label" })
                 <div class="container col-md-8" id="concept-languages-list">
 
@@ -68,7 +68,9 @@
                     }
 
                 </div>
-            </div>                                                                                
+            </div>*@  
+            
+                                                                                          
         </div>
 
         <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
@@ -78,57 +80,22 @@
     }
 </div>
 
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.Identifiers</span>        
+        <div class="pull-right">
+            <a href="@Url.Action("Create", "Language", new {id = Model.Id, type = "Language"})">
+                <span class="text-primary h4">@Locale.New</span>
+                <span class="glyphicon glyphicon-plus-sign"></span>
+            </a>
+        </div>        
+    </div>
+    @Html.Partial("_ManageLanguagesPartial", Model.Languages)
+</div>
 
 
-@Html.Partial("_ManageLanguagesPartial", Model.Languages)
 
 @Html.Partial("_ReferenceTermsPartial", Model.ReferenceTerms)
-
-
-@*<div class="panel panel-default">
-    <div class="panel-heading">
-        <span class="panel-title">@Html.DisplayNameFor(m => m.ReferenceTerms)</span>
-    </div>
-    <div class="panel panel-body">
-        
-        @if (Model.ReferenceTerms.Any())
-        {
-            <table class="table" id="referenceTermsTable">
-                <caption>@Locale.ReferenceTerms</caption>
-                <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(m => m.Mnemonic)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(m => m.Name)
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach (var referenceTerm in Model.ReferenceTerms)
-                {
-                    <tr>
-                        <td>
-                            @referenceTerm.Mnemonic
-                        </td>
-
-                        <td>
-                            @referenceTerm.Name
-                        </td>
-                    </tr>
-                }
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <p>@Locale.NoDataAvailable</p>
-        }
-
-    </div>
-</div>*@
-
 
 
 

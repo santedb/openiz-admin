@@ -61,7 +61,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 			this.ConceptClass = concept.Class.Name;
 			this.CreationTime = concept.CreationTime.DateTime;
 			this.Id = concept.Key.Value;			
-            this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();   
+            this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name, concept.Key.Value)).ToList();   
 		}
 
 		/// <summary>

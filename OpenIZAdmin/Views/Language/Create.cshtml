@@ -1,21 +1,20 @@
 ﻿@model OpenIZAdmin.Models.LanguageModels.LanguageModel
 @{
-    ViewBag.Title = Locale.Edit + " " + Locale.Languages;
+    ViewBag.Title = Locale.Add + " " + Locale.Languages;
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.Edit + " " + Locale.Language)</span>
+        <span class="panel-title">@(Locale.Add + " " + Locale.Language)</span>
     </div>
     <div class="panel panel-body">
-        @using (Html.BeginForm("Edit", "Language", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        @using (Html.BeginForm("Create", "Language", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            
             @Html.HiddenFor(m => m.ConceptId)
-
+            
             <div class="form-group">
                 @Html.LabelFor(m => m.TwoLetterCountryCodeList, new { @class = "col-md-2 control-label" })
                 <div class="col-md-2">

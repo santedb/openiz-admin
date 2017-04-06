@@ -1,31 +1,46 @@
-﻿using System;
+﻿using OpenIZ.Core.Model.DataTypes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Models.ConceptModels;
 
 namespace OpenIZAdmin.Models.LanguageModels
 {
-    public class EditLanguageModel
+    public class LanguageModel
     {
         /// <summary>
-		/// Initializes a new instance of the <see cref="EditLanguageModel"/> class.
+		/// Initializes a new instance of the <see cref="LanguageModel"/> class.
 		/// </summary>
-		public EditLanguageModel()
+		public LanguageModel()
         {
             this.Languages = new List<Language>();
             this.LanguageList = new List<SelectListItem>();
-            this.ConceptClassList = new List<SelectListItem>();            
+            //this.ConceptClassList = new List<SelectListItem>();
+        }
+
+        /// <summary>
+		/// Initializes a new instance of the <see cref="LanguageModel"/> class.
+		/// </summary>
+		/// <param name="concept">The concept.</param>
+		public LanguageModel(Concept concept) : this()
+		{
+            this.ConceptClass = concept.Class.Name;
+            //this.CreationTime = concept.CreationTime.DateTime;
+            this.ConceptId = concept.Key.Value;
+            this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();
         }
 
         /// <summary>
         /// Gets or sets the concept class.
         /// </summary>
         /// <value>The concept class.</value>
-        [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        //[Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
+        //[Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         public string ConceptClass { get; set; }
+
+        public Guid? ConceptId { get; set; }
 
         /// <summary>
         /// Gets or sets the concept class list.
@@ -47,7 +62,7 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// Gets or sets the language list.
         /// </summary>
         /// <value>The language list.</value>
-        public List<SelectListItem> LanguageList { get; set; }        
+        public List<SelectListItem> LanguageList { get; set; }
 
         /// <summary>
         /// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.

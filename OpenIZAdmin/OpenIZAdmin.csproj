@@ -276,7 +276,6 @@
     <Compile Include="Models\AppletModels\AppletViewAssetModel.cs" />
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ApplicationViewModel.cs" />
-    <Compile Include="Models\LanguageModels\EditLanguageModel.cs" />
     <Compile Include="Models\ConceptModels\ReferenceTermModel.cs" />
     <Compile Include="Models\ConceptSetModels\CreateConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\EditConceptSetModel.cs" />
@@ -290,6 +289,7 @@
     <Compile Include="Models\EntityRelationshipModels\EntityRelationshipModel.cs" />
     <Compile Include="Models\EntityRelationshipModels\EntityRelationshipViewModel.cs" />
     <Compile Include="Models\FacilityModel.cs" />
+    <Compile Include="Models\LanguageModels\LanguageModel.cs" />
     <Compile Include="Models\ManufacturedMaterialModels\ManufacturedMaterialViewModel.cs" />
     <Compile Include="Models\MaterialModels\EditMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\CreateMaterialModel.cs" />
@@ -642,6 +642,7 @@
     <Content Include="Views\Language\Edit.cshtml" />
     <Content Include="Views\Shared\_LanguagesPartial.cshtml" />
     <Content Include="Views\Shared\_ReferenceTermsPartial.cshtml" />
+    <Content Include="Views\Language\Create.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
