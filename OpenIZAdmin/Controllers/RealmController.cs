@@ -27,6 +27,7 @@ using OpenIZAdmin.Models.Domain;
 using OpenIZAdmin.Models.RealmModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Threading.Tasks;
@@ -381,29 +382,52 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult LeaveRealm(LeaveRealmModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				var realm = unitOfWork.RealmRepository.FindById(model.CurrentRealm.Id);
-
-				if (realm == null)
+				if (ModelState.IsValid)
 				{
-					TempData["error"] = Locale.Realm + " " + Locale.NotFound;
-					return RedirectToAction("Index");
+					var realm = unitOfWork.RealmRepository.FindById(model.CurrentRealm.Id);
+
+					if (realm == null)
+					{
+						TempData["error"] = Locale.Realm + " " + Locale.NotFound;
+						return RedirectToAction("Index");
+					}
+
+					realm.ObsoletionTime = DateTime.UtcNow;
+
+					// delete all the local references to the users when leaving a realm to avoid
+					// conflicts such as multiple accounts named "administrator" etc.
+					unitOfWork.RealmRepository.Delete(realm);
+					unitOfWork.Save();
+
+					this.Response.Cookies.Remove("access_token");
+					HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+					MvcApplication.MemoryCache.Set(RealmConfig.RealmCacheKey, false, ObjectCache.InfiniteAbsoluteExpiration);
+
+					using (var amiServiceClient = new AmiServiceClient(new RestClientService(Constants.Ami, this.HttpContext)))
+					{
+						var currentDevice = amiServiceClient.GetDevices(d => d.Name == realm.DeviceId).CollectionItem.FirstOrDefault(d => d.Name == realm.DeviceId);
+
+						if (currentDevice != null)
+						{
+							currentDevice.Device.ObsoletionTime = DateTimeOffset.Now;
+							amiServiceClient.UpdateDevice(currentDevice.Id.ToString(), currentDevice);
+						}
+					}
+
+					HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+					TempData["success"] = Locale.RealmLeft + " " + Locale.Successfully;
+
+					return RedirectToAction("JoinRealm", "Realm");
 				}
-
-				realm.ObsoletionTime = DateTime.UtcNow;
-
-				unitOfWork.RealmRepository.Delete(realm);
-				unitOfWork.Save();
-
-				this.Response.Cookies.Remove("access_token");
-				HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-
-				MvcApplication.MemoryCache.Set(RealmConfig.RealmCacheKey, false, ObjectCache.InfiniteAbsoluteExpiration);
-
-				TempData["success"] = Locale.RealmLeft + " " + Locale.Successfully;
-
-				return RedirectToAction("Index", "Home");
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to leave realm: { e }");
 			}
 
 			TempData["error"] = Locale.UnableToLeaveRealm;
