@@ -3382,6 +3382,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Upload new version.
+        /// </summary>
+        public static string UploadNewVersion {
+            get {
+                return ResourceManager.GetString("UploadNewVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Url.
         /// </summary>
         public static string Url {

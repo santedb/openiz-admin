@@ -36,10 +36,23 @@ namespace OpenIZAdmin.Models.AppletModels
 		}
 
 		/// <summary>
+		/// Gets or sets the identifier.
+		/// </summary>
+		/// <value>The identifier.</value>
+		public string Id { get; set; }
+
+		/// <summary>
 		/// Gets or sets the applet content.
 		/// </summary>
 		[Display(Name = "File", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "FileRequired", ErrorMessageResourceType = typeof(Locale))]
 		public HttpPostedFileBase File { get; set; }
+
+		/// <summary>
+		/// Gets or sets the applet view model.
+		/// </summary>
+		/// <value>The applet view model.</value>
+		public AppletViewModel AppletViewModel { get; set; }
+
 	}
 }

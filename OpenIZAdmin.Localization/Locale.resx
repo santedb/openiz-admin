@@ -1296,4 +1296,7 @@
   <data name="RevokeReasonRequired" xml:space="preserve">
     <value>Please select a revoke reason</value>
   </data>
+  <data name="UploadNewVersion" xml:space="preserve">
+    <value>Upload new version</value>
+  </data>
 </root>

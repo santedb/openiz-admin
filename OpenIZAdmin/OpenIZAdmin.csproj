@@ -633,6 +633,7 @@
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Shared\_ObsoleteWarningPartial.cshtml" />
+    <Content Include="Views\Applet\Update.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
