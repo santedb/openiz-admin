@@ -16,16 +16,16 @@
             @Html.HiddenFor(m => m.ConceptId)
             
             <div class="form-group">
-                @Html.LabelFor(m => m.TwoLetterCountryCode, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Language, new { @class = "col-md-2 control-label" })
                 <div class="col-md-2">
-                    @Html.DropDownListFor(m => m.TwoLetterCountryCode, Model.LanguageList, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.TwoLetterCountryCode, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(m => m.Language, Model.LanguageList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Language, "", new { @class = "text-danger" })
                 </div>
 
-                @Html.LabelFor(m => m.DisplayName, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
                 <div class="col-md-4">
-                    @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.DisplayName, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                 </div>
             </div>
 

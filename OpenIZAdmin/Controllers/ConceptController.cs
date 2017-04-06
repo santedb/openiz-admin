@@ -45,31 +45,7 @@ namespace OpenIZAdmin.Controllers
 		public ConceptController()
 		{
 		}
-
-        /// <summary>
-        /// Displays the create view.
-        /// </summary>
-        /// <returns>Returns the create view.</returns>
-        //[HttpGet]
-        //public ActionResult EditLanguage(string id, string type)
-        //{
-        //    var model = new LanguageModel();
-
-        //    var languages = LanguageUtil.GetLanguageList();
-
-        //    var bundle = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
-
-        //    bundle.Reconstitute();
-
-        //    var conceptClasses = bundle.Item.OfType<ConceptClass>();
-
-        //    model.ConceptClassList.AddRange(conceptClasses.ToSelectList().OrderBy(c => c.Text));
-
-        //    model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode, Selected = l.TwoLetterCountryCode == Locale.EN }).OrderBy(l => l.Text).ToList();
-
-        //    return View(model);
-        //}
-
+       
         /// <summary>
         /// Displays the create view.
         /// </summary>
@@ -122,12 +98,8 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.Concept;
-
-			//var languages = LanguageUtil.GetLanguageList();
-
-			//model.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
+			
 		    model.LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList();
-
 
             return View(model);
 		}
@@ -203,24 +175,47 @@ namespace OpenIZAdmin.Controllers
 				Mnemonic = r.Mnemonic,
 				Name = string.Join(" ", r.DisplayNames.Select(d => d.Name)),
 				Id = r.Key.Value
-			}));
+			}));			
 
-			var conceptClasses = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
+            if (!string.IsNullOrWhiteSpace(concept.Class?.Type) )
+		    {
 
-			for (var i = 0; i < conceptClasses.Count; i++)
-			{
-				if (conceptClasses.Item[i].Type == concept.Class.Type)
-				{
-					var selected = concept.Class.Key == (conceptClasses.Item[i] as ConceptClass).Key;
+                var classesBundle = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
+                classesBundle.Reconstitute();
+                var conceptClasses = classesBundle.Item.OfType<ConceptClass>();
 
-					editConceptModel.ConceptClassList.Add(new SelectListItem()
-					{
-						Text = (conceptClasses.Item[i] as ConceptClass)?.Mnemonic,
-						Value = (conceptClasses.Item[i] as ConceptClass)?.Key.Value.ToString(),
-						Selected = selected
-					});
-				}
-			}
+                foreach (var classes in conceptClasses)
+		        {
+		            if (classes.Type != concept.Class.Type) continue;
+
+		            var selected = concept.Class.Key == classes.Key;
+
+		            editConceptModel.ConceptClassList.Add(new SelectListItem()
+		            {
+		                Text = classes?.Mnemonic,
+		                Value = classes?.Key.Value.ToString(),
+		                Selected = selected
+		            });
+		        }
+
+
+                //for (var i = 0; i < conceptClasses.Count; i++)
+                //{
+                //    if (conceptClasses.Item[i].Type == concept.Class.Type)
+                //    {
+                //        var selected = concept.Class.Key == (conceptClasses.Item[i] as ConceptClass).Key;
+
+                //        editConceptModel.ConceptClassList.Add(new SelectListItem()
+                //        {
+                //            Text = (conceptClasses.Item[i] as ConceptClass)?.Mnemonic,
+                //            Value = (conceptClasses.Item[i] as ConceptClass)?.Key.Value.ToString(),
+                //            Selected = selected
+                //        });
+                //    }
+                //}
+            }
+
+			
 
 			var languages = LanguageUtil.GetLanguageList();
 

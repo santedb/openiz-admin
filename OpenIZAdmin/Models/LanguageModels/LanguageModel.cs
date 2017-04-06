@@ -133,9 +133,9 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
-        //[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        //[StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
         public string Name { get; set; }
 
         /// <summary>

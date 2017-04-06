@@ -27,7 +27,7 @@
                                         @Locale.Edit
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
-                                    @using (Html.BeginForm("Delete", "Concept", new { id = item.TwoLetterCountryCode }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                    @using (Html.BeginForm("Delete", "Language", FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
 
