@@ -21,7 +21,9 @@ using OpenIZ.Core.Model.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
@@ -37,7 +39,9 @@ namespace OpenIZAdmin.Models.ConceptModels
 		{
 			this.LanguageList = new List<SelectListItem>();
 			this.ConceptClassList = new List<SelectListItem>();
-		}
+            LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList();
+
+        }
 
 		/// <summary>
 		/// Gets or sets the concept class.

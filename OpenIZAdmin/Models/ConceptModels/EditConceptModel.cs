@@ -25,6 +25,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using OpenIZAdmin.Models.LanguageModels;
+using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
@@ -62,8 +63,9 @@ namespace OpenIZAdmin.Models.ConceptModels
 			this.ConceptClass = concept.Class?.Name;
 			this.CreationTime = concept.CreationTime.DateTime;
 			this.Id = concept.Key.Value;			
-            this.Languages = concept.ConceptNames.Select(k => new LanguageModel(k.Language, k.Name, concept.Key.Value)).ToList();   
-		}
+            this.Languages = concept.ConceptNames.Select(k => new LanguageModel(k.Language, k.Name, concept.Key.Value)).ToList();
+            LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList();
+        }
 
 		/// <summary>
 		/// Gets or sets the concept class.

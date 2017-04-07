@@ -142,25 +142,19 @@ namespace OpenIZAdmin.Controllers
         /// <returns>Returns the Create view.</returns>
         [HttpGet]
         public ActionResult Edit(Guid? id, string langCode, string displayName )
-        {
-            var bundle = this.ImsiClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null);
-
-            bundle.Reconstitute();
-
-            var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);
+        {            
+            var concept = ConceptUtil.GetConcept(this.ImsiClient, id);
 
             if (concept == null)
             {
                 TempData["error"] = Locale.Concept + " " + Locale.NotFound;
                 return RedirectToAction("Index", "Concept");
-            }
+            }            
 
             var model = new LanguageModel(langCode, displayName, concept)
             {
                 LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList()
-            };
-
-            //model.TwoLetterCountryCode = Locale.EN;
+            };            
 
             return View(model);
         }

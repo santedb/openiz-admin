@@ -31,7 +31,7 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// <param name="concept">The concept.</param>
         public LanguageModel(Concept concept) : this()
         {
-            this.ConceptClass = concept.Class.Name;            
+            this.ConceptClassName = concept.Class?.Name;            
             this.ConceptId = concept.Key.Value;
             this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();
             TwoLetterCountryCode = Locale.EN;
@@ -90,7 +90,7 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// <value>The concept class.</value>
         //[Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
         //[Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string ConceptClass { get; set; }
+        public string ConceptClassName { get; set; }
 
         public Guid? ConceptId { get; set; }
 
@@ -147,25 +147,25 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// Converts an <see cref="CreateConceptModel"/> instance to a <see cref="Concept"/> instance.
         /// </summary>
         /// <returns>Returns a concept instance.</returns>
-        public Concept ToConcept()
-        {
-            return new Concept
-            {
-                Class = new ConceptClass
-                {
-                    Key = Guid.Parse(this.ConceptClass)
-                },
-                ConceptNames = new List<ConceptName>
-                      {
-                          new ConceptName
-                          {
-                              Language = this.Language,
-                              Name = this.Name
-                          }
-                      },
-                Key = Guid.NewGuid(),
-                Mnemonic = this.Mnemonic,
-            };
-        }
+        //public Concept ToConcept()
+        //{
+        //    return new Concept
+        //    {
+        //        Class = new ConceptClass
+        //        {
+        //            Key = Guid.Parse(this.ConceptClassName)
+        //        },
+        //        ConceptNames = new List<ConceptName>
+        //              {
+        //                  new ConceptName
+        //                  {
+        //                      Language = this.Language,
+        //                      Name = this.Name
+        //                  }
+        //              },
+        //        Key = Guid.NewGuid(),
+        //        Mnemonic = this.Mnemonic,
+        //    };
+        //}
     }
 }
