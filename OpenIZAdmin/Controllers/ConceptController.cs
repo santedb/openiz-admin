@@ -197,10 +197,7 @@ namespace OpenIZAdmin.Controllers
 					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
-				}								
-
-			    //var conceptClass = ConceptUtil.GetConceptClass(ImsiClient, model.ConceptClass);
-                //if(conceptClass != null) concept.Class = conceptClass;
+				}											    
 
                 var result = this.ImsiClient.Update<Concept>(concept);
 

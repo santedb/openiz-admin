@@ -25,7 +25,7 @@
                                 <td>@item.RelationshipTypeName</td>
                                 <td>@item.TargetTypeConcept</td>
                                 <td>@(item.Quantity ?? 0)</td>
-                                <td>
+                                <td class="autoFitContents centerButton">
                                     <a class="btn btn-warning" href="@Url.Action("Edit", "EntityRelationship", new { id = item.Id, sourceId = item.SourceId })">
                                         @Locale.Edit
                                         <span class="glyphicon glyphicon-pencil"></span>
@@ -34,7 +34,7 @@
                                     {
                                         @Html.AntiForgeryToken()
 
-                                        <button type="submit" class="formButton btn btn-danger">
+                                        <button type="submit" class="btn btn-danger">
                                             @Locale.Delete
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </button>

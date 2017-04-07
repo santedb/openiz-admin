@@ -44,7 +44,7 @@
                             <td>@item.AdministrativeContactEmail</td>
                             <td>@item.DistinguishedName</td>
                             <td>@item.SubmissionTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
-                            <td>
+                            <td class="autoFitContents centerButton">
                                 <a class="btn btn-primary" href="/Applet/Applet?appletId=@item.DistinguishedName.ToString()">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
