@@ -58,8 +58,8 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		/// <param name="concept">The concept.</param>
 		public EditConceptModel(Concept concept) : this()
-		{
-			this.ConceptClass = (concept.Class != null) ? concept.Class.Name : string.Empty;
+		{			        
+			this.ConceptClass = concept.Class?.Name;
 			this.CreationTime = concept.CreationTime.DateTime;
 			this.Id = concept.Key.Value;			
             this.Languages = concept.ConceptNames.Select(k => new LanguageModel(k.Language, k.Name, concept.Key.Value)).ToList();   
