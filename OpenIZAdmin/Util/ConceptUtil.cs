@@ -24,6 +24,7 @@ using System.Web;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Query;
 using OpenIZ.Messaging.IMSI.Client;
+using OpenIZAdmin.Models.ConceptModels;
 
 namespace OpenIZAdmin.Util
 {
@@ -119,5 +120,45 @@ namespace OpenIZAdmin.Util
         }
 
 
-}
+        /// <summary>
+        /// Converts a <see cref="EditConceptModel"/> to a <see cref="Concept"/>
+        /// </summary>        
+        /// <param name="model"> The EditConceptModel model with the changes</param>
+        /// <param name="concept">The target Concept to apply the update to</param>
+        /// <returns>The updated Concept instance</returns>
+        public static Concept ToEditConceptInfo(EditConceptModel model, Concept concept)
+        {
+            if (!string.Equals(model.ConceptClass, concept.ClassKey.ToString()))
+            {                
+                concept.Class = new ConceptClass
+                {
+                    Key = Guid.Parse(model.ConceptClass)
+                };
+            }
+
+           
+            concept.Mnemonic = model.Mnemonic;
+
+            return concept;
+        }
+
+        /// <summary>
+        /// Gets a Concept instance
+        /// </summary>
+        /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
+        /// <param name="mnemonic">The mnemonic to validate.</param>
+        /// <returns>Returns an boolean if the mnemonic is unique</returns>
+        public static bool CheckUniqueMnemonic(ImsiServiceClient imsiServiceClient, string mnemonic)
+        {
+            var bundle = imsiServiceClient.Query<Concept>(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
+
+            bundle.Reconstitute();
+
+            var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
+
+            return concept == null;
+        }
+
+
+    }
 }

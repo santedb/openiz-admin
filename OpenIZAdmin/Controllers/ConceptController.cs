@@ -60,6 +60,7 @@ namespace OpenIZAdmin.Controllers
 
             var conceptClasses = ConceptUtil.GetConceptClasses(ImsiClient);
             model.ConceptClassList.AddRange(conceptClasses.ToSelectList().OrderBy(c => c.Text));
+		    model.Language = Locale.EN;
             		    
             return View(model);
 		}       
@@ -145,59 +146,67 @@ namespace OpenIZAdmin.Controllers
             {
                 TempData["error"] = Locale.Concept + " " + Locale.NotFound;
                 return RedirectToAction("Index");
-            }           
+            }                       
 
-            var editConceptModel = new EditConceptModel(concept);
+            var model = new EditConceptModel(concept)
+            {
+                LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList()
+            };
 
+            var conceptClasses = ConceptUtil.GetConceptClasses(ImsiClient).ToList();
+            model.ConceptClassList.AddRange(conceptClasses.ToSelectList().OrderBy(c => c.Text));
 
+		    if (concept.Class != null)
+		    {
+		        var selectedClass = conceptClasses.FirstOrDefault(c => c.Key == concept.Class.Key);
+                if (selectedClass != null)
+                {
+                    model.ConceptClass = selectedClass.Key.ToString();
+                }
+            }            
+		                  
             var referenceTerms = ConceptUtil.GetConceptReferenceTerms(ImsiClient, concept);
 
 		    if (referenceTerms != null)
 		    {
-		        editConceptModel.ReferenceTerms.AddRange(referenceTerms.Select(r => new ReferenceTermModel
+                model.ReferenceTerms.AddRange(referenceTerms.Select(r => new ReferenceTermModel
 		        {
 		            Mnemonic = r.Mnemonic,
 		            Name = string.Join(" ", r.DisplayNames.Select(d => d.Name)),
 		            Id = r.Key.Value
 		        }));
-		    }
+		    }		   
 
-
-		    if (string.IsNullOrWhiteSpace(concept.Class?.Type)) return View(editConceptModel);
-
-		    var conceptClasses = ConceptUtil.GetConceptClasses(ImsiClient);
-
-		    foreach (var classes in conceptClasses)
-		    {
-		        if (!string.Equals(classes.Type, concept.Class.Type)) continue;
-
-		        var selected = concept.Class.Key == classes.Key;
-
-		        editConceptModel.ConceptClassList.Add(new SelectListItem()
-		        {
-		            Text = classes.Mnemonic,
-		            Value = classes.Key.Value.ToString(),
-		            Selected = selected
-		        });
-		    }
-
-		    return View(editConceptModel);
+		    return View(model);
         }
 
-		[HttpPost]
+        /// <summary>
+        /// Updates a Concept from the <see cref="EditConceptModel"/> instance.
+        /// </summary>
+        /// <param name="model">The EditConceptModel instance</param>
+        /// <returns></returns>
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditConceptModel model)
 		{
 			if (ModelState.IsValid)
-			{				
-			    var concept = ConceptUtil.GetConcept(ImsiClient, model.Id);
+			{
+                var concept = ConceptUtil.GetConcept(ImsiClient, model.Id);
 
-				if (concept == null)
-				{
-					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+                if (concept == null)
+                {
+                    TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 
-					return RedirectToAction("Index");
-				}											    
+                    return RedirectToAction("Index");
+                }
+			    
+                if (!string.Equals(concept.Mnemonic, model.Mnemonic) && !ConceptUtil.CheckUniqueMnemonic(ImsiClient, model.Mnemonic))
+			    {
+                    TempData["error"] = Locale.Mnemonic + " " + Locale.MustBeUnique;
+			        return View(model);
+			    }                                                					    
+
+			    concept = ConceptUtil.ToEditConceptInfo(model, concept);										    
 
                 var result = this.ImsiClient.Update<Concept>(concept);
 

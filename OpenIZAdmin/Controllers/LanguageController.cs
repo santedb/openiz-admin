@@ -9,6 +9,7 @@ using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models;
+using OpenIZAdmin.Models.ConceptModels;
 using OpenIZAdmin.Models.LanguageModels;
 using OpenIZAdmin.Util;
 
@@ -45,7 +46,7 @@ namespace OpenIZAdmin.Controllers
         /// <summary>
 		/// Adds the new language.
 		/// </summary>		
-		/// <param name="model">The Edit LanguageModel instance.</param>
+		/// <param name="model">The <see cref="LanguageModel"/> instance.</param>
 		/// <returns>ActionResult.</returns>
 		[HttpPost]
         [ValidateAntiForgeryToken]
@@ -64,16 +65,14 @@ namespace OpenIZAdmin.Controllers
                 concept.ConceptNames.Add(new ConceptName
                 {
                     Language = model.TwoLetterCountryCode,
-                    Name = model.DisplayName,
-                    //Key = Guid.NewGuid(),
-                    //EffectiveVersionSequenceId = concept.VersionSequence
+                    Name = model.DisplayName,                    
                 });
 
                 var result = this.ImsiClient.Update<Concept>(concept);
 
                 TempData["success"] = Locale.Language + " " + Locale.Updated + " " + Locale.Successfully;
 
-                return RedirectToAction("ViewConcept", "Concept", new { id = result.Key });               
+                return RedirectToAction("Edit", "Concept", new { id = result.Key });               
             }
             catch (Exception e)
             {
@@ -119,7 +118,7 @@ namespace OpenIZAdmin.Controllers
 
                 TempData["success"] = Locale.Language + " " + Locale.Deleted + " " + Locale.Successfully;
 
-                return RedirectToAction("ViewConcept", "Concept", new { id = result.Key });             
+                return RedirectToAction("Edit", "Concept", new { id = result.Key });             
             }
             catch (Exception e)
             {
@@ -160,10 +159,9 @@ namespace OpenIZAdmin.Controllers
         }
 
         /// <summary>
-        /// Adds the new identifier.
-        /// </summary>
-        /// <param name="id">The entity identifier for which to add a new identifier.</param>
-        /// <param name="type">The type.</param>
+        /// Updates the language associated with the Concept.
+        /// </summary>        
+        /// <param name="model">The <see cref="LanguageModel"/> instance.</param>
         /// <returns>ActionResult.</returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -184,7 +182,7 @@ namespace OpenIZAdmin.Controllers
                 if (index < 0)
                 {
                     TempData["error"] = Locale.LanguageCode + " " + Locale.NotFound;
-                    return RedirectToAction("ViewConcept", "Concept", new { id = model.ConceptId });
+                    return RedirectToAction("Edit", "Concept", new { id = model.ConceptId });
                 }
                 
                 concept.ConceptNames[index].Language = model.TwoLetterCountryCode;

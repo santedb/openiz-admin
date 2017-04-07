@@ -1317,4 +1317,10 @@
   <data name="UploadNewVersion" xml:space="preserve">
     <value>Upload new version</value>
   </data>
+  <data name="LanguagCodeTooLong" xml:space="preserve">
+    <value>The language code cannot exceed 2 characters</value>
+  </data>
+  <data name="MustBeUnique" xml:space="preserve">
+    <value>must be unique</value>
+  </data>
 </root>

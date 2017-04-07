@@ -9,6 +9,9 @@ using OpenIZAdmin.Models.ConceptModels;
 
 namespace OpenIZAdmin.Models.LanguageModels
 {
+    /// <summary>
+    /// Represents a view model for a language search result.
+    /// </summary>
     public class LanguageViewModel : LanguageModel
     {
         /// <summary>
@@ -17,8 +20,7 @@ namespace OpenIZAdmin.Models.LanguageModels
         public LanguageViewModel()
         {
             this.Languages = new List<Language>();
-            this.LanguageList = new List<SelectListItem>();
-            //this.ConceptClassList = new List<SelectListItem>();
+            this.LanguageList = new List<SelectListItem>();            
         }
 
         /// <summary>
@@ -27,8 +29,7 @@ namespace OpenIZAdmin.Models.LanguageModels
 		/// <param name="concept">The concept.</param>
 		public LanguageViewModel(Concept concept) : this()
 		{
-            this.ConceptClass = concept.Class.Name;
-            //this.CreationTime = concept.CreationTime.DateTime;
+            this.ConceptClass = concept.Class.Name;            
             this.ConceptId = concept.Key.Value;
             this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();
         }
@@ -36,12 +37,10 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// <summary>
         /// Gets or sets the concept class.
         /// </summary>
-        /// <value>The concept class.</value>
-        //[Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        /// <value>The concept class.</value>        
         public string ConceptClass { get; set; }
 
-        public Guid? ConceptId { get; set; }
+        //public Guid? ConceptId { get; set; }
 
         /// <summary>
         /// Gets or sets the concept class list.
@@ -49,7 +48,7 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// <value>The concept class list.</value>
         public List<SelectListItem> ConceptClassList { get; set; }
 
-        public string DisplayName { get; set; }
+        //public string DisplayName { get; set; }
 
         /// <summary>
         /// Gets or sets the language.
@@ -57,19 +56,7 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// <value>The language.</value>
         [Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
         [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string Language { get; set; }
-
-        /// <summary>
-        /// Gets or sets the language list.
-        /// </summary>
-        /// <value>The language list.</value>
-        public List<SelectListItem> LanguageList { get; set; }
-
-        /// <summary>
-        /// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
-        /// </summary>		
-        [Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
-        public List<Language> Languages { get; set; }
+        public override string Language { get; set; }       
 
         /// <summary>
         /// Gets or sets the mnemonic.
@@ -87,8 +74,11 @@ namespace OpenIZAdmin.Models.LanguageModels
         [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
         [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         [StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string Name { get; set; }
+        public override string Name { get; set; }
 
+        /// <summary>
+        /// Gets or sets the two character language code
+        /// </summary>
         public List<string> TwoLetterCountryCodeList { get; set; }
 
         /// <summary>

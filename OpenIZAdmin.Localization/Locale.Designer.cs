@@ -1366,6 +1366,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The language code cannot exceed 2 characters.
+        /// </summary>
+        public static string LanguagCodeTooLong {
+            get {
+                return ResourceManager.GetString("LanguagCodeTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         public static string Language {
@@ -1632,6 +1641,15 @@ namespace OpenIZAdmin.Localization {
         public static string MnemonicTooLong {
             get {
                 return ResourceManager.GetString("MnemonicTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to must be unique.
+        /// </summary>
+        public static string MustBeUnique {
+            get {
+                return ResourceManager.GetString("MustBeUnique", resourceCulture);
             }
         }
         

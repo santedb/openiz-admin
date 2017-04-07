@@ -76,13 +76,14 @@ namespace OpenIZAdmin.Models.LanguageModels
         [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
         [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         [StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string DisplayName { get; set; }        
+        public string DisplayName { get; set; }
 
         /// <summary>
         /// Gets or sets the current language.
         /// </summary>
         /// <value>The language.</value>        
-        public string Language { get; set; }
+        [Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
+        public virtual string Language { get; set; }
 
         /// <summary>
         /// Gets or sets the language list.
@@ -100,7 +101,7 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// Gets or sets the current name.
         /// </summary>
         /// <value>The name.</value>                
-        public string Name { get; set; }    
+        public virtual string Name { get; set; }    
 
         /// <summary>
         /// Gets or sets the two letter language code of the language.

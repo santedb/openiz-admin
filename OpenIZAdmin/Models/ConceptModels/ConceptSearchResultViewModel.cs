@@ -45,12 +45,13 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// <param name="concept">The <see cref="Concept"/> instance.</param>
 		public ConceptSearchResultViewModel(Concept concept)
 		{
-			this.CreationTime = concept.CreationTime.DateTime;
-			this.IsReadOnly = concept.IsSystemConcept;
-			this.Id = concept.Key.Value;
-			this.Mnemonic = concept.Mnemonic;
-			this.Names = concept.ConceptNames.Select(c => c.Name).ToList();
-			this.Type = ConceptType.Concept;
+			CreationTime = concept.CreationTime.DateTime;
+			IsReadOnly = concept.IsSystemConcept;
+			Id = concept.Key.Value;
+			Mnemonic = concept.Mnemonic;
+			Names = concept.ConceptNames.Select(c => c.Name).ToList();
+		    ConceptNames = string.Join(", ", Names);
+            Type = ConceptType.Concept;
 		}
 
 		/// <summary>
@@ -67,6 +68,11 @@ namespace OpenIZAdmin.Models.ConceptModels
 			this.Names = new List<string> { conceptSet.Name };
 			this.Type = ConceptType.ConceptSet;
 		}
+
+        /// <summary>
+        /// Gets or sets the string of Concept Names
+        /// </summary>
+        public string ConceptNames { get; set; }
 
 		/// <summary>
 		/// Gets or sets the creation time of the concept or concept set.

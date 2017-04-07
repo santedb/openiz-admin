@@ -61,7 +61,8 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// <value>The language.</value>
 		[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string Language { get; set; }
+        [StringLength(2, ErrorMessageResourceName = "LanguagCodeTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string Language { get; set; }
 
 		/// <summary>
 		/// Gets or sets the language list.

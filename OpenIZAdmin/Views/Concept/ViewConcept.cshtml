@@ -15,19 +15,30 @@
     </div>
     <div class="panel panel-body">
         <div class="col-md-12">
-            <div class="form-horizontal">              
+            <div class="form-horizontal">                                             
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Mnemonic, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", @readonly = "readonly" })                        
+                    </div>
+                </div>                
+                
                 <div class="form-group">
                     @Html.LabelFor(m => m.Class, new { @class = "col-md-2 control-label" })
                     <div class="col-md-8">
                         @Html.TextBoxFor(m => m.Class, new { @class = "form-control", @readonly = "readonly" })
                     </div>
                 </div>
+
                 <div class="form-group">
                     @Html.LabelFor(m => m.CreationTime, new { @class = "col-md-2 control-label" })
                     <div class="col-md-8">
                         @Html.TextBoxFor(m => m.CreationTime, Constants.DateTimeFormatViewWithTimestamp, new { @class = "form-control", @readonly = "readonly" })
                     </div>
-                </div>                                             
+                </div> 
+                
+                                                            
             </div>
         </div>
     </div>
