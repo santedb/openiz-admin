@@ -147,73 +147,68 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Edit(Guid id)
 		{
-			var bundle = this.ImsiClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null);
+            var bundle = this.ImsiClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null);
 
-			bundle.Reconstitute();
+            bundle.Reconstitute();
 
-			var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);
+            var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);
 
-			if (concept == null)
-			{
-				TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-				return RedirectToAction("Index");
-			}
+            if (concept == null)
+            {
+                TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+                return RedirectToAction("Index");
+            }
 
-			if (concept.ClassKey.HasValue && concept.ClassKey.Value != Guid.Empty)
-			{
-				concept.Class = this.ImsiClient.Get<ConceptClass>(concept.ClassKey.Value, null) as ConceptClass;
-			}
+            if (concept.ClassKey.HasValue && concept.ClassKey.Value != Guid.Empty)
+            {
+                concept.Class = this.ImsiClient.Get<ConceptClass>(concept.ClassKey.Value, null) as ConceptClass;
+            }
 
-			var referenceTermQuery = new List<KeyValuePair<string, object>>();
+            var referenceTermQuery = new List<KeyValuePair<string, object>>();
 
-			foreach (var conceptReferenceTerm in concept.ReferenceTerms)
-			{
-				referenceTermQuery.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.Key == conceptReferenceTerm.ReferenceTerm.Key));
-			}
+            foreach (var conceptReferenceTerm in concept.ReferenceTerms)
+            {
+                referenceTermQuery.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.Key == conceptReferenceTerm.ReferenceTerm.Key));
+            }
 
-			var referenceTerms = this.ImsiClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ReferenceTerm>();
+            var referenceTerms = this.ImsiClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ReferenceTerm>();
 
-			var editConceptModel = new EditConceptModel(concept);
+            var editConceptModel = new EditConceptModel(concept);
 
-			editConceptModel.ReferenceTerms.AddRange(referenceTerms.Select(r => new ReferenceTermModel
-			{
-				Mnemonic = r.Mnemonic,
-				Name = string.Join(" ", r.DisplayNames.Select(d => d.Name)),
-				Id = r.Key.Value
-			}));			
+            editConceptModel.ReferenceTerms.AddRange(referenceTerms.Select(r => new ReferenceTermModel
+            {
+                Mnemonic = r.Mnemonic,
+                Name = string.Join(" ", r.DisplayNames.Select(d => d.Name)),
+                Id = r.Key.Value
+            }));
 
-            if (!string.IsNullOrWhiteSpace(concept.Class?.Type) )
+		    if (!string.IsNullOrWhiteSpace(concept.Class?.Type))
 		    {
-                var classesBundle = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
-                classesBundle.Reconstitute();
-                var conceptClasses = classesBundle.Item.OfType<ConceptClass>();
 
-			//for (var i = 0; i < conceptClasses.Count; i++)
-			//{
-				//if (conceptClasses.Item[i].Type == concept.Class?.Type)
-				//{
-					//var selected = concept.Class.Key == (conceptClasses.Item[i] as ConceptClass).Key;
+		        var classesBundle = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
+		        classesBundle.Reconstitute();
+		        var conceptClasses = classesBundle.Item.OfType<ConceptClass>();
 
-
-                foreach (var classes in conceptClasses)
+		        foreach (var classes in conceptClasses)
 		        {
-		            if (classes.Type != concept.Class?.Type) continue;
+		            if (classes.Type != concept.Class.Type) continue;
 
 		            var selected = concept.Class.Key == classes.Key;
-                            //var selected = concept.Class.Key == (conceptClasses.Item[i] as ConceptClass).Key;
 
-                            editConceptModel.ConceptClassList.Add(new SelectListItem()
+		            editConceptModel.ConceptClassList.Add(new SelectListItem()
 		            {
 		                Text = classes?.Mnemonic,
 		                Value = classes?.Key.Value.ToString(),
 		                Selected = selected
 		            });
 		        }
+		    }
 
+		    //var conceptClasses = this.ImsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
 
                 //for (var i = 0; i < conceptClasses.Count; i++)
                 //{
-                //    if (conceptClasses.Item[i].Type == concept.Class.Type)
+                //    if (conceptClasses.Item[i].Type == concept.Class?.Type)
                 //    {
                 //        var selected = concept.Class.Key == (conceptClasses.Item[i] as ConceptClass).Key;
 
@@ -225,16 +220,13 @@ namespace OpenIZAdmin.Controllers
                 //        });
                 //    }
                 //}
-            }
 
-			
+                var languages = LanguageUtil.GetLanguageList();
 
-			var languages = LanguageUtil.GetLanguageList();
+            editConceptModel.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
 
-			editConceptModel.LanguageList = languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).ToList();
-
-			return View(editConceptModel);
-		}
+            return View(editConceptModel);
+        }
 
 		[HttpPost]
 		[ValidateAntiForgeryToken]

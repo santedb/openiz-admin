@@ -644,6 +644,7 @@
     <Content Include="Views\Shared\_LanguagesPartial.cshtml" />
     <Content Include="Views\Shared\_ReferenceTermsPartial.cshtml" />
     <Content Include="Views\Language\Create.cshtml" />
+    <Content Include="Views\Applet\Update.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
