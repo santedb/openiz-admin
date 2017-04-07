@@ -38,39 +38,7 @@
                 </div>
                 <a href="#" id="btnAdd"><i class="glyphicon glyphicon-plus-sign"></i>Add Language</a>
                 @Html.HiddenFor(m => m.Id)
-            </div>
-            
-            
-            
-            
-            @*<div class="form-group" id="concept-languages">
-                @Html.LabelFor(m => m.Languages, new { @class = "col-md-2 control-label" })
-                <div class="container col-md-8" id="concept-languages-list">
-
-                    @if (Model.LanguageList.Any())
-                    {
-                        for (var i = 0; i < Model.Languages.Count; i++)
-                        {
-
-                            <div class="form-group" id="concept-language-entries@(i)">
-                                <div class="col-md-2">
-                                    @Html.TextBoxFor(m => m.Languages[i].TwoLetterCountryCode, new { @class = "form-control", @readonly = "readonly" })
-                                </div>
-                                <div class="col-md-10">
-                                    @Html.TextBoxFor(m => m.Languages[i].DisplayName, new { @class = "form-control", @readonly = "readonly" })
-                                </div>
-                            </div>
-                        }
-                    }
-                    else
-                    {
-                        <p>@Locale.NoLanguagesAssigned</p>
-                    }
-
-                </div>
-            </div>*@  
-            
-                                                                                          
+            </div>                                                                                                                                                               
         </div>
 
         <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>

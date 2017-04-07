@@ -21,8 +21,7 @@ namespace OpenIZAdmin.Models.LanguageModels
 		public LanguageModel()
         {
             this.Languages = new List<Language>();
-            this.LanguageList = new List<SelectListItem>();    
-            this.TwoLetterCountryCodeList = new List<string>() { Locale.EN };
+            this.LanguageList = new List<SelectListItem>();                
         }
 
         /// <summary>
@@ -30,12 +29,9 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// </summary>
         /// <param name="concept">The concept.</param>
         public LanguageModel(Concept concept) : this()
-        {
-            this.ConceptClassName = concept.Class?.Name;            
+        {            
             this.ConceptId = concept.Key.Value;
-            this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();
-            TwoLetterCountryCode = Locale.EN;
-            DisplayName = string.Empty;
+            this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();            
         }
 
         /// <summary>
@@ -47,10 +43,11 @@ namespace OpenIZAdmin.Models.LanguageModels
 	    /// <param name="conceptId">The identifier associated with the Concept</param>
 	    public LanguageModel(string code, string displayName, Guid? conceptId) : this()
         {
-            DisplayName = displayName;
-            TwoLetterCountryCode = code;
             ConceptId = conceptId;
-            TwoLetterCountryCodeList = new List<string>() { code };
+            DisplayName = displayName;
+            Name = displayName;
+            TwoLetterCountryCode = code;
+            Language = code;
         }
 
         /// <summary>
@@ -63,49 +60,28 @@ namespace OpenIZAdmin.Models.LanguageModels
 	    public LanguageModel(string code, string displayName, Concept concept) : this(concept)
         {
             DisplayName = displayName;
+            Name = displayName;
             TwoLetterCountryCode = code;
-            TwoLetterCountryCodeList = new List<string>() { code };
+            Language = code;
         }
+
+        /// <summary>
+        /// Gets or sets the Guid identifier of the Concept
+        /// </summary>
+        public Guid? ConceptId { get; set; }
 
         /// <summary>
         /// Gets or sets the display name of the language.
         /// </summary>
-        public string DisplayName { get; set; }
+        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string DisplayName { get; set; }        
 
         /// <summary>
-        /// Gets or sets the two letter language code of the language.
+        /// Gets or sets the current language.
         /// </summary>
-        public string TwoLetterCountryCode { get; set; }
-
-        /// <summary>
-        /// Gets the Entity Identifier related to the Language entry
-        /// </summary>
-        public Guid? EntityId { get; }
-
-       
-
-        /// <summary>
-        /// Gets or sets the concept class.
-        /// </summary>
-        /// <value>The concept class.</value>
-        //[Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string ConceptClassName { get; set; }
-
-        public Guid? ConceptId { get; set; }
-
-        /// <summary>
-        /// Gets or sets the concept class list.
-        /// </summary>
-        /// <value>The concept class list.</value>
-        //public List<SelectListItem> ConceptClassList { get; set; }        
-
-        /// <summary>
-        /// Gets or sets the language.
-        /// </summary>
-        /// <value>The language.</value>
-        [Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        /// <value>The language.</value>        
         public string Language { get; set; }
 
         /// <summary>
@@ -121,51 +97,16 @@ namespace OpenIZAdmin.Models.LanguageModels
         public List<Language> Languages { get; set; }
 
         /// <summary>
-        /// Gets or sets the mnemonic.
+        /// Gets or sets the current name.
         /// </summary>
-        /// <value>The mnemonic.</value>
-        //[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        //[StringLength(255, ErrorMessageResourceName = "MnemonicTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string Mnemonic { get; set; }
+        /// <value>The name.</value>                
+        public string Name { get; set; }    
 
         /// <summary>
-        /// Gets or sets the name.
+        /// Gets or sets the two letter language code of the language.
         /// </summary>
-        /// <value>The name.</value>
-        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string Name { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public List<string> TwoLetterCountryCodeList { get; set; }
-
-        /// <summary>
-        /// Converts an <see cref="CreateConceptModel"/> instance to a <see cref="Concept"/> instance.
-        /// </summary>
-        /// <returns>Returns a concept instance.</returns>
-        //public Concept ToConcept()
-        //{
-        //    return new Concept
-        //    {
-        //        Class = new ConceptClass
-        //        {
-        //            Key = Guid.Parse(this.ConceptClassName)
-        //        },
-        //        ConceptNames = new List<ConceptName>
-        //              {
-        //                  new ConceptName
-        //                  {
-        //                      Language = this.Language,
-        //                      Name = this.Name
-        //                  }
-        //              },
-        //        Key = Guid.NewGuid(),
-        //        Mnemonic = this.Mnemonic,
-        //    };
-        //}
+        [Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string TwoLetterCountryCode { get; set; }
     }
 }

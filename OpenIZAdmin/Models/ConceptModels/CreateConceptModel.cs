@@ -37,10 +37,8 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		public CreateConceptModel()
 		{
-			this.LanguageList = new List<SelectListItem>();
-			this.ConceptClassList = new List<SelectListItem>();
-            LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList();
-
+		    LanguageList = new List<SelectListItem>();
+			ConceptClassList = new List<SelectListItem>();            
         }
 
 		/// <summary>

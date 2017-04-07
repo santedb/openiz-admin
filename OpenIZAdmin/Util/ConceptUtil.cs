@@ -35,12 +35,12 @@ namespace OpenIZAdmin.Util
         /// <summary>
         /// Gets a Concept instance
         /// </summary>
-        /// <param name="imsiClient">The <see cref="ImsiServiceClient"/> instance.</param>
+        /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
         /// <param name="id">The uniquie identifier of the concept instance to retrieve.</param>
         /// <returns>Returns an instance of a Concept.</returns>
-        public static Concept GetConcept(ImsiServiceClient imsiClient, Guid? id)
+        public static Concept GetConcept(ImsiServiceClient imsiServiceClient, Guid? id)
         {
-            var bundle = imsiClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null);
+            var bundle = imsiServiceClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null);
 
             bundle.Reconstitute();
 
@@ -50,7 +50,7 @@ namespace OpenIZAdmin.Util
 
             if (concept.ClassKey.HasValue && concept.ClassKey.Value != Guid.Empty)
             {
-                concept.Class = imsiClient.Get<ConceptClass>(concept.ClassKey.Value, null) as ConceptClass;
+                concept.Class = imsiServiceClient.Get<ConceptClass>(concept.ClassKey.Value, null) as ConceptClass;
             }
 
             return concept;
@@ -60,9 +60,10 @@ namespace OpenIZAdmin.Util
         /// <summary>
         /// Gets a list of Reference Terms.
         /// </summary>
-        /// <param name="imsiClient">The <see cref="ImsiServiceClient"/> instance.</param>        
+        /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
+        /// <param name="concept">The <see cref="Concept"/> instance.</param>
         /// <returns>Returns an IEnumerable of Concept Reference Terms.</returns>
-        public static IEnumerable<ReferenceTerm> GetConceptReferenceTerms(ImsiServiceClient imsiClient, Concept concept)
+        public static IEnumerable<ReferenceTerm> GetConceptReferenceTerms(ImsiServiceClient imsiServiceClient, Concept concept)
         {
             var referenceTermQuery = new List<KeyValuePair<string, object>>();
 
@@ -71,18 +72,18 @@ namespace OpenIZAdmin.Util
                 referenceTermQuery.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.Key == conceptReferenceTerm.ReferenceTerm.Key));
             }
 
-            return imsiClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ReferenceTerm>();            
+            return imsiServiceClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ReferenceTerm>();            
         }
 
 
         /// <summary>
-        /// Gets a list of Concept Class types.
+        /// Gets a list of Concept Classes.
         /// </summary>
-        /// <param name="imsiClient">The <see cref="ImsiServiceClient"/> instance.</param>        
+        /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>        
         /// <returns>Returns an IEnumerable of Concept Class types.</returns>
-        public static IEnumerable<ConceptClass> GetConceptClasses(ImsiServiceClient imsiClient)
+        public static IEnumerable<ConceptClass> GetConceptClasses(ImsiServiceClient imsiServiceClient)
         {
-            var classesBundle = imsiClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
+            var classesBundle = imsiServiceClient.Query<ConceptClass>(c => c.ObsoletionTime == null);
             classesBundle.Reconstitute();
             return classesBundle.Item.OfType<ConceptClass>();
         }

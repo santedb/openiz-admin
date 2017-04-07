@@ -52,12 +52,14 @@ namespace OpenIZAdmin.Controllers
         /// <returns>Returns the create view.</returns>
         [HttpGet]
 		public ActionResult Create()
-		{
-			var model = new CreateConceptModel();						
+		{            
+            var model = new CreateConceptModel()
+            {
+                LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList()                
+            };
 
-		    var conceptClasses = ConceptUtil.GetConceptClasses(ImsiClient);
-
-			model.ConceptClassList.AddRange(conceptClasses.ToSelectList().OrderBy(c => c.Text));
+            var conceptClasses = ConceptUtil.GetConceptClasses(ImsiClient);
+            model.ConceptClassList.AddRange(conceptClasses.ToSelectList().OrderBy(c => c.Text));
             		    
             return View(model);
 		}       
@@ -197,8 +199,8 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}								
 
-			    var conceptClass = ConceptUtil.GetConceptClass(ImsiClient, model.ConceptClass);
-                if(conceptClass != null) concept.Class = conceptClass;
+			    //var conceptClass = ConceptUtil.GetConceptClass(ImsiClient, model.ConceptClass);
+                //if(conceptClass != null) concept.Class = conceptClass;
 
                 var result = this.ImsiClient.Update<Concept>(concept);
 

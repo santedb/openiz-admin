@@ -25,12 +25,8 @@ namespace OpenIZAdmin.Controllers
         /// <returns>Returns the Create view.</returns>
         [HttpGet]
         public ActionResult Create(Guid id)
-        {            
-            var bundle = this.ImsiClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null);
-
-            bundle.Reconstitute();
-
-            var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);
+        {                        
+            var concept = ConceptUtil.GetConcept(ImsiClient, id);
 
             if (concept == null)
             {
@@ -56,13 +52,8 @@ namespace OpenIZAdmin.Controllers
         public ActionResult Create(LanguageModel model)
         {            
             try
-            {
-
-                var bundle = this.ImsiClient.Query<Concept>(c => c.Key == model.ConceptId && c.ObsoletionTime == null);
-
-                bundle.Reconstitute();
-
-                var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == model.ConceptId && c.ObsoletionTime == null);
+            {                
+                var concept = ConceptUtil.GetConcept(ImsiClient, model.ConceptId);
 
                 if (concept == null)
                 {
@@ -72,8 +63,8 @@ namespace OpenIZAdmin.Controllers
 
                 concept.ConceptNames.Add(new ConceptName
                 {
-                    Language = model.Language,
-                    Name = model.Name,
+                    Language = model.TwoLetterCountryCode,
+                    Name = model.DisplayName,
                     //Key = Guid.NewGuid(),
                     //EffectiveVersionSequenceId = concept.VersionSequence
                 });
@@ -92,38 +83,43 @@ namespace OpenIZAdmin.Controllers
 
             return View(model);
         }
-        
+
         /// <summary>
-		/// Deletes a concept.
-		/// </summary>
-		/// <param name="id">The id of the concept to delete.</param>
-		/// <returns>Returns the index view.</returns>
-		[HttpPost]
+        /// Deletes a language from a Concept.
+        /// </summary>        
+        /// <param name="id">The Concept Guid id</param>
+        /// <param name="langCode">The language two character code identifier</param>
+        /// <param name="displayName">The text name representation of the Concept</param>
+        /// <returns>Returns the index view.</returns>
+        [HttpPost]
 
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(LanguageModel model)
+        public ActionResult Delete(Guid? id, string langCode, string displayName)
         {
             try
-            {
-                if (model.ConceptId != null)
+            {                
+                var concept = ConceptUtil.GetConcept(ImsiClient, id);
+
+                if (concept == null)
                 {
-                    var concept = this.ImsiClient.Get<Concept>((Guid)model.ConceptId, null) as Concept;
-
-                    if (concept == null)
-                    {
-                        TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-                        return RedirectToAction("Index", "Concept");
-                    }
-                    
-                    var index = concept.ConceptNames.FindIndex(c => c.Language == model.Language && c.Name == model.Name);
-                    concept.ConceptNames.RemoveAt(index);                
-
-                    var result = this.ImsiClient.Update<Concept>(concept);
-
-                    TempData["success"] = Locale.Language + " " + Locale.Deleted + " " + Locale.Successfully;
-
-                    return RedirectToAction("ViewConcept", "Concept", new { id = result.Key });
+                    TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+                    return RedirectToAction("Index", "Concept");
                 }
+                    
+                var index = concept.ConceptNames.FindIndex(c => c.Language == langCode && c.Name == displayName);
+                if (index < 0)
+                {
+                    TempData["error"] = Locale.LanguageCode + " " + Locale.NotFound;
+                    return RedirectToAction("ViewConcept", "Concept", new { id = id });
+                }
+
+                concept.ConceptNames.RemoveAt(index);                
+
+                var result = this.ImsiClient.Update<Concept>(concept);
+
+                TempData["success"] = Locale.Language + " " + Locale.Deleted + " " + Locale.Successfully;
+
+                return RedirectToAction("ViewConcept", "Concept", new { id = result.Key });             
             }
             catch (Exception e)
             {
@@ -136,10 +132,14 @@ namespace OpenIZAdmin.Controllers
         }
 
 
+
         /// <summary>
-        /// Displays the Create view.
+        /// Retrieves the languages associated with the Concept to edit
         /// </summary>
-        /// <returns>Returns the Create view.</returns>
+        /// <param name="id">The concept Guid id</param>
+        /// <param name="langCode">The language two character code identifier</param>
+        /// <param name="displayName">The text name representation of the Concept</param>
+        /// <returns>An ActionResult instance</returns>
         [HttpGet]
         public ActionResult Edit(Guid? id, string langCode, string displayName )
         {            
@@ -171,32 +171,30 @@ namespace OpenIZAdmin.Controllers
         {            
             try
             {
-                //if (model.Name[i] != string.Empty)
-                //{
-                //	if (concept.ConceptNames.Count > i)
-                //	{
-                //		if (concept.ConceptNames[i].Language == model.Languages[i])
-                //		{
-                //			concept.ConceptNames[i].Name = model.Name[i];
-                //		}
-                //	}
-                //	else
-                //	{
-                //		concept.ConceptNames.Add(new ConceptName
-                //		{
-                //			Language = model.Languages[i],
-                //			Name = model.Name[i]
-                //		});
-                //	}
-                //}
+                var concept = ConceptUtil.GetConcept(this.ImsiClient, model.ConceptId);
 
+                if (concept == null)
+                {
+                    TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+                    return RedirectToAction("Index", "Concept");
+                }
 
-                //var modelType = this.GetModelType(type);
-                //var entity = this.GetEntity(model.EntityId, modelType);
+                var index = concept.ConceptNames.FindIndex(c => c.Language == model.Language && c.Name == model.Name);
 
-                //model.ExistingIdentifiers = entity.Identifiers.Select(i => new EntityIdentifierViewModel(i)).ToList();
-                //model.ModelType = type;
-                //model.Types = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key").ToList(), entity.Identifiers);
+                if (index < 0)
+                {
+                    TempData["error"] = Locale.LanguageCode + " " + Locale.NotFound;
+                    return RedirectToAction("ViewConcept", "Concept", new { id = model.ConceptId });
+                }
+                
+                concept.ConceptNames[index].Language = model.TwoLetterCountryCode;
+                concept.ConceptNames[index].Name = model.DisplayName;                    
+
+                var result = this.ImsiClient.Update<Concept>(concept);
+
+                TempData["success"] = Locale.Concept + " " + Locale.Updated + " " + Locale.Successfully;
+
+                return RedirectToAction("Edit", "Concept", new { id = result.Key });
             }
             catch (Exception e)
             {
@@ -204,13 +202,10 @@ namespace OpenIZAdmin.Controllers
                 Trace.TraceError($"Unable to retrieve entity: { e }");
             }
 
-            return View(model);
-        }
+            TempData["error"] = Locale.UnableToUpdate + " " + Locale.Concept;
 
-        // GET: Language
-        //public ActionResult Index()
-        //{
-        //    return View();
-        //}
+            return RedirectToAction("ViewConcept", "Concept", new { id = model.ConceptId });
+        }
+        
     }
 }
