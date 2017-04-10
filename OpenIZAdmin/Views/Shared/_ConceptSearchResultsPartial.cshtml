@@ -40,7 +40,7 @@
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
 
-                                @if (!item.IsReadOnly)
+                                @*@if (!item.IsReadOnly)
                                 {
                                     using (Html.BeginForm("Delete", "Concept", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                     {
@@ -51,7 +51,7 @@
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </button>
                                     }
-                                }
+                                }*@
                             </td>
                         </tr>
                     }

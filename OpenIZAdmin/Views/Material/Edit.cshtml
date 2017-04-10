@@ -9,7 +9,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="panel-title">@(Locale.Edit + " " + Locale.Material)</span>
-        <div class="pull-right">
+        @*<div class="pull-right">
             @if (!Model.IsObsolete)
             {
                 using (Html.BeginForm("Delete", "Material", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
@@ -34,7 +34,7 @@
                     </button>
 }
             }
-        </div>
+        </div>*@
     </div>
     <div class="panel panel-body">
         @using (Html.BeginForm("Edit", "Material", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -89,13 +89,8 @@
                                 {
                                     <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
                                 }
-                                
-                                
-                            
-                                
-                                
-                                
-                                @*<div class="pull-right col-md-2">
+                                                                                                                                                                                            
+                                <div class="pull-right">
                                     @if (!Model.IsObsolete)
                                     {
                                         using (Html.BeginForm("Delete", "Material", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
@@ -120,26 +115,14 @@
                                             </button>
                                         }
                                     }
-                                </div>*@    
+                                </div>    
                                 
 
-                            </div>
-                            
-                                                                                                                
-                            
-                            
-                            
-                            
-                            
-                            
-                            
-
+                            </div>                            
                         </div>
-
                     </div>
                 </div>
             </div>
-
         }
     </div>
 </div>
