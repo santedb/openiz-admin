@@ -33,7 +33,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 	/// <summary>
 	/// Represents a model to edit a concept.
 	/// </summary>
-	public class EditConceptModel
+	public sealed class EditConceptModel : ConceptModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditConceptModel"/> class.
@@ -49,8 +49,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 			{
 				new SelectListItem { Text = string.Empty, Value = string.Empty }
 			};
-
-			//Name = new List<string>();
+			
 			ReferenceTerms = new List<ReferenceTermModel>();
             Languages = new List<LanguageModel>();
 		}
@@ -60,17 +59,14 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		/// <param name="concept">The concept.</param>
 		public EditConceptModel(Concept concept) : this()
-		{
-           // ConceptClass = concept.Class?.Name;
+		{           
 			CreationTime = concept.CreationTime.DateTime;
 			Id = concept.Key ?? Guid.Empty;
-		    Mnemonic = concept.Mnemonic;
+            IsSystemConcept = concept.IsSystemConcept;
+            Mnemonic = concept.Mnemonic;
 		    Name = concept.ConceptNames[0].Name;
             Language = concept.ConceptNames[0].Language;
-            Languages = concept.ConceptNames.Select(k => new LanguageModel(k.Language, k.Name, concept.Key.Value)).ToList();
-            //LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList();		    
-            //var conceptClasses = ConceptUtil.GetConceptClasses(ImsiClient);
-            //ConceptClassList.AddRange(conceptClasses.ToSelectList().OrderBy(c => c.Text));
+            Languages = concept.ConceptNames.Select(k => new LanguageModel(k.Language, k.Name, concept.Key.Value)).ToList();         
         }
 
         /// <summary>
@@ -87,18 +83,18 @@ namespace OpenIZAdmin.Models.ConceptModels
         /// <value>The concept class list.</value>
         public List<SelectListItem> ConceptClassList { get; set; }
 
-		/// <summary>
-		/// Gets or sets the creation time.
-		/// </summary>
-		/// <value>The creation time.</value>
-		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
-		public DateTimeOffset CreationTime { get; set; }
+		///// <summary>
+		///// Gets or sets the creation time.
+		///// </summary>
+		///// <value>The creation time.</value>
+		//[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
+		//public DateTimeOffset CreationTime { get; set; }
 
-		/// <summary>
-		/// Gets or sets the identifier.
-		/// </summary>
-		/// <value>The identifier.</value>
-		public Guid Id { get; set; }
+		///// <summary>
+		///// Gets or sets the identifier.
+		///// </summary>
+		///// <value>The identifier.</value>
+		//public Guid Id { get; set; }
 
         /// <summary>
 		/// Gets or sets the language.
@@ -128,21 +124,21 @@ namespace OpenIZAdmin.Models.ConceptModels
 		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
         [Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         [StringLength(255, ErrorMessageResourceName = "MnemonicTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string Mnemonic { get; set; }
+        public sealed override string Mnemonic { get; set; }
 
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
         [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         [StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
         public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the reference terms.
-        /// </summary>
-        /// <value>The reference terms.</value>
-        public List<ReferenceTermModel> ReferenceTerms { get; set; }       
+        ///// <summary>
+        ///// Gets or sets the reference terms.
+        ///// </summary>
+        ///// <value>The reference terms.</value>
+        //public List<ReferenceTermModel> ReferenceTerms { get; set; }       
     }
 }

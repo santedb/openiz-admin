@@ -619,6 +619,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to contains concepts.
+        /// </summary>
+        public static string ContainsConcepts {
+            get {
+                return ResourceManager.GetString("ContainsConcepts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create.
         /// </summary>
         public static string Create {

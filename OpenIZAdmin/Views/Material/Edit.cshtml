@@ -16,7 +16,7 @@
                 {
                     @Html.AntiForgeryToken()
 
-                    <button type="submit" class="formButton btn btn-danger">
+                    <button type="submit" class="centerButton btn btn-danger">
                         @Locale.Deactivate
                         <span class="glyphicon glyphicon-remove"></span>
                     </button>
@@ -28,7 +28,7 @@
                 {
                     @Html.AntiForgeryToken()
 
-                    <button type="submit" class="formButton btn btn-success">
+                    <button type="submit" class="centerButton btn btn-success">
                         @Locale.Activate
                         <span class="glyphicon glyphicon-upload"></span>
                     </button>
@@ -88,8 +88,52 @@
                                 else
                                 {
                                     <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
-}
+                                }
+                                
+                                
+                            
+                                
+                                
+                                
+                                @*<div class="pull-right col-md-2">
+                                    @if (!Model.IsObsolete)
+                                    {
+                                        using (Html.BeginForm("Delete", "Material", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+
+                                            <button type="submit" class="btn btn-danger">
+                                                @Locale.Deactivate
+                                                <span class="glyphicon glyphicon-remove"></span>
+                                            </button>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        using (Html.BeginForm("Activate", "Material", new { id = Model.Id, versionId = Model.VersionKey }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+
+                                            <button type="submit" class="btn btn-success">
+                                                @Locale.Activate
+                                                <span class="glyphicon glyphicon-upload"></span>
+                                            </button>
+                                        }
+                                    }
+                                </div>*@    
+                                
+
                             </div>
+                            
+                                                                                                                
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+
                         </div>
 
                     </div>

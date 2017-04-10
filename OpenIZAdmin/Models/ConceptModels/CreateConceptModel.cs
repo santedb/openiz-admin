@@ -30,7 +30,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 	/// <summary>
 	/// Represents a create concept model.
 	/// </summary>
-	public class CreateConceptModel
+	public class CreateConceptModel : ConceptModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CreateConceptModel"/> class.
@@ -77,7 +77,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "MnemonicTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string Mnemonic { get; set; }
+		public override string Mnemonic { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name.

@@ -29,8 +29,8 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 	/// <summary>
 	/// Represents a view model for a concept set.
 	/// </summary>
-	public class ConceptSetViewModel
-	{
+	public class ConceptSetViewModel : ConceptSetModel
+    {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConceptSetViewModel"/> class.
 		/// </summary>
@@ -45,49 +45,49 @@ namespace OpenIZAdmin.Models.ConceptSetModels
         /// <param name="conceptSet"></param>
         public ConceptSetViewModel(ConceptSet conceptSet) : this()
 		{
-			this.Concepts = conceptSet.Concepts.Select(c => new ConceptViewModel(c)).ToList();
-			this.CreationTime = conceptSet.CreationTime.DateTime;
-			this.Id = conceptSet.Key ?? Guid.Empty;
-			this.Mnemonic = conceptSet.Mnemonic;
-			this.Name = conceptSet.Name;
-			this.Oid = conceptSet.Oid;
-			this.Url = conceptSet.Url;
+			Concepts = conceptSet.Concepts.Select(c => new ConceptViewModel(c)).ToList();
+			CreationTime = conceptSet.CreationTime.DateTime;
+			Id = conceptSet.Key ?? Guid.Empty;
+			Mnemonic = conceptSet.Mnemonic;
+			Name = conceptSet.Name;
+			Oid = conceptSet.Oid;
+			Url = conceptSet.Url;
 		}
 
-		/// <summary>
-		/// Gets or sets a list of concept of the concept set.
-		/// </summary>
-		public List<ConceptViewModel> Concepts { get; set; }
+		///// <summary>
+		///// Gets or sets a list of concept of the concept set.
+		///// </summary>
+		//public List<ConceptViewModel> Concepts { get; set; }
 
-		/// <summary>
-		/// Gets or sets the creation time of the concept set.
-		/// </summary>
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-		public DateTime CreationTime { get; set; }
+		///// <summary>
+		///// Gets or sets the creation time of the concept set.
+		///// </summary>
+		//[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+		//public DateTime CreationTime { get; set; }
 
-		/// <summary>
-		/// Gets or sets the key of the concept.
-		/// </summary>
-		public Guid Id { get; set; }
+		///// <summary>
+		///// Gets or sets the key of the concept.
+		///// </summary>
+		//public Guid Id { get; set; }
 
-		/// <summary>
-		/// Gets or sets the mnemonic of the concept.
-		/// </summary>
-		public string Mnemonic { get; set; }
+		///// <summary>
+		///// Gets or sets the mnemonic of the concept.
+		///// </summary>
+		//public string Mnemonic { get; set; }
 
-		/// <summary>
-		/// Gets or sets the name of the concept set.
-		/// </summary>
-		public string Name { get; set; }
+		///// <summary>
+		///// Gets or sets the name of the concept set.
+		///// </summary>
+		//public string Name { get; set; }
 
-		/// <summary>
-		/// Get or sets the OID of the concept set.
-		/// </summary>
-		public string Oid { get; set; }
+		///// <summary>
+		///// Get or sets the OID of the concept set.
+		///// </summary>
+		//public string Oid { get; set; }
 
-		/// <summary>
-		/// Get or sets the URL of the concept set.
-		/// </summary>
-		public string Url { get; set; }
+		///// <summary>
+		///// Get or sets the URL of the concept set.
+		///// </summary>
+		//public string Url { get; set; }
 	}
 }

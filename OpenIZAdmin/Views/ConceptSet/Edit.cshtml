@@ -14,7 +14,7 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             <div class="panel panel-body">
                 @Html.HiddenFor(m => m.Id)
-                @Html.HiddenFor(m => m.ConceptToAdd, new { id = "conceptToAdd" })
+                @*@Html.HiddenFor(m => m.ConceptToAdd, new { id = "conceptToAdd" })*@
 
                 <div class="form-group">
                     @Html.LabelFor(m => m.Mnemonic, new { @class = "col-md-2 control-label" })
@@ -63,13 +63,7 @@
 
         <div class="panel panel-default">
             <div class="panel-heading">
-                <span class="panel-title">@Locale.Concepts</span>
-                @*<div class="pull-right">
-                    <a href="@Url.Action("Create", "ConceptSet", new {id = Model.Id})">
-                        <span class="text-primary h4">@Locale.New</span>
-                        <span class="glyphicon glyphicon-plus-sign"></span>
-                    </a>
-                </div>*@
+                <span class="panel-title">@Locale.Concepts</span>                
             </div>
             @Html.Partial("_ManageConceptsPartial", Model.Concepts)
         </div>                  
@@ -83,30 +77,30 @@
 {
     <script type="text/javascript">
     
-        function addConcept(key, button) {
-            $("#conceptToAdd").val(key);
+        //function addConcept(key, button) {
+        //    $("#conceptToAdd").val(key);
             
-            var dataForm = $('#editForm').serializeArray();
-            var url = "/ConceptSet/Add";
-                $.ajax({
-                    data: dataForm,
-                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
-                    type: 'POST',
-                    cache: false,
-                    url: url,
-                    success: function(data) {
-                        $('#conceptList').html(data);
-                        $('#conceptListTable').DataTable();
-                        $(button).parent().parent().remove();
-                    },
-                    error: function(err) {
-                        console.log(err);
-                    }
-                });
-            };
+        //    var dataForm = $('#editForm').serializeArray();
+        //    var url = "/ConceptSet/Add";
+        //        $.ajax({
+        //            data: dataForm,
+        //            contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+        //            type: 'POST',
+        //            cache: false,
+        //            url: url,
+        //            success: function(data) {
+        //                $('#conceptList').html(data);
+        //                $('#conceptListTable').DataTable();
+        //                $(button).parent().parent().remove();
+        //            },
+        //            error: function(err) {
+        //                console.log(err);
+        //            }
+        //        });
+        //    };
 
 
-        function searchConcepts() {
+        @*function searchConcepts() {
             var dataForm = $('#editForm').serializeArray();
             console.log(dataForm);
                 $.ajax({
@@ -123,7 +117,7 @@
                         console.log("error : " + reponse);
                     }
                 });
-            };
+            };*@
 
 
         $(document).ready(function () {
@@ -133,6 +127,7 @@
                 tokenSeparators: [','],
                 width: '100%'
             });
+
             $('.dynamic-dropdown-limited').select2({
                 tags: true,
                 tokenSeparators: [','],
@@ -143,9 +138,9 @@
 
             $('#conceptListTable').DataTable();
 
-            $("#searchConcepts").click(function(){
-                searchConcepts();
-            });
+            //$("#searchConcepts").click(function(){
+            //    searchConcepts();
+            //});
             
         });
 
