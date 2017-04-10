@@ -30,7 +30,7 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// <param name="concept">The concept.</param>
         public LanguageModel(Concept concept) : this()
         {            
-            this.ConceptId = concept.Key.Value;
+            this.ConceptId = concept.Key ?? Guid.Empty;
             this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();            
         }
 

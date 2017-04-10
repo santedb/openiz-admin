@@ -312,7 +312,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
         public ActionResult Search(string searchTerm)
         {
-	        var viewModels = new List<ConceptSearchResultViewModel>();
+	        var viewModels = new List<ConceptSetSearchResultViewModel>();
 
 			try
 	        {
@@ -321,9 +321,9 @@ namespace OpenIZAdmin.Controllers
 		        {
 			        var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
 
-			        viewModels.AddRange(bundle.Item.OfType<ConceptSet>().Select(c => new ConceptSearchResultViewModel(c)));
+			        viewModels.AddRange(bundle.Item.OfType<ConceptSet>().Select(c => new ConceptSetSearchResultViewModel(c)));
 
-			        TempData["searchTerm"] = searchTerm;
+			        TempData["searchTerm"] = searchTerm;		            
 
 			        return PartialView("_ConceptSetSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic));
 		        }

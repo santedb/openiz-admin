@@ -277,6 +277,7 @@
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ApplicationViewModel.cs" />
     <Compile Include="Models\ConceptModels\ReferenceTermModel.cs" />
+    <Compile Include="Models\ConceptSetModels\ConceptSetSearchResultViewModel.cs" />
     <Compile Include="Models\ConceptSetModels\CreateConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\EditConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\ConceptSetViewModel.cs" />
@@ -609,7 +610,6 @@
     <Content Include="Views\ConceptSet\Create.cshtml" />
     <Content Include="Views\ConceptSet\Edit.cshtml" />
     <Content Include="Views\ConceptSet\ViewConceptSet.cshtml" />
-    <Content Include="Views\Shared\_ConceptList.cshtml" />
     <Content Include="Views\Material\ViewMaterial.cshtml" />
     <Content Include="Views\Home\SubmitBugReport.cshtml" />
     <Content Include="Views\Shared\_ConceptSetConceptSearchResultsPartial.cshtml" />
@@ -646,6 +646,8 @@
     <Content Include="Views\Shared\_ReferenceTermsPartial.cshtml" />
     <Content Include="Views\Language\Create.cshtml" />
     <Content Include="Views\Applet\Update.cshtml" />
+    <Content Include="Views\Shared\_ManageConceptsPartial.cshtml" />
+    <Content Include="Views\Shared\_ConceptsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

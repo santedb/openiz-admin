@@ -39,11 +39,15 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 			this.Concepts = new List<ConceptViewModel>();
 		}
 
-		public ConceptSetViewModel(ConceptSet conceptSet) : this()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConceptSetViewModel"/> class.
+        /// </summary>
+        /// <param name="conceptSet"></param>
+        public ConceptSetViewModel(ConceptSet conceptSet) : this()
 		{
 			this.Concepts = conceptSet.Concepts.Select(c => new ConceptViewModel(c)).ToList();
 			this.CreationTime = conceptSet.CreationTime.DateTime;
-			this.Id = conceptSet.Key.Value;
+			this.Id = conceptSet.Key ?? Guid.Empty;
 			this.Mnemonic = conceptSet.Mnemonic;
 			this.Name = conceptSet.Name;
 			this.Oid = conceptSet.Oid;

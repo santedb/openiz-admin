@@ -81,29 +81,29 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// </summary>
         public List<string> TwoLetterCountryCodeList { get; set; }
 
-        /// <summary>
-        /// Converts an <see cref="CreateConceptModel"/> instance to a <see cref="Concept"/> instance.
-        /// </summary>
-        /// <returns>Returns a concept instance.</returns>
-        public Concept ToConcept()
-        {
-            return new Concept
-            {
-                Class = new ConceptClass
-                {
-                    Key = Guid.Parse(this.ConceptClass)
-                },
-                ConceptNames = new List<ConceptName>
-                {
-                    new ConceptName
-                    {
-                        Language = this.Language,
-                        Name = this.Name
-                    }
-                },
-                Key = Guid.NewGuid(),
-                Mnemonic = this.Mnemonic,
-            };
-        }
+        ///// <summary>
+        ///// Converts an <see cref="CreateConceptModel"/> instance to a <see cref="Concept"/> instance.
+        ///// </summary>
+        ///// <returns>Returns a concept instance.</returns>
+        //public Concept ToConcept()
+        //{
+        //    return new Concept
+        //    {
+        //        Class = new ConceptClass
+        //        {
+        //            Key = Guid.Parse(this.ConceptClass)
+        //        },
+        //        ConceptNames = new List<ConceptName>
+        //        {
+        //            new ConceptName
+        //            {
+        //                Language = this.Language,
+        //                Name = this.Name
+        //            }
+        //        },
+        //        Key = Guid.NewGuid(),
+        //        Mnemonic = this.Mnemonic,
+        //    };
+        //}
     }
 }

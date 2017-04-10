@@ -1807,6 +1807,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No concepts found.
+        /// </summary>
+        public static string NoConceptsFound {
+            get {
+                return ResourceManager.GetString("NoConceptsFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No data available.
         /// </summary>
         public static string NoDataAvailable {

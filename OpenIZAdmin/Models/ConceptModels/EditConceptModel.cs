@@ -63,7 +63,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		{
            // ConceptClass = concept.Class?.Name;
 			CreationTime = concept.CreationTime.DateTime;
-			Id = concept.Key.Value;
+			Id = concept.Key ?? Guid.Empty;
 		    Mnemonic = concept.Mnemonic;
 		    Name = concept.ConceptNames[0].Name;
             Language = concept.ConceptNames[0].Language;

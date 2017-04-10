@@ -47,27 +47,28 @@ namespace OpenIZAdmin.Models.ConceptModels
 		{
 			CreationTime = concept.CreationTime.DateTime;
 			IsReadOnly = concept.IsSystemConcept;
-			Id = concept.Key.Value;
-			Mnemonic = concept.Mnemonic;
+			Id = concept.Key ?? Guid.Empty;
+            Mnemonic = concept.Mnemonic;
 			Names = concept.ConceptNames.Select(c => c.Name).ToList();
 		    ConceptNames = string.Join(", ", Names);
             Type = ConceptType.Concept;
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ConceptSearchResultViewModel"/> class
-		/// with a specific <see cref="ConceptSet"/> instance.
-		/// </summary>
-		/// <param name="conceptSet">The <see cref="ConceptSet"/> instance.</param>
-		public ConceptSearchResultViewModel(ConceptSet conceptSet)
-		{
-			this.CreationTime = conceptSet.CreationTime.DateTime;
-			this.IsReadOnly = false;
-			this.Id = conceptSet.Key.Value;
-			this.Mnemonic = conceptSet.Mnemonic;
-			this.Names = new List<string> { conceptSet.Name };
-			this.Type = ConceptType.ConceptSet;
-		}
+		///// <summary>
+		///// Initializes a new instance of the <see cref="ConceptSearchResultViewModel"/> class
+		///// with a specific <see cref="ConceptSet"/> instance.
+		///// </summary>
+		///// <param name="conceptSet">The <see cref="ConceptSet"/> instance.</param>
+		//public ConceptSearchResultViewModel(ConceptSet conceptSet)
+		//{
+		//	this.CreationTime = conceptSet.CreationTime.DateTime;
+		//	this.IsReadOnly = false;
+		//	this.Id = conceptSet.Key ?? Guid.Empty;
+		//	this.Mnemonic = conceptSet.Mnemonic;
+  //          this.Names = new List<string> { conceptSet.Name };		    
+  //          ConceptNames = string.Join(", ", Names);
+  //          this.Type = ConceptType.ConceptSet;
+		//}
 
         /// <summary>
         /// Gets or sets the string of Concept Names

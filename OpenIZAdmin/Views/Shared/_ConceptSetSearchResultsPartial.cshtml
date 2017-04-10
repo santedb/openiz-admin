@@ -1,5 +1,4 @@
-﻿@using OpenIZAdmin.Models.ConceptModels
-@model IEnumerable<ConceptSearchResultViewModel>
+﻿@model IEnumerable<OpenIZAdmin.Models.ConceptSetModels.ConceptSetSearchResultViewModel>
 @{
     ViewBag.Title = Locale.ConceptSearchResults;
 }
@@ -16,8 +15,7 @@
                     <tr>
                         <th>@Html.DisplayNameFor(m => m.CreationTime)</th>
                         <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
-                        <th>@Html.DisplayNameFor(m => m.Names)</th>
-                        <th>@Html.DisplayNameFor(m => m.Type)</th>
+                        <th>@Html.DisplayNameFor(m => m.Name)</th>                        
                         <th></th>
                     </tr>
                 </thead>
@@ -27,15 +25,7 @@
                         <tr>
                             <td>@item.CreationTime</td>
                             <td>@item.Mnemonic</td>
-                            @if (!item.Names.Any())
-                            {
-                                <td></td>
-                            }
-                            else
-                            {
-                                <td>@string.Join(", ", item.Names)</td>
-                            }
-                            <td>@Locale.ConceptSet</td>
+                            <td>@item.Name</td>                            
                             <td class="autoFitContents centerButton">
                                 <a class="btn btn-primary" href="@Url.Action("ViewConceptSet", "ConceptSet", new { id = item.Id })">
                                     @Locale.View
