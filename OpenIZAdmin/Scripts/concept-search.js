@@ -14,8 +14,8 @@
                 params.page = params.page || 1;
 
                 return {
-                    results: $.map(data, function (o) {
-                        return { id: o.Names, text: o.Names };
+                    results: $.map(data, function (o) {                        
+                        return { id: o.Id, text: o.Mnemonic };
                     }),
                     pagination: {
                         more: (params.page * 30) < data.length

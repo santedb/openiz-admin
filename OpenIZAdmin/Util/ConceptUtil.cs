@@ -25,6 +25,7 @@ using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Query;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Models.ConceptModels;
+using OpenIZAdmin.Models.ConceptSetModels;
 
 namespace OpenIZAdmin.Util
 {
@@ -33,6 +34,40 @@ namespace OpenIZAdmin.Util
     /// </summary>
     public static class ConceptUtil
     {
+        /// <summary>
+        /// Gets a Concept instance
+        /// </summary>
+        /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
+        /// <param name="mnemonic">The mnemonic to validate.</param>
+        /// <returns>Returns an boolean if the mnemonic is unique</returns>
+        public static bool CheckUniqueConceptMnemonic(ImsiServiceClient imsiServiceClient, string mnemonic)
+        {
+            var conceptBundle = imsiServiceClient.Query<Concept>(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
+
+            conceptBundle.Reconstitute();
+
+            var concept = conceptBundle.Item.OfType<Concept>().FirstOrDefault(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);            
+            
+            return concept == null;
+        }
+
+        /// <summary>
+        /// Gets a Concept instance
+        /// </summary>
+        /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
+        /// <param name="mnemonic">The mnemonic to validate.</param>
+        /// <returns>Returns an boolean if the mnemonic is unique</returns>
+        public static bool CheckUniqueConceptSetMnemonic(ImsiServiceClient imsiServiceClient, string mnemonic)
+        {            
+            var conceptSetBundle = imsiServiceClient.Query<ConceptSet>(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
+
+            conceptSetBundle.Reconstitute();
+
+            var conceptSet = conceptSetBundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
+
+            return conceptSet == null;
+        }
+
         /// <summary>
         /// Gets a Concept instance
         /// </summary>
@@ -56,6 +91,21 @@ namespace OpenIZAdmin.Util
 
             return concept;
         }
+
+        /// <summary>
+        /// Gets a Concept instance
+        /// </summary>
+        /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
+        /// <param name="id">The uniquie identifier of the concept instance to retrieve.</param>
+        /// <returns>Returns an instance of a Concept.</returns>
+        public static ConceptSet GetConceptSet(ImsiServiceClient imsiServiceClient, Guid? id)
+        {
+            var bundle = imsiServiceClient.Query<ConceptSet>(c => c.Key == id && c.ObsoletionTime == null);
+
+            bundle.Reconstitute();
+
+            return bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);            
+        }        
 
 
         /// <summary>
@@ -143,21 +193,49 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Gets a Concept instance
-        /// </summary>
-        /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
-        /// <param name="mnemonic">The mnemonic to validate.</param>
-        /// <returns>Returns an boolean if the mnemonic is unique</returns>
-        public static bool CheckUniqueMnemonic(ImsiServiceClient imsiServiceClient, string mnemonic)
-        {
-            var bundle = imsiServiceClient.Query<Concept>(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
+        /// Converts a <see cref="EditConceptSetModel"/> to a <see cref="Concept"/>
+        /// </summary>        
+        /// <param name="model"> The EditConceptSetModel model with the changes</param>
+        /// <param name="conceptSet">The target Concept Set to apply the update to</param>
+        /// <returns>The updated Concept instance</returns>
+        public static ConceptSet ToEditConceptSetInfo(EditConceptSetModel model, ConceptSet conceptSet)
+        {            
+            conceptSet.Mnemonic = model.Mnemonic;
+            conceptSet.Name = model.Name;
+            conceptSet.Oid = model.Oid;
+            conceptSet.Url = model.Url;
 
-            bundle.Reconstitute();
+            if (model.AddConcepts.Any())
+            {
+                foreach (var concept in model.AddConcepts)
+                {
+                    Guid id;
+                    if (Guid.TryParse(concept, out id))
+                    {
+                        conceptSet.ConceptsXml.Add(id);
+                    }
+                }
 
-            var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
+                //for (var i = 0; i < model.ConceptDeletion.Count; i++)
+                //{
+                //	if (conceptSet.ConceptsXml.Contains(model.Concepts[i].Key.Value) && model.ConceptDeletion[i])
+                //	{
+                //		conceptSet.ConceptsXml.RemoveAt(i);
+                //	}
+                //	else if (!conceptSet.ConceptsXml.Contains(model.Concepts[i].Key.Value) && !model.ConceptDeletion[i])
+                //	{
+                //		conceptSet.ConceptsXml.Add(model.Concepts[i].Key.Value);
+                //	}
+                //}                            
+            }
 
-            return concept == null;
+            return conceptSet;
         }
+
+        
+
+
+        
 
 
     }

@@ -8,7 +8,7 @@
     {
         <div class="panel panel-default">
             <div class="panel-heading">
-                <span class="panel-title text-white h4">@(Locale.Edit + " " + Locale.ConceptSet) @Model.Mnemonic</span>
+                <span class="panel-title">@(Locale.Edit + " " + Locale.ConceptSet)</span>
             </div>
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -42,7 +42,15 @@
                     <div class="col-md-8">
                         @Html.TextBoxFor(m => m.Url, new { @class = "form-control", title = Locale.ToolTip_Url })
                     </div>
-                </div>        
+                </div>       
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AddConcepts, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.ListBoxFor(m => m.AddConcepts, Model.ConceptList, new { @class = "concept-search form-control", multiple = "multiple", title = Locale.ToolTip_Policies })
+                        @Html.ValidationMessageFor(m => m.AddConcepts, "", new { @class = "text-danger" })
+                    </div>
+                </div>   
                 
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
@@ -50,54 +58,21 @@
                         <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
                     </div>
                 </div>                      
-            </div>           
-            
-            <div class="form-group">
-                @Html.LabelFor(m => m.SelectedConcepts, new { @class = "col-md-2 control-label" })
-                <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.SelectedConcepts, Model.ConceptList, new { @class = "concept-search form-control", multiple = "multiple", title = Locale.ToolTip_Policies })
-                    @Html.ValidationMessageFor(m => m.SelectedConcepts, "", new { @class = "text-danger" })
-                </div>
-            </div>             
-
-        </div>
-        <div id="conceptList">
-            @Html.Partial("_ManageConceptsPartial")
+            </div>                                             
         </div>
 
-
-
-        @*<div class="panel panel-default">
+        <div class="panel panel-default">
             <div class="panel-heading">
-                <span class="panel-title">@Locale.Concept @Locale.Search</span>
+                <span class="panel-title">@Locale.Concepts</span>
+                @*<div class="pull-right">
+                    <a href="@Url.Action("Create", "ConceptSet", new {id = Model.Id})">
+                        <span class="text-primary h4">@Locale.New</span>
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                    </a>
+                </div>*@
             </div>
-            <div class="panel panel-body">
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ConceptMnemonic, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.ConceptMnemonic, new { @class = "form-control", title = Locale.ToolTip_ConceptMnemonic })
-                    </div>
-                </div>   
-
-                <div class="form-group">
-                    @Html.LabelFor(m => m.ConceptName, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.ConceptName, new { @class = "form-control", title = Locale.ToolTip_ConceptName })
-                    </div>
-                </div>                   
-
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="button" value="@Locale.Search" class="btn btn-primary" id="searchConcepts" title="@Locale.ToolTip_Search"/>
-                    </div>
-                </div>   
-            </div>                                   
-        </div>
-
-        <div id="concept-search-results">
-        </div>*@
-            
+            @Html.Partial("_ManageConceptsPartial", Model.Concepts)
+        </div>                  
     }
 
 </div>

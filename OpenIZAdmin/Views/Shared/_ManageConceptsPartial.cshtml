@@ -1,66 +1,66 @@
-﻿@model OpenIZAdmin.Models.ConceptSetModels.EditConceptSetModel
+﻿@model IEnumerable<OpenIZAdmin.Models.ConceptModels.ConceptViewModel>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
-        <span class="panel-title">@Locale.Concepts @Locale.For @Model.Mnemonic</span>
-    </div>
-    <div class="panel panel-body">
-        <table class="table" id="conceptListTable">
-            <thead>
-                <tr>
-                    <th>
-                        @Html.DisplayNameFor(m => m.Mnemonic)
-                    </th>
-                    <th>
-                        @Locale.ConceptClass
-                    </th>
-                    <th>
-                        @Locale.Delete
-                    </th>
-                    <th>
 
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @{int i = 0;}
-                @foreach (var concept in Model.Concepts)
+<div class="panel panel-body">
+    <div class="row">
+        <div class="col-md-12">
+            @if (Model.Any())
             {
+                <table class="table" id="conceptListTable">
+                    <thead>
                     <tr>
-                        @Html.HiddenFor(m => m.Concepts[i].Mnemonic)
-                        @Html.HiddenFor(m => m.Concepts[i].Key)
-                        @Html.HiddenFor(m => m.Concepts[i].Class.Mnemonic)
-                        <td>
-                            @concept.Mnemonic
-
-                        </td>
-                        <td>
-                            @concept.Class.Mnemonic
-                        </td>
-                        <td>
-                            @Html.CheckBoxFor(m => m.ConceptDeletion[i])
-                        </td>
-
-                        <td class="autoFitContents centerButton">
-                            <a class="btn btn-primary" href="@Url.Action("ViewConcept", "Concept", new { id = concept.Key })">
-                                @Locale.View
-                                <span class="glyphicon glyphicon-eye-open"></span>
-                            </a>
-
-                            @using (Html.BeginForm("DeleteConceptFromSet", "ConceptSet", new { setId = Model.Id, conceptId = concept.Key }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
-                            {
-                                @*@Html.AntiForgeryToken()*@
-
-                                <button type="submit" class="btn btn-danger">
-                                    @Locale.Delete
-                                    <span class="glyphicon glyphicon-remove"></span>
-                                </button>
-                            }
-                        </td>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Mnemonic)
+                        </th>
+                        <th>
+                            @Html.DisplayNameFor(m => m.Names)
+                        </th>
+                        <th>
+                            @Locale.ConceptClass
+                        </th>
+                        <th></th>
                     </tr>
-                    i++;
-                }
-            </tbody>
-        </table>
+                    </thead>
+                    <tbody>                    
+                    @foreach (var item in Model)
+                    {
+                        <tr>                            
+                            <td>
+                                @item.Mnemonic
+
+                            </td>
+                            <td>
+                                @item.ConceptNames
+                            </td>
+                            <td>
+                                @item.Class
+                            </td>
+                            <td class="autoFitContents centerButton">
+                                <a class="btn btn-primary" href="@Url.Action("ViewConcept", "Concept", new {id = item.Id})">
+                                    @Locale.View
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+
+                                @using (Html.BeginForm("DeleteConceptFromSet", "ConceptSet", new { setId = item.ConceptSetId, conceptId = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                { 
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit" class="btn btn-danger">
+                                        @Locale.Delete
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                }
+                            </td>
+                        </tr>                        
+                    }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+
+            }
+        </div>
     </div>
 </div>
+    

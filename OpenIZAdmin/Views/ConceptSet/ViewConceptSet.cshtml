@@ -5,7 +5,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.View + " " + Locale.ConceptSet) @Model.Name</span>
+        <span class="panel-title">@(Locale.View + " " + Locale.ConceptSet)</span>
         <div class="pull-right">
             <a href="@Url.Action("Edit", new { id = Model.Id })" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-pencil"></span>
@@ -55,7 +55,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@Locale.Concepts @Locale.For @Model.Mnemonic</span>
+        <span class="panel-title">@Locale.Concepts</span>
     </div>
 
     @Html.Partial("_ConceptsPartial", Model.Concepts)

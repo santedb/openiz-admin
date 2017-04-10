@@ -200,7 +200,7 @@ namespace OpenIZAdmin.Controllers
                     return RedirectToAction("Index");
                 }
 			    
-                if (!string.Equals(concept.Mnemonic, model.Mnemonic) && !ConceptUtil.CheckUniqueMnemonic(ImsiClient, model.Mnemonic))
+                if (!string.Equals(concept.Mnemonic, model.Mnemonic) && !ConceptUtil.CheckUniqueConceptMnemonic(ImsiClient, model.Mnemonic))
 			    {
                     TempData["error"] = Locale.Mnemonic + " " + Locale.MustBeUnique;
 			        return View(model);

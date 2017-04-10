@@ -53,6 +53,24 @@ namespace OpenIZAdmin.Models.ConceptModels
             this.Mnemonic = concept.Mnemonic;	            		
             this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();
             this.ReferenceTerms = new List<ReferenceTermModel>();
+		    ConceptNames = string.Join(", ", concept.ConceptNames);
+            ConceptSetId = Guid.Empty;
+		}
+
+        /// <summary>
+		/// Initializes a new instance of the <see cref="ConceptViewModel"/> class.
+		/// </summary>
+		/// <param name="concept">The concept.</param>
+		public ConceptViewModel(Concept concept, Guid conceptSetId) : this(concept)
+        {
+            ConceptSetId = conceptSetId;
+            //this.Class = concept.Class?.Name;
+            //this.CreationTime = concept.CreationTime.DateTime;
+            //this.Id = concept.Key ?? Guid.Empty;
+            //this.Mnemonic = concept.Mnemonic;
+            //this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();
+            //this.ReferenceTerms = new List<ReferenceTermModel>();
+            //ConceptNames = string.Join(", ", concept.ConceptNames);
         }
         
         /// <summary>
@@ -61,10 +79,17 @@ namespace OpenIZAdmin.Models.ConceptModels
         [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
 		public string Class { get; set; }
 
-		/// <summary>
-		/// Gets or sets the creation time of the concept.
-		/// </summary>
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+        /// <summary>
+        /// Gets or sets the names of the Concept
+        /// </summary>
+        public string ConceptNames { get; set; }
+
+        public Guid? ConceptSetId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the creation time of the concept.
+        /// </summary>
+        [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
 		public DateTime CreationTime { get; set; }
 
 		/// <summary>

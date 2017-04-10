@@ -24,6 +24,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.ConceptModels;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
 {
@@ -37,12 +38,12 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		/// </summary>
 		public EditConceptSetModel()
 		{
-			this.Concepts = new List<Concept>();
-			this.ConceptDeletion = new List<bool>();
+			this.Concepts = new List<ConceptViewModel>();
+            //this.ConceptDeletion = new List<bool>();
 
-            this.ConceptList =  new List<SelectListItem>();
-            this.SelectedConcepts = new List<string>();
-            
+            this.ConceptList = new List<SelectListItem>();
+            this.AddConcepts = new List<string>();
+
 
 
         }
@@ -54,26 +55,26 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		/// <param name="conceptSet">The <see cref="ConceptSet"/> instance.</param>
 		public EditConceptSetModel(ConceptSet conceptSet) : this()
 		{
-			this.Concepts = conceptSet.Concepts;
+			this.Concepts = conceptSet.Concepts.Select(c => new ConceptViewModel(c, conceptSet.Key ?? Guid.Empty)).ToList();
 			this.CreatedBy = conceptSet.CreatedBy?.UserName;
 			this.CreationTime = conceptSet.CreationTime.DateTime;
-			this.Id = conceptSet.Key.Value;
+			this.Id = conceptSet.Key ?? Guid.Empty;
 			this.Mnemonic = conceptSet.Mnemonic;
 			this.Name = conceptSet.Name;
 			this.Oid = conceptSet.Oid;
 			this.Url = conceptSet.Url;
-			this.ConceptDeletion.AddRange(this.Concepts.Select(c => false));
+			//this.ConceptDeletion.AddRange(this.Concepts.Select(c => false));
 
 
-            this.ConceptList = new List<SelectListItem>();
-            this.SelectedConcepts = new List<string>();
+            //this.ConceptList = new List<SelectListItem>();
+            //this.SelectedConcepts = new List<string>();
         }
 
 		/// <summary>
 		/// Gets or sets the concept deletion.
 		/// </summary>
 		/// <value>The concept deletion.</value>
-		public List<bool> ConceptDeletion { get; set; }
+		//public List<bool> ConceptDeletion { get; set; }
 
 		public string ConceptMnemonic { get; set; }
 
@@ -87,18 +88,19 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		/// Gets or sets the concepts.
 		/// </summary>
 		/// <value>The concepts.</value>
-		public List<Concept> Concepts { get; set; }
+		public List<ConceptViewModel> Concepts { get; set; }
 
 
-	    public List<SelectListItem> ConceptList { get; set; }
-	    public List<string> SelectedConcepts { get; set; }
+        public List<SelectListItem> ConceptList { get; set; }
+
+        public List<string> AddConcepts { get; set; }
 
 
-	    /// <summary>
-		/// Gets or sets the concept to add.
-		/// </summary>
-		/// <value>The concept to add.</value>
-		public Guid ConceptToAdd { get; set; }
+        /// <summary>
+        /// Gets or sets the concept to add.
+        /// </summary>
+        /// <value>The concept to add.</value>
+        public Guid ConceptToAdd { get; set; }
 
 		/// <summary>
 		/// Gets or sets the created by.
