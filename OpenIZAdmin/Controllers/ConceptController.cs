@@ -50,8 +50,7 @@ namespace OpenIZAdmin.Controllers
         /// <summary>
 		/// Activates the specified identifier.
 		/// </summary>
-		/// <param name="id">The identifier.</param>
-		/// <param name="versionId">The version identifier.</param>
+		/// <param name="id">The identifier.</param>		
 		/// <returns>ActionResult.</returns>
 		public ActionResult Activate(Guid id)
         {
@@ -199,28 +198,28 @@ namespace OpenIZAdmin.Controllers
             var conceptClasses = ConceptUtil.GetConceptClasses(ImsiClient).ToList();
             model.ConceptClassList.AddRange(conceptClasses.ToSelectList().OrderBy(c => c.Text));
 
-		    if (concept.Class != null)
+		    if (concept.Class?.Key != null)
 		    {
 		        var selectedClass = conceptClasses.FirstOrDefault(c => c.Key == concept.Class.Key);
-                if (selectedClass != null)
-                {
-                    model.ConceptClass = selectedClass.Key.ToString();
-                }
+                model.ConceptClass = selectedClass?.Key.ToString();                
             }            
 		                  
-            var referenceTerms = ConceptUtil.GetConceptReferenceTerms(ImsiClient, concept);
+      //      var referenceTerms = ConceptUtil.GetConceptReferenceTerms(ImsiClient, concept).ToList();
 
-		    if (referenceTerms != null)
-		    {
-                model.ReferenceTerms.AddRange(referenceTerms.Select(r => new ReferenceTermModel
-		        {
-		            Mnemonic = r.Mnemonic,
-		            Name = string.Join(" ", r.DisplayNames.Select(d => d.Name)),
-		            Id = r.Key.Value
-		        }));
-		    }		   
+		    //if (referenceTerms.Any())
+		    //{
+      //          model.ReferenceTerms.AddRange(referenceTerms.Select(r => new ReferenceTermModel
+		    //    {
+		    //        Mnemonic = r.Mnemonic,
+		    //        Name = string.Join(" ", r.DisplayNames.Select(d => d.Name)),
+		    //        Id = r.Key ?? Guid.Empty
+		    //    }));
+		    //}
 
-		    return View(model);
+		    model.ReferenceTerms = ConceptUtil.GetConceptReferenceTermsList(ImsiClient, concept);
+
+
+            return View(model);
         }
 
         /// <summary>
@@ -318,22 +317,26 @@ namespace OpenIZAdmin.Controllers
 
 					return RedirectToAction("Index");
 				}
-				
-				var conceptViewModel = new ConceptViewModel(concept);
 
-				for (var i = 0; i < concept.ReferenceTerms.Count(r => r.ReferenceTerm == null && r.RelationshipTypeKey.HasValue); i++)
-				{
-					concept.ReferenceTerms[i].ReferenceTerm = this.ImsiClient.Get<ReferenceTerm>(concept.ReferenceTerms[i].ReferenceTermKey.Value, null) as ReferenceTerm;
-				}
+			    var model = new ConceptViewModel(concept)
+			    {
+			        ReferenceTerms = ConceptUtil.GetConceptReferenceTermsList(ImsiClient, concept)
+			    };
 
-				conceptViewModel.ReferenceTerms.AddRange(concept.ReferenceTerms.Select(r => new ReferenceTermModel
-				{
-					Mnemonic = r.ReferenceTerm?.Mnemonic,
-					Name = string.Join(", ", r.ReferenceTerm.DisplayNames.Select(d => d.Name)),
-					Id = r.Key.Value
-				}));
+			    //for (var i = 0; i < concept.ReferenceTerms.Count(r => r.ReferenceTerm == null && r.RelationshipTypeKey.HasValue); i++)
+			    //{
+			    //	concept.ReferenceTerms[i].ReferenceTerm = this.ImsiClient.Get<ReferenceTerm>(concept.ReferenceTerms[i].ReferenceTermKey.Value, null) as ReferenceTerm;
+			    //}
 
-				return View(conceptViewModel);
+			    //conceptViewModel.ReferenceTerms.AddRange(concept.ReferenceTerms.Select(r => new ReferenceTermModel
+			    //{
+			    //	Mnemonic = r.ReferenceTerm?.Mnemonic,
+			    //	Name = string.Join(", ", r.ReferenceTerm.DisplayNames.Select(d => d.Name)),
+			    //	Id = r.Key.Value
+			    //}));
+
+
+			    return View(model);
 			}
 			catch (Exception e)
 			{

@@ -229,6 +229,38 @@ namespace OpenIZAdmin.Util
             return conceptSet;
         }
 
+        /// <summary>
+        /// Gets the Concept Class that matches the Concept Class Name
+        /// </summary>
+        /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
+        /// <param name="concept">The Concept instance</param>
+        /// <returns></returns>
+        public static List<ReferenceTermModel> GetConceptReferenceTermsList(ImsiServiceClient imsiServiceClient, Concept concept)
+        {
+            var refTermList = new List<ReferenceTermModel>();
+            try
+            {
+                var referenceTerms = GetConceptReferenceTerms(imsiServiceClient, concept).ToList();
+
+                if (referenceTerms.Any())
+                {
+                    refTermList = new List<ReferenceTermModel>(referenceTerms.Select(r => new ReferenceTermModel
+                    {
+                        Mnemonic = r.Mnemonic,
+                        Name = string.Join(" ", r.DisplayNames.Select(d => d.Name)),
+                        Id = r.Key ?? Guid.Empty
+                    }));                    
+                }
+            }
+            catch (Exception e)
+            {
+                refTermList = new List<ReferenceTermModel>();
+                Console.WriteLine(e);
+            }
+
+            return refTermList;
+        }        
+
         
 
 
