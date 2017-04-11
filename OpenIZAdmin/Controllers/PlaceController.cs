@@ -385,9 +385,9 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				for (var i = 0; i < place.Relationships.Count(r => r.TargetEntity == null); i++)
+				for (var i = 0; i < place.Relationships.Count(r => (r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child || r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent) && r.TargetEntity == null && r.TargetEntityKey.HasValue); i++)
 				{
-					place.Relationships[i].TargetEntity = this.ImsiClient.Get<Entity>(place.Relationships[i].TargetEntityKey.Value, null) as Entity;
+					place.Relationships[i].TargetEntity = this.ImsiClient.Get<Place>(place.Relationships[i].TargetEntityKey.Value, null) as Place;
 				}
 
 				var model = new EditPlaceModel(place)

@@ -217,6 +217,11 @@ namespace OpenIZAdmin.Controllers
 				var quantityConcepts = this.GetQuantityConcepts();
 				var typeConcepts = this.GetMaterialTypeConcepts();
 
+				for (var i = 0; i < material.Relationships.Count(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.TargetEntity == null && r.TargetEntityKey.HasValue); i++)
+				{
+					material.Relationships[i].TargetEntity = this.ImsiClient.Get<ManufacturedMaterial>(material.Relationships[i].TargetEntityKey.Value, null) as ManufacturedMaterial;
+				}
+
 				var model = new EditMaterialModel(material)
 				{
 					FormConcepts = formConcepts.ToSelectList(c => c.Key == material.FormConceptKey).ToList(),
