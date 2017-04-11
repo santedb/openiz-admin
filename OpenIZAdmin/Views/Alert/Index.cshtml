@@ -21,10 +21,10 @@
                 <thead>
                     <tr>
                         <th>
-                            @Locale.To
+                            @Locale.From
                         </th>
                         <th>
-                            @Locale.From
+                            @Locale.To
                         </th>
                         <th>
                             @Locale.Subject
@@ -40,10 +40,10 @@
                     {
                         <tr>
                             <td>
-                                @item.To
+                                @item.From
                             </td>
                             <td>
-                                @item.From
+                                @item.To
                             </td>
                             <td>
                                 @item.Subject
@@ -56,12 +56,12 @@
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
-                                @using (Html.BeginForm("Read", "Alert", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                @using (Html.BeginForm("Read", "Alert", new {id = item.Id}, FormMethod.Post, new {@class = "inlineForm form-horizontal", role = "form"}))
                                 {
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span>@Locale.Acknowledge</button>}
 
-                                @using (Html.BeginForm("Delete", "Alert", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                @using (Html.BeginForm("Delete", "Alert", new {id = item.Id}, FormMethod.Post, new {@class = "inlineForm form-horizontal", role = "form"}))
                                 {
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>@Locale.Delete</button>}

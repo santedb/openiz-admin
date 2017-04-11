@@ -1,4 +1,5 @@
-﻿@model OpenIZAdmin.Models.AlertModels.CreateAlertModel
+﻿@using OpenIZ.Core.Alert.Alerting
+@model OpenIZAdmin.Models.AlertModels.CreateAlertModel
 @{
     ViewBag.Title = Locale.Create + " " + Locale.Alert;
 }
@@ -55,24 +56,28 @@
     </div>
 </div>
 
-@section scripts
+@section Scripts
 {
     <script type="text/javascript">
-        $(document).ready(function ()
+        $(document).ready(function()
         {
-            $('.dynamic-dropdown').select2({
-                tags: true,
-                tokenSeparators: [','],
-                width: '100%'
-            });
+            $("#@Html.IdFor(m => m.Priority)").on('change', function ()
+            {
+                var selectedValue = $("#@Html.IdFor(m => m.Priority) option:selected").val();
 
-            $('.dynamic-dropdown-limited').select2({
-                tags: true,
-                tokenSeparators: [','],
-                width: '100%',
-                maximumSelectionLength: 1
+                switch (selectedValue)
+                {
+                    case "@((int)AlertMessageFlags.System)":
+                        $("#@Html.IdFor(m => m.To)").append($("<option>", { text: "@Locale.System", value: "@Locale.System" }));
+                        $("#@Html.IdFor(m => m.To)").val("@Locale.System").trigger("change");
+
+                        break;
+                    default:
+                        $("#@Html.IdFor(m => m.To) option").remove();
+                        break;
+                }
+                console.log(selectedValue);
             });
         });
     </script>
-
 }

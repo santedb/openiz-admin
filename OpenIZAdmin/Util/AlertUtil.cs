@@ -48,23 +48,15 @@ namespace OpenIZAdmin.Util
 				AlertMessage = new AlertMessage
 				{
 					Body = model.Message,
+					CreatedBy = new SecurityUser
+					{
+						Key = Guid.Parse(user.Identity.GetUserId())
+					},
 					Flags = (AlertMessageFlags)model.Priority
 				}
 			};
 
-			switch (alertMessageInfo.AlertMessage.Flags)
-			{
-				case AlertMessageFlags.System:
-					alertMessageInfo.AlertMessage.From = "SYSTEM";
-					break;
-
-				default:
-					alertMessageInfo.AlertMessage.From = user.Identity.GetUserName();
-					break;
-			}
-
-			alertMessageInfo.AlertMessage.Subject = model.Subject;
-			alertMessageInfo.AlertMessage.TimeStamp = DateTimeOffset.Now;
+			alertMessageInfo.AlertMessage.From = user.Identity.GetUserName();
 
 			var securityUser = client.GetUser(model.To).User;
 
@@ -73,7 +65,18 @@ namespace OpenIZAdmin.Util
 				securityUser
 			};
 
-			alertMessageInfo.AlertMessage.To = securityUser.UserName;
+			switch (alertMessageInfo.AlertMessage.Flags)
+			{
+				case AlertMessageFlags.System:
+					alertMessageInfo.AlertMessage.To = "everyone";
+					break;
+				default:
+					alertMessageInfo.AlertMessage.To = securityUser.UserName;
+					break;
+			}
+
+			alertMessageInfo.AlertMessage.Subject = model.Subject;
+			alertMessageInfo.AlertMessage.TimeStamp = DateTimeOffset.Now;
 
 			return alertMessageInfo;
 		}
