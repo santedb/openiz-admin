@@ -159,7 +159,16 @@ namespace OpenIZAdmin.DAL
 
 				var result = await client.PostAsync($"{currentRealm.Address}/auth/oauth2_token", content);
 
-				return result.IsSuccessStatusCode ? SignInStatus.Success : SignInStatus.Failure;
+				if (result.IsSuccessStatusCode)
+				{
+					var response = JObject.Parse(await result.Content.ReadAsStringAsync());
+
+					this.AccessToken = response.GetValue("access_token").ToString();
+
+					return SignInStatus.Success;
+				}
+
+				return SignInStatus.Failure;
 			}
 		}
 

@@ -39,13 +39,16 @@ using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Roles;
 using OpenIZ.Core.Model.Security;
+using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Services.Http;
 
 namespace OpenIZAdmin.Controllers
 {
 	/// <summary>
 	/// Provides operations to manage an account.
 	/// </summary>
-	[Authorize]
+	[TokenAuthorize]
 	public class AccountController : BaseController
 	{
 		/// <summary>
@@ -385,19 +388,24 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("ForgotPassword");
 					}
 
-					// null out the other properties, since we are only updating the password
-					user.User = null;
-					user.Lockout = null;
-					user.Roles.Clear();
-
-					user.Password = model.Password;
-
-					this.AmiClient.UpdateUser(user.UserId.Value, user);
-
-					this.TempData["success"] = Locale.Password + " " + Locale.Reset + " " + Locale.Successfully;
-
 					// perform a TFA sign to force the password update
-					var result = await this.SignInManager.TfaSignInAsync(user.UserName, user.Password, model.Code);
+					var result = await this.SignInManager.TfaSignInAsync(user.UserName, null, model.Code);
+
+					if (result == SignInStatus.Success)
+					{
+						amiServiceClient = new AmiServiceClient(new RestClientService(Constants.Ami, this.HttpContext, this.SignInManager.AccessToken));
+
+						// null out the other properties, since we are only updating the password
+						user.User = null;
+						user.Lockout = null;
+						user.Roles.Clear();
+
+						user.Password = model.Password;
+
+						amiServiceClient.UpdateUser(user.UserId.Value, user);
+
+						this.TempData["success"] = Locale.Password + " " + Locale.Reset + " " + Locale.Successfully;
+					}
 
 					switch (result)
 					{

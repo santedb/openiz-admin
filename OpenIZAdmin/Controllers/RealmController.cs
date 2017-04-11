@@ -44,6 +44,7 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Roles;
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Services.Http;
 
 namespace OpenIZAdmin.Controllers
@@ -51,7 +52,7 @@ namespace OpenIZAdmin.Controllers
 	/// <summary>
 	/// Provides operations for managing realms.
 	/// </summary>
-	[Authorize]
+	[TokenAuthorize]
 	public class RealmController : Controller
 	{
 		/// <summary>
