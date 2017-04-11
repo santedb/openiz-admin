@@ -73,6 +73,11 @@ namespace OpenIZAdmin
 		public const string NotApplicable = "N/A";
 
 		/// <summary>
+		/// The system user identifier.
+		/// </summary>
+		public const string SystemUserId = "fadca076-3690-4a6e-af9e-f1cd68e8c7e8";
+
+		/// <summary>
 		/// The target population extension type key.
 		/// </summary>
 		public static readonly Guid TargetPopulationExtensionTypeKey = Guid.Parse("f9552ed8-66aa-4644-b6a8-108ad54f2476");

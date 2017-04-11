@@ -28,6 +28,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.AMI.Alerting;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -69,13 +70,18 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
+					if (model.Priority == (int)AlertMessageFlags.System)
+					{
+						model.To = Constants.SystemUserId;
+					}
+
 					var alertMessageInfo = AlertUtil.ToAlertMessageInfo(this.AmiClient, model, User);
 
 					this.AmiClient.CreateAlert(alertMessageInfo);
 
 					TempData["success"] = Locale.Alert + " " + Locale.Created + " " + Locale.Successfully;
 
-					return RedirectToAction("Index", "Home");
+					return RedirectToAction("Index");
 				}
 			}
 			catch (Exception e)
@@ -130,6 +136,25 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Gets the alerts.
+		/// </summary>
+		/// <returns>Returns a list of alerts for the current user, including alerts marked for "everyone".</returns>
+		private IEnumerable<AlertMessageInfo> GetAlerts()
+		{
+			var username = this.User.Identity.GetUserName();
+
+			var alerts = this.AmiClient
+				.GetAlerts(a => a.To.Contains("everyone") && a.ObsoletionTime == null)
+				.CollectionItem.Where(a => a.AlertMessage.ObsoletionTime == null && a.AlertMessage.Flags != AlertMessageFlags.Acknowledged);
+
+			var userAlerts = this.AmiClient
+				.GetAlerts(a => a.To == username && a.ObsoletionTime == null)
+				.CollectionItem.Where(a => a.AlertMessage.ObsoletionTime == null && a.AlertMessage.Flags != AlertMessageFlags.Acknowledged);
+
+			return alerts.Union(userAlerts);
+		}
+
+		/// <summary>
 		/// Gets a list of alerts.
 		/// </summary>
 		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
@@ -140,11 +165,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				var username = User.Identity.GetUserName();
-
-				var alerts = this.AmiClient.GetAlerts(a => a.To == username && a.ObsoletionTime == null);
-
-				models.AddRange(alerts.CollectionItem.Where(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged && a.AlertMessage.ObsoletionTime == null).Select(a => new AlertViewModel(a)));
+				models.AddRange(this.GetAlerts().Select(a => new AlertViewModel(a)));
 
 				return View(models.OrderBy(x => x.Flags).ThenByDescending(a => a.Time));
 			}
@@ -169,10 +190,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				var username = User.Identity.GetUserName();
-				var results = this.AmiClient.GetAlerts(a => a.To == username && a.ObsoletionTime == null);
-
-				count = results.CollectionItem.Count(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged && a.AlertMessage.ObsoletionTime == null);
+				count = this.GetAlerts().Count(a => a.AlertMessage.Flags != AlertMessageFlags.Acknowledged && a.AlertMessage.ObsoletionTime == null);
 
 				return Content(count.ToString());
 			}
@@ -209,7 +227,7 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.Alert + " " + Locale.Updated + " " + Locale.Successfully;
 
-				return RedirectToAction("Index", "Home");
+				return RedirectToAction("Index");
 			}
 			catch (Exception e)
 			{
@@ -218,7 +236,7 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Alert;
 
-			return RedirectToAction("Index", "Home");
+			return RedirectToAction("Index");
 		}
 
 		/// <summary>
