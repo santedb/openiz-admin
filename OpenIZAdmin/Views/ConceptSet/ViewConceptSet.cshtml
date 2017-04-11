@@ -6,8 +6,8 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="panel-title">@(Locale.View + " " + Locale.ConceptSet)</span>
-        <div class="pull-right">
-            <a href="@Url.Action("Edit", new { id = Model.Id })" title="@Locale.ToolTip_Edit">
+        <div class="pull-right">            
+            <a href="@Url.Action("Edit", new {id = Model.Id})" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-pencil"></span>
                 <span class="text-primary h4">@Locale.Edit</span>
             </a>

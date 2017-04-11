@@ -57,7 +57,7 @@ namespace OpenIZAdmin.Controllers
         {
             try
             {
-                var concept = ImsiClient.Get<Concept>(id, null) as Concept;
+                var concept = ImsiClient.Get<Concept>(id, versionId) as Concept;
 
                 if (concept == null)
                 {
@@ -138,18 +138,19 @@ namespace OpenIZAdmin.Controllers
             return View(model);
 		}
 
-		/// <summary>
-		/// Deletes a concept.
-		/// </summary>
-		/// <param name="id">The id of the concept to delete.</param>
-		/// <returns>Returns the index view.</returns>
-		[HttpPost]
+	    /// <summary>
+	    /// Deletes a concept.
+	    /// </summary>
+	    /// <param name="id">The id of the concept to delete.</param>
+	    /// <param name="versionId">The version identifier of the Concept instance.</param>
+	    /// <returns>Returns the index view.</returns>
+	    [HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Delete(Guid id)
+		public ActionResult Delete(Guid id, Guid? versionId)
 		{
 			try
 			{
-				var concept = this.ImsiClient.Get<Concept>(id, null) as Concept;
+				var concept = this.ImsiClient.Get<Concept>(id, versionId) as Concept;
 
 				if (concept == null)
 				{
@@ -159,7 +160,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.ImsiClient.Obsolete<Concept>(concept);
 
-				TempData["success"] = Locale.Concept + " " + Locale.Deleted + " " + Locale.Successfully;
+				TempData["success"] = Locale.Concept + " " + Locale.Deactivated + " " + Locale.Successfully;
 
 				return RedirectToAction("Index");
 			}

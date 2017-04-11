@@ -34,8 +34,8 @@
             </div>            
 
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-8">
-                    <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
+                <div class="col-md-offset-2 col-md-8">                    
+                    <a href="@Url.Action("Index")" class="btn btn-danger">@Locale.Cancel</a>                            
                     <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">
                         @Locale.Submit
                     </button>                    
@@ -44,25 +44,26 @@
         }
         
         <div class="pull-right">
-            @if (!Model.IsSystemConcept)
+            @if (Model.IsObsolete)
             {
-                using (Html.BeginForm("Delete", "Concept", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                using (Html.BeginForm("Activate", "Concept", new { id = Model.Id, versionId = Model.VersionKey }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                {
+                    <button type="submit" class="btn btn-success">
+                        @Locale.Activate
+                        <span class="glyphicon glyphicon-upload"></span>
+                    </button>
+                }
+            }
+            else
+            {
+
+                using (Html.BeginForm("Delete", "Concept", new { id = Model.Id, versionId = Model.VersionKey }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                 {
                     @Html.AntiForgeryToken()
 
                     <button type="submit" class="btn btn-danger">
                         @Locale.Deactivate
                         <span class="glyphicon glyphicon-remove"></span>
-                    </button>
-                }
-            }
-            else
-            {
-                using (Html.BeginForm("Activate", "Concept", new {id = Model.Id}, FormMethod.Post, new {@class = "inlineForm form-horizontal", role = "form"}))
-                {
-                    <button type="submit" class="btn btn-success">
-                        @Locale.Activate
-                        <span class="glyphicon glyphicon-upload"></span>
                     </button>
                 }
             }

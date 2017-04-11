@@ -51,7 +51,8 @@ namespace OpenIZAdmin.Models.ConceptModels
             ConceptSetId = Guid.Empty;
             CreationTime = concept.CreationTime.DateTime;
 			Id = concept.Key ?? Guid.Empty;
-		    IsSystemConcept = concept.IsSystemConcept;
+            IsObsolete = concept.ObsoletionTime != null;
+            IsSystemConcept = concept.IsSystemConcept;
             Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();
             Mnemonic = concept.Mnemonic;
             Names = concept.ConceptNames.Select(c => c.Name).ToList();
@@ -75,50 +76,18 @@ namespace OpenIZAdmin.Models.ConceptModels
         /// </summary>
         [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
 		public string Class { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the names of the Concept
-        ///// </summary>
-        //public string ConceptNames { get; set; }
+       
 
         /// <summary>
         /// Gets or sets the Concept Set identifier associated with the Concept instance
         /// </summary>
         public Guid? ConceptSetId { get; set; }
-
-  //      /// <summary>
-  //      /// Gets or sets the creation time of the concept.
-  //      /// </summary>
-  //      [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-		//public DateTime CreationTime { get; set; }
-
-		///// <summary>
-		///// Gets or sets the key of the concept.
-		///// </summary>
-		//public Guid Id { get; set; }
+  
 
         /// <summary>
 		/// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
 		/// </summary>		
 		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
-        public List<Language> Languages { get; set; }        
-
-		///// <summary>
-		///// Gets or sets the mnemonic of the concept.
-		///// </summary>
-		//[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
-		//public string Mnemonic { get; set; }
-
-		///// <summary>
-		///// Gets or sets a list of names associated with the concept.
-		///// </summary>
-		//[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		//public List<string> Names { get; set; }
-
-		///// <summary>
-		///// Gets or sets the list of reference terms associated with the concept.
-		///// </summary>
-		//[Display(Name = "ReferenceTerms", ResourceType = typeof(Localization.Locale))]
-		//public List<ReferenceTermModel> ReferenceTerms { get; set; }
+        public List<Language> Languages { get; set; }        		
 	}
 }

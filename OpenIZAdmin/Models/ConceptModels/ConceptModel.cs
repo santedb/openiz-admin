@@ -29,6 +29,11 @@ namespace OpenIZAdmin.Models.ConceptModels
 		public virtual Guid Id { get; set; }
 
         /// <summary>
+        /// Gets or sets the obsolete property of the Concept indicating object state
+        /// </summary>
+        public bool IsObsolete { get; set; }
+
+        /// <summary>
         /// Gets or sets the readonly property of the Concept
         /// </summary>
         public bool IsSystemConcept { get; set; }

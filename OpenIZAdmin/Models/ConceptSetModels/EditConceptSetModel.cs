@@ -58,28 +58,18 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 			Name = conceptSet.Name;
 			Oid = conceptSet.Oid;
 			Url = conceptSet.Url;			
-        }
+        }		
 
-		/// <summary>
-		/// Gets or sets the concept deletion.
-		/// </summary>
-		/// <value>The concept deletion.</value>
-		//public List<bool> ConceptDeletion { get; set; }
-
-		public string ConceptMnemonic { get; set; }
+		///// <summary>
+		///// Gets or sets the Mnemonic of the Concept
+		///// </summary>
+		//public string ConceptMnemonic { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the concept.
 		/// </summary>
 		/// <value>The name of the concept.</value>
-		public string ConceptName { get; set; }
-
-		///// <summary>
-		///// Gets or sets the concepts.
-		///// </summary>
-		///// <value>The concepts.</value>
-		//public List<ConceptViewModel> Concepts { get; set; }
-
+		public string ConceptName { get; set; }		
 
         /// <summary>
         /// Gets or sets the concept list from the search parameters from the ajax search method
@@ -89,34 +79,14 @@ namespace OpenIZAdmin.Models.ConceptSetModels
         /// <summary>
         /// Gets or sets the list of Concepts to add
         /// </summary>
-        public List<string> AddConcepts { get; set; }
-
-
-        ///// <summary>
-        ///// Gets or sets the concept to add.
-        ///// </summary>
-        ///// <value>The concept to add.</value>
-        //public Guid ConceptToAdd { get; set; }
+        public List<string> AddConcepts { get; set; }        
 
 		/// <summary>
 		/// Gets or sets the created by.
 		/// </summary>
 		/// <value>The created by.</value>
 		[Display(Name = "Created By")]
-		public string CreatedBy { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the creation time.
-        ///// </summary>
-        ///// <value>The creation time.</value>
-        //[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
-        //public DateTime CreationTime { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the identifier.
-        ///// </summary>
-        ///// <value>The identifier.</value>
-        //public Guid Id { get; set; }
+		public string CreatedBy { get; set; }      
 
         /// <summary>
         /// Gets or sets the mnemonic of the concept.
@@ -138,13 +108,7 @@ namespace OpenIZAdmin.Models.ConceptSetModels
         /// <value>The oid.</value>
         [Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
         [Required]
-		public override string Oid { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the searched concepts.
-        ///// </summary>
-        ///// <value>The searched concepts.</value>
-        //public List<Concept> SearchedConcepts { get; set; }
+		public override string Oid { get; set; }        
 
         /// <summary>
         /// Gets or sets the URL.

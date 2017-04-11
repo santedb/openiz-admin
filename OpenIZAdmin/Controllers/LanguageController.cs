@@ -37,7 +37,8 @@ namespace OpenIZAdmin.Controllers
 
             var model = new LanguageModel(concept)
             {
-                LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),                
+                LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),   
+                TwoLetterCountryCode = Locale.EN
             };
             
             return View(model);
