@@ -1335,4 +1335,7 @@
   <data name="Status" xml:space="preserve">
     <value>Status</value>
   </data>
+  <data name="ConceptNotActive" xml:space="preserve">
+    <value>Warning, this concept is not active</value>
+  </data>
 </root>

@@ -1,7 +1,10 @@
-﻿@model OpenIZAdmin.Models.ConceptModels.EditConceptModel
+﻿@using OpenIZAdmin.Models
+@model OpenIZAdmin.Models.ConceptModels.EditConceptModel
 @{
     ViewBag.Title = Locale.Edit + " " + Locale.Concept;
 }
+
+@Html.Partial("_ObsoleteWarningPartial", new ObsoleteWarningViewModel(Model.IsObsolete, Locale.ConceptNotActive))
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -16,14 +19,14 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             @Html.HiddenFor(m => m.Id)
-           
+
             <div class="form-group">
                 @Html.LabelFor(m => m.Mnemonic, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
                     @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", title = Locale.ToolTip_ConceptMnemonic })
                     @Html.ValidationMessageFor(m => m.Mnemonic, "", new { @class = "text-danger" })
                 </div>
-            </div>            
+            </div>
 
             <div class="form-group">
                 @Html.LabelFor(m => m.ConceptClass, new { @class = "col-md-2 control-label" })
@@ -31,50 +34,57 @@
                     @Html.DropDownListFor(m => m.ConceptClass, Model.ConceptClassList, new { @class = "form-control", title = Locale.ToolTip_ConceptClassList })
                     @Html.ValidationMessageFor(m => m.ConceptClass, "", new { @class = "text-danger" })
                 </div>
-            </div>            
+            </div>
 
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-8">                    
-                    <a href="@Url.Action("Index")" class="btn btn-danger">@Locale.Cancel</a>                            
-                    <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">
-                        @Locale.Submit
-                    </button>                    
-                </div>                
+                <div class="col-md-offset-2 col-md-8">
+                    <a href="@Url.Action("Index")" class="btn btn-danger">@Locale.Cancel</a>
+                    @if (Model.IsObsolete)
+                    {
+                        <button type="submit" class="btn btn-primary" disabled="disabled" title="@Locale.ToolTip_Submit">@Locale.CannotUpdateNotActive</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+                    }
+                </div>
             </div>
         }
-        
-        <div class="pull-right">
-            @if (Model.IsObsolete)
-            {
-                using (Html.BeginForm("Activate", "Concept", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
-                {
-                    <button type="submit" class="btn btn-success">
-                        @Locale.Activate
-                        <span class="glyphicon glyphicon-upload"></span>
-                    </button>
-                }
-            }
-            else
-            {
 
-                using (Html.BeginForm("Delete", "Concept", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+        <div class="form-group col-md-offset-2 col-md-8">
+            <div class="pull-right">
+                @if (Model.IsObsolete)
                 {
-                    @Html.AntiForgeryToken()
-
-                    <button type="submit" class="btn btn-danger">
-                        @Locale.Deactivate
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </button>
+                    using (Html.BeginForm("Activate", "Concept", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                    {
+                        <button type="submit" class="btn btn-success">
+                            @Locale.Activate
+                            <span class="glyphicon glyphicon-upload"></span>
+                        </button>
+                    }
                 }
-            }
+                else
+                {
+
+                    using (Html.BeginForm("Delete", "Concept", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit" class="btn btn-danger">
+                            @Locale.Deactivate
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    }
+                }
+            </div>
         </div>
 
 
 
-        
 
+
+        </div>
     </div>
-</div>
 
 <div class="panel panel-default">
     <div class="panel-heading">

@@ -556,6 +556,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warning, this concept is not active.
+        /// </summary>
+        public static string ConceptNotActive {
+            get {
+                return ResourceManager.GetString("ConceptNotActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Concepts.
         /// </summary>
         public static string Concepts {

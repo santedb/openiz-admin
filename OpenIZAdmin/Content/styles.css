@@ -43,6 +43,12 @@ span.glyphicon {
     text-align: center;
 }
 
+/*Deactivates an a link*/
+.not-active {
+ pointer-events: none;
+ cursor: default;
+}
+
 /*
  * Top Navigation CSS
  */

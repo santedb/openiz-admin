@@ -8,33 +8,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.Edit + " " + Locale.Organization)</span>
-        <div class="pull-right">
-            @if (!Model.IsObsolete)
-            {
-                using (Html.BeginForm("Delete", "Organization", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-
-                    <button type="submit" class="formButton btn btn-danger">
-                        @Locale.Deactivate
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </button>
-                }
-            }
-            else
-            {
-                using (Html.BeginForm("Activate", "Organization", new { id = Model.Id, versionId = Model.VersionKey }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
-                {
-                    @Html.AntiForgeryToken()
-
-                    <button type="submit" class="formButton btn btn-success">
-                        @Locale.Activate
-                        <span class="glyphicon glyphicon-upload"></span>
-                    </button>
-}
-            }
-        </div>
+        <span class="panel-title">@(Locale.Edit + " " + Locale.Organization)</span>       
     </div>
     <div class="panel panel-body">
         @using (Html.BeginForm("Edit", "Organization", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -68,10 +42,39 @@
                     else
                     {
                         <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
-}
+                    }
                 </div>
             </div>
         }
+
+        <div class="form-group col-md-offset-2 col-md-8">
+            <div class="pull-right">
+                @if (!Model.IsObsolete)
+            {
+                using (Html.BeginForm("Delete", "Organization", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                {
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit" class="btn btn-danger">
+                            @Locale.Deactivate
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    }
+                }
+                else
+                {
+                    using (Html.BeginForm("Activate", "Organization", new { id = Model.Id, versionId = Model.VersionKey }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit" class="btn btn-success">
+                            @Locale.Activate
+                            <span class="glyphicon glyphicon-upload"></span>
+                        </button>
+                    }
+                }
+            </div>
+        </div>
     </div>
 </div>
 

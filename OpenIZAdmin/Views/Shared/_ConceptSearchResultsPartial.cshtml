@@ -26,19 +26,15 @@
                     {
                         <tr>
                             <td>@item.CreationTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
-
                             <td>@item.Mnemonic</td>
-
-                            <td>@item.ConceptNames</td>
-                            
+                            <td>@item.ConceptNames</td>                            
                             <td>@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
-
                             <td class="autoFitContents centerButton">
                                 <a class="btn btn-primary" href="@Url.Action("ViewConcept", "Concept", new { id = item.Id, versionId = item.VersionKey })">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
-                                <a class="@("btn btn-warning" + (item.IsSystemConcept ? "disabled" : string.Empty))" href="@Url.Action("Edit", "Concept", new {id = item.Id, versionId = item.VersionKey })">
+                                <a class="@("btn btn-warning" + (item.IsSystemConcept ? " not-active" : string.Empty))" href="@Url.Action("Edit", "Concept", new {id = item.Id, versionId = item.VersionKey })">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>                                

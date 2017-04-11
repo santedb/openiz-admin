@@ -24,6 +24,7 @@ using OpenIZAdmin.Models.RoleModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -42,11 +43,50 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
-		/// <summary>
-		/// Displays the create role view.
+        /// <summary>
+		/// Activates the specified Role.
 		/// </summary>
-		/// <returns>Returns the create role view.</returns>
-		[HttpGet]
+		/// <param name="id">The role identifier.</param>		
+		/// <returns>ActionResult.</returns>
+		public ActionResult Activate(Guid id)
+        {
+            try
+            {
+                var securityRoleInfo = this.AmiClient.GetRole(id.ToString());
+
+                if (securityRoleInfo == null)
+                {
+                    TempData["error"] = Locale.Role + " " + Locale.NotFound;
+
+                    return RedirectToAction("Index");
+                }
+
+                securityRoleInfo.Role.CreationTime = DateTimeOffset.Now;
+                securityRoleInfo.Role.ObsoletedByKey = null;
+                securityRoleInfo.Role.ObsoletionTime = null;
+
+                var result = this.AmiClient.UpdateRole(id.ToString(), securityRoleInfo);
+
+                TempData["success"] = Locale.Role + " " + Locale.Activated + " " + Locale.Successfully;
+
+                return RedirectToAction("ViewRole", new { id = result.Id });
+            }
+            catch (Exception e)
+            {
+                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+                Trace.TraceError($"Unable to activate role: { e }");
+            }
+
+            TempData["error"] = Locale.UnableToActivate + " " + Locale.Role;
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Displays the create role view.
+        /// </summary>
+        /// <returns>Returns the create role view.</returns>
+        [HttpGet]
 		public ActionResult Create()
 		{
 			return View();

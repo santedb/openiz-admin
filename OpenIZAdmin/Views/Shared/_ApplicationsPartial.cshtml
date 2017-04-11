@@ -44,32 +44,7 @@
                                 <a class="btn btn-warning" href="@Url.Action("Edit", "Application", new { id = item.Id })">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
-                                @if (!item.IsObsolete)
-                                {
-                                    using (Html.BeginForm("Delete", "Application", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
-                                    {
-                                        @Html.AntiForgeryToken()
-
-                                        <button type="submit" class="btn btn-danger">
-                                            @Locale.Deactivate
-                                            <span class="glyphicon glyphicon-remove"></span>
-                                        </button>
-}
-                                }
-                                else
-                                {
-                                    using (Html.BeginForm("Activate", "Application", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
-                                    {
-                                        @Html.AntiForgeryToken()
-
-                                        <button type="submit" class="formButton btn btn-success">
-                                            @Locale.Activate
-                                            <span class="glyphicon glyphicon-upload"></span>
-                                        </button>
-}
-                                }
-
+                                </a>                               
                             </td>
                         </tr>
 }
