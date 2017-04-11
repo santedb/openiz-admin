@@ -30,7 +30,7 @@ namespace OpenIZAdmin.Models.ConceptSetModels
     /// <summary>
 	/// Represents a view model for a concept set search result.
 	/// </summary>
-    public class ConceptSetSearchResultViewModel : ConceptSetModel
+    public sealed class ConceptSetSearchResultViewModel : ConceptSetModel
     {
         /// <summary>
 		/// Initializes a new instance of the <see cref="ConceptSetSearchResultViewModel"/> class.
@@ -47,11 +47,11 @@ namespace OpenIZAdmin.Models.ConceptSetModels
         /// <param name="conceptSet">The <see cref="ConceptSet"/> instance.</param>
         public ConceptSetSearchResultViewModel(ConceptSet conceptSet) : this()
         {
-            this.CreationTime = conceptSet.CreationTime.DateTime;
+            CreationTime = conceptSet.CreationTime.DateTime;
             //this.IsReadOnly = false;
             this.Id = conceptSet.Key ?? Guid.Empty;
-            this.Mnemonic = conceptSet.Mnemonic;
-            this.Name = conceptSet.Name;            
+            Mnemonic = conceptSet.Mnemonic;
+            Name = conceptSet.Name;            
             //this.Type = ConceptType.ConceptSet;            
             ConceptList = conceptSet.Concepts.Select(c => new ConceptViewModel(c)).ToList();
         }      

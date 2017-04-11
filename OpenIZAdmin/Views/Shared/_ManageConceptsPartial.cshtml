@@ -36,7 +36,7 @@
                                 @item.Class
                             </td>
                             <td class="autoFitContents centerButton">
-                                <a class="btn btn-primary" href="@Url.Action("ViewConcept", "Concept", new {id = item.Id})">
+                                <a class="btn btn-primary" href="@Url.Action("ViewConcept", "Concept", new {id = item.Id, versionId = item.VersionKey})">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>

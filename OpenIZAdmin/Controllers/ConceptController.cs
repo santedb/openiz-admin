@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using OpenIZAdmin.Models.LanguageModels;
+using System.Diagnostics;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -45,7 +46,47 @@ namespace OpenIZAdmin.Controllers
 		public ConceptController()
 		{
 		}
-       
+
+        /// <summary>
+		/// Activates the specified identifier.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <param name="versionId">The version identifier.</param>
+		/// <returns>ActionResult.</returns>
+		public ActionResult Activate(Guid id, Guid? versionId)
+        {
+            try
+            {
+                var concept = ImsiClient.Get<Concept>(id, null) as Concept;
+
+                if (concept == null)
+                {
+                    TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+                    return RedirectToAction("Index");
+                }
+
+                concept.CreationTime = DateTimeOffset.Now;
+                concept.ObsoletedByKey = null;
+                concept.ObsoletionTime = null;
+                concept.VersionKey = null;
+
+                var result = ImsiClient.Update(concept);
+
+                TempData["success"] = Locale.Concept + " " + Locale.Activated + " " + Locale.Successfully;
+
+                return RedirectToAction("ViewConcept", new { id = result.Key, versionId = result.VersionKey });
+            }
+            catch (Exception e)
+            {
+                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+                Trace.TraceError($"Unable to activate concept: { e }");
+            }
+
+            TempData["error"] = Locale.UnableToActivate + " " + Locale.Material;
+
+            return RedirectToAction("Edit", new { id = (Guid?) id, versionId });
+        }
+
         /// <summary>
         /// Displays the create view.
         /// </summary>
@@ -82,8 +123,8 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.Concept + " " + Locale.Created + " " + Locale.Successfully;
 
-					return RedirectToAction("ViewConcept", new { id = concept.Key });
-				}
+					return RedirectToAction("ViewConcept", new { id = concept.Key = concept.VersionKey });
+                }
 			}
 			catch (Exception e)
 			{
@@ -132,15 +173,16 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-		/// <summary>
-		/// Edits the specified concept.
-		/// </summary>
-		/// <param name="id">The identifier.</param>
-		/// <returns>ActionResult.</returns>
-		[HttpGet]
-		public ActionResult Edit(Guid id)
+	    /// <summary>
+	    /// Edits the specified concept.
+	    /// </summary>
+	    /// <param name="id">The identifier.</param>
+	    /// <param name="versionId">The version identifier(Guid) of the Concept instance.</param>
+	    /// <returns>ActionResult.</returns>
+	    [HttpGet]
+		public ActionResult Edit(Guid id, Guid? versionId)
 		{            
-		    var concept = ConceptUtil.GetConcept(ImsiClient, id);
+		    var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
 
             if (concept == null)
             {
@@ -191,7 +233,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-                var concept = ConceptUtil.GetConcept(ImsiClient, model.Id);
+                var concept = ConceptUtil.GetConcept(ImsiClient, model.Id, null);
 
                 if (concept == null)
                 {
@@ -239,21 +281,41 @@ namespace OpenIZAdmin.Controllers
 		{
 			var viewModels = new List<ConceptSearchResultViewModel>();
 
-			if (CommonUtil.IsValidString(searchTerm))
-			{
-				var conceptBundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
 
-				viewModels.AddRange(conceptBundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
+            //IEnumerable<MaterialViewModel> results = new List<MaterialViewModel>();
 
-				//var conceptSetBundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
+            //if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+            //{
+            //    var bundle = this.ImsiClient.Query<Material>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material);
 
-				//viewModels.AddRange(conceptSetBundle.Item.OfType<ConceptSet>().Select(c => new ConceptSearchResultViewModel(c)));
+            //    results = bundle.Item.OfType<Material>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))).LatestVersionOnly().Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+            //}
 
-				TempData["searchTerm"] = searchTerm;
+            //if (CommonUtil.IsValidString(searchTerm))
+            //{
+            //    var conceptBundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
 
-				return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic));
-			}
-			else
+            //    var results = conceptBundle.Item.OfType<Concept>().LatestVersionOnly().Select(p => new ConceptSearchResultViewModel(p)).OrderBy(p => p.Mnemonic).ToList();
+
+            //    viewModels.AddRange(conceptBundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
+
+            //    TempData["searchTerm"] = searchTerm;
+
+            //    return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic));
+            //}
+
+
+            if (CommonUtil.IsValidString(searchTerm))
+            {
+                var conceptBundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
+
+                viewModels.AddRange(conceptBundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
+
+                TempData["searchTerm"] = searchTerm;
+
+                return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic));
+            }
+            else
 			{
 				TempData["error"] = Locale.InvalidSearch;
 			}
@@ -263,17 +325,18 @@ namespace OpenIZAdmin.Controllers
 			return PartialView("_ConceptSearchResultsPartial", viewModels);
 		}
 
-		/// <summary>
-		/// Retrieves the Concept by identifier
-		/// </summary>
-		/// <param name="id">The identifier of the Concept</param>
-		/// <returns></returns>
-		[HttpGet]
-		public ActionResult ViewConcept(Guid id)
+	    /// <summary>
+	    /// Retrieves the Concept by identifier
+	    /// </summary>
+	    /// <param name="id">The identifier of the Concept</param>
+	    /// <param name="versionKey">The version identifier (Guid) of the concept instance.</param>
+	    /// <returns></returns>
+	    [HttpGet]
+		public ActionResult ViewConcept(Guid id, Guid? versionKey)
 		{
 			try
 			{				
-			    var concept = ConceptUtil.GetConcept(ImsiClient, id);
+			    var concept = ConceptUtil.GetConcept(ImsiClient, id, versionKey);
 
 				if (concept == null)
 				{

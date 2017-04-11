@@ -23,11 +23,11 @@
                                 <td>@item.TwoLetterCountryCode</td>
                                 <td>@item.DisplayName</td>
                                 <td class="autoFitContents centerButton">
-                                    <a class="btn btn-warning" href="@Url.Action("Edit", "Language", new { id = item.ConceptId, langCode = item.TwoLetterCountryCode, displayName = item.DisplayName })">
+                                    <a class="btn btn-warning" href="@Url.Action("Edit", "Language", new { id = item.ConceptId, versionKey = item.ConceptVersionKey, langCode = item.TwoLetterCountryCode, displayName = item.DisplayName })">
                                         @Locale.Edit
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
-                                    @using (Html.BeginForm("Delete", "Language", new { id = item.ConceptId, langCode = item.TwoLetterCountryCode, displayName = item.DisplayName }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                    @using (Html.BeginForm("Delete", "Language", new { id = item.ConceptId, versionKey = item.ConceptVersionKey, langCode = item.TwoLetterCountryCode, displayName = item.DisplayName }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
 

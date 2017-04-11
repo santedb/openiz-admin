@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Query;
 using OpenIZ.Messaging.IMSI.Client;
@@ -73,11 +74,20 @@ namespace OpenIZAdmin.Util
         /// </summary>
         /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
         /// <param name="id">The uniquie identifier of the concept instance to retrieve.</param>
+        /// <param name="versionKey">The version identifier (Guid) of the concept instance</param>
         /// <returns>Returns an instance of a Concept.</returns>
-        public static Concept GetConcept(ImsiServiceClient imsiServiceClient, Guid? id)
+        public static Concept GetConcept(ImsiServiceClient imsiServiceClient, Guid? id, Guid? versionKey)
         {
-            var bundle = imsiServiceClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null);
-
+            Bundle bundle;
+            if (versionKey == null)
+            {
+                bundle = imsiServiceClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null);
+            }
+            else
+            {
+                bundle = imsiServiceClient.Query<Concept>(c => c.Key == id && c.VersionKey == versionKey);
+            }
+            
             bundle.Reconstitute();
 
             var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);

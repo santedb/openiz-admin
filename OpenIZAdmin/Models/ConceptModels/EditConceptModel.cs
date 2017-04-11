@@ -60,14 +60,15 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// <param name="concept">The concept.</param>
 		public EditConceptModel(Concept concept) : this()
 		{           
-			CreationTime = concept.CreationTime.DateTime;
+			CreationTime = concept.CreationTime.DateTime;		    
 			Id = concept.Key ?? Guid.Empty;
             IsSystemConcept = concept.IsSystemConcept;
-            Mnemonic = concept.Mnemonic;
-		    Name = concept.ConceptNames[0].Name;
+            Mnemonic = concept.Mnemonic;            
+            Name = concept.ConceptNames[0].Name;
             Language = concept.ConceptNames[0].Language;
-            Languages = concept.ConceptNames.Select(k => new LanguageModel(k.Language, k.Name, concept.Key.Value)).ToList();         
-        }
+            Languages = concept.ConceptNames.Select(k => new LanguageModel(k.Language, k.Name, concept.Key.Value)).ToList();
+		    VersionKey = concept.VersionKey;
+		}
 
         /// <summary>
         /// Gets or sets the concept class.

@@ -31,7 +31,7 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 	/// <summary>
 	/// Represents an edit concept set model.
 	/// </summary>
-	public class EditConceptSetModel : ConceptSetModel
+	public sealed class EditConceptSetModel : ConceptSetModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditConceptSetModel"/> class.

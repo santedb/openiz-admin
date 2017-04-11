@@ -25,9 +25,9 @@ namespace OpenIZAdmin.Controllers
         /// </summary>
         /// <returns>Returns the Create view.</returns>
         [HttpGet]
-        public ActionResult Create(Guid id)
-        {                        
-            var concept = ConceptUtil.GetConcept(ImsiClient, id);
+        public ActionResult Create(Guid id, Guid? versionKey)
+        {            
+            var concept = ConceptUtil.GetConcept(ImsiClient, id, versionKey);         
 
             if (concept == null)
             {
@@ -54,7 +54,7 @@ namespace OpenIZAdmin.Controllers
         {            
             try
             {                
-                var concept = ConceptUtil.GetConcept(ImsiClient, model.ConceptId);
+                var concept = ConceptUtil.GetConcept(ImsiClient, model.ConceptId, model.ConceptVersionKey);
 
                 if (concept == null)
                 {
@@ -72,7 +72,7 @@ namespace OpenIZAdmin.Controllers
 
                 TempData["success"] = Locale.Language + " " + Locale.Updated + " " + Locale.Successfully;
 
-                return RedirectToAction("Edit", "Concept", new { id = result.Key });               
+                return RedirectToAction("Edit", "Concept", new { id = result.Key, versionKey = result.VersionKey });               
             }
             catch (Exception e)
             {
@@ -87,17 +87,18 @@ namespace OpenIZAdmin.Controllers
         /// Deletes a language from a Concept.
         /// </summary>        
         /// <param name="id">The Concept Guid id</param>
+        /// <param name="conceptVersionKey">The verion identifier of the Concept instance.</param>
         /// <param name="langCode">The language two character code identifier</param>
         /// <param name="displayName">The text name representation of the Concept</param>
         /// <returns>Returns the index view.</returns>
         [HttpPost]
 
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(Guid? id, string langCode, string displayName)
+        public ActionResult Delete(Guid? id, Guid? conceptVersionKey, string langCode, string displayName)
         {
             try
             {                
-                var concept = ConceptUtil.GetConcept(ImsiClient, id);
+                var concept = ConceptUtil.GetConcept(ImsiClient, id, conceptVersionKey);
 
                 if (concept == null)
                 {
@@ -109,7 +110,7 @@ namespace OpenIZAdmin.Controllers
                 if (index < 0)
                 {
                     TempData["error"] = Locale.LanguageCode + " " + Locale.NotFound;
-                    return RedirectToAction("ViewConcept", "Concept", new { id = id });
+                    return RedirectToAction("ViewConcept", "Concept", new { id, versionKey = conceptVersionKey });
                 }
 
                 concept.ConceptNames.RemoveAt(index);                
@@ -118,7 +119,7 @@ namespace OpenIZAdmin.Controllers
 
                 TempData["success"] = Locale.Language + " " + Locale.Deleted + " " + Locale.Successfully;
 
-                return RedirectToAction("Edit", "Concept", new { id = result.Key });             
+                return RedirectToAction("Edit", "Concept", new { id = result.Key, versionKey = result.VersionKey });
             }
             catch (Exception e)
             {
@@ -131,18 +132,18 @@ namespace OpenIZAdmin.Controllers
         }
 
 
-
         /// <summary>
         /// Retrieves the languages associated with the Concept to edit
         /// </summary>
         /// <param name="id">The concept Guid id</param>
+        /// <param name="conceptVersionKey">The version identifier of the Concept instance.</param>
         /// <param name="langCode">The language two character code identifier</param>
         /// <param name="displayName">The text name representation of the Concept</param>
         /// <returns>An ActionResult instance</returns>
         [HttpGet]
-        public ActionResult Edit(Guid? id, string langCode, string displayName )
+        public ActionResult Edit(Guid? id, Guid? conceptVersionKey, string langCode, string displayName )
         {            
-            var concept = ConceptUtil.GetConcept(this.ImsiClient, id);
+            var concept = ConceptUtil.GetConcept(ImsiClient, id, conceptVersionKey);
 
             if (concept == null)
             {
@@ -169,7 +170,7 @@ namespace OpenIZAdmin.Controllers
         {            
             try
             {
-                var concept = ConceptUtil.GetConcept(this.ImsiClient, model.ConceptId);
+                var concept = ConceptUtil.GetConcept(this.ImsiClient, model.ConceptId, model.ConceptVersionKey);
 
                 if (concept == null)
                 {
@@ -182,7 +183,7 @@ namespace OpenIZAdmin.Controllers
                 if (index < 0)
                 {
                     TempData["error"] = Locale.LanguageCode + " " + Locale.NotFound;
-                    return RedirectToAction("Edit", "Concept", new { id = model.ConceptId });
+                    return RedirectToAction("Edit", "Concept", new { id = model.ConceptId, versionKey = model.ConceptVersionKey });
                 }
                 
                 concept.ConceptNames[index].Language = model.TwoLetterCountryCode;
@@ -192,7 +193,7 @@ namespace OpenIZAdmin.Controllers
 
                 TempData["success"] = Locale.Concept + " " + Locale.Updated + " " + Locale.Successfully;
 
-                return RedirectToAction("Edit", "Concept", new { id = result.Key });
+                return RedirectToAction("Edit", "Concept", new { id = result.Key, versionKey = result.VersionKey });
             }
             catch (Exception e)
             {
@@ -202,7 +203,7 @@ namespace OpenIZAdmin.Controllers
 
             TempData["error"] = Locale.UnableToUpdate + " " + Locale.Concept;
 
-            return RedirectToAction("ViewConcept", "Concept", new { id = model.ConceptId });
+            return RedirectToAction("ViewConcept", "Concept", new { id = model.ConceptId, model.ConceptVersionKey });
         }
         
     }

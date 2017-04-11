@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
@@ -11,13 +12,10 @@ namespace OpenIZAdmin.Models.ConceptModels
     /// </summary>
     public abstract class ConceptModel
     {
-        ///// <summary>
-        ///// Initializes a new instance of the <see cref="ConceptModel"/> class.
-        ///// </summary>
-        //public abstract ConceptModel()
-        //{
-            
-        //}
+        /// <summary>
+        /// Gets or sets the concatenated string of Concept names
+        /// </summary>
+        public string ConceptNames { get; set; }
 
         /// <summary>
         /// Gets or sets the creation time of the concept.
@@ -52,5 +50,10 @@ namespace OpenIZAdmin.Models.ConceptModels
         /// </summary>
         [Display(Name = "ReferenceTerms", ResourceType = typeof(Localization.Locale))]
         public List<ReferenceTermModel> ReferenceTerms { get; set; }
+
+        /// <summary>
+		/// Gets or sets the version key of the concept.
+		/// </summary>
+		public virtual Guid? VersionKey { get; set; }
     }
 }

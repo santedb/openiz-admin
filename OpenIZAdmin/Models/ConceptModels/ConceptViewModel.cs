@@ -47,15 +47,17 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// <param name="concept">The concept.</param>
 		public ConceptViewModel(Concept concept) : this()
 		{
-			Class = concept.Class?.Name;
-			CreationTime = concept.CreationTime.DateTime;
+			Class = concept.Class?.Name;            
+            ConceptSetId = Guid.Empty;
+            CreationTime = concept.CreationTime.DateTime;
 			Id = concept.Key ?? Guid.Empty;
 		    IsSystemConcept = concept.IsSystemConcept;
-            Mnemonic = concept.Mnemonic;	            		
             Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();
+            Mnemonic = concept.Mnemonic;
+            Names = concept.ConceptNames.Select(c => c.Name).ToList();
+            ConceptNames = (Names.Any()) ? string.Join(", ", Names) : string.Empty;
             ReferenceTerms = new List<ReferenceTermModel>();
-		    ConceptNames = string.Join(", ", concept.ConceptNames);
-            ConceptSetId = Guid.Empty;
+		    VersionKey = concept.VersionKey;		                
 		}
 
         /// <summary>
@@ -74,10 +76,10 @@ namespace OpenIZAdmin.Models.ConceptModels
         [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
 		public string Class { get; set; }
 
-        /// <summary>
-        /// Gets or sets the names of the Concept
-        /// </summary>
-        public string ConceptNames { get; set; }
+        ///// <summary>
+        ///// Gets or sets the names of the Concept
+        ///// </summary>
+        //public string ConceptNames { get; set; }
 
         /// <summary>
         /// Gets or sets the Concept Set identifier associated with the Concept instance

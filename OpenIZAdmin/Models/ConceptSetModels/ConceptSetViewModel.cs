@@ -29,7 +29,7 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 	/// <summary>
 	/// Represents a view model for a concept set.
 	/// </summary>
-	public class ConceptSetViewModel : ConceptSetModel
+	public sealed class ConceptSetViewModel : ConceptSetModel
     {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConceptSetViewModel"/> class.

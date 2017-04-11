@@ -20,8 +20,8 @@ namespace OpenIZAdmin.Models.LanguageModels
 		/// </summary>
 		public LanguageModel()
         {
-            this.Languages = new List<Language>();
-            this.LanguageList = new List<SelectListItem>();                
+            Languages = new List<Language>();
+            LanguageList = new List<SelectListItem>();                
         }
 
         /// <summary>
@@ -30,8 +30,9 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// <param name="concept">The concept.</param>
         public LanguageModel(Concept concept) : this()
         {            
-            this.ConceptId = concept.Key ?? Guid.Empty;
-            this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();            
+            ConceptId = concept.Key ?? Guid.Empty;
+            ConceptVersionKey = concept.VersionKey;
+            Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();            
         }
 
         /// <summary>
@@ -69,6 +70,11 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// Gets or sets the Guid identifier of the Concept
         /// </summary>
         public Guid? ConceptId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the Guid version identifier of the Concept
+        /// </summary>
+        public Guid? ConceptVersionKey { get; set; }
 
         /// <summary>
         /// Gets or sets the display name of the language.
