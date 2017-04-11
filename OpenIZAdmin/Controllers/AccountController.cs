@@ -509,6 +509,7 @@ namespace OpenIZAdmin.Controllers
 					}
 
 					securityUserInfo.User.Email = model.Email;
+					securityUserInfo.User.PhoneNumber = model.PhoneNumber;
 
 					this.AmiClient.UpdateUser(userId, securityUserInfo);
 					this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));

@@ -395,16 +395,6 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
-					realm.ObsoletionTime = DateTime.UtcNow;
-
-					// delete all the local references to the users when leaving a realm to avoid
-					// conflicts such as multiple accounts named "administrator" etc.
-					unitOfWork.RealmRepository.Delete(realm);
-					unitOfWork.Save();
-
-					this.Response.Cookies.Remove("access_token");
-					HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-
 					MvcApplication.MemoryCache.Set(RealmConfig.RealmCacheKey, false, ObjectCache.InfiniteAbsoluteExpiration);
 
 					using (var amiServiceClient = new AmiServiceClient(new RestClientService(Constants.Ami, this.HttpContext)))
@@ -413,11 +403,20 @@ namespace OpenIZAdmin.Controllers
 
 						if (currentDevice != null)
 						{
+							currentDevice.Device.ObsoletedByKey = Guid.Parse(this.User.Identity.GetUserId());
 							currentDevice.Device.ObsoletionTime = DateTimeOffset.Now;
 							amiServiceClient.UpdateDevice(currentDevice.Id.ToString(), currentDevice);
 						}
 					}
 
+					realm.ObsoletionTime = DateTime.UtcNow;
+
+					// delete all the local references to the users when leaving a realm to avoid
+					// conflicts such as multiple accounts named "administrator" etc.
+					unitOfWork.RealmRepository.Delete(realm);
+					unitOfWork.Save();
+
+					this.Response.Cookies.Remove("access_token");
 					HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
 					TempData["success"] = Locale.RealmLeft + " " + Locale.Successfully;

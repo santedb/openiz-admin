@@ -42,7 +42,9 @@ namespace OpenIZAdmin.Util
 				new SelectListItem { Text = string.Empty, Value = string.Empty }
 			};
 
-			var bundle = imsiClient.Query<ConceptSet>(c => c.Mnemonic == Constants.TelecomAddressUse);
+			var bundle = imsiClient.Query<ConceptSet>(c => c.Mnemonic == Constants.TelecomAddressUse, 0, null, "concept");
+
+			bundle.Reconstitute();
 
 			var telecoms = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Mnemonic == Constants.TelecomAddressUse);
 
