@@ -31,11 +31,11 @@
                             <td>@item.ConceptNames</td>
 
                             <td class="autoFitContents centerButton">
-                                <a class="btn btn-primary" href="@Url.Action("ViewConcept", "Concept", new { id = item.Id, versionKey = item.VersionKey })">
+                                <a class="btn btn-primary" href="@Url.Action("ViewConcept", "Concept", new { id = item.Id, versionId = item.VersionKey })">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
-                                <a class="@("btn btn-warning" + (item.IsSystemConcept ? "disabled" : string.Empty))" href="@Url.Action("Edit", "Concept", new {id = item.Id, versionKey = item.VersionKey })">
+                                <a class="@("btn btn-warning" + (item.IsSystemConcept ? "disabled" : string.Empty))" href="@Url.Action("Edit", "Concept", new {id = item.Id, versionId = item.VersionKey })">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>                                

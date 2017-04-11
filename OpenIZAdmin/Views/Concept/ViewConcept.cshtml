@@ -7,7 +7,7 @@
     <div class="panel-heading">
         <span class="panel-title">@(Locale.View + " " + Locale.Concept)</span>
         <div class="pull-right">
-            <a href="@Url.Action("Edit", new { id = Model.Id, versionKey = Model.VersionKey })" title="@Locale.ToolTip_Edit">
+            <a href="@Url.Action("Edit", new { id = Model.Id, versionId = Model.VersionKey })" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-pencil"></span>
                 <span class="text-primary h4">@Locale.Edit</span>
             </a>

@@ -122,7 +122,7 @@ namespace OpenIZAdmin.Extensions
 
 			foreach (var key in keys)
 			{
-				var maxVersionSequence = source.Where(a => a.Key == key).Select(e => source.Max<Concept>(a => a.VersionSequence)).FirstOrDefault();
+				var maxVersionSequence = source.Select(e => source.Where(a => a.Key == key).Max<Concept>(a => a.VersionSequence)).FirstOrDefault();
 
 				var latestVersion = source.FirstOrDefault(a => a.Key == key && a.VersionSequence == maxVersionSequence);
 
@@ -149,7 +149,7 @@ namespace OpenIZAdmin.Extensions
 
 			foreach (var key in keys)
 			{
-				var maxVersionSequence = source.Where(a => a.Key == key).Select(e => source.Max<T>(a => a.VersionSequence)).FirstOrDefault();
+				var maxVersionSequence = source.Select(e => source.Where(a => a.Key == key).Max<T>(a => a.VersionSequence)).FirstOrDefault();
 
 				var latestVersion = source.FirstOrDefault(a => a.Key == key && a.VersionSequence == maxVersionSequence);
 
