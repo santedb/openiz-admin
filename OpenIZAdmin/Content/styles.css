@@ -28,6 +28,12 @@ span.glyphicon {
 	margin-right: 5px;
 }
 
+.table td.autoFitContents, 
+.table th.autoFitContents {
+    white-space: nowrap;
+    width: 1%;
+}
+
 /*this align all the td's in the centre - bootstrap is default to top*/
 .table tbody>tr>td{
     vertical-align: middle;
@@ -87,6 +93,13 @@ a.settings:hover {
 .panel-body {
 	background-color: #f5f5f5;
 	color: #353535;
+}
+
+/*override so looks like bootstrap button style*/
+.panel a.btn{
+	font-weight: 400;
+	text-decoration: none;
+    font-size: 14px;
 }
 
 .panel a {

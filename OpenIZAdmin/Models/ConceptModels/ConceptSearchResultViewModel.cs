@@ -28,7 +28,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 	/// <summary>
 	/// Represents a view model for a concept search result.
 	/// </summary>
-	public class ConceptSearchResultViewModel
+	public sealed class ConceptSearchResultViewModel : ConceptModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConceptSearchResultViewModel"/> class.
@@ -43,63 +43,71 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// with a specific <see cref="Concept"/> instance.
 		/// </summary>
 		/// <param name="concept">The <see cref="Concept"/> instance.</param>
-		public ConceptSearchResultViewModel(Concept concept)
-		{
-			this.CreationTime = concept.CreationTime.DateTime;
-			this.IsReadOnly = concept.IsSystemConcept;
-			this.Id = concept.Key.Value;
-			this.Mnemonic = concept.Mnemonic;
-			this.Names = concept.ConceptNames.Select(c => c.Name).ToList();
-			this.Type = ConceptType.Concept;
+		public ConceptSearchResultViewModel(Concept concept) : this()
+		{            
+            CreationTime = concept.CreationTime.DateTime;
+			IsSystemConcept = concept.IsSystemConcept;
+			Id = concept.Key ?? Guid.Empty;
+            Mnemonic = concept.Mnemonic;
+			Names = concept.ConceptNames.Select(c => c.Name).ToList();
+            ConceptNames = (Names.Any()) ? string.Join(", ", Names) : string.Empty;
+            VersionKey = concept.VersionKey;
+		    //Type = ConceptType.Concept;
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ConceptSearchResultViewModel"/> class
-		/// with a specific <see cref="ConceptSet"/> instance.
-		/// </summary>
-		/// <param name="conceptSet">The <see cref="ConceptSet"/> instance.</param>
-		public ConceptSearchResultViewModel(ConceptSet conceptSet)
-		{
-			this.CreationTime = conceptSet.CreationTime.DateTime;
-			this.IsReadOnly = false;
-			this.Id = conceptSet.Key.Value;
-			this.Mnemonic = conceptSet.Mnemonic;
-			this.Names = new List<string> { conceptSet.Name };
-			this.Type = ConceptType.ConceptSet;
-		}
+		///// <summary>
+		///// Initializes a new instance of the <see cref="ConceptSearchResultViewModel"/> class
+		///// with a specific <see cref="ConceptSet"/> instance.
+		///// </summary>
+		///// <param name="conceptSet">The <see cref="ConceptSet"/> instance.</param>
+		//public ConceptSearchResultViewModel(ConceptSet conceptSet)
+		//{
+		//	this.CreationTime = conceptSet.CreationTime.DateTime;
+		//	this.IsReadOnly = false;
+		//	this.Id = conceptSet.Key ?? Guid.Empty;
+		//	this.Mnemonic = conceptSet.Mnemonic;
+  //          this.Names = new List<string> { conceptSet.Name };		    
+  //          ConceptNames = string.Join(", ", Names);
+  //          this.Type = ConceptType.ConceptSet;
+		//}
 
-		/// <summary>
-		/// Gets or sets the creation time of the concept or concept set.
-		/// </summary>
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-		public DateTime CreationTime { get; set; }
+        ///// <summary>
+        ///// Gets or sets the string of Concept Names
+        ///// </summary>
+        //public string ConceptNames { get; set; }
 
-		/// <summary>
-		/// Gets or sets the key of the concept or concept set.
-		/// </summary>
-		public Guid Id { get; set; }
+		///// <summary>
+		///// Gets or sets the creation time of the concept or concept set.
+		///// </summary>
+		//[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+		//public DateTime CreationTime { get; set; }
 
-		/// <summary>
-		/// Gets or sets whether the concept/concept set is readonly.
-		/// </summary>
-		public bool IsReadOnly { get; set; }
+		///// <summary>
+		///// Gets or sets the key of the concept or concept set.
+		///// </summary>
+		//public Guid Id { get; set; }
 
-		/// <summary>
-		/// Gets or sets the mnemonic of the concept or concept set.
-		/// </summary>
-		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
-		public string Mnemonic { get; set; }
+		///// <summary>
+		///// Gets or sets whether the concept/concept set is readonly.
+		///// </summary>
+		//public bool IsSystemConcept { get; set; }
 
-		/// <summary>
-		/// Gets or sets a list of names of the concept.
-		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		public List<string> Names { get; set; }
+		///// <summary>
+		///// Gets or sets the mnemonic of the concept or concept set.
+		///// </summary>
+		//[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
+		//public string Mnemonic { get; set; }
 
-		/// <summary>
-		/// Gets or sets the type of the concept search result.
-		/// </summary>
-		[Display(Name = "Type", ResourceType = typeof(Localization.Locale))]
-		public ConceptType Type { get; set; }
+		///// <summary>
+		///// Gets or sets a list of names of the concept.
+		///// </summary>
+		//[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		//public List<string> Names { get; set; }
+
+		///// <summary>
+		///// Gets or sets the type of the concept search result.
+		///// </summary>
+		//[Display(Name = "Type", ResourceType = typeof(Localization.Locale))]
+		//public ConceptType Type { get; set; }
 	}
 }

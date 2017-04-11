@@ -24,31 +24,34 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Extensions;
+using OpenIZAdmin.Models.LanguageModels;
+using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
 	/// <summary>
 	/// Represents a model to edit a concept.
 	/// </summary>
-	public class EditConceptModel
+	public sealed class EditConceptModel : ConceptModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditConceptModel"/> class.
 		/// </summary>
 		public EditConceptModel()
 		{
-			this.ConceptClassList = new List<SelectListItem>
+			ConceptClassList = new List<SelectListItem>
 			{
 				new SelectListItem { Text = string.Empty, Value = string.Empty }
 			};
 
-			this.LanguageList = new List<SelectListItem>
+			LanguageList = new List<SelectListItem>
 			{
 				new SelectListItem { Text = string.Empty, Value = string.Empty }
 			};
-
-			this.Name = new List<string>();
-			this.ReferenceTerms = new List<ReferenceTermModel>();
+			
+			ReferenceTerms = new List<ReferenceTermModel>();
+            Languages = new List<LanguageModel>();
 		}
 
 		/// <summary>
@@ -56,88 +59,87 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		/// <param name="concept">The concept.</param>
 		public EditConceptModel(Concept concept) : this()
-		{
-			this.ConceptClass = concept.Class?.Name;
-			this.CreationTime = concept.CreationTime.DateTime;
-			this.Id = concept.Key.Value;
-			this.Languages = concept.ConceptNames.Select(c => c.Language).ToList();
-			this.Name = concept.ConceptNames.Select(c => c.Name).ToList();
-
-			if (!this.Languages.Contains(Locale.EN))
-			{
-				this.Languages.Add(Locale.EN);
-				this.Name.Add(Locale.English);
-			}
-
-			if (!this.Languages.Contains(Locale.SW))
-			{
-				this.Languages.Add(Locale.SW);
-				this.Name.Add(Locale.Kiswahili);
-			}
+		{           
+			CreationTime = concept.CreationTime.DateTime;		    
+			Id = concept.Key ?? Guid.Empty;
+            IsSystemConcept = concept.IsSystemConcept;
+            Mnemonic = concept.Mnemonic;            
+            Name = concept.ConceptNames[0].Name;
+            Language = concept.ConceptNames[0].Language;
+            Languages = concept.ConceptNames.Select(k => new LanguageModel(k.Language, k.Name, concept.Key.Value)).ToList();
+		    VersionKey = concept.VersionKey;
 		}
 
-		/// <summary>
-		/// Gets or sets the concept class.
-		/// </summary>
-		/// <value>The concept class.</value>
-		[Display(Name = "ConceptClass", ResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Locale))]
-		public string ConceptClass { get; set; }
+        /// <summary>
+        /// Gets or sets the concept class.
+        /// </summary>
+        /// <value>The concept class.</value>
+        [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string ConceptClass { get; set; }
 
-		/// <summary>
-		/// Gets or sets the concept class list.
-		/// </summary>
-		/// <value>The concept class list.</value>
-		public List<SelectListItem> ConceptClassList { get; set; }
+        /// <summary>
+        /// Gets or sets the concept class list.
+        /// </summary>
+        /// <value>The concept class list.</value>
+        public List<SelectListItem> ConceptClassList { get; set; }
 
-		/// <summary>
-		/// Gets or sets the creation time.
-		/// </summary>
-		/// <value>The creation time.</value>
-		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
-		public DateTimeOffset CreationTime { get; set; }
+		///// <summary>
+		///// Gets or sets the creation time.
+		///// </summary>
+		///// <value>The creation time.</value>
+		//[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
+		//public DateTimeOffset CreationTime { get; set; }
 
-		/// <summary>
-		/// Gets or sets the identifier.
-		/// </summary>
-		/// <value>The identifier.</value>
-		public Guid Id { get; set; }
+		///// <summary>
+		///// Gets or sets the identifier.
+		///// </summary>
+		///// <value>The identifier.</value>
+		//public Guid Id { get; set; }
 
-		/// <summary>
-		/// Gets or sets the language list.
+        /// <summary>
+		/// Gets or sets the language.
 		/// </summary>
-		/// <value>The language list.</value>
-		public List<SelectListItem> LanguageList { get; set; }
+		/// <value>The language.</value>
+		[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
+        //[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(2, ErrorMessageResourceName = "LanguagCodeTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string Language { get; set; }
 
-		/// <summary>
-		/// Gets or sets the languages.
-		/// </summary>
-		/// <value>The languages.</value>
-		public List<string> Languages { get; set; }
+        /// <summary>
+        /// Gets or sets the language list.
+        /// </summary>
+        /// <value>The language list.</value>
+        public List<SelectListItem> LanguageList { get; set; }		
 
-		/// <summary>
+        /// <summary>
+		/// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
+		/// </summary>		
+		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
+        public List<LanguageModel> Languages { get; set; }
+
+        /// <summary>
 		/// Gets or sets the mnemonic.
 		/// </summary>
 		/// <value>The mnemonic.</value>
-		public string Mnemonic { get; set; }
+		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(255, ErrorMessageResourceName = "MnemonicTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public sealed override string Mnemonic { get; set; }
 
-		/// <summary>
-		/// Gets or sets the name.
-		/// </summary>
-		/// <value>The name.</value>
-		public List<string> Name { get; set; }
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>The name.</value>
+        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string Name { get; set; }
 
-		/// <summary>
-		/// Gets or sets the reference terms.
-		/// </summary>
-		/// <value>The reference terms.</value>
-		public List<ReferenceTermModel> ReferenceTerms { get; set; }
-
-		/// <summary>
-		/// Gets or sets the selected language.
-		/// </summary>
-		/// <value>The selected language.</value>
-		[Display(Name = "Language", ResourceType = typeof(Locale))]
-		public string SelectedLanguage { get; set; }
-	}
+        ///// <summary>
+        ///// Gets or sets the reference terms.
+        ///// </summary>
+        ///// <value>The reference terms.</value>
+        //public List<ReferenceTermModel> ReferenceTerms { get; set; }       
+    }
 }

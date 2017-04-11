@@ -22,23 +22,26 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Web.Mvc;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.ConceptModels;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
 {
 	/// <summary>
 	/// Represents an edit concept set model.
 	/// </summary>
-	public class EditConceptSetModel
+	public sealed class EditConceptSetModel : ConceptSetModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditConceptSetModel"/> class.
 		/// </summary>
 		public EditConceptSetModel()
 		{
-			this.Concepts = new List<Concept>();
-			this.ConceptDeletion = new List<bool>();
-		}
+			Concepts = new List<ConceptViewModel>();
+            ConceptList = new List<SelectListItem>();
+            AddConcepts = new List<string>();
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditConceptSetModel"/> class
@@ -47,22 +50,21 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		/// <param name="conceptSet">The <see cref="ConceptSet"/> instance.</param>
 		public EditConceptSetModel(ConceptSet conceptSet) : this()
 		{
-			this.Concepts = conceptSet.Concepts;
-			this.CreatedBy = conceptSet.CreatedBy?.UserName;
-			this.CreationTime = conceptSet.CreationTime.DateTime;
-			this.Id = conceptSet.Key.Value;
-			this.Mnemonic = conceptSet.Mnemonic;
-			this.Name = conceptSet.Name;
-			this.Oid = conceptSet.Oid;
-			this.Url = conceptSet.Url;
-			this.ConceptDeletion.AddRange(this.Concepts.Select(c => false));
-		}
+			Concepts = conceptSet.Concepts.Select(c => new ConceptViewModel(c, conceptSet.Key ?? Guid.Empty)).ToList();
+			CreatedBy = conceptSet.CreatedBy?.UserName;
+			CreationTime = conceptSet.CreationTime.DateTime;
+			Id = conceptSet.Key ?? Guid.Empty;
+			Mnemonic = conceptSet.Mnemonic;
+			Name = conceptSet.Name;
+			Oid = conceptSet.Oid;
+			Url = conceptSet.Url;			
+        }
 
 		/// <summary>
 		/// Gets or sets the concept deletion.
 		/// </summary>
 		/// <value>The concept deletion.</value>
-		public List<bool> ConceptDeletion { get; set; }
+		//public List<bool> ConceptDeletion { get; set; }
 
 		public string ConceptMnemonic { get; set; }
 
@@ -72,17 +74,29 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		/// <value>The name of the concept.</value>
 		public string ConceptName { get; set; }
 
-		/// <summary>
-		/// Gets or sets the concepts.
-		/// </summary>
-		/// <value>The concepts.</value>
-		public List<Concept> Concepts { get; set; }
+		///// <summary>
+		///// Gets or sets the concepts.
+		///// </summary>
+		///// <value>The concepts.</value>
+		//public List<ConceptViewModel> Concepts { get; set; }
 
-		/// <summary>
-		/// Gets or sets the concept to add.
-		/// </summary>
-		/// <value>The concept to add.</value>
-		public Guid ConceptToAdd { get; set; }
+
+        /// <summary>
+        /// Gets or sets the concept list from the search parameters from the ajax search method
+        /// </summary>
+        public List<SelectListItem> ConceptList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the list of Concepts to add
+        /// </summary>
+        public List<string> AddConcepts { get; set; }
+
+
+        ///// <summary>
+        ///// Gets or sets the concept to add.
+        ///// </summary>
+        ///// <value>The concept to add.</value>
+        //public Guid ConceptToAdd { get; set; }
 
 		/// <summary>
 		/// Gets or sets the created by.
@@ -91,52 +105,54 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		[Display(Name = "Created By")]
 		public string CreatedBy { get; set; }
 
-		/// <summary>
-		/// Gets or sets the creation time.
-		/// </summary>
-		/// <value>The creation time.</value>
-		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
-		public DateTime CreationTime { get; set; }
+        ///// <summary>
+        ///// Gets or sets the creation time.
+        ///// </summary>
+        ///// <value>The creation time.</value>
+        //[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
+        //public DateTime CreationTime { get; set; }
 
-		/// <summary>
-		/// Gets or sets the identifier.
-		/// </summary>
-		/// <value>The identifier.</value>
-		public Guid Id { get; set; }
+        ///// <summary>
+        ///// Gets or sets the identifier.
+        ///// </summary>
+        ///// <value>The identifier.</value>
+        //public Guid Id { get; set; }
 
-		/// <summary>
-		/// Gets or sets the mnemonic.
-		/// </summary>
-		/// <value>The mnemonic.</value>
-		[Required]
-		public string Mnemonic { get; set; }
+        /// <summary>
+        /// Gets or sets the mnemonic of the concept.
+        /// </summary>
+        [Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
+        [Required]
+		public override string Mnemonic { get; set; }
 
-		/// <summary>
-		/// Gets or sets the name.
-		/// </summary>
-		/// <value>The name.</value>
-		[Required]
-		public string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the name of the concept set.
+        /// </summary>
+        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+        [Required]
+		public override string Name { get; set; }
 
-		/// <summary>
-		/// Gets or sets the oid.
-		/// </summary>
-		/// <value>The oid.</value>
-		[Required]
-		public string Oid { get; set; }
+        /// <summary>
+        /// Gets or sets the oid.
+        /// </summary>
+        /// <value>The oid.</value>
+        [Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
+        [Required]
+		public override string Oid { get; set; }
 
-		/// <summary>
-		/// Gets or sets the searched concepts.
-		/// </summary>
-		/// <value>The searched concepts.</value>
-		public List<Concept> SearchedConcepts { get; set; }
+        ///// <summary>
+        ///// Gets or sets the searched concepts.
+        ///// </summary>
+        ///// <value>The searched concepts.</value>
+        //public List<Concept> SearchedConcepts { get; set; }
 
-		/// <summary>
-		/// Gets or sets the URL.
-		/// </summary>
-		/// <value>The URL.</value>
-		[Required]
-		public string Url { get; set; }
+        /// <summary>
+        /// Gets or sets the URL.
+        /// </summary>
+        /// <value>The URL.</value>
+        [Display(Name = "Url", ResourceType = typeof(Localization.Locale))]
+        [Required]
+		public override string Url { get; set; }
 
 		/// <summary>
 		/// To the concept set.

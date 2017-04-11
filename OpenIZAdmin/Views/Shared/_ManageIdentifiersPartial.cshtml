@@ -23,7 +23,7 @@
                                 <td>@item.Name</td>
                                 <td>@item.Type</td>
                                 <td>@item.Value</td>
-                                <td>
+                                <td class="autoFitContents centerButton">
                                     <a class="btn btn-warning" href="@Url.Action("Edit", "EntityIdentifier", new { id = item.Id, entityId = item.EntityId, type = item.ModelType })">
                                         @Locale.Edit
                                         <span class="glyphicon glyphicon-pencil"></span>
@@ -32,7 +32,7 @@
                                     {
                                         @Html.AntiForgeryToken()
 
-                                        <button type="submit" class="formButton btn btn-danger">
+                                        <button type="submit" class="btn btn-danger">
                                             @Locale.Delete
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </button>

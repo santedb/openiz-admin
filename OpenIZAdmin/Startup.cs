@@ -24,6 +24,10 @@ namespace OpenIZAdmin
 {
     public partial class Startup
     {
+        /// <summary>
+        /// Startup class constructor
+        /// </summary>
+        /// <param name="app"></param>
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);

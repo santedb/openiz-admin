@@ -11,13 +11,14 @@ namespace OpenIZAdmin.Util
 	/// </summary>
 	public static class ApplicationUtil
 	{
-		/// <summary>
-		/// Converts a <see cref="OpenIZAdmin.Models.ApplicationModels.EditApplicationModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo"/>
-		/// </summary>
-		/// <param name="model">The edit device model to convert.</param>
-		/// <param name="appInfo">The device object to apply the changes to.</param>
-		/// <returns>Returns a security device info object.</returns>
-		public static SecurityApplicationInfo ToSecurityApplicationInfo(AmiServiceClient amiClient, EditApplicationModel model, SecurityApplicationInfo appInfo)
+        /// <summary>
+        /// Converts a <see cref="OpenIZAdmin.Models.ApplicationModels.EditApplicationModel"/> to a <see cref="OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo"/>
+        /// </summary>
+        /// <param name="amiClient">The <see cref="AmiServiceClient"/> instance.</param>
+        /// <param name="model">The edit device model to convert.</param>
+        /// <param name="appInfo">The device object to apply the changes to.</param>        
+        /// <returns>Returns a security device info object.</returns>
+        public static SecurityApplicationInfo ToSecurityApplicationInfo(AmiServiceClient amiClient, EditApplicationModel model, SecurityApplicationInfo appInfo)
 		{
 			appInfo.Application.Key = model.Id;
 			appInfo.Id = model.Id;

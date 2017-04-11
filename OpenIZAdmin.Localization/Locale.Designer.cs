@@ -574,7 +574,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to concept sets.
+        ///   Looks up a localized string similar to Concept Sets.
         /// </summary>
         public static string ConceptSets {
             get {
@@ -615,6 +615,15 @@ namespace OpenIZAdmin.Localization {
         public static string ConfirmPasswordRequired {
             get {
                 return ResourceManager.GetString("ConfirmPasswordRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to contains concepts.
+        /// </summary>
+        public static string ContainsConcepts {
+            get {
+                return ResourceManager.GetString("ContainsConcepts", resourceCulture);
             }
         }
         
@@ -822,6 +831,15 @@ namespace OpenIZAdmin.Localization {
         public static string DeviceSecretRequired {
             get {
                 return ResourceManager.GetString("DeviceSecretRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display Name.
+        /// </summary>
+        public static string DisplayName {
+            get {
+                return ResourceManager.GetString("DisplayName", resourceCulture);
             }
         }
         
@@ -1357,6 +1375,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The language code cannot exceed 2 characters.
+        /// </summary>
+        public static string LanguagCodeTooLong {
+            get {
+                return ResourceManager.GetString("LanguagCodeTooLong", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Language.
         /// </summary>
         public static string Language {
@@ -1366,11 +1393,29 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language Code.
+        /// </summary>
+        public static string LanguageCode {
+            get {
+                return ResourceManager.GetString("LanguageCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select a language.
         /// </summary>
         public static string LanguageRequired {
             get {
                 return ResourceManager.GetString("LanguageRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Languages.
+        /// </summary>
+        public static string Languages {
+            get {
+                return ResourceManager.GetString("Languages", resourceCulture);
             }
         }
         
@@ -1609,6 +1654,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to must be unique.
+        /// </summary>
+        public static string MustBeUnique {
+            get {
+                return ResourceManager.GetString("MustBeUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         public static string Name {
@@ -1726,6 +1780,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No associated languages.
+        /// </summary>
+        public static string NoAssociatedLanguages {
+            get {
+                return ResourceManager.GetString("NoAssociatedLanguages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No associated manufactured materials.
         /// </summary>
         public static string NoAssociatedManufacturedMaterials {
@@ -1753,6 +1816,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No concepts found.
+        /// </summary>
+        public static string NoConceptsFound {
+            get {
+                return ResourceManager.GetString("NoConceptsFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No data available.
+        /// </summary>
+        public static string NoDataAvailable {
+            get {
+                return ResourceManager.GetString("NoDataAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No devices have been added.
         /// </summary>
         public static string NoDevicesAdded {
@@ -1767,6 +1848,15 @@ namespace OpenIZAdmin.Localization {
         public static string NoDevicesFound {
             get {
                 return ResourceManager.GetString("NoDevicesFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Languages Assigned.
+        /// </summary>
+        public static string NoLanguagesAssigned {
+            get {
+                return ResourceManager.GetString("NoLanguagesAssigned", resourceCulture);
             }
         }
         

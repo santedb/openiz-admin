@@ -31,7 +31,7 @@
                             <td>@item.Oid</td>
                             <td>@item.Grant</td>
                             <td>@item.CanOverride</td>
-                            <td class="col-md-3 centerButton">
+                            <td class="autoFitContents centerButton">
                                 <a class="btn btn-primary" href="@Url.Action("ViewPolicy", "Policy", new { id = item.Id })">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
@@ -42,7 +42,7 @@
                                     {
                                         @Html.AntiForgeryToken()
 
-                                        <button type="submit" class="formButton btn btn-danger">
+                                        <button type="submit" class="btn btn-danger">
                                             @Locale.Deactivate
                                             <span class="glyphicon glyphicon-remove"></span>
                                         </button>

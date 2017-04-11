@@ -39,7 +39,7 @@
                             <td>@item.CreationTime.ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
                             <td>@item.Name</td>
                             <td>@item.Type</td>
-                            <td class="col-md-3 centerButton">
+                            <td class="autoFitContents centerButton">
                                 <a class="btn btn-primary" href="@Url.Action("ViewMaterial", "Material", new { id = item.Id, versionId = item.VersionKey })">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>

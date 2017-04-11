@@ -21,23 +21,25 @@ using OpenIZ.Core.Model.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
 	/// <summary>
 	/// Represents a model to view a concept.
 	/// </summary>
-	public class ConceptViewModel
-	{
+	public sealed class ConceptViewModel : ConceptModel
+    {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConceptViewModel"/> class.
 		/// </summary>
 		public ConceptViewModel()
 		{
-			this.Names = new List<string>();
-			this.Languages = new List<string>();
-			this.ReferenceTerms = new List<ReferenceTermModel>();
-		}
+			this.Names = new List<string>();			
+			this.ReferenceTerms = new List<ReferenceTermModel>();            
+            this.Languages = new List<Language>();
+
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConceptViewModel"/> class.
@@ -45,56 +47,78 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// <param name="concept">The concept.</param>
 		public ConceptViewModel(Concept concept) : this()
 		{
-			this.Class = concept.Class?.Name;
-			this.CreationTime = concept.CreationTime.DateTime;
-			this.Id = concept.Key.Value;
-			this.Mnemonic = concept.Mnemonic;
-
-			concept.ConceptNames.ForEach(c =>
-			{
-				this.Names.Add(c.Name);
-				this.Languages.Add(c.Language);
-			});
+			Class = concept.Class?.Name;            
+            ConceptSetId = Guid.Empty;
+            CreationTime = concept.CreationTime.DateTime;
+			Id = concept.Key ?? Guid.Empty;
+		    IsSystemConcept = concept.IsSystemConcept;
+            Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();
+            Mnemonic = concept.Mnemonic;
+            Names = concept.ConceptNames.Select(c => c.Name).ToList();
+            ConceptNames = (Names.Any()) ? string.Join(", ", Names) : string.Empty;
+            ReferenceTerms = new List<ReferenceTermModel>();
+		    VersionKey = concept.VersionKey;		                
 		}
 
-		/// <summary>
-		/// Gets or sets the class of the concept.
-		/// </summary>
-		[Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ConceptViewModel"/> class.
+        /// </summary>
+        /// <param name="concept">The concept.</param>
+        /// <param name="conceptSetId">The guid of the Concept Set that the Concept is associated with</param>
+        public ConceptViewModel(Concept concept, Guid conceptSetId) : this(concept)
+        {
+            ConceptSetId = conceptSetId;            
+        }
+        
+        /// <summary>
+        /// Gets or sets the class of the concept.
+        /// </summary>
+        [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
 		public string Class { get; set; }
 
-		/// <summary>
-		/// Gets or sets the creation time of the concept.
-		/// </summary>
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-		public DateTime CreationTime { get; set; }
+        ///// <summary>
+        ///// Gets or sets the names of the Concept
+        ///// </summary>
+        //public string ConceptNames { get; set; }
 
-		/// <summary>
-		/// Gets or sets the key of the concept.
-		/// </summary>
-		public Guid Id { get; set; }
+        /// <summary>
+        /// Gets or sets the Concept Set identifier associated with the Concept instance
+        /// </summary>
+        public Guid? ConceptSetId { get; set; }
 
-		/// <summary>
-		/// Gets or sets the list of languages associated with the concept.
-		/// </summary>
-		public List<string> Languages { get; set; }
+  //      /// <summary>
+  //      /// Gets or sets the creation time of the concept.
+  //      /// </summary>
+  //      [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+		//public DateTime CreationTime { get; set; }
 
-		/// <summary>
-		/// Gets or sets the mnemonic of the concept.
-		/// </summary>
-		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
-		public string Mnemonic { get; set; }
+		///// <summary>
+		///// Gets or sets the key of the concept.
+		///// </summary>
+		//public Guid Id { get; set; }
 
-		/// <summary>
-		/// Gets or sets a list of names associated with the concept.
-		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		public List<string> Names { get; set; }
+        /// <summary>
+		/// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
+		/// </summary>		
+		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
+        public List<Language> Languages { get; set; }        
 
-		/// <summary>
-		/// Gets or sets the list of reference terms associated with the concept.
-		/// </summary>
-		[Display(Name = "ReferenceTerms", ResourceType = typeof(Localization.Locale))]
-		public List<ReferenceTermModel> ReferenceTerms { get; set; }
+		///// <summary>
+		///// Gets or sets the mnemonic of the concept.
+		///// </summary>
+		//[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
+		//public string Mnemonic { get; set; }
+
+		///// <summary>
+		///// Gets or sets a list of names associated with the concept.
+		///// </summary>
+		//[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		//public List<string> Names { get; set; }
+
+		///// <summary>
+		///// Gets or sets the list of reference terms associated with the concept.
+		///// </summary>
+		//[Display(Name = "ReferenceTerms", ResourceType = typeof(Localization.Locale))]
+		//public List<ReferenceTermModel> ReferenceTerms { get; set; }
 	}
 }

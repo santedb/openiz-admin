@@ -236,6 +236,7 @@
     <Compile Include="Controllers\ApplicationController.cs" />
     <Compile Include="Controllers\ConceptSetController.cs" />
     <Compile Include="Controllers\EntityRelationshipController.cs" />
+    <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\ManufacturedMaterialController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\ConceptController.cs" />
@@ -275,7 +276,10 @@
     <Compile Include="Models\AppletModels\AppletViewAssetModel.cs" />
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ApplicationViewModel.cs" />
+    <Compile Include="Models\ConceptModels\ConceptModel.cs" />
     <Compile Include="Models\ConceptModels\ReferenceTermModel.cs" />
+    <Compile Include="Models\ConceptSetModels\ConceptSetModel.cs" />
+    <Compile Include="Models\ConceptSetModels\ConceptSetSearchResultViewModel.cs" />
     <Compile Include="Models\ConceptSetModels\CreateConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\EditConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\ConceptSetViewModel.cs" />
@@ -288,6 +292,8 @@
     <Compile Include="Models\EntityRelationshipModels\EntityRelationshipModel.cs" />
     <Compile Include="Models\EntityRelationshipModels\EntityRelationshipViewModel.cs" />
     <Compile Include="Models\FacilityModel.cs" />
+    <Compile Include="Models\LanguageModels\LanguageModel.cs" />
+    <Compile Include="Models\LanguageModels\LanguageViewModel.cs" />
     <Compile Include="Models\ManufacturedMaterialModels\ManufacturedMaterialViewModel.cs" />
     <Compile Include="Models\MaterialModels\EditMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\CreateMaterialModel.cs" />
@@ -369,6 +375,7 @@
     <Compile Include="Util\AlertUtil.cs" />
     <Compile Include="Util\ApplicationUtil.cs" />
     <Compile Include="Util\CommonUtil.cs" />
+    <Compile Include="Util\ConceptUtil.cs" />
     <Compile Include="Util\HomeUtil.cs" />
     <Compile Include="Util\DeviceUtil.cs" />
     <Compile Include="Util\LanguageUtil.cs" />
@@ -489,6 +496,7 @@
     <None Include="Properties\PublishProfiles\MARC_HI_khannan_TImRAdmin.pubxml" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\concept-search.js" />
     <Content Include="Scripts\datatables.js" />
     <None Include="Properties\PublishProfiles\MARC_HI_khannan_TImRAdmin_Internal.pubxml" />
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
@@ -604,10 +612,8 @@
     <Content Include="Views\ConceptSet\Create.cshtml" />
     <Content Include="Views\ConceptSet\Edit.cshtml" />
     <Content Include="Views\ConceptSet\ViewConceptSet.cshtml" />
-    <Content Include="Views\Shared\_ConceptList.cshtml" />
     <Content Include="Views\Material\ViewMaterial.cshtml" />
     <Content Include="Views\Home\SubmitBugReport.cshtml" />
-    <Content Include="Views\Shared\_ConceptSetConceptSearchResultsPartial.cshtml" />
     <Content Include="Views\Account\ChangePassword.cshtml" />
     <Content Include="Views\Alert\Index.cshtml" />
     <Content Include="Views\Organization\Create.cshtml" />
@@ -633,7 +639,16 @@
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Shared\_ObsoleteWarningPartial.cshtml" />
+    <Content Include="Views\ConceptSet\Index.cshtml" />
+    <Content Include="Views\Shared\_ConceptSetSearchResultsPartial.cshtml" />
+    <Content Include="Views\Shared\_ManageLanguagesPartial.cshtml" />
+    <Content Include="Views\Language\Edit.cshtml" />
+    <Content Include="Views\Shared\_LanguagesPartial.cshtml" />
+    <Content Include="Views\Shared\_ReferenceTermsPartial.cshtml" />
+    <Content Include="Views\Language\Create.cshtml" />
     <Content Include="Views\Applet\Update.cshtml" />
+    <Content Include="Views\Shared\_ManageConceptsPartial.cshtml" />
+    <Content Include="Views\Shared\_ConceptsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

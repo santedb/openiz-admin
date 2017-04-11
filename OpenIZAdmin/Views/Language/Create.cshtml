@@ -1,0 +1,41 @@
+﻿@model OpenIZAdmin.Models.LanguageModels.LanguageModel
+@{
+    ViewBag.Title = Locale.Add + " " + Locale.Languages;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@(Locale.Add + " " + Locale.Language)</span>
+    </div>
+    <div class="panel panel-body">
+        @using (Html.BeginForm("Create", "Language", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.HiddenFor(m => m.ConceptId)
+            
+            <div class="form-group">
+                @Html.LabelFor(m => m.TwoLetterCountryCode, new { @class = "col-md-2 control-label" })
+                <div class="col-md-2">
+                    @Html.DropDownListFor(m => m.TwoLetterCountryCode, Model.LanguageList, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.TwoLetterCountryCode, "", new { @class = "text-danger" })
+                </div>
+
+                @Html.LabelFor(m => m.DisplayName, new { @class = "col-md-2 control-label" })
+                <div class="col-md-4">
+                    @Html.TextBoxFor(m => m.DisplayName, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.DisplayName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
+                    <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+                </div>
+            </div>}
+    </div>
+</div>
+
+@Html.Partial("_LanguagesPartial", Model.Languages)
