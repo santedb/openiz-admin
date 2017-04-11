@@ -1329,4 +1329,10 @@
   <data name="ContainsConcepts" xml:space="preserve">
     <value>contains concepts</value>
   </data>
+  <data name="Active" xml:space="preserve">
+    <value>Active</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Status</value>
+  </data>
 </root>

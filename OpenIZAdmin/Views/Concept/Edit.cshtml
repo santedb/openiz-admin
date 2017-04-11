@@ -46,7 +46,7 @@
         <div class="pull-right">
             @if (Model.IsObsolete)
             {
-                using (Html.BeginForm("Activate", "Concept", new { id = Model.Id, versionId = Model.VersionKey }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                using (Html.BeginForm("Activate", "Concept", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                 {
                     <button type="submit" class="btn btn-success">
                         @Locale.Activate
@@ -57,7 +57,7 @@
             else
             {
 
-                using (Html.BeginForm("Delete", "Concept", new { id = Model.Id, versionId = Model.VersionKey }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                using (Html.BeginForm("Delete", "Concept", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                 {
                     @Html.AntiForgeryToken()
 

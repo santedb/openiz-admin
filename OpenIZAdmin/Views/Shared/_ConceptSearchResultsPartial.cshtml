@@ -17,7 +17,8 @@
                         <th>@Html.DisplayNameFor(m => m.CreationTime)</th>
                         <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
                         <th>@Html.DisplayNameFor(m => m.Names)</th>                        
-                        <th></th>
+                        <th>@Locale.Status</th>
+                        <th></th>                        
                     </tr>
                 </thead>
                 <tbody>
@@ -29,6 +30,8 @@
                             <td>@item.Mnemonic</td>
 
                             <td>@item.ConceptNames</td>
+                            
+                            <td>@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
 
                             <td class="autoFitContents centerButton">
                                 <a class="btn btn-primary" href="@Url.Action("ViewConcept", "Concept", new { id = item.Id, versionId = item.VersionKey })">

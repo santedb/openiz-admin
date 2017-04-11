@@ -74,18 +74,18 @@ namespace OpenIZAdmin.Util
         /// </summary>
         /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
         /// <param name="id">The uniquie identifier of the concept instance to retrieve.</param>
-        /// <param name="versionKey">The version identifier (Guid) of the concept instance</param>
+        /// <param name="versionId">The version identifier (Guid) of the concept instance</param>
         /// <returns>Returns an instance of a Concept.</returns>
-        public static Concept GetConcept(ImsiServiceClient imsiServiceClient, Guid? id, Guid? versionKey)
+        public static Concept GetConcept(ImsiServiceClient imsiServiceClient, Guid? id, Guid? versionId)
         {
             Bundle bundle;
-            if (versionKey == null)
+            if (versionId == null)
             {
                 bundle = imsiServiceClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null);
             }
             else
             {
-                bundle = imsiServiceClient.Query<Concept>(c => c.Key == id && c.VersionKey == versionKey);
+                bundle = imsiServiceClient.Query<Concept>(c => c.Key == id && c.VersionKey == versionId);
             }
             
             bundle.Reconstitute();
@@ -215,28 +215,15 @@ namespace OpenIZAdmin.Util
             conceptSet.Oid = model.Oid;
             conceptSet.Url = model.Url;
 
-            if (model.AddConcepts.Any())
-            {
-                foreach (var concept in model.AddConcepts)
-                {
-                    Guid id;
-                    if (Guid.TryParse(concept, out id))
-                    {
-                        conceptSet.ConceptsXml.Add(id);
-                    }
-                }
+            if (!model.AddConcepts.Any()) return conceptSet;
 
-                //for (var i = 0; i < model.ConceptDeletion.Count; i++)
-                //{
-                //	if (conceptSet.ConceptsXml.Contains(model.Concepts[i].Key.Value) && model.ConceptDeletion[i])
-                //	{
-                //		conceptSet.ConceptsXml.RemoveAt(i);
-                //	}
-                //	else if (!conceptSet.ConceptsXml.Contains(model.Concepts[i].Key.Value) && !model.ConceptDeletion[i])
-                //	{
-                //		conceptSet.ConceptsXml.Add(model.Concepts[i].Key.Value);
-                //	}
-                //}                            
+            foreach (var concept in model.AddConcepts)
+            {
+                Guid id;
+                if (Guid.TryParse(concept, out id))
+                {
+                    conceptSet.ConceptsXml.Add(id);
+                }
             }
 
             return conceptSet;

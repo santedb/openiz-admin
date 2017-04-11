@@ -19,7 +19,7 @@
                         <th>@Html.DisplayNameFor(m => m.Oid)</th>
                         <th>@Html.DisplayNameFor(m => m.Grant)</th>
                         <th>@Html.DisplayNameFor(m => m.CanOverride)</th>
-                        <th></th>
+                        <th>@Locale.Status</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -31,6 +31,7 @@
                             <td>@item.Oid</td>
                             <td>@item.Grant</td>
                             <td>@item.CanOverride</td>
+                            <td>@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
                             <td class="autoFitContents centerButton">
                                 <a class="btn btn-primary" href="@Url.Action("ViewPolicy", "Policy", new { id = item.Id })">
                                     @Locale.View

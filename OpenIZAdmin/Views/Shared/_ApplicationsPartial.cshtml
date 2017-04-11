@@ -20,15 +20,10 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>
-                            @Locale.ApplicationName
-                        </th>
-                        <th>
-                            @Locale.CreationTime
-                        </th>
-                        <th>
-                            @Locale.HasPolicies
-                        </th>
+                        <th>@Locale.ApplicationName</th>
+                        <th>@Locale.CreationTime</th>
+                        <th>@Locale.HasPolicies</th>
+                        <th>@Locale.Status</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -38,17 +33,9 @@
                         <tr>
                             <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>
                             <td>@item.ApplicationName</td>
-                            <td>@item.CreationTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
-                            <td>
-                                @if (item.HasPolicies)
-                                {
-                                    <text>@Locale.Yes</text>
-}
-                                else
-                                {
-                                    <text>@Locale.No</text>
-}
-                            </td>
+                            <td>@item.CreationTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)</td>                            
+                            <td>@(item.HasPolicies ? Html.Raw("<text>" + Locale.Yes + "</text>") : Html.Raw("<text>" + Locale.No + "</text>"))</td>
+                            <td>@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
                             <td class="autoFitContents centerButton">
                                 <a class="btn btn-primary" href="@Url.Action("ViewApplication", "Application", new { id = item.Id })">
                                     @Locale.View

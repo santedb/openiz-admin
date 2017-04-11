@@ -18,18 +18,11 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>
-                            @Html.DisplayNameFor(m => m.Username)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(m => m.Email)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(m => m.IsLockedOut)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(m => m.Roles)
-                        </th>
+                        <th>@Html.DisplayNameFor(m => m.Username)</th>
+                        <th>@Html.DisplayNameFor(m => m.Email)</th>
+                        <th>@Html.DisplayNameFor(m => m.IsLockedOut)</th>
+                        <th>@Html.DisplayNameFor(m => m.Roles)</th>
+                        <th>@Locale.Status</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -39,27 +32,10 @@
                         <tr>
                             <td><span class="glyphicon glyphicon-user pull-left" aria-hidden="true"></span></td>
                             <td>@item.Username</td>
-                            <td>@item.Email</td>
-                            <td>
-                                @if (item.IsLockedOut)
-                                {
-                                    <text>@Locale.Yes</text>
-}
-                                else
-                                {
-                                    <text>@Locale.No</text>
-}
-                            </td>
-                            <td>
-                                @if (item.HasRoles)
-                                {
-                                    <text>@Locale.Yes</text>
-}
-                                else
-                                {
-                                    <text>@Locale.No</text>
-}
-                            </td>
+                            <td>@item.Email</td>                            
+                            <td>@(item.IsLockedOut ? Html.Raw("<text>" + Locale.Yes + "</text>") : Html.Raw("<text>" + Locale.No + "</text>"))</td>                            
+                            <td>@(item.HasRoles ? Html.Raw("<text>" + Locale.Yes + "</text>") : Html.Raw("<text>" + Locale.No + "</text>"))</td>
+                            <td>@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
                             <td class="autoFitContents centerButton">
                                 <a class="btn btn-primary" href="@Url.Action("ViewUser", "User", new { id = item.Id })">
                                     @Locale.View

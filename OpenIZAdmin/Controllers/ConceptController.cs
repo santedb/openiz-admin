@@ -53,11 +53,11 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The identifier.</param>
 		/// <param name="versionId">The version identifier.</param>
 		/// <returns>ActionResult.</returns>
-		public ActionResult Activate(Guid id, Guid? versionId)
+		public ActionResult Activate(Guid id)
         {
             try
             {
-                var concept = ImsiClient.Get<Concept>(id, versionId) as Concept;
+                var concept = ImsiClient.Get<Concept>(id, null) as Concept;
 
                 if (concept == null)
                 {
@@ -84,7 +84,7 @@ namespace OpenIZAdmin.Controllers
 
             TempData["error"] = Locale.UnableToActivate + " " + Locale.Material;
 
-            return RedirectToAction("Edit", new { id = (Guid?) id, versionId });
+            return RedirectToAction("Index");
         }
 
         /// <summary>
@@ -150,9 +150,9 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var concept = this.ImsiClient.Get<Concept>(id, versionId) as Concept;
+				var concept = this.ImsiClient.Get<Concept>(id, null) as Concept;                
 
-				if (concept == null)
+                if (concept == null)
 				{
 					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 					return RedirectToAction("Index");
@@ -234,7 +234,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-                var concept = ConceptUtil.GetConcept(ImsiClient, model.Id, null);
+                var concept = ConceptUtil.GetConcept(ImsiClient, model.Id, model.VersionKey);
 
                 if (concept == null)
                 {

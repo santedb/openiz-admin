@@ -20,15 +20,10 @@
                 <thead>
                     <tr>
                         <th></th>
-                        <th>
-                            @Html.DisplayNameFor(m => m.Name)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(m => m.Description)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(m => m.HasPolicies)
-                        </th>
+                        <th>@Html.DisplayNameFor(m => m.Name)</th>
+                        <th>@Html.DisplayNameFor(m => m.Description)</th>
+                        <th>@Html.DisplayNameFor(m => m.HasPolicies)</th>
+                        <th>@Locale.Status</th>
                         <th></th>                        
                     </tr>
                 </thead>
@@ -38,17 +33,9 @@
                         <tr>
                             <td><span class="glyphicon glyphicon-user pull-left" aria-hidden="true"></span></td>
                             <td>@item.Name</td>
-                            <td>@item.Description</td>
-                            <td>
-                                @if (item.HasPolicies)
-                                {
-                                    <text>@Locale.Yes</text>
-                                }
-                                else
-                                {
-                                    <text>@Locale.No</text>
-                                }
-                            </td> 
+                            <td>@item.Description</td>                            
+                            <td>@(item.HasPolicies ? Html.Raw("<text>" + Locale.Yes + "</text>") : Html.Raw("<text>" + Locale.No + "</text>"))</td>
+                            <td>@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
                             <td class="autoFitContents centerButton">
                                 <a class="btn btn-primary" href="@Url.Action("ViewRole", "Role", new { id = item.Id })">
                                     @Locale.View

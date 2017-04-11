@@ -200,11 +200,13 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Material>(m => m.Key == id && m.VersionKey == versionId && m.ClassConceptKey == EntityClassKeys.Material, 0, null, true);
+				//var bundle = this.ImsiClient.Query<Material>(m => m.Key == id && m.VersionKey == versionId && m.ClassConceptKey == EntityClassKeys.Material, 0, null, true);
 
-				bundle.Reconstitute();
+				//bundle.Reconstitute();
 
-				var material = bundle.Item.OfType<Material>().FirstOrDefault(m => m.Key == id && m.VersionKey == versionId && m.ClassConceptKey == EntityClassKeys.Material);
+				//var material = bundle.Item.OfType<Material>().FirstOrDefault(m => m.Key == id && m.VersionKey == versionId && m.ClassConceptKey == EntityClassKeys.Material);
+
+			    var material = MaterialUtil.GetMaterial(ImsiClient, id, versionId);
 
 				if (material == null)
 				{
@@ -328,13 +330,16 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Material>(m => m.Key == id && m.VersionKey == versionId && m.ClassConceptKey == EntityClassKeys.Material, 0, null, true);
+				//var bundle = this.ImsiClient.Query<Material>(m => m.Key == id && m.VersionKey == versionId && m.ClassConceptKey == EntityClassKeys.Material, 0, null, true);
 
-				bundle.Reconstitute();
+				//bundle.Reconstitute();
 
-				var material = bundle.Item.OfType<Material>().FirstOrDefault(m => m.Key == id && m.VersionKey == versionId && m.ClassConceptKey == EntityClassKeys.Material);
+				//var material = bundle.Item.OfType<Material>().FirstOrDefault(m => m.Key == id && m.VersionKey == versionId && m.ClassConceptKey == EntityClassKeys.Material);
 
-				if (material == null)
+			    var material = MaterialUtil.GetMaterial(ImsiClient, id, versionId);
+
+
+                if (material == null)
 				{
 					TempData["error"] = Locale.Material + " " + Locale.NotFound;
 
