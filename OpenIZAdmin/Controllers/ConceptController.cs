@@ -279,48 +279,35 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Search(string searchTerm)
 		{
-			var viewModels = new List<ConceptSearchResultViewModel>();
+			var viewModels = new List<ConceptSearchResultViewModel>();            
 
+            if (CommonUtil.IsValidString(searchTerm))
+            {
+                var conceptBundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm));                
 
-            //IEnumerable<MaterialViewModel> results = new List<MaterialViewModel>();
+                viewModels.AddRange(conceptBundle.Item.OfType<Concept>().LatestVersionOnly().Select(p => new ConceptSearchResultViewModel(p)).OrderBy(p => p.Mnemonic).ToList());
 
-            //if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
-            //{
-            //    var bundle = this.ImsiClient.Query<Material>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material);
+                TempData["searchTerm"] = searchTerm;
 
-            //    results = bundle.Item.OfType<Material>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))).LatestVersionOnly().Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
-            //}
+                return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic));
+            }
+
 
             //if (CommonUtil.IsValidString(searchTerm))
             //{
-            //    var conceptBundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm, StringComparison.OrdinalIgnoreCase));
-
-            //    var results = conceptBundle.Item.OfType<Concept>().LatestVersionOnly().Select(p => new ConceptSearchResultViewModel(p)).OrderBy(p => p.Mnemonic).ToList();
+            //    var conceptBundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
 
             //    viewModels.AddRange(conceptBundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
 
             //    TempData["searchTerm"] = searchTerm;
 
             //    return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic));
+
             //}
 
 
-            if (CommonUtil.IsValidString(searchTerm))
-            {
-                var conceptBundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
-
-                viewModels.AddRange(conceptBundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
-
-                TempData["searchTerm"] = searchTerm;
-
-                return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic));
-            }
-            else
-			{
-				TempData["error"] = Locale.InvalidSearch;
-			}
-
-			TempData["searchTerm"] = searchTerm;
+		    TempData["error"] = Locale.InvalidSearch;
+		    TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_ConceptSearchResultsPartial", viewModels);
 		}
