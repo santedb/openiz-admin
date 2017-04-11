@@ -63,9 +63,9 @@ namespace OpenIZAdmin.Models.ConceptModels
 			CreationTime = concept.CreationTime.DateTime;		    
 			Id = concept.Key ?? Guid.Empty;
             IsSystemConcept = concept.IsSystemConcept;
-            Mnemonic = concept.Mnemonic;            
-            Name = concept.ConceptNames[0].Name;
-            Language = concept.ConceptNames[0].Language;
+            Mnemonic = concept.Mnemonic;
+			Name = string.Join(" ", concept.ConceptNames.Select(c => c.Name));
+			//Language = concept.ConceptNames[0].Language;
             Languages = concept.ConceptNames.Select(k => new LanguageModel(k.Language, k.Name, concept.Key.Value)).ToList();
 		    VersionKey = concept.VersionKey;
 		}

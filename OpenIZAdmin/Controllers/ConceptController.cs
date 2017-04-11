@@ -123,7 +123,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.Concept + " " + Locale.Created + " " + Locale.Successfully;
 
-					return RedirectToAction("ViewConcept", new { id = concept.Key = concept.VersionKey });
+					return RedirectToAction("ViewConcept", new { id = concept.Key, versionId = concept.VersionKey });
                 }
 			}
 			catch (Exception e)
@@ -292,38 +292,24 @@ namespace OpenIZAdmin.Controllers
                 return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic));
             }
 
-
-            //if (CommonUtil.IsValidString(searchTerm))
-            //{
-            //    var conceptBundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
-
-            //    viewModels.AddRange(conceptBundle.Item.OfType<Concept>().Select(c => new ConceptSearchResultViewModel(c)));
-
-            //    TempData["searchTerm"] = searchTerm;
-
-            //    return PartialView("_ConceptSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic));
-
-            //}
-
-
 		    TempData["error"] = Locale.InvalidSearch;
 		    TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_ConceptSearchResultsPartial", viewModels);
 		}
 
-	    /// <summary>
-	    /// Retrieves the Concept by identifier
-	    /// </summary>
-	    /// <param name="id">The identifier of the Concept</param>
-	    /// <param name="versionKey">The version identifier (Guid) of the concept instance.</param>
-	    /// <returns></returns>
-	    [HttpGet]
-		public ActionResult ViewConcept(Guid id, Guid? versionKey)
+		/// <summary>
+		/// Retrieves the Concept by identifier
+		/// </summary>
+		/// <param name="id">The identifier of the Concept</param>
+		/// <param name="versionId">The version identifier (Guid) of the concept instance.</param>
+		/// <returns>Returns the concept view.</returns>
+		[HttpGet]
+		public ActionResult ViewConcept(Guid id, Guid? versionId)
 		{
 			try
 			{				
-			    var concept = ConceptUtil.GetConcept(ImsiClient, id, versionKey);
+			    var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
 
 				if (concept == null)
 				{
