@@ -296,6 +296,11 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
+				for (var i = 0; i < organization.Relationships.Count(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct && r.TargetEntity == null && r.TargetEntityKey.HasValue); i++)
+				{
+					organization.Relationships[i].TargetEntity = this.ImsiClient.Get<ManufacturedMaterial>(organization.Relationships[i].TargetEntityKey.Value, null) as ManufacturedMaterial;
+				}
+
 				var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
 
 				var model = new EditOrganizationModel(organization)
