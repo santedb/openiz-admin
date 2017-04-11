@@ -24,6 +24,7 @@ using System.Web;
 using System.Web.Mvc;
 using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Acts;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Localization;
 
@@ -109,11 +110,37 @@ namespace OpenIZAdmin.Extensions
 		}
 
 		/// <summary>
+		/// Gets the latest version of the concept.
+		/// </summary>
+		/// <param name="source">The source.</param>
+		/// <returns>Returns the list of concept which are the latest version.</returns>
+		public static IEnumerable<Concept> LatestVersionOnly(this IEnumerable<Concept> source)
+		{
+			var latestVersions = new List<Concept>();
+
+			var keys = source.Select(e => e.Key.Value).Distinct();
+
+			foreach (var key in keys)
+			{
+				var maxVersionSequence = source.Where(a => a.Key == key).Select(e => source.Max<Concept>(a => a.VersionSequence)).FirstOrDefault();
+
+				var latestVersion = source.FirstOrDefault(a => a.Key == key && a.VersionSequence == maxVersionSequence);
+
+				if (latestVersion != null)
+				{
+					latestVersions.Add(latestVersion);
+				}
+			}
+
+			return latestVersions;
+		}
+
+		/// <summary>
 		/// Gets the latest version of the versioned entity data instance from a given list.
 		/// </summary>
 		/// <typeparam name="T"></typeparam>
 		/// <param name="source">The source.</param>
-		/// <returns>IEnumerable&lt;T&gt;.</returns>
+		/// <returns>Returns the latest version only of the versioned entity data.</returns>
 		public static IEnumerable<T> LatestVersionOnly<T>(this IEnumerable<T> source) where T : VersionedEntityData<Entity>
 		{
 			var latestVersions = new List<T>();
