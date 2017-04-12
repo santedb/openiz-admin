@@ -48,7 +48,7 @@ namespace OpenIZAdmin.Models.DebugModels
 			this.Description = assembly.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
 			this.Product = assembly.GetCustomAttribute<AssemblyProductAttribute>()?.Product;
 			this.Title = assembly.GetCustomAttribute<AssemblyTitleAttribute>()?.Title;
-			this.Version = assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version;
+			this.Version = AssemblyName.GetAssemblyName(assembly.Location).Version.ToString();
 		}
 
 		/// <summary>

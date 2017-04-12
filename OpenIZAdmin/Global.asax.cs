@@ -84,7 +84,7 @@ namespace OpenIZAdmin
 
 			// quartz initialization
 #if !DEBUG
-			//QuartzConfig.Initialize();
+			QuartzConfig.Initialize();
 #endif
 
 			Trace.TraceInformation("Application started");
