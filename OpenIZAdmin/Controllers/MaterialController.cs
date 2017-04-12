@@ -18,26 +18,20 @@
  */
 
 using Elmah;
+using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.Constants;
-using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.MaterialModels;
-using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
-using System.Runtime.Caching;
-using System.Web.Mvc;
-using OpenIZ.Core.Model.Collection;
-using OpenIZAdmin.Extensions;
-using OpenIZAdmin.Models.ManufacturedMaterialModels;
-using OpenIZAdmin.Models.PlaceModels;
 using System.Linq.Expressions;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -336,7 +330,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				var material = this.GetEntity<Material>(id, versionId);
 
-                if (material == null)
+				if (material == null)
 				{
 					TempData["error"] = Locale.Material + " " + Locale.NotFound;
 

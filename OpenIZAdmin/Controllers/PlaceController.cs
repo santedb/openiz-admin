@@ -18,24 +18,22 @@
  */
 
 using Elmah;
+using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.EntityRelationshipModels;
 using OpenIZAdmin.Models.PlaceModels;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
-using OpenIZ.Core.Model.Collection;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Extensions;
-using OpenIZAdmin.Models.EntityRelationshipModels;
-using System.Linq.Expressions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -50,7 +48,6 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		public PlaceController()
 		{
-			
 		}
 
 		/// <summary>
@@ -271,8 +268,6 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to create related place: { e }");
 			}
-
-
 
 			this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
 

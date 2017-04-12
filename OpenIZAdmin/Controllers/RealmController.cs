@@ -18,23 +18,8 @@
  */
 
 using Elmah;
-using Microsoft.AspNet.Identity.Owin;
-using OpenIZAdmin.DAL;
-using OpenIZAdmin.Extensions;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models;
-using OpenIZAdmin.Models.Domain;
-using OpenIZAdmin.Models.RealmModels;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.Caching;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
-using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
 using OpenIZ.Core.Model.Acts;
 using OpenIZ.Core.Model.AMI.Auth;
@@ -45,7 +30,21 @@ using OpenIZ.Core.Model.Roles;
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.DAL;
+using OpenIZAdmin.Extensions;
+using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models;
+using OpenIZAdmin.Models.Domain;
+using OpenIZAdmin.Models.RealmModels;
 using OpenIZAdmin.Services.Http;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Runtime.Caching;
+using System.Threading.Tasks;
+using System.Web;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -196,8 +195,6 @@ namespace OpenIZAdmin.Controllers
 					test5
 				}
 			};
-
-
 
 			bundle.Item.Add(person);
 			bundle.Item.Add(patient);

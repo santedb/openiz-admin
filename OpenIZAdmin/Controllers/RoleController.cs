@@ -18,6 +18,7 @@
  */
 
 using Elmah;
+using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.RoleModels;
@@ -27,7 +28,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.AMI.Auth;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -44,50 +44,50 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Activates the specified Role.
 		/// </summary>
-		/// <param name="id">The role identifier.</param>		
+		/// <param name="id">The role identifier.</param>
 		/// <returns>ActionResult.</returns>
 		public ActionResult Activate(Guid id)
-        {
-            try
-            {
-                var securityRoleInfo = this.AmiClient.GetRole(id.ToString());
+		{
+			try
+			{
+				var securityRoleInfo = this.AmiClient.GetRole(id.ToString());
 
-                if (securityRoleInfo == null)
-                {
-                    TempData["error"] = Locale.Role + " " + Locale.NotFound;
+				if (securityRoleInfo == null)
+				{
+					TempData["error"] = Locale.Role + " " + Locale.NotFound;
 
-                    return RedirectToAction("Index");
-                }
+					return RedirectToAction("Index");
+				}
 
-                securityRoleInfo.Role.CreationTime = DateTimeOffset.Now;
-                securityRoleInfo.Role.ObsoletedByKey = null;
-                securityRoleInfo.Role.ObsoletionTime = null;
+				securityRoleInfo.Role.CreationTime = DateTimeOffset.Now;
+				securityRoleInfo.Role.ObsoletedByKey = null;
+				securityRoleInfo.Role.ObsoletionTime = null;
 
-                var result = this.AmiClient.UpdateRole(id.ToString(), securityRoleInfo);
+				var result = this.AmiClient.UpdateRole(id.ToString(), securityRoleInfo);
 
-                TempData["success"] = Locale.Role + " " + Locale.Activated + " " + Locale.Successfully;
+				TempData["success"] = Locale.Role + " " + Locale.Activated + " " + Locale.Successfully;
 
-                return RedirectToAction("ViewRole", new { id = result.Id });
-            }
-            catch (Exception e)
-            {
-                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-                Trace.TraceError($"Unable to activate role: { e }");
-            }
+				return RedirectToAction("ViewRole", new { id = result.Id });
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to activate role: { e }");
+			}
 
-            TempData["error"] = Locale.UnableToActivate + " " + Locale.Role;
+			TempData["error"] = Locale.UnableToActivate + " " + Locale.Role;
 
-            return RedirectToAction("Index");
-        }
+			return RedirectToAction("Index");
+		}
 
-        /// <summary>
-        /// Displays the create role view.
-        /// </summary>
-        /// <returns>Returns the create role view.</returns>
-        [HttpGet]
+		/// <summary>
+		/// Displays the create role view.
+		/// </summary>
+		/// <returns>Returns the create role view.</returns>
+		[HttpGet]
 		public ActionResult Create()
 		{
 			return View();

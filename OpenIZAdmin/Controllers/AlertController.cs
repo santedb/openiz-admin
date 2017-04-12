@@ -20,6 +20,7 @@
 using Elmah;
 using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Alert.Alerting;
+using OpenIZ.Core.Model.AMI.Alerting;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AlertModels;
@@ -28,7 +29,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.AMI.Alerting;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -133,25 +133,6 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Alert;
 
 			return RedirectToAction("Index");
-		}
-
-		/// <summary>
-		/// Gets the alerts.
-		/// </summary>
-		/// <returns>Returns a list of alerts for the current user, including alerts marked for "everyone".</returns>
-		private IEnumerable<AlertMessageInfo> GetAlerts()
-		{
-			var username = this.User.Identity.GetUserName();
-
-			var alerts = this.AmiClient
-				.GetAlerts(a => a.To.Contains("everyone") && a.ObsoletionTime == null)
-				.CollectionItem.Where(a => a.AlertMessage.ObsoletionTime == null && a.AlertMessage.Flags != AlertMessageFlags.Acknowledged);
-
-			var userAlerts = this.AmiClient
-				.GetAlerts(a => a.To == username && a.ObsoletionTime == null)
-				.CollectionItem.Where(a => a.AlertMessage.ObsoletionTime == null && a.AlertMessage.Flags != AlertMessageFlags.Acknowledged);
-
-			return alerts.Union(userAlerts);
 		}
 
 		/// <summary>
@@ -270,6 +251,25 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.Alert + " " + Locale.NotFound;
 
 			return RedirectToAction("Index");
+		}
+
+		/// <summary>
+		/// Gets the alerts.
+		/// </summary>
+		/// <returns>Returns a list of alerts for the current user, including alerts marked for "everyone".</returns>
+		private IEnumerable<AlertMessageInfo> GetAlerts()
+		{
+			var username = this.User.Identity.GetUserName();
+
+			var alerts = this.AmiClient
+				.GetAlerts(a => a.To.Contains("everyone") && a.ObsoletionTime == null)
+				.CollectionItem.Where(a => a.AlertMessage.ObsoletionTime == null && a.AlertMessage.Flags != AlertMessageFlags.Acknowledged);
+
+			var userAlerts = this.AmiClient
+				.GetAlerts(a => a.To == username && a.ObsoletionTime == null)
+				.CollectionItem.Where(a => a.AlertMessage.ObsoletionTime == null && a.AlertMessage.Flags != AlertMessageFlags.Acknowledged);
+
+			return alerts.Union(userAlerts);
 		}
 	}
 }

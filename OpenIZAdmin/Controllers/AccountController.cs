@@ -20,28 +20,23 @@
 using Elmah;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Attributes;
 using OpenIZAdmin.DAL;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.AccountModels;
+using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using Newtonsoft.Json;
-using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZ.Core.Model.Roles;
-using OpenIZ.Core.Model.Security;
-using OpenIZ.Messaging.AMI.Client;
-using OpenIZAdmin.Attributes;
-using OpenIZAdmin.Services.Http;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -414,6 +409,7 @@ namespace OpenIZAdmin.Controllers
 							this.HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 							Response.Cookies.Remove("access_token");
 							return RedirectToAction("Login");
+
 						default:
 							ModelState.AddModelError("", Locale.IncorrectUsernameOrPassword);
 							break;

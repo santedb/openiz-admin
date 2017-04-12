@@ -17,6 +17,15 @@
  * Date: 2016-11-19
  */
 
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.DataTypes;
+using OpenIZ.Core.Model.Entities;
+using OpenIZ.Messaging.AMI.Client;
+using OpenIZ.Messaging.IMSI.Client;
+using OpenIZAdmin.Attributes;
+using OpenIZAdmin.DAL;
+using OpenIZAdmin.Services.Http;
+using OpenIZAdmin.Services.Http.Security;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -25,16 +34,7 @@ using System.Linq.Expressions;
 using System.Runtime.Caching;
 using System.Security.Principal;
 using System.Web;
-using OpenIZ.Messaging.AMI.Client;
-using OpenIZ.Messaging.IMSI.Client;
-using OpenIZAdmin.Attributes;
-using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Http.Security;
 using System.Web.Mvc;
-using OpenIZAdmin.DAL;
-using OpenIZ.Core.Model.Constants;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -72,6 +72,14 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		protected ImsiServiceClient ImsiClient { get; private set; }
 
+		/// <summary>
+		/// Redirects the response the URL referrer or to the root of the site if no URL referrer is found.
+		/// </summary>
+		/// <returns>Returns a redirect result.</returns>
+		public RedirectResult RedirectToRequestOrHome()
+		{
+			return this.Redirect(this.Request.UrlReferrer?.ToString() ?? Url.Content("~/"));
+		}
 
 		/// <summary>
 		/// Dispose of any managed resources.
@@ -82,29 +90,6 @@ namespace OpenIZAdmin.Controllers
 			this.AmiClient?.Dispose();
 			this.ImsiClient?.Dispose();
 			base.Dispose(disposing);
-		}
-
-		/// <summary>
-		/// Gets the device service client.
-		/// </summary>
-		/// <returns>Returns an AMI service client instance or null.</returns>
-		protected AmiServiceClient GetDeviceServiceClient()
-		{
-			var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
-
-			if (deviceIdentity == null)
-			{
-				return null;
-			}
-
-			this.Request.Cookies.Add(new HttpCookie("access_token", deviceIdentity.AccessToken));
-
-			var restClientService = new RestClientService(Constants.Ami)
-			{
-				Credentials = new AmiCredentials(new GenericPrincipal(deviceIdentity, null), this.Request)
-			};
-
-			return new AmiServiceClient(restClientService);
 		}
 
 		/// <summary>
@@ -177,16 +162,52 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Gets the industry code concept set.
+		/// Gets the concept set.
 		/// </summary>
-		/// <returns>Returns a concept set.</returns>
-		protected ConceptSet GetIndustryCodeConceptSet()
+		/// <param name="mnemonic">The mnemonic.</param>
+		/// <returns>ConceptSet.</returns>
+		protected ConceptSet GetConceptSet(string mnemonic)
 		{
-			var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == ConceptSetKeys.IndustryCode && c.ObsoletionTime == null);
+			var conceptSet = MvcApplication.MemoryCache.Get(mnemonic) as ConceptSet;
 
-			bundle.Reconstitute();
+			if (conceptSet == null)
+			{
+				var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
 
-			return bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == ConceptSetKeys.IndustryCode && c.ObsoletionTime == null);
+				bundle.Reconstitute();
+
+				conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
+
+				if (conceptSet != null)
+				{
+					MvcApplication.MemoryCache.Set(new CacheItem(conceptSet.Key.ToString(), conceptSet), MvcApplication.CacheItemPolicy);
+				}
+			}
+
+			return conceptSet;
+		}
+
+		/// <summary>
+		/// Gets the device service client.
+		/// </summary>
+		/// <returns>Returns an AMI service client instance or null.</returns>
+		protected AmiServiceClient GetDeviceServiceClient()
+		{
+			var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
+
+			if (deviceIdentity == null)
+			{
+				return null;
+			}
+
+			this.Request.Cookies.Add(new HttpCookie("access_token", deviceIdentity.AccessToken));
+
+			var restClientService = new RestClientService(Constants.Ami)
+			{
+				Credentials = new AmiCredentials(new GenericPrincipal(deviceIdentity, null), this.Request)
+			};
+
+			return new AmiServiceClient(restClientService);
 		}
 
 		/// <summary>
@@ -239,32 +260,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Gets the concept set.
-		/// </summary>
-		/// <param name="mnemonic">The mnemonic.</param>
-		/// <returns>ConceptSet.</returns>
-		protected ConceptSet GetConceptSet(string mnemonic)
-		{
-			var conceptSet = MvcApplication.MemoryCache.Get(mnemonic) as ConceptSet;
-
-			if (conceptSet == null)
-			{
-				var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
-
-				bundle.Reconstitute();
-
-				conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
-
-				if (conceptSet != null)
-				{
-					MvcApplication.MemoryCache.Set(new CacheItem(conceptSet.Key.ToString(), conceptSet), MvcApplication.CacheItemPolicy);
-				}
-			}
-
-			return conceptSet;
-		}
-
-		/// <summary>
 		/// Gets the form concepts.
 		/// </summary>
 		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
@@ -284,6 +279,19 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			return concepts as IEnumerable<Concept>;
+		}
+
+		/// <summary>
+		/// Gets the industry code concept set.
+		/// </summary>
+		/// <returns>Returns a concept set.</returns>
+		protected ConceptSet GetIndustryCodeConceptSet()
+		{
+			var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == ConceptSetKeys.IndustryCode && c.ObsoletionTime == null);
+
+			bundle.Reconstitute();
+
+			return bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == ConceptSetKeys.IndustryCode && c.ObsoletionTime == null);
 		}
 
 		/// <summary>
@@ -379,15 +387,6 @@ namespace OpenIZAdmin.Controllers
 			this.ImsiClient = new ImsiServiceClient(imsiRestClient);
 
 			base.OnActionExecuting(filterContext);
-		}
-
-		/// <summary>
-		/// Redirects the response the URL referrer or to the root of the site if no URL referrer is found.
-		/// </summary>
-		/// <returns>Returns a redirect result.</returns>
-		public RedirectResult RedirectToRequestOrHome()
-		{
-			return this.Redirect(this.Request.UrlReferrer?.ToString() ?? Url.Content("~/"));
 		}
 	}
 }

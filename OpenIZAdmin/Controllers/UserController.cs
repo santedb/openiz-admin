@@ -18,22 +18,20 @@
  */
 
 using Elmah;
+using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using OpenIZ.Core.Model.Roles;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.UserModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Roles;
-using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Models;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -147,7 +145,7 @@ namespace OpenIZAdmin.Controllers
 								SourceEntityKey = userEntity.Key.Value
 							});
 						}
-                        
+
 						this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
 
 						TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;

@@ -18,18 +18,15 @@
  */
 
 using Elmah;
+using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ApplicationModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.AMI.Security;
-using OpenIZ.Core.Model.Query;
 
 namespace OpenIZAdmin.Controllers
 {
