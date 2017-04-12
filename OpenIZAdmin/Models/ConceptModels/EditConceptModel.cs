@@ -26,6 +26,7 @@ using System.Linq;
 using System.Web.Mvc;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Models.LanguageModels;
+using OpenIZAdmin.Models.ReferenceTermModels;
 using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Models.ConceptModels
@@ -50,7 +51,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 				new SelectListItem { Text = string.Empty, Value = string.Empty }
 			};
 			
-			ReferenceTerms = new List<ReferenceTermModel>();
+			ReferenceTerms = new List<ReferenceTermViewModel>();
             Languages = new List<LanguageModel>();
 		}
 

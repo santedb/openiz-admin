@@ -20,9 +20,9 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <returns>Returns the Create view.</returns>
 		[HttpGet]
-		public ActionResult Create(Guid id, Guid? versionKey)
+		public ActionResult Create(Guid id, Guid? versionId)
 		{
-			var concept = ConceptUtil.GetConcept(ImsiClient, id, versionKey);
+			var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
 
 			if (concept == null)
 			{
@@ -89,11 +89,11 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Delete(Guid? id, Guid? conceptVersionKey, string langCode, string displayName)
+		public ActionResult Delete(Guid? id, Guid? versionId, string langCode, string displayName)
 		{
 			try
 			{
-				var concept = ConceptUtil.GetConcept(ImsiClient, id, conceptVersionKey);
+				var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
 
 				if (concept == null)
 				{
@@ -105,7 +105,7 @@ namespace OpenIZAdmin.Controllers
 				if (index < 0)
 				{
 					TempData["error"] = Locale.LanguageCode + " " + Locale.NotFound;
-					return RedirectToAction("ViewConcept", "Concept", new { id, versionKey = conceptVersionKey });
+					return RedirectToAction("ViewConcept", "Concept", new { id, versionKey = versionId });
 				}
 
 				concept.ConceptNames.RemoveAt(index);
@@ -114,7 +114,7 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.Language + " " + Locale.Deleted + " " + Locale.Successfully;
 
-				return RedirectToAction("Edit", "Concept", new { id = result.Key, versionKey = result.VersionKey });
+				return RedirectToAction("Edit", "Concept", new { id = result.Key, versionId = result.VersionKey });
 			}
 			catch (Exception e)
 			{
@@ -135,9 +135,9 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="displayName">The text name representation of the Concept</param>
 		/// <returns>An ActionResult instance</returns>
 		[HttpGet]
-		public ActionResult Edit(Guid? id, Guid? conceptVersionKey, string langCode, string displayName)
+		public ActionResult Edit(Guid? id, Guid? versionId, string langCode, string displayName)
 		{
-			var concept = ConceptUtil.GetConcept(ImsiClient, id, conceptVersionKey);
+			var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
 
 			if (concept == null)
 			{

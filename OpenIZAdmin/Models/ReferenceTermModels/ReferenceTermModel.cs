@@ -18,37 +18,40 @@
  */
 
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using OpenIZ.Core.Model.DataTypes;
 
-namespace OpenIZAdmin.Models.ConceptModels
+namespace OpenIZAdmin.Models.ReferenceTermModels
 {
 	/// <summary>
 	/// Represents a reference term model.
 	/// </summary>
-	public class ReferenceTermModel
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ReferenceTermModel"/> class.
-		/// </summary>
-		public ReferenceTermModel()
-		{
-		}
+	public abstract class ReferenceTermModel
+	{		
+	    /// <summary>
+	    /// Gets or sets the list of reference term names 
+	    /// </summary>
+	    public List<ReferenceTermName> DisplayNames { get; set; }
 
-		/// <summary>
+	    /// <summary>
 		/// Gets or sets the identifier.
 		/// </summary>
 		/// <value>The identifier.</value>
 		public Guid Id { get; set; }
 
-		/// <summary>
-		/// Gets or sets the mnemonic.
-		/// </summary>
-		/// <value>The mnemonic.</value>
-		public string Mnemonic { get; set; }
+        /// <summary>
+        /// Gets or sets the mnemonic.
+        /// </summary>
+        /// <value>The mnemonic.</value>
+        [Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
+        public string Mnemonic { get; set; }
 
-		/// <summary>
-		/// Gets or sets the name.
-		/// </summary>
-		/// <value>The name.</value>
-		public string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>The name.</value>
+        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+        public string Name { get; set; }
 	}
 }

@@ -247,6 +247,7 @@
     <Compile Include="Controllers\AssigningAuthorityController.cs" />
     <Compile Include="Controllers\PolicyController.cs" />
     <Compile Include="Controllers\RealmController.cs" />
+    <Compile Include="Controllers\ReferenceTermsController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\AppletController.cs" />
@@ -277,7 +278,7 @@
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ApplicationViewModel.cs" />
     <Compile Include="Models\ConceptModels\ConceptModel.cs" />
-    <Compile Include="Models\ConceptModels\ReferenceTermModel.cs" />
+    <Compile Include="Models\ReferenceTermModels\ReferenceTermModel.cs" />
     <Compile Include="Models\ConceptSetModels\ConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\ConceptSetSearchResultViewModel.cs" />
     <Compile Include="Models\ConceptSetModels\CreateConceptSetModel.cs" />
@@ -303,6 +304,7 @@
     <Compile Include="Models\OrganizationModels\EditOrganizationModel.cs" />
     <Compile Include="Models\OrganizationModels\OrganizationSearchResultViewModel.cs" />
     <Compile Include="Models\OrganizationModels\OrganizationViewModel.cs" />
+    <Compile Include="Models\ReferenceTermModels\ReferenceTermViewModel.cs" />
     <Compile Include="Models\UserModels\ResetPasswordModel.cs" />
     <Compile Include="Models\AccountModels\UpdateProfileModel.cs" />
     <Compile Include="Models\AlertModels\CreateAlertModel.cs" />
@@ -322,7 +324,6 @@
     <Compile Include="Models\CertificateModels\CertificateRevocationListViewModel.cs" />
     <Compile Include="Models\CertificateModels\CertificateSigningRequestViewModel.cs" />
     <Compile Include="Models\CertificateModels\CertificateViewModel.cs" />
-    <Compile Include="Models\ConceptModels\ConceptType.cs" />
     <Compile Include="Models\ConceptModels\CreateConceptModel.cs" />
     <Compile Include="Models\ConceptModels\EditConceptModel.cs" />
     <Compile Include="Models\ConceptModels\ConceptSearchResultViewModel.cs" />
@@ -649,6 +650,9 @@
     <Content Include="Views\Applet\Update.cshtml" />
     <Content Include="Views\Shared\_ManageConceptsPartial.cshtml" />
     <Content Include="Views\Shared\_ConceptsPartial.cshtml" />
+    <Content Include="Views\Shared\_ManageReferenceTermsPartial.cshtml" />
+    <Content Include="Views\ReferenceTerms\Create.cshtml" />
+    <Content Include="Views\ReferenceTerms\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
