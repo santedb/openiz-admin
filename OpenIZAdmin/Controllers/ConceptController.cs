@@ -139,8 +139,7 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Deletes a concept.
 		/// </summary>
-		/// <param name="id">The id of the concept to delete.</param>
-		/// <param name="versionId">The version identifier of the Concept instance.</param>
+		/// <param name="id">The id of the concept to delete.</param>		
 		/// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
