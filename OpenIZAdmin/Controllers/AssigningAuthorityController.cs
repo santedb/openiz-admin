@@ -23,8 +23,10 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AssigningAuthorityModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.AMI.DataTypes;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -183,7 +185,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "AssigningAuthority";
-			return View();
+			return View(new List<AssigningAuthorityViewModel>());
 		}
 
 		/// <summary>
@@ -192,23 +194,26 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="searchTerm">The search term.</param>
 		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpGet]
+		[ValidateInput(false)]
 		public ActionResult Search(string searchTerm)
 		{
 			var assigningAuthorities = new List<AssigningAuthorityViewModel>();
 
 			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 			{
-				var results = this.AmiClient.GetAssigningAuthorities(p => p.Name.Contains(searchTerm)).CollectionItem.Where(a => a.AssigningAuthority.ObsoletionTime == null);
+				var results = new List<AssigningAuthorityInfo>();
+
+				results.AddRange(searchTerm == "*" ? this.AmiClient.GetAssigningAuthorities(a => a.Key != null).CollectionItem : this.AmiClient.GetAssigningAuthorities(a => a.Name.Contains(searchTerm)).CollectionItem);
 
 				TempData["searchTerm"] = searchTerm;
 
-				return PartialView("_AssigningAuthoritySearchResultsPartial", results.Select(a => new AssigningAuthorityViewModel(a)));
+				return PartialView("_AssigningAuthoritiesPartial", results.Select(a => new AssigningAuthorityViewModel(a)).OrderBy(a => a.Name));
 			}
 
 			TempData["error"] = Locale.InvalidSearch;
 			TempData["searchTerm"] = searchTerm;
 
-			return PartialView("_AssigningAuthoritySearchResultsPartial", assigningAuthorities);
+			return PartialView("_AssigningAuthoritiesPartial", assigningAuthorities);
 		}
 
 		/// <summary>

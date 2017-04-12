@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.AMI.Auth;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -236,6 +237,7 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="searchTerm">The search term.</param>
 		/// <returns>Returns a list of roles which match the search term.</returns>
 		[HttpGet]
+		[ValidateInput(false)]
 		public ActionResult Search(string searchTerm)
 		{
 			IEnumerable<RoleViewModel> roles = new List<RoleViewModel>();
@@ -244,11 +246,13 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (CommonUtil.IsValidString(searchTerm))
 				{
-					var collection = this.AmiClient.GetRoles(r => r.Name.Contains(searchTerm));
+					var results = new List<SecurityRoleInfo>();
+
+					results.AddRange(searchTerm == "*" ? this.AmiClient.GetRoles(a => a.Name != null).CollectionItem : this.AmiClient.GetRoles(a => a.Name.Contains(searchTerm)).CollectionItem);
 
 					TempData["searchTerm"] = searchTerm;
 
-					return PartialView("_RolesPartial", collection.CollectionItem.Select(r => new RoleViewModel(r)));
+					return PartialView("_RolesPartial", results.Select(r => new RoleViewModel(r)).OrderBy(a => a.Name));
 				}
 			}
 			catch (Exception e)

@@ -7,14 +7,31 @@
     @Html.Partial("_SearchPartial", new OpenIZAdmin.Models.SearchModel())
 </div>
 
-
 @section scripts{
     <script>
-        $(document).ready(function () {
+        $(document).ready(function ()
+        {
+            $.ajax({
+                url: "Search?searchTerm=*",
+                type: "GET",
+                beforeSend: function ()
+                {
+                    showLoadingBar();
+                },
+                success: function (data)
+                {
+                    $("#search-results").html(data);
+                },
+                complete: function ()
+                {
+                    hideLoadingBar();
+                }
+            });
 
-            $('#search-partial').bind("DOMSubtreeModified", function () {
+            $('#search-partial').bind("DOMSubtreeModified", function ()
+            {
                 $("#assigningAuthorityTable").DataTable();
             });
         });
     </script>
-    }
+}

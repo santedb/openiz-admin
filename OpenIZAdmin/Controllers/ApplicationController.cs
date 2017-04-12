@@ -24,8 +24,12 @@ using OpenIZAdmin.Models.ApplicationModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.AMI.Security;
+using OpenIZ.Core.Model.Query;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -238,7 +242,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Application";
-			return View();
+			return View(new List<ApplicationViewModel>());
 		}
 
 		/// <summary>
@@ -247,6 +251,7 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="searchTerm">The search parameter to apply to the query.</param>
 		/// <returns>Returns the index view.</returns>
 		[HttpGet]
+		[ValidateInput(false)]
 		public ActionResult Search(string searchTerm)
 		{
 			IEnumerable<ApplicationViewModel> applications = new List<ApplicationViewModel>();
@@ -255,11 +260,13 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (CommonUtil.IsValidString(searchTerm))
 				{
-					var collection = this.AmiClient.GetApplications(a => a.Name.Contains(searchTerm));
+					var results = new List<SecurityApplicationInfo>();
+
+					results.AddRange(searchTerm == "*" ? this.AmiClient.GetApplications(a => a.Id != null).CollectionItem : this.AmiClient.GetApplications(a => a.Name.Contains(searchTerm)).CollectionItem);
 
 					TempData["searchTerm"] = searchTerm;
 
-					return PartialView("_ApplicationsPartial", collection.CollectionItem.Select(a => new ApplicationViewModel(a)));
+					return PartialView("_ApplicationsPartial", results.Select(a => new ApplicationViewModel(a)).OrderBy(a => a.ApplicationName));
 				}
 			}
 			catch (Exception e)

@@ -24,8 +24,10 @@ using OpenIZAdmin.Models.PolicyModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.AMI.Auth;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -140,11 +142,13 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (CommonUtil.IsValidString(searchTerm))
 				{
-					var collection = this.AmiClient.GetPolicies(p => p.Name.Contains(searchTerm));
+					var results = new List<SecurityPolicyInfo>();
+
+					results.AddRange(searchTerm == "*" ? this.AmiClient.GetPolicies(a => a.Key != null).CollectionItem : this.AmiClient.GetPolicies(a => a.Name.Contains(searchTerm)).CollectionItem);
 
 					TempData["searchTerm"] = searchTerm;
 
-					return PartialView("_PolicySearchResultsPartial", collection.CollectionItem.Select(p => new PolicyViewModel(p)));
+					return PartialView("_PolicySearchResultsPartial", results.Select(p => new PolicyViewModel(p)).OrderBy(a => a.Name));
 				}
 			}
 			catch (Exception e)

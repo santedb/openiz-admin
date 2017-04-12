@@ -588,7 +588,7 @@
     <Content Include="Views\Role\Edit.cshtml" />
     <Content Include="Views\Shared\_LoadingBar.cshtml" />
     <Content Include="Views\AssigningAuthority\Index.cshtml" />
-    <Content Include="Views\Shared\_AssigningAuthoritySearchResultsPartial.cshtml" />
+    <Content Include="Views\Shared\_AssigningAuthoritiesPartial.cshtml" />
     <Content Include="Views\AssigningAuthority\Create.cshtml" />
     <Content Include="Views\AssigningAuthority\ViewAssigningAuthority.cshtml" />
     <Content Include="Views\AssigningAuthority\Edit.cshtml" />

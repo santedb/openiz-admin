@@ -409,6 +409,7 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="searchTerm">The search term.</param>
 		/// <returns>Returns a list of users which match the search term.</returns>
 		[HttpGet]
+		[ValidateInput(false)]
 		public ActionResult Search(string searchTerm)
 		{
 			var users = new List<UserViewModel>();
@@ -417,13 +418,13 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (CommonUtil.IsValidString(searchTerm))
 				{
-					var collection = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
+					var results = new List<SecurityUserInfo>();
+
+					results.AddRange(searchTerm == "*" ? this.AmiClient.GetUsers(a => a.UserClass == UserClassKeys.HumanUser).CollectionItem : this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser).CollectionItem);
 
 					TempData["searchTerm"] = searchTerm;
 
-					users.AddRange(collection.CollectionItem.Select(u => new UserViewModel(u)));
-
-					return PartialView("_UsersPartial", users);
+					return PartialView("_UsersPartial", results.Select(u => new UserViewModel(u)).OrderBy(a => a.Username));
 				}
 			}
 			catch (Exception e)

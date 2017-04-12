@@ -24,8 +24,10 @@ using OpenIZAdmin.Models.DeviceModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.AMI.Auth;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -239,6 +241,7 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="searchTerm">The search term to use to find the devices.</param>
 		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpGet]
+		[ValidateInput(false)]
 		public ActionResult Search(string searchTerm)
 		{
 			IEnumerable<DeviceViewModel> devices = new List<DeviceViewModel>();
@@ -247,11 +250,13 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (CommonUtil.IsValidString(searchTerm))
 				{
-					var collection = this.AmiClient.GetDevices(d => d.Name.Contains(searchTerm));
+					var results = new List<SecurityDeviceInfo>();
+
+					results.AddRange(searchTerm == "*" ? this.AmiClient.GetDevices(a => a.Id != null).CollectionItem : this.AmiClient.GetDevices(a => a.Name.Contains(searchTerm)).CollectionItem);
 
 					TempData["searchTerm"] = searchTerm;
 
-					return PartialView("_DevicesPartial", collection.CollectionItem.Select(d => new DeviceViewModel(d)));
+					return PartialView("_DevicesPartial", results.Select(d => new DeviceViewModel(d)).OrderBy(a => a.Name));
 				}
 			}
 			catch (Exception e)
