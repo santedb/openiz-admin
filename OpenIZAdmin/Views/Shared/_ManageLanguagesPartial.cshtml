@@ -19,10 +19,10 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td><span class="glyphicon glyphicon-info-sign"></span></td>
+                                <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-globe"></span></td>
                                 <td>@item.TwoLetterCountryCode</td>
                                 <td>@item.DisplayName</td>
-                                <td class="autoFitContents centerButton">
+                                <td class="autoFitContents centerContent">
                                     <a class="btn btn-warning" href="@Url.Action("Edit", "Language", new { id = item.ConceptId, versionKey = item.ConceptVersionKey, langCode = item.TwoLetterCountryCode, displayName = item.DisplayName })">
                                         @Locale.Edit
                                         <span class="glyphicon glyphicon-pencil"></span>

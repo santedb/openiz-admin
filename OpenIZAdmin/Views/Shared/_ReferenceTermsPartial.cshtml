@@ -14,25 +14,16 @@
                 <caption>@Locale.ReferenceTerms</caption>
                 <thead>
                     <tr>
-                        <th>
-                            @Html.DisplayNameFor(m => m.Mnemonic)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(m => m.Name)
-                        </th>
+                        <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
+                        <th>@Html.DisplayNameFor(m => m.Name)</th>
                     </tr>
                 </thead>
                 <tbody>
                     @foreach (var referenceTerm in Model)
-                {
+                    {
                         <tr>
-                            <td>
-                                @referenceTerm.Mnemonic
-                            </td>
-
-                            <td>
-                                @referenceTerm.Name
-                            </td>
+                            <td>@referenceTerm.Mnemonic</td>
+                            <td>@referenceTerm.Name</td>
                         </tr>
                     }
                 </tbody>

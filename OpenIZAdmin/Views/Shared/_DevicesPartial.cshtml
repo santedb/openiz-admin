@@ -30,12 +30,12 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td><span class="glyphicon glyphicon-phone pull-left" aria-hidden="true"></span></td>
+                            <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span></td>
                             <td>@item.CreationTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
                             <td>@item.Name</td>                            
                             <td>@(item.HasPolicies ? Html.Raw("<text>" + Locale.Yes + "</text>") : Html.Raw("<text>" + Locale.No + "</text>"))</td>
-                            <td>@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
-                            <td class="autoFitContents centerButton">
+                            <td class="capitalize">@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
+                            <td class="autoFitContents centerContent">
                                 <a class="btn btn-primary" href="@Url.Action("ViewDevice", "Device", new { id = item.Id })">
                                 @Locale.View
                                 <span class="glyphicon glyphicon-eye-open"></span>

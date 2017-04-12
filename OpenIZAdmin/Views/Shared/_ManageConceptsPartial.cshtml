@@ -9,6 +9,7 @@
                 <table class="table" id="conceptListTable">
                     <thead>
                     <tr>
+                        <th></th>
                         <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
                         <th>@Html.DisplayNameFor(m => m.Names)</th>
                         <th>@Locale.ConceptClass</th>
@@ -19,12 +20,13 @@
                     <tbody>                    
                     @foreach (var item in Model)
                     {
-                        <tr>                            
+                        <tr>       
+                            <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-compressed" aria-hidden="true"></span></td>                     
                             <td>@item.Mnemonic</td>
                             <td>@item.ConceptNames</td>
                             <td>@item.Class</td>
-                            <td>@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
-                            <td class="autoFitContents centerButton">
+                            <td class="capitalize">@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
+                            <td class="autoFitContents centerContent">
                                 <a class="btn btn-primary" href="@Url.Action("ViewConcept", "Concept", new {id = item.Id, versionId = item.VersionKey})">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>

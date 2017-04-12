@@ -21,7 +21,7 @@ namespace OpenIZAdmin.Models.ConceptModels
         /// Gets or sets the creation time of the concept.
         /// </summary>
         [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-        public DateTime CreationTime { get; set; }
+        public DateTime CreationTime { get; set; }        
 
         /// <summary>
 		/// Gets or sets the key of the concept.
