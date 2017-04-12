@@ -242,7 +242,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Application";
-			return View(new List<ApplicationViewModel>());
+			return View();
 		}
 
 		/// <summary>

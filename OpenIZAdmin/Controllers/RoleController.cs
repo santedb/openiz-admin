@@ -228,7 +228,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Role";
-			return View(new List<RoleViewModel>());
+			return View();
 		}
 
 		/// <summary>

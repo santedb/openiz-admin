@@ -125,7 +125,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Policy";
-			return View(new List<PolicyViewModel>());
+			return View();
 		}
 
 		/// <summary>

@@ -232,7 +232,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Device";
-			return View(new List<DeviceViewModel>());
+			return View();
 		}
 
 		/// <summary>

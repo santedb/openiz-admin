@@ -185,7 +185,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "AssigningAuthority";
-			return View(new List<AssigningAuthorityViewModel>());
+			return View();
 		}
 
 		/// <summary>
