@@ -647,7 +647,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (searchTerm == "*")
 				{
-					bundle = this.ImsiClient.Query<Place>(p => p.Key != null);
+					bundle = this.ImsiClient.Query<Place>(p => p.ObsoletionTime == null);
 					results = bundle.Item.OfType<Place>().LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 				}
 				else
