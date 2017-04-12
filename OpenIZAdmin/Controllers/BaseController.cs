@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Runtime.Caching;
 using System.Security.Principal;
 using System.Web;
@@ -33,6 +34,7 @@ using System.Web.Mvc;
 using OpenIZAdmin.DAL;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -185,6 +187,34 @@ namespace OpenIZAdmin.Controllers
 			bundle.Reconstitute();
 
 			return bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == ConceptSetKeys.IndustryCode && c.ObsoletionTime == null);
+		}
+
+		/// <summary>
+		/// Gets the entity.
+		/// </summary>
+		/// <typeparam name="T">The type of entity.</typeparam>
+		/// <param name="id">The identifier.</param>
+		/// <param name="versionId">The version identifier.</param>
+		/// <param name="expression">The expression.</param>
+		/// <returns>Returns the identifier based on the id, version id, and an expression.</returns>
+		protected T GetEntity<T>(Guid id, Guid? versionId, Expression<Func<T, bool>> expression = null) where T : Entity
+		{
+			T result;
+
+			if (expression == null)
+			{
+				result = this.ImsiClient.Get<T>(id, versionId) as T;
+			}
+			else
+			{
+				var bundle = this.ImsiClient.Query<T>(m => m.Key == id && m.VersionKey == versionId && expression.Compile().Invoke(m), 0, null, true);
+
+				bundle.Reconstitute();
+
+				result = bundle.Item.OfType<T>().FirstOrDefault(m => m.Key == id && m.VersionKey == versionId && expression.Compile().Invoke(m));
+			}
+
+			return result;
 		}
 
 		/// <summary>

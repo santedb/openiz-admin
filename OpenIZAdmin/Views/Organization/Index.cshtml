@@ -9,6 +9,23 @@
     <script>
         $(document).ready(function ()
         {
+            $.ajax({
+                url: "Search?searchTerm=*",
+                type: "GET",
+                beforeSend: function ()
+                {
+                    showLoadingBar();
+                },
+                success: function (data)
+                {
+                    $("#search-results").html(data);
+                },
+                complete: function ()
+                {
+                    hideLoadingBar();
+                }
+            });
+
             $('#search-partial').bind("DOMSubtreeModified", function ()
             {
                 $("#organizationSearchTable").DataTable();

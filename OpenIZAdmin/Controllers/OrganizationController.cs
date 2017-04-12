@@ -21,8 +21,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Web.Mvc;
 using Elmah;
+using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
@@ -31,6 +33,7 @@ using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.OrganizationModels;
 using OpenIZAdmin.Models.EntityRelationshipModels;
+using OpenIZAdmin.Models.MaterialModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -384,15 +387,27 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="searchTerm">The search term.</param>
 		/// <returns>Returns a list of organizations which match the search term.</returns>
 		[HttpGet]
+		[ValidateInput(false)]
 		public ActionResult Search(string searchTerm)
 		{
 			IEnumerable<OrganizationSearchResultViewModel> results = new List<OrganizationSearchResultViewModel>();
 
 			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 			{
-				var bundle = this.ImsiClient.Query<Organization>(m => m.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && m.ClassConceptKey == EntityClassKeys.Organization);
+				Bundle bundle;
 
-				results = bundle.Item.OfType<Organization>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))).LatestVersionOnly().Select(o => new OrganizationSearchResultViewModel(o)).OrderBy(o => o.Name).ToList();
+				Expression<Func<Organization, bool>> nameExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)));
+
+				if (searchTerm == "*")
+				{
+					bundle = this.ImsiClient.Query<Organization>(p => p.ClassConceptKey == EntityClassKeys.Organization);
+					results = bundle.Item.OfType<Organization>().LatestVersionOnly().Select(p => new OrganizationSearchResultViewModel(p)).OrderBy(p => p.Name).ToList();
+				}
+				else
+				{
+					bundle = this.ImsiClient.Query<Organization>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material);
+					results = bundle.Item.OfType<Organization>().Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new OrganizationSearchResultViewModel(p)).OrderBy(p => p.Name).ToList();
+				}
 			}
 
 			TempData["searchTerm"] = searchTerm;

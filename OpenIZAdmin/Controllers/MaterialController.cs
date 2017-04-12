@@ -33,9 +33,11 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.Caching;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Collection;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Models.ManufacturedMaterialModels;
 using OpenIZAdmin.Models.PlaceModels;
+using System.Linq.Expressions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -164,7 +166,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var material = this.ImsiClient.Get<Material>(id, null) as Material;
+				var material = this.GetEntity<Material>(id, null);
 
 				if (material == null)
 				{
@@ -200,13 +202,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				//var bundle = this.ImsiClient.Query<Material>(m => m.Key == id && m.VersionKey == versionId && m.ClassConceptKey == EntityClassKeys.Material, 0, null, true);
-
-				//bundle.Reconstitute();
-
-				//var material = bundle.Item.OfType<Material>().FirstOrDefault(m => m.Key == id && m.VersionKey == versionId && m.ClassConceptKey == EntityClassKeys.Material);
-
-			    var material = MaterialUtil.GetMaterial(ImsiClient, id, versionId);
+				var material = this.GetEntity<Material>(id, versionId);
 
 				if (material == null)
 				{
@@ -256,11 +252,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var bundle = this.ImsiClient.Query<Material>(m => m.Key == model.Id && m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null, 0, null, true);
-
-					bundle.Reconstitute();
-
-					var material = bundle.Item.OfType<Material>().FirstOrDefault(m => m.Key == model.Id && m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null);
+					var material = this.GetEntity<Material>(model.Id, model.VersionKey, m => m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null);
 
 					if (material == null)
 					{
@@ -303,15 +295,27 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="searchTerm">The search term.</param>
 		/// <returns>Returns a list of materials which match the search term.</returns>
 		[HttpGet]
+		[ValidateInput(false)]
 		public ActionResult Search(string searchTerm)
 		{
 			IEnumerable<MaterialViewModel> results = new List<MaterialViewModel>();
 
 			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 			{
-				var bundle = this.ImsiClient.Query<Material>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material);
+				Bundle bundle;
 
-				results = bundle.Item.OfType<Material>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)))).LatestVersionOnly().Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+				Expression<Func<Material, bool>> nameExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)));
+
+				if (searchTerm == "*")
+				{
+					bundle = this.ImsiClient.Query<Material>(p => p.ClassConceptKey == EntityClassKeys.Material);
+					results = bundle.Item.OfType<Material>().LatestVersionOnly().Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+				}
+				else
+				{
+					bundle = this.ImsiClient.Query<Material>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material);
+					results = bundle.Item.OfType<Material>().Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+				}
 			}
 
 			TempData["searchTerm"] = searchTerm;
@@ -330,14 +334,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				//var bundle = this.ImsiClient.Query<Material>(m => m.Key == id && m.VersionKey == versionId && m.ClassConceptKey == EntityClassKeys.Material, 0, null, true);
-
-				//bundle.Reconstitute();
-
-				//var material = bundle.Item.OfType<Material>().FirstOrDefault(m => m.Key == id && m.VersionKey == versionId && m.ClassConceptKey == EntityClassKeys.Material);
-
-			    var material = MaterialUtil.GetMaterial(ImsiClient, id, versionId);
-
+				var material = this.GetEntity<Material>(id, versionId);
 
                 if (material == null)
 				{
@@ -360,7 +357,7 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				Trace.TraceError($"Unable to retrieve material");
+				Trace.TraceError($"Unable to retrieve material: {e}");
 			}
 
 			TempData["error"] = Locale.Material + " " + Locale.NotFound;
