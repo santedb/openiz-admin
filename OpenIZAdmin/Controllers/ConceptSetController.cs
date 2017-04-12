@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  *
- * User: yendtr
+ * User: khannan
  * Date: 2016-7-23
  */
 
@@ -28,6 +28,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using Elmah;
+using OpenIZ.Core.Model.Collection;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Models.ConceptModels;
 using OpenIZAdmin.Util;
 
@@ -265,22 +267,31 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <returns>Returns the search view.</returns>
 		[HttpGet]
+		[ValidateInput(false)]
         public ActionResult Search(string searchTerm)
         {
-	        var viewModels = new List<ConceptSetSearchResultViewModel>();
+	        var results = new List<ConceptSetSearchResultViewModel>();
 
 			try
 	        {
-
 		        if (CommonUtil.IsValidString(searchTerm))
 		        {
-			        var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
+					Bundle bundle;
 
-			        viewModels.AddRange(bundle.Item.OfType<ConceptSet>().Select(c => new ConceptSetSearchResultViewModel(c)));
+			        if (searchTerm == "*")
+			        {
+				        bundle = this.ImsiClient.Query<ConceptSet>(c => c.ObsoletionTime == null);
+				        results = bundle.Item.OfType<ConceptSet>().Select(p => new ConceptSetSearchResultViewModel(p)).ToList();
+			        }
+			        else
+			        {
+				        bundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
+				        results = bundle.Item.OfType<ConceptSet>().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ConceptSetSearchResultViewModel(p)).ToList();
+			        }
 
-			        TempData["searchTerm"] = searchTerm;		            
+					TempData["searchTerm"] = searchTerm;		            
 
-			        return PartialView("_ConceptSetSearchResultsPartial", viewModels.OrderBy(c => c.Mnemonic));
+			        return PartialView("_ConceptSetSearchResultsPartial", results.OrderBy(c => c.Mnemonic));
 		        }
 		        
 			    TempData["error"] = Locale.InvalidSearch;
@@ -294,7 +305,7 @@ namespace OpenIZAdmin.Controllers
 
             this.TempData["searchTerm"] = searchTerm;
 
-            return PartialView("_ConceptSetSearchResultsPartial", viewModels);
+            return PartialView("_ConceptSetSearchResultsPartial", results);
         }
 
   //      /// <summary>
@@ -383,17 +394,6 @@ namespace OpenIZAdmin.Controllers
 
 
             viewModels.AddRange(bundle.Item.OfType<Concept>().Select(c => new ConceptViewModel(c)));            
-
-            //model.ModelType = type;
-
-            //if (!string.IsNullOrEmpty(model.Type) && !string.IsNullOrWhiteSpace(model.Type))
-            //{
-            //    model.Types = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key", a => a.Key == Guid.Parse(model.Type)), entity.Identifiers);
-            //}
-            //else
-            //{
-            //    model.Types = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key"), entity.Identifiers);
-            //}
 
             return Json(viewModels.OrderBy(c => c.Mnemonic).ToList(), JsonRequestBehavior.AllowGet);            
         }

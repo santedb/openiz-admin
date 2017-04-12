@@ -27,36 +27,30 @@ using OpenIZAdmin.Models.ConceptModels;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
 {
-    /// <summary>
+	/// <summary>
 	/// Represents a view model for a concept set search result.
 	/// </summary>
-    public sealed class ConceptSetSearchResultViewModel : ConceptSetModel
-    {
-        /// <summary>
+	public sealed class ConceptSetSearchResultViewModel : ConceptSetModel
+	{
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ConceptSetSearchResultViewModel"/> class.
 		/// </summary>
 		public ConceptSetSearchResultViewModel()
-        {            
-            ConceptList = new List<ConceptViewModel>();
-        }        
+		{
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ConceptSetSearchResultViewModel"/> class
-        /// with a specific <see cref="ConceptSet"/> instance.
-        /// </summary>
-        /// <param name="conceptSet">The <see cref="ConceptSet"/> instance.</param>
-        public ConceptSetSearchResultViewModel(ConceptSet conceptSet) : this()
-        {
-            CreationTime = conceptSet.CreationTime.DateTime;            
-            Id = conceptSet.Key ?? Guid.Empty;
-            Mnemonic = conceptSet.Mnemonic;
-            Name = conceptSet.Name;                         
-            ConceptList = conceptSet.Concepts.Select(c => new ConceptViewModel(c)).ToList();
-        }      
+		}
 
-        /// <summary>
-        /// Gets or sets the List of Concepts associated with the Concept Set
-        /// </summary>
-        public List<ConceptViewModel> ConceptList { get; set; }      
-    }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ConceptSetSearchResultViewModel"/> class
+		/// with a specific <see cref="ConceptSet"/> instance.
+		/// </summary>
+		/// <param name="conceptSet">The <see cref="ConceptSet"/> instance.</param>
+		public ConceptSetSearchResultViewModel(ConceptSet conceptSet) : this()
+		{
+			CreationTime = conceptSet.CreationTime.DateTime;
+			Id = conceptSet.Key ?? Guid.Empty;
+			Mnemonic = conceptSet.Mnemonic;
+			Name = conceptSet.Name;
+		}
+	}
 }

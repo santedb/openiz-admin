@@ -10,11 +10,29 @@
 
 @section scripts{
     <script>
-       $(document).ready(function () {
+        $(document).ready(function ()
+        {
+            $.ajax({
+                url: "Search?searchTerm=*",
+                type: "GET",
+                beforeSend: function ()
+                {
+                    showLoadingBar();
+                },
+                success: function (data)
+                {
+                    $("#search-results").html(data);
+                },
+                complete: function ()
+                {
+                    hideLoadingBar();
+                }
+            });
 
-           $('#search-partial').bind("DOMSubtreeModified", function () {
-               $("#conceptSetSearchTable").DataTable();
-           });
-       });
+            $('#search-partial').bind("DOMSubtreeModified", function ()
+            {
+                $("#conceptSetSearchTable").DataTable();
+            });
+        });
     </script>
 }
