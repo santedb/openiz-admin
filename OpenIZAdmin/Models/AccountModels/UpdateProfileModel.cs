@@ -71,16 +71,16 @@ namespace OpenIZAdmin.Models.AccountModels
 				},
 				new SelectListItem
 				{
-					Selected = this.Language == Locale.EN,
+					Selected = this.Language == LocalizationConfig.LanguageCode.English,
 					Text = Locale.English,
-					Value = Locale.EN
-				},
+					Value = LocalizationConfig.LanguageCode.English
+                },
 				new SelectListItem
 				{
-					Selected = this.Language == Locale.SW,
+					Selected = this.Language == LocalizationConfig.LanguageCode.Swahili,
 					Text = Locale.Kiswahili,
-					Value = Locale.SW
-				}
+					Value = LocalizationConfig.LanguageCode.Swahili
+                }
 			};
 
 			if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
