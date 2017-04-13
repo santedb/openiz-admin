@@ -1,4 +1,4 @@
-﻿@model OpenIZAdmin.Models.ReferenceTermModels.ReferenceTermViewModel
+﻿@model OpenIZAdmin.Models.ReferenceTermModels.CreateReferenceTermViewModel
 @{
     ViewBag.Title = Locale.Add + " " + Locale.ReferenceTerm;
 }
@@ -11,27 +11,30 @@
         @using (Html.BeginForm("Create", "ReferenceTerms", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })            
 
-            @Html.HiddenFor(m => m.ConceptId)
+            <div class="form-group">                                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Mnemonic, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", title = Locale.ToolTip_ConceptMnemonic })
+                        @Html.ValidationMessageFor(m => m.Mnemonic, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
-            <div class="form-group">
-                @Html.AntiForgeryToken()
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                @Html.HiddenFor(m => m.ConceptId)
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_ConceptName })
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
                 <div class="form-group">
                     @Html.LabelFor(m => m.TwoLetterCountryCode, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-2">
-                        @Html.DropDownListFor(m => m.TwoLetterCountryCode, Model.LanguageList, new { @class = "form-control" })
+                    <div class="col-md-8">
+                        @Html.DropDownListFor(m => m.TwoLetterCountryCode, Model.LanguageList, new { @class = "form-control", title = Locale.ToolTip_Language })
                         @Html.ValidationMessageFor(m => m.TwoLetterCountryCode, "", new { @class = "text-danger" })
-                    </div>
-
-                    @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-4">
-                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>

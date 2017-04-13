@@ -47,90 +47,90 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
         public ActionResult Create()
         {            
-            //var model = new CreateReferenceTermNameViewModel(referenceTerm)
-            //{
-            //    LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
-            //    TwoLetterCountryCode = Locale.EN
-            //};
-
-            return View();
-        }
-
-        /// <summary>
-		/// Displays the create view.
-		/// </summary>
-		/// <returns>Returns the create view.</returns>
-		[HttpGet]
-        public ActionResult Create(Guid id)
-        {
-
-            var referenceTerm = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
-
-            if (referenceTerm == null)
-            {
-                TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
-
-                return RedirectToAction("Index");
-            }
-
-            var model = new CreateReferenceTermNameViewModel(referenceTerm)
+            var model = new CreateReferenceTermViewModel()
             {
                 LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
                 TwoLetterCountryCode = Locale.EN
             };
 
-            return View(model);            
-        }
-
-        
-        /// <summary>
-		/// Creates a concept.
-		/// </summary>
-		/// <param name="model">The model containing the information to create a reference term name.</param>
-		/// <returns>Returns the created concept.</returns>
-		[HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateReferenceTermNameViewModel model)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var referenceTerm = ImsiClient.Get<ReferenceTerm>(model.ReferenceTermId, null) as ReferenceTerm;
-
-                    if (referenceTerm == null)
-                    {
-                        TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
-
-                        return RedirectToAction("Index");
-                    }
-
-                    var name = new ReferenceTermName()
-                    {
-                        Language = model.Language,
-                        Name = model.Name
-                    };
-
-                    referenceTerm.DisplayNames.Add(name);
-
-                    var result = this.ImsiClient.Update<ReferenceTerm>(referenceTerm);
-
-                    TempData["success"] = Locale.ReferenceTermName + " " + Locale.Created + " " + Locale.Successfully;
-
-                    return RedirectToAction("Edit", new { id = result.Key });                    
-                }
-            }
-            catch (Exception e)
-            {
-                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-            }
-
-            TempData["error"] = Locale.UnableToCreate + " " + Locale.ReferenceTermName;
-
-            //model.LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList();
-
             return View(model);
         }
+
+  //      /// <summary>
+		///// Displays the create view.
+		///// </summary>
+		///// <returns>Returns the create view.</returns>
+		//[HttpGet]
+  //      public ActionResult Create(Guid id)
+  //      {
+
+  //          var referenceTerm = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
+
+  //          if (referenceTerm == null)
+  //          {
+  //              TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+
+  //              return RedirectToAction("Index");
+  //          }
+
+  //          var model = new CreateReferenceTermNameViewModel(referenceTerm)
+  //          {
+  //              LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
+  //              TwoLetterCountryCode = Locale.EN
+  //          };
+
+  //          return View(model);            
+  //      }
+
+        
+  //      /// <summary>
+		///// Creates a concept.
+		///// </summary>
+		///// <param name="model">The model containing the information to create a reference term name.</param>
+		///// <returns>Returns the created concept.</returns>
+		//[HttpPost]
+  //      [ValidateAntiForgeryToken]
+  //      public ActionResult Create(CreateReferenceTermNameViewModel model)
+  //      {
+  //          try
+  //          {
+  //              if (ModelState.IsValid)
+  //              {
+  //                  var referenceTerm = ImsiClient.Get<ReferenceTerm>(model.ReferenceTermId, null) as ReferenceTerm;
+
+  //                  if (referenceTerm == null)
+  //                  {
+  //                      TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+
+  //                      return RedirectToAction("Index");
+  //                  }
+
+  //                  var name = new ReferenceTermName()
+  //                  {
+  //                      Language = model.Language,
+  //                      Name = model.Name
+  //                  };
+
+  //                  referenceTerm.DisplayNames.Add(name);
+
+  //                  var result = this.ImsiClient.Update<ReferenceTerm>(referenceTerm);
+
+  //                  TempData["success"] = Locale.ReferenceTermName + " " + Locale.Created + " " + Locale.Successfully;
+
+  //                  return RedirectToAction("Edit", new { id = result.Key });                    
+  //              }
+  //          }
+  //          catch (Exception e)
+  //          {
+  //              ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+  //          }
+
+  //          TempData["error"] = Locale.UnableToCreate + " " + Locale.ReferenceTermName;
+
+  //          //model.LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList();
+
+  //          return View(model);
+  //      }
 
 
         /// <summary>
@@ -140,38 +140,29 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>ActionResult.</returns>
 		[HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(ReferenceTermViewModel model)
+        public ActionResult Create(CreateReferenceTermViewModel model)
         {
             try
             {
-                //var concept = ConceptUtil.GetConcept(ImsiClient, model.ConceptId, model.ConceptVersionKey);
+                if (ModelState.IsValid)
+                {                    
+                    var referenceTerm = this.ImsiClient.Create<ReferenceTerm>(model.ToReferenceTerm());
 
-                //if (concept == null)
-                //{
-                //    TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-                //    return RedirectToAction("Index", "Concept");
-                //}
+                    TempData["success"] = Locale.ReferenceTerm + " " + Locale.Created + " " + Locale.Successfully;
 
-                //concept.ConceptNames.Add(new ConceptName
-                //{
-                //    Language = model.TwoLetterCountryCode,
-                //    Name = model.DisplayName,
-                //});
-
-                //var result = this.ImsiClient.Update<Concept>(concept);
-
-                //TempData["success"] = Locale.Language + " " + Locale.Updated + " " + Locale.Successfully;
-
-                //return RedirectToAction("Edit", "Concept", new { id = result.Key, versionKey = result.VersionKey });
+                    return RedirectToAction("ViewReferenceTerm", new { id = referenceTerm.Key });
+                }
             }
             catch (Exception e)
             {
-                ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
-                Trace.TraceError($"Unable to retrieve entity: { e }");
+                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
             }
 
-            //return View(model);
-            return View();
+            TempData["error"] = Locale.UnableToCreate + " " + Locale.ReferenceTerm;
+
+            model.LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList();
+
+            return View(model);
         }
 
         /// <summary>

@@ -307,6 +307,7 @@
     <Compile Include="Models\OrganizationModels\OrganizationSearchResultViewModel.cs" />
     <Compile Include="Models\OrganizationModels\OrganizationViewModel.cs" />
     <Compile Include="Models\ReferenceTermModels\CreateReferenceTermNameViewModel.cs" />
+    <Compile Include="Models\ReferenceTermModels\CreateReferenceTermViewModel.cs" />
     <Compile Include="Models\ReferenceTermModels\EditReferenceTermViewModel.cs" />
     <Compile Include="Models\ReferenceTermModels\ReferenceTermNameViewModel.cs" />
     <Compile Include="Models\ReferenceTermModels\ReferenceTermSearchResultsViewModel.cs" />

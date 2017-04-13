@@ -46,7 +46,7 @@ namespace OpenIZAdmin.Models.Core
         /// </summary>
         /// <value>The language.</value>        
         [Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        //[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         public virtual string Language { get; set; }
 
         ///// <summary>
