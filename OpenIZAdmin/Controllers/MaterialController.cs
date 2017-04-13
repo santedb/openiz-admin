@@ -303,12 +303,12 @@ namespace OpenIZAdmin.Controllers
 				if (searchTerm == "*")
 				{
 					bundle = this.ImsiClient.Query<Material>(p => p.ClassConceptKey == EntityClassKeys.Material);
-					results = bundle.Item.OfType<Material>().LatestVersionOnly().Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+					results = bundle.Item.OfType<Material>().LatestVersionOnly().Where(p => p.ClassConceptKey == EntityClassKeys.Material).Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
 				}
 				else
 				{
 					bundle = this.ImsiClient.Query<Material>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material);
-					results = bundle.Item.OfType<Material>().Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+					results = bundle.Item.OfType<Material>().Where(nameExpression.Compile()).LatestVersionOnly().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material).Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
 				}
 			}
 
