@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -178,9 +179,9 @@ namespace OpenIZAdmin.Controllers
 					TempData["error"] = Locale.Policy + " " + Locale.NotFound;
 
 					return RedirectToAction("Index");
-				}
+				}			    
 
-				return View(new PolicyViewModel(result.CollectionItem.First()));
+                return View(new PolicyViewModel(result.CollectionItem.First()));
 			}
 			catch (Exception e)
 			{

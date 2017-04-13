@@ -155,7 +155,8 @@ namespace OpenIZAdmin.Controllers
             }
             catch (Exception e)
             {
-                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+                ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+                Trace.TraceError($"Unable to retrieve entity: { e }");
             }
 
             TempData["error"] = Locale.UnableToCreate + " " + Locale.ReferenceTerm;
@@ -204,7 +205,8 @@ namespace OpenIZAdmin.Controllers
             }
             catch (Exception e)
             {
-                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+                ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+                Trace.TraceError($"Unable to retrieve entity: { e }");
             }
 
             TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
@@ -291,30 +293,22 @@ namespace OpenIZAdmin.Controllers
         {
             try
             {
-                //var concept = ConceptUtil.GetConcept(this.ImsiClient, model.ConceptId, model.ConceptVersionKey);
+                var referenceTerm = ImsiClient.Get<ReferenceTerm>(model.Id, null) as ReferenceTerm;
 
-                //if (concept == null)
-                //{
-                //    TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-                //    return RedirectToAction("Index", "Concept");
-                //}
+                if (referenceTerm == null)
+                {
+                    TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
 
-                //var index = concept.ConceptNames.FindIndex(c => c.Language == model.Language && c.Name == model.Name);
+                    return RedirectToAction("Index");
+                }
 
-                //if (index < 0)
-                //{
-                //    TempData["error"] = Locale.LanguageCode + " " + Locale.NotFound;
-                //    return RedirectToAction("Edit", "Concept", new { id = model.ConceptId, versionKey = model.ConceptVersionKey });
-                //}
+                referenceTerm.Mnemonic = model.Mnemonic;                
 
-                //concept.ConceptNames[index].Language = model.TwoLetterCountryCode;
-                //concept.ConceptNames[index].Name = model.DisplayName;
+                var result = this.ImsiClient.Update<ReferenceTerm>(referenceTerm);
 
-                //var result = this.ImsiClient.Update<Concept>(concept);
+                TempData["success"] = Locale.ReferenceTerm + " " + Locale.Updated + " " + Locale.Successfully;
 
-                //TempData["success"] = Locale.Concept + " " + Locale.Updated + " " + Locale.Successfully;
-
-                //return RedirectToAction("Edit", "Concept", new { id = result.Key, versionKey = result.VersionKey });
+                return RedirectToAction("ViewReferenceTerm", "ReferenceTerms", new { id = result.Key });
             }
             catch (Exception e)
             {
@@ -322,11 +316,9 @@ namespace OpenIZAdmin.Controllers
                 Trace.TraceError($"Unable to retrieve entity: { e }");
             }
 
-            //TempData["error"] = Locale.UnableToUpdate + " " + Locale.Concept;
+            TempData["error"] = Locale.UnableToUpdate + " " + Locale.ReferenceTerm;
 
-            //return RedirectToAction("ViewConcept", "Concept", new { id = model.ConceptId, model.ConceptVersionKey });
-
-            return View();
+            return RedirectToAction("ViewReferenceTerm", "ReferenceTerms", new { id = model.Id });            
         }
 
         /// <summary>

@@ -82,6 +82,9 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
         /// </summary>
         public Guid? ConceptVersionKey { get; set; }
 
+        /// <summary>
+        /// Gets or sets the list of reference names associated with the reference term
+        /// </summary>
         public List<ReferenceTermNameViewModel> ReferenceTermNamesList{ get; set; }
     }
 }
