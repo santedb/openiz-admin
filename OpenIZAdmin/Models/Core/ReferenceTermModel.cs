@@ -49,11 +49,11 @@ namespace OpenIZAdmin.Models.Core
         [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         public virtual string Language { get; set; }
 
-        /// <summary>
-        /// Gets or sets the language list.
-        /// </summary>
-        /// <value>The language list.</value>
-        public List<SelectListItem> LanguageList { get; set; }
+        ///// <summary>
+        ///// Gets or sets the language list.
+        ///// </summary>
+        ///// <value>The language list.</value>
+        //public List<SelectListItem> LanguageList { get; set; }
 
         /// <summary>
         /// Gets or sets the mnemonic.

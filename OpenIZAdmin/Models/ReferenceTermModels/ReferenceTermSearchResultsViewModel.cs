@@ -9,6 +9,9 @@ using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ReferenceTermModels
 {
+    /// <summary>
+	/// Represents a view model for a reference term search result.
+	/// </summary>
     public class ReferenceTermSearchResultsViewModel : ReferenceTermModel
     {
         /// <summary>

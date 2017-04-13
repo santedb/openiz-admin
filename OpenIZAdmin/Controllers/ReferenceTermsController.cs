@@ -45,25 +45,93 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <returns>Returns the create view.</returns>
 		[HttpGet]
-        public ActionResult Create(Guid id, Guid? versionId)
+        public ActionResult Create()
+        {            
+            //var model = new CreateReferenceTermNameViewModel(referenceTerm)
+            //{
+            //    LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
+            //    TwoLetterCountryCode = Locale.EN
+            //};
+
+            return View();
+        }
+
+        /// <summary>
+		/// Displays the create view.
+		/// </summary>
+		/// <returns>Returns the create view.</returns>
+		[HttpGet]
+        public ActionResult Create(Guid id)
         {
 
-            var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
+            var referenceTerm = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
 
-            if (concept == null)
+            if (referenceTerm == null)
             {
-                TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-                return RedirectToAction("Index", "Concept");
+                TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+
+                return RedirectToAction("Index");
             }
 
-            var model = new ReferenceTermViewModel(concept)
+            var model = new CreateReferenceTermNameViewModel(referenceTerm)
             {
                 LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
                 TwoLetterCountryCode = Locale.EN
-            };            
+            };
 
             return View(model);            
         }
+
+        
+        /// <summary>
+		/// Creates a concept.
+		/// </summary>
+		/// <param name="model">The model containing the information to create a reference term name.</param>
+		/// <returns>Returns the created concept.</returns>
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(CreateReferenceTermNameViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var referenceTerm = ImsiClient.Get<ReferenceTerm>(model.ReferenceTermId, null) as ReferenceTerm;
+
+                    if (referenceTerm == null)
+                    {
+                        TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+
+                        return RedirectToAction("Index");
+                    }
+
+                    var name = new ReferenceTermName()
+                    {
+                        Language = model.Language,
+                        Name = model.Name
+                    };
+
+                    referenceTerm.DisplayNames.Add(name);
+
+                    var result = this.ImsiClient.Update<ReferenceTerm>(referenceTerm);
+
+                    TempData["success"] = Locale.ReferenceTermName + " " + Locale.Created + " " + Locale.Successfully;
+
+                    return RedirectToAction("Edit", new { id = result.Key });                    
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+            }
+
+            TempData["error"] = Locale.UnableToCreate + " " + Locale.ReferenceTermName;
+
+            //model.LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList();
+
+            return View(model);
+        }
+
 
         /// <summary>
 		/// Adds the new reference term.
@@ -148,34 +216,32 @@ namespace OpenIZAdmin.Controllers
                 ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
             }
 
-            //TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+            TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
 
-            //return RedirectToAction("Index", "Concept");
-            return View();
+            return RedirectToAction("Index", "ReferenceTerms");
+            //return View();
         }
 
-
         /// <summary>
-        /// Retrieves the languages associated with the Concept to edit
+        /// Retrieves the names and metadata associated with the reference term to edit
         /// </summary>
-        /// <param name="id">The concept Guid id</param>
-        /// <param name="versionId">The version identifier of the Concept instance.</param>
-        /// <param name="termId">The identifier of the reference term</param>        
+        /// <param name="id">The reference term identifier</param>        
         /// <returns>An ActionResult instance</returns>
         [HttpGet]
-        public ActionResult Edit(Guid? id, Guid? versionId, Guid? termId)
+        public ActionResult Edit(Guid id)
         {
             try
             {
-                var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
+                var referenceTerm = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
 
-                if (concept == null)
+                if (referenceTerm == null)
                 {
-                    TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-                    return RedirectToAction("Index", "Concept");
-                }                
+                    TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
 
-                return View(new ReferenceTermViewModel(ReferenceTermUtil.GetConceptReferenceTerm(ImsiClient, concept, termId), concept));
+                    return RedirectToAction("Index");
+                }
+
+                return View(new EditReferenceTermViewModel(referenceTerm));                
             }
             catch (Exception e)
             {
@@ -183,11 +249,45 @@ namespace OpenIZAdmin.Controllers
                 Trace.TraceError($"Unable to retrieve entity: { e }");
             }
 
-            TempData["error"] = Locale.UnableToUpdate + " " + Locale.Concept + " " + Locale.ReferenceTerm;
+            TempData["error"] = Locale.UnableToUpdate + " " + Locale.ReferenceTerm;
 
-            return RedirectToAction("ViewConcept", "Concept", new { id, versionId });
+            return RedirectToAction("ViewReferenceTerm", "ReferenceTerms", new { id });
 
         }
+
+        ///// <summary>
+        ///// Retrieves the languages associated with the Concept to edit
+        ///// </summary>
+        ///// <param name="id">The concept Guid id</param>
+        ///// <param name="versionId">The version identifier of the Concept instance.</param>
+        ///// <param name="termId">The identifier of the reference term</param>        
+        ///// <returns>An ActionResult instance</returns>
+        //[HttpGet]
+        //public ActionResult Edit(Guid? id, Guid? versionId, Guid? termId)
+        //{
+        //    try
+        //    {
+        //        var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
+
+        //        if (concept == null)
+        //        {
+        //            TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+        //            return RedirectToAction("Index", "ReferenceTerms");
+        //        }                
+
+        //        return View(new ReferenceTermViewModel(ReferenceTermUtil.GetConceptReferenceTerm(ImsiClient, concept, termId), concept));
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+        //        Trace.TraceError($"Unable to retrieve entity: { e }");
+        //    }
+
+        //    TempData["error"] = Locale.UnableToUpdate + " " + Locale.ReferenceTerm;
+
+        //    return RedirectToAction("ViewReferenceTerm", "ReferenceTerms", new { id });
+
+        //}
 
         /// <summary>
         /// Updates the reference term associated with the Concept.
@@ -291,11 +391,10 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The identifier of the Reference Term</param>		
 		/// <returns>Returns the Reference Term ActionResult</returns>
 		[HttpGet]
-        public ActionResult View(Guid id)
+        public ActionResult ViewReferenceTerm(Guid id)
         {
             try
-            {
-                //var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
+            {                
                 var referenceTerm = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
 
                 if (referenceTerm == null)
@@ -303,33 +402,16 @@ namespace OpenIZAdmin.Controllers
                     TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
 
                     return RedirectToAction("Index");
-                }
+                }                
 
-                var model = new ReferenceTermViewModel(referenceTerm)
-                {
-                    //ReferenceTerms = ReferenceTermUtil.GetConceptReferenceTermsList(ImsiClient, concept)
-                };
-
-                //for (var i = 0; i < concept.ReferenceTerms.Count(r => r.ReferenceTerm == null && r.RelationshipTypeKey.HasValue); i++)
-                //{
-                //	concept.ReferenceTerms[i].ReferenceTerm = this.ImsiClient.Get<ReferenceTerm>(concept.ReferenceTerms[i].ReferenceTermKey.Value, null) as ReferenceTerm;
-                //}
-
-                //conceptViewModel.ReferenceTerms.AddRange(concept.ReferenceTerms.Select(r => new ReferenceTermModel
-                //{
-                //	Mnemonic = r.ReferenceTerm?.Mnemonic,
-                //	Name = string.Join(", ", r.ReferenceTerm.DisplayNames.Select(d => d.Name)),
-                //	Id = r.Key.Value
-                //}));
-
-                return View(model);
+                return View(new ReferenceTermViewModel(referenceTerm));
             }
             catch (Exception e)
             {
                 ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
             }
 
-            TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+            TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
 
             return RedirectToAction("Index");
         }

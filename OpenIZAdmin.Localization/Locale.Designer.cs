@@ -2311,6 +2311,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reference Term Name.
+        /// </summary>
+        public static string ReferenceTermName {
+            get {
+                return ResourceManager.GetString("ReferenceTermName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reference Term Names.
+        /// </summary>
+        public static string ReferenceTermNames {
+            get {
+                return ResourceManager.GetString("ReferenceTermNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reference Terms.
         /// </summary>
         public static string ReferenceTerms {
