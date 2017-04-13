@@ -193,18 +193,23 @@
 
         function newAlerts()
         {
-            $.ajax({
-                url: "/Alert/NewAlerts",
-                success: function (data)
-                {
-                    $('#new-alerts').html(data);
-                },
-                error: function (error)
-                {
-                    console.log(error);
-                },
-                type: "GET"
-            });
+            var authenticated = @User.Identity.IsAuthenticated.ToString().ToLower();
+            if (authenticated)
+            {
+                $.ajax({
+                    url: "/Alert/NewAlerts",
+                    success: function (data)
+                    {
+                        $('#new-alerts').html(data);
+                    },
+                    error: function (error)
+                    {
+                        console.log(error);
+                    },
+                    type: "GET"
+                });
+            }
+
         }
 
         function hideLoadingBar()
