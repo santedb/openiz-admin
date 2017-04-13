@@ -90,12 +90,7 @@ namespace OpenIZAdmin.Util
 
                 if (referenceTerms.Any())
                 {
-                    refTermList = new List<ReferenceTermViewModel>(referenceTerms.Select(r => new ReferenceTermViewModel(r, concept)));
-                    //{
-                    //    Mnemonic = r.Mnemonic,
-                    //    Name = string.Join(" ", r.DisplayNames.Select(d => d.Name)),
-                    //    Id = r.Key ?? Guid.Empty
-                    //}));
+                    refTermList = new List<ReferenceTermViewModel>(referenceTerms.Select(r => new ReferenceTermViewModel(r, concept)));                    
                 }
             }
             catch (Exception e)

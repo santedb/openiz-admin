@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 using OpenIZ.Core.Model.DataTypes;
 
 namespace OpenIZAdmin.Models.Core
@@ -28,17 +29,31 @@ namespace OpenIZAdmin.Models.Core
 	/// Represents a reference term model.
 	/// </summary>
 	public abstract class ReferenceTermModel
-	{		
-	    /// <summary>
-	    /// Gets or sets the list of reference term names 
-	    /// </summary>
-	    public List<ReferenceTermName> DisplayNames { get; set; }
+	{        
+        /// <summary>
+        /// Gets or sets the list of reference term names 
+        /// </summary>
+        public List<ReferenceTermName> DisplayNames { get; set; }
 
 	    /// <summary>
 		/// Gets or sets the identifier.
 		/// </summary>
 		/// <value>The identifier.</value>
 		public Guid Id { get; set; }
+
+        /// <summary>
+        /// Gets or sets the current language.
+        /// </summary>
+        /// <value>The language.</value>        
+        [Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public virtual string Language { get; set; }
+
+        /// <summary>
+        /// Gets or sets the language list.
+        /// </summary>
+        /// <value>The language list.</value>
+        public List<SelectListItem> LanguageList { get; set; }
 
         /// <summary>
         /// Gets or sets the mnemonic.
@@ -57,5 +72,17 @@ namespace OpenIZAdmin.Models.Core
         [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         [StringLength(256, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
         public string Name { get; set; }
-	}
+
+        /// <summary>
+        /// Gets or sets the two letter language code of the language.
+        /// </summary>
+        [Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string TwoLetterCountryCode { get; set; }
+
+        ///// <summary>
+        ///// Gets or sets the version identifier of the Reference Term
+        ///// </summary>
+        //public Guid? VersionKey { get; set; }
+    }
 }

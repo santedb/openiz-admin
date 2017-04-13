@@ -305,6 +305,7 @@
     <Compile Include="Models\OrganizationModels\EditOrganizationModel.cs" />
     <Compile Include="Models\OrganizationModels\OrganizationSearchResultViewModel.cs" />
     <Compile Include="Models\OrganizationModels\OrganizationViewModel.cs" />
+    <Compile Include="Models\ReferenceTermModels\ReferenceTermSearchResultsViewModel.cs" />
     <Compile Include="Models\ReferenceTermModels\ReferenceTermViewModel.cs" />
     <Compile Include="Models\UserModels\ResetPasswordModel.cs" />
     <Compile Include="Models\AccountModels\UpdateProfileModel.cs" />
@@ -655,6 +656,8 @@
     <Content Include="Views\Shared\_ManageReferenceTermsPartial.cshtml" />
     <Content Include="Views\ReferenceTerms\Create.cshtml" />
     <Content Include="Views\ReferenceTerms\Edit.cshtml" />
+    <Content Include="Views\ReferenceTerms\Index.cshtml" />
+    <Content Include="Views\Shared\_ReferenceTermSearchResultsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

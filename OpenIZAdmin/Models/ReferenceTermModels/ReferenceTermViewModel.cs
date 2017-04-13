@@ -38,7 +38,7 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		public ReferenceTermViewModel()
         {            
             DisplayNames = new List<ReferenceTermName>();
-            ReferenceTermsList = new List<ReferenceTermViewModel>();
+            //ReferenceTermsList = new List<ReferenceTermViewModel>();
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
             DisplayNames = referenceTerm.DisplayNames;
             Id = referenceTerm.Key ?? Guid.Empty;
             Mnemonic = referenceTerm.Mnemonic;            
-            Name = string.Join(" ", referenceTerm.DisplayNames.Select(d => d.Name));            
+            Name = string.Join(" ", referenceTerm.DisplayNames.Select(d => d.Name));                        
         }
 
         /// <summary>
@@ -70,9 +70,11 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
             ConceptVersionKey = concept?.VersionKey;            
         }
 
+
+
         public Guid? ConceptId { get; set; }
         public Guid? ConceptVersionKey { get; set; }
 
-        public List<ReferenceTermViewModel> ReferenceTermsList{ get; set; }
+        //public List<ReferenceTermViewModel> ReferenceTermsList{ get; set; }
     }
 }
