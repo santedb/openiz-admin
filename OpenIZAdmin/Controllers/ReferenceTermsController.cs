@@ -165,26 +165,33 @@ namespace OpenIZAdmin.Controllers
         /// </summary>
         /// <param name="id">The concept Guid id</param>
         /// <param name="versionId">The version identifier of the Concept instance.</param>
-        /// <param name="mnemonic">The mnemonic of the reference term</param>
-        /// <param name="name">The text name representation of the reference term</param>
+        /// <param name="termId">The identifier of the reference term</param>        
         /// <returns>An ActionResult instance</returns>
         [HttpGet]
         public ActionResult Edit(Guid? id, Guid? versionId, Guid? termId)
         {
-            var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
-
-            if (concept == null)
+            try
             {
-                TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-                return RedirectToAction("Index", "Concept");
+                var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
+
+                if (concept == null)
+                {
+                    TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+                    return RedirectToAction("Index", "Concept");
+                }                
+
+                return View(new ReferenceTermViewModel(ReferenceTermUtil.GetConceptReferenceTerm(ImsiClient, concept, termId), concept));
+            }
+            catch (Exception e)
+            {
+                ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+                Trace.TraceError($"Unable to retrieve entity: { e }");
             }
 
-            //var conceptReferenceTerms = ConceptUtil.GetConceptReferenceTermsList(ImsiClient, concept);
-            ReferenceTerm term = ConceptUtil.GetConceptReferenceTerm(ImsiClient, concept, termId);            
+            TempData["error"] = Locale.UnableToUpdate + " " + Locale.Concept + " " + Locale.ReferenceTerm;
 
-            var model = new ReferenceTermViewModel(term, concept);            
+            return RedirectToAction("ViewConcept", "Concept", new { id, versionId });
 
-            return View(model);            
         }
 
         /// <summary>

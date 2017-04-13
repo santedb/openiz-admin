@@ -21,42 +21,59 @@ using OpenIZ.Core.Model.AMI.Auth;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.PolicyModels
 {
-	public class CreatePolicyModel
+    /// <summary>
+	/// Represents a policy view model class.
+	/// </summary>
+	public class CreatePolicyModel : PolicyModel
 	{
+        /// <summary>
+		/// Initializes a new instance of the <see cref="CreatePolicyModel"/> class.
+		/// </summary>
 		public CreatePolicyModel()
 		{
 			this.GrantsList = new List<SelectListItem>();
 		}
 
-		[Display(Name = "CanOverride", ResourceType = typeof(Localization.Locale))]
-		public bool CanOverride { get; set; }
+		//[Display(Name = "CanOverride", ResourceType = typeof(Localization.Locale))]
+		//public bool CanOverride { get; set; }
 
-		[Display(Name = "Grants", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "GrantsRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public int Grant { get; set; }
+		//[Display(Name = "Grants", ResourceType = typeof(Localization.Locale))]
+		//[Required(ErrorMessageResourceName = "GrantsRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		//public int GrantId { get; set; }
 
+        /// <summary>
+        /// Gets or sets the list of Grants
+        /// </summary>
 		public List<SelectListItem> GrantsList { get; set; }
 
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string Name { get; set; }
+        //[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+        //[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        //[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+        //public string Name { get; set; }
 
-		[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string Oid { get; set; }
+        //[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
+        //[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        //public string Oid { get; set; }
 
-		public SecurityPolicyInfo ToSecurityPolicyInfo()
+        /// <summary>
+        /// Creates a SecurityPolicyInfo instance
+        /// </summary>
+        /// <returns>A SecurityPolicyInfo instance with the metadata assocaited with the Policy</returns>
+        public SecurityPolicyInfo ToSecurityPolicyInfo()
 		{
 			return new SecurityPolicyInfo
 			{
 				CanOverride = this.CanOverride,
 				Name = this.Name,
-				Oid = this.Oid
+				Oid = this.Oid,                
 			};
 		}
-	}
+
+        //new SecurityPolicyInstance(securityPolicyInfo.Policy, (PolicyGrantType)this.GrantId) - missing from above method - need to test if needed for create as it doesn't appear that the 
+        //grant is carried over - will have to investigate later.
+    }
 }

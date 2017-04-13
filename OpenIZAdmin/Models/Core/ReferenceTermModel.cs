@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using OpenIZ.Core.Model.DataTypes;
 
-namespace OpenIZAdmin.Models.ReferenceTermModels
+namespace OpenIZAdmin.Models.Core
 {
 	/// <summary>
 	/// Represents a reference term model.
@@ -45,6 +45,8 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
         /// </summary>
         /// <value>The mnemonic.</value>
         [Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(50, ErrorMessageResourceName = "MnemonicLength50", ErrorMessageResourceType = typeof(Localization.Locale))]
         public string Mnemonic { get; set; }
 
         /// <summary>
@@ -52,6 +54,8 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
         /// </summary>
         /// <value>The name.</value>
         [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(256, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
         public string Name { get; set; }
 	}
 }

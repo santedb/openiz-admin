@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ReferenceTermModels
 {
@@ -66,8 +67,7 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
         public ReferenceTermViewModel(Concept concept)
         {
             ConceptId = concept?.Key;
-            ConceptVersionKey = concept?.VersionKey;
-            
+            ConceptVersionKey = concept?.VersionKey;            
         }
 
         public Guid? ConceptId { get; set; }

@@ -1654,6 +1654,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The mnemonic cannot exceed 50 characters.
+        /// </summary>
+        public static string MnemonicLength50 {
+            get {
+                return ResourceManager.GetString("MnemonicLength50", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The mnemonic field is required.
         /// </summary>
         public static string MnemonicRequired {

@@ -20,10 +20,10 @@
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.Grant, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.GrantId, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.DropDownListFor(m => m.Grant, Model.GrantsList, new { @class = "form-control", title = Locale.ToolTip_Grant })
-                    @Html.ValidationMessageFor(m => m.Grant, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(m => m.GrantId, Model.GrantsList, new { @class = "form-control", title = Locale.ToolTip_Grant })
+                    @Html.ValidationMessageFor(m => m.GrantId, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">

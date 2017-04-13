@@ -80,6 +80,11 @@ namespace OpenIZAdmin.Controllers
 			return View(applets);
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		[HttpGet]
 		public ActionResult Update(string id)
 		{
@@ -113,6 +118,11 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
+		/// <summary>
+		/// Updates the Applet with the details submitted
+		/// </summary>
+		/// <param name="model"></param>
+		/// <returns></returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Update(UploadAppletModel model)

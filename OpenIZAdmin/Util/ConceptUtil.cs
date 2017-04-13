@@ -118,79 +118,79 @@ namespace OpenIZAdmin.Util
             return bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);            
         }
 
-        /// <summary>
-        /// Gets a list of Reference Terms.
-        /// </summary>
-        /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
-        /// <param name="concept">The <see cref="Concept"/> instance.</param>
-        /// <returns>Returns an IEnumerable of Concept Reference Terms.</returns>
-        public static ReferenceTerm GetConceptReferenceTerm(ImsiServiceClient imsiServiceClient, Concept concept, Guid? refTermId)
-        {
-            ReferenceTerm term = null;
-            var referenceTermQuery = new List<KeyValuePair<string, object>>();
+        ///// <summary>
+        ///// Gets a list of Reference Terms.
+        ///// </summary>
+        ///// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
+        ///// <param name="concept">The <see cref="Concept"/> instance.</param>
+        ///// <returns>Returns an IEnumerable of Concept Reference Terms.</returns>
+        //public static ReferenceTerm GetConceptReferenceTerm(ImsiServiceClient imsiServiceClient, Concept concept, Guid? refTermId)
+        //{
+        //    ReferenceTerm term = null;
+        //    var referenceTermQuery = new List<KeyValuePair<string, object>>();
 
-            foreach (var conceptReferenceTerm in concept.ReferenceTerms)
-            {
-                referenceTermQuery.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.Key == conceptReferenceTerm.ReferenceTerm.Key));
-            }
+        //    foreach (var conceptReferenceTerm in concept.ReferenceTerms)
+        //    {
+        //        referenceTermQuery.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.Key == conceptReferenceTerm.ReferenceTerm.Key));
+        //    }
 
-            var list = imsiServiceClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ReferenceTerm>().ToList();
-            var index = list.FindIndex(c => c.Key == refTermId);
-            if(index >-1 ) term = list[index];
+        //    var list = imsiServiceClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ReferenceTerm>().ToList();
+        //    var index = list.FindIndex(c => c.Key == refTermId);
+        //    if(index >-1 ) term = list[index];
 
-            return term;
-        }
+        //    return term;
+        //}
 
 
-        /// <summary>
-        /// Gets a list of Reference Terms.
-        /// </summary>
-        /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
-        /// <param name="concept">The <see cref="Concept"/> instance.</param>
-        /// <returns>Returns an IEnumerable of Concept Reference Terms.</returns>
-        public static IEnumerable<ReferenceTerm> GetConceptReferenceTerms(ImsiServiceClient imsiServiceClient, Concept concept)
-        {
-            var referenceTermQuery = new List<KeyValuePair<string, object>>();
+        ///// <summary>
+        ///// Gets a list of Reference Terms.
+        ///// </summary>
+        ///// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
+        ///// <param name="concept">The <see cref="Concept"/> instance.</param>
+        ///// <returns>Returns an IEnumerable of Concept Reference Terms.</returns>
+        //public static IEnumerable<ReferenceTerm> GetConceptReferenceTerms(ImsiServiceClient imsiServiceClient, Concept concept)
+        //{
+        //    var referenceTermQuery = new List<KeyValuePair<string, object>>();
 
-            foreach (var conceptReferenceTerm in concept.ReferenceTerms)
-            {
-                referenceTermQuery.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.Key == conceptReferenceTerm.ReferenceTerm.Key));
-            }
+        //    foreach (var conceptReferenceTerm in concept.ReferenceTerms)
+        //    {
+        //        referenceTermQuery.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.Key == conceptReferenceTerm.ReferenceTerm.Key));
+        //    }
 
-            return imsiServiceClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ReferenceTerm>();            
-        }
+        //    return imsiServiceClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ReferenceTerm>();            
+        //}
 
-        /// <summary>
-        /// Gets the Concept Class that matches the Concept Class Name
-        /// </summary>
-        /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
-        /// <param name="concept">The Concept instance</param>
-        /// <returns></returns>
-        public static List<ReferenceTermViewModel> GetConceptReferenceTermsList(ImsiServiceClient imsiServiceClient, Concept concept)
-        {
-            var refTermList = new List<ReferenceTermViewModel>();
-            try
-            {
-                var referenceTerms = GetConceptReferenceTerms(imsiServiceClient, concept).ToList();
+        ///// <summary>
+        ///// Gets the Concept Class that matches the Concept Class Name
+        ///// </summary>
+        ///// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
+        ///// <param name="concept">The Concept instance</param>
+        ///// <returns></returns>
+        //public static List<ReferenceTermViewModel> GetConceptReferenceTermsList(ImsiServiceClient imsiServiceClient, Concept concept)
+        //{
+        //    var refTermList = new List<ReferenceTermViewModel>();
+        //    try
+        //    {
+        //        var referenceTerms = GetConceptReferenceTerms(imsiServiceClient, concept).ToList();
 
-                if (referenceTerms.Any())
-                {
-                    refTermList = new List<ReferenceTermViewModel>(referenceTerms.Select(r => new ReferenceTermViewModel(r)));
-                    //{
-                    //    Mnemonic = r.Mnemonic,
-                    //    Name = string.Join(" ", r.DisplayNames.Select(d => d.Name)),
-                    //    Id = r.Key ?? Guid.Empty
-                    //}));
-                }
-            }
-            catch (Exception e)
-            {
-                refTermList = new List<ReferenceTermViewModel>();
-                Console.WriteLine(e);
-            }
+        //        if (referenceTerms.Any())
+        //        {
+        //            refTermList = new List<ReferenceTermViewModel>(referenceTerms.Select(r => new ReferenceTermViewModel(r)));
+        //            //{
+        //            //    Mnemonic = r.Mnemonic,
+        //            //    Name = string.Join(" ", r.DisplayNames.Select(d => d.Name)),
+        //            //    Id = r.Key ?? Guid.Empty
+        //            //}));
+        //        }
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        refTermList = new List<ReferenceTermViewModel>();
+        //        Console.WriteLine(e);
+        //    }
 
-            return refTermList;
-        }
+        //    return refTermList;
+        //}
 
 
         /// <summary>

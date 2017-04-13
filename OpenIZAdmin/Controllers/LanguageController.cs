@@ -30,7 +30,7 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index", "Concept");
 			}
 
-			var model = new LanguageModel(concept)
+			var model = new LanguageViewModel(concept)
 			{
 				LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
 				TwoLetterCountryCode = Locale.EN
@@ -39,14 +39,14 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-		/// <summary>
-		/// Adds the new language.
-		/// </summary>
-		/// <param name="model">The <see cref="LanguageModel"/> instance.</param>
-		/// <returns>ActionResult.</returns>
-		[HttpPost]
+        /// <summary>
+        /// Adds the new language.
+        /// </summary>
+        /// <param name="model">The <see cref="LanguageViewModel"/> instance.</param>
+        /// <returns>ActionResult.</returns>
+        [HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create(LanguageModel model)
+		public ActionResult Create(LanguageViewModel model)
 		{
 			try
 			{
@@ -145,7 +145,7 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index", "Concept");
 			}
 
-			var model = new LanguageModel(langCode, displayName, concept)
+			var model = new LanguageViewModel(langCode, displayName, concept)
 			{
 				LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList()
 			};
@@ -153,14 +153,14 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-		/// <summary>
-		/// Updates the language associated with the Concept.
-		/// </summary>
-		/// <param name="model">The <see cref="LanguageModel"/> instance.</param>
-		/// <returns>ActionResult.</returns>
-		[HttpPost]
+        /// <summary>
+        /// Updates the language associated with the Concept.
+        /// </summary>
+        /// <param name="model">The <see cref="LanguageViewModel"/> instance.</param>
+        /// <returns>ActionResult.</returns>
+        [HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit(LanguageModel model)
+		public ActionResult Edit(LanguageViewModel model)
 		{
 			try
 			{

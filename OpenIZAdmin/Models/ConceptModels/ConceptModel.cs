@@ -1,4 +1,23 @@
-﻿using System;
+﻿/*
+ * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * User: Andrew
+ * Date: 2017-4-12
+ */
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -22,12 +41,13 @@ namespace OpenIZAdmin.Models.ConceptModels
         /// Gets or sets the creation time of the concept.
         /// </summary>
         [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-        public DateTime CreationTime { get; set; }        
+        public DateTime CreationTime { get; set; }
 
         /// <summary>
-		/// Gets or sets the key of the concept.
-		/// </summary>
-		public virtual Guid Id { get; set; }
+        /// Gets or sets the key of the concept.
+        /// </summary>
+        [Required]
+        public virtual Guid Id { get; set; }
 
         /// <summary>
         /// Gets or sets the obsolete property of the Concept indicating object state

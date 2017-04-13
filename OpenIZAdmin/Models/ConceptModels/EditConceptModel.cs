@@ -52,7 +52,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 			};
 			
 			ReferenceTerms = new List<ReferenceTermViewModel>();
-            Languages = new List<LanguageModel>();
+            Languages = new List<LanguageViewModel>();
 		}
 
 		/// <summary>
@@ -67,7 +67,7 @@ namespace OpenIZAdmin.Models.ConceptModels
             IsSystemConcept = concept.IsSystemConcept;
             Mnemonic = concept.Mnemonic;
 			Name = string.Join(" ", concept.ConceptNames.Select(c => c.Name));			
-            Languages = concept.ConceptNames.Select(k => new LanguageModel(k.Language, k.Name, concept.Key.Value)).ToList();            
+            Languages = concept.ConceptNames.Select(k => new LanguageViewModel(k.Language, k.Name, concept)).ToList();            
 		    VersionKey = concept.VersionKey;
 		}
 
@@ -104,7 +104,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
 		/// </summary>		
 		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
-        public List<LanguageModel> Languages { get; set; }
+        public List<LanguageViewModel> Languages { get; set; }
 
         /// <summary>
 		/// Gets or sets the mnemonic.
