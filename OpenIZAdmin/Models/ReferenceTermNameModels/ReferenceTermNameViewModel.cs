@@ -18,13 +18,10 @@
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Models.Core;
 
-namespace OpenIZAdmin.Models.ReferenceTermModels
+namespace OpenIZAdmin.Models.ReferenceTermNameModels
 {
     /// <summary>
 	/// Represents a reference term view model.

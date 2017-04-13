@@ -68,6 +68,9 @@ namespace OpenIZAdmin.Models.UserModels
 		[Display(Name = "Email", ResourceType = typeof(Localization.Locale))]
 		public string Email { get; set; }
 
+		/// <summary>
+		/// Gets or sets whether the user has roles assigned
+		/// </summary>
 		public bool HasRoles { get; set; }
 
 		/// <summary>

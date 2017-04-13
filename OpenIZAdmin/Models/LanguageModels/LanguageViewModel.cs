@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Models.ConceptModels;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.LanguageModels
 {

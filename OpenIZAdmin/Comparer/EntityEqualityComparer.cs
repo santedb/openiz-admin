@@ -29,14 +29,16 @@ namespace OpenIZAdmin.Comparer
 	/// </summary>
 	public class EntityEqualityComparer : IEqualityComparer<Entity>
 	{
-		/// <summary>
-		/// Determines whether the specified objects are equal.
-		/// </summary>
-		/// <param name="x">The first object of type <paramref name="T" /> to compare.</param>
-		/// <param name="y">The second object of type <paramref name="T" /> to compare.</param>
-		/// <returns>true if the specified objects are equal; otherwise, false.</returns>
-		public bool Equals(Entity x, Entity y)
-		{
+#pragma warning disable CS1734 // XML comment has a paramref tag, but there is no parameter by that name
+                              /// <summary>
+                              /// Determines whether the specified objects are equal.
+                              /// </summary>
+                              /// <param name="x">The first object of type <paramref name="T" /> to compare.</param>
+                              /// <param name="y">The second object of type <paramref name="T" /> to compare.</param>
+                              /// <returns>true if the specified objects are equal; otherwise, false.</returns>
+        public bool Equals(Entity x, Entity y)
+#pragma warning restore CS1734 // XML comment has a paramref tag, but there is no parameter by that name
+        {
 			return x.Key == y.Key;
 		}
 

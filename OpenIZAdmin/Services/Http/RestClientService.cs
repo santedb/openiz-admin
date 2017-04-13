@@ -143,19 +143,20 @@ namespace OpenIZAdmin.Services.Http
 			return retVal;
 		}
 
-		/// <summary>
-		/// Invokes a request.
-		/// </summary>
-		/// <typeparam name="TBody">The type of the body of the request.</typeparam>
-		/// <typeparam name="TResult">The type of the result of the request.</typeparam>
-		/// <param name="method">The request method.</param>
-		/// <param name="url">The URL of the request.</param>
-		/// <param name="contentType">The content type of the request.</param>
-		/// <param name="requestHeaders">Additional headers for the request.</param>
-		/// <param name="body">The body of the request.</param>
-		/// <param name="query">The query parameters of the request.</param>
-		/// <returns>Returns the response of the request.</returns>
-		protected override TResult InvokeInternal<TBody, TResult>(string method, string url, string contentType, WebHeaderCollection requestHeaders, out WebHeaderCollection responseHeaders, TBody body, NameValueCollection query)
+	    /// <summary>
+	    /// Invokes a request.
+	    /// </summary>
+	    /// <typeparam name="TBody">The type of the body of the request.</typeparam>
+	    /// <typeparam name="TResult">The type of the result of the request.</typeparam>
+	    /// <param name="method">The request method.</param>
+	    /// <param name="url">The URL of the request.</param>
+	    /// <param name="contentType">The content type of the request.</param>
+	    /// <param name="requestHeaders">Additional headers for the request.</param>
+	    /// <param name="responseHeaders"> the response headers outgoing param</param>
+	    /// <param name="body">The body of the request.</param>
+	    /// <param name="query">The query parameters of the request.</param>
+	    /// <returns>Returns the response of the request.</returns>
+	    protected override TResult InvokeInternal<TBody, TResult>(string method, string url, string contentType, WebHeaderCollection requestHeaders, out WebHeaderCollection responseHeaders, TBody body, NameValueCollection query)
 		{
 
 			if (string.IsNullOrEmpty(method))

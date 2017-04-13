@@ -1,14 +1,9 @@
-﻿using OpenIZ.Core.Model.DataTypes;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.ConceptModels;
 
-namespace OpenIZAdmin.Models.LanguageModels
+namespace OpenIZAdmin.Models.Core
 {
     /// <summary>
     /// Provides the model for managing languages.

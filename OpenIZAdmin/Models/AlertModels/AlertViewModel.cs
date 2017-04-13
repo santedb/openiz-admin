@@ -36,6 +36,10 @@ namespace OpenIZAdmin.Models.AlertModels
 		{
 		}
 
+        /// <summary>
+		/// Initializes a new instance of the <see cref="AlertViewModel"/> class.		
+		/// </summary>
+		/// <param name="alertMessageInfo">The alert message information.</param>
 		public AlertViewModel(AlertMessageInfo alertMessageInfo)
 		{
 			this.Body = alertMessageInfo.AlertMessage.Body;

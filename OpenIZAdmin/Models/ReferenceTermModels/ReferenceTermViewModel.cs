@@ -23,6 +23,7 @@ using System.Linq;
 using System.Web;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Models.Core;
+using OpenIZAdmin.Models.ReferenceTermNameModels;
 
 namespace OpenIZAdmin.Models.ReferenceTermModels
 {

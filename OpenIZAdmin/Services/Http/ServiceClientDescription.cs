@@ -82,6 +82,9 @@ namespace OpenIZAdmin.Services.Http
 			}
 		}
 
+        /// <summary>
+		/// Gets the trace property
+		/// </summary>
         public bool Trace
         {
             get

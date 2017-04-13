@@ -36,28 +36,12 @@ namespace OpenIZAdmin.Models.PolicyModels
 		public CreatePolicyModel()
 		{
 			this.GrantsList = new List<SelectListItem>();
-		}
-
-		//[Display(Name = "CanOverride", ResourceType = typeof(Localization.Locale))]
-		//public bool CanOverride { get; set; }
-
-		//[Display(Name = "Grants", ResourceType = typeof(Localization.Locale))]
-		//[Required(ErrorMessageResourceName = "GrantsRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		//public int GrantId { get; set; }
+		}		
 
         /// <summary>
         /// Gets or sets the list of Grants
         /// </summary>
-		public List<SelectListItem> GrantsList { get; set; }
-
-        //[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        //[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
-        //public string Name { get; set; }
-
-        //[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        //public string Oid { get; set; }
+		public List<SelectListItem> GrantsList { get; set; }        
 
         /// <summary>
         /// Creates a SecurityPolicyInfo instance
@@ -72,8 +56,6 @@ namespace OpenIZAdmin.Models.PolicyModels
 				Oid = this.Oid,                
 			};
 		}
-
-        //new SecurityPolicyInstance(securityPolicyInfo.Policy, (PolicyGrantType)this.GrantId) - missing from above method - need to test if needed for create as it doesn't appear that the 
-        //grant is carried over - will have to investigate later.
+        
     }
 }

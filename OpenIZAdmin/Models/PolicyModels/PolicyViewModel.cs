@@ -80,58 +80,6 @@ namespace OpenIZAdmin.Models.PolicyModels
 		{
 			this.Grant = Enum.GetName(typeof(PolicyGrantType), securityPolicyInstance.GrantType);
 		}
-
-		///// <summary>
-		///// Gets or sets a value indicating whether this instance can override.
-		///// </summary>
-		///// <value><c>true</c> if this instance can override; otherwise, <c>false</c>.</value>
-		//[Display(Name = "CanOverride", ResourceType = typeof(Localization.Locale))]
-		//public bool CanOverride { get; set; }
-
-		///// <summary>
-		///// Gets or sets the creation time.
-		///// </summary>
-		///// <value>The creation time.</value>
-		//[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
-		//public DateTime CreationTime { get; set; }
-
-		///// <summary>
-		///// Gets or sets the grant.
-		///// </summary>
-		///// <value>The grant.</value>
-		//[Display(Name = "Grant", ResourceType = typeof(Locale))]
-		//public string Grant { get; set; }
-
-		///// <summary>
-		///// Gets or sets the identifier.
-		///// </summary>
-		///// <value>The identifier.</value>
-		//public Guid Id { get; set; }
-
-		///// <summary>
-		///// Gets or sets the obsolete status of the policy.
-		///// </summary>
-		//public bool IsObsolete { get; set; }
-
-		///// <summary>
-		///// Gets or sets a value indicating whether this instance is public.
-		///// </summary>
-		///// <value><c>true</c> if this instance is public; otherwise, <c>false</c>.</value>
-		//[Display(Name = "IsPublic", ResourceType = typeof(Locale))]
-		//public bool IsPublic { get; set; }
-
-		///// <summary>
-		///// Gets or sets the name.
-		///// </summary>
-		///// <value>The name.</value>
-		//[Display(Name = "Name", ResourceType = typeof(Locale))]
-		//public string Name { get; set; }
-
-		///// <summary>
-		///// Gets or sets the oid.
-		///// </summary>
-		///// <value>The oid.</value>
-		//[Display(Name = "OIDAllCaps", ResourceType = typeof(Locale))]
-		//public string Oid { get; set; }
+		
 	}
 }

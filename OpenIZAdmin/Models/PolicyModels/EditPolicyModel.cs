@@ -56,37 +56,13 @@ namespace OpenIZAdmin.Models.PolicyModels
 			this.GrantsList.Add(new SelectListItem { Text = Locale.Deny, Value = "0" });
 			this.GrantsList.Add(new SelectListItem { Text = Locale.Elevate, Value = "1" });
 			this.GrantsList.Add(new SelectListItem { Text = Locale.Grant, Value = "2" });
-		}
-
-        //[Display(Name = "CanOverride", ResourceType = typeof(Localization.Locale))]
-        //public bool CanOverride { get; set; }
-        //[Display(Name = "Grants", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "GrantsRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        //public int Grant { get; set; }
-
-        //public int GrantId { get; set; }
-
+		}        
 
         /// <summary>
         /// Gets or sets the list of Grants
         /// </summary>
         public List<SelectListItem> GrantsList { get; set; }
-
-        //[Required]
-        //public Guid Id { get; set; }
-
-        //[Display(Name = "IsPublic", ResourceType = typeof(Localization.Locale))]
-        //public bool IsPublic { get; set; }
-
-        //[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
-        //[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
-        //public string Name { get; set; }
-
-        //[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        //public string Oid { get; set; }
-
+        
         /// <summary>
         /// Creates a SecurityPolicyInfo instance
         /// </summary>

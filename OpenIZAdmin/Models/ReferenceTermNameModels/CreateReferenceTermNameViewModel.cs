@@ -20,14 +20,11 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Models.Core;
-using OpenIZAdmin.Models.PolicyModels;
 
-namespace OpenIZAdmin.Models.ReferenceTermModels
+namespace OpenIZAdmin.Models.ReferenceTermNameModels
 {
     /// <summary>
 	/// Represents a reference term name model class.
