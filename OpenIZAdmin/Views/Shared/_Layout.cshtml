@@ -49,12 +49,12 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li>
-                                <a href="#" language="@Locale.EN" class="change-language">
+                                <a href="#" language="@LocalizationConfig.LanguageCode.English" class="change-language">
                                     @Locale.English
                                 </a>
                             </li>
                             <li>
-                                <a href="#" language="@Locale.SW" class="change-language">
+                                <a href="#" language="@LocalizationConfig.LanguageCode.Swahili" class="change-language">
                                     @Locale.Kiswahili
                                 </a>
                             </li>
@@ -164,9 +164,6 @@
         $(".change-language").on('click', function ()
         {
             var language = $(this).attr("language");
-            console.log(language);
-
-            document.cookie = "__openiz_language=" + language;
 
             $.ajax({
                 url: "/Locale/ChangeLanguage?language=" + language,
