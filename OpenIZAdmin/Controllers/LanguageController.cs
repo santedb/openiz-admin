@@ -79,15 +79,15 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-		/// <summary>
-		/// Deletes a language from a Concept.
-		/// </summary>
-		/// <param name="id">The Concept Guid id</param>
-		/// <param name="conceptVersionKey">The verion identifier of the Concept instance.</param>
-		/// <param name="langCode">The language two character code identifier</param>
-		/// <param name="displayName">The text name representation of the Concept</param>
-		/// <returns>Returns the index view.</returns>
-		[HttpPost]
+        /// <summary>
+        /// Deletes a language from a Concept.
+        /// </summary>
+        /// <param name="id">The Concept Guid id</param>
+        /// <param name="versionId">The verion identifier of the Concept instance.</param>
+        /// <param name="langCode">The language two character code identifier</param>
+        /// <param name="displayName">The text name representation of the Concept</param>
+        /// <returns>Returns the index view.</returns>
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(Guid? id, Guid? versionId, string langCode, string displayName)
 		{
@@ -126,15 +126,15 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index", "Concept");
 		}
 
-		/// <summary>
-		/// Retrieves the languages associated with the Concept to edit
-		/// </summary>
-		/// <param name="id">The concept Guid id</param>
-		/// <param name="conceptVersionKey">The version identifier of the Concept instance.</param>
-		/// <param name="langCode">The language two character code identifier</param>
-		/// <param name="displayName">The text name representation of the Concept</param>
-		/// <returns>An ActionResult instance</returns>
-		[HttpGet]
+        /// <summary>
+        /// Retrieves the languages associated with the Concept to edit
+        /// </summary>
+        /// <param name="id">The concept Guid id</param>
+        /// <param name="versionId">The version identifier of the Concept instance.</param>
+        /// <param name="langCode">The language two character code identifier</param>
+        /// <param name="displayName">The text name representation of the Concept</param>
+        /// <returns>An ActionResult instance</returns>
+        [HttpGet]
 		public ActionResult Edit(Guid? id, Guid? versionId, string langCode, string displayName)
 		{
 			var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
