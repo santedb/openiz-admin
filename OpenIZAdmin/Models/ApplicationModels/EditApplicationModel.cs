@@ -39,13 +39,6 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		}
 
 		/// <summary>
-		/// Gets or sets the add policies.
-		/// </summary>
-		/// <value>The add policies.</value>
-		[Display(Name = "AddPolicies", ResourceType = typeof(Locale))]
-		public List<string> AddPolicies { get; set; }
-
-		/// <summary>
 		/// Gets or sets the name of the application.
 		/// </summary>
 		/// <value>The name of the application.</value>

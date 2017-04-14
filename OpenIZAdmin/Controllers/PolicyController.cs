@@ -139,7 +139,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (CommonUtil.IsValidString(searchTerm))
+				if (this.IsValidKey(searchTerm))
 				{
 					var results = new List<SecurityPolicyInfo>();
 

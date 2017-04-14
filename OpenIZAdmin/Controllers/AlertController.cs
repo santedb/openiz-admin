@@ -28,7 +28,10 @@ using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Security;
+using OpenIZ.Messaging.AMI.Client;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -75,7 +78,7 @@ namespace OpenIZAdmin.Controllers
 						model.To = Constants.SystemUserId;
 					}
 
-					var alertMessageInfo = AlertUtil.ToAlertMessageInfo(this.AmiClient, model, User);
+					var alertMessageInfo = this.ToAlertMessageInfo(model, User);
 
 					this.AmiClient.CreateAlert(alertMessageInfo);
 
@@ -218,6 +221,53 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Alert;
 
 			return RedirectToAction("Index");
+		}
+
+		/// <summary>
+		/// Converts an alert model to an alert message info.
+		/// </summary>
+		/// <param name="client">The <see cref="AmiServiceClient"/> instance.</param>
+		/// <param name="model">The create alert model.</param>
+		/// <param name="user">The <see cref="IPrincipal"/> instance.</param>
+		/// <returns>Returns the converted alert message info.</returns>
+		private AlertMessageInfo ToAlertMessageInfo(CreateAlertModel model, IPrincipal user)
+		{
+			var alertMessageInfo = new AlertMessageInfo
+			{
+				AlertMessage = new AlertMessage
+				{
+					Body = model.Message,
+					CreatedBy = new SecurityUser
+					{
+						Key = Guid.Parse(user.Identity.GetUserId())
+					},
+					Flags = (AlertMessageFlags)model.Priority
+				}
+			};
+
+			alertMessageInfo.AlertMessage.From = user.Identity.GetUserName();
+
+			var securityUser = this.AmiClient.GetUser(model.To).User;
+
+			alertMessageInfo.AlertMessage.RcptTo = new List<SecurityUser>
+			{
+				securityUser
+			};
+
+			switch (alertMessageInfo.AlertMessage.Flags)
+			{
+				case AlertMessageFlags.System:
+					alertMessageInfo.AlertMessage.To = "everyone";
+					break;
+				default:
+					alertMessageInfo.AlertMessage.To = securityUser.UserName;
+					break;
+			}
+
+			alertMessageInfo.AlertMessage.Subject = model.Subject;
+			alertMessageInfo.AlertMessage.TimeStamp = DateTimeOffset.Now;
+
+			return alertMessageInfo;
 		}
 
 		/// <summary>

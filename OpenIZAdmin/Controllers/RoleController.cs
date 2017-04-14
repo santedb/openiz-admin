@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -35,7 +36,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for administering roles.
 	/// </summary>
 	[TokenAuthorize]
-	public class RoleController : BaseController
+	public class RoleController : SecurityBaseController
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RoleController"/> class.
@@ -169,7 +170,11 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return View(RoleUtil.ToEditRoleModel(this.AmiClient, securityRoleInfo));
+				var model = new EditRoleModel(securityRoleInfo);
+
+				model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id"));
+
+				return View(model);
 			}
 			catch (Exception e)
 			{
@@ -194,7 +199,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var roleInfo = this.AmiClient.GetRole(model.Id);
+					var roleInfo = this.AmiClient.GetRole(model.Id.ToString());
 
 					if (roleInfo == null)
 					{
@@ -203,7 +208,7 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
-					this.AmiClient.UpdateRole(roleInfo.Id.ToString(), RoleUtil.ToSecurityRoleInfo(this.AmiClient, model, roleInfo));
+					this.AmiClient.UpdateRole(roleInfo.Id.ToString(), this.ToSecurityRoleInfo(model, roleInfo));
 
 					TempData["success"] = Locale.Role + " " + Locale.Updated + " " + Locale.Successfully;
 
@@ -244,7 +249,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (CommonUtil.IsValidString(searchTerm))
+				if (this.IsValidKey(searchTerm))
 				{
 					var results = new List<SecurityRoleInfo>();
 

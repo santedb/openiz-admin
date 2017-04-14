@@ -100,7 +100,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			var model = new CreateUserModel
 			{
-				RolesList = RoleUtil.GetAllRoles(this.AmiClient).ToSelectList("Name", "Name")
+				RolesList = this.GetAllRoles().ToSelectList("Name", "Name")
 			};
 
 			return View(model);
@@ -120,7 +120,7 @@ namespace OpenIZAdmin.Controllers
 				if (ModelState.IsValid)
 				{
 					//check if username exists
-					if (UserUtil.CheckForUserName(this.AmiClient, model.Username))
+					if (this.UsernameExists(model.Username))
 					{
 						TempData["error"] = Locale.UserNameExists;
 					}
@@ -128,7 +128,7 @@ namespace OpenIZAdmin.Controllers
 					{
 						var user = this.AmiClient.CreateUser(model.ToSecurityUserInfo());
 
-						var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, user.UserId.Value);
+						var userEntity = this.GetUserEntityBySecurityUserKey(user.UserId.Value);
 
 						if (userEntity == null)
 						{
@@ -159,7 +159,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			model.RolesList = RoleUtil.GetAllRoles(this.AmiClient).ToSelectList("Name", "Name");
+			model.RolesList = this.GetAllRoles().ToSelectList("Name", "Name");
 
 			if (TempData.ContainsKey("error") && TempData["error"] == null)
 			{
@@ -206,7 +206,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, id);
+				var userEntity = this.GetUserEntityBySecurityUserKey(id);
 
 				// used as a check for users, incase an imported user doesn't have a user entity
 				if (userEntity == null)
@@ -222,7 +222,7 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditUserModel(userEntity, securityUserInfo)
 				{
-					RolesList = RoleUtil.GetAllRoles(this.AmiClient).ToSelectList("Name", "Id")
+					RolesList = this.GetAllRoles().ToSelectList("Name", "Id")
 				};
 
 				var facilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
@@ -245,8 +245,7 @@ namespace OpenIZAdmin.Controllers
 					model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Selected = f.Id == model.Facility, Text = f.Name, Value = f.Id }));
 				}
 
-				model.PhoneTypeList = AccountUtil.GetPhoneTypeList(this.ImsiClient);
-				model.PhoneTypeList = model.PhoneTypeList.Select(p => new SelectListItem { Selected = p.Value == model.PhoneType, Text = p.Text, Value = p.Value }).OrderBy(p => p.Text).ToList();
+				model.PhoneTypeList = GetPhoneTypeConceptSet().Concepts.ToSelectList(p => p.Key == Guid.Parse(model.PhoneType)).ToList();
 
 				return View(model);
 			}
@@ -273,7 +272,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, model.Id);
+					var userEntity = this.GetUserEntityBySecurityUserKey(model.Id);
 
 					if (userEntity == null)
 					{
@@ -307,7 +306,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			model.RolesList = RoleUtil.GetAllRoles(this.AmiClient).ToSelectList("Name", "Id");
+			model.RolesList = this.GetAllRoles().ToSelectList("Name", "Id");
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.User;
 
@@ -414,7 +413,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (CommonUtil.IsValidString(searchTerm))
+				if (this.IsValidKey(searchTerm))
 				{
 					var results = new List<SecurityUserInfo>();
 
@@ -446,7 +445,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			var userList = new List<UserViewModel>();
 
-			if (CommonUtil.IsValidString(searchTerm))
+			if (this.IsValidKey(searchTerm))
 			{
 				var users = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
 
@@ -454,6 +453,16 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			return Json(userList, JsonRequestBehavior.AllowGet);
+		}
+
+		/// <summary>
+		/// Checks against the server to determine if a username exists.
+		/// </summary>
+		/// <param name="username">The username.</param>
+		/// <returns><c>true</c> If the username exists, <c>false</c> otherwise.</returns>
+		private bool UsernameExists(string username)
+		{
+			return this.AmiClient.GetUsers(u => u.UserName == username).CollectionItem.Any();
 		}
 
 		/// <summary>
@@ -474,7 +483,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, id);
+				var userEntity = this.GetUserEntityBySecurityUserKey(id);
 
 				// used as a check for users, incase an imported user doesn't have a user entity
 				if (userEntity == null)

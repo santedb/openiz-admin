@@ -30,6 +30,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.AMI.Diagnostics;
+using OpenIZ.Messaging.IMSI.Client;
+using OpenIZAdmin.Models.DeviceModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -39,6 +43,15 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public class HomeController : BaseController
 	{
+		/// <summary>
+		/// Gets all devices.
+		/// </summary>
+		/// <returns>Returns a list of all devices as device view model instances.</returns>
+		private IEnumerable<DeviceViewModel> GetAllDevices()
+		{
+			return this.AmiClient.GetDevices(d => d.Name != string.Empty).CollectionItem.Select(d => new DeviceViewModel(d));
+		}
+
 		/// <summary>
 		/// Displays the index view.
 		/// </summary>
@@ -54,8 +67,8 @@ namespace OpenIZAdmin.Controllers
 			{
 				Applets = this.AmiClient.GetApplets().CollectionItem.Select(a => new AppletViewModel(a)),
 				CertificateRequests = new List<CertificateSigningRequestViewModel>(), //CertificateUtil.GetAllCertificateSigningRequests(this.client),
-				Devices = DeviceUtil.GetAllDevices(this.AmiClient).OrderBy(d => d.CreationTime).ThenBy(d => d.Name).Take(15),
-				Roles = RoleUtil.GetAllRoles(this.AmiClient).OrderBy(r => r.Name).Take(15)
+				Devices = this.GetAllDevices().OrderBy(d => d.CreationTime).ThenBy(d => d.Name).Take(15),
+				Roles = this.GetAllRoles().OrderBy(r => r.Name).Take(15)
 			};
 
 			return View(viewModel);
@@ -108,7 +121,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var report = model.ToDiagnosticReport(UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, Guid.Parse(User.Identity.GetUserId())));
+					var report = model.ToDiagnosticReport(this.GetUserEntityBySecurityUserKey(Guid.Parse(this.User.Identity.GetUserId())));
 					report = AmiClient.SubmitDiagnosticReport(report);
 					model.TransactionMessage = report.CorrelationId;
 					model.Success = true;

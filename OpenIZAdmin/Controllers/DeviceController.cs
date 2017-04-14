@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -34,7 +35,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing devices.
 	/// </summary>
 	[TokenAuthorize]
-	public class DeviceController : BaseController
+	public class DeviceController : SecurityBaseController
 	{
 		/// <summary>
 		/// Activate a device.
@@ -168,8 +169,7 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditDeviceModel(securityDeviceInfo);
 
-				model.PoliciesList.Add(new SelectListItem { Text = string.Empty, Value = string.Empty });
-				model.PoliciesList.AddRange(CommonUtil.GetAllPolicies(this.AmiClient).Select(r => new SelectListItem { Text = r.Name, Value = r.Id.ToString() }).OrderBy(q => q.Text));
+				model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id"));
 
 				return View(model);
 			}
@@ -205,7 +205,7 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
-					var deviceInfo = DeviceUtil.ToSecurityDeviceInfo(this.AmiClient, model, securityDeviceInfo);
+					var deviceInfo = this.ToSecurityDeviceInfo(model, securityDeviceInfo);
 
 					this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
 
@@ -247,7 +247,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (CommonUtil.IsValidString(searchTerm))
+				if (this.IsValidKey(searchTerm))
 				{
 					var results = new List<SecurityDeviceInfo>();
 

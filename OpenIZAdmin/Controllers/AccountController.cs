@@ -37,6 +37,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -435,7 +436,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, Guid.Parse(User.Identity.GetUserId()));
+				var userEntity = this.GetUserEntityBySecurityUserKey(Guid.Parse(this.User.Identity.GetUserId()));
 
 				if (userEntity.SecurityUser == null)
 				{
@@ -464,8 +465,7 @@ namespace OpenIZAdmin.Controllers
 					model.Facility = place.Key?.ToString();
 				}
 
-				model.PhoneTypeList = AccountUtil.GetPhoneTypeList(this.ImsiClient);
-				model.PhoneTypeList = model.PhoneTypeList.Select(p => new SelectListItem { Selected = p.Value == model.PhoneType, Text = p.Text, Value = p.Value }).OrderBy(p => p.Text).ToList();
+				model.PhoneTypeList = GetPhoneTypeConceptSet().Concepts.ToSelectList(p => p.Key == Guid.Parse(model.PhoneType)).ToList();
 
 				return View(model);
 			}
@@ -495,7 +495,7 @@ namespace OpenIZAdmin.Controllers
 					var userId = Guid.Parse(User.Identity.GetUserId());
 
 					var securityUserInfo = this.AmiClient.GetUser(userId.ToString());
-					var userEntity = UserUtil.GetUserEntityBySecurityUserKey(this.ImsiClient, userId);
+					var userEntity = this.GetUserEntityBySecurityUserKey(userId);
 
 					if (securityUserInfo == null || userEntity == null)
 					{

@@ -271,7 +271,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (CommonUtil.IsValidString(searchTerm))
+				if (this.IsValidKey(searchTerm))
 				{
 					Bundle bundle;
 

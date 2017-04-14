@@ -228,7 +228,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Attributes\TokenAuthorize.cs" />
-    <Compile Include="Comparer\EntityEqualityComparer.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\AssociationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -248,6 +247,7 @@
     <Compile Include="Controllers\PolicyController.cs" />
     <Compile Include="Controllers\RealmController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
+    <Compile Include="Controllers\SecurityBaseController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\AppletController.cs" />
     <Compile Include="Controllers\DeviceController.cs" />
@@ -371,16 +371,8 @@
     <Compile Include="Services\Http\ServiceClientEndpoint.cs" />
     <Compile Include="Services\Http\ServiceClientSecurity.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Util\AccountUtil.cs" />
-    <Compile Include="Util\AlertUtil.cs" />
-    <Compile Include="Util\ApplicationUtil.cs" />
-    <Compile Include="Util\CommonUtil.cs" />
     <Compile Include="Util\ConceptUtil.cs" />
-    <Compile Include="Util\HomeUtil.cs" />
-    <Compile Include="Util\DeviceUtil.cs" />
     <Compile Include="Util\LanguageUtil.cs" />
-    <Compile Include="Util\RoleUtil.cs" />
-    <Compile Include="Util\UserUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />

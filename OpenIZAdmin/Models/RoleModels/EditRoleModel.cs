@@ -17,11 +17,15 @@
  * Date: 2016-9-5
  */
 
+using System;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.PolicyModels;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.AMI.Auth;
+using Quartz.Util;
 
 namespace OpenIZAdmin.Models.RoleModels
 {
@@ -41,6 +45,20 @@ namespace OpenIZAdmin.Models.RoleModels
 		}
 
 		/// <summary>
+		/// Initializes a new instance of the <see cref="EditRoleModel"/> class.
+		/// </summary>
+		/// <param name="securityRoleInfo">The security role information.</param>
+		public EditRoleModel(SecurityRoleInfo securityRoleInfo)
+		{
+			this.Id = securityRoleInfo.Role.Key.Value;
+			this.IsObsolete = securityRoleInfo.Role.ObsoletionTime != null;
+			this.Description = securityRoleInfo.Role.Description;
+			this.Name = securityRoleInfo.Name;
+			this.RolePolicies = securityRoleInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList();
+			this.Policies = this.RolePolicies.Select(p => p.Id.ToString()).ToList();
+		}
+
+		/// <summary>
 		/// Gets or sets the description of the role.
 		/// </summary>
 		[Display(Name = "Description", ResourceType = typeof(Locale))]
@@ -51,7 +69,7 @@ namespace OpenIZAdmin.Models.RoleModels
 		/// Gets or sets the id of the role.
 		/// </summary>
 		[Required]
-		public string Id { get; set; }
+		public Guid Id { get; set; }
 
 
 		/// <summary>

@@ -280,7 +280,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			var results = new List<ConceptSearchResultViewModel>();
 
-			if (CommonUtil.IsValidString(searchTerm))
+			if (this.IsValidKey(searchTerm))
 			{
 				Bundle bundle;
 

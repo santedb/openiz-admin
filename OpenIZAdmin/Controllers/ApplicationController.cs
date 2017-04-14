@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -34,7 +35,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing security applications.
 	/// </summary>
 	[TokenAuthorize]
-	public class ApplicationController : BaseController
+	public class ApplicationController : SecurityBaseController
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ApplicationController"/> class.
@@ -175,8 +176,7 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditApplicationModel(securityApplicationInfo);
 
-				model.PoliciesList.Add(new SelectListItem { Text = string.Empty, Value = string.Empty });
-				model.PoliciesList.AddRange(CommonUtil.GetAllPolicies(this.AmiClient).Select(p => new SelectListItem { Text = p.Name, Value = p.Id.ToString() }));
+				model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id"));
 
 				return View(model);
 			}
@@ -212,7 +212,7 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
-					var appInfo = ApplicationUtil.ToSecurityApplicationInfo(this.AmiClient, model, appEntity);
+					var appInfo = this.ToSecurityApplicationInfo(model, appEntity);
 
 					this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
 
@@ -255,7 +255,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (CommonUtil.IsValidString(searchTerm))
+				if (this.IsValidKey(searchTerm))
 				{
 					var results = new List<SecurityApplicationInfo>();
 

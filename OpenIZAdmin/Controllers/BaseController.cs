@@ -35,6 +35,7 @@ using System.Runtime.Caching;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.RoleModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -90,6 +91,34 @@ namespace OpenIZAdmin.Controllers
 			this.AmiClient?.Dispose();
 			this.ImsiClient?.Dispose();
 			base.Dispose(disposing);
+		}
+
+		/// <summary>
+		/// Forces the load concepts.
+		/// </summary>
+		/// <param name="conceptSet">The concept set.</param>
+		/// <returns>Returns the concept set with the nested loaded concepts.</returns>
+		private ConceptSet ForceLoadConcepts(ConceptSet conceptSet)
+		{
+			Expression<Func<Concept, bool>> nameExpression = c => c.ConceptNames.Any() || c.Mnemonic == null;
+
+			// HACK: force load missing concept names and mnemonics
+			for (var i = 0; i < conceptSet.Concepts.Count(nameExpression.Compile()); i++)
+			{
+				var concept = conceptSet.Concepts.Where(nameExpression.Compile()).ToArray()[i];
+				conceptSet.Concepts.Where(nameExpression.Compile()).ToArray()[i] = this.ImsiClient.Get<Concept>(concept.Key.Value, null) as Concept;
+			}
+
+			return conceptSet;
+		}
+
+		/// <summary>
+		/// Gets all roles.
+		/// </summary>
+		/// <returns>Returns a list of all roles as role view model instances.</returns>
+		protected IEnumerable<RoleViewModel> GetAllRoles()
+		{
+			return this.AmiClient.GetRoles(r => r.ObsoletionTime == null).CollectionItem.Select(r => new RoleViewModel(r));
 		}
 
 		/// <summary>
@@ -317,6 +346,33 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Gets the phone type concept set.
+		/// </summary>
+		/// <returns>Returns the concept set which represents a telecommunications address use.</returns>
+		protected ConceptSet GetPhoneTypeConceptSet()
+		{
+			var conceptSet = MvcApplication.MemoryCache.Get(ConceptSetKeys.TelecomAddressUse.ToString()) as ConceptSet;
+
+			if (conceptSet == null)
+			{
+				var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == Constants.TelecomAddressUse, 0, null, "concept");
+
+				bundle.Reconstitute();
+
+				conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Mnemonic == Constants.TelecomAddressUse);
+
+				if (conceptSet != null)
+				{
+					conceptSet = ForceLoadConcepts(conceptSet);
+				}
+
+				MvcApplication.MemoryCache.Set(new CacheItem(ConceptSetKeys.TelecomAddressUse.ToString(), conceptSet), MvcApplication.CacheItemPolicy);
+			}
+
+			return conceptSet;
+		}
+
+		/// <summary>
 		/// Gets the place type concepts.
 		/// </summary>
 		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
@@ -362,6 +418,30 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			return concepts;
+		}
+
+		/// <summary>
+		/// Gets the user entity by security user key.
+		/// </summary>
+		/// <param name="securityUserId">The security user identifier.</param>
+		/// <returns>Returns the user entity instance.</returns>
+		protected UserEntity GetUserEntityBySecurityUserKey(Guid securityUserId)
+		{
+			var bundle = this.ImsiClient.Query<UserEntity>(u => u.SecurityUserKey == securityUserId && u.ObsoletionTime == null, 0, null, true);
+
+			bundle.Reconstitute();
+
+			return bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.SecurityUserKey == securityUserId);
+		}
+
+		/// <summary>
+		/// Determines whether [is valid key] [the specified key].
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns><c>true</c> if [is valid key] [the specified key]; otherwise, <c>false</c>.</returns>
+		protected virtual bool IsValidKey(string key)
+		{
+			return !string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key);
 		}
 
 		/// <summary>
