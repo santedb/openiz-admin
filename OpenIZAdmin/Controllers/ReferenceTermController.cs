@@ -38,7 +38,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing reference terms.
 	/// </summary>
 	[TokenAuthorize]
-    public class ReferenceTermsController : BaseController
+    public class ReferenceTermController : BaseController
     {
         /// <summary>
 		/// Displays the create view.

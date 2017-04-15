@@ -8,7 +8,7 @@
         <span class="panel-title">@(Locale.Edit + " " + Locale.ReferenceTerm)</span>
     </div>
     <div class="panel panel-body">
-        @using (Html.BeginForm("Edit", "ReferenceTerms", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        @using (Html.BeginForm("Edit", "ReferenceTerm", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
