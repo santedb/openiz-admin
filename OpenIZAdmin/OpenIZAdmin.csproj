@@ -252,7 +252,7 @@
     <Compile Include="Controllers\AssigningAuthorityController.cs" />
     <Compile Include="Controllers\PolicyController.cs" />
     <Compile Include="Controllers\RealmController.cs" />
-    <Compile Include="Controllers\ReferenceTermsController.cs" />
+    <Compile Include="Controllers\ReferenceTermController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SecurityBaseController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -656,11 +656,11 @@
     <Content Include="Views\Shared\_ManageConceptsPartial.cshtml" />
     <Content Include="Views\Shared\_ConceptsPartial.cshtml" />
     <Content Include="Views\Shared\_ManageReferenceTermsPartial.cshtml" />
-    <Content Include="Views\ReferenceTerms\Create.cshtml" />
-    <Content Include="Views\ReferenceTerms\Edit.cshtml" />
-    <Content Include="Views\ReferenceTerms\Index.cshtml" />
+    <Content Include="Views\ReferenceTerm\Create.cshtml" />
+    <Content Include="Views\ReferenceTerm\Edit.cshtml" />
+    <Content Include="Views\ReferenceTerm\Index.cshtml" />
     <Content Include="Views\Shared\_ReferenceTermSearchResultsPartial.cshtml" />
-    <Content Include="Views\ReferenceTerms\ViewReferenceTerm.cshtml" />
+    <Content Include="Views\ReferenceTerm\ViewReferenceTerm.cshtml" />
     <Content Include="Views\Shared\_ReferenceTermNamesPartial.cshtml" />
     <Content Include="Views\Shared\_ManageReferenceTermNamesPartial.cshtml" />
   </ItemGroup>
