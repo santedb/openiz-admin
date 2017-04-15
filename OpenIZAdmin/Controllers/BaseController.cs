@@ -45,15 +45,6 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public abstract class BaseController : Controller
 	{
-		/// <summary>
-		/// The health facility mnemonic.
-		/// </summary>
-		private readonly string healthFacilityMnemonic = ConfigurationManager.AppSettings["HealthFacilityTypeConceptMnemonic"];
-
-		/// <summary>
-		/// The place type mnemonic.
-		/// </summary>
-		private readonly string placeTypeMnemonic = ConfigurationManager.AppSettings["PlaceTypeConceptMnemonic"];
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BaseController"/> class.
@@ -151,6 +142,17 @@ namespace OpenIZAdmin.Controllers
 		/// Gets the concept.
 		/// </summary>
 		/// <param name="key">The key.</param>
+		/// <param name="versionKey">The version key.</param>
+		/// <returns>Returns the concept or null if no concept is found.</returns>
+		protected Concept GetConcept(Guid key, Guid? versionKey)
+		{
+			return this.ImsiClient.Get<Concept>(key, versionKey) as Concept;
+		}
+
+		/// <summary>
+		/// Gets the concept.
+		/// </summary>
+		/// <param name="key">The key.</param>
 		/// <returns>Concept.</returns>
 		protected Concept GetConcept(Guid? key)
 		{
@@ -159,6 +161,32 @@ namespace OpenIZAdmin.Controllers
 			if (key.HasValue && key.Value != Guid.Empty)
 			{
 				concept = this.GetConcept(key.Value);
+			}
+
+			return concept;
+		}
+
+		/// <summary>
+		/// Gets the concept.
+		/// </summary>
+		/// <param name="mnemonic">The mnemonic.</param>
+		/// <returns>Returns a concept or null if no concept is found.</returns>
+		protected Concept GetConcept(string mnemonic)
+		{
+			var concept = MvcApplication.MemoryCache.Get(mnemonic) as Concept;
+
+			if (concept == null)
+			{
+				var bundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
+
+				bundle.Reconstitute();
+
+				concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
+
+				if (concept != null)
+				{
+					MvcApplication.MemoryCache.Set(new CacheItem(concept.Key?.ToString(), concept), MvcApplication.CacheItemPolicy);
+				}
 			}
 
 			return concept;
@@ -268,84 +296,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Gets the entity relationship concept set.
-		/// </summary>
-		/// <returns>Returns the entity relationship type concept set.</returns>
-		protected ConceptSet GetEntityRelationshipTypeConceptSet()
-		{
-			var conceptSet = MvcApplication.MemoryCache.Get(ConceptSetKeys.EntityRelationshipType.ToString()) as ConceptSet;
-
-			if (conceptSet == null)
-			{
-				conceptSet = this.ImsiClient.Get<ConceptSet>(ConceptSetKeys.EntityRelationshipType, null) as ConceptSet;
-
-				if (conceptSet != null)
-				{
-					MvcApplication.MemoryCache.Set(ConceptSetKeys.EntityRelationshipType.ToString(), conceptSet, MvcApplication.CacheItemPolicy);
-				}
-			}
-
-			return conceptSet;
-		}
-
-		/// <summary>
-		/// Gets the form concepts.
-		/// </summary>
-		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
-		protected IEnumerable<Concept> GetFormConcepts()
-		{
-			var concepts = MvcApplication.MemoryCache.Get(ConceptClassKeys.Form.ToString());
-
-			if (concepts == null)
-			{
-				var bundle = this.ImsiClient.Query<Concept>(c => c.ClassKey == ConceptClassKeys.Form && c.ObsoletionTime == null);
-
-				bundle.Reconstitute();
-
-				concepts = bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.Form && c.ObsoletionTime == null);
-
-				MvcApplication.MemoryCache.Set(new CacheItem(ConceptClassKeys.Form.ToString(), concepts), MvcApplication.CacheItemPolicy);
-			}
-
-			return concepts as IEnumerable<Concept>;
-		}
-
-		/// <summary>
-		/// Gets the industry code concept set.
-		/// </summary>
-		/// <returns>Returns a concept set.</returns>
-		protected ConceptSet GetIndustryCodeConceptSet()
-		{
-			var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key == ConceptSetKeys.IndustryCode && c.ObsoletionTime == null);
-
-			bundle.Reconstitute();
-
-			return bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == ConceptSetKeys.IndustryCode && c.ObsoletionTime == null);
-		}
-
-		/// <summary>
-		/// Gets the type concepts.
-		/// </summary>
-		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
-		protected IEnumerable<Concept> GetMaterialTypeConcepts()
-		{
-			var concepts = MvcApplication.MemoryCache.Get(ConceptClassKeys.Material.ToString()) as IEnumerable<Concept>;
-
-			if (concepts == null)
-			{
-				var bundle = this.ImsiClient.Query<Concept>(c => c.ClassKey == ConceptClassKeys.Material && c.ObsoletionTime == null);
-
-				bundle.Reconstitute();
-
-				concepts = bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.Material && c.ObsoletionTime == null);
-
-				MvcApplication.MemoryCache.Set(new CacheItem(ConceptClassKeys.Material.ToString(), concepts.ToList()), MvcApplication.CacheItemPolicy);
-			}
-
-			return concepts;
-		}
-
-		/// <summary>
 		/// Gets the phone type concept set.
 		/// </summary>
 		/// <returns>Returns the concept set which represents a telecommunications address use.</returns>
@@ -373,54 +323,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Gets the place type concepts.
-		/// </summary>
-		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
-		protected IEnumerable<Concept> GetPlaceTypeConcepts()
-		{
-			var typeConcepts = new List<Concept>();
-
-			if (!string.IsNullOrEmpty(this.healthFacilityMnemonic) && !string.IsNullOrWhiteSpace(this.healthFacilityMnemonic))
-			{
-				typeConcepts.AddRange(this.GetConceptSet(this.healthFacilityMnemonic).Concepts);
-			}
-
-			if (!string.IsNullOrEmpty(this.placeTypeMnemonic) && !string.IsNullOrWhiteSpace(this.placeTypeMnemonic))
-			{
-				typeConcepts.AddRange(this.GetConceptSet(this.placeTypeMnemonic).Concepts);
-			}
-
-			if (!typeConcepts.Any())
-			{
-				typeConcepts.AddRange(this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null));
-			}
-
-			return typeConcepts;
-		}
-
-		/// <summary>
-		/// Gets the quantity concepts.
-		/// </summary>
-		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
-		protected IEnumerable<Concept> GetQuantityConcepts()
-		{
-			var concepts = MvcApplication.MemoryCache.Get(ConceptClassKeys.UnitOfMeasure.ToString()) as IEnumerable<Concept>;
-
-			if (concepts == null)
-			{
-				var bundle = this.ImsiClient.Query<Concept>(c => c.ClassKey == ConceptClassKeys.UnitOfMeasure && c.ObsoletionTime == null);
-
-				bundle.Reconstitute();
-
-				concepts = bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.UnitOfMeasure && c.ObsoletionTime == null);
-
-				MvcApplication.MemoryCache.Set(new CacheItem(ConceptClassKeys.UnitOfMeasure.ToString(), concepts.ToList()), MvcApplication.CacheItemPolicy);
-			}
-
-			return concepts;
-		}
-
-		/// <summary>
 		/// Gets the user entity by security user key.
 		/// </summary>
 		/// <param name="securityUserId">The security user identifier.</param>
@@ -439,7 +341,7 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <returns><c>true</c> if [is valid key] [the specified key]; otherwise, <c>false</c>.</returns>
-		protected virtual bool IsValidKey(string key)
+		protected virtual bool IsValidId(string key)
 		{
 			return !string.IsNullOrEmpty(key) && !string.IsNullOrWhiteSpace(key);
 		}

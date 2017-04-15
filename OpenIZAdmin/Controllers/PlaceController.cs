@@ -29,6 +29,7 @@ using OpenIZAdmin.Models.EntityRelationshipModels;
 using OpenIZAdmin.Models.PlaceModels;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -43,6 +44,16 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public class PlaceController : BaseController
 	{
+		/// <summary>
+		/// The health facility mnemonic.
+		/// </summary>
+		private readonly string healthFacilityMnemonic = ConfigurationManager.AppSettings["HealthFacilityTypeConceptMnemonic"];
+
+		/// <summary>
+		/// The place type mnemonic.
+		/// </summary>
+		private readonly string placeTypeMnemonic = ConfigurationManager.AppSettings["PlaceTypeConceptMnemonic"];
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PlaceController"/> class.
 		/// </summary>
@@ -574,6 +585,32 @@ namespace OpenIZAdmin.Controllers
 
 			this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
 			return RedirectToAction("Edit", new { id = id });
+		}
+
+		/// <summary>
+		/// Gets the place type concepts.
+		/// </summary>
+		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
+		private IEnumerable<Concept> GetPlaceTypeConcepts()
+		{
+			var typeConcepts = new List<Concept>();
+
+			if (!string.IsNullOrEmpty(this.healthFacilityMnemonic) && !string.IsNullOrWhiteSpace(this.healthFacilityMnemonic))
+			{
+				typeConcepts.AddRange(this.GetConceptSet(this.healthFacilityMnemonic).Concepts);
+			}
+
+			if (!string.IsNullOrEmpty(this.placeTypeMnemonic) && !string.IsNullOrWhiteSpace(this.placeTypeMnemonic))
+			{
+				typeConcepts.AddRange(this.GetConceptSet(this.placeTypeMnemonic).Concepts);
+			}
+
+			if (!typeConcepts.Any())
+			{
+				typeConcepts.AddRange(this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null));
+			}
+
+			return typeConcepts;
 		}
 
 		/// <summary>

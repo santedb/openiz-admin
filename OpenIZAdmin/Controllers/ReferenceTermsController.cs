@@ -342,7 +342,7 @@ namespace OpenIZAdmin.Controllers
         {
             var results = new List<ReferenceTermSearchResultsViewModel>();
 
-            if (this.IsValidKey(searchTerm))
+            if (this.IsValidId(searchTerm))
             {
                 Bundle bundle;
 

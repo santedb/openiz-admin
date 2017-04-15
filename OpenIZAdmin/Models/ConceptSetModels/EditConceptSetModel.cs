@@ -91,14 +91,14 @@ namespace OpenIZAdmin.Models.ConceptSetModels
         /// <summary>
         /// Gets or sets the mnemonic of the concept.
         /// </summary>
-        [Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
+        [Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
         [Required]
 		public override string Mnemonic { get; set; }
 
         /// <summary>
         /// Gets or sets the name of the concept set.
         /// </summary>
-        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+        [Display(Name = "Name", ResourceType = typeof(Locale))]
         [Required]
 		public override string Name { get; set; }
 
@@ -106,7 +106,7 @@ namespace OpenIZAdmin.Models.ConceptSetModels
         /// Gets or sets the oid.
         /// </summary>
         /// <value>The oid.</value>
-        [Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
+        [Display(Name = "Oid", ResourceType = typeof(Locale))]
         [Required]
 		public override string Oid { get; set; }        
 
@@ -114,25 +114,33 @@ namespace OpenIZAdmin.Models.ConceptSetModels
         /// Gets or sets the URL.
         /// </summary>
         /// <value>The URL.</value>
-        [Display(Name = "Url", ResourceType = typeof(Localization.Locale))]
+        [Display(Name = "Url", ResourceType = typeof(Locale))]
         [Required]
 		public override string Url { get; set; }
 
 		/// <summary>
-		/// To the concept set.
+		/// Converts an <see cref="EditConceptSetModel"/> instance to a <see cref="ConceptSet"/> instance.
 		/// </summary>
-		/// <returns>ConceptSet.</returns>
-		public ConceptSet ToConceptSet()
+		/// <returns>Returns the converted concept set.</returns>
+		public ConceptSet ToConceptSet(ConceptSet conceptSet)
 		{
-			return new ConceptSet
+			conceptSet.Mnemonic = this.Mnemonic;
+			conceptSet.Name = this.Name;
+			conceptSet.Oid = this.Oid;
+			conceptSet.Url = this.Url;
+
+			if (!this.AddConcepts.Any()) return conceptSet;
+
+			foreach (var concept in this.AddConcepts)
 			{
-				CreationTime = this.CreationTime,
-				Key = this.Id,
-				Mnemonic = this.Mnemonic,
-				Name = this.Name,
-				Oid = this.Oid,
-				Url = this.Url
-			};
+				Guid id;
+				if (Guid.TryParse(concept, out id))
+				{
+					conceptSet.ConceptsXml.Add(id);
+				}
+			}
+
+			return conceptSet;
 		}
 	}
 }

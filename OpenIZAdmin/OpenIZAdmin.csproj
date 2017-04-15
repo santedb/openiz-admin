@@ -246,6 +246,7 @@
     <Compile Include="Controllers\ConceptController.cs" />
     <Compile Include="Controllers\LocaleController.cs" />
     <Compile Include="Controllers\EntityIdentifierController.cs" />
+    <Compile Include="Controllers\MetadataController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\PlaceController.cs" />
     <Compile Include="Controllers\AssigningAuthorityController.cs" />
@@ -384,7 +385,6 @@
     <Compile Include="Services\Http\ServiceClientEndpoint.cs" />
     <Compile Include="Services\Http\ServiceClientSecurity.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Util\ConceptUtil.cs" />
     <Compile Include="Util\LanguageUtil.cs" />
     <Compile Include="Util\ReferenceTermUtil.cs" />
   </ItemGroup>

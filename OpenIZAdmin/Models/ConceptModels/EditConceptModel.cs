@@ -50,9 +50,9 @@ namespace OpenIZAdmin.Models.ConceptModels
 			{
 				new SelectListItem { Text = string.Empty, Value = string.Empty }
 			};
-			
+
 			ReferenceTerms = new List<ReferenceTermViewModel>();
-            Languages = new List<LanguageViewModel>();
+			Languages = new List<LanguageViewModel>();
 		}
 
 		/// <summary>
@@ -60,68 +60,88 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		/// <param name="concept">The concept.</param>
 		public EditConceptModel(Concept concept) : this()
-		{           
-			CreationTime = concept.CreationTime.DateTime;		    
+		{
+			CreationTime = concept.CreationTime.DateTime;
 			Id = concept.Key ?? Guid.Empty;
-            IsObsolete = concept.ObsoletionTime != null;
-            IsSystemConcept = concept.IsSystemConcept;
-            Mnemonic = concept.Mnemonic;
-			Name = string.Join(" ", concept.ConceptNames.Select(c => c.Name));			
-            Languages = concept.ConceptNames.Select(k => new LanguageViewModel(k.Language, k.Name, concept)).ToList();            
-		    VersionKey = concept.VersionKey;
+			IsObsolete = concept.ObsoletionTime != null;
+			IsSystemConcept = concept.IsSystemConcept;
+			Mnemonic = concept.Mnemonic;
+			Name = string.Join(" ", concept.ConceptNames.Select(c => c.Name));
+			Languages = concept.ConceptNames.Select(k => new LanguageViewModel(k.Language, k.Name, concept)).ToList();
+			VersionKey = concept.VersionKey;
 		}
 
-        /// <summary>
-        /// Gets or sets the concept class.
-        /// </summary>
-        /// <value>The concept class.</value>
-        [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string ConceptClass { get; set; }
+		/// <summary>
+		/// Gets or sets the concept class.
+		/// </summary>
+		/// <value>The concept class.</value>
+		[Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		public string ConceptClass { get; set; }
 
-        /// <summary>
-        /// Gets or sets the concept class list.
-        /// </summary>
-        /// <value>The concept class list.</value>
-        public List<SelectListItem> ConceptClassList { get; set; }		
+		/// <summary>
+		/// Gets or sets the concept class list.
+		/// </summary>
+		/// <value>The concept class list.</value>
+		public List<SelectListItem> ConceptClassList { get; set; }
 
-  //      /// <summary>
+		//      /// <summary>
 		///// Gets or sets the language.
 		///// </summary>
 		///// <value>The language.</value>
 		//[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
-  //      //[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-  //      [StringLength(2, ErrorMessageResourceName = "LanguagCodeTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-  //      public string Language { get; set; }
+		//      //[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		//      [StringLength(2, ErrorMessageResourceName = "LanguagCodeTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		//      public string Language { get; set; }
 
-        /// <summary>
-        /// Gets or sets the language list.
-        /// </summary>
-        /// <value>The language list.</value>
-        public List<SelectListItem> LanguageList { get; set; }		
+		/// <summary>
+		/// Gets or sets the language list.
+		/// </summary>
+		/// <value>The language list.</value>
+		public List<SelectListItem> LanguageList { get; set; }
 
-        /// <summary>
+		/// <summary>
 		/// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
 		/// </summary>		
 		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
-        public List<LanguageViewModel> Languages { get; set; }
+		public List<LanguageViewModel> Languages { get; set; }
 
-  //      /// <summary>
+		//      /// <summary>
 		///// Gets or sets the mnemonic.
 		///// </summary>
 		///// <value>The mnemonic.</value>
 		//[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
-  //      [Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-  //      [StringLength(255, ErrorMessageResourceName = "MnemonicTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-  //      public sealed override string Mnemonic { get; set; }
+		//      [Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		//      [StringLength(255, ErrorMessageResourceName = "MnemonicTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		//      public sealed override string Mnemonic { get; set; }
 
-        ///// <summary>
-        ///// Gets or sets the name.
-        ///// </summary>
-        ///// <value>The name.</value>
-        //[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        //[StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
-        //public string Name { get; set; }          
-    }
+		///// <summary>
+		///// Gets or sets the name.
+		///// </summary>
+		///// <value>The name.</value>
+		//[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		//[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		//[StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
+		//public string Name { get; set; }          
+
+		/// <summary>
+		/// Converts an <see cref="EditConceptModel"/> instance to a <see cref="Concept"/> instance.
+		/// </summary>
+		/// <param name="concept">The concept.</param>
+		/// <returns>Returns the converted concept instance.</returns>
+		public Concept ToEditConceptModel(Concept concept)
+		{
+			if (!string.Equals(this.ConceptClass, concept.ClassKey.ToString()))
+			{
+				concept.Class = new ConceptClass
+				{
+					Key = Guid.Parse(this.ConceptClass)
+				};
+			}
+
+			concept.Mnemonic = this.Mnemonic;
+
+			return concept;
+		}
+	}
 }

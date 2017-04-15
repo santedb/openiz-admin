@@ -88,7 +88,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Update(string id)
 		{
-			if (this.IsValidKey(id))
+			if (this.IsValidId(id))
 			{
 				if (id.HasTrailingForwardSlash())
 				{
@@ -302,7 +302,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult ViewApplet(string id)
 		{
-			if (this.IsValidKey(id))
+			if (this.IsValidId(id))
 			{
 				if (id.HasTrailingForwardSlash())
 				{

@@ -38,7 +38,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing concepts.
 	/// </summary>
 	[TokenAuthorize]
-	public class ConceptSetController : BaseController
+	public class ConceptSetController : MetadataController
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConceptSetController"/> class.
@@ -160,7 +160,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var conceptSet = ConceptUtil.GetConceptSet(ImsiClient, setId);
+				var conceptSet = this.GetConceptSet(setId);
 
 				if (conceptSet == null)
 				{
@@ -195,7 +195,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Edit(Guid id)
 		{
-			var conceptSet = ConceptUtil.GetConceptSet(ImsiClient, id);
+			var conceptSet = this.GetConceptSet(id);
 
 			if (conceptSet == null)
 			{
@@ -219,7 +219,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var conceptSet = ConceptUtil.GetConceptSet(ImsiClient, model.Id);
+				var conceptSet = this.GetConceptSet(model.Id);
 
 				if (conceptSet == null)
 				{
@@ -228,13 +228,13 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				if (!string.Equals(conceptSet.Mnemonic, model.Mnemonic) && !ConceptUtil.CheckUniqueConceptSetMnemonic(ImsiClient, model.Mnemonic))
+				if (!string.Equals(conceptSet.Mnemonic, model.Mnemonic) && !DoesConceptSetExist(model.Mnemonic))
 				{
 					TempData["error"] = Locale.Mnemonic + " " + Locale.MustBeUnique;
 					return View(model);
 				}
 
-				conceptSet = ConceptUtil.ToEditConceptSetInfo(model, conceptSet);
+				conceptSet = model.ToConceptSet(conceptSet);
 
 				var result = this.ImsiClient.Update<ConceptSet>(conceptSet);
 
@@ -271,7 +271,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (this.IsValidKey(searchTerm))
+				if (this.IsValidId(searchTerm))
 				{
 					Bundle bundle;
 
@@ -370,7 +370,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var conceptSet = ConceptUtil.GetConceptSet(ImsiClient, id);
+				var conceptSet = this.GetConceptSet(id);
 
 				if (conceptSet == null)
 				{

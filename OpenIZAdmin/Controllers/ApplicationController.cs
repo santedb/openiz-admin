@@ -255,7 +255,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (this.IsValidKey(searchTerm))
+				if (this.IsValidId(searchTerm))
 				{
 					var results = new List<SecurityApplicationInfo>();
 

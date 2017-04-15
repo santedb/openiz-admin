@@ -38,7 +38,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing concepts.
 	/// </summary>
 	[TokenAuthorize]
-	public class ConceptController : BaseController
+	public class ConceptController : MetadataController
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ConceptController"/> class.
@@ -98,7 +98,7 @@ namespace OpenIZAdmin.Controllers
 				LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList()
 			};
 
-			var conceptClasses = ConceptUtil.GetConceptClasses(ImsiClient);
+			var conceptClasses = this.GetConceptClasses();
 			model.ConceptClassList.AddRange(conceptClasses.ToSelectList().OrderBy(c => c.Text));
 			model.Language = Locale.EN;
 
@@ -181,7 +181,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Edit(Guid id, Guid? versionId)
 		{
-			var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
+			var concept = this.GetConcept(id, versionId);
 
 			if (concept == null)
 			{
@@ -194,7 +194,7 @@ namespace OpenIZAdmin.Controllers
 				LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList()
 			};
 
-			var conceptClasses = ConceptUtil.GetConceptClasses(ImsiClient).ToList();
+			var conceptClasses = this.GetConceptClasses();
 			model.ConceptClassList.AddRange(conceptClasses.ToSelectList().OrderBy(c => c.Text));
 
 			if (concept.Class?.Key != null)
@@ -231,7 +231,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			if (ModelState.IsValid)
 			{
-				var concept = ConceptUtil.GetConcept(ImsiClient, model.Id, model.VersionKey);
+				var concept = this.GetConcept(model.Id, model.VersionKey);
 
 				if (concept == null)
 				{
@@ -240,13 +240,13 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				if (!string.Equals(concept.Mnemonic, model.Mnemonic) && !ConceptUtil.CheckUniqueConceptMnemonic(ImsiClient, model.Mnemonic))
+				if (!string.Equals(concept.Mnemonic, model.Mnemonic) && !DoesConceptExist(model.Mnemonic))
 				{
 					TempData["error"] = Locale.Mnemonic + " " + Locale.MustBeUnique;
 					return View(model);
 				}
 
-				concept = ConceptUtil.ToEditConceptInfo(model, concept);
+				concept = model.ToEditConceptModel(concept);
 
 				var result = this.ImsiClient.Update<Concept>(concept);
 
@@ -280,7 +280,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			var results = new List<ConceptSearchResultViewModel>();
 
-			if (this.IsValidKey(searchTerm))
+			if (this.IsValidId(searchTerm))
 			{
 				Bundle bundle;
 
@@ -317,7 +317,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
+				var concept = this.GetConcept(id, versionId);
 
 				if (concept == null)
 				{

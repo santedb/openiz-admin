@@ -245,7 +245,7 @@ namespace OpenIZAdmin.Controllers
 					model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Selected = f.Id == model.Facility, Text = f.Name, Value = f.Id }));
 				}
 
-				model.PhoneTypeList = this.IsValidKey(model.PhoneType) ? GetPhoneTypeConceptSet().Concepts.ToSelectList(p => p.Key == Guid.Parse(model.PhoneType)).ToList() : GetPhoneTypeConceptSet().Concepts.ToSelectList().ToList();
+				model.PhoneTypeList = this.IsValidId(model.PhoneType) ? GetPhoneTypeConceptSet().Concepts.ToSelectList(p => p.Key == Guid.Parse(model.PhoneType)).ToList() : GetPhoneTypeConceptSet().Concepts.ToSelectList().ToList();
 
 				return View(model);
 			}
@@ -413,7 +413,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (this.IsValidKey(searchTerm))
+				if (this.IsValidId(searchTerm))
 				{
 					var results = new List<SecurityUserInfo>();
 
@@ -445,7 +445,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			var userList = new List<UserViewModel>();
 
-			if (this.IsValidKey(searchTerm))
+			if (this.IsValidId(searchTerm))
 			{
 				var users = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
 

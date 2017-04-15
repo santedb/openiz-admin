@@ -13,7 +13,7 @@ namespace OpenIZAdmin.Controllers
 	/// <summary>
 	/// Provides operations for managing languages.
 	/// </summary>
-	public class LanguageController : BaseController
+	public class LanguageController : MetadataController
 	{
 		/// <summary>
 		/// Displays the Create view.
@@ -22,7 +22,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create(Guid id, Guid? versionId)
 		{
-			var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
+			var concept = this.GetConcept(id, versionId);
 
 			if (concept == null)
 			{
@@ -50,7 +50,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var concept = ConceptUtil.GetConcept(ImsiClient, model.ConceptId, model.ConceptVersionKey);
+				var concept = this.GetConcept(model.ConceptId.Value, model.ConceptVersionKey);
 
 				if (concept == null)
 				{
@@ -89,11 +89,11 @@ namespace OpenIZAdmin.Controllers
         /// <returns>Returns the index view.</returns>
         [HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Delete(Guid? id, Guid? versionId, string langCode, string displayName)
+		public ActionResult Delete(Guid id, Guid versionId, string langCode, string displayName)
 		{
 			try
 			{
-				var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
+				var concept = this.GetConcept(id, versionId);
 
 				if (concept == null)
 				{
@@ -135,9 +135,9 @@ namespace OpenIZAdmin.Controllers
         /// <param name="displayName">The text name representation of the Concept</param>
         /// <returns>An ActionResult instance</returns>
         [HttpGet]
-		public ActionResult Edit(Guid? id, Guid? versionId, string langCode, string displayName)
-		{
-			var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
+		public ActionResult Edit(Guid id, Guid versionId, string langCode, string displayName)
+        {
+	        var concept = this.GetConcept(id, versionId);
 
 			if (concept == null)
 			{
@@ -164,7 +164,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var concept = ConceptUtil.GetConcept(this.ImsiClient, model.ConceptId, model.ConceptVersionKey);
+				var concept = this.GetConcept(model.ConceptId.Value, model.ConceptVersionKey.Value);
 
 				if (concept == null)
 				{

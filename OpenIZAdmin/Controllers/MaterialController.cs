@@ -31,7 +31,9 @@ using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Runtime.Caching;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.DataTypes;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -231,6 +233,72 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.Material + " " + Locale.NotFound;
 
 			return RedirectToAction("Index");
+		}
+
+		/// <summary>
+		/// Gets the form concepts.
+		/// </summary>
+		/// <returns>Returns a list of material form concepts.</returns>
+		private IEnumerable<Concept> GetFormConcepts()
+		{
+			var concepts = MvcApplication.MemoryCache.Get(ConceptClassKeys.Form.ToString());
+
+			if (concepts == null)
+			{
+				var bundle = this.ImsiClient.Query<Concept>(c => c.ClassKey == ConceptClassKeys.Form && c.ObsoletionTime == null);
+
+				bundle.Reconstitute();
+
+				concepts = bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.Form && c.ObsoletionTime == null);
+
+				MvcApplication.MemoryCache.Set(new CacheItem(ConceptClassKeys.Form.ToString(), concepts), MvcApplication.CacheItemPolicy);
+			}
+
+			return concepts as IEnumerable<Concept>;
+		}
+
+		/// <summary>
+		/// Gets the material type concepts.
+		/// </summary>
+		/// <returns>Returns a list of material type concepts.</returns>
+		private IEnumerable<Concept> GetMaterialTypeConcepts()
+		{
+			var concepts = MvcApplication.MemoryCache.Get(ConceptClassKeys.Material.ToString()) as IEnumerable<Concept>;
+
+			if (concepts == null)
+			{
+				var bundle = this.ImsiClient.Query<Concept>(c => c.ClassKey == ConceptClassKeys.Material && c.ObsoletionTime == null);
+
+				bundle.Reconstitute();
+
+				concepts = bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.Material && c.ObsoletionTime == null);
+
+				MvcApplication.MemoryCache.Set(new CacheItem(ConceptClassKeys.Material.ToString(), concepts.ToList()), MvcApplication.CacheItemPolicy);
+			}
+
+			return concepts;
+		}
+
+		/// <summary>
+		/// Gets the quantity concepts.
+		/// </summary>
+		/// <returns>Returns a list of material quantity concepts.</returns>
+		private IEnumerable<Concept> GetQuantityConcepts()
+		{
+			var concepts = MvcApplication.MemoryCache.Get(ConceptClassKeys.UnitOfMeasure.ToString());
+
+			if (concepts == null)
+			{
+				var bundle = this.ImsiClient.Query<Concept>(c => c.ClassKey == ConceptClassKeys.UnitOfMeasure && c.ObsoletionTime == null);
+
+				bundle.Reconstitute();
+
+				concepts = bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.UnitOfMeasure && c.ObsoletionTime == null);
+
+				MvcApplication.MemoryCache.Set(new CacheItem(ConceptClassKeys.UnitOfMeasure.ToString(), concepts), MvcApplication.CacheItemPolicy);
+			}
+
+			return concepts as IEnumerable<Concept>;
 		}
 
 		/// <summary>
