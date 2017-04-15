@@ -295,7 +295,7 @@ namespace OpenIZAdmin.Controllers
 									User = new SecurityUser
 									{
 										Key = Guid.NewGuid(),
-										UserClass = UserClassKeys.ApplictionUser,
+										UserClass = UserClassKeys.ApplicationUser,
 										UserName = realm.DeviceId,
 										SecurityHash = Guid.NewGuid().ToString()
 									},

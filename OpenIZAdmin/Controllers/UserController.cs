@@ -245,7 +245,7 @@ namespace OpenIZAdmin.Controllers
 					model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Selected = f.Id == model.Facility, Text = f.Name, Value = f.Id }));
 				}
 
-				model.PhoneTypeList = GetPhoneTypeConceptSet().Concepts.ToSelectList(p => p.Key == Guid.Parse(model.PhoneType)).ToList();
+				model.PhoneTypeList = this.IsValidKey(model.PhoneType) ? GetPhoneTypeConceptSet().Concepts.ToSelectList(p => p.Key == Guid.Parse(model.PhoneType)).ToList() : GetPhoneTypeConceptSet().Concepts.ToSelectList().ToList();
 
 				return View(model);
 			}
