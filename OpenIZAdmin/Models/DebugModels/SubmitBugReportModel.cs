@@ -31,6 +31,9 @@ namespace OpenIZAdmin.Models.DebugModels
 			this.Success = false;
 		}
 
+		/// <summary>
+		/// Gets or sets whether to attach the metadata for the issue
+		/// </summary>
 		[Display(Name = "AttachBugInfo", ResourceType = typeof(Localization.Locale))]
 		public bool AttachBugInfo { get; set; }
 

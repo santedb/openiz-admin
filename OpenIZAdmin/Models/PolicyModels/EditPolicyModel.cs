@@ -24,57 +24,52 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.PolicyModels
 {
-	public class EditPolicyModel
+    /// <summary>
+	/// Represents a policy view model class.
+	/// </summary>
+	public class EditPolicyModel : PolicyModel
 	{
+        /// <summary>
+		/// Initializes a new instance of the <see cref="EditPolicyModel"/> class.
+		/// </summary>
 		public EditPolicyModel()
 		{
 			this.GrantsList = new List<SelectListItem>();
 		}
 
+        /// <summary>
+		/// Initializes a new instance of the <see cref="EditPolicyModel"/> class.
+		/// </summary>
 		public EditPolicyModel(SecurityPolicyInfo securityPolicyInfo) : this()
 		{
 			this.CanOverride = securityPolicyInfo.CanOverride;
-			this.Grant = (int)securityPolicyInfo.Grant;
+			this.GrantId = (int)securityPolicyInfo.Grant;
 			this.IsPublic = securityPolicyInfo.Policy.IsPublic;
-			this.Id = securityPolicyInfo.Policy.Key.Value;
+		    this.Id = securityPolicyInfo.Policy.Key ?? Guid.Empty;
 			this.Name = securityPolicyInfo.Name;
 			this.Oid = securityPolicyInfo.Oid;
 			this.GrantsList.Add(new SelectListItem { Text = Locale.Select, Value = "" });
 			this.GrantsList.Add(new SelectListItem { Text = Locale.Deny, Value = "0" });
 			this.GrantsList.Add(new SelectListItem { Text = Locale.Elevate, Value = "1" });
 			this.GrantsList.Add(new SelectListItem { Text = Locale.Grant, Value = "2" });
-		}
+		}        
 
-		[Display(Name = "CanOverride", ResourceType = typeof(Localization.Locale))]
-		public bool CanOverride { get; set; }
-
-		[Display(Name = "Grants", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "GrantsRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public int Grant { get; set; }
-
-		public List<SelectListItem> GrantsList { get; set; }
-
-		[Required]
-		public Guid Id { get; set; }
-
-		[Display(Name = "IsPublic", ResourceType = typeof(Localization.Locale))]
-		public bool IsPublic { get; set; }
-
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
-		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string Name { get; set; }
-
-		[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string Oid { get; set; }
-
-		public SecurityPolicyInfo ToSecurityPolicyInfo(SecurityPolicyInfo securityPolicyInfo)
+        /// <summary>
+        /// Gets or sets the list of Grants
+        /// </summary>
+        public List<SelectListItem> GrantsList { get; set; }
+        
+        /// <summary>
+        /// Creates a SecurityPolicyInfo instance
+        /// </summary>
+        /// <returns>A SecurityPolicyInfo instance with the metadata assocaited with the Policy</returns>
+        public SecurityPolicyInfo ToSecurityPolicyInfo(SecurityPolicyInfo securityPolicyInfo)
 		{
-			return new SecurityPolicyInfo(new SecurityPolicyInstance(securityPolicyInfo.Policy, (PolicyGrantType)this.Grant))
+			return new SecurityPolicyInfo(new SecurityPolicyInstance(securityPolicyInfo.Policy, (PolicyGrantType)this.GrantId))
 			{
 				Policy = new SecurityPolicy
 				{

@@ -30,6 +30,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.ReferenceTermModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -139,8 +140,7 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Deletes a concept.
 		/// </summary>
-		/// <param name="id">The id of the concept to delete.</param>
-		/// <param name="versionId">The version identifier of the Concept instance.</param>
+		/// <param name="id">The id of the concept to delete.</param>		
 		/// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -215,9 +215,9 @@ namespace OpenIZAdmin.Controllers
 			//    }));
 			//}
 
-			model.ReferenceTerms = ConceptUtil.GetConceptReferenceTermsList(ImsiClient, concept);
+			model.ReferenceTerms = ReferenceTermUtil.GetConceptReferenceTermsList(ImsiClient, concept);		    
 
-			return View(model);
+            return View(model);
 		}
 
 		/// <summary>
@@ -328,7 +328,7 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new ConceptViewModel(concept)
 				{
-					ReferenceTerms = ConceptUtil.GetConceptReferenceTermsList(ImsiClient, concept)
+					ReferenceTerms = ReferenceTermUtil.GetConceptReferenceTermsList(ImsiClient, concept)
 				};
 
 				//for (var i = 0; i < concept.ReferenceTerms.Count(r => r.ReferenceTerm == null && r.RelationshipTypeKey.HasValue); i++)

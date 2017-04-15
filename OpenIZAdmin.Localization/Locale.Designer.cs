@@ -1654,6 +1654,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The mnemonic cannot exceed 50 characters.
+        /// </summary>
+        public static string MnemonicLength50 {
+            get {
+                return ResourceManager.GetString("MnemonicLength50", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The mnemonic field is required.
         /// </summary>
         public static string MnemonicRequired {
@@ -2289,6 +2298,33 @@ namespace OpenIZAdmin.Localization {
         public static string RealmSwitched {
             get {
                 return ResourceManager.GetString("RealmSwitched", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reference Term.
+        /// </summary>
+        public static string ReferenceTerm {
+            get {
+                return ResourceManager.GetString("ReferenceTerm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reference Term Name.
+        /// </summary>
+        public static string ReferenceTermName {
+            get {
+                return ResourceManager.GetString("ReferenceTermName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reference Term Names.
+        /// </summary>
+        public static string ReferenceTermNames {
+            get {
+                return ResourceManager.GetString("ReferenceTermNames", resourceCulture);
             }
         }
         

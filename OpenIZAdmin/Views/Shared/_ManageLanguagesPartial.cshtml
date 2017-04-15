@@ -1,5 +1,5 @@
-﻿@model IEnumerable<OpenIZAdmin.Models.LanguageModels.LanguageModel>
-
+﻿@*@model IEnumerable<OpenIZAdmin.Models.LanguageModels.LanguageModel>*@
+@model IEnumerable<OpenIZAdmin.Models.LanguageModels.LanguageViewModel>    
         
 <div class="panel panel-body">
     <div class="row">
@@ -19,15 +19,15 @@
                         @foreach (var item in Model)
                         {
                             <tr>
-                                <td><span class="glyphicon glyphicon-info-sign"></span></td>
+                                <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-globe"></span></td>
                                 <td>@item.TwoLetterCountryCode</td>
                                 <td>@item.DisplayName</td>
-                                <td class="autoFitContents centerButton">
-                                    <a class="btn btn-warning" href="@Url.Action("Edit", "Language", new { id = item.ConceptId, versionKey = item.ConceptVersionKey, langCode = item.TwoLetterCountryCode, displayName = item.DisplayName })">
+                                <td class="autoFitContents centerContent">
+                                    <a class="btn btn-warning" href="@Url.Action("Edit", "Language", new { id = item.ConceptId, versionId = item.ConceptVersionKey, langCode = item.TwoLetterCountryCode, displayName = item.DisplayName })">
                                         @Locale.Edit
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
-                                    @using (Html.BeginForm("Delete", "Language", new { id = item.ConceptId, versionKey = item.ConceptVersionKey, langCode = item.TwoLetterCountryCode, displayName = item.DisplayName }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                    @using (Html.BeginForm("Delete", "Language", new { id = item.ConceptId, versionId = item.ConceptVersionKey, langCode = item.TwoLetterCountryCode, displayName = item.DisplayName }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()
 

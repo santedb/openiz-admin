@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Models.ConceptModels;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.LanguageModels
 {
@@ -36,6 +37,21 @@ namespace OpenIZAdmin.Models.LanguageModels
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Language"/> class
+        /// with a specified code and display name.
+        /// </summary>
+        /// <param name="code">The language code.</param>
+        /// <param name="displayName">The language display name.</param>
+        /// <param name="concept">The Concept instance</param>
+        public LanguageViewModel(string code, string displayName, Concept concept) : this(concept)
+        {
+            DisplayName = displayName;
+            Name = displayName;
+            TwoLetterCountryCode = code;
+            Language = code;
+        }
+
+        /// <summary>
         /// Gets or sets the concept class.
         /// </summary>
         /// <value>The concept class.</value>        
@@ -51,13 +67,13 @@ namespace OpenIZAdmin.Models.LanguageModels
 
         //public string DisplayName { get; set; }
 
-        /// <summary>
-        /// Gets or sets the language.
-        /// </summary>
-        /// <value>The language.</value>
-        [Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public override string Language { get; set; }       
+        ///// <summary>
+        ///// Gets or sets the language.
+        ///// </summary>
+        ///// <value>The language.</value>
+        //[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
+        //[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        //public override string Language { get; set; }       
 
         /// <summary>
         /// Gets or sets the mnemonic.
@@ -68,14 +84,14 @@ namespace OpenIZAdmin.Models.LanguageModels
         [StringLength(255, ErrorMessageResourceName = "MnemonicTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
         public string Mnemonic { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>The name.</value>
-        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public override string Name { get; set; }
+        ///// <summary>
+        ///// Gets or sets the name.
+        ///// </summary>
+        ///// <value>The name.</value>
+        //[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+        //[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        //[StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
+        //public override string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the two character language code

@@ -251,6 +251,7 @@
     <Compile Include="Controllers\AssigningAuthorityController.cs" />
     <Compile Include="Controllers\PolicyController.cs" />
     <Compile Include="Controllers\RealmController.cs" />
+    <Compile Include="Controllers\ReferenceTermsController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SecurityBaseController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -282,7 +283,8 @@
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ApplicationViewModel.cs" />
     <Compile Include="Models\ConceptModels\ConceptModel.cs" />
-    <Compile Include="Models\ConceptModels\ReferenceTermModel.cs" />
+    <Compile Include="Models\Core\PolicyModel.cs" />
+    <Compile Include="Models\Core\ReferenceTermModel.cs" />
     <Compile Include="Models\ConceptSetModels\ConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\ConceptSetSearchResultViewModel.cs" />
     <Compile Include="Models\ConceptSetModels\CreateConceptSetModel.cs" />
@@ -290,6 +292,7 @@
     <Compile Include="Models\ConceptSetModels\ConceptSetViewModel.cs" />
     <Compile Include="Models\Core\EditEntityModel.cs" />
     <Compile Include="Models\Core\EntityViewModel.cs" />
+    <Compile Include="Models\Core\ReferenceTermNameModel.cs" />
     <Compile Include="Models\Core\SecurityViewModel.cs" />
     <Compile Include="Models\DebugModels\SubmitBugReportModel.cs" />
     <Compile Include="Models\EntityIdentifierModels\EntityIdentifierModel.cs" />
@@ -297,7 +300,7 @@
     <Compile Include="Models\EntityRelationshipModels\EntityRelationshipModel.cs" />
     <Compile Include="Models\EntityRelationshipModels\EntityRelationshipViewModel.cs" />
     <Compile Include="Models\FacilityModel.cs" />
-    <Compile Include="Models\LanguageModels\LanguageModel.cs" />
+    <Compile Include="Models\Core\LanguageModel.cs" />
     <Compile Include="Models\LanguageModels\LanguageViewModel.cs" />
     <Compile Include="Models\ManufacturedMaterialModels\ManufacturedMaterialViewModel.cs" />
     <Compile Include="Models\MaterialModels\EditMaterialModel.cs" />
@@ -308,6 +311,12 @@
     <Compile Include="Models\OrganizationModels\EditOrganizationModel.cs" />
     <Compile Include="Models\OrganizationModels\OrganizationSearchResultViewModel.cs" />
     <Compile Include="Models\OrganizationModels\OrganizationViewModel.cs" />
+    <Compile Include="Models\ReferenceTermNameModels\CreateReferenceTermNameViewModel.cs" />
+    <Compile Include="Models\ReferenceTermModels\CreateReferenceTermViewModel.cs" />
+    <Compile Include="Models\ReferenceTermModels\EditReferenceTermViewModel.cs" />
+    <Compile Include="Models\ReferenceTermNameModels\ReferenceTermNameViewModel.cs" />
+    <Compile Include="Models\ReferenceTermModels\ReferenceTermSearchResultsViewModel.cs" />
+    <Compile Include="Models\ReferenceTermModels\ReferenceTermViewModel.cs" />
     <Compile Include="Models\UserModels\ResetPasswordModel.cs" />
     <Compile Include="Models\AccountModels\UpdateProfileModel.cs" />
     <Compile Include="Models\AlertModels\CreateAlertModel.cs" />
@@ -327,7 +336,6 @@
     <Compile Include="Models\CertificateModels\CertificateRevocationListViewModel.cs" />
     <Compile Include="Models\CertificateModels\CertificateSigningRequestViewModel.cs" />
     <Compile Include="Models\CertificateModels\CertificateViewModel.cs" />
-    <Compile Include="Models\ConceptModels\ConceptType.cs" />
     <Compile Include="Models\ConceptModels\CreateConceptModel.cs" />
     <Compile Include="Models\ConceptModels\EditConceptModel.cs" />
     <Compile Include="Models\ConceptModels\ConceptSearchResultViewModel.cs" />
@@ -378,6 +386,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="Util\ConceptUtil.cs" />
     <Compile Include="Util\LanguageUtil.cs" />
+    <Compile Include="Util\ReferenceTermUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -646,6 +655,14 @@
     <Content Include="Views\Applet\Update.cshtml" />
     <Content Include="Views\Shared\_ManageConceptsPartial.cshtml" />
     <Content Include="Views\Shared\_ConceptsPartial.cshtml" />
+    <Content Include="Views\Shared\_ManageReferenceTermsPartial.cshtml" />
+    <Content Include="Views\ReferenceTerms\Create.cshtml" />
+    <Content Include="Views\ReferenceTerms\Edit.cshtml" />
+    <Content Include="Views\ReferenceTerms\Index.cshtml" />
+    <Content Include="Views\Shared\_ReferenceTermSearchResultsPartial.cshtml" />
+    <Content Include="Views\ReferenceTerms\ViewReferenceTerm.cshtml" />
+    <Content Include="Views\Shared\_ReferenceTermNamesPartial.cshtml" />
+    <Content Include="Views\Shared\_ManageReferenceTermNamesPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

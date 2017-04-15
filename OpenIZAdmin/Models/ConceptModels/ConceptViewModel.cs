@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZAdmin.Models.ReferenceTermModels;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
@@ -36,7 +37,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		public ConceptViewModel()
 		{
 			this.Names = new List<string>();			
-			this.ReferenceTerms = new List<ReferenceTermModel>();            
+			this.ReferenceTerms = new List<ReferenceTermViewModel>();            
             this.Languages = new List<Language>();
 
         }
@@ -57,7 +58,7 @@ namespace OpenIZAdmin.Models.ConceptModels
             Mnemonic = concept.Mnemonic;
             Names = concept.ConceptNames.Select(c => c.Name).ToList();
             ConceptNames = (Names.Any()) ? string.Join(", ", Names) : string.Empty;
-            ReferenceTerms = new List<ReferenceTermModel>();
+            ReferenceTerms = new List<ReferenceTermViewModel>();
 		    VersionKey = concept.VersionKey;		                
 		}
 

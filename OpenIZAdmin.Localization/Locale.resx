@@ -1338,4 +1338,16 @@
   <data name="ConceptNotActive" xml:space="preserve">
     <value>Warning, this concept is not active</value>
   </data>
+  <data name="ReferenceTerm" xml:space="preserve">
+    <value>Reference Term</value>
+  </data>
+  <data name="MnemonicLength50" xml:space="preserve">
+    <value>The mnemonic cannot exceed 50 characters</value>
+  </data>
+  <data name="ReferenceTermNames" xml:space="preserve">
+    <value>Reference Term Names</value>
+  </data>
+  <data name="ReferenceTermName" xml:space="preserve">
+    <value>Reference Term Name</value>
+  </data>
 </root>

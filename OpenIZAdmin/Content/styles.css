@@ -39,9 +39,14 @@ span.glyphicon {
     vertical-align: middle;
 }
 
-.table tbody>tr>td.centerButton{
+.table tbody>tr>td.capitalize{
+    text-transform: capitalize;
+}
+
+.table tbody>tr>td.centerContent{
     text-align: center;
 }
+
 
 /*Deactivates an a link*/
 .not-active {
@@ -49,9 +54,14 @@ span.glyphicon {
  cursor: default;
 }
 
+
 /*
  * Top Navigation CSS
  */
+
+.pad-right {
+    padding-right: 30px;
+}
 
 .navigation   {
     background-color: #353535;

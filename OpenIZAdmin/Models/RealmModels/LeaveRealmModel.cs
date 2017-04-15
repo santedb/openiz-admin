@@ -22,18 +22,30 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.RealmModels
 {
+    /// <summary>
+	/// Represents a leave realm model.
+	/// </summary>
 	public class LeaveRealmModel
 	{
+        /// <summary>
+		/// Initializes a new instance of the <see cref="LeaveRealmModel"/> class.
+		/// </summary>
 		public LeaveRealmModel()
 		{
 		}
 
+        /// <summary>
+		/// Initializes a new instance of the <see cref="LeaveRealmModel"/> class.
+		/// </summary>
 		public LeaveRealmModel(Realm realm)
 		{
 			this.CurrentRealm = new RealmViewModel(realm);
 			this.Map(realm);
 		}
 
+		/// <summary>
+		/// Gets or sets the current realm
+		/// </summary>
 		[Required]
 		public RealmViewModel CurrentRealm { get; set; }
 	}

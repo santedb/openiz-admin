@@ -1,0 +1,55 @@
+﻿@model IEnumerable<OpenIZAdmin.Models.ReferenceTermModels.ReferenceTermViewModel>
+@{
+    ViewBag.Title = Locale.ReferenceTerms;
+}
+@*<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.ReferenceTerms</span>
+    </div>*@
+    <div class="panel panel-body">
+
+        @if (Model.Any())
+        {
+            <table class="table" id="referenceTermsTable">
+                <caption>@Locale.ReferenceTerms</caption>
+                <thead>
+                    <tr>
+                        <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
+                        <th>@Html.DisplayNameFor(m => m.Name)</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var referenceTerm in Model)
+                    {
+                        <tr>
+                            <td>@referenceTerm.Mnemonic</td>
+                            <td>@referenceTerm.Name</td>
+                            <td class="autoFitContents centerContent">
+                                <a class="btn btn-warning" href="@Url.Action("Edit", "ReferenceTerms", new { id = referenceTerm.ConceptId, versionId = referenceTerm.ConceptVersionKey, termId = referenceTerm.Id })">
+                                    @Locale.Edit
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                                @using (Html.BeginForm("Delete", "ReferenceTerms", new { id = referenceTerm.ConceptId, versionId = referenceTerm.ConceptVersionKey, langCode = referenceTerm.Mnemonic, displayName = referenceTerm.Name }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit" class="btn btn-danger">
+                                        @Locale.Delete
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                }
+                            </td>
+
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>@Locale.NoDataAvailable</p>
+        }
+
+    </div>
+@*</div>*@

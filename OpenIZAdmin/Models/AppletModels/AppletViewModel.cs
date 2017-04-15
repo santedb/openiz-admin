@@ -75,6 +75,9 @@ namespace OpenIZAdmin.Models.AppletModels
 		/// </summary>
 		public int AssetCount => this.Assets?.Count ?? 0;
 
+		/// <summary>
+		/// Gets or sets the list with the associated assets
+		/// </summary>
 		public List<AppletViewAssetModel> Assets { get; set; }
 
 		/// <summary>
@@ -101,6 +104,9 @@ namespace OpenIZAdmin.Models.AppletModels
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
+		/// <summary>
+		/// Gets or sets the key token string
+		/// </summary>
 		public string PublicKeyToken { get; set; }
 
 		/// <summary>

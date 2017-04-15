@@ -51,7 +51,11 @@ namespace OpenIZAdmin.Models.DeviceModels
 		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
-		public SecurityDeviceInfo ToSecurityDeviceInfo()
+        /// <summary>
+        /// Gets the SecurityDeviceInfo
+        /// </summary>
+        /// <returns>A SecurityDeviceInfo object populated with metadata</returns>
+        public SecurityDeviceInfo ToSecurityDeviceInfo()
 		{
 			return new SecurityDeviceInfo
 			{

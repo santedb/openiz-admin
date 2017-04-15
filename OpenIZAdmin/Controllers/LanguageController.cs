@@ -20,9 +20,9 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <returns>Returns the Create view.</returns>
 		[HttpGet]
-		public ActionResult Create(Guid id, Guid? versionKey)
+		public ActionResult Create(Guid id, Guid? versionId)
 		{
-			var concept = ConceptUtil.GetConcept(ImsiClient, id, versionKey);
+			var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
 
 			if (concept == null)
 			{
@@ -30,7 +30,7 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index", "Concept");
 			}
 
-			var model = new LanguageModel(concept)
+			var model = new LanguageViewModel(concept)
 			{
 				LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
 				TwoLetterCountryCode = Locale.EN
@@ -39,14 +39,14 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-		/// <summary>
-		/// Adds the new language.
-		/// </summary>
-		/// <param name="model">The <see cref="LanguageModel"/> instance.</param>
-		/// <returns>ActionResult.</returns>
-		[HttpPost]
+        /// <summary>
+        /// Adds the new language.
+        /// </summary>
+        /// <param name="model">The <see cref="LanguageViewModel"/> instance.</param>
+        /// <returns>ActionResult.</returns>
+        [HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create(LanguageModel model)
+		public ActionResult Create(LanguageViewModel model)
 		{
 			try
 			{
@@ -79,21 +79,21 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-		/// <summary>
-		/// Deletes a language from a Concept.
-		/// </summary>
-		/// <param name="id">The Concept Guid id</param>
-		/// <param name="conceptVersionKey">The verion identifier of the Concept instance.</param>
-		/// <param name="langCode">The language two character code identifier</param>
-		/// <param name="displayName">The text name representation of the Concept</param>
-		/// <returns>Returns the index view.</returns>
-		[HttpPost]
+        /// <summary>
+        /// Deletes a language from a Concept.
+        /// </summary>
+        /// <param name="id">The Concept Guid id</param>
+        /// <param name="versionId">The verion identifier of the Concept instance.</param>
+        /// <param name="langCode">The language two character code identifier</param>
+        /// <param name="displayName">The text name representation of the Concept</param>
+        /// <returns>Returns the index view.</returns>
+        [HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Delete(Guid? id, Guid? conceptVersionKey, string langCode, string displayName)
+		public ActionResult Delete(Guid? id, Guid? versionId, string langCode, string displayName)
 		{
 			try
 			{
-				var concept = ConceptUtil.GetConcept(ImsiClient, id, conceptVersionKey);
+				var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
 
 				if (concept == null)
 				{
@@ -105,7 +105,7 @@ namespace OpenIZAdmin.Controllers
 				if (index < 0)
 				{
 					TempData["error"] = Locale.LanguageCode + " " + Locale.NotFound;
-					return RedirectToAction("ViewConcept", "Concept", new { id, versionKey = conceptVersionKey });
+					return RedirectToAction("ViewConcept", "Concept", new { id, versionKey = versionId });
 				}
 
 				concept.ConceptNames.RemoveAt(index);
@@ -114,7 +114,7 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.Language + " " + Locale.Deleted + " " + Locale.Successfully;
 
-				return RedirectToAction("Edit", "Concept", new { id = result.Key, versionKey = result.VersionKey });
+				return RedirectToAction("Edit", "Concept", new { id = result.Key, versionId = result.VersionKey });
 			}
 			catch (Exception e)
 			{
@@ -126,18 +126,18 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index", "Concept");
 		}
 
-		/// <summary>
-		/// Retrieves the languages associated with the Concept to edit
-		/// </summary>
-		/// <param name="id">The concept Guid id</param>
-		/// <param name="conceptVersionKey">The version identifier of the Concept instance.</param>
-		/// <param name="langCode">The language two character code identifier</param>
-		/// <param name="displayName">The text name representation of the Concept</param>
-		/// <returns>An ActionResult instance</returns>
-		[HttpGet]
-		public ActionResult Edit(Guid? id, Guid? conceptVersionKey, string langCode, string displayName)
+        /// <summary>
+        /// Retrieves the languages associated with the Concept to edit
+        /// </summary>
+        /// <param name="id">The concept Guid id</param>
+        /// <param name="versionId">The version identifier of the Concept instance.</param>
+        /// <param name="langCode">The language two character code identifier</param>
+        /// <param name="displayName">The text name representation of the Concept</param>
+        /// <returns>An ActionResult instance</returns>
+        [HttpGet]
+		public ActionResult Edit(Guid? id, Guid? versionId, string langCode, string displayName)
 		{
-			var concept = ConceptUtil.GetConcept(ImsiClient, id, conceptVersionKey);
+			var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
 
 			if (concept == null)
 			{
@@ -145,7 +145,7 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index", "Concept");
 			}
 
-			var model = new LanguageModel(langCode, displayName, concept)
+			var model = new LanguageViewModel(langCode, displayName, concept)
 			{
 				LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList()
 			};
@@ -153,14 +153,14 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-		/// <summary>
-		/// Updates the language associated with the Concept.
-		/// </summary>
-		/// <param name="model">The <see cref="LanguageModel"/> instance.</param>
-		/// <returns>ActionResult.</returns>
-		[HttpPost]
+        /// <summary>
+        /// Updates the language associated with the Concept.
+        /// </summary>
+        /// <param name="model">The <see cref="LanguageViewModel"/> instance.</param>
+        /// <returns>ActionResult.</returns>
+        [HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit(LanguageModel model)
+		public ActionResult Edit(LanguageViewModel model)
 		{
 			try
 			{

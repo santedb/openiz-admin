@@ -31,12 +31,12 @@
                     @foreach (var item in Model)
                     {
                         <tr>
-                            <td><span class="glyphicon glyphicon-lock pull-left" aria-hidden="true"></span></td>
+                            <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-certificate" aria-hidden="true"></span></td>
                             <td>@item.AdministrativeContactName</td>
                             <td>@item.AdministrativeContactEmail</td>
                             <td>@item.DistinguishedName</td>
                             <td>@item.SubmissionTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
-                            <td class="autoFitContents centerButton">
+                            <td class="autoFitContents centerContent">
                                 <a class="btn btn-primary" href="/Applet/Applet?appletId=@item.DistinguishedName.ToString()">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>

@@ -48,7 +48,7 @@ namespace OpenIZAdmin.Models.ConceptModels
             CreationTime = concept.CreationTime.DateTime;			
 			Id = concept.Key ?? Guid.Empty;
 		    IsObsolete = concept.ObsoletionTime != null;
-            IsSystemConcept = concept.IsSystemConcept;
+            IsSystemConcept = concept.IsSystemConcept;            
             Mnemonic = concept.Mnemonic;
 			Names = concept.ConceptNames.Select(c => c.Name).ToList();
             ConceptNames = (Names.Any()) ? string.Join(", ", Names) : string.Empty;
