@@ -21,39 +21,38 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.CodeSystem
 {
     /// <summary>
-	/// Represents a create code system model.
+	/// Represents a model to view a code system.
 	/// </summary>
-    public class CreateCodeSystemViewModel : CodeSystemModel
+    public class CodeSystemViewModel : CodeSystemModel
     {
         /// <summary>
-		/// Initializes a new instance of the <see cref="CreateCodeSystemViewModel"/> class.
+		/// Initializes a new instance of the <see cref="CodeSystemViewModel"/> class.
 		/// </summary>
-		public CreateCodeSystemViewModel()
-        {         
+        public CodeSystemViewModel()
+        {
+            
         }
 
         /// <summary>
-		/// Converts an <see cref="CreateCodeSystemViewModel"/> instance to a <see cref="OpenIZAdmin.Models.CodeSystem"/> instance.
-		/// </summary>
-		/// <returns>Returns a concept instance.</returns>
-		public OpenIZ.Core.Model.DataTypes.CodeSystem ToCodeSystem()
+        /// Initializes a new instance of the <see cref="CodeSystemViewModel"/> class
+        /// with a specific <see cref="CodeSystem"/> instance.
+        /// </summary>
+        /// <param name="codeSystem">The <see cref="OpenIZ.Core.Model.DataTypes.CodeSystem"/> instance.</param>
+        public CodeSystemViewModel(OpenIZ.Core.Model.DataTypes.CodeSystem codeSystem) : this()
         {
-            return new OpenIZ.Core.Model.DataTypes.CodeSystem
-            {                
-                Key = Guid.NewGuid(),
-                Name = this.Name,
-                Oid = this.Oid,
-                //Domain = this.Domain,
-                Url = this.Url,
-                VersionText = this.Version,
-                Description =  this.Description                
-            };
+            Name = codeSystem.Name;
+            Oid = codeSystem.Oid;
+            Description = codeSystem.Description;
+            //Domain = codeSystem.Authority; ??????????????????????????
+            Url = codeSystem.Url;
+            Version = codeSystem.VersionText;
         }
+
+
     }
 }

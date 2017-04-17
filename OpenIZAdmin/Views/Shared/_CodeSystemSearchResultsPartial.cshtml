@@ -1,0 +1,56 @@
+﻿@model IEnumerable<OpenIZAdmin.Models.CodeSystem.CodeSystemSearchResultsViewModel>
+@{
+    ViewBag.Title = @Locale.CodeSystem + " " + @Locale.SearchResults;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.SearchResults</span>
+    </div>
+    <div class="panel panel-body">
+        @if (Model.Any())
+        {
+            <table class="table table-striped table-bordered" id="codeSystemSearchTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>@Html.DisplayNameFor(m => m.Name)</th>
+                        <th>@Html.DisplayNameFor(m => m.Version)</th>
+                        <th>@Html.DisplayNameFor(m => m.Oid)</th>
+                        <th>@Html.DisplayNameFor(m => m.Domain)</th>                        
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></td>                            
+                            <td>@item.Name</td>
+                            <td>@item.Version</td>                            
+                            <td>@item.Oid</td>                            
+                            <td>@item.Domain</td>                            
+                            <td class="autoFitContents centerContent">
+                                <a class="btn btn-primary" href="@Url.Action("ViewCodeSystem", "CodeSystem", new { id = item.Id })">
+                                    @Locale.View
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                                <a class="btn btn-warning" href="@Url.Action("Edit", "CodeSystem", new { id = item.Id })">
+                                    @Locale.Edit
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                            </td>
+                        </tr>
+                    }
+
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>@Locale.NotFound</p>
+        }
+
+    </div>
+</div>
+

@@ -46,6 +46,11 @@ namespace OpenIZAdmin.Models.Core
         public string Domain { get; set; }
 
         /// <summary>
+        /// Gets or sets the code system identifier
+        /// </summary>
+        public Guid? Id { get; set; }
+
+        /// <summary>
         /// Gets or sets the description
         /// </summary>
         [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]

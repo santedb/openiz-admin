@@ -1,0 +1,56 @@
+﻿@model IEnumerable<OpenIZAdmin.Models.CodeSystem.CodeSystemViewModel>
+@{
+    ViewBag.Title = Locale.ReferenceTerms;
+}
+
+<div class="panel panel-body">
+
+    @if (Model.Any())
+    {
+        <table class="table" id="codeSystemTable">
+            <caption>@Locale.CodeSystem</caption>
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>@Html.DisplayNameFor(m => m.Name)</th>
+                    <th>@Html.DisplayNameFor(m => m.Version)</th>
+                    <th>@Html.DisplayNameFor(m => m.Oid)</th>
+                    <th>@Html.DisplayNameFor(m => m.Domain)</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-book" aria-hidden="true"></span></td>
+                        <td>@item.Name</td>
+                        <td>@item.Version</td>
+                        <td>@item.Oid</td>
+                        <td>@item.Domain</td>
+                        <td class="autoFitContents centerContent">
+                            <a class="btn btn-warning" href="@Url.Action("Edit", "CodeSystem", new { Id = item.Id })">
+                                @Locale.Edit
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                            @using (Html.BeginForm("Delete", "CodeSystem", new { Id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <button type="submit" class="btn btn-danger">
+                                    @Locale.Delete
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>@Locale.NoDataAvailable</p>
+    }
+
+</div>

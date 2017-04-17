@@ -8,33 +8,57 @@
         <span class="panel-title">@(Locale.Add + " " + Locale.CodeSystem)</span>
     </div>
     <div class="panel panel-body">
-        @using (Html.BeginForm("Create", "ReferenceTerm", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        @using (Html.BeginForm("Create", "CodeSystem", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             <div class="form-group">
                 <div class="form-group">
-                    @Html.LabelFor(m => m.Mnemonic, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", title = Locale.ToolTip_ConceptMnemonic })
-                        @Html.ValidationMessageFor(m => m.Mnemonic, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-
-                <div class="form-group">
                     @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
                     <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_ConceptName })
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_ConceptMnemonic })
                         @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                     </div>
                 </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Version, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Version, new { @class = "form-control", title = Locale.ToolTip_ConceptName })
+                        @Html.ValidationMessageFor(m => m.Version, "", new { @class = "text-danger" })
+                    </div>
+                </div>
 
                 <div class="form-group">
-                    @Html.LabelFor(m => m.TwoLetterCountryCode, new { @class = "col-md-2 control-label" })
+                    @Html.LabelFor(m => m.Oid, new { @class = "col-md-2 control-label" })
                     <div class="col-md-8">
-                        @Html.DropDownListFor(m => m.TwoLetterCountryCode, Model.LanguageList, new { @class = "form-control", title = Locale.ToolTip_Language })
-                        @Html.ValidationMessageFor(m => m.TwoLetterCountryCode, "", new { @class = "text-danger" })
+                        @Html.TextBoxFor(m => m.Oid, new { @class = "form-control", title = Locale.ToolTip_ConceptName })
+                        @Html.ValidationMessageFor(m => m.Oid, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Domain, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Domain, new { @class = "form-control", title = Locale.ToolTip_ConceptName })
+                        @Html.ValidationMessageFor(m => m.Domain, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Url, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Url, new { @class = "form-control", title = Locale.ToolTip_ConceptName })
+                        @Html.ValidationMessageFor(m => m.Url, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Description, new { @class = "form-control", title = Locale.ToolTip_ConceptName })
+                        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
@@ -44,7 +68,8 @@
                     <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
                     <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
                 </div>
-            </div>}
+            </div>
+        }
     </div>
 </div>
 

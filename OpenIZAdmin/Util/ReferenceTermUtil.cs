@@ -113,38 +113,7 @@ namespace OpenIZAdmin.Util
             }
 
             return refTermList;            
-        }
-
-
-        /// <summary>
-        /// Gets a list of Reference Terms.
-        /// </summary>
-        /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
-        /// <param name="concept">The <see cref="Concept"/> instance.</param>
-        /// <returns>Returns an IEnumerable of Concept Reference Terms.</returns>
-        public static IEnumerable<CodeSystem> GetCodeSystemList(ImsiServiceClient imsiServiceClient)
-        {
-
-            var bundle = imsiServiceClient.Query<CodeSystem>(c => c.ObsoletionTime == null);
-
-            bundle.Reconstitute();
-
-            //var codeSystem = bundle.Item.OfType<CodeSystem>().FirstOrDefault(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
-            var codeSystem = bundle.Item.OfType<CodeSystem>().ToList();
-            return codeSystem;
-
-
-            //var codeSystemList = imsiServiceClient.Query<CodeSystem>() as CodeSystem;
-
-            //var referenceTermQuery = new List<KeyValuePair<string, object>>();
-
-            //foreach (var conceptReferenceTerm in concept.ReferenceTerms)
-            //{
-            //    referenceTermQuery.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.Key == conceptReferenceTerm.ReferenceTerm.Key));
-            //}
-
-            //return imsiServiceClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ReferenceTerm>();
-        }
+        }        
 
         /// <summary>
         /// Gets the Concept Class that matches the Concept Class Name
