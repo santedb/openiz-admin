@@ -14,37 +14,35 @@
  * the License.
  *
  * User: Andrew
- * Date: 2017-4-13
+ * Date: 2017-4-17
  */
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
-using OpenIZAdmin.Models.Core;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Models.Core;
 
-namespace OpenIZAdmin.Models.ReferenceTermModels
+namespace OpenIZAdmin.Models.ReferenceTermNameModels
 {
     /// <summary>
     /// Represents a reference term view model.
     /// </summary>
-    public class CreateReferenceTermViewModel : ReferenceTermModel
+    public class EditReferenceTermNameViewModel : ReferenceTermNameModel
     {
         /// <summary>
-		/// Initializes a new instance of the <see cref="CreateReferenceTermViewModel"/> class.
+		/// Initializes a new instance of the <see cref="EditReferenceTermNameViewModel"/> class.
 		/// </summary>
-        public CreateReferenceTermViewModel()
+        public EditReferenceTermNameViewModel()
         {
-            LanguageList = new List<SelectListItem>();            
+            LanguageList = new List<SelectListItem>();
         }
 
         /// <summary>
-		/// Initializes a new instance of the <see cref="CreateReferenceTermViewModel"/> class.
+		/// Initializes a new instance of the <see cref="EditReferenceTermNameViewModel"/> class.
 		/// </summary>
-        public CreateReferenceTermViewModel(Guid? conceptId, Guid? conceptVersionId) : this()
+        public EditReferenceTermNameViewModel(Guid? conceptId, Guid? conceptVersionId) : this()
         {
             ConceptId = conceptId;
             ConceptVersionId = conceptVersionId;
@@ -65,27 +63,5 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
         /// </summary>
         /// <value>The language list.</value>
         public List<SelectListItem> LanguageList { get; set; }
-
-        /// <summary>
-        /// Converts an <see cref="CreateReferenceTermViewModel"/> instance to a <see cref="ReferenceTerm"/> instance.
-        /// </summary>
-        /// <returns>Returns a ReferenceTerm instance.</returns>
-        public ReferenceTerm ToReferenceTerm()
-        {            
-            return new ReferenceTerm()
-            {                
-                Key = Guid.NewGuid(),
-                Mnemonic = this.Mnemonic,
-                DisplayNames = new List<ReferenceTermName>()
-                {
-                    new ReferenceTermName()
-                    {
-                        Key = Guid.NewGuid(),
-                        Language = this.TwoLetterCountryCode,
-                        Name = this.Name
-                    }
-                }
-            };
-        }
     }
 }

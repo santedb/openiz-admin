@@ -76,6 +76,46 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
+        /// Gets a list of Concept Reference Terms.
+        /// </summary>
+        /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>
+        /// <param name="concept">The <see cref="Concept"/> instance.</param>
+        /// <returns>Returns an IEnumerable of Concept Reference Terms.</returns>
+        public static IEnumerable<ConceptReferenceTerm> GetConceptReferenceTerms1234(ImsiServiceClient imsiServiceClient, Concept concept)
+        {
+
+            var refTermList = new List<ConceptReferenceTerm>();
+            try
+            {
+                //var referenceTerms = GetConceptReferenceTerms(imsiServiceClient, concept).ToList();
+
+
+                var referenceTermQuery = new List<KeyValuePair<string, object>>();
+
+                foreach (var conceptReferenceTerm in concept.ReferenceTerms)
+                {
+                    referenceTermQuery.AddRange(QueryExpressionBuilder.BuildQuery<ConceptReferenceTerm>(c => c.Key == conceptReferenceTerm.ReferenceTerm.Key));
+                }
+
+                refTermList = imsiServiceClient.Query<ConceptReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ConceptReferenceTerm>(new NameValueCollection(referenceTermQuery.ToArray()))).Item.OfType<ConceptReferenceTerm>().ToList();
+
+
+
+                //if (referenceTerms.Any())
+                //{
+                //    //refTermList = new List<ReferenceTermViewModel>(referenceTerms.Select(r => new ReferenceTermViewModel(r, concept)));
+                //}
+            }
+            catch (Exception e)
+            {
+                refTermList = new List<ConceptReferenceTerm>();
+                Console.WriteLine(e);
+            }
+
+            return refTermList;            
+        }
+
+        /// <summary>
         /// Gets the Concept Class that matches the Concept Class Name
         /// </summary>
         /// <param name="imsiServiceClient">The <see cref="ImsiServiceClient"/> instance.</param>

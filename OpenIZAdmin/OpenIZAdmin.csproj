@@ -253,6 +253,7 @@
     <Compile Include="Controllers\PolicyController.cs" />
     <Compile Include="Controllers\RealmController.cs" />
     <Compile Include="Controllers\ReferenceTermController.cs" />
+    <Compile Include="Controllers\ReferenceTermNameController.cs" />
     <Compile Include="Controllers\RoleController.cs" />
     <Compile Include="Controllers\SecurityBaseController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -315,6 +316,7 @@
     <Compile Include="Models\ReferenceTermNameModels\CreateReferenceTermNameViewModel.cs" />
     <Compile Include="Models\ReferenceTermModels\CreateReferenceTermViewModel.cs" />
     <Compile Include="Models\ReferenceTermModels\EditReferenceTermViewModel.cs" />
+    <Compile Include="Models\ReferenceTermNameModels\EditReferenceTermNameViewModel.cs" />
     <Compile Include="Models\ReferenceTermNameModels\ReferenceTermNameViewModel.cs" />
     <Compile Include="Models\ReferenceTermModels\ReferenceTermSearchResultsViewModel.cs" />
     <Compile Include="Models\ReferenceTermModels\ReferenceTermViewModel.cs" />
@@ -663,6 +665,9 @@
     <Content Include="Views\ReferenceTerm\ViewReferenceTerm.cshtml" />
     <Content Include="Views\Shared\_ReferenceTermNamesPartial.cshtml" />
     <Content Include="Views\Shared\_ManageReferenceTermNamesPartial.cshtml" />
+    <Content Include="Views\ReferenceTermName\Create.cshtml" />
+    <Content Include="Views\ReferenceTermName\Edit.cshtml" />
+    <Content Include="Views\ReferenceTermName\Index.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

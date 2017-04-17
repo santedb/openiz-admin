@@ -225,8 +225,7 @@ namespace OpenIZAdmin.Controllers
 
 		/// <summary>
 		/// Converts an alert model to an alert message info.
-		/// </summary>
-		/// <param name="client">The <see cref="AmiServiceClient"/> instance.</param>
+		/// </summary>		
 		/// <param name="model">The create alert model.</param>
 		/// <param name="user">The <see cref="IPrincipal"/> instance.</param>
 		/// <returns>Returns the converted alert message info.</returns>

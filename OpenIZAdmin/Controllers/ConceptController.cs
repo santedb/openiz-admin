@@ -172,13 +172,61 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-		/// <summary>
-		/// Edits the specified concept.
+        /// <summary>
+		/// Deletes a concept.
 		/// </summary>
-		/// <param name="id">The identifier.</param>
-		/// <param name="versionId">The version identifier(Guid) of the Concept instance.</param>
-		/// <returns>ActionResult.</returns>
-		[HttpGet]
+		/// <param name="id">The id of the concept to delete.</param>				
+        /// <param name="versionId">The verion identifier of the Concept instance.</param>
+        /// <param name="refTermId">The Reference Term identifier</param>
+		/// <returns>Returns the index view.</returns>
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteReferenceTerm(Guid id, Guid? versionId, Guid? refTermId)
+        {
+            try
+            {
+                var concept = this.ImsiClient.Get<Concept>(id, null) as Concept;
+
+                if (concept == null)
+                {
+                    TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+                    return RedirectToAction("Index");
+                }
+
+                concept.ReferenceTerms = ReferenceTermUtil.GetConceptReferenceTerms1234(ImsiClient, concept).ToList();
+
+                var index = concept.ReferenceTerms.FindIndex(c => c.ReferenceTermKey == refTermId);
+                if (index < 0)
+                {
+                    TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+                    return RedirectToAction("ViewConcept", new { id, versionKey = versionId });
+                }
+
+                concept.ReferenceTerms.RemoveAt(index);
+
+                var result = this.ImsiClient.Update<Concept>(concept);                
+
+                TempData["success"] = Locale.Concept + " " + Locale.ReferenceTerm + " " + Locale.Deleted + " "  + Locale.Successfully;
+
+                return RedirectToAction("ViewConcept", new { id = result.Key });
+            }
+            catch (Exception e)
+            {
+                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+            }
+
+            TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+
+            return RedirectToAction("Index");
+        }        
+
+        /// <summary>
+        /// Edits the specified concept.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="versionId">The version identifier(Guid) of the Concept instance.</param>
+        /// <returns>ActionResult.</returns>
+        [HttpGet]
 		public ActionResult Edit(Guid id, Guid? versionId)
 		{
 			var concept = this.GetConcept(id, versionId);
