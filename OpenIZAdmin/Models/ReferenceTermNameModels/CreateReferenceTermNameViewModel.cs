@@ -59,5 +59,19 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
         [Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
         [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         public string TwoLetterCountryCode { get; set; }
+
+        /// <summary>
+        /// Converts an <see cref="CreateReferenceTermNameViewModel"/> instance to a <see cref="ReferenceTermName"/> instance.
+        /// </summary>
+        /// <returns>Returns a ReferenceTermName instance.</returns>
+        public ReferenceTermName ToReferenceTerm()
+        {
+            return new ReferenceTermName()
+            {                                                 
+                Key = Guid.NewGuid(),
+                Language = this.TwoLetterCountryCode,
+                Name = this.Name                    
+            };
+        }
     }
 }

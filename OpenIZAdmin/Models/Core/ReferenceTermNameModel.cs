@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using OpenIZAdmin.Models.ReferenceTermNameModels;
 
 namespace OpenIZAdmin.Models.Core
 {
@@ -52,5 +53,19 @@ namespace OpenIZAdmin.Models.Core
         [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         [StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
         public string Name { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reference term name.
+        /// </summary>
+        /// <value>The name.</value>                
+        [Display(Name = "ReferenceTerm", ResourceType = typeof(Localization.Locale))]
+        //[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        //[StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string ReferenceTerm { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reference term name list
+        /// </summary>
+        public List<ReferenceTermNameViewModel> ReferenceTermNameList { get; set; }
     }
 }

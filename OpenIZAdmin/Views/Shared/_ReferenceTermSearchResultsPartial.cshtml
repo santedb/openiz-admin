@@ -30,11 +30,11 @@
                             <td>@item.Mnemonic</td>
                             <td>@item.Names</td>
                             <td class="autoFitContents centerContent">
-                                <a class="btn btn-primary" href="@Url.Action("ViewReferenceTerm", "ReferenceTerms", new {id = item.Id})">
+                                <a class="btn btn-primary" href="@Url.Action("ViewReferenceTerm", "ReferenceTerm", new {id = item.Id})">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
-                                <a class="btn btn-warning" href="@Url.Action("Edit", "ReferenceTerms", new {id = item.Id})">
+                                <a class="btn btn-warning" href="@Url.Action("Edit", "ReferenceTerm", new {id = item.Id})">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>

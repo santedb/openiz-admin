@@ -46,7 +46,7 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the create view.</returns>
 		[HttpGet]
         public ActionResult Create()
-        {            
+        {
             var model = new CreateReferenceTermViewModel()
             {
                 LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
@@ -56,83 +56,22 @@ namespace OpenIZAdmin.Controllers
             return View(model);
         }
 
-  //      /// <summary>
-		///// Displays the create view.
-		///// </summary>
-		///// <returns>Returns the create view.</returns>
-		//[HttpGet]
-  //      public ActionResult Create(Guid id)
-  //      {
+        /// <summary>
+		/// Displays the create view.
+		/// </summary>
+		/// <returns>Returns the create view.</returns>
+		[HttpGet]
+        public ActionResult Create(Guid? conceptId, Guid? conceptVersionId)
+        {            
+            var model = new CreateReferenceTermViewModel(conceptId, conceptVersionId)
+            {
+                LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
+                TwoLetterCountryCode = Locale.EN
+            };
 
-  //          var referenceTerm = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
-
-  //          if (referenceTerm == null)
-  //          {
-  //              TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
-
-  //              return RedirectToAction("Index");
-  //          }
-
-  //          var model = new CreateReferenceTermNameViewModel(referenceTerm)
-  //          {
-  //              LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
-  //              TwoLetterCountryCode = Locale.EN
-  //          };
-
-  //          return View(model);            
-  //      }
-
-        
-  //      /// <summary>
-		///// Creates a concept.
-		///// </summary>
-		///// <param name="model">The model containing the information to create a reference term name.</param>
-		///// <returns>Returns the created concept.</returns>
-		//[HttpPost]
-  //      [ValidateAntiForgeryToken]
-  //      public ActionResult Create(CreateReferenceTermNameViewModel model)
-  //      {
-  //          try
-  //          {
-  //              if (ModelState.IsValid)
-  //              {
-  //                  var referenceTerm = ImsiClient.Get<ReferenceTerm>(model.ReferenceTermId, null) as ReferenceTerm;
-
-  //                  if (referenceTerm == null)
-  //                  {
-  //                      TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
-
-  //                      return RedirectToAction("Index");
-  //                  }
-
-  //                  var name = new ReferenceTermName()
-  //                  {
-  //                      Language = model.Language,
-  //                      Name = model.Name
-  //                  };
-
-  //                  referenceTerm.DisplayNames.Add(name);
-
-  //                  var result = this.ImsiClient.Update<ReferenceTerm>(referenceTerm);
-
-  //                  TempData["success"] = Locale.ReferenceTermName + " " + Locale.Created + " " + Locale.Successfully;
-
-  //                  return RedirectToAction("Edit", new { id = result.Key });                    
-  //              }
-  //          }
-  //          catch (Exception e)
-  //          {
-  //              ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-  //          }
-
-  //          TempData["error"] = Locale.UnableToCreate + " " + Locale.ReferenceTermName;
-
-  //          //model.LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList();
-
-  //          return View(model);
-  //      }
-
-
+            return View(model);
+        }
+  
         /// <summary>
 		/// Adds the new reference term.
 		/// </summary>
@@ -246,41 +185,7 @@ namespace OpenIZAdmin.Controllers
 
             return RedirectToAction("ViewReferenceTerm", "ReferenceTerm", new { id });
 
-        }
-
-        ///// <summary>
-        ///// Retrieves the languages associated with the Concept to edit
-        ///// </summary>
-        ///// <param name="id">The concept Guid id</param>
-        ///// <param name="versionId">The version identifier of the Concept instance.</param>
-        ///// <param name="termId">The identifier of the reference term</param>        
-        ///// <returns>An ActionResult instance</returns>
-        //[HttpGet]
-        //public ActionResult Edit(Guid? id, Guid? versionId, Guid? termId)
-        //{
-        //    try
-        //    {
-        //        var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
-
-        //        if (concept == null)
-        //        {
-        //            TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-        //            return RedirectToAction("Index", "ReferenceTerms");
-        //        }                
-
-        //        return View(new ReferenceTermViewModel(ReferenceTermUtil.GetConceptReferenceTerm(ImsiClient, concept, termId), concept));
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
-        //        Trace.TraceError($"Unable to retrieve entity: { e }");
-        //    }
-
-        //    TempData["error"] = Locale.UnableToUpdate + " " + Locale.ReferenceTerm;
-
-        //    return RedirectToAction("ViewReferenceTerm", "ReferenceTerms", new { id });
-
-        //}
+        }       
 
         /// <summary>
         /// Updates the reference term associated with the Concept.
@@ -328,7 +233,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
         public ActionResult Index()
         {
-            TempData["searchType"] = "ReferenceTerms";
+            TempData["searchType"] = "ReferenceTerm";
             return View();
         }
 
