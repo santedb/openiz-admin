@@ -53,6 +53,10 @@ namespace OpenIZAdmin.Controllers
                 TwoLetterCountryCode = Locale.EN
             };
 
+            var codeSystemList = ReferenceTermUtil.GetCodeSystemList(this.ImsiClient);
+
+
+
             return View(model);
         }
 
