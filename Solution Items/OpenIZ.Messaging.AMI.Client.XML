@@ -50,6 +50,11 @@
             <param name="assigningAuthorityInfo">The assigning authority to be created.</param>
             <returns>Returns the created assigning authority.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateAudit(OpenIZ.Core.Model.AMI.Security.AuditInfo)">
+            <summary>
+            Create audit
+            </summary>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateDevice(OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo)">
             <summary>
             Creates a device in the IMS.

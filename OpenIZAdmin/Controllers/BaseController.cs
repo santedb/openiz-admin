@@ -45,7 +45,6 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public abstract class BaseController : Controller
 	{
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BaseController"/> class.
 		/// </summary>

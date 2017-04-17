@@ -2401,6 +2401,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reports.
+        /// </summary>
+        public static string Reports {
+            get {
+                return ResourceManager.GetString("Reports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reset.
         /// </summary>
         public static string Reset {
@@ -3319,6 +3328,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to download report.
+        /// </summary>
+        public static string UnableToDownloadReport {
+            get {
+                return ResourceManager.GetString("UnableToDownloadReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to find specified certificate.
         /// </summary>
         public static string UnableToFindSpecifiedCertificate {
@@ -3351,6 +3369,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToLeaveRealm {
             get {
                 return ResourceManager.GetString("UnableToLeaveRealm", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to load reports.
+        /// </summary>
+        public static string UnableToLoadReports {
+            get {
+                return ResourceManager.GetString("UnableToLoadReports", resourceCulture);
             }
         }
         

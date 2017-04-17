@@ -179,6 +179,26 @@ namespace OpenIZAdmin.Services.Http.Configuration
 							}
 						},
 						Name = Constants.Imsi
+					},
+					new ServiceClientDescription
+					{
+						Binding = new ServiceClientBinding
+						{
+							Security = new ServiceClientSecurity
+							{
+								Mode = SecurityScheme.Bearer
+							},
+							Optimize = true
+						},
+						Endpoint = new List<ServiceClientEndpoint>
+						{
+							new ServiceClientEndpoint
+							{
+								Address = $"{realm.Address}/risi",
+								Timeout = 30000
+							}
+						},
+						Name = Constants.Risi
 					}
 				}
 			};

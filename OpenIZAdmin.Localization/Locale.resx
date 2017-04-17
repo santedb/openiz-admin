@@ -1350,4 +1350,13 @@
   <data name="ReferenceTermName" xml:space="preserve">
     <value>Reference Term Name</value>
   </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+  <data name="UnableToDownloadReport" xml:space="preserve">
+    <value>Unable to download report</value>
+  </data>
+  <data name="UnableToLoadReports" xml:space="preserve">
+    <value>Unable to load reports</value>
+  </data>
 </root>

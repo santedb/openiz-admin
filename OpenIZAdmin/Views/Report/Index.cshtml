@@ -1,0 +1,47 @@
+﻿@model IEnumerable<OpenIZAdmin.Models.ReportModels.ReportViewModel>
+@{
+    ViewBag.Title = Locale.Reports;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">
+            @Locale.Reports
+        </span>
+    </div>
+    <div class="panel panel-body">
+        <table class="table table-bordered" id="reportsTable">
+            <thead>
+            <tr>
+                <th>@Locale.Name</th>
+                <th>@Locale.Description</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Description</td>
+                    <td class="centerContent autoFitContents">
+                        <a class="btn btn-primary" href="@Url.Action("Download", "Report", new { id = item.Id })">
+                            @Locale.Download
+                            <span class="glyphicon glyphicon-download"></span>
+                        </a>
+                    </td>
+                </tr>}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#reportsTable").DataTable();
+        });
+    </script>
+    
+}

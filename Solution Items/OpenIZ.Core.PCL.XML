@@ -1739,6 +1739,11 @@
             <param name="query">The query of audits to find</param>
             <returns>The located audits</returns>
         </member>
+        <member name="M:OpenIZ.Core.Services.IAuditRepositoryService.Get(System.Object)">
+            <summary>
+            Get the specified audit
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Services.IAuditRepositoryService.Find(System.Linq.Expressions.Expression{System.Func{MARC.HI.EHRS.SVC.Auditing.Data.AuditData,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
             <summary>
             Find an audit from the repository with the specified query controls

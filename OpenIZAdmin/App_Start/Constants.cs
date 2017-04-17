@@ -73,6 +73,11 @@ namespace OpenIZAdmin
 		public const string NotApplicable = "N/A";
 
 		/// <summary>
+		/// The RISI endpoint name.
+		/// </summary>
+		public const string Risi = "RISI";
+
+		/// <summary>
 		/// The system user identifier.
 		/// </summary>
 		public const string SystemUserId = "fadca076-3690-4a6e-af9e-f1cd68e8c7e8";
