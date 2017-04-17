@@ -284,7 +284,11 @@
     <Compile Include="Models\AppletModels\AppletViewAssetModel.cs" />
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ApplicationViewModel.cs" />
+    <Compile Include="Models\CodeSystem\CodeSystemSearchResultsViewModel.cs" />
+    <Compile Include="Models\CodeSystem\CreateCodeSystemViewModel.cs" />
+    <Compile Include="Models\CodeSystem\EditCodeSystemViewModel.cs" />
     <Compile Include="Models\ConceptModels\ConceptModel.cs" />
+    <Compile Include="Models\Core\CodeSystemModel.cs" />
     <Compile Include="Models\Core\PolicyModel.cs" />
     <Compile Include="Models\Core\ReferenceTermModel.cs" />
     <Compile Include="Models\ConceptSetModels\ConceptSetModel.cs" />
@@ -668,6 +672,10 @@
     <Content Include="Views\ReferenceTermName\Create.cshtml" />
     <Content Include="Views\ReferenceTermName\Edit.cshtml" />
     <Content Include="Views\ReferenceTermName\Index.cshtml" />
+    <Content Include="Views\CodeSystem\Create.cshtml" />
+    <Content Include="Views\CodeSystem\Edit.cshtml" />
+    <Content Include="Views\CodeSystem\Index.cshtml" />
+    <Content Include="Views\CodeSystem\ViewCodeSystem.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

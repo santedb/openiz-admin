@@ -511,6 +511,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Code System.
+        /// </summary>
+        public static string CodeSystem {
+            get {
+                return ResourceManager.GetString("CodeSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Common Name.
         /// </summary>
         public static string CommonName {
@@ -871,11 +880,38 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Domain.
+        /// </summary>
+        public static string Domain {
+            get {
+                return ResourceManager.GetString("Domain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The domain cannot exceed 50 characters.
+        /// </summary>
+        public static string DomainLength50 {
+            get {
+                return ResourceManager.GetString("DomainLength50", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Domain Name.
         /// </summary>
         public static string DomainName {
             get {
                 return ResourceManager.GetString("DomainName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a domain.
+        /// </summary>
+        public static string DomainRequired {
+            get {
+                return ResourceManager.GetString("DomainRequired", resourceCulture);
             }
         }
         
@@ -2001,6 +2037,15 @@ namespace OpenIZAdmin.Localization {
         public static string OIDAllCaps {
             get {
                 return ResourceManager.GetString("OIDAllCaps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The oid cannot exceed 64 characters.
+        /// </summary>
+        public static string OidLength64 {
+            get {
+                return ResourceManager.GetString("OidLength64", resourceCulture);
             }
         }
         
@@ -3562,6 +3607,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The url cannot exceed 256 characters.
+        /// </summary>
+        public static string UrlLength256 {
+            get {
+                return ResourceManager.GetString("UrlLength256", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a Url.
+        /// </summary>
+        public static string UrlRequired {
+            get {
+                return ResourceManager.GetString("UrlRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User.
         /// </summary>
         public static string User {
@@ -3729,6 +3792,15 @@ namespace OpenIZAdmin.Localization {
         public static string Version {
             get {
                 return ResourceManager.GetString("Version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The version cannot exceed 10 characters.
+        /// </summary>
+        public static string VersionLength10 {
+            get {
+                return ResourceManager.GetString("VersionLength10", resourceCulture);
             }
         }
         

@@ -465,7 +465,7 @@ namespace OpenIZAdmin.Controllers
 					model.Facility = place.Key?.ToString();
 				}
 
-				model.PhoneTypeList = GetPhoneTypeConceptSet().Concepts.ToSelectList(p => p.Key == Guid.Parse(model.PhoneType)).ToList();
+				model.PhoneTypeList = this.IsValidId(model.PhoneType) ? GetPhoneTypeConceptSet().Concepts.ToSelectList(p => p.Key == Guid.Parse(model.PhoneType)).ToList() : GetPhoneTypeConceptSet().Concepts.ToSelectList().ToList();
 
 				return View(model);
 			}

@@ -1,0 +1,54 @@
+﻿@model OpenIZAdmin.Models.CodeSystem.CodeSystemSearchResultsViewModel
+@{
+    ViewBag.Title = Locale.View + " " + Locale.CodeSystem;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@(Locale.View + " " + Locale.CodeSystem)</span>
+        <div class="pull-right">
+            <a href="@Url.Action("Edit", new { id = Model.Id })" title="@Locale.ToolTip_Edit">
+                <span class="glyphicon glyphicon-pencil"></span>
+                <span class="text-primary h4">@Locale.Edit</span>
+            </a>
+        </div>
+    </div>
+    <div class="panel panel-body">
+        <div class="col-md-12">
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Mnemonic, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+
+                @*<div class="form-group">
+                        @Html.LabelFor(m => m., new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>*@
+
+
+
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_ReferenceTermNamesPartial", Model.ReferenceTermNamesList)
+
+
+@section scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            $('#referenceTermNamesTable').DataTable();
+
+        });
+    </script>
+}

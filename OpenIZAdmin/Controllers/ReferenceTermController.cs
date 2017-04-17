@@ -41,10 +41,10 @@ namespace OpenIZAdmin.Controllers
     public class ReferenceTermController : BaseController
     {
         /// <summary>
-		/// Displays the create view.
-		/// </summary>
-		/// <returns>Returns the create view.</returns>
-		[HttpGet]
+        /// Displays the create view.
+        /// </summary>
+        /// <returns>Returns the create view.</returns>
+        [HttpGet]
         public ActionResult Create()
         {
             var model = new CreateReferenceTermViewModel()
@@ -61,27 +61,27 @@ namespace OpenIZAdmin.Controllers
         }
 
         /// <summary>
-		/// Displays the create view.
-		/// </summary>
-		/// <returns>Returns the create view.</returns>
-		[HttpGet]
-        public ActionResult Create(Guid? conceptId, Guid? conceptVersionId)
-        {            
-            var model = new CreateReferenceTermViewModel(conceptId, conceptVersionId)
-            {
-                LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
-                TwoLetterCountryCode = Locale.EN
-            };
+        /// Displays the create view.
+        /// </summary>
+        /// <returns>Returns the create view.</returns>
+        //[HttpGet]
+        //      public ActionResult Create(Guid? conceptId, Guid? conceptVersionId)
+        //      {
+        //          var model = new CreateReferenceTermViewModel(conceptId, conceptVersionId)
+        //          {
+        //              LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
+        //              TwoLetterCountryCode = Locale.EN
+        //          };
 
-            return View(model);
-        }
-  
+        //          return View(model);
+        //      }
+
         /// <summary>
-		/// Adds the new reference term.
-		/// </summary>
-		/// <param name="model">The <see cref="ReferenceTermViewModel"/> instance.</param>
-		/// <returns>ActionResult.</returns>
-		[HttpPost]
+        /// Adds the new reference term.
+        /// </summary>
+        /// <param name="model">The <see cref="ReferenceTermViewModel"/> instance.</param>
+        /// <returns>ActionResult.</returns>
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateReferenceTermViewModel model)
         {
