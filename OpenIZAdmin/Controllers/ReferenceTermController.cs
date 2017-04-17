@@ -211,7 +211,7 @@ namespace OpenIZAdmin.Controllers
 
             TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
 
-            return RedirectToAction("Index", "ReferenceTerms");
+            return RedirectToAction("Index", "ReferenceTerm");
             //return View();
         }
 
@@ -244,7 +244,7 @@ namespace OpenIZAdmin.Controllers
 
             TempData["error"] = Locale.UnableToUpdate + " " + Locale.ReferenceTerm;
 
-            return RedirectToAction("ViewReferenceTerm", "ReferenceTerms", new { id });
+            return RedirectToAction("ViewReferenceTerm", "ReferenceTerm", new { id });
 
         }
 
@@ -308,7 +308,7 @@ namespace OpenIZAdmin.Controllers
 
                 TempData["success"] = Locale.ReferenceTerm + " " + Locale.Updated + " " + Locale.Successfully;
 
-                return RedirectToAction("ViewReferenceTerm", "ReferenceTerms", new { id = result.Key });
+                return RedirectToAction("ViewReferenceTerm", "ReferenceTerm", new { id = result.Key });
             }
             catch (Exception e)
             {
@@ -318,7 +318,7 @@ namespace OpenIZAdmin.Controllers
 
             TempData["error"] = Locale.UnableToUpdate + " " + Locale.ReferenceTerm;
 
-            return RedirectToAction("ViewReferenceTerm", "ReferenceTerms", new { id = model.Id });            
+            return RedirectToAction("ViewReferenceTerm", "ReferenceTerm", new { id = model.Id });            
         }
 
         /// <summary>
