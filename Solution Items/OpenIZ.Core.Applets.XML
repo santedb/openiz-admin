@@ -9,6 +9,36 @@
             Represents a asset content resolver
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Applets.ReadonlyAppletCollection">
+            <summary>
+            A readonly applet collection
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Applets.ReadonlyAppletCollection.#ctor(OpenIZ.Core.Applets.AppletCollection)">
+            <summary>
+            Wrapper for the readonly applet collection
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Applets.ReadonlyAppletCollection.IsReadOnly">
+            <summary>
+            Collection is readonly
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Applets.ReadonlyAppletCollection.Resolver">
+            <summary>
+            Resolver
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Applets.ReadonlyAppletCollection.BaseUrl">
+            <summary>
+            Gets the base URL
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Applets.ReadonlyAppletCollection.CachePages">
+            <summary>
+            Get the page caching setting
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Applets.AppletCollection">
             <summary>
             Represents a collection of applets
@@ -22,6 +52,11 @@
         <member name="P:OpenIZ.Core.Applets.AppletCollection.AuthenticationAssets">
             <summary>
             Get authentication assets
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Applets.AppletCollection.BaseUrl">
+            <summary>
+            Gets or sets the base url
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Applets.AppletCollection.Resolver">
@@ -161,9 +196,24 @@
             Injection for HTML headers
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Applets.AppletCollection.VerifyDependencies(OpenIZ.Core.Applets.Model.AppletInfo)">
+            <summary>
+            Verify dependencies are met for the specified applet
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Applets.AppletCollection.AsReadonly">
+            <summary>
+            Readonly applet collection
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Applets.AppletCollection.XElementEquityComparer">
             <summary>
             Xelement comparer
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Applets.AppletCollection.XElementEquityComparer.GetHashCode(System.Xml.Linq.XElement)">
+            <summary>
+            Get Hash code
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Applets.BindingExpressionVisitor">
@@ -488,6 +538,11 @@
             Content of the element
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Applets.Model.AppletAssetHtml.Static">
+            <summary>
+            Identifies whether the asset is static
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Applets.Model.AppletInitialConfiguration">
             <summary>
             Represents a configuration of an applet
@@ -563,6 +618,13 @@
             Gets or sets the applet's dependencies
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Applets.Model.AppletInfo.Hash">
+            <summary>
+            A hash which validates the file has not changed on the disk. Different from signature which 
+            indicates the manifest has not changed since installed.
+            </summary>
+            <value><c>true</c> if this instance hash; otherwise, <c>false</c>.</value>
+        </member>
         <member name="M:OpenIZ.Core.Applets.Model.AppletInfo.AsReference">
             <summary>
             Return this applet reference
@@ -576,6 +638,11 @@
         <member name="M:OpenIZ.Core.Applets.Model.AppletManifest.Load(System.IO.Stream)">
             <summary>
             Load the specified manifest name
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Applets.Model.AppletManifest.Save(System.IO.Stream)">
+            <summary>
+            Save this applet manifest to the stream
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Applets.Model.AppletManifest.Initialize">
@@ -650,6 +717,11 @@
             Applet package used for installations only
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Applets.Model.AppletPackage.Load(System.Byte[])">
+            <summary>
+            Load the specified manifest name
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Applets.Model.AppletPackage.Load(System.IO.Stream)">
             <summary>
             Load the specified manifest name
@@ -666,9 +738,19 @@
             </summary>
             <value>The manifest.</value>
         </member>
+        <member name="P:OpenIZ.Core.Applets.Model.AppletPackage.PublicKey">
+            <summary>
+            Public signing certificate
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Applets.Model.AppletPackage.Unpack">
             <summary>
             Unpack the package
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Applets.Model.AppletPackage.Save(System.IO.Stream)">
+            <summary>
+            Save the compressed applet manifest
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Applets.Model.AppletName">
@@ -706,13 +788,6 @@
             <summary>
             Gets or sets the signature which can be used to validate the file
             </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Applets.Model.AppletName.Hash">
-            <summary>
-            A hash which validates the file has not changed on the disk. Different from signature which 
-            indicates the manifest has not changed since installed.
-            </summary>
-            <value><c>true</c> if this instance hash; otherwise, <c>false</c>.</value>
         </member>
         <member name="M:OpenIZ.Core.Applets.Model.AppletName.ToString">
             <summary>
@@ -865,6 +940,41 @@
             Header element
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Applets.Services.IAppletManagerService">
+            <summary>
+            Represents a service which manages applets in the host environment
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Applets.Services.IAppletManagerService.Applets">
+            <summary>
+            Gets the loaded applets from the manager
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Applets.Services.IAppletManagerService.UnInstall(System.String)">
+            <summary>
+            Uninstall a package
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Applets.Services.IAppletManagerService.Install(OpenIZ.Core.Applets.Model.AppletPackage,System.Boolean)">
+            <summary>
+            Installs or upgrades an existing applet collection via package
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Applets.Services.IAppletManagerService.GetApplet(System.String)">
+            <summary>
+            Get the specified applet manifest
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Applets.Services.IAppletManagerService.LoadApplet(OpenIZ.Core.Applets.Model.AppletManifest)">
+            <summary>
+            Performs necessary loading functions for an applet
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Applets.Services.IAppletManagerService.GetPackage(System.String)">
+            <summary>
+            Gets the installed applet package source for the specified applet
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Applets.ViewModel.Description.ClassifierModelDescription">
             <summary>
             View model description for classifiers
@@ -993,6 +1103,21 @@
         <member name="M:OpenIZ.Core.Applets.ViewModel.Description.ViewModelDescription.FindDescription(System.String,OpenIZ.Core.Applets.ViewModel.Description.PropertyContainerDescription)">
             <summary>
             Find description
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Applets.ViewModel.Description.ViewModelDescription.Merge(System.Collections.Generic.IEnumerable{OpenIZ.Core.Applets.ViewModel.Description.ViewModelDescription})">
+            <summary>
+            Merge several view model descriptions into one
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Applets.ViewModel.Description.ViewModelDescription.MergeInternal(OpenIZ.Core.Applets.ViewModel.Description.ViewModelDescription,OpenIZ.Core.Applets.ViewModel.Description.ViewModelDescription)">
+            <summary>
+            Merge internal
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Applets.ViewModel.Description.ViewModelDescription.MergeInternal(OpenIZ.Core.Applets.ViewModel.Description.PropertyContainerDescription,OpenIZ.Core.Applets.ViewModel.Description.PropertyContainerDescription)">
+            <summary>
+            Merge internal
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Applets.ViewModel.Description.TypeModelDescription">
@@ -1525,6 +1650,11 @@
         <member name="M:OpenIZ.Core.Applets.ViewModel.SerializationContext.ShouldForceLoad(System.String,System.Guid)">
             <summary>
             Returns true when child property information should be force loaded
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Applets.ViewModel.SerializationContext.RegisterMissTarget(System.String,System.Guid)">
+            <summary>
+            Register that this property was missed
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Applets.ViewModel.SerializationContext.ObjectId">

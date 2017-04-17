@@ -49,6 +49,12 @@
             with a specific list of collection items.
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Security.AmiCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.Security.AmiCollection`1"/> class
+            with a specific list of collection items.
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.AMI.Security.AmiCollection`1.CollectionItem">
             <summary>
             Gets or sets a list of collection items.
@@ -62,6 +68,41 @@
         <member name="P:OpenIZ.Core.Model.AMI.Security.AmiCollection`1.Size">
             <summary>
             Gets or sets the total collection size.
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Security.AuditInfo">
+            <summary>
+            Audit information which wraps audit data from service core
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Security.AuditInfo.#ctor">
+            <summary>
+            Audit information
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Security.AuditInfo.#ctor(MARC.HI.EHRS.SVC.Auditing.Data.AuditData)">
+            <summary>
+            Creates a new instance of audit information
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.AuditInfo.ProcessId">
+            <summary>
+            Gets the process identifier of the mobile application
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.AuditInfo.SecurityDeviceId">
+            <summary>
+            Gets or sets the device identifier which sent the audit
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.AuditInfo.Audit">
+            <summary>
+            Gets or sets the audit
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Security.AuditInfo.ModifiedOn">
+            <summary>
+            When was the audit modified
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.AMI.Security.RevokeReason">
@@ -240,7 +281,7 @@
             Certificate information
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info.#ctor(System.String,System.DateTime,System.DateTime,System.String,System.String)">
+        <member name="M:OpenIZ.Core.Model.AMI.Security.X509Certificate2Info.#ctor(System.String,System.Nullable{System.DateTime},System.Nullable{System.DateTime},System.String,System.String)">
             <summary>
             Constructs a certificate info
             </summary>
@@ -292,21 +333,21 @@
             Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo"/> class.
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo.#ctor(OpenIZ.Core.Applets.Model.AppletManifest)">
+        <member name="M:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo.#ctor(OpenIZ.Core.Applets.Model.AppletInfo,OpenIZ.Core.Model.AMI.Security.X509Certificate2Info)">
             <summary>
             Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo"/> class
             with a specific applet manifest instance.
             </summary>
-            <param name="manifest">The applet manifest instance.</param>
+            <param name="info">The applet manifest metadata instance.</param>
         </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo.AppletManifest">
+        <member name="P:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo.AppletInfo">
             <summary>
-            Gets or sets the applet manifest.
+            Gets the applet information name
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo.FileExtension">
+        <member name="P:OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo.PublisherData">
             <summary>
-            Gets or sets the file extension of the applet.
+            Publisher information if available
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo">

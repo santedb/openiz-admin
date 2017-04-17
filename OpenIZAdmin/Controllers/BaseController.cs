@@ -305,7 +305,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (conceptSet == null)
 			{
-				var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == Constants.TelecomAddressUse, 0, null, "concept");
+				var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == Constants.TelecomAddressUse, 0, null, new string[] { "concept" });
 
 				bundle.Reconstitute();
 

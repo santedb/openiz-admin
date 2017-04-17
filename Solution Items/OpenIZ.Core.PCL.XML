@@ -446,6 +446,21 @@
             Creates a new patch operation
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Http.BinaryBodySerializer">
+            <summary>
+            Binary body serializer
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Http.BinaryBodySerializer.DeSerialize(System.IO.Stream)">
+            <summary>
+            De-serialize to the desired type
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Http.BinaryBodySerializer.Serialize(System.IO.Stream,System.Object)">
+            <summary>
+            Serialize
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Http.Credentials">
             <summary>
             Represents a series of credentials which are used when accessing the mobile core
@@ -1361,6 +1376,11 @@
         <member name="M:OpenIZ.Core.Interfaces.IServiceManager.GetServices">
             <summary>
             Get all services
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Interfaces.IServiceManager.RemoveServiceProvider(System.Type)">
+            <summary>
+            Removes a service provider
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Interop.Clients.ServiceClientBase">

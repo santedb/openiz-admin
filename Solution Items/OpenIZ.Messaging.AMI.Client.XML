@@ -30,11 +30,10 @@
             <param name="alertMessageInfo">The alert message to be created.</param>
             <returns>Returns the created alert message.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateApplet(OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo)">
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateApplet(OpenIZ.Core.Applets.Model.AppletPackage)">
             <summary>
             Creates an applet.
             </summary>
-            <param name="appletManifestInfo">The applet manifest info to be created.</param>
             <returns>Returns the created applet manifest info.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateApplication(OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo)">
@@ -320,12 +319,12 @@
             <param name="alertMessageInfo">The alert message info containing the updated information.</param>
             <returns>Returns the updated alert.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateApplet(System.String,OpenIZ.Core.Model.AMI.Applet.AppletManifestInfo)">
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateApplet(System.String,OpenIZ.Core.Applets.Model.AppletPackage)">
             <summary>
             Updates an applet.
             </summary>
             <param name="appletId">The id of the applet to be updated.</param>
-            <param name="appletManifestInfo">The applet containing the updated information.</param>
+            <param name="appletPackage">The applet containing the updated information.</param>
             <returns>Returns the updated applet.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateApplication(System.String,OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo)">

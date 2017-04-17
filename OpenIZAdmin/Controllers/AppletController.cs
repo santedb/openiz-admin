@@ -59,13 +59,14 @@ namespace OpenIZAdmin.Controllers
 
 			using (var gzipStream = new GZipStream(stream, CompressionMode.Compress))
 			{
-				var package = applet.AppletManifest.CreatePackage();
+				//var package = applet.AppletManifest.CreatePackage();
 				var serializer = new XmlSerializer(typeof(AppletPackage));
 
-				serializer.Serialize(gzipStream, package);
+				//serializer.Serialize(gzipStream, package);
 			}
 
-			return File(stream.ToArray(), "application/pak", applet.AppletManifest.Info.Id + applet.FileExtension);
+			//return File(stream.ToArray(), "application/pak", applet.AppletManifest.Info.Id + applet.FileExtension);
+			return File(stream.ToArray(), "application/pak", null);
 		}
 
 		/// <summary>
@@ -169,13 +170,13 @@ namespace OpenIZAdmin.Controllers
 					// ensure that the model state wasn't invalidated when attempting to serialize the applet file
 					if (ModelState.IsValid)
 					{
-						var manifestInfo = new AppletManifestInfo
-						{
-							FileExtension = fileInfo.Extension,
-							AppletManifest = manifest
-						};
+						//var manifestInfo = new AppletManifestInfo
+						//{
+						//	FileExtension = fileInfo.Extension,
+						//	AppletManifest = manifest
+						//};
 
-						this.AmiClient.CreateApplet(manifestInfo);
+						//this.AmiClient.CreateApplet(manifestInfo);
 
 						TempData["success"] = Locale.Applet + " " + Locale.Uploaded + " " + Locale.Successfully;
 
@@ -270,13 +271,13 @@ namespace OpenIZAdmin.Controllers
 					// ensure that the model state wasn't invalidated when attempting to serialize the applet file
 					if (ModelState.IsValid)
 					{
-						var manifestInfo = new AppletManifestInfo
-						{
-							FileExtension = fileInfo.Extension,
-							AppletManifest = manifest
-						};
+						//var manifestInfo = new AppletManifestInfo
+						//{
+						//	FileExtension = fileInfo.Extension,
+						//	AppletManifest = manifest
+						//};
 
-						this.AmiClient.CreateApplet(manifestInfo);
+						//this.AmiClient.CreateApplet(manifestInfo);
 
 						TempData["success"] = Locale.Applet + " " + Locale.Uploaded + " " + Locale.Successfully;
 
