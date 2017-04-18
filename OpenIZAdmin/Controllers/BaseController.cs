@@ -277,7 +277,7 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the identifier based on the id, version id, and an expression.</returns>
 		protected T GetEntity<T>(Guid id, Guid? versionId = null, Expression<Func<T, bool>> expression = null) where T : Entity
 		{
-			Expression<Func<Entity, bool>> query = o => o.Key == id;
+			Expression<Func<T, bool>> query = o => o.Key == id;
 
 			if (versionId.HasValue && versionId.Value != Guid.Empty && expression != null)
 			{
@@ -288,11 +288,11 @@ namespace OpenIZAdmin.Controllers
 				query = o => o.Key == id && o.VersionKey == versionId;
 			}
 
-			var bundle = this.ImsiClient.Query<T>(o => query.Compile().Invoke(o), 0, null, true);
+			var bundle = this.ImsiClient.Query<T>(query, 0, null, true);
 
 			bundle.Reconstitute();
 
-			return bundle.Item.OfType<T>().LatestVersionOnly().FirstOrDefault(query.Compile().Invoke);
+			return bundle.Item.OfType<T>().Where(query.Compile()).LatestVersionOnly().FirstOrDefault(query.Compile().Invoke);
 		}
 
 		/// <summary>
