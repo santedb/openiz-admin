@@ -48,13 +48,13 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="OpenIZAdmin.Localization.licenseheader" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="Locale.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Locale.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="OpenIZAdmin.licenseheader" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

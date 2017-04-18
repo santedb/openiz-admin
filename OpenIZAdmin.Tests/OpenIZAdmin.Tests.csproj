@@ -128,7 +128,7 @@
     <Content Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="OpenIZAdmin.Tests.licenseheader" />
+    <Content Include="OpenIZAdmin.licenseheader" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
