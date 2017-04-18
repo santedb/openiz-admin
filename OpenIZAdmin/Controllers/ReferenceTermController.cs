@@ -27,6 +27,7 @@ using Elmah;
 using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Util;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.LanguageModels;
@@ -34,278 +35,236 @@ using OpenIZAdmin.Models.ReferenceTermModels;
 
 namespace OpenIZAdmin.Controllers
 {
-    /// <summary>
+	/// <summary>
 	/// Provides operations for managing reference terms.
 	/// </summary>
 	[TokenAuthorize]
-    public class ReferenceTermController : BaseController
-    {
-        /// <summary>
-        /// Displays the create view.
-        /// </summary>
-        /// <returns>Returns the create view.</returns>
-        [HttpGet]
-        public ActionResult Create()
-        {
-            var model = new CreateReferenceTermViewModel()
-            {
-                LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
-                TwoLetterCountryCode = Locale.EN
-            };
+	public class ReferenceTermController : BaseController
+	{
+		/// <summary>
+		/// Displays the create view.
+		/// </summary>
+		/// <returns>Returns the create view.</returns>
+		[HttpGet]
+		public ActionResult Create()
+		{
+			var model = new CreateReferenceTermViewModel
+			{
+				LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList(),
+				TwoLetterCountryCode = Locale.EN
+			};
 
-            //var codeSystemList = ReferenceTermUtil.GetCodeSystemList(this.ImsiClient);
+			return View(model);
+		}
 
+		/// <summary>
+		/// Adds the new reference term.
+		/// </summary>
+		/// <param name="model">The <see cref="ReferenceTermViewModel"/> instance.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Create(CreateReferenceTermViewModel model)
+		{
+			try
+			{
+				if (ModelState.IsValid)
+				{
+					var referenceTerm = this.ImsiClient.Create<ReferenceTerm>(model.ToReferenceTerm());
 
+					TempData["success"] = Locale.ReferenceTerm + " " + Locale.Created + " " + Locale.Successfully;
 
-            return View(model);
-        }
+					return RedirectToAction("ViewReferenceTerm", new { id = referenceTerm.Key });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve entity: { e }");
+			}
 
-        /// <summary>
-        /// Displays the create view.
-        /// </summary>
-        /// <returns>Returns the create view.</returns>
-        //[HttpGet]
-        //      public ActionResult Create(Guid? conceptId, Guid? conceptVersionId)
-        //      {
-        //          var model = new CreateReferenceTermViewModel(conceptId, conceptVersionId)
-        //          {
-        //              LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
-        //              TwoLetterCountryCode = Locale.EN
-        //          };
+			TempData["error"] = Locale.UnableToCreate + " " + Locale.ReferenceTerm;
 
-        //          return View(model);
-        //      }
+			model.LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList();
 
-        /// <summary>
-        /// Adds the new reference term.
-        /// </summary>
-        /// <param name="model">The <see cref="ReferenceTermViewModel"/> instance.</param>
-        /// <returns>ActionResult.</returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(CreateReferenceTermViewModel model)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {                    
-                    var referenceTerm = this.ImsiClient.Create<ReferenceTerm>(model.ToReferenceTerm());
+			return View(model);
+		}
 
-                    TempData["success"] = Locale.ReferenceTerm + " " + Locale.Created + " " + Locale.Successfully;
+		/// <summary>
+		/// Deletes a reference term from a Concept.
+		/// </summary>
+		/// <param name="id">The Concept Guid id</param>
+		/// <param name="versionId">The verion identifier of the Concept instance.</param>
+		/// <param name="mnemonic">The mnemonic of the reference term</param>
+		/// <param name="name">The text name representation of the reference term</param>
+		/// <returns>Returns the index view.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Delete(Guid? id, Guid? versionId, string mnemonic, string name)
+		{
+			try
+			{
 
-                    return RedirectToAction("ViewReferenceTerm", new { id = referenceTerm.Key });
-                }
-            }
-            catch (Exception e)
-            {
-                ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
-                Trace.TraceError($"Unable to retrieve entity: { e }");
-            }
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve entity: { e }");
+			}
 
-            TempData["error"] = Locale.UnableToCreate + " " + Locale.ReferenceTerm;
+			TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
 
-            model.LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList();
+			return RedirectToAction("Index", "ReferenceTerm");
+		}
 
-            return View(model);
-        }
+		/// <summary>
+		/// Retrieves the names and metadata associated with the reference term to edit
+		/// </summary>
+		/// <param name="id">The reference term identifier</param>        
+		/// <returns>An ActionResult instance</returns>
+		[HttpGet]
+		public ActionResult Edit(Guid id)
+		{
+			try
+			{
+				var referenceTerm = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
 
-        /// <summary>
-        /// Deletes a reference term from a Concept.
-        /// </summary>
-        /// <param name="id">The Concept Guid id</param>
-        /// <param name="versionId">The verion identifier of the Concept instance.</param>
-        /// <param name="mnemonic">The mnemonic of the reference term</param>
-        /// <param name="name">The text name representation of the reference term</param>
-        /// <returns>Returns the index view.</returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(Guid? id, Guid? versionId, string mnemonic, string name)
-        {
-            try
-            {
-                //var concept = ConceptUtil.GetConcept(ImsiClient, id, versionId);
+				if (referenceTerm == null)
+				{
+					TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
 
-                //if (concept == null)
-                //{
-                //    TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-                //    return RedirectToAction("Index", "Concept");
-                //}
+					return RedirectToAction("Index");
+				}
 
-                //var index = concept.ConceptNames.FindIndex(c => c.Language == langCode && c.Name == displayName);
-                //if (index < 0)
-                //{
-                //    TempData["error"] = Locale.LanguageCode + " " + Locale.NotFound;
-                //    return RedirectToAction("ViewConcept", "Concept", new { id, versionKey = versionId });
-                //}
+				return View(new EditReferenceTermViewModel(referenceTerm));
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve entity: { e }");
+			}
 
-                //concept.ConceptNames.RemoveAt(index);
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.ReferenceTerm;
 
-                //var result = this.ImsiClient.Update<Concept>(concept);
+			return RedirectToAction("ViewReferenceTerm", "ReferenceTerm", new { id });
 
-                //TempData["success"] = Locale.Language + " " + Locale.Deleted + " " + Locale.Successfully;
+		}
 
-                //return RedirectToAction("Edit", "Concept", new { id = result.Key, versionId = result.VersionKey });
-            }
-            catch (Exception e)
-            {
-                ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
-                Trace.TraceError($"Unable to retrieve entity: { e }");
-            }
+		/// <summary>
+		/// Updates the reference term associated with the Concept.
+		/// </summary>
+		/// <param name="model">The <see cref="ReferenceTermViewModel"/> instance.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(ReferenceTermViewModel model)
+		{
+			try
+			{
+				var referenceTerm = ImsiClient.Get<ReferenceTerm>(model.Id, null) as ReferenceTerm;
 
-            TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+				if (referenceTerm == null)
+				{
+					TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
 
-            return RedirectToAction("Index", "ReferenceTerm");
-            //return View();
-        }
+					return RedirectToAction("Index");
+				}
 
-        /// <summary>
-        /// Retrieves the names and metadata associated with the reference term to edit
-        /// </summary>
-        /// <param name="id">The reference term identifier</param>        
-        /// <returns>An ActionResult instance</returns>
-        [HttpGet]
-        public ActionResult Edit(Guid id)
-        {
-            try
-            {
-                var referenceTerm = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
+				referenceTerm.Mnemonic = model.Mnemonic;
 
-                if (referenceTerm == null)
-                {
-                    TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+				var result = this.ImsiClient.Update<ReferenceTerm>(referenceTerm);
 
-                    return RedirectToAction("Index");
-                }
+				TempData["success"] = Locale.ReferenceTerm + " " + Locale.Updated + " " + Locale.Successfully;
 
-                return View(new EditReferenceTermViewModel(referenceTerm));                
-            }
-            catch (Exception e)
-            {
-                ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
-                Trace.TraceError($"Unable to retrieve entity: { e }");
-            }
+				return RedirectToAction("ViewReferenceTerm", "ReferenceTerm", new { id = result.Key });
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve entity: { e }");
+			}
 
-            TempData["error"] = Locale.UnableToUpdate + " " + Locale.ReferenceTerm;
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.ReferenceTerm;
 
-            return RedirectToAction("ViewReferenceTerm", "ReferenceTerm", new { id });
+			return RedirectToAction("ViewReferenceTerm", "ReferenceTerm", new { id = model.Id });
+		}
 
-        }       
-
-        /// <summary>
-        /// Updates the reference term associated with the Concept.
-        /// </summary>
-        /// <param name="model">The <see cref="ReferenceTermViewModel"/> instance.</param>
-        /// <returns>ActionResult.</returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(ReferenceTermViewModel model)
-        {
-            try
-            {
-                var referenceTerm = ImsiClient.Get<ReferenceTerm>(model.Id, null) as ReferenceTerm;
-
-                if (referenceTerm == null)
-                {
-                    TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
-
-                    return RedirectToAction("Index");
-                }
-
-                referenceTerm.Mnemonic = model.Mnemonic;                
-
-                var result = this.ImsiClient.Update<ReferenceTerm>(referenceTerm);
-
-                TempData["success"] = Locale.ReferenceTerm + " " + Locale.Updated + " " + Locale.Successfully;
-
-                return RedirectToAction("ViewReferenceTerm", "ReferenceTerm", new { id = result.Key });
-            }
-            catch (Exception e)
-            {
-                ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
-                Trace.TraceError($"Unable to retrieve entity: { e }");
-            }
-
-            TempData["error"] = Locale.UnableToUpdate + " " + Locale.ReferenceTerm;
-
-            return RedirectToAction("ViewReferenceTerm", "ReferenceTerm", new { id = model.Id });            
-        }
-
-        /// <summary>
+		/// <summary>
 		/// Displays the index view.
 		/// </summary>
 		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpGet]
-        public ActionResult Index()
-        {
-            TempData["searchType"] = "ReferenceTerm";
-            return View();
-        }
+		public ActionResult Index()
+		{
+			TempData["searchType"] = "ReferenceTerm";
+			return View();
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Displays the search view.
 		/// </summary>
 		/// <returns>Returns the search view.</returns>
 		[HttpGet]
-        [ValidateInput(false)]
-        public ActionResult Search(string searchTerm)
-        {
-            var results = new List<ReferenceTermSearchResultsViewModel>();
+		[ValidateInput(false)]
+		public ActionResult Search(string searchTerm)
+		{
+			var results = new List<ReferenceTermSearchResultsViewModel>();
 
-            if (this.IsValidId(searchTerm))
-            {
-                Bundle bundle;
+			if (this.IsValidId(searchTerm))
+			{
+				Bundle bundle;
 
-                if (searchTerm == "*")
-                {
-                    bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.ObsoletionTime == null);
-                    results = bundle.Item.OfType<ReferenceTerm>().Select(p => new ReferenceTermSearchResultsViewModel(p)).ToList();
-                }
-                else
-                {
-                    bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
-                    results = bundle.Item.OfType<ReferenceTerm>().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ReferenceTermSearchResultsViewModel(p)).ToList();
-                }
+				if (searchTerm == "*")
+				{
+					bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.ObsoletionTime == null);
+					results = bundle.Item.OfType<ReferenceTerm>().Select(p => new ReferenceTermSearchResultsViewModel(p)).ToList();
+				}
+				else
+				{
+					bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
+					results = bundle.Item.OfType<ReferenceTerm>().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ReferenceTermSearchResultsViewModel(p)).ToList();
+				}
 
-                TempData["searchTerm"] = searchTerm;
+				TempData["searchTerm"] = searchTerm;
 
-                return PartialView("_ReferenceTermSearchResultsPartial", results.OrderBy(c => c.Mnemonic));
-            }
+				return PartialView("_ReferenceTermSearchResultsPartial", results.OrderBy(c => c.Mnemonic));
+			}
 
-            TempData["error"] = Locale.InvalidSearch;
-            TempData["searchTerm"] = searchTerm;
+			TempData["error"] = Locale.InvalidSearch;
+			TempData["searchTerm"] = searchTerm;
 
-            return PartialView("_ReferenceTermSearchResultsPartial", results);
-        }
+			return PartialView("_ReferenceTermSearchResultsPartial", results);
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Retrieves the Reference Term by identifier
 		/// </summary>
 		/// <param name="id">The identifier of the Reference Term</param>		
 		/// <returns>Returns the Reference Term ActionResult</returns>
 		[HttpGet]
-        public ActionResult ViewReferenceTerm(Guid id)
-        {
-            try
-            {                
-                var referenceTerm = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
+		public ActionResult ViewReferenceTerm(Guid id)
+		{
+			try
+			{
+				var referenceTerm = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
 
-                if (referenceTerm == null)
-                {
-                    TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+				if (referenceTerm == null)
+				{
+					TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
 
-                    return RedirectToAction("Index");
-                }                
+					return RedirectToAction("Index");
+				}
 
-                return View(new ReferenceTermViewModel(referenceTerm));
-            }
-            catch (Exception e)
-            {
-                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-            }
+				return View(new ReferenceTermViewModel(referenceTerm));
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
 
-            TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+			TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
 
-            return RedirectToAction("Index");
-        }
-    }
+			return RedirectToAction("Index");
+		}
+	}
 }

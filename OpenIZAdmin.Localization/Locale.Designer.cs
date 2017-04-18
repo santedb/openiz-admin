@@ -601,6 +601,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Concept set not found.
+        /// </summary>
+        public static string ConceptSetNotFound {
+            get {
+                return ResourceManager.GetString("ConceptSetNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Concept Sets.
         /// </summary>
         public static string ConceptSets {
@@ -1875,6 +1884,15 @@ namespace OpenIZAdmin.Localization {
         public static string NoAssociatedRelationships {
             get {
                 return ResourceManager.GetString("NoAssociatedRelationships", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No code systems found.
+        /// </summary>
+        public static string NoCodeSystemsFound {
+            get {
+                return ResourceManager.GetString("NoCodeSystemsFound", resourceCulture);
             }
         }
         

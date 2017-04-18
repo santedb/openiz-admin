@@ -38,7 +38,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// </summary>
 		public PlaceViewModel()
 		{
-
+			
 		}
 
 		/// <summary>
@@ -57,7 +57,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// Gets or sets the target population.
 		/// </summary>
 		/// <value>The target population.</value>
-		[Required(ErrorMessageResourceName = "TargetPopulation", ErrorMessageResourceType = typeof(Locale))]
+		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
 		public long TargetPopulation { get; set; }
 	}
 }

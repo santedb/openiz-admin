@@ -292,12 +292,14 @@
     <Compile Include="Models\AppletModels\AppletViewAssetModel.cs" />
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ApplicationViewModel.cs" />
-    <Compile Include="Models\CodeSystem\CodeSystemSearchResultsViewModel.cs" />
-    <Compile Include="Models\CodeSystem\CodeSystemViewModel.cs" />
-    <Compile Include="Models\CodeSystem\CreateCodeSystemViewModel.cs" />
-    <Compile Include="Models\CodeSystem\EditCodeSystemViewModel.cs" />
+    <Compile Include="Models\CodeSystemModels\CodeSystemViewModel.cs" />
+    <Compile Include="Models\CodeSystemModels\CreateCodeSystemModel.cs" />
+    <Compile Include="Models\CodeSystemModels\EditCodeSystemModel.cs" />
     <Compile Include="Models\ConceptModels\ConceptModel.cs" />
-    <Compile Include="Models\Core\CodeSystemModel.cs" />
+    <Compile Include="Models\Core\IIdentifiable.cs" />
+    <Compile Include="Models\Core\IdentifiedEditModel.cs" />
+    <Compile Include="Models\Core\IdentifiedViewModel.cs" />
+    <Compile Include="Models\Core\MetadataEditModelBase.cs" />
     <Compile Include="Models\Core\PolicyModel.cs" />
     <Compile Include="Models\Core\ReferenceTermModel.cs" />
     <Compile Include="Models\ConceptSetModels\ConceptSetModel.cs" />
@@ -309,6 +311,7 @@
     <Compile Include="Models\Core\EntityViewModel.cs" />
     <Compile Include="Models\Core\ReferenceTermNameModel.cs" />
     <Compile Include="Models\Core\SecurityViewModel.cs" />
+    <Compile Include="Models\Core\VersionedMetadataEditModelBase.cs" />
     <Compile Include="Models\DebugModels\SubmitBugReportModel.cs" />
     <Compile Include="Models\EntityIdentifierModels\EntityIdentifierModel.cs" />
     <Compile Include="Models\EntityIdentifierModels\EntityIdentifierViewModel.cs" />
@@ -401,9 +404,7 @@
     <Compile Include="Services\Http\ServiceClientEndpoint.cs" />
     <Compile Include="Services\Http\ServiceClientSecurity.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Util\CodeSystemUtil.cs" />
     <Compile Include="Util\LanguageUtil.cs" />
-    <Compile Include="Util\ReferenceTermUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -692,8 +693,7 @@
     <Content Include="Views\CodeSystem\Edit.cshtml" />
     <Content Include="Views\CodeSystem\Index.cshtml" />
     <Content Include="Views\CodeSystem\ViewCodeSystem.cshtml" />
-    <Content Include="Views\Shared\_CodeSystemSearchResultsPartial.cshtml" />
-    <Content Include="Views\Shared\_CodeSystemPartial.cshtml" />
+    <Content Include="Views\Shared\_CodeSystemsPartial.cshtml" />
     <Content Include="Views\Shared\_ManageCodeSystemPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />

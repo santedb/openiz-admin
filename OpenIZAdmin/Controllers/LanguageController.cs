@@ -7,6 +7,7 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -32,7 +33,7 @@ namespace OpenIZAdmin.Controllers
 
 			var model = new LanguageViewModel(concept)
 			{
-				LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
+				LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList(),
 				TwoLetterCountryCode = Locale.EN
 			};
 
@@ -147,7 +148,7 @@ namespace OpenIZAdmin.Controllers
 
 			var model = new LanguageViewModel(langCode, displayName, concept)
 			{
-				LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList()
+				LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList()
 			};
 
 			return View(model);
@@ -187,7 +188,7 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.Concept + " " + Locale.Updated + " " + Locale.Successfully;
 
-				return RedirectToAction("Edit", "Concept", new { id = result.Key, versionKey = result.VersionKey });
+				return RedirectToAction("Edit", "Concept", new { id = result.Key, versionId = result.VersionKey });
 			}
 			catch (Exception e)
 			{

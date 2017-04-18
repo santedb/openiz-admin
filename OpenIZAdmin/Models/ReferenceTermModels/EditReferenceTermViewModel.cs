@@ -51,7 +51,6 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
             Id = referenceTerm.Key ?? Guid.Empty;
             Mnemonic = referenceTerm.Mnemonic;
             DisplayNames = referenceTerm.DisplayNames;
-            //Languages = referenceTerm.DisplayNames.Select(k => new Language(k.Language, k.Name)).ToList();            
             TermNamesList = referenceTerm.DisplayNames.Select(k => new ReferenceTermNameViewModel(k.Language, k.Name, referenceTerm)).ToList();
         }
 
@@ -60,12 +59,6 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
         /// </summary>
         /// <value>The language list.</value>
         public List<SelectListItem> LanguageList { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
-        ///// </summary>		
-        //[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
-        //public List<Language> Languages { get; set; }
 
         /// <summary>
         /// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.

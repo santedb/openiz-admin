@@ -20,8 +20,8 @@
 using OpenIZ.Core.Model.DataTypes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZ.Core.Model.Constants;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
@@ -44,15 +44,15 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		/// <param name="concept">The <see cref="Concept"/> instance.</param>
 		public ConceptSearchResultViewModel(Concept concept) : this()
-		{            
-            CreationTime = concept.CreationTime.DateTime;			
+		{
+			CreationTime = concept.CreationTime.DateTime;
 			Id = concept.Key ?? Guid.Empty;
-		    IsObsolete = concept.ObsoletionTime != null;
-            IsSystemConcept = concept.IsSystemConcept;            
-            Mnemonic = concept.Mnemonic;
+			IsObsolete = concept.StatusConceptKey == StatusKeys.Obsolete;
+			IsSystemConcept = concept.IsSystemConcept;
+			Mnemonic = concept.Mnemonic;
 			Names = concept.ConceptNames.Select(c => c.Name).ToList();
-            ConceptNames = (Names.Any()) ? string.Join(", ", Names) : string.Empty;
-            VersionKey = concept.VersionKey;
-		}		
+			ConceptNames = (Names.Any()) ? string.Join(", ", Names) : string.Empty;
+			VersionKey = concept.VersionKey;
+		}
 	}
 }

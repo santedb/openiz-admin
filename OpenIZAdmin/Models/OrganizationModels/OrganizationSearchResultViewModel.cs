@@ -32,6 +32,7 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		/// </summary>
 		public OrganizationSearchResultViewModel()
 		{
+			
 		}
 
 		/// <summary>

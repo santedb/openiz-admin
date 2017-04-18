@@ -22,6 +22,7 @@ using System.Linq;
 using System.Web;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -44,7 +45,7 @@ namespace OpenIZAdmin.Controllers
 		/// Checks if a concept exists.
 		/// </summary>
 		/// <param name="mnemonic">The mnemonic.</param>
-		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+		/// <returns><c>true</c> if the concept exists, <c>false</c> otherwise.</returns>
 		protected virtual bool DoesConceptExist(string mnemonic)
 		{
 			return this.GetConcept(mnemonic) != null;
@@ -54,7 +55,7 @@ namespace OpenIZAdmin.Controllers
 		/// Checks if a concept exists.
 		/// </summary>
 		/// <param name="mnemonic">The mnemonic.</param>
-		/// <returns><c>true</c> if XXXX, <c>false</c> otherwise.</returns>
+		/// <returns><c>true</c> if the concept set exists, <c>false</c> otherwise.</returns>
 		protected virtual bool DoesConceptSetExist(string mnemonic)
 		{
 			return this.GetConceptSet(mnemonic) != null;
@@ -87,7 +88,7 @@ namespace OpenIZAdmin.Controllers
 
 			bundle.Reconstitute();
 
-			foreach (var conceptReferenceTerm in bundle.Item.OfType<Concept>().Where(c => c.Key == id && c.VersionKey == versionId && c.ObsoletionTime == null).SelectMany(c => c.ReferenceTerms))
+			foreach (var conceptReferenceTerm in bundle.Item.OfType<Concept>().LatestVersionOnly().Where(c => c.Key == id && c.VersionKey == versionId && c.ObsoletionTime == null).SelectMany(c => c.ReferenceTerms))
 			{
 				var referenceTerm = conceptReferenceTerm.ReferenceTerm;
 

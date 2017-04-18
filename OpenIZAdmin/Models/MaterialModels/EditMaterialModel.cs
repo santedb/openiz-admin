@@ -40,9 +40,7 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// </summary>
 		public EditMaterialModel()
 		{
-			this.FormConcepts = new List<SelectListItem>();
-			this.QuantityConcepts = new List<SelectListItem>();
-			this.TypeConcepts = new List<SelectListItem>();
+			
 		}
 
 		/// <summary>
@@ -51,6 +49,10 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// <param name="material">The material.</param>
 		public EditMaterialModel(Material material) : base(material)
 		{
+			this.FormConcepts = new List<SelectListItem>();
+			this.QuantityConcepts = new List<SelectListItem>();
+			this.TypeConcepts = new List<SelectListItem>();
+
 			this.FormConcept = material.FormConceptKey?.ToString();
 
 			if (material.Names.Any(n => n.NameUseKey == NameUseKeys.Assigned))

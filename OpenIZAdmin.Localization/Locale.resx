@@ -1358,8 +1358,8 @@
   </data>
   <data name="UnableToLoadReports" xml:space="preserve">
     <value>Unable to load reports</value>
-	</data>
-   <data name="Domain" xml:space="preserve">
+  </data>
+  <data name="Domain" xml:space="preserve">
     <value>Domain</value>
   </data>
   <data name="DomainLength50" xml:space="preserve">
@@ -1382,5 +1382,11 @@
   </data>
   <data name="CodeSystem" xml:space="preserve">
     <value>Code System</value>
+  </data>
+  <data name="NoCodeSystemsFound" xml:space="preserve">
+    <value>No code systems found</value>
+  </data>
+  <data name="ConceptSetNotFound" xml:space="preserve">
+    <value>Concept set not found</value>
   </data>
 </root>

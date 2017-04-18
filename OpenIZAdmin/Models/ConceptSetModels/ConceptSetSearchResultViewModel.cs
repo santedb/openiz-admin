@@ -17,13 +17,8 @@
  * Date: 2017-4-10
  */
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Models.ConceptModels;
+using System;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
 {
@@ -37,7 +32,6 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		/// </summary>
 		public ConceptSetSearchResultViewModel()
 		{
-
 		}
 
 		/// <summary>

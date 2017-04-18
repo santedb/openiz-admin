@@ -17,12 +17,10 @@
  * Date: 2016-9-5
  */
 
-using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Web.Mvc;
 
 namespace OpenIZAdmin.Util
 {
@@ -52,17 +50,6 @@ namespace OpenIZAdmin.Util
 
 			return languages.AsEnumerable();
 		}
-
-        /// <summary>
-        /// Gets a language list as a SelectListItem list
-        /// </summary>
-        /// <returns>Returns a list of SelectListItems</returns>
-        public static IEnumerable<SelectListItem> GetSelectListItemLanguageList()
-	    {
-            var languages = GetLanguageList();
-            //return languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode, Selected = l.TwoLetterCountryCode == Locale.EN }).OrderBy(l => l.Text).ToList();	        
-            return languages.Select(l => new SelectListItem { Text = l.DisplayName, Value = l.TwoLetterCountryCode }).OrderBy(l => l.Text).ToList();
-        }
 	}
 
 	/// <summary>

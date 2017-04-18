@@ -2702,6 +2702,20 @@
             concept classes, etc.
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.CreateCodeSystem(OpenIZ.Core.Model.DataTypes.CodeSystem)">
+            <summary>
+            Creates the code system.
+            </summary>
+            <param name="codeSystem">The code system.</param>
+            <returns>Returns the created code system.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.DeleteCodeSystem(System.Guid)">
+            <summary>
+            Deletes the code system.
+            </summary>
+            <param name="key">The key.</param>
+            <returns>Returns the deleted code system.</returns>
+        </member>
         <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.FindAssigningAuthority(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.AssigningAuthority,System.Boolean}})">
             <summary>
             Finds the specified assigning authority
@@ -2718,6 +2732,23 @@
             <param name="count">The count.</param>
             <param name="totalCount">The total count.</param>
             <returns>Returns a list of assigning authorities.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.FindCodeSystem(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.CodeSystem,System.Boolean}})">
+            <summary>
+            Finds the code system.
+            </summary>
+            <param name="expression">The expression.</param>
+            <returns>Returns a list of code systems which match the given expression.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.FindCodeSystem(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.CodeSystem,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Finds the code system.
+            </summary>
+            <param name="expression">The expression.</param>
+            <param name="offset">The offset.</param>
+            <param name="count">The count.</param>
+            <param name="totalCount">The total count.</param>
+            <returns>Returns a list of code systems which match the given expression.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.FindExtensionType(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ExtensionType,System.Boolean}})">
             <summary>
@@ -2736,6 +2767,11 @@
             <param name="totalCount">The total count.</param>
             <returns>Returns a list of extension types.</returns>
         </member>
+        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.FindTemplateDefinitions(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.TemplateDefinition,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+            <summary>
+            Find template definitions matching the query
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.GetAssigningAuthority(System.Guid)">
             <summary>
             Gets an assigning authority
@@ -2749,6 +2785,13 @@
             </summary>
             <param name="value">The value.</param>
             <returns>Returns an assigning authority.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.GetCodeSystem(System.Guid)">
+            <summary>
+            Gets the code system.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Returns the code system, or null if no code system is found.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.GetExtensionType(System.Guid)">
             <summary>
@@ -2764,10 +2807,12 @@
             <param name="value">The URI of the extension.</param>
             <returns>Returns an extension type or null of no extension type is found.</returns>
         </member>
-        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.FindTemplateDefinitions(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.TemplateDefinition,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
+        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.UpdateCodeSystem(OpenIZ.Core.Model.DataTypes.CodeSystem)">
             <summary>
-            Find template definitions matching the query
+            Updates the code system.
             </summary>
+            <param name="codeSystem">The code system.</param>
+            <returns>Returns the updated code system.</returns>
         </member>
         <member name="T:OpenIZ.Core.Services.IClientRegistryNotificationService">
             <summary>

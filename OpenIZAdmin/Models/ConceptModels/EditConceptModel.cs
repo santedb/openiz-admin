@@ -18,16 +18,14 @@
  */
 
 using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.LanguageModels;
+using OpenIZAdmin.Models.ReferenceTermModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Extensions;
-using OpenIZAdmin.Models.LanguageModels;
-using OpenIZAdmin.Models.ReferenceTermModels;
-using OpenIZAdmin.Util;
+using OpenIZ.Core.Model.Constants;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
@@ -63,7 +61,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		{
 			CreationTime = concept.CreationTime.DateTime;
 			Id = concept.Key ?? Guid.Empty;
-			IsObsolete = concept.ObsoletionTime != null;
+			IsObsolete = concept.StatusConceptKey == StatusKeys.Obsolete;
 			IsSystemConcept = concept.IsSystemConcept;
 			Mnemonic = concept.Mnemonic;
 			Name = string.Join(" ", concept.ConceptNames.Select(c => c.Name));
@@ -102,7 +100,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 
 		/// <summary>
 		/// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
-		/// </summary>		
+		/// </summary>
 		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
 		public List<LanguageViewModel> Languages { get; set; }
 
@@ -122,7 +120,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		//[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		//[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		//[StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
-		//public string Name { get; set; }          
+		//public string Name { get; set; }
 
 		/// <summary>
 		/// Converts an <see cref="EditConceptModel"/> instance to a <see cref="Concept"/> instance.

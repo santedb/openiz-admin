@@ -21,9 +21,7 @@ using OpenIZ.Core.Model.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
@@ -37,9 +35,9 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		public CreateConceptModel()
 		{
-		    LanguageList = new List<SelectListItem>();
-			ConceptClassList = new List<SelectListItem>();            
-        }
+			LanguageList = new List<SelectListItem>();
+			ConceptClassList = new List<SelectListItem>();
+		}
 
 		/// <summary>
 		/// Gets or sets the concept class.
@@ -53,13 +51,13 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// Gets or sets the concept class list.
 		/// </summary>
 		/// <value>The concept class list.</value>
-		public List<SelectListItem> ConceptClassList { get; set; }		
+		public List<SelectListItem> ConceptClassList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the language list.
 		/// </summary>
 		/// <value>The language list.</value>
-		public List<SelectListItem> LanguageList { get; set; }		
+		public List<SelectListItem> LanguageList { get; set; }
 
 		/// <summary>
 		/// Converts an <see cref="CreateConceptModel"/> instance to a <see cref="Concept"/> instance.

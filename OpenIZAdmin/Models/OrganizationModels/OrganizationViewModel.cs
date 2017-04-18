@@ -38,7 +38,7 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		/// </summary>
 		public OrganizationViewModel()
 		{
-			this.ManufacturedMaterials = new List<ManufacturedMaterialViewModel>();
+			
 		}
 
 		/// <summary>
@@ -48,6 +48,8 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		/// <param name="organization"></param>
 		public OrganizationViewModel(Organization organization) : base(organization)
 		{
+			this.ManufacturedMaterials = new List<ManufacturedMaterialViewModel>();
+
 			if (organization.IndustryConcept != null)
 			{
 				this.IndustryConcept = string.Join(" ", organization.IndustryConcept.ConceptNames.Select(c => c.Name));

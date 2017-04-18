@@ -31,12 +31,21 @@ namespace OpenIZAdmin.Models.Core
 	/// <summary>
 	/// Represents an edit entity model.
 	/// </summary>
-	public abstract class EditEntityModel
+	public abstract class EditEntityModel : IdentifiedEditModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditEntityModel"/> class.
 		/// </summary>
 		protected EditEntityModel()
+		{
+			
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EditEntityModel"/> class.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		protected EditEntityModel(Guid id) : base(id)
 		{
 			this.Identifiers = new List<EntityIdentifierModel>();
 			this.Relationships = new List<EntityRelationshipModel>();
@@ -48,21 +57,14 @@ namespace OpenIZAdmin.Models.Core
 		/// with a specific <see cref="Entity"/> instance.
 		/// </summary>
 		/// <param name="entity">The <see cref="Entity"/> instance.</param>
-		protected EditEntityModel(Entity entity) : this()
+		protected EditEntityModel(Entity entity) : this(entity.Key.Value)
 		{
-			this.Id = entity.Key.Value;
 			this.Identifiers = entity.Identifiers.Select(i => new EntityIdentifierModel(i, entity.Key.Value, entity.Type)).OrderBy(i => i.Name).ToList();
 			this.IsObsolete = entity.ObsoletionTime != null;
 			this.Relationships = entity.Relationships.Select(r => new EntityRelationshipModel(r, entity.Type) { Quantity = r.Quantity }).ToList();
 			this.Types = entity.Identifiers.Select(i => new SelectListItem { Text = i.Authority.Name, Value = i.AuthorityKey?.ToString() }).ToList();
 			this.VersionKey = entity.VersionKey;
 		}
-
-		/// <summary>
-		/// Gets or sets the id of the entity.
-		/// </summary>
-		[Required]
-		public Guid Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the identifiers.

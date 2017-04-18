@@ -32,7 +32,7 @@ namespace OpenIZAdmin.Models.Core
 	/// <summary>
 	/// Represents a security view model.
 	/// </summary>
-	public abstract class SecurityViewModel
+	public abstract class SecurityViewModel : IdentifiedViewModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SecurityViewModel"/> class.
@@ -119,21 +119,10 @@ namespace OpenIZAdmin.Models.Core
 		}
 
 		/// <summary>
-		/// Gets or sets the creation time of the security entity.
-		/// </summary>
-		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
-		public DateTime CreationTime { get; set; }
-
-		/// <summary>
 		/// Gets or sets whether the security entity has policies associated.
 		/// </summary>
 		[Display(Name = "HasPolicies", ResourceType = typeof(Locale))]
 		public bool HasPolicies { get; set; }
-
-		/// <summary>
-		/// Gets or sets the id of the security entity.
-		/// </summary>
-		public Guid Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets whether the security entity is obsolete.

@@ -23,6 +23,13 @@
             <param name="id">The id of the certificate signing request.</param>
             <returns>Returns the submission result.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.AssigningAuthority(System.String)">
+            <summary>
+            Gets a specific assigning authority.
+            </summary>
+            <param name="id">The id of the assigning authority to retrieve.</param>
+            <returns>Returns the assigning authority.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateAlert(OpenIZ.Core.Model.AMI.Alerting.AlertMessageInfo)">
             <summary>
             Creates an alert message.
@@ -54,6 +61,13 @@
             <summary>
             Create audit
             </summary>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateCodeSystem(OpenIZ.Core.Model.DataTypes.CodeSystem)">
+            <summary>
+            Creates the code system.
+            </summary>
+            <param name="codeSystem">The code system.</param>
+            <returns>Returns the created code system.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateDevice(OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo)">
             <summary>
@@ -111,6 +125,13 @@
             <param name="certificateId">The id of the certificate to be deleted.</param>
             <param name="reason">The reason the certificate is to be deleted.</param>
             <returns>Returns the deletion result.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.DeleteCodeSystem(System.String)">
+            <summary>
+            Deletes the code system.
+            </summary>
+            <param name="codeSystemId">The code system identifier.</param>
+            <returns>Returns the deleted code system.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.DeleteDevice(System.String)">
             <summary>
@@ -175,11 +196,6 @@
             <param name="id">The id of the alert to retrieve.</param>
             <returns>Returns the alert.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.StatUpdate(System.String)">
-            <summary>
-            Stats the update via a HEAD command
-            </summary>
-        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetAlerts(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Alert.Alerting.AlertMessage,System.Boolean}})">
             <summary>
             Gets a list of alerts.
@@ -220,13 +236,6 @@
             <param name="query">The query expression to use to find the assigning authorities.</param>
             <returns>Returns a collection of assigning authorities which match the specified criteria.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.AssigningAuthority(System.String)">
-            <summary>
-            Gets a specific assigning authority.
-            </summary>
-            <param name="id">The id of the assigning authority to retrieve.</param>
-            <returns>Returns the assigning authority.</returns>
-        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetCertificates">
             <summary>
             Gets a list of certificates.
@@ -247,11 +256,25 @@
             <param name="query">The query expression to use to find the certificate signing requests.</param>
             <returns>Returns a collection of certificate signing requests which match the specified query.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetCodeSystem(System.String)">
+            <summary>
+            Gets the code system.
+            </summary>
+            <param name="codeSystemId">The code system identifier.</param>
+            <returns>Returns a code system.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetCodeSystems(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.CodeSystem,System.Boolean}})">
+            <summary>
+            Gets the code systems.
+            </summary>
+            <param name="query">The query.</param>
+            <returns>Returns a list of code systems.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetDevice(System.String)">
             <summary>
             Gets a specific device.
             </summary>
-            <param name="))">The id of the security device to be retrieved.</param>
+            <param name="id">The identifier.</param>
             <returns>Returns the security device.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetDevices(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo,System.Boolean}})">
@@ -289,6 +312,11 @@
             <param name="query">The query expression to use to find the role.</param>
             <returns>Returns a collection of roles which match the specified query parameters.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetTwoFactorMechanisms">
+            <summary>
+            Gets a list of two-factor mechanisms
+            </summary>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetUser(System.String)">
             <summary>
             Gets a specific user.
@@ -309,12 +337,32 @@
             </summary>
             <returns>Return the service options for the AMI.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.SendTfaSecret(OpenIZ.Core.Model.AMI.Auth.TfaRequestInfo)">
+            <summary>
+            Create security password reset request.
+            </summary>
+            <param name="resetInfo">The reset information.</param>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.StatUpdate(System.String)">
+            <summary>
+            Stats the update via a HEAD command
+            </summary>
+            <param name="packageId">The package identifier.</param>
+            <returns>Returns the applet info.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.SubmitCertificateSigningRequest(OpenIZ.Core.Model.AMI.Security.SubmissionRequest)">
             <summary>
             Submits a certificate signing request to the AMI.
             </summary>
             <param name="submissionRequest">The certificate signing request.</param>
             <returns>Returns the submission result.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.SubmitDiagnosticReport(OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticReport)">
+            <summary>
+            Submits a diagnostic report.
+            </summary>
+            <param name="report">The diagnostic report.</param>
+            <returns>Returns the submitted diagnostic report.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateAlert(System.String,OpenIZ.Core.Model.AMI.Alerting.AlertMessageInfo)">
             <summary>
@@ -340,14 +388,6 @@
             <param name="applicationInfo">The application containing the updated information.</param>
             <returns>Returns the updated application.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateDevice(System.String,OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo)">
-            <summary>
-            Updates a device.
-            </summary>
-            <param name="deviceId">The id of the device to be updated.</param>
-            <param name="deviceInfo">The device containing the updated information.</param>
-            <returns>Returns the updated device.</returns>
-        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateAssigningAuthority(System.String,OpenIZ.Core.Model.AMI.DataTypes.AssigningAuthorityInfo)">
             <summary>
             Updates an assigning authority.
@@ -355,6 +395,22 @@
             <param name="assigningAuthorityId">The id of the assigning authority to be updated.</param>
             <param name="assigningAuthorityInfo">The assigning authority info containing the updated information.</param>
             <returns>Returns the updated assigning authority.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateCodeSystem(System.String,OpenIZ.Core.Model.DataTypes.CodeSystem)">
+            <summary>
+            Updates the code system.
+            </summary>
+            <param name="codeSystemId">The code system identifier.</param>
+            <param name="codeSystem">The code system.</param>
+            <returns>Return the updated code system.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateDevice(System.String,OpenIZ.Core.Model.AMI.Auth.SecurityDeviceInfo)">
+            <summary>
+            Updates a device.
+            </summary>
+            <param name="deviceId">The id of the device to be updated.</param>
+            <param name="deviceInfo">The device containing the updated information.</param>
+            <returns>Returns the updated device.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateRole(System.String,OpenIZ.Core.Model.AMI.Auth.SecurityRoleInfo)">
             <summary>
@@ -371,23 +427,6 @@
             <param name="id">The id of the user to be updated.</param>
             <param name="user">The user containing the updated information.</param>
             <returns>Returns the updated user.</returns>
-        </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.GetTwoFactorMechanisms">
-            <summary>
-            Gets a list of two-factor mechanisms
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.SendTfaSecret(OpenIZ.Core.Model.AMI.Auth.TfaRequestInfo)">
-            <summary>
-            Create security password reset request
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.SubmitDiagnosticReport(OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticReport)">
-            <summary>
-            Submits a diagnostic report.
-            </summary>
-            <param name="report">The diagnostic report.</param>
-            <returns>Returns the submitted diagnostic report.</returns>
         </member>
     </members>
 </doc>

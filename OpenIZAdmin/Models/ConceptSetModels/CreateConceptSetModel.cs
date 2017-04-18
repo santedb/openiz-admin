@@ -21,34 +21,34 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
 {
-    /// <summary>
-    /// Initializes a new instance of the <see cref="CreateConceptSetModel"/> class.
-    /// </summary>
-    public class CreateConceptSetModel : ConceptSetModel
-	{		
-        /// <summary>
-        /// Gets or sets the mnemonic of the concept.
-        /// </summary>
-        [Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
-        [Required]
+	/// <summary>
+	/// Initializes a new instance of the <see cref="CreateConceptSetModel"/> class.
+	/// </summary>
+	public class CreateConceptSetModel : ConceptSetModel
+	{
+		/// <summary>
+		/// Gets or sets the mnemonic of the concept.
+		/// </summary>
+		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
+		[Required]
 		public override string Mnemonic { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of the concept set.
-        /// </summary>
-        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        [Required]
+		/// <summary>
+		/// Gets or sets the name of the concept set.
+		/// </summary>
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		[Required]
 		public override string Name { get; set; }
 
-        /// <summary>
-        /// Get or sets the OID of the concept set.
-        /// </summary>
-        [Required]
+		/// <summary>
+		/// Get or sets the OID of the concept set.
+		/// </summary>
+		[Required]
 		public override string Oid { get; set; }
 
-        /// <summary>
-        /// Get or sets the URL of the concept set.
-        /// </summary>
+		/// <summary>
+		/// Get or sets the URL of the concept set.
+		/// </summary>
 		[Required]
 		public override string Url { get; set; }
 	}

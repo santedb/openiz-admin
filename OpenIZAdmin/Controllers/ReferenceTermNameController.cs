@@ -23,6 +23,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ReferenceTermModels;
 using OpenIZAdmin.Models.ReferenceTermNameModels;
@@ -43,9 +44,9 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
         public ActionResult Create()
         {
-            var model = new CreateReferenceTermNameViewModel()
+            var model = new CreateReferenceTermNameViewModel
             {
-                LanguageList = LanguageUtil.GetSelectListItemLanguageList().ToList(),
+                LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList(),
                 TwoLetterCountryCode = Locale.EN
             };
 

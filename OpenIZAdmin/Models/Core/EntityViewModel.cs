@@ -31,12 +31,20 @@ namespace OpenIZAdmin.Models.Core
 	/// <summary>
 	/// Represents an entity view model.
 	/// </summary>
-	public abstract class EntityViewModel
+	public abstract class EntityViewModel : IdentifiedViewModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EntityViewModel"/> class.
 		/// </summary>
 		protected EntityViewModel()
+		{
+			
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EntityViewModel"/> class.
+		/// </summary>
+		protected EntityViewModel(Guid id) : base(id)
 		{
 			this.Identifiers = new List<EntityIdentifierViewModel>();
 			this.Relationships = new List<EntityRelationshipViewModel>();
@@ -47,10 +55,8 @@ namespace OpenIZAdmin.Models.Core
 		/// with a specific <see cref="Entity"/> instance.
 		/// </summary>
 		/// <param name="entity">The <see cref="Entity"/> instance.</param>
-		protected EntityViewModel(Entity entity) : this()
+		protected EntityViewModel(Entity entity) : base(entity)
 		{
-			this.CreationTime = entity.CreationTime.DateTime;
-			this.Id = entity.Key.Value;
 			this.Identifiers = entity.Identifiers.Select(i => new EntityIdentifierViewModel(i)).OrderBy(i => i.Name).ToList();
 			this.IsObsolete = entity.ObsoletionTime.HasValue;
 			this.Name = string.Join(" ", entity.Names.SelectMany(n => n.Component).Select(c => c.Value));
@@ -60,17 +66,6 @@ namespace OpenIZAdmin.Models.Core
 			this.VersionKey = entity.VersionKey;
 			this.VersionSequence = entity.VersionSequence;
 		}
-
-		/// <summary>
-		/// Gets or sets the creation time of the entity.
-		/// </summary>
-		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
-		public DateTime CreationTime { get; set; }
-
-		/// <summary>
-		/// Gets or sets the id of the entity.
-		/// </summary>
-		public Guid Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets a list of identifiers associated with the entity.

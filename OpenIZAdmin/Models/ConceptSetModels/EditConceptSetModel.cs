@@ -18,13 +18,13 @@
  */
 
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.ConceptModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.ConceptModels;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
 {
@@ -39,9 +39,9 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		public EditConceptSetModel()
 		{
 			Concepts = new List<ConceptViewModel>();
-            ConceptList = new List<SelectListItem>();
-            AddConcepts = new List<string>();
-        }
+			ConceptList = new List<SelectListItem>();
+			AddConcepts = new List<string>();
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditConceptSetModel"/> class
@@ -57,8 +57,8 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 			Mnemonic = conceptSet.Mnemonic;
 			Name = conceptSet.Name;
 			Oid = conceptSet.Oid;
-			Url = conceptSet.Url;			
-        }		
+			Url = conceptSet.Url;
+		}
 
 		///// <summary>
 		///// Gets or sets the Mnemonic of the Concept
@@ -66,56 +66,56 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		//public string ConceptMnemonic { get; set; }
 
 		/// <summary>
+		/// Gets or sets the list of Concepts to add
+		/// </summary>
+		public List<string> AddConcepts { get; set; }
+
+		/// <summary>
+		/// Gets or sets the concept list from the search parameters from the ajax search method
+		/// </summary>
+		public List<SelectListItem> ConceptList { get; set; }
+
+		/// <summary>
 		/// Gets or sets the name of the concept.
 		/// </summary>
 		/// <value>The name of the concept.</value>
-		public string ConceptName { get; set; }		
-
-        /// <summary>
-        /// Gets or sets the concept list from the search parameters from the ajax search method
-        /// </summary>
-        public List<SelectListItem> ConceptList { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of Concepts to add
-        /// </summary>
-        public List<string> AddConcepts { get; set; }        
+		public string ConceptName { get; set; }
 
 		/// <summary>
 		/// Gets or sets the created by.
 		/// </summary>
 		/// <value>The created by.</value>
 		[Display(Name = "Created By")]
-		public string CreatedBy { get; set; }      
+		public string CreatedBy { get; set; }
 
-        /// <summary>
-        /// Gets or sets the mnemonic of the concept.
-        /// </summary>
-        [Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
-        [Required]
+		/// <summary>
+		/// Gets or sets the mnemonic of the concept.
+		/// </summary>
+		[Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
+		[Required]
 		public override string Mnemonic { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name of the concept set.
-        /// </summary>
-        [Display(Name = "Name", ResourceType = typeof(Locale))]
-        [Required]
+		/// <summary>
+		/// Gets or sets the name of the concept set.
+		/// </summary>
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+		[Required]
 		public override string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the oid.
-        /// </summary>
-        /// <value>The oid.</value>
-        [Display(Name = "Oid", ResourceType = typeof(Locale))]
-        [Required]
-		public override string Oid { get; set; }        
+		/// <summary>
+		/// Gets or sets the oid.
+		/// </summary>
+		/// <value>The oid.</value>
+		[Display(Name = "Oid", ResourceType = typeof(Locale))]
+		[Required]
+		public override string Oid { get; set; }
 
-        /// <summary>
-        /// Gets or sets the URL.
-        /// </summary>
-        /// <value>The URL.</value>
-        [Display(Name = "Url", ResourceType = typeof(Locale))]
-        [Required]
+		/// <summary>
+		/// Gets or sets the URL.
+		/// </summary>
+		/// <value>The URL.</value>
+		[Display(Name = "Url", ResourceType = typeof(Locale))]
+		[Required]
 		public override string Url { get; set; }
 
 		/// <summary>

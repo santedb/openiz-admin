@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OpenIZAdmin.Models.CodeSystem.CodeSystemSearchResultsViewModel>
+﻿@model IEnumerable<OpenIZAdmin.Models.CodeSystemModels.CodeSystemViewModel>
 @{
     ViewBag.Title = Locale.CodeSystem;
 }
@@ -29,7 +29,7 @@
 
             $('#search-partial').bind("DOMSubtreeModified", function ()
             {
-                $("#referenceTermsSearchTable").DataTable();
+                $("#codeSystemSearchTable").DataTable();
             });
         });
     </script>

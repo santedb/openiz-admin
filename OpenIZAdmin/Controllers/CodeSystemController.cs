@@ -1,231 +1,268 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿/*
+ * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
+ *
+ * User: Nityan
+ * Date: 2017-4-17
+ */
+
 using Elmah;
-using OpenIZ.Core.Model.Collection;
+using OpenIZ.Core.Model.AMI.Security;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Attributes;
-using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.CodeSystem;
+using OpenIZAdmin.Models.CodeSystemModels;
 using OpenIZAdmin.Models.ConceptModels;
-using OpenIZAdmin.Util;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
-    /// <summary>
+	/// <summary>
 	/// Provides operations for managing code systems.
 	/// </summary>
 	[TokenAuthorize]
-    public class CodeSystemController : BaseController
-    {
-        /// <summary>
-        /// Displays the create view.
-        /// </summary>
-        /// <returns>Returns the create view.</returns>
-        [HttpGet]
-        public ActionResult Create()
-        {
-            return View(new CreateCodeSystemViewModel());
-        }
+	public class CodeSystemController : MetadataController
+	{
+		/// <summary>
+		/// Displays the create view.
+		/// </summary>
+		/// <returns>Returns the create view.</returns>
+		[HttpGet]
+		public ActionResult Create()
+		{
+			return View();
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Creates a code system.
 		/// </summary>
 		/// <param name="model">The model containing the information to create a code system.</param>
 		/// <returns>Returns the created concept.</returns>
 		[HttpPost]
-        [ValidateAntiForgeryToken]        
-        public ActionResult Create(CreateCodeSystemViewModel model)
-        {
-            try
-            {
-                if (ModelState.IsValid)
-                {
-                    var result = this.ImsiClient.Create<CodeSystem>(model.ToCodeSystem());
+		[ValidateAntiForgeryToken]
+		public ActionResult Create(CreateCodeSystemModel model)
+		{
+			try
+			{
+				if (ModelState.IsValid)
+				{
+					var codeSystem = this.AmiClient.CreateCodeSystem(model.ToCodeSystem());
 
-                    TempData["success"] = Locale.CodeSystem + " " + Locale.Created + " " + Locale.Successfully;
+					TempData["success"] = Locale.CodeSystem + " " + Locale.Created + " " + Locale.Successfully;
 
-                    return RedirectToAction("ViewCodeSystem", new { id = result.Key });
-                }
-            }
-            catch (Exception e)
-            {
-                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-            }
+					return RedirectToAction("ViewCodeSystem", new { id = codeSystem.Key });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to create code system: {e}");
+			}
 
-            TempData["error"] = Locale.UnableToCreate + " " + Locale.CodeSystem;            
+			TempData["error"] = Locale.UnableToCreate + " " + Locale.CodeSystem;
 
-            return View(model);
-        }
+			return View(model);
+		}
 
-        /// <summary>
-        /// Deletes a concept.
-        /// </summary>
-        /// <param name="id">The id of the code system to delete.</param>		
-        /// <returns>Returns the index view.</returns>
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(Guid? id)
-        {
-            try
-            {
-                var codeSystem = CodeSystemUtil.GetCodeSystem(ImsiClient, id);
+		/// <summary>
+		/// Deletes a concept.
+		/// </summary>
+		/// <param name="id">The id of the code system to delete.</param>
+		/// <returns>Returns the index view.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Delete(Guid id)
+		{
+			try
+			{
+				var codeSystem = this.AmiClient.GetCodeSystem(id.ToString());
 
-                if (codeSystem == null)
-                {
-                    TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
+				if (codeSystem == null)
+				{
+					TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
 
-                    return RedirectToAction("Index");
-                }
+					return RedirectToAction("Index");
+				}
 
-                this.ImsiClient.Obsolete<CodeSystem>(codeSystem);
+				this.ImsiClient.Obsolete<CodeSystem>(codeSystem);
 
-                TempData["success"] = Locale.CodeSystem + " " + Locale.Deactivated + " " + Locale.Successfully;
+				TempData["success"] = Locale.CodeSystem + " " + Locale.Deactivated + " " + Locale.Successfully;
 
-                return RedirectToAction("Index");
-            }
-            catch (Exception e)
-            {
-                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-            }
+				return RedirectToAction("Index");
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to delete code system: {e}");
+			}
 
-            TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
+			TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
 
-            return RedirectToAction("Index");
-        }
+			return RedirectToAction("Index");
+		}
 
-        /// <summary>
-        /// Edits the specified concept.
-        /// </summary>
-        /// <param name="id">The identifier.</param>        
-        /// <returns>ActionResult.</returns>
-        [HttpGet]
-        public ActionResult Edit(Guid? id)
-        {
-            var codeSystem = CodeSystemUtil.GetCodeSystem(ImsiClient, id);
+		/// <summary>
+		/// Edits the specified concept.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpGet]
+		public ActionResult Edit(Guid id)
+		{
+			try
+			{
+				var codeSystem = this.AmiClient.GetCodeSystem(id.ToString());
 
-            if (codeSystem == null)
-            {
-                TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
+				if (codeSystem == null)
+				{
+					TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
 
-                return RedirectToAction("Index");
-            }
+					return RedirectToAction("Index");
+				}
 
-            return View(new EditCodeSystemViewModel(codeSystem));
-        }
+				var model = new EditCodeSystemModel(codeSystem);
 
-        /// <summary>
+				return View(model);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to update code system: {e}");
+			}
+
+			return RedirectToAction("Index");
+		}
+
+		/// <summary>
 		/// Updates a Concept from the <see cref="EditConceptModel"/> instance.
 		/// </summary>
 		/// <param name="model">The EditCodeSystemViewModel instance</param>
 		/// <returns></returns>
 		[HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(EditCodeSystemViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var codeSystem = CodeSystemUtil.GetCodeSystem(ImsiClient, model.Id);
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(EditCodeSystemModel model)
+		{
+			try
+			{
+				if (ModelState.IsValid)
+				{
+					var codeSystem = this.AmiClient.GetCodeSystem(model.Id.ToString());
 
-                if (codeSystem == null)
-                {
-                    TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
+					if (codeSystem == null)
+					{
+						TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
 
-                    return RedirectToAction("Index");
-                }                
+						return RedirectToAction("Index");
+					}
 
-                codeSystem = model.ToCodeSystem(codeSystem);
+					codeSystem = this.AmiClient.UpdateCodeSystem(model.Id.ToString(), model.ToCodeSystem(codeSystem));
 
-                var result = this.ImsiClient.Update<CodeSystem>(codeSystem);
+					TempData["success"] = Locale.CodeSystem + " " + Locale.Updated + " " + Locale.Successfully;
 
-                TempData["success"] = Locale.CodeSystem + " " + Locale.Updated + " " + Locale.Successfully;
+					return RedirectToAction("ViewCodeSystem", new { id = codeSystem.Key });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to update code system: {e}");
+			}
 
-                return RedirectToAction("Edit", new { id = result.Key });
-            }
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.CodeSystem;
 
-            TempData["error"] = Locale.UnableToUpdate + " " + Locale.CodeSystem;
+			return View(model);
+		}
 
-            return View(model);
-        }
-
-        /// <summary>
+		/// <summary>
 		/// Displays the index view.
 		/// </summary>
 		/// <returns>Returns the index view.</returns>
 		public ActionResult Index()
-        {
-            TempData["searchType"] = "CodeSystem";
-            return View();
-        }
+		{
+			TempData["searchType"] = "CodeSystem";
+			return View();
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Displays the search view.
 		/// </summary>
 		/// <returns>Returns the search view.</returns>
 		[HttpGet]
-        [ValidateInput(false)]
-        public ActionResult Search(string searchTerm)
-        {
-            var results = new List<CodeSystemSearchResultsViewModel>();
+		[ValidateInput(false)]
+		public ActionResult Search(string searchTerm)
+		{
+			var results = new List<CodeSystemViewModel>();
 
-            if (this.IsValidId(searchTerm))
-            {
-                Bundle bundle;
+			if (this.IsValidId(searchTerm))
+			{
+				AmiCollection<CodeSystem> collection;
 
-                if (searchTerm == "*")
-                {
-                    bundle = this.ImsiClient.Query<CodeSystem>(c => c.ObsoletionTime == null);
-                    results = bundle.Item.OfType<CodeSystem>().Select(p => new CodeSystemSearchResultsViewModel(p)).ToList();
-                }
-                else
-                {
-                    bundle = this.ImsiClient.Query<CodeSystem>(c => c.Name.Contains(searchTerm) && c.ObsoletionTime == null);
-                    results = bundle.Item.OfType<CodeSystem>().Where(c => c.Name.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new CodeSystemSearchResultsViewModel(p)).ToList();
-                }
+				if (searchTerm == "*")
+				{
+					collection = this.AmiClient.GetCodeSystems(c => c.ObsoletionTime == null);
+					results = collection.CollectionItem.Select(p => new CodeSystemViewModel(p)).ToList();
+				}
+				else
+				{
+					collection = this.AmiClient.GetCodeSystems(c => c.Name.Contains(searchTerm) && c.ObsoletionTime == null);
+					results = collection.CollectionItem.Select(p => new CodeSystemViewModel(p)).ToList();
+				}
 
-                TempData["searchTerm"] = searchTerm;
+				TempData["searchTerm"] = searchTerm;
 
-                return PartialView("_CodeSystemSearchResultsPartial", results.OrderBy(c => c.Name));
-            }
+				return PartialView("_CodeSystemsPartial", results.OrderBy(c => c.Name));
+			}
 
-            TempData["error"] = Locale.InvalidSearch;
-            TempData["searchTerm"] = searchTerm;
+			TempData["error"] = Locale.InvalidSearch;
+			TempData["searchTerm"] = searchTerm;
 
-            return PartialView("_CodeSystemSearchResultsPartial", results);
-        }
+			return PartialView("_CodeSystemsPartial", results);
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Retrieves the Concept by identifier
 		/// </summary>
-		/// <param name="id">The identifier of the Concept</param>		
+		/// <param name="id">The identifier of the Concept</param>
 		/// <returns>Returns the concept view.</returns>
 		[HttpGet]
-        public ActionResult ViewCodeSystem(Guid? id)
-        {
-            try
-            {
-                var codeSystem = CodeSystemUtil.GetCodeSystem(ImsiClient, id);
+		public ActionResult ViewCodeSystem(Guid id)
+		{
+			try
+			{
+				var codeSystem = this.AmiClient.GetCodeSystem(id.ToString());
 
-                if (codeSystem == null)
-                {
-                    TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
+				if (codeSystem == null)
+				{
+					TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
 
-                    return RedirectToAction("Index");
-                }                
+					return RedirectToAction("Index");
+				}
 
-                return View(new CodeSystemViewModel(codeSystem));
-            }
-            catch (Exception e)
-            {
-                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-            }
+				return View(new CodeSystemViewModel(codeSystem));
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
 
-            TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+			TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
 
-            return RedirectToAction("Index");
-        }
-    }
+			return RedirectToAction("Index");
+		}
+	}
 }

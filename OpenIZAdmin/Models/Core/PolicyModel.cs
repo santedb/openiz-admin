@@ -35,7 +35,7 @@ namespace OpenIZAdmin.Models.Core
 		/// Gets or sets a value indicating whether this instance can override.
 		/// </summary>
 		/// <value><c>true</c> if this instance can override; otherwise, <c>false</c>.</value>
-		[Display(Name = "CanOverride", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "CanOverride", ResourceType = typeof(Locale))]
         public bool CanOverride { get; set; }
 
         /// <summary>
@@ -56,7 +56,7 @@ namespace OpenIZAdmin.Models.Core
         /// Gets or sets the grant enum/Id
         /// </summary>
         [Display(Name = "Grants", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "GrantsRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "GrantsRequired", ErrorMessageResourceType = typeof(Locale))]
         public int GrantId { get; set; }
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace OpenIZAdmin.Models.Core
         /// </summary>
         /// <value>The identifier.</value>
         [Display(Name = "Grants", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "GrantsRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "GrantsRequired", ErrorMessageResourceType = typeof(Locale))]
         public Guid Id { get; set; }
 
         /// <summary>
@@ -84,8 +84,8 @@ namespace OpenIZAdmin.Models.Core
         /// </summary>
         /// <value>The name.</value>
         [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+        [StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
         public string Name { get; set; }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace OpenIZAdmin.Models.Core
         /// </summary>
         /// <value>The oid.</value>
         [Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Locale))]
         public string Oid { get; set; }
     }
 }
