@@ -17,8 +17,7 @@
                         <th></th>
                         <th>@Html.DisplayNameFor(m => m.CreationTime)</th>
                         <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
-                        <th>@Html.DisplayNameFor(m => m.Names)</th>
-                        <th>@Locale.Status</th>
+                        <th>@Html.DisplayNameFor(m => m.Names)</th>                        
                         <th></th>                        
                     </tr>
                 </thead>
@@ -29,8 +28,7 @@
                             <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></td>
                             <td class="autoFitContents">@item.CreationTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
                             <td>@item.Mnemonic</td>
-                            <td>@item.Names</td>
-                            <td class="capitalize">@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
+                            <td>@item.Names</td>                            
                             <td class="autoFitContents centerContent">
                                 <a class="btn btn-primary" href="@Url.Action("ViewReferenceTerm", "ReferenceTerm", new {id = item.Id})">
                                     @Locale.View

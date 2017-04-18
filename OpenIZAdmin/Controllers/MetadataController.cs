@@ -48,20 +48,7 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns a list of concept classes.</returns>
 		protected AmiCollection<CodeSystem> GetCodeSystems()
         {
-            return this.AmiClient.GetCodeSystems(c => c.ObsoletionTime == null);
-            
-
-            //if (searchTerm == "*")
-            //{
-            //    collection = this.AmiClient.GetCodeSystems(c => c.ObsoletionTime == null);
-            //    results = collection.CollectionItem.Select(p => new CodeSystemViewModel(p)).ToList();
-            //}
-
-            //var bundle = this.ImsiClient.Query<CodeSystem>(c => c.ObsoletionTime == null, 0, null, true);
-
-            //bundle.Reconstitute();
-
-            //return bundle.Item.OfType<CodeSystem>().Where(c => c.ObsoletionTime == null);
+            return this.AmiClient.GetCodeSystems(c => c.ObsoletionTime == null);                        
         }
 
         /// <summary>

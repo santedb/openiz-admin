@@ -11,6 +11,7 @@
 /// <reference path="moment.min.js" />
 /// <reference path="moment-with-locales.min.js" />
 /// <reference path="place-search.js" />
+/// <reference path="reference-term-search.js" />
 /// <reference path="respond.matchmedia.addlistener.min.js" />
 /// <reference path="respond.min.js" />
 /// <reference path="select2.min.js" />

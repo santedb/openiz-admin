@@ -78,7 +78,7 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
             {                
                 Key = Guid.NewGuid(),
                 Mnemonic = this.Mnemonic,
-                CodeSystemKey = this.CodeSystem,
+                CodeSystemKey = this.CodeSystem,                
                 DisplayNames = new List<ReferenceTermName>()
                 {
                     new ReferenceTermName()
@@ -88,7 +88,7 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
                         Name = this.Name,
                         PhoneticAlgorithmKey = PhoneticAlgorithmKeys.Soundex
                     }
-                }                                
+                }                                               
             };
         }
     }
