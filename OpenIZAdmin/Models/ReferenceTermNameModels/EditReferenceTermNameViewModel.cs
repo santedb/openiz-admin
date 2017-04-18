@@ -19,9 +19,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ReferenceTermNameModels
@@ -37,6 +39,34 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
         public EditReferenceTermNameViewModel()
         {
             LanguageList = new List<SelectListItem>();
+            ReferenceTermNameList = new List<ReferenceTermNameViewModel>();
+        }
+
+        /// <summary>
+		/// Initializes a new instance of the <see cref="EditReferenceTermNameViewModel"/> class.
+		/// </summary>
+        public EditReferenceTermNameViewModel(ReferenceTermName termName) : this()
+        {
+            Id = termName.Key;
+            Name = termName.Name;
+            Language = termName.Language;
+        }
+
+        /// <summary>
+		/// Initializes a new instance of the <see cref="EditReferenceTermNameViewModel"/> class.
+		/// </summary>
+        public EditReferenceTermNameViewModel(ReferenceTerm referenceTerm) : this()
+        {
+            ReferenceTermId = referenceTerm.Key;
+        }
+
+        /// <summary>
+		/// Initializes a new instance of the <see cref="EditReferenceTermNameViewModel"/> class.
+		/// </summary>
+        public EditReferenceTermNameViewModel(ReferenceTerm referenceTerm, ReferenceTermName termName) : this(termName)
+        {
+            ReferenceTermId = referenceTerm.Key;
+            Mnemonic = referenceTerm.Mnemonic;
         }
 
         /// <summary>
@@ -63,5 +93,17 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
         /// </summary>
         /// <value>The language list.</value>
         public List<SelectListItem> LanguageList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reference term name list
+        /// </summary>
+        public List<ReferenceTermNameViewModel> ReferenceTermNameList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the two letter language code of the language.
+        /// </summary>
+        [Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string TwoLetterCountryCode { get; set; }
     }
 }

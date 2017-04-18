@@ -2878,6 +2878,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The code system to be associated.
+        /// </summary>
+        public static string ToolTip_CodeSystem {
+            get {
+                return ResourceManager.GetString("ToolTip_CodeSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The concept class that is the association.
         /// </summary>
         public static string ToolTip_ConceptClass {

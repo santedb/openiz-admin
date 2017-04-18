@@ -24,7 +24,7 @@
                         <td>@refName.Language</td>
                         <td>@refName.Name</td>
                         <td class="autoFitContents centerContent">
-                            <a class="btn btn-warning" href="@Url.Action("Edit", "ReferenceTerm", new {id = refName.ReferenceTermId, langCode = refName.Language, name = refName.Name})">
+                            <a class="btn btn-warning" href="@Url.Action("Edit", "ReferenceTermName", new {id = refName.Id, refTermId = refName.ReferenceTermId })">
                                 @Locale.Edit
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>

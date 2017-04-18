@@ -19,9 +19,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Elmah;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
@@ -51,6 +54,56 @@ namespace OpenIZAdmin.Controllers
             };
 
             return View(model);
+        }
+
+        /// <summary>
+        /// Retrieves the names and metadata associated with the reference term to edit
+        /// </summary>
+        /// <param name="id">The reference term identifier</param>
+        /// <param name="refTermId">The Reference Term identifier</param>
+        /// <returns>An ActionResult instance</returns>
+        [HttpGet]
+        public ActionResult Edit(Guid id, Guid refTermId)
+        {
+            try
+            {
+                var referenceTerm = ImsiClient.Get<ReferenceTerm>(refTermId, null) as ReferenceTerm;                                
+
+                if (referenceTerm == null)
+                {
+                    TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+
+                    return RedirectToAction("Index");
+                }
+                                
+                var index = referenceTerm.DisplayNames.FindIndex(c => c.Key == id);
+
+                if (index == -1)
+                {
+                    TempData["error"] = Locale.ReferenceTermName + " " + Locale.NotFound;
+
+                    return RedirectToAction("Index");
+                }
+
+                var name = referenceTerm.DisplayNames[index];
+
+                return View(new EditReferenceTermNameViewModel(referenceTerm, name)
+                {
+                    LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList(),
+                    Name = name.Name,
+                    TwoLetterCountryCode = name.Language
+                });
+            }
+            catch (Exception e)
+            {
+                ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+                Trace.TraceError($"Unable to retrieve entity: { e }");
+            }
+
+            TempData["error"] = Locale.UnableToUpdate + " " + Locale.ReferenceTerm;
+
+            return RedirectToAction("ViewReferenceTerm", "ReferenceTerm", new { id });
+
         }
 
         /// <summary>

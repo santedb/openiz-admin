@@ -29,7 +29,19 @@ namespace OpenIZAdmin.Models.Core
 	/// Represents a reference term model.
 	/// </summary>
 	public abstract class ReferenceTermModel
-	{        
+	{ 
+        /// <summary>
+        /// Gets or sets the Code System
+        /// </summary>
+        public Guid? CodeSystem { get; set; }
+
+        /// <summary>
+        /// Gets or sets the code system list.
+        /// </summary>
+        /// <value>The code system list.</value>
+        [Display(Name = "CodeSystem", ResourceType = typeof(Localization.Locale))]
+        public List<SelectListItem> CodeSystemList { get; set; }
+
         /// <summary>
         /// Gets or sets the list of reference term names 
         /// </summary>
@@ -47,13 +59,7 @@ namespace OpenIZAdmin.Models.Core
         /// <value>The language.</value>        
         [Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
         //[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public virtual string Language { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the language list.
-        ///// </summary>
-        ///// <value>The language list.</value>
-        //public List<SelectListItem> LanguageList { get; set; }
+        public virtual string Language { get; set; }        
 
         /// <summary>
         /// Gets or sets the mnemonic.
@@ -78,11 +84,6 @@ namespace OpenIZAdmin.Models.Core
         /// </summary>
         [Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
         [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string TwoLetterCountryCode { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the version identifier of the Reference Term
-        ///// </summary>
-        //public Guid? VersionKey { get; set; }
+        public string TwoLetterCountryCode { get; set; }        
     }
 }

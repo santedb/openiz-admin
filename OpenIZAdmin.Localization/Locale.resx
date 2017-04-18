@@ -1389,4 +1389,7 @@
   <data name="ConceptSetNotFound" xml:space="preserve">
     <value>Concept set not found</value>
   </data>
+  <data name="ToolTip_CodeSystem" xml:space="preserve">
+    <value>The code system to be associated</value>
+  </data>
 </root>

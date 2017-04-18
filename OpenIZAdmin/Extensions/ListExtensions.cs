@@ -96,13 +96,13 @@ namespace OpenIZAdmin.Extensions
 			selectList.AddRange(selectedExpression == null ? 
 				clonedList.Select(x => new SelectListItem
 				{
-					Text = x.GetType().GetProperty(textPropertyName).GetValue(x).ToString(),
+					Text = x.GetType().GetProperty(textPropertyName).GetValue(x)?.ToString(),
 					Value = x.GetType().GetProperty(valuePropertyName).GetValue(x).ToString()
 				}) : 
 				clonedList.Select(x => new SelectListItem
 				{
 					Selected = Convert.ToBoolean(selectedExpression.Compile().DynamicInvoke(x)),
-					Text = x.GetType().GetProperty(textPropertyName).GetValue(x).ToString(),
+					Text = x.GetType().GetProperty(textPropertyName).GetValue(x)?.ToString(),
 					Value = x.GetType().GetProperty(valuePropertyName).GetValue(x).ToString()
 				}));
 

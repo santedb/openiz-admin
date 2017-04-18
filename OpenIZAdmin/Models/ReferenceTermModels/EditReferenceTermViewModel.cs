@@ -51,7 +51,7 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
             Id = referenceTerm.Key ?? Guid.Empty;
             Mnemonic = referenceTerm.Mnemonic;
             DisplayNames = referenceTerm.DisplayNames;
-            TermNamesList = referenceTerm.DisplayNames.Select(k => new ReferenceTermNameViewModel(k.Language, k.Name, referenceTerm)).ToList();
+            TermNamesList = referenceTerm.DisplayNames.Select(k => new ReferenceTermNameViewModel(k.Key, k.Language, k.Name, referenceTerm)).ToList();
         }
 
         /// <summary>

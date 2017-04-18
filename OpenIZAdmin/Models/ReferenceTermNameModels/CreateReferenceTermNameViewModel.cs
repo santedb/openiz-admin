@@ -37,6 +37,7 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
 		public CreateReferenceTermNameViewModel()
         {
             LanguageList = new List<SelectListItem>();
+            ReferenceTermNameList = new List<ReferenceTermNameViewModel>();
         }
 
         /// <summary>
@@ -52,6 +53,11 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
         /// </summary>
         /// <value>The language list.</value>
         public List<SelectListItem> LanguageList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reference term name list
+        /// </summary>
+        public List<ReferenceTermNameViewModel> ReferenceTermNameList { get; set; }
 
         /// <summary>
         /// Gets or sets the two letter language code of the language.

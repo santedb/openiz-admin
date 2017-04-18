@@ -22,11 +22,11 @@
                     @Html.ValidationMessageFor(m => m.Mnemonic, "", new { @class = "text-danger" })
                 </div>
 
-                @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                @*@Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
                 <div class="col-md-4">
                     @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
-                </div>
+                </div>*@
             </div>
 
             <div class="form-group">
@@ -42,7 +42,7 @@
     <div class="panel-heading">
         <span class="panel-title">@Locale.ReferenceTermName</span>
         <div class="pull-right">
-            <a href="@Url.Action("Create", "ReferenceTerms", new { id = Model.Id })">
+            <a href="@Url.Action("Create", "ReferenceTermName", new { id = Model.Id })">
                 <span class="text-primary h4">@Locale.New</span>
                 <span class="glyphicon glyphicon-plus-sign"></span>
             </a>

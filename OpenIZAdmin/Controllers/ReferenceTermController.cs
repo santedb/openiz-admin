@@ -39,18 +39,18 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing reference terms.
 	/// </summary>
 	[TokenAuthorize]
-	public class ReferenceTermController : BaseController
-	{
+	public class ReferenceTermController : MetadataController
+    {
 		/// <summary>
 		/// Displays the create view.
 		/// </summary>
 		/// <returns>Returns the create view.</returns>
 		[HttpGet]
 		public ActionResult Create()
-		{
-			var model = new CreateReferenceTermViewModel
-			{
-				LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList(),
+		{		                          
+            var model = new CreateReferenceTermViewModel
+			{   CodeSystemList = this.GetCodeSystems().CollectionItem.ToSelectList("Oid", "Key").ToList(),
+                LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList(),
 				TwoLetterCountryCode = Locale.EN
 			};
 
@@ -70,11 +70,23 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var referenceTerm = this.ImsiClient.Create<ReferenceTerm>(model.ToReferenceTerm());
+                    var codeSystem = this.AmiClient.GetCodeSystem(model.CodeSystem.ToString());
+
+                    if (codeSystem == null)
+                    {
+                        TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
+
+                        return RedirectToAction("Index");
+                    }
+
+				    var referenceTerm = model.ToReferenceTerm();
+				    referenceTerm.CodeSystem = codeSystem;
+
+                    var result = this.ImsiClient.Create<ReferenceTerm>(referenceTerm);
 
 					TempData["success"] = Locale.ReferenceTerm + " " + Locale.Created + " " + Locale.Successfully;
 
-					return RedirectToAction("ViewReferenceTerm", new { id = referenceTerm.Key });
+					return RedirectToAction("ViewReferenceTerm", new { id = result.Key });
 				}
 			}
 			catch (Exception e)
@@ -85,6 +97,7 @@ namespace OpenIZAdmin.Controllers
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.ReferenceTerm;
 
+		    model.CodeSystemList = this.GetCodeSystems().CollectionItem.ToSelectList("Oid", "Key").ToList();
 			model.LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList();
 
 			return View(model);
@@ -208,7 +221,7 @@ namespace OpenIZAdmin.Controllers
 		[ValidateInput(false)]
 		public ActionResult Search(string searchTerm)
 		{
-			var results = new List<ReferenceTermSearchResultsViewModel>();
+			var results = new List<ReferenceTermViewModel>();
 
 			if (this.IsValidId(searchTerm))
 			{
@@ -217,13 +230,15 @@ namespace OpenIZAdmin.Controllers
 				if (searchTerm == "*")
 				{
 					bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.ObsoletionTime == null);
-					results = bundle.Item.OfType<ReferenceTerm>().Select(p => new ReferenceTermSearchResultsViewModel(p)).ToList();
-				}
+					//results = bundle.Item.OfType<ReferenceTerm>().Select(p => new ReferenceTermSearchResultsViewModel(p)).ToList();
+                    results = bundle.Item.OfType<ReferenceTerm>().Select(p => new ReferenceTermViewModel(p)).ToList();
+                }
 				else
 				{
 					bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
-					results = bundle.Item.OfType<ReferenceTerm>().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ReferenceTermSearchResultsViewModel(p)).ToList();
-				}
+					//results = bundle.Item.OfType<ReferenceTerm>().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ReferenceTermSearchResultsViewModel(p)).ToList();
+                    results = bundle.Item.OfType<ReferenceTerm>().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ReferenceTermViewModel(p)).ToList();
+                }
 
 				TempData["searchTerm"] = searchTerm;
 

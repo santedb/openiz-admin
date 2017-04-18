@@ -96,7 +96,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Create()
 		{
 			var model = new CreateConceptModel
-			{
+			{                
 				ConceptClassList = this.GetConceptClasses().ToSelectList().OrderBy(c => c.Text).ToList(),
 				Language = Locale.EN,
 				LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList()

@@ -33,7 +33,7 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
 		/// </summary>
         public ReferenceTermNameViewModel(ReferenceTermName referenceTermName)
         {
-            ReferenceTermId = referenceTermName.Key ?? Guid.Empty;
+            Id = referenceTermName.Key ?? Guid.Empty;
             Language = referenceTermName.Language;
             Name = referenceTermName.Name;
         }
@@ -41,11 +41,12 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
         /// <summary>
 		/// Initializes a new instance of the <see cref="ReferenceTermNameViewModel"/> class.
 		/// </summary>
-        public ReferenceTermNameViewModel(string langCode, string name, ReferenceTerm referenceTerm)
+        public ReferenceTermNameViewModel(Guid? id, string langCode, string name, ReferenceTerm referenceTerm)
         {
-            ReferenceTermId = referenceTerm.Key ?? Guid.Empty;
-            Language = langCode;
+            Id = id;
+            Language = langCode;                        
             Name = name;
+            ReferenceTermId = referenceTerm.Key;
         }
     }
 }

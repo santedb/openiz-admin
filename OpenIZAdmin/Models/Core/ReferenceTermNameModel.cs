@@ -30,12 +30,11 @@ namespace OpenIZAdmin.Models.Core
 	/// Represents a reference term name model.
 	/// </summary>
     public abstract class ReferenceTermNameModel
-    {
+    {        
         /// <summary>
-        /// Gets or sets the identifier.
+        /// Gets or sets the identifier of the reference term name
         /// </summary>
-        /// <value>The identifier.</value>
-        public Guid ReferenceTermId { get; set; }
+        public Guid? Id { get; set; }
 
         /// <summary>
         /// Gets or sets the current language.
@@ -46,7 +45,7 @@ namespace OpenIZAdmin.Models.Core
         public string Language { get; set; }
 
         /// <summary>
-        /// Gets or sets the current name.
+        /// Gets or sets the reference term name.
         /// </summary>
         /// <value>The name.</value>                
         [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
@@ -55,17 +54,18 @@ namespace OpenIZAdmin.Models.Core
         public string Name { get; set; }
 
         /// <summary>
-        /// Gets or sets the reference term name.
+        /// Gets or sets the current reference term name.
         /// </summary>
         /// <value>The name.</value>                
-        [Display(Name = "ReferenceTerm", ResourceType = typeof(Localization.Locale))]
+        [Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
         //[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         //[StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string ReferenceTerm { get; set; }
+        public string Mnemonic { get; set; }
 
         /// <summary>
-        /// Gets or sets the reference term name list
+        /// Gets or sets the identifier of the reference term.
         /// </summary>
-        public List<ReferenceTermNameViewModel> ReferenceTermNameList { get; set; }
+        /// <value>The identifier.</value>
+        public Guid? ReferenceTermId { get; set; }        
     }
 }

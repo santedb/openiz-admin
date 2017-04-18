@@ -24,6 +24,7 @@ using System.Linq;
 using System.Web;
 using OpenIZAdmin.Models.Core;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 
 namespace OpenIZAdmin.Models.ReferenceTermModels
@@ -38,7 +39,8 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		/// </summary>
         public CreateReferenceTermViewModel()
         {
-            LanguageList = new List<SelectListItem>();            
+            LanguageList = new List<SelectListItem>();
+            CodeSystemList = new List<SelectListItem>();
         }
 
         /// <summary>
@@ -48,7 +50,7 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
         {
             ConceptId = conceptId;
             ConceptVersionId = conceptVersionId;
-        }
+        }        
 
         /// <summary>
         /// Gets or sets the Concept identifier
@@ -76,15 +78,17 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
             {                
                 Key = Guid.NewGuid(),
                 Mnemonic = this.Mnemonic,
+                CodeSystemKey = this.CodeSystem,
                 DisplayNames = new List<ReferenceTermName>()
                 {
                     new ReferenceTermName()
                     {
                         Key = Guid.NewGuid(),
                         Language = this.TwoLetterCountryCode,
-                        Name = this.Name
+                        Name = this.Name,
+                        PhoneticAlgorithmKey = PhoneticAlgorithmKeys.Soundex
                     }
-                }                
+                }                                
             };
         }
     }

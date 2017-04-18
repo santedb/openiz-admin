@@ -19,6 +19,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using OpenIZ.Core.Model.DataTypes;
@@ -82,6 +83,18 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
         ///  Gets or sets the concept version identifier associated with the reference term
         /// </summary>
         public Guid? ConceptVersionKey { get; set; }
+
+        /// <summary>
+        /// Gets or sets the creation time of the concept.
+        /// </summary>
+        [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+        public DateTime CreationTime { get; set; }
+
+        /// <summary>
+        /// Gets or sets the concatenated display names of the Reference Term
+        /// </summary>
+        [Display(Name = "Names", ResourceType = typeof(Localization.Locale))]
+        public string Names { get; set; }
 
         /// <summary>
         /// Gets or sets the list of reference names associated with the reference term
