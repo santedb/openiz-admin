@@ -1358,5 +1358,29 @@
   </data>
   <data name="UnableToLoadReports" xml:space="preserve">
     <value>Unable to load reports</value>
+	</data>
+   <data name="Domain" xml:space="preserve">
+    <value>Domain</value>
+  </data>
+  <data name="DomainLength50" xml:space="preserve">
+    <value>The domain cannot exceed 50 characters</value>
+  </data>
+  <data name="DomainRequired" xml:space="preserve">
+    <value>Please enter a domain</value>
+  </data>
+  <data name="OidLength64" xml:space="preserve">
+    <value>The oid cannot exceed 64 characters</value>
+  </data>
+  <data name="UrlLength256" xml:space="preserve">
+    <value>The url cannot exceed 256 characters</value>
+  </data>
+  <data name="UrlRequired" xml:space="preserve">
+    <value>Please enter a Url</value>
+  </data>
+  <data name="VersionLength10" xml:space="preserve">
+    <value>The version cannot exceed 10 characters</value>
+  </data>
+  <data name="CodeSystem" xml:space="preserve">
+    <value>Code System</value>
   </data>
 </root>

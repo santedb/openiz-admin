@@ -244,6 +244,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AlertController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
+    <Compile Include="Controllers\CodeSystemController.cs" />
     <Compile Include="Controllers\ConceptSetController.cs" />
     <Compile Include="Controllers\EntityRelationshipController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
@@ -291,7 +292,12 @@
     <Compile Include="Models\AppletModels\AppletViewAssetModel.cs" />
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ApplicationViewModel.cs" />
+    <Compile Include="Models\CodeSystem\CodeSystemSearchResultsViewModel.cs" />
+    <Compile Include="Models\CodeSystem\CodeSystemViewModel.cs" />
+    <Compile Include="Models\CodeSystem\CreateCodeSystemViewModel.cs" />
+    <Compile Include="Models\CodeSystem\EditCodeSystemViewModel.cs" />
     <Compile Include="Models\ConceptModels\ConceptModel.cs" />
+    <Compile Include="Models\Core\CodeSystemModel.cs" />
     <Compile Include="Models\Core\PolicyModel.cs" />
     <Compile Include="Models\Core\ReferenceTermModel.cs" />
     <Compile Include="Models\ConceptSetModels\ConceptSetModel.cs" />
@@ -395,6 +401,7 @@
     <Compile Include="Services\Http\ServiceClientEndpoint.cs" />
     <Compile Include="Services\Http\ServiceClientSecurity.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Util\CodeSystemUtil.cs" />
     <Compile Include="Util\LanguageUtil.cs" />
     <Compile Include="Util\ReferenceTermUtil.cs" />
   </ItemGroup>
@@ -681,6 +688,13 @@
     <Content Include="Views\Material\EditRelatedManufacturedMaterial.cshtml" />
     <Content Include="Views\Organization\CreateRelatedManufacturedMaterial.cshtml" />
     <Content Include="Views\Organization\EditRelatedManufacturedMaterial.cshtml" />
+    <Content Include="Views\CodeSystem\Create.cshtml" />
+    <Content Include="Views\CodeSystem\Edit.cshtml" />
+    <Content Include="Views\CodeSystem\Index.cshtml" />
+    <Content Include="Views\CodeSystem\ViewCodeSystem.cshtml" />
+    <Content Include="Views\Shared\_CodeSystemSearchResultsPartial.cshtml" />
+    <Content Include="Views\Shared\_CodeSystemPartial.cshtml" />
+    <Content Include="Views\Shared\_ManageCodeSystemPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

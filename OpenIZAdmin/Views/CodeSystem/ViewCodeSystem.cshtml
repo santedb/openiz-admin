@@ -1,0 +1,88 @@
+﻿@model OpenIZAdmin.Models.CodeSystem.CodeSystemViewModel
+@{
+    ViewBag.Title = Locale.View + " " + Locale.CodeSystem;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@(Locale.View + " " + Locale.CodeSystem)</span>
+        <div class="pull-right">
+            <a href="@Url.Action("Edit", new { id = Model.Id })" title="@Locale.ToolTip_Edit">
+                <span class="glyphicon glyphicon-pencil"></span>
+                <span class="text-primary h4">@Locale.Edit</span>
+            </a>
+        </div>
+    </div>
+    <div class="panel panel-body">
+        <div class="col-md-12">
+            <div class="form-horizontal">
+
+                <div class="form-group">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })                                                    
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Version, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Version, new { @class = "form-control", @readonly = "readonly" })                                                    
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Oid, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Oid, new { @class = "form-control", @readonly = "readonly" })                                                    
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Domain, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Domain, new { @class = "form-control", @readonly = "readonly" })                                                    
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Url, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Url, new { @class = "form-control", @readonly = "readonly" })                                                    
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Description, new { @class = "form-control", @readonly = "readonly" })                                                    
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
+                        @*<button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>*@
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@*@Html.Partial("_ReferenceTermNamesPartial", Model.ReferenceTermNamesList)*@
+
+
+@section scripts{
+
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            $('#referenceTermNamesTable').DataTable();
+
+        });
+    </script>
+}

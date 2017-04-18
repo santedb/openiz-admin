@@ -84,7 +84,7 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
                         Language = this.TwoLetterCountryCode,
                         Name = this.Name
                     }
-                }
+                }                
             };
         }
     }
