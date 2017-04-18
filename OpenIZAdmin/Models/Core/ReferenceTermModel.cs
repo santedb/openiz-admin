@@ -54,6 +54,11 @@ namespace OpenIZAdmin.Models.Core
 		public Guid Id { get; set; }
 
         /// <summary>
+        /// Gets or sets the active/deactivated state
+        /// </summary>
+        public bool IsObsolete { get; set; }
+
+        /// <summary>
         /// Gets or sets the current language.
         /// </summary>
         /// <value>The language.</value>        

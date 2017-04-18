@@ -50,6 +50,7 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
         {
             DisplayNames = referenceTerm.DisplayNames;
             Id = referenceTerm.Key ?? Guid.Empty;
+            IsObsolete = referenceTerm.ObsoletionTime != null;
             Mnemonic = referenceTerm.Mnemonic;            
             Name = string.Join(" ", referenceTerm.DisplayNames.Select(d => d.Name));
             ReferenceTermNamesList = referenceTerm.DisplayNames.Select(n => new ReferenceTermNameViewModel(n)).ToList();

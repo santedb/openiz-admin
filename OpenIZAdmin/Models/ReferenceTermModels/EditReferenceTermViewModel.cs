@@ -48,9 +48,10 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
         /// </summary>
         public EditReferenceTermViewModel(ReferenceTerm referenceTerm) : this()
         {
-            Id = referenceTerm.Key ?? Guid.Empty;
-            Mnemonic = referenceTerm.Mnemonic;
             DisplayNames = referenceTerm.DisplayNames;
+            Id = referenceTerm.Key ?? Guid.Empty;
+            IsObsolete = referenceTerm.ObsoletionTime != null;
+            Mnemonic = referenceTerm.Mnemonic;            
             TermNamesList = referenceTerm.DisplayNames.Select(k => new ReferenceTermNameViewModel(k.Key, k.Language, k.Name, referenceTerm)).ToList();
         }
 

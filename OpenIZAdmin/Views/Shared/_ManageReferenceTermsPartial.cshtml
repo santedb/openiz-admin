@@ -13,6 +13,7 @@
                 <th></th>
                 <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
                 <th>@Html.DisplayNameFor(m => m.Name)</th>
+                <th>@Locale.Status</th>
                 <th></th>
             </tr>
             </thead>
@@ -23,8 +24,9 @@
                         <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></td>
                         <td>@referenceTerm.Mnemonic</td>
                         <td>@referenceTerm.Name</td>
+                        <td>@(referenceTerm.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
                         <td class="autoFitContents centerContent">
-                            <a class="btn btn-warning" href="@Url.Action("Edit", "ReferenceTerm", new {termId = referenceTerm.Id, id = referenceTerm.ConceptId, versionId = referenceTerm.ConceptVersionKey})">
+                            <a class="btn btn-warning" href="@Url.Action("Edit", "ReferenceTerm", new { termId = referenceTerm.Id })">
                                 @Locale.Edit
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>

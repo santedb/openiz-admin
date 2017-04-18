@@ -83,7 +83,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to activate concept: { e }");
 			}
 
-			TempData["error"] = Locale.UnableToActivate + " " + Locale.Material;
+			TempData["error"] = Locale.UnableToActivate + " " + Locale.Concept;
 
 			return RedirectToAction("Index");
 		}

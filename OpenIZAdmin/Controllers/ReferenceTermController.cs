@@ -41,11 +41,49 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public class ReferenceTermController : MetadataController
     {
-		/// <summary>
-		/// Displays the create view.
+        /// <summary>
+		/// Activates the specified identifier.
 		/// </summary>
-		/// <returns>Returns the create view.</returns>
-		[HttpGet]
+		/// <param name="id">The identifier.</param>
+		/// <returns>ActionResult.</returns>
+		public ActionResult Activate(Guid id)
+        {
+            try
+            {
+                var referenceTerm = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
+
+                if (referenceTerm == null)
+                {
+                    TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+
+                    return RedirectToAction("Index");
+                }
+                                
+                referenceTerm.ObsoletedByKey = null;
+                referenceTerm.ObsoletionTime = null;
+
+                var result = this.ImsiClient.Update(referenceTerm);
+
+                TempData["success"] = Locale.ReferenceTerm + " " + Locale.Activated + " " + Locale.Successfully;
+
+                return RedirectToAction("ViewReferenceTerm", new { id = result.Key });
+            }
+            catch (Exception e)
+            {
+                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+                Trace.TraceError($"Unable to activate reference term: { e }");
+            }
+
+            TempData["error"] = Locale.UnableToActivate + " " + Locale.ReferenceTerm;
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Displays the create view.
+        /// </summary>
+        /// <returns>Returns the create view.</returns>
+        [HttpGet]
 		public ActionResult Create()
 		{		                          
             var model = new CreateReferenceTermViewModel
@@ -82,7 +120,7 @@ namespace OpenIZAdmin.Controllers
 				    var referenceTerm = model.ToReferenceTerm();
 				    referenceTerm.CodeSystem = codeSystem;
 
-                    var result = this.ImsiClient.Create<ReferenceTerm>(referenceTerm);
+                    var result = this.ImsiClient.Create(referenceTerm);
 
 					TempData["success"] = Locale.ReferenceTerm + " " + Locale.Created + " " + Locale.Successfully;
 
@@ -104,21 +142,31 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Deletes a reference term from a Concept.
+		/// Deactivates a reference term.
 		/// </summary>
-		/// <param name="id">The Concept Guid id</param>
-		/// <param name="versionId">The verion identifier of the Concept instance.</param>
-		/// <param name="mnemonic">The mnemonic of the reference term</param>
-		/// <param name="name">The text name representation of the reference term</param>
+		/// <param name="id">The Reference Term identifier</param>		
 		/// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Delete(Guid? id, Guid? versionId, string mnemonic, string name)
+		public ActionResult Delete(Guid id)
 		{
 			try
 			{
+                var referenceTerm = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
 
-			}
+                if (referenceTerm == null)
+                {
+                    TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+
+                    return RedirectToAction("Index");
+                }
+
+                this.ImsiClient.Obsolete(referenceTerm);
+
+                TempData["success"] = Locale.ReferenceTerm + " " + Locale.Deactivated + " " + Locale.Successfully;
+
+                return RedirectToAction("Index");
+            }
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
@@ -185,7 +233,7 @@ namespace OpenIZAdmin.Controllers
 
 				referenceTerm.Mnemonic = model.Mnemonic;
 
-				var result = this.ImsiClient.Update<ReferenceTerm>(referenceTerm);
+				var result = this.ImsiClient.Update(referenceTerm);
 
 				TempData["success"] = Locale.ReferenceTerm + " " + Locale.Updated + " " + Locale.Successfully;
 
@@ -229,14 +277,16 @@ namespace OpenIZAdmin.Controllers
 
 				if (searchTerm == "*")
 				{
-					bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.ObsoletionTime == null);
-					//results = bundle.Item.OfType<ReferenceTerm>().Select(p => new ReferenceTermSearchResultsViewModel(p)).ToList();
+                    //bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.ObsoletionTime == null);
+                    //results = bundle.Item.OfType<ReferenceTerm>().Select(p => new ReferenceTermSearchResultsViewModel(p)).ToList();
+                    bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Key != null);
                     results = bundle.Item.OfType<ReferenceTerm>().Select(p => new ReferenceTermViewModel(p)).ToList();
                 }
 				else
 				{
-					bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
-					//results = bundle.Item.OfType<ReferenceTerm>().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ReferenceTermSearchResultsViewModel(p)).ToList();
+                    //bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
+                    //results = bundle.Item.OfType<ReferenceTerm>().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ReferenceTermSearchResultsViewModel(p)).ToList();
+                    bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm) && c.Key != null);
                     results = bundle.Item.OfType<ReferenceTerm>().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ReferenceTermViewModel(p)).ToList();
                 }
 
