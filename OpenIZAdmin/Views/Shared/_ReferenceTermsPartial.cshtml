@@ -12,15 +12,17 @@
         {
             <table class="table table-striped table-bordered" id="referenceTermsTable">                
                 <thead>
-                    <tr>
-                        <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
-                        <th>@Html.DisplayNameFor(m => m.Name)</th>
-                    </tr>
+                <tr>
+                    <th></th>
+                    <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
+                    <th>@Html.DisplayNameFor(m => m.Name)</th>
+                </tr>
                 </thead>
                 <tbody>
                     @foreach (var referenceTerm in Model)
                     {
                         <tr>
+                            <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></td>
                             <td>@referenceTerm.Mnemonic</td>
                             <td>@referenceTerm.Name</td>
                         </tr>

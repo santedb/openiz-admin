@@ -9,24 +9,26 @@
     {
         <table class="table table-striped table-bordered" id="referenceTermsTable">            
             <thead>
-                <tr>
-                    <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
-                    <th>@Html.DisplayNameFor(m => m.Name)</th>
-                    <th></th>
-                </tr>
+            <tr>
+                <th></th>
+                <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
+                <th>@Html.DisplayNameFor(m => m.Name)</th>
+                <th></th>
+            </tr>
             </thead>
             <tbody>
                 @foreach (var referenceTerm in Model)
                 {
                     <tr>
+                        <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></td>
                         <td>@referenceTerm.Mnemonic</td>
                         <td>@referenceTerm.Name</td>
                         <td class="autoFitContents centerContent">
-                            <a class="btn btn-warning" href="@Url.Action("Edit", "ReferenceTerm", new {termId = referenceTerm.Id, id = referenceTerm.ConceptId, versionId = referenceTerm.ConceptVersionKey })">
+                            <a class="btn btn-warning" href="@Url.Action("Edit", "ReferenceTerm", new {termId = referenceTerm.Id, id = referenceTerm.ConceptId, versionId = referenceTerm.ConceptVersionKey})">
                                 @Locale.Edit
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
-                            @using (Html.BeginForm("DeleteReferenceTerm", "Concept", new { id = referenceTerm.ConceptId, versionId = referenceTerm.ConceptVersionKey, refTermId = referenceTerm.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                            @using (Html.BeginForm("DeleteReferenceTerm", "Concept", new {id = referenceTerm.ConceptId, versionId = referenceTerm.ConceptVersionKey, refTermId = referenceTerm.Id}, FormMethod.Post, new {@class = "inlineForm form-horizontal", role = "form"}))
                             {
                                 @Html.AntiForgeryToken()
 

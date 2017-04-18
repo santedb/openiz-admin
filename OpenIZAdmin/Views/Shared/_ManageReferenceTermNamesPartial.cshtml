@@ -9,24 +9,26 @@
     {
         <table class="table table-striped table-bordered" id="referenceTermNamesTable">            
             <thead>
-                <tr>
-                    <th>@Html.DisplayNameFor(m => m.Language)</th>
-                    <th>@Html.DisplayNameFor(m => m.Name)</th>
-                    <th></th>
-                </tr>
+            <tr>
+                <th></th>
+                <th>@Html.DisplayNameFor(m => m.Language)</th>
+                <th>@Html.DisplayNameFor(m => m.Name)</th>
+                <th></th>
+            </tr>
             </thead>
             <tbody>
                 @foreach (var refName in Model)
                 {
                     <tr>
+                        <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></td>
                         <td>@refName.Language</td>
                         <td>@refName.Name</td>
                         <td class="autoFitContents centerContent">
-                            <a class="btn btn-warning" href="@Url.Action("Edit", "ReferenceTerm", new { id = refName.ReferenceTermId, langCode = refName.Language, name = refName.Name })">
+                            <a class="btn btn-warning" href="@Url.Action("Edit", "ReferenceTerm", new {id = refName.ReferenceTermId, langCode = refName.Language, name = refName.Name})">
                                 @Locale.Edit
                                 <span class="glyphicon glyphicon-pencil"></span>
                             </a>
-                            @using (Html.BeginForm("Delete", "ReferenceTerm", new { id = refName.ReferenceTermId, langCode = refName.Language, name = refName.Name }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                            @using (Html.BeginForm("Delete", "ReferenceTerm", new {id = refName.ReferenceTermId, langCode = refName.Language, name = refName.Name}, FormMethod.Post, new {@class = "inlineForm form-horizontal", role = "form"}))
                             {
                                 @Html.AntiForgeryToken()
 

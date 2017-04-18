@@ -7,22 +7,24 @@
             {
                 <table class="table table-striped table-bordered" id="conceptListTable">
                     <thead>
-                        <tr>
-                            <th>@Locale.ConceptClass</th>
-                            <th>@Locale.Mnemonic</th>
-                            <th>@Locale.Names</th>    
-                            <th>@Locale.Status</th>                        
-                        </tr>
+                    <tr>
+                        <th></th>
+                        <th>@Locale.ConceptClass</th>
+                        <th>@Locale.Mnemonic</th>
+                        <th>@Locale.Names</th>
+                        <th>@Locale.Status</th>
+                    </tr>
                     </thead>
                     <tbody>
                         
                     @foreach (var item in Model)
                     {
                         <tr>
+                            <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-compressed" aria-hidden="true"></span></td>
                             <td>@item.Class</td>
                             <td>@item.Mnemonic</td>
-                            <td>@item.ConceptNames</td>    
-                            <td>@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>                      
+                            <td>@item.ConceptNames</td>
+                            <td>@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
                         </tr>
                     }   
                                              
