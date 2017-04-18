@@ -163,7 +163,7 @@ namespace OpenIZAdmin.Controllers
 
 				var updatedEntity = this.UpdateEntity(entity, modelType);
 
-				return RedirectToAction("View" + type, type, new { id = updatedEntity.Key.Value, versionId = updatedEntity.VersionKey });
+				return RedirectToAction("Edit", type, new { id = updatedEntity.Key.Value });
 			}
 			catch (Exception e)
 			{

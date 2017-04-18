@@ -71,9 +71,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Place>(p => p.Key == id && p.VersionKey == versionId);
-
-				var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == id && p.VersionKey == versionId);
+				var place = this.GetEntity<Place>(id, versionId);
 
 				if (place == null)
 				{
@@ -175,7 +173,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var place = this.ImsiClient.Get<Place>(id, null) as Place;
+				var place = this.GetEntity<Place>(id);
 
 				if (place == null)
 				{
@@ -217,7 +215,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (this.ModelState.IsValid)
 				{
-					var place = this.ImsiClient.Get<Place>(model.SourceId, null) as Place;
+					var place = this.GetEntity<Place>(model.SourceId);
 
 					if (place == null)
 					{
@@ -256,7 +254,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var place = this.ImsiClient.Get<Place>(id, null) as Place;
+				var place = this.GetEntity<Place>(id);
 
 				if (place == null)
 				{
@@ -298,7 +296,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (this.ModelState.IsValid)
 				{
-					var place = this.ImsiClient.Get<Place>(model.SourceId, null) as Place;
+					var place = this.GetEntity<Place>(model.SourceId);
 
 					if (place == null)
 					{
@@ -306,14 +304,10 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Edit", new { id = model.SourceId });
 					}
 
-					var bundle = new Bundle
-					{
-						Key = Guid.NewGuid()
-					};
+					place.Relationships.RemoveAll(r => r.TargetEntityKey == model.TargetId && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
+					place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { EffectiveVersionSequenceId = place.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
 
-					bundle.Item.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { EffectiveVersionSequenceId = place.VersionSequence, Key = Guid.NewGuid(), SourceEntityKey = model.SourceId });
-
-					this.ImsiClient.Create(bundle);
+					this.ImsiClient.Update(place);
 
 					this.TempData["success"] = Locale.Related + " " + Locale.Place + " " + Locale.Created + " " + Locale.Successfully;
 
@@ -344,7 +338,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var place = this.ImsiClient.Get<Place>(id, null) as Place;
+				var place = this.GetEntity<Place>(id);
 
 				if (place == null)
 				{
@@ -380,11 +374,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Place>(p => p.Key == id && p.VersionKey == versionId, 0, null, true);
-
-				bundle.Reconstitute();
-
-				var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == id && p.VersionKey == versionId);
+				var place = this.GetEntity<Place>(id, versionId);
 
 				if (place == null)
 				{
@@ -477,7 +467,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var place = this.ImsiClient.Get<Place>(id, null) as Place;
+				var place = this.GetEntity<Place>(id);
 
 				if (place == null)
 				{

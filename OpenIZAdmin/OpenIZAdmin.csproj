@@ -677,6 +677,10 @@
     <Content Include="Views\ReferenceTermName\Edit.cshtml" />
     <Content Include="Views\ReferenceTermName\Index.cshtml" />
     <Content Include="Views\Report\Index.cshtml" />
+    <Content Include="Views\Material\CreateRelatedManufacturedMaterial.cshtml" />
+    <Content Include="Views\Material\EditRelatedManufacturedMaterial.cshtml" />
+    <Content Include="Views\Organization\CreateRelatedManufacturedMaterial.cshtml" />
+    <Content Include="Views\Organization\EditRelatedManufacturedMaterial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

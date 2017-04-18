@@ -35,6 +35,7 @@ using System.Runtime.Caching;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Models.RoleModels;
 
 namespace OpenIZAdmin.Controllers
@@ -274,24 +275,24 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="versionId">The version identifier.</param>
 		/// <param name="expression">The expression.</param>
 		/// <returns>Returns the identifier based on the id, version id, and an expression.</returns>
-		protected T GetEntity<T>(Guid id, Guid? versionId, Expression<Func<T, bool>> expression = null) where T : Entity
+		protected T GetEntity<T>(Guid id, Guid? versionId = null, Expression<Func<T, bool>> expression = null) where T : Entity
 		{
-			T result;
+			Expression<Func<Entity, bool>> query = o => o.Key == id;
 
-			if (expression == null)
+			if (versionId.HasValue && versionId.Value != Guid.Empty && expression != null)
 			{
-				result = this.ImsiClient.Get<T>(id, versionId) as T;
+				query = o => o.Key == id && o.VersionKey == versionId && expression.Compile().Invoke(o as T);
 			}
-			else
+			else if (versionId.HasValue && versionId.Value != Guid.Empty)
 			{
-				var bundle = this.ImsiClient.Query<T>(m => m.Key == id && m.VersionKey == versionId && expression.Compile().Invoke(m), 0, null, true);
-
-				bundle.Reconstitute();
-
-				result = bundle.Item.OfType<T>().FirstOrDefault(m => m.Key == id && m.VersionKey == versionId && expression.Compile().Invoke(m));
+				query = o => o.Key == id && o.VersionKey == versionId;
 			}
 
-			return result;
+			var bundle = this.ImsiClient.Query<T>(o => query.Compile().Invoke(o), 0, null, true);
+
+			bundle.Reconstitute();
+
+			return bundle.Item.OfType<T>().LatestVersionOnly().FirstOrDefault(query.Compile().Invoke);
 		}
 
 		/// <summary>

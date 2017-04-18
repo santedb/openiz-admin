@@ -59,9 +59,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Organization>(p => p.Key == id && p.VersionKey == versionId);
-
-				var organization = bundle.Item.OfType<Organization>().FirstOrDefault(p => p.Key == id && p.VersionKey == versionId);
+				var organization = this.GetEntity<Organization>(id, versionId);
 
 				if (organization == null)
 				{
@@ -153,7 +151,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var organization = this.ImsiClient.Get<Organization>(id, null) as Organization;
+				var organization = this.GetEntity<Organization>(id);
 
 				if (organization == null)
 				{
@@ -201,7 +199,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (this.ModelState.IsValid)
 				{
-					var organization = this.ImsiClient.Get<Organization>(model.SourceId, null) as Organization;
+					var organization = this.GetEntity<Organization>(model.SourceId);
 
 					if (organization == null)
 					{
@@ -249,7 +247,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var organization = this.ImsiClient.Get<Organization>(id, null) as Organization;
+				var organization = this.GetEntity<Organization>(id);
 
 				if (organization == null)
 				{
@@ -285,11 +283,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Organization>(m => m.Key == id && m.VersionKey == versionId && m.ClassConceptKey == EntityClassKeys.Organization, 0, null, true);
-
-				bundle.Reconstitute();
-
-				var organization = bundle.Item.OfType<Organization>().FirstOrDefault(m => m.Key == id && m.VersionKey == versionId && m.ClassConceptKey == EntityClassKeys.Organization);
+				var organization = this.GetEntity<Organization>(id, versionId, m => m.ClassConceptKey == EntityClassKeys.Organization);
 
 				if (organization == null)
 				{
@@ -335,11 +329,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var bundle = this.ImsiClient.Query<Organization>(m => m.Key == model.Id && m.ClassConceptKey == EntityClassKeys.Organization && m.ObsoletionTime == null, 0, null, true);
-
-					bundle.Reconstitute();
-
-					var organization = bundle.Item.OfType<Organization>().FirstOrDefault(m => m.Key == model.Id && m.ClassConceptKey == EntityClassKeys.Organization && m.ObsoletionTime == null);
+					var organization = this.GetEntity<Organization>(model.Id, model.VersionKey, m => m.ClassConceptKey == EntityClassKeys.Organization && m.ObsoletionTime == null);
 
 					if (organization == null)
 					{
@@ -425,11 +415,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Organization>(m => m.Key == id && m.VersionKey == versionId, 0, null, true);
-
-				bundle.Reconstitute();
-
-				var organization = bundle.Item.OfType<Organization>().FirstOrDefault(m => m.Key == id && m.VersionKey == versionId);
+				var organization = this.GetEntity<Organization>(id, versionId);
 
 				if (organization == null)
 				{

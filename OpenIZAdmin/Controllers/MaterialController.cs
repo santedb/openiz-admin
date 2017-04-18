@@ -34,6 +34,7 @@ using System.Linq.Expressions;
 using System.Runtime.Caching;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Models.EntityRelationshipModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -60,9 +61,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Material>(p => p.Key == id && p.VersionKey == versionId);
-
-				var material = bundle.Item.OfType<Material>().FirstOrDefault(p => p.Key == id && p.VersionKey == versionId);
+				var material = this.GetEntity<Material>(id, versionId);
 
 				if (material == null)
 				{
@@ -152,6 +151,92 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Creates the related manufactured material.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpGet]
+		public ActionResult CreateRelatedManufacturedMaterial(Guid id)
+		{
+			try
+			{
+				var material = this.GetEntity<Material>(id);
+
+				if (material == null)
+				{
+					this.TempData["error"] = Locale.Material + " " + Locale.NotFound;
+
+					return RedirectToAction("Edit", new { id = id });
+				}
+
+				for (var i = 0; i < material.Relationships.Count(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.TargetEntity == null && r.TargetEntityKey.HasValue && r.TargetEntityKey.Value != Guid.Empty); i++)
+				{
+					material.Relationships[i].TargetEntity = this.ImsiClient.Get<ManufacturedMaterial>(material.Relationships[i].TargetEntityKey.Value, null) as ManufacturedMaterial;
+				}
+
+				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
+				{
+					ExistingRelationships = material.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
+				};
+
+				model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct).ToList());
+
+				return View(model);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to create related place: { e }");
+			}
+
+			this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+
+			return RedirectToAction("Edit", new { id = id });
+		}
+
+		/// <summary>
+		/// Creates the related manufactured material.
+		/// </summary>
+		/// <param name="model">The model.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult CreateRelatedManufacturedMaterial(EntityRelationshipModel model)
+		{
+			try
+			{
+				if (this.ModelState.IsValid)
+				{
+					var material = this.GetEntity<Material>(model.SourceId);
+
+					if (material == null)
+					{
+						this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
+						return RedirectToAction("Edit", new { id = model.SourceId });
+					}
+
+					material.Relationships.RemoveAll(r => r.TargetEntityKey == model.TargetId && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
+					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { EffectiveVersionSequenceId = material.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
+
+					this.ImsiClient.Update(material);
+
+					this.TempData["success"] = Locale.Related + " " + Locale.ManufacturedMaterial + " " + Locale.Created + " " + Locale.Successfully;
+
+					return RedirectToAction("Edit", new { id = material.Key.Value });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to create related manufactured material: { e }");
+			}
+
+			this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
+
+			return View(model);
+		}
+
+		/// <summary>
 		/// Deletion of a material.
 		/// </summary>
 		/// <param name="id">The id of the material.</param>
@@ -162,7 +247,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var material = this.GetEntity<Material>(id, null);
+				var material = this.GetEntity<Material>(id);
 
 				if (material == null)
 				{
@@ -233,6 +318,92 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.Material + " " + Locale.NotFound;
 
 			return RedirectToAction("Index");
+		}
+
+		/// <summary>
+		/// Edits the related manufactured material.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpGet]
+		public ActionResult EditRelatedManufacturedMaterial(Guid id)
+		{
+			try
+			{
+				var material = this.GetEntity<Material>(id);
+
+				if (material == null)
+				{
+					this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+
+					return RedirectToAction("Edit", new { id = id });
+				}
+
+				for (var i = 0; i < material.Relationships.Count(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.TargetEntity == null && r.TargetEntityKey.HasValue); i++)
+				{
+					material.Relationships[i].TargetEntity = this.ImsiClient.Get<ManufacturedMaterial>(material.Relationships[i].TargetEntityKey.Value, null) as ManufacturedMaterial;
+				}
+
+				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
+				{
+					ExistingRelationships = material.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
+				};
+
+				model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.OwnedEntity).ToList());
+
+				return View(model);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve related manufactured material: { e }");
+			}
+
+			this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+
+			return RedirectToAction("Edit", new { id = id });
+		}
+
+		/// <summary>
+		/// Edits the related manufactured material.
+		/// </summary>
+		/// <param name="model">The model.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult EditRelatedManufacturedMaterial(EntityRelationshipModel model)
+		{
+			try
+			{
+				if (this.ModelState.IsValid)
+				{
+					var material = this.GetEntity<Material>(model.SourceId);
+
+					if (material == null)
+					{
+						this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
+						return RedirectToAction("Edit", new { id = model.SourceId });
+					}
+
+					material.Relationships.RemoveAll(r => r.Key == model.Id);
+					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId));
+
+					this.ImsiClient.Update(material);
+
+					this.TempData["success"] = Locale.Related + " " + Locale.ManufacturedMaterial + " " + Locale.Created + " " + Locale.Successfully;
+
+					return RedirectToAction("Edit", new { id = material.Key.Value });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to update related manufactured material: { e }");
+			}
+
+			this.TempData["error"] = Locale.UnableToUpdate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
+
+			return View(model);
 		}
 
 		/// <summary>

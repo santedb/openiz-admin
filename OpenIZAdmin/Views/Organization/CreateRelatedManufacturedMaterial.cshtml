@@ -8,7 +8,7 @@
         <span class="panel-title">@(Locale.Create + " " + Locale.ManufacturedMaterial)</span>
     </div>
     <div class="panel panel-body">
-        @using (Html.BeginForm("CreateRelatedManufacturedMaterial", "Place", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        @using (Html.BeginForm("CreateRelatedManufacturedMaterial", "Organization", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
@@ -29,14 +29,6 @@
                 <div class="col-md-8">
                     @Html.DropDownListFor(m => m.RelationshipType, Model.RelationshipTypes, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.RelationshipType, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.Quantity, new { @class = "col-md-2 control-label" })
-                <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Quantity, "", new { @class = "text-danger" })
                 </div>
             </div>
 

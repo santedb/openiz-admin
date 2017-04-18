@@ -49,10 +49,13 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(Guid id, Guid sourceId, string type)
 		{
+			Guid? versionKey = null;
+
 			try
 			{
 				var modelType = this.GetModelType(type);
 				var entity = this.GetEntity(sourceId, modelType);
+				versionKey = entity.VersionKey;
 
 				entity.Relationships.RemoveAll(r => r.Key == id);
 
@@ -60,7 +63,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.TempData["success"] = Locale.Relationship + " " + Locale.Deleted + " " + Locale.Successfully;
 
-				return RedirectToAction("View" + type, type, new { id = updatedEntity.Key.Value });
+				return RedirectToAction("Edit", type, new { id = updatedEntity.Key.Value, versionId = updatedEntity.VersionKey.Value });
 			}
 			catch (Exception e)
 			{
@@ -70,7 +73,7 @@ namespace OpenIZAdmin.Controllers
 
 			this.TempData["error"] = Locale.UnableToDelete + " " + Locale.Relationship;
 
-			return RedirectToAction("View" + type, type, new { id = sourceId });
+			return RedirectToAction("Edit" + type, type, new { id = sourceId, versionId = versionKey });
 		}
 	}
 }
