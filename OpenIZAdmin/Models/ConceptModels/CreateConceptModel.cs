@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {

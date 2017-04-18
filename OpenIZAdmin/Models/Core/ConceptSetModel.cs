@@ -16,12 +16,13 @@
  * User: Andrew
  * Date: 2017-4-13
  */
-using OpenIZAdmin.Models.ConceptModels;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Models.ConceptModels;
 
-namespace OpenIZAdmin.Models.ConceptSetModels
+namespace OpenIZAdmin.Models.Core
 {
 	/// <summary>
 	/// Represents a base concept set model.

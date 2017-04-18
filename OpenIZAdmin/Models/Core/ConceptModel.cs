@@ -17,12 +17,12 @@
  * Date: 2017-4-12
  */
 
-using OpenIZAdmin.Models.ReferenceTermModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Models.ReferenceTermModels;
 
-namespace OpenIZAdmin.Models.ConceptModels
+namespace OpenIZAdmin.Models.Core
 {
 	/// <summary>
 	/// Represents a model of a concept.

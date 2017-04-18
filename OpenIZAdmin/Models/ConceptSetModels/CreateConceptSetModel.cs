@@ -18,6 +18,7 @@
  */
 
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
 {

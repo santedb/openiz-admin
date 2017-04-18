@@ -19,6 +19,7 @@
 
 using OpenIZ.Core.Model.DataTypes;
 using System;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
 {

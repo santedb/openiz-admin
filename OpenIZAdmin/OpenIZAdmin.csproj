@@ -295,14 +295,14 @@
     <Compile Include="Models\CodeSystemModels\CodeSystemViewModel.cs" />
     <Compile Include="Models\CodeSystemModels\CreateCodeSystemModel.cs" />
     <Compile Include="Models\CodeSystemModels\EditCodeSystemModel.cs" />
-    <Compile Include="Models\ConceptModels\ConceptModel.cs" />
+    <Compile Include="Models\Core\ConceptModel.cs" />
     <Compile Include="Models\Core\IIdentifiable.cs" />
     <Compile Include="Models\Core\IdentifiedEditModel.cs" />
     <Compile Include="Models\Core\IdentifiedViewModel.cs" />
     <Compile Include="Models\Core\MetadataEditModelBase.cs" />
     <Compile Include="Models\Core\PolicyModel.cs" />
     <Compile Include="Models\Core\ReferenceTermModel.cs" />
-    <Compile Include="Models\ConceptSetModels\ConceptSetModel.cs" />
+    <Compile Include="Models\Core\ConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\ConceptSetSearchResultViewModel.cs" />
     <Compile Include="Models\ConceptSetModels\CreateConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\EditConceptSetModel.cs" />
@@ -334,7 +334,6 @@
     <Compile Include="Models\ReferenceTermModels\EditReferenceTermViewModel.cs" />
     <Compile Include="Models\ReferenceTermNameModels\EditReferenceTermNameViewModel.cs" />
     <Compile Include="Models\ReferenceTermNameModels\ReferenceTermNameViewModel.cs" />
-    <Compile Include="Models\ReferenceTermModels\ReferenceTermSearchResultsViewModel.cs" />
     <Compile Include="Models\ReferenceTermModels\ReferenceTermViewModel.cs" />
     <Compile Include="Models\ReportModels\ReportViewModel.cs" />
     <Compile Include="Models\UserModels\ResetPasswordModel.cs" />
@@ -358,7 +357,6 @@
     <Compile Include="Models\CertificateModels\CertificateViewModel.cs" />
     <Compile Include="Models\ConceptModels\CreateConceptModel.cs" />
     <Compile Include="Models\ConceptModels\EditConceptModel.cs" />
-    <Compile Include="Models\ConceptModels\ConceptSearchResultViewModel.cs" />
     <Compile Include="Models\ConceptModels\ConceptViewModel.cs" />
     <Compile Include="Models\DashboardViewModel.cs" />
     <Compile Include="Models\DebugModels\AssemblyInfoViewModel.cs" />

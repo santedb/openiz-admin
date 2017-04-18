@@ -22,6 +22,7 @@ using OpenIZAdmin.Models.ConceptModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
 {
