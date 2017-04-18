@@ -101,7 +101,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.ImsiClient.Obsolete<CodeSystem>(codeSystem);
 
-				TempData["success"] = Locale.CodeSystem + " " + Locale.Deactivated + " " + Locale.Successfully;
+				TempData["success"] = Locale.CodeSystem + " " + Locale.Deleted + " " + Locale.Successfully;
 
 				return RedirectToAction("Index");
 			}

@@ -328,9 +328,10 @@ namespace OpenIZAdmin.Controllers
 		[ValidateInput(false)]
 		public ActionResult Search(string searchTerm)
 		{
-			var results = new List<ConceptSearchResultViewModel>();
+            //var results = new List<ConceptSearchResultViewModel>();
+            var results = new List<ConceptViewModel>();
 
-			try
+            try
 			{
 				if (this.IsValidId(searchTerm))
 				{
@@ -339,13 +340,15 @@ namespace OpenIZAdmin.Controllers
 					if (searchTerm == "*")
 					{
 						bundle = this.ImsiClient.Query<Concept>(c => c.ObsoletionTime == null);
-						results = bundle.Item.OfType<Concept>().LatestVersionOnly().Select(p => new ConceptSearchResultViewModel(p)).ToList();
-					}
+						//results = bundle.Item.OfType<Concept>().LatestVersionOnly().Select(p => new ConceptSearchResultViewModel(p)).ToList();
+                        results = bundle.Item.OfType<Concept>().LatestVersionOnly().Select(p => new ConceptViewModel(p)).ToList();
+                    }
 					else
 					{
 						bundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
-						results = bundle.Item.OfType<Concept>().LatestVersionOnly().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ConceptSearchResultViewModel(p)).ToList();
-					}
+						//results = bundle.Item.OfType<Concept>().LatestVersionOnly().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ConceptSearchResultViewModel(p)).ToList();
+                        results = bundle.Item.OfType<Concept>().LatestVersionOnly().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ConceptViewModel(p)).ToList();
+                    }
 
 					TempData["searchTerm"] = searchTerm;
 
