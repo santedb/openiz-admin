@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Models.Core;
 
@@ -46,6 +47,7 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
 		public CreateReferenceTermNameViewModel(ReferenceTerm referenceTerm) : this()
         {
             ReferenceTermId = referenceTerm.Key ?? Guid.Empty;
+            Mnemonic = referenceTerm.Mnemonic;
         }
 
         /// <summary>
@@ -70,13 +72,14 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
         /// Converts an <see cref="CreateReferenceTermNameViewModel"/> instance to a <see cref="ReferenceTermName"/> instance.
         /// </summary>
         /// <returns>Returns a ReferenceTermName instance.</returns>
-        public ReferenceTermName ToReferenceTerm()
+        public ReferenceTermName ToReferenceTermName()
         {
             return new ReferenceTermName()
             {                                                 
                 Key = Guid.NewGuid(),
                 Language = this.TwoLetterCountryCode,
-                Name = this.Name                    
+                Name = this.Name,
+                PhoneticAlgorithmKey = PhoneticAlgorithmKeys.Soundex
             };
         }
     }

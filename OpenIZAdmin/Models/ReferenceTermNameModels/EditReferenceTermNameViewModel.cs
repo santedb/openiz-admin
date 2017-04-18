@@ -58,6 +58,8 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
         public EditReferenceTermNameViewModel(ReferenceTerm referenceTerm) : this()
         {
             ReferenceTermId = referenceTerm.Key;
+            Mnemonic = referenceTerm.Mnemonic;
+            ReferenceTermNameList = referenceTerm.DisplayNames.Select(n => new ReferenceTermNameViewModel(n)).ToList();
         }
 
         /// <summary>
@@ -67,6 +69,7 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
         {
             ReferenceTermId = referenceTerm.Key;
             Mnemonic = referenceTerm.Mnemonic;
+            ReferenceTermNameList = referenceTerm.DisplayNames.Select(n => new ReferenceTermNameViewModel(n)).ToList();
         }
 
         /// <summary>

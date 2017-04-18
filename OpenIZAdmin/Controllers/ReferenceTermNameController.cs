@@ -43,17 +43,121 @@ namespace OpenIZAdmin.Controllers
         /// <summary>
 		/// Displays the create view.
 		/// </summary>
+		/// <param name="id">The reference term identifier.</param>
 		/// <returns>Returns the create view.</returns>
 		[HttpGet]
-        public ActionResult Create()
+        public ActionResult Create(Guid id)
         {
-            var model = new CreateReferenceTermNameViewModel
+            var referenceTerm = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
+
+            if (referenceTerm == null)
+            {
+                TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+
+                return RedirectToAction("Index", "ReferenceTerm");
+            }
+
+            var model = new CreateReferenceTermNameViewModel(referenceTerm)
             {
                 LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList(),
-                TwoLetterCountryCode = Locale.EN
+                TwoLetterCountryCode = Locale.EN,
+                ReferenceTermNameList = referenceTerm.DisplayNames.Select(n=> new ReferenceTermNameViewModel(n)).ToList()
             };
 
             return View(model);
+        }
+
+        /// <summary>
+		/// Adds the new reference term.
+		/// </summary>
+		/// <param name="model">The <see cref="ReferenceTermViewModel"/> instance.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(CreateReferenceTermNameViewModel model)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var referenceTerm = ImsiClient.Get<ReferenceTerm>(model.ReferenceTermId.Value, null) as ReferenceTerm;
+
+                    if (referenceTerm == null)
+                    {
+                        TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+
+                        return RedirectToAction("Index", "ReferenceTerm");
+                    }
+
+                    referenceTerm.DisplayNames.Add(model.ToReferenceTermName());
+
+                    var result = this.ImsiClient.Update<ReferenceTerm>(referenceTerm);
+
+                    TempData["success"] = Locale.ReferenceTermName + " " + Locale.Created + " " + Locale.Successfully;
+
+                    return RedirectToAction("Edit", "ReferenceTerm", new { id = result.Key });
+                }
+            }
+            catch (Exception e)
+            {
+                ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+                Trace.TraceError($"Unable to retrieve entity: { e }");
+            }
+
+            TempData["error"] = Locale.UnableToCreate + " " + Locale.ReferenceTermName;            
+            model.LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList();
+
+            return View(model);
+        }
+
+        /// <summary>
+		/// Deletes a reference term name from a reference term.
+		/// </summary>
+		/// <param name="id">The reference term name identifier</param>
+		/// <param name="refTermId">The identifier of the reference term instance.</param>		
+		/// <returns>Returns the index view.</returns>
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(Guid id, Guid refTermId)
+        {
+            try
+            {
+                var referenceTerm = ImsiClient.Get<ReferenceTerm>(refTermId, null) as ReferenceTerm;
+
+                if (referenceTerm == null)
+                {
+                    TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+
+                    return RedirectToAction("Index", "ReferenceTerm");
+                }
+
+                var index = referenceTerm.DisplayNames.FindIndex(c => c.Key == id);
+
+                if (index == -1)
+                {
+                    TempData["error"] = Locale.ReferenceTermName + " " + Locale.NotFound;
+
+                    return RedirectToAction("Edit", "ReferenceTerm", new { referenceTerm.Key });
+                }
+
+                referenceTerm.DisplayNames.RemoveAt(index);
+
+                var result = this.ImsiClient.Update<ReferenceTerm>(referenceTerm);
+
+                TempData["success"] = Locale.ReferenceTermName + " " + Locale.Deleted + " " + Locale.Successfully;
+
+                return RedirectToAction("Edit", "ReferenceTerm", new { id = result.Key });
+
+            }
+            catch (Exception e)
+            {
+                ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+                Trace.TraceError($"Unable to retrieve entity: { e }");
+            }
+
+            TempData["error"] = Locale.ReferenceTermName + " " + Locale.NotFound;
+
+            return RedirectToAction("Index", "ReferenceTerm");
         }
 
         /// <summary>
@@ -73,7 +177,7 @@ namespace OpenIZAdmin.Controllers
                 {
                     TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Index", "ReferenceTerm");
                 }
                                 
                 var index = referenceTerm.DisplayNames.FindIndex(c => c.Key == id);
@@ -82,7 +186,7 @@ namespace OpenIZAdmin.Controllers
                 {
                     TempData["error"] = Locale.ReferenceTermName + " " + Locale.NotFound;
 
-                    return RedirectToAction("Index");
+                    return RedirectToAction("Edit", "ReferenceTerm", new { referenceTerm.Key });
                 }
 
                 var name = referenceTerm.DisplayNames[index];
@@ -107,12 +211,52 @@ namespace OpenIZAdmin.Controllers
         }
 
         /// <summary>
-		/// Displays the index view.
+		/// Updates the reference term name associated with the reference term.
 		/// </summary>
-		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
-        public ActionResult Index()
+		/// <param name="model">The <see cref="EditReferenceTermNameViewModel"/> instance.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(EditReferenceTermNameViewModel model)
         {
-            return View();
-        }
+            try
+            {
+                var referenceTerm = ImsiClient.Get<ReferenceTerm>(model.ReferenceTermId.Value, null) as ReferenceTerm;
+
+                if (referenceTerm == null)
+                {
+                    TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+
+                    return RedirectToAction("Index", "ReferenceTerm");
+                }
+
+                var index = referenceTerm.DisplayNames.FindIndex(c => c.Key == model.Id);                
+
+                if (index == -1)
+                {
+                    TempData["error"] = Locale.ReferenceTermName + " " + Locale.NotFound;
+
+                    return RedirectToAction("Edit", "ReferenceTerm", new { referenceTerm.Key });
+                }
+                
+                referenceTerm.DisplayNames[index].Language = model.TwoLetterCountryCode;
+                referenceTerm.DisplayNames[index].Name = model.Name;
+
+                var result = this.ImsiClient.Update<ReferenceTerm>(referenceTerm);
+
+                TempData["success"] = Locale.ReferenceTermName + " " + Locale.Updated + " " + Locale.Successfully;
+
+                return RedirectToAction("Edit", "ReferenceTerm", new { id = result.Key });
+            }
+            catch (Exception e)
+            {
+                ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+                Trace.TraceError($"Unable to retrieve entity: { e }");
+            }
+
+            TempData["error"] = Locale.UnableToUpdate + " " + Locale.ReferenceTerm;
+
+            return RedirectToAction("ViewReferenceTerm", "ReferenceTerm", new { id = model.ReferenceTermId });
+        } 
     }
 }
