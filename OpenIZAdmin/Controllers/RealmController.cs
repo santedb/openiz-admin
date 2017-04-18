@@ -222,6 +222,9 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> JoinRealmAsync(JoinRealmModel model)
 		{
+			HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+			this.Response.Cookies.Remove("access_token");
+
 			if (ModelState.IsValid)
 			{
 				model.Address = model.Address.HasTrailingBackSlash() ? model.Address.RemoveTrailingBackSlash() : model.Address;
