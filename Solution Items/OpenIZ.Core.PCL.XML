@@ -2716,6 +2716,20 @@
             <param name="key">The key.</param>
             <returns>Returns the deleted code system.</returns>
         </member>
+        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.CreateExtensionType(OpenIZ.Core.Model.DataTypes.ExtensionType)">
+            <summary>
+            Creates the type of the extension.
+            </summary>
+            <param name="extensionType">Type of the extension.</param>
+            <returns>Returns the created extension type.s</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.DeleteExtensionType(System.Guid)">
+            <summary>
+            Deletes the type of the extension.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Returns the deleted extension type.</returns>
+        </member>
         <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.FindAssigningAuthority(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.AssigningAuthority,System.Boolean}})">
             <summary>
             Finds the specified assigning authority
@@ -2806,6 +2820,13 @@
             </summary>
             <param name="value">The URI of the extension.</param>
             <returns>Returns an extension type or null of no extension type is found.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.UpdateExtensionType(OpenIZ.Core.Model.DataTypes.ExtensionType)">
+            <summary>
+            Updates the type of the extension.
+            </summary>
+            <param name="extensionType">Type of the extension.</param>
+            <returns>Returns the updated extension type.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.UpdateCodeSystem(OpenIZ.Core.Model.DataTypes.CodeSystem)">
             <summary>
