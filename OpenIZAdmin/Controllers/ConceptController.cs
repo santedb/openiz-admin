@@ -334,7 +334,6 @@ namespace OpenIZAdmin.Controllers
 
 				    if (model.AddReferenceTermList.Any())
 				    {
-
 				        foreach (var referenceTerm in model.AddReferenceTermList)
 				        {				            
 				            Guid id;
@@ -397,8 +396,7 @@ namespace OpenIZAdmin.Controllers
                     }
 					else
 					{
-						bundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);						
-                        //results = bundle.Item.OfType<Concept>().LatestVersionOnly().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ConceptViewModel(p)).ToList();
+						bundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);						                        
                         results = bundle.Item.OfType<Concept>().LatestVersionOnly().Select(p => new ConceptViewModel(p)).ToList();
                     }
 

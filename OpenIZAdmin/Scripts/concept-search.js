@@ -29,7 +29,7 @@
         escapeMarkup: function (markup) { return markup; },
         minimumInputLength: 2,
         templateResult: function (data) {
-            return "<span class='glyphicon glyphicon-compressed'>" + data.text + "</span>";
+            return "<span class='glyphicon glyphicon-compressed'> " + data.text + "</span>";
         },
         templateSelection: function (data) {
             return data.text;
