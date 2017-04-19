@@ -268,7 +268,7 @@ namespace OpenIZAdmin.Controllers
 					ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
 				};
 
-				model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.SkipWhile(c => c.Key != EntityRelationshipTypeKeys.Child || c.Key != EntityRelationshipTypeKeys.Parent).ToSelectList().ToList());
+				model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList().ToList());
 
 				return View(model);
 			}
