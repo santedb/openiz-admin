@@ -43,9 +43,9 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		/// Initializes a new instance of the <see cref="ConceptSetViewModel"/> class.
 		/// </summary>
 		/// <param name="conceptSet"></param>
-		public ConceptSetViewModel(ConceptSet conceptSet) : this()
+		public ConceptSetViewModel(ConceptSet conceptSet, bool loadConcepts = false) : this()
 		{
-			Concepts = conceptSet.Concepts.Select(c => new ConceptViewModel(c)).ToList();
+			if(loadConcepts) Concepts = conceptSet.Concepts.Select(c => new ConceptViewModel(c)).ToList();
 			CreationTime = conceptSet.CreationTime.DateTime;
 			Id = conceptSet.Key ?? Guid.Empty;
 			Mnemonic = conceptSet.Mnemonic;

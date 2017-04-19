@@ -314,21 +314,12 @@ namespace OpenIZAdmin.Controllers
             try
 			{
 				if (this.IsValidId(searchTerm))
-				{
-					Bundle bundle;
+				{					
+					var bundle = searchTerm == "*" ? this.ImsiClient.Query<Concept>(c => c.ObsoletionTime == null) : this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
 
-					if (searchTerm == "*")
-					{
-						bundle = this.ImsiClient.Query<Concept>(c => c.ObsoletionTime == null);						
-                        results = bundle.Item.OfType<Concept>().LatestVersionOnly().Select(p => new ConceptViewModel(p)).ToList();
-                    }
-					else
-					{
-						bundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);						                        
-                        results = bundle.Item.OfType<Concept>().LatestVersionOnly().Select(p => new ConceptViewModel(p)).ToList();
-                    }
+                    results = bundle.Item.OfType<Concept>().LatestVersionOnly().Select(p => new ConceptViewModel(p)).ToList();
 
-					TempData["searchTerm"] = searchTerm;
+                    TempData["searchTerm"] = searchTerm;
 
 					return PartialView("_ConceptSearchResultsPartial", results.OrderBy(c => c.Mnemonic));
 				}

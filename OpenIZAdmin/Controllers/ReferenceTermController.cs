@@ -234,27 +234,12 @@ namespace OpenIZAdmin.Controllers
 			var results = new List<ReferenceTermViewModel>();
 
 			if (this.IsValidId(searchTerm))
-			{
-				Bundle bundle;
+			{				
+				var bundle = searchTerm == "*" ? this.ImsiClient.Query<ReferenceTerm>(c => c.ObsoletionTime == null) : this.ImsiClient.Query<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
 
-				if (searchTerm == "*")
-				{
-                    bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.ObsoletionTime == null);
-                    //results = bundle.Item.OfType<ReferenceTerm>().Select(p => new ReferenceTermSearchResultsViewModel(p)).ToList();
-                    //bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Key != null || c.Key == null);
-                    results = bundle.Item.OfType<ReferenceTerm>().Select(p => new ReferenceTermViewModel(p)).ToList();
-                }
-				else
-				{
-                    bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
-                    //results = bundle.Item.OfType<ReferenceTerm>().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ReferenceTermSearchResultsViewModel(p)).ToList();
-                    //bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm) && (c.Key != null || c.Key == null));
-                    results = bundle.Item.OfType<ReferenceTerm>().Select(p => new ReferenceTermViewModel(p)).ToList();
-                    //results = bundle.Item.OfType<ReferenceTerm>().Where(c => c.Mnemonic.Contains(searchTerm) && (c.Key != null || c.Key == null)).Select(p => new ReferenceTermViewModel(p)).ToList();
-                    //results = bundle.Item.OfType<ReferenceTerm>().Where(c => c.Key != null || c.Key == null).Select(p => new ReferenceTermViewModel(p)).ToList();
-                }
+                results = bundle.Item.OfType<ReferenceTerm>().Select(p => new ReferenceTermViewModel(p)).ToList();
 
-				TempData["searchTerm"] = searchTerm;
+                TempData["searchTerm"] = searchTerm;
 
 				return PartialView("_ReferenceTermSearchResultsPartial", results.OrderBy(c => c.Mnemonic));
 			}

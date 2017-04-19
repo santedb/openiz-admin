@@ -8,11 +8,7 @@
         <span class="panel-title">
             @Locale.Roles
         </span>
-        <div class="pull-right">
-            <span class="text-primary h4">@Locale.New</span>
-            <a href="@Url.Action("Create", "Role")" class="glyphicon glyphicon-plus-sign"></a>
-        </div>
-</div>
+    </div>
     <div class="panel panel-body">
         @if (Model.Any())
         {
@@ -24,7 +20,7 @@
                         <th>@Html.DisplayNameFor(m => m.Description)</th>
                         <th>@Html.DisplayNameFor(m => m.HasPolicies)</th>
                         <th>@Locale.Status</th>
-                        <th></th>                        
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,21 +29,21 @@
                         <tr>
                             <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></td>
                             <td>@item.Name</td>
-                            <td>@item.Description</td>                            
+                            <td>@item.Description</td>
                             <td>@(item.HasPolicies ? Html.Raw("<text>" + Locale.Yes + "</text>") : Html.Raw("<text>" + Locale.No + "</text>"))</td>
                             <td class="capitalize">@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
                             <td class="autoFitContents centerContent">
                                 <a class="btn btn-primary" href="@Url.Action("ViewRole", "Role", new { id = item.Id })">
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
-                                </a>                          
+                                </a>
                                 <a class="btn btn-warning" href="@Url.Action("Edit", "Role", new { id = item.Id })">
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
                             </td>
                         </tr>
-                    }
+}
                 </tbody>
             </table>
         }

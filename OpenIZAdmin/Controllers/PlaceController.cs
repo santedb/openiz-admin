@@ -268,7 +268,7 @@ namespace OpenIZAdmin.Controllers
 					ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
 				};
 
-				model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.SkipWhile(c => c.Key != EntityRelationshipTypeKeys.Child || c.Key != EntityRelationshipTypeKeys.Parent).ToSelectList().ToList());
+				model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList().ToList());
 
 				return View(model);
 			}
@@ -707,7 +707,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation);
 
-				viewModels = places.Item.OfType<Place>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation).LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+				viewModels = places.Item.OfType<Place>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation).LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 			}
 
 			return Json(viewModels, JsonRequestBehavior.AllowGet);

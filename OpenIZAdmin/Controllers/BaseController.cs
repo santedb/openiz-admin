@@ -94,7 +94,7 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the concept set with the nested loaded concepts.</returns>
 		private ConceptSet ForceLoadConcepts(ConceptSet conceptSet)
 		{
-			Expression<Func<Concept, bool>> nameExpression = c => c.ConceptNames.Any() || c.Mnemonic == null;
+			Expression<Func<Concept, bool>> nameExpression = c => c.ConceptNames.Any() || c.Mnemonic != null;
 
 			// HACK: force load missing concept names and mnemonics
 			for (var i = 0; i < conceptSet.Concepts.Count(nameExpression.Compile()); i++)
