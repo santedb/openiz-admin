@@ -41,26 +41,33 @@ namespace OpenIZAdmin.Models.OrganizationModels
 			
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="OrganizationViewModel"/> class
-		/// with a specific <see cref="Organization"/> instance.
-		/// </summary>
-		/// <param name="organization"></param>
-		public OrganizationViewModel(Organization organization) : base(organization)
+
+	    /// <summary>
+	    /// Initializes a new instance of the <see cref="OrganizationViewModel"/> class
+	    /// with a specific <see cref="Organization"/> instance.
+	    /// </summary>
+	    /// <param name="organization"></param>
+	    /// <param name="loadManMaterials">The conditional state that controls the loading of associated manufactured materials</param>
+	    public OrganizationViewModel(Organization organization, bool loadManMaterials = false) : base(organization)
 		{
 			this.ManufacturedMaterials = new List<ManufacturedMaterialViewModel>();
 
-			if (organization.IndustryConcept != null)
-			{
-				this.IndustryConcept = string.Join(" ", organization.IndustryConcept.ConceptNames.Select(c => c.Name));
-			}
+		    if (loadManMaterials)
+		    {
 
-			this.ManufacturedMaterials = organization.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct)
-													.Select(r => r.TargetEntity)
-													.OfType<ManufacturedMaterial>()
-													.Select(m => new ManufacturedMaterialViewModel(m))
-													.OrderBy(m => m.Name)
-													.ToList();
+		        if (organization.IndustryConcept != null)
+		        {
+		            this.IndustryConcept = string.Join(" ", organization.IndustryConcept.ConceptNames.Select(c => c.Name));
+		        }
+
+		        this.ManufacturedMaterials =
+		            organization.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct)
+		                .Select(r => r.TargetEntity)
+		                .OfType<ManufacturedMaterial>()
+		                .Select(m => new ManufacturedMaterialViewModel(m))
+		                .OrderBy(m => m.Name)
+		                .ToList();
+		    }
 		}
 
 		/// <summary>

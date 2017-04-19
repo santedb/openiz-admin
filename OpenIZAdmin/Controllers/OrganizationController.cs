@@ -377,7 +377,7 @@ namespace OpenIZAdmin.Controllers
 		[ValidateInput(false)]
 		public ActionResult Search(string searchTerm)
 		{
-			IEnumerable<OrganizationSearchResultViewModel> results = new List<OrganizationSearchResultViewModel>();
+			IEnumerable<OrganizationViewModel> results = new List<OrganizationViewModel>();
 
 			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 			{
@@ -394,7 +394,7 @@ namespace OpenIZAdmin.Controllers
 						organization.TypeConcept = this.GetTypeConcept(organization);
 					}
 
-					results = bundle.Item.OfType<Organization>().LatestVersionOnly().Select(p => new OrganizationSearchResultViewModel(p)).OrderBy(p => p.Name).ToList();
+					results = bundle.Item.OfType<Organization>().LatestVersionOnly().Select(p => new OrganizationViewModel(p)).OrderBy(p => p.Name).ToList();
 				}
 				else
 				{
@@ -405,7 +405,7 @@ namespace OpenIZAdmin.Controllers
 						organization.TypeConcept = this.GetTypeConcept(organization);
 					}
 
-					results = bundle.Item.OfType<Organization>().Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new OrganizationSearchResultViewModel(p)).OrderBy(p => p.Name).ToList();
+					results = bundle.Item.OfType<Organization>().Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new OrganizationViewModel(p)).OrderBy(p => p.Name).ToList();
 				}
 			}
 
@@ -436,7 +436,7 @@ namespace OpenIZAdmin.Controllers
 
 				organization.Relationships = this.GetEntityRelationships<Organization, ManufacturedMaterial>(organization.Key.Value, organization.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList();
 
-				return View(new OrganizationViewModel(organization));
+				return View(new OrganizationViewModel(organization, true));
 			}
 			catch (Exception e)
 			{

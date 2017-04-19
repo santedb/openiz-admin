@@ -303,7 +303,6 @@
     <Compile Include="Models\Core\PolicyModel.cs" />
     <Compile Include="Models\Core\ReferenceTermModel.cs" />
     <Compile Include="Models\Core\ConceptSetModel.cs" />
-    <Compile Include="Models\ConceptSetModels\ConceptSetSearchResultViewModel.cs" />
     <Compile Include="Models\ConceptSetModels\CreateConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\EditConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\ConceptSetViewModel.cs" />
@@ -327,7 +326,6 @@
     <Compile Include="Models\ObsoleteWarningViewModel.cs" />
     <Compile Include="Models\OrganizationModels\CreateOrganizationModel.cs" />
     <Compile Include="Models\OrganizationModels\EditOrganizationModel.cs" />
-    <Compile Include="Models\OrganizationModels\OrganizationSearchResultViewModel.cs" />
     <Compile Include="Models\OrganizationModels\OrganizationViewModel.cs" />
     <Compile Include="Models\ReferenceTermNameModels\CreateReferenceTermNameViewModel.cs" />
     <Compile Include="Models\ReferenceTermModels\CreateReferenceTermViewModel.cs" />
