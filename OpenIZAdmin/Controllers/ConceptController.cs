@@ -170,7 +170,7 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.Concept + " " + Locale.ReferenceTerm + " " + Locale.Deleted + " " + Locale.Successfully;
 
-				return RedirectToAction("ViewConcept", new { id = result.Key });
+				return RedirectToAction("Edit", new { id = result.Key, versionId = result.VersionKey });
 			}
 			catch (Exception e)
 			{
@@ -216,7 +216,7 @@ namespace OpenIZAdmin.Controllers
 					model.ConceptClass = selectedClass?.Key.ToString();
 				}
 
-				model.ReferenceTerms = this.GetConceptReferenceTerms(id, versionId).Select(r => new ReferenceTermViewModel(r)).ToList();
+				model.ReferenceTerms = this.GetConceptReferenceTerms(id, versionId).Select(r => new ReferenceTermViewModel(r, concept)).ToList();
 
 				return View(model);
 			}

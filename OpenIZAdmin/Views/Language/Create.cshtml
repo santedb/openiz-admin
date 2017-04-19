@@ -14,7 +14,8 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             @Html.HiddenFor(m => m.ConceptId)
-            
+            @Html.HiddenFor(m => m.ConceptVersionKey)
+
             <div class="form-group">
                 @Html.LabelFor(m => m.TwoLetterCountryCode, new { @class = "col-md-2 control-label" })
                 <div class="col-md-2">
@@ -39,3 +40,4 @@
 </div>
 
 @Html.Partial("_LanguagesPartial", Model.Languages)
+

@@ -41,11 +41,11 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// with a specified code and display name.
         /// </summary>
         /// <param name="code">The language code.</param>
-        /// <param name="displayName">The language display name.</param>
+        /// <param name="displayName">The language display name.</param>        
         /// <param name="concept">The Concept instance</param>
         public LanguageViewModel(string code, string displayName, Concept concept) : this(concept)
         {
-            DisplayName = displayName;
+            DisplayName = displayName;            
             Name = displayName;
             TwoLetterCountryCode = code;
             Language = code;
@@ -55,25 +55,13 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// Gets or sets the concept class.
         /// </summary>
         /// <value>The concept class.</value>        
-        public string ConceptClass { get; set; }
-
-        //public Guid? ConceptId { get; set; }
+        public string ConceptClass { get; set; }        
 
         /// <summary>
         /// Gets or sets the concept class list.
         /// </summary>
         /// <value>The concept class list.</value>
-        public List<SelectListItem> ConceptClassList { get; set; }
-
-        //public string DisplayName { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the language.
-        ///// </summary>
-        ///// <value>The language.</value>
-        //[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        //public override string Language { get; set; }       
+        public List<SelectListItem> ConceptClassList { get; set; }          
 
         /// <summary>
         /// Gets or sets the mnemonic.
@@ -82,45 +70,11 @@ namespace OpenIZAdmin.Models.LanguageModels
         [Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
         [Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         [StringLength(255, ErrorMessageResourceName = "MnemonicTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string Mnemonic { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the name.
-        ///// </summary>
-        ///// <value>The name.</value>
-        //[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        //[StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
-        //public override string Name { get; set; }
+        public string Mnemonic { get; set; }       
 
         /// <summary>
         /// Gets or sets the two character language code
         /// </summary>
-        public List<string> TwoLetterCountryCodeList { get; set; }
-
-        ///// <summary>
-        ///// Converts an <see cref="CreateConceptModel"/> instance to a <see cref="Concept"/> instance.
-        ///// </summary>
-        ///// <returns>Returns a concept instance.</returns>
-        //public Concept ToConcept()
-        //{
-        //    return new Concept
-        //    {
-        //        Class = new ConceptClass
-        //        {
-        //            Key = Guid.Parse(this.ConceptClass)
-        //        },
-        //        ConceptNames = new List<ConceptName>
-        //        {
-        //            new ConceptName
-        //            {
-        //                Language = this.Language,
-        //                Name = this.Name
-        //            }
-        //        },
-        //        Key = Guid.NewGuid(),
-        //        Mnemonic = this.Mnemonic,
-        //    };
-        //}
+        public List<string> TwoLetterCountryCodeList { get; set; }       
     }
 }

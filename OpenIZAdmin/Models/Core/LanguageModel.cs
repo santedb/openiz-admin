@@ -9,58 +9,7 @@ namespace OpenIZAdmin.Models.Core
     /// Provides the model for managing languages.
     /// </summary>
     public abstract class LanguageModel
-    {
-        ///// <summary>
-        ///// Initializes a new instance of the <see cref="LanguageModel"/> class.
-        ///// </summary>
-        //public LanguageModel()
-        //{
-        //    Languages = new List<Language>();
-        //    LanguageList = new List<SelectListItem>();
-        //}
-
-        ///// <summary>
-        ///// Initializes a new instance of the <see cref="LanguageModel"/> class.
-        ///// </summary>
-        ///// <param name="concept">The concept.</param>
-        //public LanguageModel(Concept concept) : this()
-        //{
-        //    ConceptId = concept.Key ?? Guid.Empty;
-        //    ConceptVersionKey = concept.VersionKey;
-        //    Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();
-        //}
-
-        //   /// <summary>
-        ///// Initializes a new instance of the <see cref="Language"/> class
-        ///// with a specified code and display name.
-        ///// </summary>
-        ///// <param name="code">The language code.</param>
-        ///// <param name="displayName">The language display name.</param>
-        ///// <param name="conceptId">The identifier associated with the Concept</param>
-        //public LanguageModel(string code, string displayName, Guid? conceptId) : this()
-        //   {
-        //       ConceptId = conceptId;
-        //       DisplayName = displayName;
-        //       Name = displayName;
-        //       TwoLetterCountryCode = code;
-        //       Language = code;
-        //   }
-
-        ///// <summary>
-        ///// Initializes a new instance of the <see cref="Language"/> class
-        ///// with a specified code and display name.
-        ///// </summary>
-        ///// <param name="code">The language code.</param>
-        ///// <param name="displayName">The language display name.</param>
-        ///// <param name="concept">The Concept instance</param>
-        //public LanguageModel(string code, string displayName, Concept concept) : this(concept)
-        //{
-        //    DisplayName = displayName;
-        //    Name = displayName;
-        //    TwoLetterCountryCode = code;
-        //    Language = code;
-        //}
-
+    {        
         /// <summary>
         /// Gets or sets the Guid identifier of the Concept
         /// </summary>
@@ -77,7 +26,7 @@ namespace OpenIZAdmin.Models.Core
         [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
         [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         [StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string DisplayName { get; set; }
+        public string DisplayName { get; set; }        
 
         /// <summary>
         /// Gets or sets the current language.
@@ -85,7 +34,7 @@ namespace OpenIZAdmin.Models.Core
         /// <value>The language.</value>        
         [Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
         [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public virtual string Language { get; set; }
+        public string Language { get; set; }
 
         /// <summary>
         /// Gets or sets the language list.
@@ -106,7 +55,7 @@ namespace OpenIZAdmin.Models.Core
         [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
         [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         [StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public virtual string Name { get; set; }    
+        public string Name { get; set; }    
 
         /// <summary>
         /// Gets or sets the two letter language code of the language.

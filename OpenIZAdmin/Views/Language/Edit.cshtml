@@ -12,10 +12,9 @@
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
             
             @Html.HiddenFor(m => m.ConceptId)
-            @Html.HiddenFor(m => m.ConceptVersionKey)
+            @Html.HiddenFor(m => m.ConceptVersionKey)            
             @Html.HiddenFor(m => m.Language)
             @Html.HiddenFor(m => m.Name)
 

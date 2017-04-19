@@ -69,7 +69,7 @@ namespace OpenIZAdmin.Controllers
 
 				TempData["success"] = Locale.Language + " " + Locale.Updated + " " + Locale.Successfully;
 
-				return RedirectToAction("Edit", "Concept", new { id = result.Key, versionKey = result.VersionKey });
+				return RedirectToAction("Edit", "Concept", new { id = result.Key, versionId = result.VersionKey });
 			}
 			catch (Exception e)
 			{
@@ -132,11 +132,12 @@ namespace OpenIZAdmin.Controllers
         /// </summary>
         /// <param name="id">The concept Guid id</param>
         /// <param name="versionId">The version identifier of the Concept instance.</param>
+        /// <param name="langId">The language identifier.</param>
         /// <param name="langCode">The language two character code identifier</param>
         /// <param name="displayName">The text name representation of the Concept</param>
         /// <returns>An ActionResult instance</returns>
         [HttpGet]
-		public ActionResult Edit(Guid id, Guid versionId, string langCode, string displayName)
+		public ActionResult Edit(Guid id, Guid versionId, Guid? langId, string langCode, string displayName)
         {
 	        var concept = this.GetConcept(id, versionId);
 
@@ -173,9 +174,9 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index", "Concept");
 				}
 
-				var index = concept.ConceptNames.FindIndex(c => c.Language == model.Language && c.Name == model.Name);
+				var index = concept.ConceptNames.FindIndex(c => c.Language == model.Language && c.Name == model.Name);                
 
-				if (index < 0)
+                if (index < 0)
 				{
 					TempData["error"] = Locale.LanguageCode + " " + Locale.NotFound;
 					return RedirectToAction("Edit", "Concept", new { id = model.ConceptId, versionKey = model.ConceptVersionKey });
