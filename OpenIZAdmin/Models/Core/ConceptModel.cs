@@ -61,7 +61,7 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		/// <value>The language.</value>
 		[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		//[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(2, ErrorMessageResourceName = "LanguagCodeTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Language { get; set; }
 
@@ -78,7 +78,7 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		/// <value>The name.</value>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		//[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 

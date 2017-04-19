@@ -1,25 +1,21 @@
-﻿$(document).ready(function ()
-{
-    $(".place-search").select2({
+﻿$(document).ready(function () {
+    $(".reference-term-search").select2({
         ajax: {
-            url: "/Place/SearchAjax",
+            url: "/Concept/SearchAjax",
             dataType: 'json',
             method: "GET",
             delay: 500,
-            data: function (params)
-            {
+            data: function (params) {
                 return {
                     searchTerm: params.term
                 };
             },
-            processResults: function (data, params)
-            {
+            processResults: function (data, params) {
                 params.page = params.page || 1;
 
                 return {
-                    results: $.map(data, function (o)
-                    {
-                        return { id: o.Id, text: o.Name };
+                    results: $.map(data, function (o) {
+                        return { id: o.Id, text: o.Mnemonic };
                     }),
                     pagination: {
                         more: (params.page * 30) < data.length
@@ -31,13 +27,11 @@
         maximumSelectionLength: 1,
         keepSearchResults: true,
         escapeMarkup: function (markup) { return markup; },
-        minimumInputLength: 4,
-        templateResult: function (data)
-        {
-            return "<span class='glyphicon glyphicon-map-marker'> " + data.text + "</span>";
+        minimumInputLength: 2,
+        templateResult: function (data) {
+            return "<span class='glyphicon glyphicon-list'> " + data.text + "</span>";
         },
-        templateSelection: function (data)
-        {
+        templateSelection: function (data) {
             return data.text;
         }
     });

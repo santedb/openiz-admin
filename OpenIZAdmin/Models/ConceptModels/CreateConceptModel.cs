@@ -54,17 +54,35 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// <value>The concept class list.</value>
 		public List<SelectListItem> ConceptClassList { get; set; }
 
-		/// <summary>
-		/// Gets or sets the language list.
+        /// <summary>
+		/// Gets or sets the language.
 		/// </summary>
-		/// <value>The language list.</value>
-		public List<SelectListItem> LanguageList { get; set; }
+		/// <value>The language.</value>
+		[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(2, ErrorMessageResourceName = "LanguagCodeTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public new string Language { get; set; }
 
-		/// <summary>
-		/// Converts an <see cref="CreateConceptModel"/> instance to a <see cref="Concept"/> instance.
+        /// <summary>
+        /// Gets or sets the language list.
+        /// </summary>
+        /// <value>The language list.</value>
+        public List<SelectListItem> LanguageList { get; set; }
+
+        /// <summary>
+		/// Gets or sets the name.
 		/// </summary>
-		/// <returns>Returns a concept instance.</returns>
-		public Concept ToConcept()
+		/// <value>The name.</value>
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public new string Name { get; set; }
+
+        /// <summary>
+        /// Converts an <see cref="CreateConceptModel"/> instance to a <see cref="Concept"/> instance.
+        /// </summary>
+        /// <returns>Returns a concept instance.</returns>
+        public Concept ToConcept()
 		{
 			return new Concept
 			{

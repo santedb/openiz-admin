@@ -52,7 +52,9 @@ namespace OpenIZAdmin.Models.ConceptModels
 
 			ReferenceTerms = new List<ReferenceTermViewModel>();
 			Languages = new List<LanguageViewModel>();
-		}
+            AddReferenceTermList = new List<string>();
+            ReferenceTermList = new List<SelectListItem>();
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditConceptModel"/> class.
@@ -83,15 +85,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		/// <value>The concept class list.</value>
 		public List<SelectListItem> ConceptClassList { get; set; }
-
-		//      /// <summary>
-		///// Gets or sets the language.
-		///// </summary>
-		///// <value>The language.</value>
-		//[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
-		//      //[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		//      [StringLength(2, ErrorMessageResourceName = "LanguagCodeTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-		//      public string Language { get; set; }
+		
 
 		/// <summary>
 		/// Gets or sets the language list.
@@ -105,30 +99,23 @@ namespace OpenIZAdmin.Models.ConceptModels
 		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
 		public List<LanguageViewModel> Languages { get; set; }
 
-		//      /// <summary>
-		///// Gets or sets the mnemonic.
-		///// </summary>
-		///// <value>The mnemonic.</value>
-		//[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
-		//      [Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		//      [StringLength(255, ErrorMessageResourceName = "MnemonicTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-		//      public sealed override string Mnemonic { get; set; }
 
-		///// <summary>
-		///// Gets or sets the name.
-		///// </summary>
-		///// <value>The name.</value>
-		//[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		//[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		//[StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
-		//public string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the list of Concepts to add
+        /// </summary>
+        public List<string> AddReferenceTermList { get; set; }
 
-		/// <summary>
-		/// Converts an <see cref="EditConceptModel"/> instance to a <see cref="Concept"/> instance.
-		/// </summary>
-		/// <param name="concept">The concept.</param>
-		/// <returns>Returns the converted concept instance.</returns>
-		public Concept ToEditConceptModel(Concept concept)
+        /// <summary>
+        /// Gets or sets the concept list from the search parameters from the ajax search method
+        /// </summary>
+        public List<SelectListItem> ReferenceTermList { get; set; }
+
+        /// <summary>
+        /// Converts an <see cref="EditConceptModel"/> instance to a <see cref="Concept"/> instance.
+        /// </summary>
+        /// <param name="concept">The concept.</param>
+        /// <returns>Returns the converted concept instance.</returns>
+        public Concept ToEditConceptModel(Concept concept)
 		{
 			if (!string.Equals(this.ConceptClass, concept.ClassKey.ToString()))
 			{
@@ -140,7 +127,18 @@ namespace OpenIZAdmin.Models.ConceptModels
 
 			concept.Mnemonic = this.Mnemonic;
 
-			return concept;
+            //if (!this.AddReferenceTermList.Any()) return concept;
+
+            //foreach (var referenceTerm in this.AddReferenceTermList)
+            //{
+            //    Guid id;
+            //    if (Guid.TryParse(referenceTerm, out id))
+            //    {
+            //        //concept..ConceptsXml.Add(id);
+            //    }
+            //}
+
+            return concept;
 		}
 	}
 }

@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Query;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -48,11 +49,50 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
-		/// <summary>
-		/// Displays the create view.
+        /// <summary>
+		/// Adds a ReferenceTerm to a Concept.
 		/// </summary>
-		/// <returns>Returns the create view.</returns>
+		/// <param name="id">The concept identifier.</param>
+		/// <param name="versionId">The concept version identifier.</param>
+		/// <returns>ActionResult.</returns>
 		[HttpGet]
+		public ActionResult AddReferenceTerm(Guid id, Guid versionId)
+        {
+            try
+            {
+                var concept = ImsiClient.Get<Concept>(id, versionId) as Concept;
+
+                if (concept == null)
+                {
+                    TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+                    return RedirectToAction("Index");
+                }
+
+                var model = new CreateConceptModel
+                {
+                    ConceptClassList = this.GetConceptClasses().ToSelectList().OrderBy(c => c.Text).ToList(),
+                    Language = Locale.EN,
+                    LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList()
+                };
+
+                return RedirectToAction("Index");
+            }
+            catch (Exception e)
+            {
+                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+                Trace.TraceError($"Unable to retrieve concept: { e }");
+            }
+
+            TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Displays the create view.
+        /// </summary>
+        /// <returns>Returns the create view.</returns>
+        [HttpGet]
 		public ActionResult Create()
 		{
 			var model = new CreateConceptModel
@@ -217,11 +257,24 @@ namespace OpenIZAdmin.Controllers
 
 					concept = model.ToEditConceptModel(concept);
 
-					var result = this.ImsiClient.Update<Concept>(concept);
+				    if (model.AddReferenceTermList.Any())
+				    {
+				        foreach (var referenceTerm in model.AddReferenceTermList)
+				        {				            
+				            Guid id;
+				            if (Guid.TryParse(referenceTerm, out id))
+				            {                                
+                                var term = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
+                                if(term != null) concept.ReferenceTerms.Add(new ConceptReferenceTerm(term.Key, ConceptRelationshipTypeKeys.SameAs));
+                            }
+				        }
+				    }
+
+				    var result = this.ImsiClient.Update<Concept>(concept);
 
 					TempData["success"] = Locale.Concept + " " + Locale.Updated + " " + Locale.Successfully;
 
-					return RedirectToAction("Edit", new { id = result.Key });
+					return RedirectToAction("ViewConcept", new { id = result.Key, versionId = result.VersionKey });
 				}
 			}
 			catch (Exception e)
@@ -252,8 +305,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		[ValidateInput(false)]
 		public ActionResult Search(string searchTerm)
-		{
-            //var results = new List<ConceptSearchResultViewModel>();
+		{            
             var results = new List<ConceptViewModel>();
 
             try
@@ -264,15 +316,13 @@ namespace OpenIZAdmin.Controllers
 
 					if (searchTerm == "*")
 					{
-						bundle = this.ImsiClient.Query<Concept>(c => c.ObsoletionTime == null);
-						//results = bundle.Item.OfType<Concept>().LatestVersionOnly().Select(p => new ConceptSearchResultViewModel(p)).ToList();
+						bundle = this.ImsiClient.Query<Concept>(c => c.ObsoletionTime == null);						
                         results = bundle.Item.OfType<Concept>().LatestVersionOnly().Select(p => new ConceptViewModel(p)).ToList();
                     }
 					else
 					{
-						bundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
-						//results = bundle.Item.OfType<Concept>().LatestVersionOnly().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ConceptSearchResultViewModel(p)).ToList();
-                        results = bundle.Item.OfType<Concept>().LatestVersionOnly().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ConceptViewModel(p)).ToList();
+						bundle = this.ImsiClient.Query<Concept>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);						                        
+                        results = bundle.Item.OfType<Concept>().LatestVersionOnly().Select(p => new ConceptViewModel(p)).ToList();
                     }
 
 					TempData["searchTerm"] = searchTerm;
@@ -292,13 +342,35 @@ namespace OpenIZAdmin.Controllers
 			return PartialView("_ConceptSearchResultsPartial", results);
 		}
 
-		/// <summary>
-		/// Retrieves the Concept by identifier
+        /// <summary>
+		/// Searches for a user.
 		/// </summary>
-		/// <param name="id">The identifier of the Concept</param>
-		/// <param name="versionId">The version identifier (Guid) of the concept instance.</param>
-		/// <returns>Returns the concept view.</returns>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns a list of users which match the search term.</returns>
 		[HttpGet]
+        public ActionResult SearchAjax(string searchTerm)
+        {
+            var viewModels = new List<ReferenceTermViewModel>();
+
+            var query = new List<KeyValuePair<string, object>>();
+
+            query.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm)));
+            query.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.ObsoletionTime == null));
+
+            var bundle = this.ImsiClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(query.ToArray())));
+
+            viewModels.AddRange(bundle.Item.OfType<ReferenceTerm>().Select(c => new ReferenceTermViewModel(c)));
+
+            return Json(viewModels.OrderBy(c => c.Mnemonic).ToList(), JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Retrieves the Concept by identifier
+        /// </summary>
+        /// <param name="id">The identifier of the Concept</param>
+        /// <param name="versionId">The version identifier (Guid) of the concept instance.</param>
+        /// <returns>Returns the concept view.</returns>
+        [HttpGet]
 		public ActionResult ViewConcept(Guid id, Guid? versionId)
 		{
 			try

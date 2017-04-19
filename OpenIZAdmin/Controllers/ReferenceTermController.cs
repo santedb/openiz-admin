@@ -40,45 +40,7 @@ namespace OpenIZAdmin.Controllers
 	/// </summary>
 	[TokenAuthorize]
 	public class ReferenceTermController : MetadataController
-    {
-        /// <summary>
-		/// Activates the specified identifier.
-		/// </summary>
-		/// <param name="id">The identifier.</param>
-		/// <returns>ActionResult.</returns>
-		public ActionResult Activate(Guid id)
-        {
-            try
-            {
-                var referenceTerm = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
-
-                if (referenceTerm == null)
-                {
-                    TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
-
-                    return RedirectToAction("Index");
-                }
-                                
-                referenceTerm.ObsoletedByKey = null;
-                referenceTerm.ObsoletionTime = null;
-
-                var result = this.ImsiClient.Update(referenceTerm);
-
-                TempData["success"] = Locale.ReferenceTerm + " " + Locale.Activated + " " + Locale.Successfully;
-
-                return RedirectToAction("ViewReferenceTerm", new { id = result.Key });
-            }
-            catch (Exception e)
-            {
-                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-                Trace.TraceError($"Unable to activate reference term: { e }");
-            }
-
-            TempData["error"] = Locale.UnableToActivate + " " + Locale.ReferenceTerm;
-
-            return RedirectToAction("Index");
-        }
-
+    {       
         /// <summary>
         /// Displays the create view.
         /// </summary>
@@ -277,17 +239,19 @@ namespace OpenIZAdmin.Controllers
 
 				if (searchTerm == "*")
 				{
-                    //bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.ObsoletionTime == null);
+                    bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.ObsoletionTime == null);
                     //results = bundle.Item.OfType<ReferenceTerm>().Select(p => new ReferenceTermSearchResultsViewModel(p)).ToList();
-                    bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Key != null);
+                    //bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Key != null || c.Key == null);
                     results = bundle.Item.OfType<ReferenceTerm>().Select(p => new ReferenceTermViewModel(p)).ToList();
                 }
 				else
 				{
-                    //bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
+                    bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
                     //results = bundle.Item.OfType<ReferenceTerm>().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ReferenceTermSearchResultsViewModel(p)).ToList();
-                    bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm) && c.Key != null);
-                    results = bundle.Item.OfType<ReferenceTerm>().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ReferenceTermViewModel(p)).ToList();
+                    //bundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm) && (c.Key != null || c.Key == null));
+                    results = bundle.Item.OfType<ReferenceTerm>().Select(p => new ReferenceTermViewModel(p)).ToList();
+                    //results = bundle.Item.OfType<ReferenceTerm>().Where(c => c.Mnemonic.Contains(searchTerm) && (c.Key != null || c.Key == null)).Select(p => new ReferenceTermViewModel(p)).ToList();
+                    //results = bundle.Item.OfType<ReferenceTerm>().Where(c => c.Key != null || c.Key == null).Select(p => new ReferenceTermViewModel(p)).ToList();
                 }
 
 				TempData["searchTerm"] = searchTerm;
