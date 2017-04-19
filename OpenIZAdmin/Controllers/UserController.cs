@@ -321,6 +321,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "User";
+		    TempData["searchTerm"] = "*";
 			return View();
 		}
 
