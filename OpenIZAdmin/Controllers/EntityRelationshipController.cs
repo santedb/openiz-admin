@@ -22,6 +22,7 @@ using OpenIZAdmin.Localization;
 using System;
 using System.Diagnostics;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.EntityRelationshipModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -75,5 +76,45 @@ namespace OpenIZAdmin.Controllers
 
 			return RedirectToAction("Edit" + type, type, new { id = sourceId, versionId = versionKey });
 		}
+
+        /// <summary>
+        /// Edits the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="sourceId">The source identifier.</param>	
+        /// <param name="type">The type.</param>	
+        /// <returns>ActionResult.</returns>
+        [HttpGet]
+	    public ActionResult Edit(Guid id, Guid sourceId, string type)
+	    {	      
+	        Guid? versionKey = null;
+
+	        try
+	        {
+                var modelType = this.GetModelType(type);
+                var entity = this.GetEntity(sourceId, modelType);
+                versionKey = entity.VersionKey;
+
+                //entity.Relationships.RemoveAll(r => r.Key == id);
+
+                //var updatedEntity = this.UpdateEntity(entity, modelType);
+
+                //this.TempData["success"] = Locale.Relationship + " " + Locale.Deleted + " " + Locale.Successfully;
+
+                //return RedirectToAction("Edit", type, new { id = updatedEntity.Key.Value, versionId = updatedEntity.VersionKey.Value });
+	            return View(new EntityRelationshipModel(id, sourceId, (Guid)versionKey));
+	        }
+	        catch (Exception e)
+	        {
+	            ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context)
+	                .Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+	            Trace.TraceError($"Unable to delete entity relationship: {e}");
+	        }
+
+	        this.TempData["error"] = Locale.UnableTo + " " + Locale.Edit + " " + Locale.Relationship;
+
+	        return RedirectToAction("Edit" + type, type, new {id = sourceId, versionId = versionKey});
+	     
+	    }
 	}
 }

@@ -26,7 +26,7 @@
                                 <td>@item.TargetTypeConcept</td>
                                 <td>@(item.Quantity ?? 0)</td>
                                 <td class="autoFitContents centerContent">
-                                    <a class="btn btn-warning" href="@Url.Action("Edit", "EntityRelationship", new { id = item.Id, sourceId = item.SourceId })">
+                                    <a class="btn btn-warning" href="@Url.Action("Edit", "EntityRelationship", new { id = item.Id, sourceId = item.SourceId, type = item.SourceType })">
                                         @Locale.Edit
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>

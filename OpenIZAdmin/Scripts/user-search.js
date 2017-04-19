@@ -34,7 +34,7 @@
         minimumInputLength: 4,
         templateResult: function (data)
         {
-            return "<span class='glyphicon glyphicon-user'>" + data.text + "</span>";
+            return "<span class='glyphicon glyphicon-user'> " + data.text + "</span>";
         },
         templateSelection: function (data)
         {
