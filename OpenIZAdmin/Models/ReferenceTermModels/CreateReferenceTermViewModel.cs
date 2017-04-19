@@ -38,9 +38,9 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		/// Initializes a new instance of the <see cref="CreateReferenceTermViewModel"/> class.
 		/// </summary>
         public CreateReferenceTermViewModel()
-        {
-            LanguageList = new List<SelectListItem>();
+        {            
             CodeSystemList = new List<SelectListItem>();
+            LanguageList = new List<SelectListItem>();            
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
         /// Gets or sets the language list.
         /// </summary>
         /// <value>The language list.</value>
-        public List<SelectListItem> LanguageList { get; set; }
+        public List<SelectListItem> LanguageList { get; set; }        
 
         /// <summary>
         /// Converts an <see cref="CreateReferenceTermViewModel"/> instance to a <see cref="ReferenceTerm"/> instance.

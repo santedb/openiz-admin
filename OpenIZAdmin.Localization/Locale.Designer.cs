@@ -2446,6 +2446,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The relationship is required.
+        /// </summary>
+        public static string RelationshipRequired {
+            get {
+                return ResourceManager.GetString("RelationshipRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Relationships.
         /// </summary>
         public static string Relationships {
@@ -3216,6 +3225,15 @@ namespace OpenIZAdmin.Localization {
         public static string ToolTip_Priority {
             get {
                 return ResourceManager.GetString("ToolTip_Priority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The concept relationship.
+        /// </summary>
+        public static string ToolTip_RelationshipList {
+            get {
+                return ResourceManager.GetString("ToolTip_RelationshipList", resourceCulture);
             }
         }
         

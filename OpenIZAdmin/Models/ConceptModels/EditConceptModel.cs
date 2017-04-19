@@ -54,6 +54,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 			Languages = new List<LanguageViewModel>();
             AddReferenceTermList = new List<string>();
             ReferenceTermList = new List<SelectListItem>();
+            RelationshipList = new List<SelectListItem>();
         }
 
 		/// <summary>
@@ -72,11 +73,17 @@ namespace OpenIZAdmin.Models.ConceptModels
 			VersionKey = concept.VersionKey;
 		}
 
-		/// <summary>
-		/// Gets or sets the concept class.
-		/// </summary>
-		/// <value>The concept class.</value>
-		[Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
+        /// <summary>
+        /// Gets or sets the list of Concepts to add
+        /// </summary>
+        [Display(Name = "AddReferenceTerms", ResourceType = typeof(Localization.Locale))]
+        public List<string> AddReferenceTermList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the concept class.
+        /// </summary>
+        /// <value>The concept class.</value>
+        [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string ConceptClass { get; set; }
 
@@ -98,18 +105,27 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
 		public List<LanguageViewModel> Languages { get; set; }
-
-
-        /// <summary>
-        /// Gets or sets the list of Concepts to add
-        /// </summary>
-        [Display(Name = "AddReferenceTerms", ResourceType = typeof(Localization.Locale))]
-        public List<string> AddReferenceTermList { get; set; }
+        
 
         /// <summary>
         /// Gets or sets the concept list from the search parameters from the ajax search method
         /// </summary>
         public List<SelectListItem> ReferenceTermList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the relationship.
+        /// </summary>
+        /// <value>The relationship.</value>
+        [Display(Name = "Relationship", ResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "RelationshipRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        //[StringLength(2, ErrorMessageResourceName = "LanguagCodeTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string Relationship { get; set; }
+
+        /// <summary>
+        /// Gets or sets the concept relationship list.
+        /// </summary>
+        /// <value>The concept relationship list.</value>
+        public List<SelectListItem> RelationshipList { get; set; }
 
         /// <summary>
         /// Converts an <see cref="EditConceptModel"/> instance to a <see cref="Concept"/> instance.
@@ -126,18 +142,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 				};
 			}
 
-			concept.Mnemonic = this.Mnemonic;
-
-            //if (!this.AddReferenceTermList.Any()) return concept;
-
-            //foreach (var referenceTerm in this.AddReferenceTermList)
-            //{
-            //    Guid id;
-            //    if (Guid.TryParse(referenceTerm, out id))
-            //    {
-            //        //concept..ConceptsXml.Add(id);
-            //    }
-            //}
+			concept.Mnemonic = this.Mnemonic;            
 
             return concept;
 		}

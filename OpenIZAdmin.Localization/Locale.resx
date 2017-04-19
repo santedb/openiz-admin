@@ -1398,4 +1398,10 @@
   <data name="NoNewAppletsSubmitted" xml:space="preserve">
     <value>No new applets have been submitted</value>
   </data>
+  <data name="ToolTip_RelationshipList" xml:space="preserve">
+    <value>The concept relationship</value>
+  </data>
+  <data name="RelationshipRequired" xml:space="preserve">
+    <value>The relationship is required</value>
+  </data>
 </root>

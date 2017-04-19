@@ -24,7 +24,7 @@
             },
             cache: true
         },
-        maximumSelectionLength: 6,
+        maximumSelectionLength: 1,
         keepSearchResults: true,
         escapeMarkup: function (markup) { return markup; },
         minimumInputLength: 2,

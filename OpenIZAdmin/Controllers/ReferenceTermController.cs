@@ -49,7 +49,8 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Create()
 		{		                          
             var model = new CreateReferenceTermViewModel
-			{   CodeSystemList = this.GetCodeSystems().CollectionItem.ToSelectList("Oid", "Key").ToList(),
+			{
+                CodeSystemList = this.GetCodeSystems().CollectionItem.ToSelectList("Oid", "Key").ToList(),
                 LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList(),
 				TwoLetterCountryCode = Locale.EN
 			};

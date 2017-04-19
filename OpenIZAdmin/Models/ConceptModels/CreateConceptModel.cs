@@ -36,9 +36,9 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		public CreateConceptModel()
 		{
-			LanguageList = new List<SelectListItem>();
-			ConceptClassList = new List<SelectListItem>();
-		}
+            ConceptClassList = new List<SelectListItem>();
+            LanguageList = new List<SelectListItem>();			            
+        }
 
 		/// <summary>
 		/// Gets or sets the concept class.
@@ -77,7 +77,7 @@ namespace OpenIZAdmin.Models.ConceptModels
         [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         [StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
         public new string Name { get; set; }
-
+       
         /// <summary>
         /// Converts an <see cref="CreateConceptModel"/> instance to a <see cref="Concept"/> instance.
         /// </summary>

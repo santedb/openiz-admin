@@ -115,5 +115,30 @@ namespace OpenIZAdmin.Controllers
 
 			return referenceTerms;
 		}
-	}
+
+        /// <summary>
+		/// Gets the concept relationship types list.
+		/// </summary>		
+		/// <returns>Returns a list of relationship types for a given concept.</returns>
+		protected IEnumerable<ConceptRelationship> GetConceptRelationshipList()
+        {
+            var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Key != null);
+
+            bundle.Reconstitute();
+
+            var conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault();
+            if (conceptSet != null && conceptSet.Concepts.Any())
+            {
+                
+            }
+
+            //foreach (var relationship in bundle.Item.OfType<ConceptRelationship>())
+            //{
+            //    relationship.RelationshipType.Mnemonic
+            //}
+
+            return bundle.Item.OfType<ConceptRelationship>().ToList();            
+
+        }
+    }
 }

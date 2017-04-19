@@ -45,6 +45,14 @@
             </div>
 
             <div class="form-group">
+                @Html.LabelFor(m => m.Relationship, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.Relationship, Model.RelationshipList, new { @class = "form-control", title = Locale.ToolTip_RelationshipList })
+                    @Html.ValidationMessageFor(m => m.Relationship, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-md-offset-2 col-md-8">
                     <a href="@Url.Action("Index")" class="btn btn-danger">@Locale.Cancel</a>
                     @if (Model.IsObsolete)
