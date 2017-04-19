@@ -21,24 +21,21 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Elmah;
-using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Util;
 using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.LanguageModels;
 using OpenIZAdmin.Models.ReferenceTermModels;
 
 namespace OpenIZAdmin.Controllers
 {
-	/// <summary>
-	/// Provides operations for managing reference terms.
-	/// </summary>
-	[TokenAuthorize]
+    /// <summary>
+    /// Provides operations for managing reference terms.
+    /// </summary>
+    [TokenAuthorize]
 	public class ReferenceTermController : MetadataController
     {       
         /// <summary>

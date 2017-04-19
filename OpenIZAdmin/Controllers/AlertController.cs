@@ -24,14 +24,12 @@ using OpenIZ.Core.Model.AMI.Alerting;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AlertModels;
-using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.Security;
-using OpenIZ.Messaging.AMI.Client;
 
 namespace OpenIZAdmin.Controllers
 {

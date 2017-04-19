@@ -25,22 +25,18 @@ using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.AppletModels;
 using OpenIZAdmin.Models.CertificateModels;
 using OpenIZAdmin.Models.DebugModels;
-using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.AMI.Diagnostics;
-using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Models.DeviceModels;
 
 namespace OpenIZAdmin.Controllers
 {
-	/// <summary>
-	/// Provides operations for generic use.
-	/// </summary>
-	[TokenAuthorize]
+    /// <summary>
+    /// Provides operations for generic use.
+    /// </summary>
+    [TokenAuthorize]
 	public class HomeController : BaseController
 	{
 		/// <summary>

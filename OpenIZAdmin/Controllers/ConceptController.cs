@@ -18,7 +18,6 @@
  */
 
 using Elmah;
-using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Attributes;
@@ -36,10 +35,10 @@ using OpenIZ.Core.Model.Query;
 
 namespace OpenIZAdmin.Controllers
 {
-	/// <summary>
-	/// Provides operations for managing concepts.
-	/// </summary>
-	[TokenAuthorize]
+    /// <summary>
+    /// Provides operations for managing concepts.
+    /// </summary>
+    [TokenAuthorize]
 	public class ConceptController : MetadataController
 	{
 		/// <summary>

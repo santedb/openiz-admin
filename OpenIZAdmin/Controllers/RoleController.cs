@@ -22,7 +22,6 @@ using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.RoleModels;
-using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -32,10 +31,10 @@ using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
-	/// <summary>
-	/// Provides operations for administering roles.
-	/// </summary>
-	[TokenAuthorize]
+    /// <summary>
+    /// Provides operations for administering roles.
+    /// </summary>
+    [TokenAuthorize]
 	public class RoleController : SecurityBaseController
 	{
 		/// <summary>

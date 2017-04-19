@@ -18,7 +18,6 @@
  */
 
 using Elmah;
-using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Query;
 using OpenIZAdmin.Attributes;

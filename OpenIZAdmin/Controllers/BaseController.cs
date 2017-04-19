@@ -28,25 +28,21 @@ using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.Caching;
 using System.Security.Principal;
 using System.Web;
-using System.Web.DynamicData;
 using System.Web.Mvc;
-using Elmah;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Models.RoleModels;
 
 namespace OpenIZAdmin.Controllers
 {
-	/// <summary>
-	/// Represents a base controller.
-	/// </summary>
-	[TokenAuthorize]
+    /// <summary>
+    /// Represents a base controller.
+    /// </summary>
+    [TokenAuthorize]
 	public abstract class BaseController : Controller
 	{
 		/// <summary>

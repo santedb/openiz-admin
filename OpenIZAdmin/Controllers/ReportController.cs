@@ -20,11 +20,8 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using Elmah;
-using OpenIZ.Messaging.AMI.Client;
-using OpenIZ.Messaging.IMSI.Client;
 using OpenIZ.Messaging.RISI.Client;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ReportModels;
@@ -33,11 +30,11 @@ using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin.Controllers
 {
-	/// <summary>
-	/// Represents a report controller.
-	/// </summary>
-	/// <seealso cref="OpenIZAdmin.Controllers.MetadataController" />
-	public class ReportController : MetadataController
+    /// <summary>
+    /// Represents a report controller.
+    /// </summary>
+    /// <seealso cref="OpenIZAdmin.Controllers.MetadataController" />
+    public class ReportController : MetadataController
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ReportController"/> class.

@@ -19,25 +19,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
-using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ApplicationModels;
 using OpenIZAdmin.Models.DeviceModels;
 using OpenIZAdmin.Models.PolicyModels;
 using OpenIZAdmin.Models.RoleModels;
-using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Controllers
 {
-	/// <summary>
-	/// Represents a base controller for security actions.
-	/// </summary>
-	/// <seealso cref="OpenIZAdmin.Controllers.BaseController" />
-	[TokenAuthorize]
+    /// <summary>
+    /// Represents a base controller for security actions.
+    /// </summary>
+    /// <seealso cref="OpenIZAdmin.Controllers.BaseController" />
+    [TokenAuthorize]
 	public abstract class SecurityBaseController : BaseController
 	{
 		/// <summary>

@@ -19,12 +19,10 @@
 
 using Elmah;
 using OpenIZ.Core.Applets.Model;
-using OpenIZ.Core.Model.AMI.Applet;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AppletModels;
-using OpenIZAdmin.Util;
 using System;
 using System.IO;
 using System.IO.Compression;
@@ -34,10 +32,10 @@ using System.Xml.Serialization;
 
 namespace OpenIZAdmin.Controllers
 {
-	/// <summary>
-	/// Provides operations for managing applets.
-	/// </summary>
-	[TokenAuthorize]
+    /// <summary>
+    /// Provides operations for managing applets.
+    /// </summary>
+    [TokenAuthorize]
 	public class AppletController : BaseController
 	{
 		/// <summary>

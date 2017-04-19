@@ -22,19 +22,17 @@ using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.PolicyModels;
-using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Controllers
 {
-	/// <summary>
-	/// Provides operations for administering policies.
-	/// </summary>
-	[TokenAuthorize]
+    /// <summary>
+    /// Provides operations for administering policies.
+    /// </summary>
+    [TokenAuthorize]
 	public class PolicyController : BaseController
 	{
 		/// <summary>
