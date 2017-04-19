@@ -96,42 +96,43 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-		/// <summary>
-		/// Removes the selected Concept from the Concept Set
-		/// </summary>
-		/// <param name="setId"> The Guid of the Concept</param>
-		/// <returns></returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Delete(Guid setId)
-		{
-			try
-			{
-				var conceptSet = this.ImsiClient.Get<ConceptSet>(setId, null) as ConceptSet;
+        /////////-------------REMOVED as per Paul/Nityan 2017-4-19
+		///// <summary>
+		///// Removes the selected Concept from the Concept Set
+		///// </summary>
+		///// <param name="setId"> The Guid of the Concept</param>
+		///// <returns></returns>
+		//[HttpPost]
+		//[ValidateAntiForgeryToken]
+		//public ActionResult Delete(Guid setId)
+		//{
+		//	try
+		//	{
+		//		var conceptSet = this.ImsiClient.Get<ConceptSet>(setId, null) as ConceptSet;
 
-				if (conceptSet == null)
-				{
-					TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
-					return RedirectToAction("Index");
-				}
+		//		if (conceptSet == null)
+		//		{
+		//			TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
+		//			return RedirectToAction("Index");
+		//		}
 
-				if (conceptSet.Concepts.Any())
-				{
-					TempData["error"] = Locale.UnableTo + " " + Locale.Delete + ". " + Locale.ConceptSet + " " + Locale.ContainsConcepts;
-					return RedirectToAction("ViewConceptSet", "ConceptSet", new { id = setId });
-				}
+		//		if (conceptSet.Concepts.Any())
+		//		{
+		//			TempData["error"] = Locale.UnableTo + " " + Locale.Delete + ". " + Locale.ConceptSet + " " + Locale.ContainsConcepts;
+		//			return RedirectToAction("ViewConceptSet", "ConceptSet", new { id = setId });
+		//		}
 
-				this.ImsiClient.Obsolete<ConceptSet>(conceptSet);
-			}
-			catch (Exception e)
-			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				Trace.TraceError($"Unable to delete concept set: {e}");
-			}
+		//		this.ImsiClient.Obsolete<ConceptSet>(conceptSet);
+		//	}
+		//	catch (Exception e)
+		//	{
+		//		ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+		//		Trace.TraceError($"Unable to delete concept set: {e}");
+		//	}
 
-			TempData["success"] = Locale.ConceptSet + " " + Locale.Deleted + " " + Locale.Successfully;
-			return RedirectToAction("Index");
-		}
+		//	TempData["success"] = Locale.ConceptSet + " " + Locale.Deleted + " " + Locale.Successfully;
+		//	return RedirectToAction("Index");
+		//}
 
 		/// <summary>
 		///
@@ -272,7 +273,7 @@ namespace OpenIZAdmin.Controllers
 		[ValidateInput(false)]
 		public ActionResult Search(string searchTerm)
 		{
-			var results = new List<ConceptSetSearchResultViewModel>();
+			var results = new List<ConceptSetViewModel>();
 
 			try
 			{
@@ -283,12 +284,12 @@ namespace OpenIZAdmin.Controllers
 					if (searchTerm == "*")
 					{
 						bundle = this.ImsiClient.Query<ConceptSet>(c => c.ObsoletionTime == null);
-						results = bundle.Item.OfType<ConceptSet>().Select(p => new ConceptSetSearchResultViewModel(p)).ToList();
+						results = bundle.Item.OfType<ConceptSet>().Select(p => new ConceptSetViewModel(p)).ToList();
 					}
 					else
 					{
 						bundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
-						results = bundle.Item.OfType<ConceptSet>().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ConceptSetSearchResultViewModel(p)).ToList();
+						results = bundle.Item.OfType<ConceptSet>().Where(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null).Select(p => new ConceptSetViewModel(p)).ToList();
 					}
 
 					TempData["searchTerm"] = searchTerm;

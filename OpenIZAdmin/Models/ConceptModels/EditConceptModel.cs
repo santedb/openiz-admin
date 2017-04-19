@@ -103,6 +103,7 @@ namespace OpenIZAdmin.Models.ConceptModels
         /// <summary>
         /// Gets or sets the list of Concepts to add
         /// </summary>
+        [Display(Name = "AddReferenceTerms", ResourceType = typeof(Localization.Locale))]
         public List<string> AddReferenceTermList { get; set; }
 
         /// <summary>

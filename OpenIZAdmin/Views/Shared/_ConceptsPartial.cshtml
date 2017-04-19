@@ -12,7 +12,7 @@
                         <th>@Locale.ConceptClass</th>
                         <th>@Locale.Mnemonic</th>
                         <th>@Locale.Names</th>
-                        <th>@Locale.Status</th>
+                        @*<th>@Locale.Status</th>*@
                     </tr>
                     </thead>
                     <tbody>
@@ -24,7 +24,7 @@
                             <td>@item.Class</td>
                             <td>@item.Mnemonic</td>
                             <td>@item.ConceptNames</td>
-                            <td>@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
+                            @*<td>@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>*@
                         </tr>
                     }   
                                              
