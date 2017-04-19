@@ -341,7 +341,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var viewModel = new ConceptSetViewModel(conceptSet);
+				var viewModel = new ConceptSetViewModel(conceptSet, true);
 
 				return View(viewModel);
 			}
