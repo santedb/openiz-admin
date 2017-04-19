@@ -14,8 +14,10 @@
         </div>
     </div>
     <div class="panel panel-body">
-        <table class="table table-striped table-bordered" id="appletsTable">
-            <thead>
+        @if (Model.Any())
+        {
+            <table class="table table-striped table-bordered" id="appletsTable">
+                <thead>
                 <tr>
                     <th>@Locale.Author</th>
                     <th>@Locale.Group</th>
@@ -23,8 +25,8 @@
                     <th>@Locale.Version</th>
                     <th></th>
                 </tr>
-            </thead>
-            <tbody>
+                </thead>
+                <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
@@ -46,9 +48,14 @@
                                 <span class="glyphicon glyphicon-download"></span>
                             </a>
                         </td>
-                    </tr>}
-            </tbody>
-        </table>
-
+                    </tr>
+                }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>@Locale.NoNewAppletsSubmitted</p>
+        }
     </div>
 </div>

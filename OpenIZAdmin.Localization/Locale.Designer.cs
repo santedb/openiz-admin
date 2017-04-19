@@ -142,6 +142,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Reference Terms.
+        /// </summary>
+        public static string AddReferenceTerms {
+            get {
+                return ResourceManager.GetString("AddReferenceTerms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Address.
         /// </summary>
         public static string Address {
@@ -1938,6 +1947,15 @@ namespace OpenIZAdmin.Localization {
         public static string NoLanguagesAssigned {
             get {
                 return ResourceManager.GetString("NoLanguagesAssigned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No new applets have been submitted.
+        /// </summary>
+        public static string NoNewAppletsSubmitted {
+            get {
+                return ResourceManager.GetString("NoNewAppletsSubmitted", resourceCulture);
             }
         }
         

@@ -49,44 +49,47 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
-        /// <summary>
-		/// Adds a ReferenceTerm to a Concept.
-		/// </summary>
-		/// <param name="id">The concept identifier.</param>
-		/// <param name="versionId">The concept version identifier.</param>
-		/// <returns>ActionResult.</returns>
-		[HttpGet]
-		public ActionResult AddReferenceTerm(Guid id, Guid versionId)
-        {
-            try
-            {
-                var concept = ImsiClient.Get<Concept>(id, versionId) as Concept;
 
-                if (concept == null)
-                {
-                    TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-                    return RedirectToAction("Index");
-                }
+        ///////////////---------REMOVED - able to add reference terms using autosearch DDL
+        //////////////----------adding reference terms is accomplished by searching/selecting and then submit
+  //      /// <summary>
+		///// Adds a ReferenceTerm to a Concept.
+		///// </summary>
+		///// <param name="id">The concept identifier.</param>
+		///// <param name="versionId">The concept version identifier.</param>
+		///// <returns>ActionResult.</returns>
+		//[HttpGet]
+		//public ActionResult AddReferenceTerm(Guid id, Guid versionId)
+  //      {
+  //          try
+  //          {
+  //              var concept = ImsiClient.Get<Concept>(id, versionId) as Concept;
 
-                var model = new CreateConceptModel
-                {
-                    ConceptClassList = this.GetConceptClasses().ToSelectList().OrderBy(c => c.Text).ToList(),
-                    Language = Locale.EN,
-                    LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList()
-                };
+  //              if (concept == null)
+  //              {
+  //                  TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+  //                  return RedirectToAction("Index");
+  //              }
 
-                return RedirectToAction("Index");
-            }
-            catch (Exception e)
-            {
-                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-                Trace.TraceError($"Unable to retrieve concept: { e }");
-            }
+  //              var model = new CreateConceptModel
+  //              {
+  //                  ConceptClassList = this.GetConceptClasses().ToSelectList().OrderBy(c => c.Text).ToList(),
+  //                  Language = Locale.EN,
+  //                  LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList()
+  //              };
 
-            TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+  //              return RedirectToAction("Index");
+  //          }
+  //          catch (Exception e)
+  //          {
+  //              ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+  //              Trace.TraceError($"Unable to retrieve concept: { e }");
+  //          }
 
-            return RedirectToAction("Index");
-        }
+  //          TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+
+  //          return RedirectToAction("Index");
+  //      }
 
         /// <summary>
         /// Displays the create view.
