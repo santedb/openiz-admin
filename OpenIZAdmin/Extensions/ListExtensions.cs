@@ -31,34 +31,10 @@ using OpenIZAdmin.Localization;
 namespace OpenIZAdmin.Extensions
 {
 	/// <summary>
-	/// Represents a collection of extension methods for the <see cref="List{T}"/> class.
+	/// Represents a collection of extension methods for the <see cref="List{T}" /> class.
 	/// </summary>
 	public static class ListExtensions
 	{
-		/// <summary>
-		/// Replaces an element in a list.
-		/// </summary>
-		/// <typeparam name="T">The type of the list.</typeparam>
-		/// <param name="source">The list to perform the replace operation on.</param>
-		/// <param name="match">The predicate match.</param>
-		/// <param name="value">The new value to be inserted into the list.</param>
-		/// <returns>Returns the list with the update value.</returns>
-		public static IEnumerable<T> Replace<T>(this IEnumerable<T> source, Predicate<T> match, T value)
-		{
-			var clonedList = source.ToList();
-
-			var index = source.ToList().FindIndex(match);
-
-			if (index == -1)
-			{
-				throw new Exception($"Item not found using predicate {match}");
-			}
-
-			clonedList[index] = value;
-
-			return clonedList.AsEnumerable();
-		}
-
 		/// <summary>
 		/// Converts a list of items to a select list.
 		/// </summary>

@@ -302,6 +302,11 @@
             Should serialize quantity
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Acts.ActParticipation.ShouldSerializeActKey">
+            <summary>
+            Should serialize act key
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Acts.ActProtocol">
             <summary>
             Represents information related to the clinical protocol to which an act is a member of
@@ -4363,6 +4368,31 @@
             Get relationships
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Model.Extensions.DictionaryExtensionHandler">
+            <summary>
+            Extension that emits data as kvp
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Extensions.DictionaryExtensionHandler.Name">
+            <summary>
+            Gets the name of the extension
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Extensions.DictionaryExtensionHandler.DeSerialize(System.Byte[])">
+            <summary>
+            Deserialize data from the extension
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Extensions.DictionaryExtensionHandler.GetDisplay(System.Object)">
+            <summary>
+            Get display value
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Extensions.DictionaryExtensionHandler.Serialize(System.Object)">
+            <summary>
+            Serialize actual data
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.LoadState">
             <summary>
             Identifies the state of loading of the object
@@ -5405,64 +5435,21 @@
             Reflection tools
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.ExtensionMethods.Convert``1(System.Object)">
-            <summary>
-            The purpose of this method is to convert object <paramref name="me"/> to <typeparamref name="TReturn"/>. Why? 
-            Because if you have an instance of Act that actually needs to be a SubstanceAdministration we can't just cast
-            so we have to copy.
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.ExtensionMethods.HashCode(System.Byte[])">
-            <summary>
-            Compute a basic hash string
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.ExtensionMethods.SemanticEquals``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">
-            <summary>
-            Determine semantic equality of each item in me and other
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.ExtensionMethods.StripGeneric(System.Type)">
-            <summary>
-            Strips list
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.ExtensionMethods.StripNullable(System.Type)">
-            <summary>
-            Strips any nullable typing
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.ExtensionMethods.CopyObjectData``1(``0,``0)">
-            <summary>
-            Update property data if required
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.ExtensionMethods.IsActive(System.Linq.Expressions.Expression,System.Object)">
-            <summary>
-            Create a version filter
-            </summary>
-            <typeparam name="TDomain"></typeparam>
-            <param name="parm"></param>
-            <param name="domainInstance"></param>
-            <returns></returns>
-        </member>
-        <member name="M:OpenIZ.Core.Model.ExtensionMethods.IsActive(System.Linq.Expressions.Expression)">
-            <summary>
-            Create a version filter
-            </summary>
-            <typeparam name="TDomain"></typeparam>
-            <param name="parm"></param>
-            <param name="domainInstance"></param>
-            <returns></returns>
-        </member>
         <member name="M:OpenIZ.Core.Model.ExtensionMethods.Aggregate(System.Linq.Expressions.Expression,OpenIZ.Core.Model.Map.AggregationFunctionType)">
             <summary>
             Create aggregation functions
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.ExtensionMethods.Sort(System.Linq.Expressions.Expression,System.String,OpenIZ.Core.Model.Map.SortOrderType)">
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.Convert``1(System.Object)">
             <summary>
-            Create sort expression
+            The purpose of this method is to convert object <paramref name="me"/> to <typeparamref name="TReturn"/>. Why?
+            Because if you have an instance of Act that actually needs to be a SubstanceAdministration we can't just cast
+            so we have to copy.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.CopyObjectData``1(``0,``0)">
+            <summary>
+            Update property data if required
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.ExtensionMethods.GetGenericMethod(System.Type,System.String,System.Type[],System.Type[])">
@@ -5474,6 +5461,62 @@
             <summary>
             Get a property based on XML property and/or serialization redirect
             </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.HashCode(System.Byte[])">
+            <summary>
+            Compute a basic hash string
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.IsActive(System.Linq.Expressions.Expression,System.Object)">
+            <summary>
+            Create a version filter
+            </summary>
+            <param name="me">Me.</param>
+            <param name="domainInstance">The domain instance.</param>
+            <returns>Expression.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.IsActive(System.Linq.Expressions.Expression)">
+            <summary>
+            Create a version filter
+            </summary>
+            <param name="me">Me.</param>
+            <returns>Expression.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.LatestVersionOnly``1(System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Gets the latest version of the versioned entity data instance from a given list.
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="source">The source.</param>
+            <returns>Returns a list of the versioned entity data which contains only the latest version of the entity.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.SemanticEquals``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">
+            <summary>
+            Determine semantic equality of each item in me and other
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.Sort(System.Linq.Expressions.Expression,System.String,OpenIZ.Core.Model.Map.SortOrderType)">
+            <summary>
+            Create sort expression.
+            </summary>
+            <param name="me">Me.</param>
+            <param name="orderByProperty">The order by property.</param>
+            <param name="sortOrder">The sort order.</param>
+            <returns>Expression.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.StripGeneric(System.Type)">
+            <summary>
+            Strips list
+            </summary>
+            <param name="t">The type.</param>
+            <returns>Returns the type.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.StripNullable(System.Type)">
+            <summary>
+            Strips any nullable typing.
+            </summary>
+            <param name="t">The typ.</param>
+            <returns>Returns the type.</returns>
         </member>
         <member name="T:OpenIZ.Core.Model.Roles.Patient">
             <summary>
