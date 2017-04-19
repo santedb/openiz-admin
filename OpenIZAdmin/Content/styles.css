@@ -193,13 +193,21 @@ div.content .panel-body {
 	color: #fff;
 	font-size: 0.9em;
 }
-.nav-sidebar > .active > a,
+/*.nav-sidebar > .active > a,
 .nav-sidebar > .active > a:hover,
 .nav-sidebar > .active > a:focus {
-	color: #fff;
+	color: #884EA0  ;
 	background-color: #28567c;
-}
+    opacity: 0.2;
+}*/
 
+.nav > li > .active > a,
+.nav > li > a:hover,
+.nav > li > a:focus {
+    color: #ffffff;    
+    text-decoration: none;
+    background-color: #797D7F;    
+}
 
 /*
  * Dashboard CSS

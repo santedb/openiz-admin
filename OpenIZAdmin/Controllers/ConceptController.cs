@@ -162,7 +162,7 @@ namespace OpenIZAdmin.Controllers
 				var model = new EditConceptModel(concept)
 				{
 					LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList()
-				};
+				};			    
 
 				var conceptClasses = this.GetConceptClasses();
 				model.ConceptClassList.AddRange(conceptClasses.ToSelectList().OrderBy(c => c.Text));
@@ -222,10 +222,11 @@ namespace OpenIZAdmin.Controllers
 				        foreach (var referenceTerm in model.AddReferenceTermList)
 				        {				            
 				            Guid id;
-				            if (Guid.TryParse(referenceTerm, out id))
+				            Guid relationshipKey;
+				            if (Guid.TryParse(referenceTerm, out id) && Guid.TryParse(model.RelationshipType, out relationshipKey))
 				            {                                
                                 var term = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
-                                if(term != null) concept.ReferenceTerms.Add(new ConceptReferenceTerm(term.Key, ConceptRelationshipTypeKeys.SameAs));
+                                if(term != null) concept.ReferenceTerms.Add(new ConceptReferenceTerm(term.Key, relationshipKey));
                             }
 				        }
 				    }

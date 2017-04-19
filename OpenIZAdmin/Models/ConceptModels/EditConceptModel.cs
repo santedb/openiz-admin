@@ -54,7 +54,15 @@ namespace OpenIZAdmin.Models.ConceptModels
 			Languages = new List<LanguageViewModel>();
             AddReferenceTermList = new List<string>();
             ReferenceTermList = new List<SelectListItem>();
-            RelationshipList = new List<SelectListItem>();
+
+            RelationshipTypeList = new List<SelectListItem>()
+            {
+                new SelectListItem() {Text = "", Value = ""},
+                new SelectListItem() {Text = "SameAs", Value = ConceptRelationshipTypeKeys.SameAs.ToString()},
+                new SelectListItem() {Text = "InverseOf", Value = ConceptRelationshipTypeKeys.InverseOf.ToString()},
+                new SelectListItem() {Text = "MemberOf", Value = ConceptRelationshipTypeKeys.MemberOf.ToString()},
+                new SelectListItem() {Text = "NegationOf", Value = ConceptRelationshipTypeKeys.NegationOf.ToString()}
+            };
         }
 
 		/// <summary>
@@ -70,7 +78,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 			Mnemonic = concept.Mnemonic;
 			Name = string.Join(" ", concept.ConceptNames.Select(c => c.Name));
 			Languages = concept.ConceptNames.Select(k => new LanguageViewModel(k.Language, k.Name, concept)).ToList();
-			VersionKey = concept.VersionKey;
+			VersionKey = concept.VersionKey;		    
 		}
 
         /// <summary>
@@ -84,7 +92,7 @@ namespace OpenIZAdmin.Models.ConceptModels
         /// </summary>
         /// <value>The concept class.</value>
         [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		//[Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string ConceptClass { get; set; }
 
 		/// <summary>
@@ -119,13 +127,13 @@ namespace OpenIZAdmin.Models.ConceptModels
         [Display(Name = "Relationship", ResourceType = typeof(Localization.Locale))]
         [Required(ErrorMessageResourceName = "RelationshipRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         //[StringLength(2, ErrorMessageResourceName = "LanguagCodeTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string Relationship { get; set; }
+        public string RelationshipType { get; set; }
 
         /// <summary>
         /// Gets or sets the concept relationship list.
         /// </summary>
         /// <value>The concept relationship list.</value>
-        public List<SelectListItem> RelationshipList { get; set; }
+        public List<SelectListItem> RelationshipTypeList { get; set; }
 
         /// <summary>
         /// Converts an <see cref="EditConceptModel"/> instance to a <see cref="Concept"/> instance.
@@ -146,5 +154,13 @@ namespace OpenIZAdmin.Models.ConceptModels
 
             return concept;
 		}
-	}
+
+        //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        //{
+        //    if (!string.IsNullOrWhiteSpace(RelationshipType) && !AddReferenceTermList.Any())
+        //    {
+        //        yield return new ValidationResult("Reference Term and Relattionship are both required");
+        //    }
+        //}
+    }
 }

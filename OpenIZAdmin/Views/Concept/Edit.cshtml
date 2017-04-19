@@ -45,10 +45,10 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.Relationship, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.RelationshipType, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.DropDownListFor(m => m.Relationship, Model.RelationshipList, new { @class = "form-control", title = Locale.ToolTip_RelationshipList })
-                    @Html.ValidationMessageFor(m => m.Relationship, "", new { @class = "text-danger" })
+                    @Html.DropDownListFor(m => m.RelationshipType, Model.RelationshipTypeList, new { @class = "form-control", title = Locale.ToolTip_RelationshipList })
+                    @Html.ValidationMessageFor(m => m.RelationshipType, "", new { @class = "text-danger" })
                 </div>
             </div>
 
