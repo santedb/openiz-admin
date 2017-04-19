@@ -292,10 +292,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				for (var i = 0; i < organization.Relationships.Count(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct && r.TargetEntity == null && r.TargetEntityKey.HasValue); i++)
-				{
-					organization.Relationships[i].TargetEntity = this.ImsiClient.Get<ManufacturedMaterial>(organization.Relationships[i].TargetEntityKey.Value, null) as ManufacturedMaterial;
-				}
+				organization.Relationships = this.GetEntityRelationships<Organization, ManufacturedMaterial>(organization.Key.Value, organization.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList();
 
 				var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
 
@@ -390,11 +387,23 @@ namespace OpenIZAdmin.Controllers
 				if (searchTerm == "*")
 				{
 					bundle = this.ImsiClient.Query<Organization>(p => p.ClassConceptKey == EntityClassKeys.Organization);
+
+					foreach (var organization in bundle.Item.OfType<Organization>().LatestVersionOnly())
+					{
+						organization.TypeConcept = this.GetTypeConcept(organization);
+					}
+
 					results = bundle.Item.OfType<Organization>().LatestVersionOnly().Select(p => new OrganizationSearchResultViewModel(p)).OrderBy(p => p.Name).ToList();
 				}
 				else
 				{
 					bundle = this.ImsiClient.Query<Organization>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material);
+
+					foreach (var organization in bundle.Item.OfType<Organization>().LatestVersionOnly())
+					{
+						organization.TypeConcept = this.GetTypeConcept(organization);
+					}
+
 					results = bundle.Item.OfType<Organization>().Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new OrganizationSearchResultViewModel(p)).OrderBy(p => p.Name).ToList();
 				}
 			}
@@ -424,10 +433,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				for (var i = 0; i < organization.Relationships.Count(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct && r.TargetEntity == null && r.TargetEntityKey.HasValue); i++)
-				{
-					organization.Relationships[i].TargetEntity = this.ImsiClient.Get<ManufacturedMaterial>(organization.Relationships[i].TargetEntityKey.Value, null) as ManufacturedMaterial;
-				}
+				organization.Relationships = this.GetEntityRelationships<Organization, ManufacturedMaterial>(organization.Key.Value, organization.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList();
 
 				return View(new OrganizationViewModel(organization));
 			}

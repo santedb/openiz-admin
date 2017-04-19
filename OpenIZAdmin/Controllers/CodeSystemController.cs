@@ -80,43 +80,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Deletes a concept.
-		/// </summary>
-		/// <param name="id">The id of the code system to delete.</param>
-		/// <returns>Returns the index view.</returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Delete(Guid id)
-		{
-			try
-			{
-				var codeSystem = this.AmiClient.GetCodeSystem(id.ToString());
-
-				if (codeSystem == null)
-				{
-					TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
-
-					return RedirectToAction("Index");
-				}
-
-				this.ImsiClient.Obsolete<CodeSystem>(codeSystem);
-
-				TempData["success"] = Locale.CodeSystem + " " + Locale.Deleted + " " + Locale.Successfully;
-
-				return RedirectToAction("Index");
-			}
-			catch (Exception e)
-			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				Trace.TraceError($"Unable to delete code system: {e}");
-			}
-
-			TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
-
-			return RedirectToAction("Index");
-		}
-
-		/// <summary>
 		/// Edits the specified concept.
 		/// </summary>
 		/// <param name="id">The identifier.</param>

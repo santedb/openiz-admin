@@ -29,12 +29,15 @@ using OpenIZAdmin.Services.Http.Security;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.Caching;
 using System.Security.Principal;
 using System.Web;
+using System.Web.DynamicData;
 using System.Web.Mvc;
+using Elmah;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Models.RoleModels;
 
@@ -292,7 +295,45 @@ namespace OpenIZAdmin.Controllers
 
 			bundle.Reconstitute();
 
-			return bundle.Item.OfType<T>().Where(query.Compile()).LatestVersionOnly().FirstOrDefault(query.Compile().Invoke);
+			var entity = bundle.Item.OfType<T>().Where(query.Compile()).LatestVersionOnly().FirstOrDefault(query.Compile().Invoke);
+
+			if (entity.TypeConceptKey.HasValue && entity.TypeConceptKey != Guid.Empty)
+			{
+				entity.TypeConcept = this.ImsiClient.Get<Concept>(entity.TypeConceptKey.Value, null) as Concept;
+			}
+
+			return entity;
+		}
+
+		/// <summary>
+		/// Gets the entity relationships.
+		/// </summary>
+		/// <typeparam name="TSourceType">The type of the source type.</typeparam>
+		/// <typeparam name="TTargetType">The type of the t target type.</typeparam>
+		/// <param name="id">The identifier.</param>
+		/// <param name="versionId">The version identifier.</param>
+		/// <param name="entityExpression">The entity expression.</param>
+		/// <param name="entityRelationshipExpression">The entity relationship expression.</param>
+		/// <returns>Returns a list of entity relationships for a given entity.</returns>
+		protected IEnumerable<EntityRelationship> GetEntityRelationships<TSourceType, TTargetType>(Guid id, Guid? versionId = null, Expression<Func<TSourceType, bool>> entityExpression = null, Expression < Func<EntityRelationship, bool>> entityRelationshipExpression = null) where TSourceType : Entity where TTargetType : Entity
+		{
+			var entity = this.GetEntity<TSourceType>(id, versionId, entityExpression);
+
+			Expression<Func<EntityRelationship, bool>> expression = r => r.TargetEntity == null && r.TargetEntityKey.HasValue && r.TargetEntityKey.Value != Guid.Empty;
+
+			if (entityRelationshipExpression != null)
+			{
+				var body = Expression.AndAlso(entityRelationshipExpression.Body, Expression.Invoke(expression, entityRelationshipExpression.Parameters[0]));
+
+				expression = Expression.Lambda<Func<EntityRelationship, bool>>(body, entityRelationshipExpression.Parameters);
+			}
+
+			foreach (var entityRelationship in entity.Relationships.Where(expression.Compile()))
+			{
+				entityRelationship.TargetEntity = this.ImsiClient.Get<TTargetType>(entityRelationship.TargetEntityKey.Value, null) as TTargetType;
+			}
+
+			return entity.Relationships;
 		}
 
 		/// <summary>
@@ -320,6 +361,33 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			return conceptSet;
+		}
+
+		/// <summary>
+		/// Gets the type concept.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="entity">The entity.</param>
+		/// <returns>Return the entity with a type concept value.</returns>
+		protected Concept GetTypeConcept<T>(T entity) where T : Entity
+		{
+			Concept typeConcept = null;
+
+			if (entity.TypeConceptKey.HasValue && entity.TypeConceptKey.Value != Guid.Empty)
+			{
+				typeConcept = MvcApplication.MemoryCache.Get(entity.TypeConceptKey.ToString()) as Concept;
+
+				if (typeConcept == null)
+				{
+					typeConcept = this.ImsiClient.Get<Concept>(entity.TypeConceptKey.Value, null) as Concept;
+
+					entity.TypeConceptKey = typeConcept.Key;
+
+					MvcApplication.MemoryCache.Set(entity.TypeConceptKey.ToString(), typeConcept, MvcApplication.CacheItemPolicy);
+				}
+			}
+
+			return typeConcept;
 		}
 
 		/// <summary>

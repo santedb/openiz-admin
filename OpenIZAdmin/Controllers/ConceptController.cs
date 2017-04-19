@@ -49,46 +49,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Activates the specified identifier.
-		/// </summary>
-		/// <param name="id">The identifier.</param>
-		/// <returns>ActionResult.</returns>
-		public ActionResult Activate(Guid id)
-		{
-			try
-			{
-				var concept = ImsiClient.Get<Concept>(id, null) as Concept;
-
-				if (concept == null)
-				{
-					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-					return RedirectToAction("Index");
-				}
-
-				concept.StatusConceptKey = StatusKeys.Active;
-				concept.CreationTime = DateTimeOffset.Now;
-				concept.ObsoletedByKey = null;
-				concept.ObsoletionTime = null;
-				concept.VersionKey = null;
-
-				var result = ImsiClient.Update(concept);
-
-				TempData["success"] = Locale.Concept + " " + Locale.Activated + " " + Locale.Successfully;
-
-				return RedirectToAction("ViewConcept", new { id = result.Key, versionId = result.VersionKey });
-			}
-			catch (Exception e)
-			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				Trace.TraceError($"Unable to activate concept: { e }");
-			}
-
-			TempData["error"] = Locale.UnableToActivate + " " + Locale.Concept;
-
-			return RedirectToAction("Index");
-		}
-
-		/// <summary>
 		/// Displays the create view.
 		/// </summary>
 		/// <returns>Returns the create view.</returns>
@@ -138,41 +98,6 @@ namespace OpenIZAdmin.Controllers
 			model.ConceptClassList = Guid.TryParse(model.ConceptClass, out conceptClass) ? this.GetConceptClasses().ToSelectList("Name", "Key", c => c.Key == conceptClass).OrderBy(c => c.Text).ToList() : this.GetConceptClasses().ToSelectList("Name", "Key").OrderBy(c => c.Text).ToList();
 
 			return View(model);
-		}
-
-		/// <summary>
-		/// Deletes a concept.
-		/// </summary>
-		/// <param name="id">The id of the concept to delete.</param>
-		/// <returns>Returns the index view.</returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Delete(Guid id)
-		{
-			try
-			{
-				var concept = this.ImsiClient.Get<Concept>(id, null) as Concept;
-
-				if (concept == null)
-				{
-					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-					return RedirectToAction("Index");
-				}
-
-				this.ImsiClient.Obsolete(concept);
-
-				TempData["success"] = Locale.Concept + " " + Locale.Deactivated + " " + Locale.Successfully;
-
-				return RedirectToAction("Index");
-			}
-			catch (Exception e)
-			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-			}
-
-			TempData["error"] = Locale.Concept + " " + Locale.NotFound;
-
-			return RedirectToAction("Index");
 		}
 
 		/// <summary>

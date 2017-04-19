@@ -35,15 +35,6 @@
                                     @Locale.Edit
                                     <span class="glyphicon glyphicon-pencil"></span>
                                 </a>
-                                @using (Html.BeginForm("Delete", "AssigningAuthority", new {id = item.Id}, FormMethod.Post, new {@class = "inlineForm form-horizontal", role = "form"}))
-                                {
-                                    @Html.AntiForgeryToken()
-
-                                    <button type="submit" class="btn btn-danger">
-                                        @Locale.Delete
-                                        <span class="glyphicon glyphicon-remove"></span>
-                                    </button>
-                                }
                             </td>
                         </tr>}
 

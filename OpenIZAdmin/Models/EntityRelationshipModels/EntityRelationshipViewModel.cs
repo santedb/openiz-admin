@@ -1,49 +1,49 @@
 ﻿/*
  * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you 
- * may not use this file except in compliance with the License. You may 
- * obtain a copy of the License at 
- * 
- * http://www.apache.org/licenses/LICENSE-2.0 
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the 
- * License for the specific language governing permissions and limitations under 
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * User: khannan
  * Date: 2017-3-27
  */
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+
+using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.Core;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace OpenIZAdmin.Models.EntityRelationshipModels
 {
 	/// <summary>
 	/// Represents an entity relationship view model.
 	/// </summary>
-	public class EntityRelationshipViewModel
+	public class EntityRelationshipViewModel : IdentifiedViewModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EntityRelationshipViewModel"/> class.
 		/// </summary>
 		public EntityRelationshipViewModel()
 		{
-			
 		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EntityRelationshipViewModel"/> class.
 		/// </summary>
 		/// <param name="id">The identifier.</param>
-		public EntityRelationshipViewModel(Guid id)
+		public EntityRelationshipViewModel(Guid id) : base(id)
 		{
 			this.Id = id;
 		}
@@ -62,9 +62,21 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		}
 
 		/// <summary>
-		/// Gets or sets the id of the entity relationship.
+		/// Initializes a new instance of the <see cref="EntityRelationshipViewModel"/> class.
 		/// </summary>
-		public Guid Id { get; set; }
+		/// <param name="baseEntityData">The base entity data.</param>
+		protected EntityRelationshipViewModel(BaseEntityData baseEntityData) : base(baseEntityData)
+		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EntityRelationshipViewModel"/> class.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <param name="creationTime">The creation time.</param>
+		protected EntityRelationshipViewModel(Guid id, DateTimeOffset creationTime) : base(id, creationTime)
+		{
+		}
 
 		/// <summary>
 		/// Gets or sets the quantity.
