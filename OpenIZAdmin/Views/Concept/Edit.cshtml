@@ -37,10 +37,10 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.AddReferenceTermList, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.AddReferenceTerm, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.AddReferenceTermList, Model.ReferenceTermList, new { @class = "reference-term-search form-control", multiple = "multiple", title = Locale.ToolTip_Policies })
-                    @Html.ValidationMessageFor(m => m.AddReferenceTermList, "", new { @class = "text-danger" })
+                    @Html.ListBoxFor(m => m.AddReferenceTerm, Model.ReferenceTermList, new { @class = "reference-term-search form-control", multiple = "multiple", title = Locale.ToolTip_Policies })
+                    @Html.ValidationMessageFor(m => m.AddReferenceTerm, "", new { @class = "text-danger" })
                 </div>
             </div>
 
