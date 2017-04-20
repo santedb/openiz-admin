@@ -54,7 +54,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 			ReferenceTerms = new List<ReferenceTermViewModel>();
 			Languages = new List<LanguageViewModel>();
             //AddReferenceTermList = new List<string>();
-            ReferenceTermList = new List<SelectListItem>();
+            ReferenceTermList = new List<SelectListItem>();            
 
             RelationshipTypeList = new List<SelectListItem>()
             {
@@ -83,9 +83,10 @@ namespace OpenIZAdmin.Models.ConceptModels
 		}
 
         /// <summary>
-        /// Gets or sets the list of Concepts to add
+        /// Gets or sets the reference term to add
         /// </summary>
-        [DependentPropertyValidator("RelationshipType", ErrorMessage = "Reference Term and Relationship Type are required to add a Reference Term.")]
+        //[Remote("HasRelationshipType", "Concept", AdditionalFields = "RelationshipType", ErrorMessage = "Select a relationship type for the reference term.")]
+        [DependentPropertyValidator("RelationshipType", ErrorMessage = "Reference Term and Relationship Type are required to add a Reference Term.")]        
         [Display(Name = "AddReferenceTerms", ResourceType = typeof(Localization.Locale))]
         //public List<string> AddReferenceTermList { get; set; }
         public string AddReferenceTerm { get; set; }
@@ -125,11 +126,9 @@ namespace OpenIZAdmin.Models.ConceptModels
         /// <summary>
         /// Gets or sets the relationship.
         /// </summary>
-        /// <value>The relationship.</value>
-        //[DependentPropertyValidator("AddReferenceTermList")]
+        /// <value>The relationship.</value>        
         [Display(Name = "Relationship", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "RelationshipRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        //[StringLength(2, ErrorMessageResourceName = "LanguagCodeTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+        //[Remote("HasReferenceTerm", "Concept", AdditionalFields = "AddReferenceTerm", ErrorMessage = "Select a reference term to add to the concept.")]        
         public string RelationshipType { get; set; }
 
         /// <summary>
@@ -154,20 +153,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 				};
 			}
 
-			concept.Mnemonic = this.Mnemonic;
-
-            //if (!AddReferenceTermList.Any() || string.IsNullOrWhiteSpace(RelationshipType)) return concept;
-
-            //foreach (var referenceTerm in AddReferenceTermList)
-            //{
-            //    Guid id, relationshipKey;
-
-            //    if (Guid.TryParse(referenceTerm, out id) && Guid.TryParse(RelationshipType, out relationshipKey))
-            //    {
-            //        var term = imsiServiceClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
-            //        if (term != null) concept.ReferenceTerms.Add(new ConceptReferenceTerm(term.Key, relationshipKey));
-            //    }
-            //}
+			concept.Mnemonic = this.Mnemonic;           
 
             if (string.IsNullOrWhiteSpace(AddReferenceTerm) || string.IsNullOrWhiteSpace(RelationshipType)) return concept;
             

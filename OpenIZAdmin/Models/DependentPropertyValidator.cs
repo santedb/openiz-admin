@@ -29,7 +29,7 @@ namespace OpenIZAdmin.Models
     /// <summary>
 	/// Custom validation for two properties.
 	/// </summary>
-    public class DependentPropertyValidator : ValidationAttribute, IClientValidatable
+    public class DependentPropertyValidator : ValidationAttribute//, IClientValidatable
     { 
         /// <summary>
 		/// Initializes a new instance of the <see cref="DependentPropertyValidator"/> class.
@@ -58,14 +58,14 @@ namespace OpenIZAdmin.Models
             return ValidationResult.Success;            
         }
 
-        //new method
-        public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
-        {
-            var rule = new ModelClientValidationRule {ErrorMessage = FormatErrorMessage(metadata.GetDisplayName())};
-            rule.ValidationParameters.Add("chars", _comparisonProperty);
-            rule.ValidationType = "exclude";
-            yield return rule;
-        }
+        ////new method
+        //public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
+        //{
+        //    var rule = new ModelClientValidationRule {ErrorMessage = FormatErrorMessage(metadata.GetDisplayName())};
+        //    rule.ValidationParameters.Add("comparisonproperty", _comparisonProperty);
+        //    rule.ValidationType = "compare";
+        //    yield return rule;
+        //}
 
 
 

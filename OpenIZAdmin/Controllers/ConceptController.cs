@@ -354,5 +354,21 @@ namespace OpenIZAdmin.Controllers
 
 			return RedirectToAction("Index");
 		}
-	}
+
+        [HttpGet]
+        public JsonResult HasReferenceTerm(EditConceptModel model)
+        {
+            if (!string.IsNullOrWhiteSpace(model.AddReferenceTerm) && !string.Equals(model.AddReferenceTerm, "null")) return Json(true, JsonRequestBehavior.AllowGet); // indicates its valid
+                        
+            return Json(false, JsonRequestBehavior.AllowGet);             
+        }
+
+        [HttpGet]
+        public JsonResult HasRelationshipType(EditConceptModel model)
+        {            
+            if (!string.IsNullOrWhiteSpace(model.RelationshipType) && !string.Equals(model.RelationshipType, "null")) return Json(true, JsonRequestBehavior.AllowGet);
+
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+    }
 }
