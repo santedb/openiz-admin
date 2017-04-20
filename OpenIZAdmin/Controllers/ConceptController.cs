@@ -355,6 +355,11 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
+        /// <summary>
+        /// Remote validation method to check if parameters are populated for reference terms
+        /// </summary>
+        /// <param name="model">The EditConceptModel instance</param>
+        /// <returns></returns>
         [HttpGet]
         public JsonResult HasReferenceTerm(EditConceptModel model)
         {
@@ -363,6 +368,11 @@ namespace OpenIZAdmin.Controllers
             return Json(false, JsonRequestBehavior.AllowGet);             
         }
 
+        /// <summary>
+        /// Remote validation method to check if parameters are populated for reference terms
+        /// </summary>
+        /// <param name="model">The EditConceptModel instance</param>
+        /// <returns></returns>
         [HttpGet]
         public JsonResult HasRelationshipType(EditConceptModel model)
         {            

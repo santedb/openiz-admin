@@ -49,6 +49,7 @@ namespace OpenIZAdmin.Models.AppletModels
             this.PublicKeyToken = appletManifestInfo.AppletInfo.PublicKeyToken;
             this.Version = appletManifestInfo.AppletInfo.Version;
             this.Name = string.Join(", ", appletManifestInfo.AppletInfo.Names.Select(l => l.Value));
+            //this.Assets = appletManifestInfo.AppletInfo..Assets.Select(a => new AppletViewAssetModel(a)).OrderBy(q => q.Name).ToList();
             //this.Assets = appletManifestInfo.AppletInfo.Assets.Select(a => new AppletViewAssetModel(a)).OrderBy(q => q.Name).ToList();
 
             //this.Author = appletManifestInfo.AppletManifest.Info.Author;
@@ -60,16 +61,16 @@ namespace OpenIZAdmin.Models.AppletModels
             //this.Assets = appletManifestInfo.AppletManifest.Assets.Select(a => new AppletViewAssetModel(a)).OrderBy(q => q.Name).ToList();
         }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AppletViewModel"/> class
-		/// with a specific author, group, id, name, and version.
-		/// </summary>
-		/// <param name="author">The author of the applet.</param>
-		/// <param name="group">The group of the applet.</param>
-		/// <param name="id">The id of the applet.</param>
-		/// <param name="name">The name of the applet.</param>
-		/// <param name="version">The version of the applet.</param>
-		public AppletViewModel(string author, string group, string id, string name, string version)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AppletViewModel"/> class
+        /// with a specific author, group, id, name, and version.
+        /// </summary>
+        /// <param name="author">The author of the applet.</param>
+        /// <param name="group">The group of the applet.</param>
+        /// <param name="id">The id of the applet.</param>
+        /// <param name="name">The name of the applet.</param>
+        /// <param name="version">The version of the applet.</param>
+        public AppletViewModel(string author, string group, string id, string name, string version)
 		{
 			this.Author = author;
 			this.Group = group;

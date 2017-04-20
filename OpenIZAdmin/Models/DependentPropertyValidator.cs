@@ -39,8 +39,9 @@ namespace OpenIZAdmin.Models
             this._comparisonProperty = prop1;            
         }
 
-        private readonly string _comparisonProperty;        
+        private readonly string _comparisonProperty;
 
+        /// <inheritdoc />
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {            
             //AddReferenceTerm   
