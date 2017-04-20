@@ -42,15 +42,23 @@ namespace OpenIZAdmin.Models.AppletModels
 		/// </summary>
 		/// <param name="appletManifestInfo">The applet manifest information.</param>
 		public AppletViewModel(AppletManifestInfo appletManifestInfo) : this()
-		{
-			//this.Author = appletManifestInfo.AppletManifest.Info.Author;
-			//this.Group = appletManifestInfo.AppletManifest.Info.GetGroupName("en");
-			//this.Id = appletManifestInfo.AppletManifest.Info.Id;
-			//this.PublicKeyToken = appletManifestInfo.AppletManifest.Info.PublicKeyToken;
-			//this.Version = appletManifestInfo.AppletManifest.Info.Version;
-			//this.Name = string.Join(", ", appletManifestInfo.AppletManifest.Info.Names.Select(l => l.Value));
-			//this.Assets = appletManifestInfo.AppletManifest.Assets.Select(a => new AppletViewAssetModel(a)).OrderBy(q => q.Name).ToList();
-		}
+		{		    
+		    this.Author = appletManifestInfo.AppletInfo.Author;
+            this.Group = appletManifestInfo.AppletInfo.GetGroupName("en");
+            this.Id = appletManifestInfo.AppletInfo.Id;
+            this.PublicKeyToken = appletManifestInfo.AppletInfo.PublicKeyToken;
+            this.Version = appletManifestInfo.AppletInfo.Version;
+            this.Name = string.Join(", ", appletManifestInfo.AppletInfo.Names.Select(l => l.Value));
+            //this.Assets = appletManifestInfo.AppletInfo.Assets.Select(a => new AppletViewAssetModel(a)).OrderBy(q => q.Name).ToList();
+
+            //this.Author = appletManifestInfo.AppletManifest.Info.Author;
+            //this.Group = appletManifestInfo.AppletManifest.Info.GetGroupName("en");
+            //this.Id = appletManifestInfo.AppletManifest.Info.Id;
+            //this.PublicKeyToken = appletManifestInfo.AppletManifest.Info.PublicKeyToken;
+            //this.Version = appletManifestInfo.AppletManifest.Info.Version;
+            //this.Name = string.Join(", ", appletManifestInfo.AppletManifest.Info.Names.Select(l => l.Value));
+            //this.Assets = appletManifestInfo.AppletManifest.Assets.Select(a => new AppletViewAssetModel(a)).OrderBy(q => q.Name).ToList();
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AppletViewModel"/> class

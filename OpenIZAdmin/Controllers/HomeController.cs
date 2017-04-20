@@ -59,9 +59,17 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("JoinRealm", "Realm");
 			}
 
-			var viewModel = new DashboardViewModel
+		    //var appMan = this.AmiClient.GetApplets().CollectionItem;
+		    //var appList = new List<AppletViewModel>();
+		    //foreach (var applet in appMan)
+		    //{
+		    //    appList.Add(new AppletViewModel(applet));
+		    //}
+
+            var viewModel = new DashboardViewModel
 			{
 				Applets = this.AmiClient.GetApplets().CollectionItem.Select(a => new AppletViewModel(a)),
+                //Applets = appList,
 				CertificateRequests = new List<CertificateSigningRequestViewModel>(), //CertificateUtil.GetAllCertificateSigningRequests(this.client),
 				Devices = this.GetAllDevices().OrderBy(d => d.CreationTime).ThenBy(d => d.Name).Take(15),
 				Roles = this.GetAllRoles().OrderBy(r => r.Name).Take(15)
