@@ -83,7 +83,8 @@ namespace OpenIZAdmin.Models.PlaceModels
 				Names = new List<EntityName>
 				{
 					new EntityName(NameUseKeys.OfficialRecord, this.Name)
-				}
+				},
+				StatusConceptKey = StatusKeys.Active
 			};
 
 			Guid typeConceptKey;

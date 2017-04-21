@@ -98,7 +98,8 @@ namespace OpenIZAdmin.Models.MaterialModels
 				Names = new List<EntityName>
 				{
 					new EntityName(NameUseKeys.Assigned, this.Name)
-				}
+				},
+				StatusConceptKey = StatusKeys.Active
 			};
 
 			Guid formConceptKey, quantityConceptKey, typeConceptKey;

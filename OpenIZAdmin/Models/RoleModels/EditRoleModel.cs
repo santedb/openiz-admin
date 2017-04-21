@@ -48,7 +48,7 @@ namespace OpenIZAdmin.Models.RoleModels
 		/// Initializes a new instance of the <see cref="EditRoleModel"/> class.
 		/// </summary>
 		/// <param name="securityRoleInfo">The security role information.</param>
-		public EditRoleModel(SecurityRoleInfo securityRoleInfo)
+		public EditRoleModel(SecurityRoleInfo securityRoleInfo) : this()
 		{
 			this.Id = securityRoleInfo.Role.Key.Value;
 			this.IsObsolete = securityRoleInfo.Role.ObsoletionTime != null;

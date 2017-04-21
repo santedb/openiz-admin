@@ -95,6 +95,12 @@
             <param name="id">The id of the report format to retrieve.</param>
             <returns>Returns a report format.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.GetReportFormats">
+            <summary>
+            Gets the report formats.
+            </summary>
+            <returns>Returns a list of report formats.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.GetReportParameter(System.Guid)">
             <summary>
             Gets a report parameter by id.

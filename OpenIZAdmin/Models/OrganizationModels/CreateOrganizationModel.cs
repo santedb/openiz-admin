@@ -70,7 +70,8 @@ namespace OpenIZAdmin.Models.OrganizationModels
 				Names = new List<EntityName>
 				{
 					new EntityName(NameUseKeys.OfficialRecord, this.Name)
-				}
+				},
+				StatusConceptKey = StatusKeys.Active
 			};
 
 			Guid industryConceptKey;
