@@ -32,6 +32,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.Query;
+using OpenIZAdmin.Models.LanguageModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -173,9 +174,9 @@ namespace OpenIZAdmin.Controllers
 					model.ConceptClass = selectedClass?.Key.ToString();
 				}
 
-				model.ReferenceTerms = this.GetConceptReferenceTerms(id, versionId).Select(r => new ReferenceTermViewModel(r, concept)).ToList();
+				model.ReferenceTerms = this.GetConceptReferenceTerms(id, versionId).Select(r => new ReferenceTermViewModel(r, concept)).ToList();                
 
-				return View(model);
+                return View(model);
 			}
 			catch (Exception e)
 			{
@@ -198,55 +199,54 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				if (ModelState.IsValid)
-				{
-					var concept = this.GetConcept(model.Id, model.VersionKey);
+                var concept = this.GetConcept(model.Id, model.VersionKey);
 
-					if (concept == null)
-					{
-						TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+                if (concept == null)
+                {
+                    TempData["error"] = Locale.Concept + " " + Locale.NotFound;
 
-						return RedirectToAction("Index");
-					}
+                    return RedirectToAction("Index");
+                }
 
-					if (!string.Equals(concept.Mnemonic, model.Mnemonic) && !DoesConceptExist(model.Mnemonic))
-					{
-						TempData["error"] = Locale.Mnemonic + " " + Locale.MustBeUnique;
-						return View(model);
-					}
+                if (ModelState.IsValid)
+			    {			        
+			        if (!string.Equals(concept.Mnemonic, model.Mnemonic) && !DoesConceptExist(model.Mnemonic))
+			        {
+			            TempData["error"] = Locale.Mnemonic + " " + Locale.MustBeUnique;
+			            return View(model);
+			        }
 
-					concept = model.ToEditConceptModel(concept);
+			        concept = model.ToEditConceptModel(ImsiClient, concept);
 
-				    if (model.AddReferenceTermList.Any())
-				    {
-				        foreach (var referenceTerm in model.AddReferenceTermList)
-				        {				            
-				            Guid id;
-				            Guid relationshipKey;
-				            if (Guid.TryParse(referenceTerm, out id) && Guid.TryParse(model.RelationshipType, out relationshipKey))
-				            {                                
-                                var term = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
-                                if(term != null) concept.ReferenceTerms.Add(new ConceptReferenceTerm(term.Key, relationshipKey));
-                            }
-				        }
-				    }
+			        var result = this.ImsiClient.Update<Concept>(concept);
 
-				    var result = this.ImsiClient.Update<Concept>(concept);
+			        TempData["success"] = Locale.Concept + " " + Locale.Updated + " " + Locale.Successfully;
 
-					TempData["success"] = Locale.Concept + " " + Locale.Updated + " " + Locale.Successfully;
+			        return RedirectToAction("ViewConcept", new {id = result.Key, versionId = result.VersionKey});
+			    }			    
 
-					return RedirectToAction("ViewConcept", new { id = result.Key, versionId = result.VersionKey });
-				}
-			}
+                var conceptClasses = this.GetConceptClasses();
+                model.ConceptClassList.AddRange(conceptClasses.ToSelectList().OrderBy(c => c.Text));
+
+                if (concept.Class?.Key != null)
+                {
+                    var selectedClass = conceptClasses.FirstOrDefault(c => c.Key == concept.Class.Key);
+                    model.ConceptClass = selectedClass?.Key.ToString();
+                }
+
+                model.ReferenceTerms = this.GetConceptReferenceTerms(concept.Key.Value, concept.VersionKey).Select(r => new ReferenceTermViewModel(r, concept)).ToList();
+                model.Languages = concept.ConceptNames.Select(k => new LanguageViewModel(k.Language, k.Name, concept)).ToList();
+
+            }
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to update concept: {e}");
 			}
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Concept;
+			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Concept;                        
 
-			return View(model);
+            return View(model);
 		}
 
 		/// <summary>
@@ -354,5 +354,31 @@ namespace OpenIZAdmin.Controllers
 
 			return RedirectToAction("Index");
 		}
-	}
+
+        /// <summary>
+        /// Remote validation method to check if parameters are populated for reference terms
+        /// </summary>
+        /// <param name="model">The EditConceptModel instance</param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult HasReferenceTerm(EditConceptModel model)
+        {
+            if (!string.IsNullOrWhiteSpace(model.AddReferenceTerm) && !string.Equals(model.AddReferenceTerm, "null")) return Json(true, JsonRequestBehavior.AllowGet); // indicates its valid
+                        
+            return Json(false, JsonRequestBehavior.AllowGet);             
+        }
+
+        /// <summary>
+        /// Remote validation method to check if parameters are populated for reference terms
+        /// </summary>
+        /// <param name="model">The EditConceptModel instance</param>
+        /// <returns></returns>
+        [HttpGet]
+        public JsonResult HasRelationshipType(EditConceptModel model)
+        {            
+            if (!string.IsNullOrWhiteSpace(model.RelationshipType) && !string.Equals(model.RelationshipType, "null")) return Json(true, JsonRequestBehavior.AllowGet);
+
+            return Json(true, JsonRequestBehavior.AllowGet);
+        }
+    }
 }

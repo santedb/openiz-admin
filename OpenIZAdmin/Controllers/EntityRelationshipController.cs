@@ -21,7 +21,10 @@ using Elmah;
 using OpenIZAdmin.Localization;
 using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Constants;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Models.EntityRelationshipModels;
 
 namespace OpenIZAdmin.Controllers
@@ -95,6 +98,13 @@ namespace OpenIZAdmin.Controllers
                 var entity = this.GetEntity(sourceId, modelType);
                 versionKey = entity.VersionKey;
 
+                var model = new EntityRelationshipModel(Guid.NewGuid(), id)
+                {
+                    //ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
+                };
+
+                model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.OwnedEntity).ToList());
+
                 //entity.Relationships.RemoveAll(r => r.Key == id);
 
                 //var updatedEntity = this.UpdateEntity(entity, modelType);
@@ -102,7 +112,7 @@ namespace OpenIZAdmin.Controllers
                 //this.TempData["success"] = Locale.Relationship + " " + Locale.Deleted + " " + Locale.Successfully;
 
                 //return RedirectToAction("Edit", type, new { id = updatedEntity.Key.Value, versionId = updatedEntity.VersionKey.Value });
-	            return View(new EntityRelationshipModel(id, sourceId, (Guid)versionKey));
+                return View(new EntityRelationshipModel(id, sourceId, (Guid)versionKey));
 	        }
 	        catch (Exception e)
 	        {

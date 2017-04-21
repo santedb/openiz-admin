@@ -26,6 +26,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.Constants;
+using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ConceptModels
@@ -52,8 +53,8 @@ namespace OpenIZAdmin.Models.ConceptModels
 
 			ReferenceTerms = new List<ReferenceTermViewModel>();
 			Languages = new List<LanguageViewModel>();
-            AddReferenceTermList = new List<string>();
-            ReferenceTermList = new List<SelectListItem>();
+            //AddReferenceTermList = new List<string>();
+            ReferenceTermList = new List<SelectListItem>();            
 
             RelationshipTypeList = new List<SelectListItem>()
             {
@@ -82,10 +83,13 @@ namespace OpenIZAdmin.Models.ConceptModels
 		}
 
         /// <summary>
-        /// Gets or sets the list of Concepts to add
+        /// Gets or sets the reference term to add
         /// </summary>
+        //[Remote("HasRelationshipType", "Concept", AdditionalFields = "RelationshipType", ErrorMessage = "Select a relationship type for the reference term.")]
+        [DependentPropertyValidator("RelationshipType", ErrorMessage = "Reference Term and Relationship Type are required to add a Reference Term.")]        
         [Display(Name = "AddReferenceTerms", ResourceType = typeof(Localization.Locale))]
-        public List<string> AddReferenceTermList { get; set; }
+        //public List<string> AddReferenceTermList { get; set; }
+        public string AddReferenceTerm { get; set; }
 
         /// <summary>
         /// Gets or sets the concept class.
@@ -114,19 +118,17 @@ namespace OpenIZAdmin.Models.ConceptModels
 		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
 		public List<LanguageViewModel> Languages { get; set; }
         
-
         /// <summary>
         /// Gets or sets the concept list from the search parameters from the ajax search method
         /// </summary>
-        public List<SelectListItem> ReferenceTermList { get; set; }
+        public List<SelectListItem> ReferenceTermList { get; set; }        
 
         /// <summary>
         /// Gets or sets the relationship.
         /// </summary>
-        /// <value>The relationship.</value>
+        /// <value>The relationship.</value>        
         [Display(Name = "Relationship", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "RelationshipRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        //[StringLength(2, ErrorMessageResourceName = "LanguagCodeTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+        //[Remote("HasReferenceTerm", "Concept", AdditionalFields = "AddReferenceTerm", ErrorMessage = "Select a reference term to add to the concept.")]        
         public string RelationshipType { get; set; }
 
         /// <summary>
@@ -135,12 +137,13 @@ namespace OpenIZAdmin.Models.ConceptModels
         /// <value>The concept relationship list.</value>
         public List<SelectListItem> RelationshipTypeList { get; set; }
 
-        /// <summary>
-        /// Converts an <see cref="EditConceptModel"/> instance to a <see cref="Concept"/> instance.
-        /// </summary>
-        /// <param name="concept">The concept.</param>
-        /// <returns>Returns the converted concept instance.</returns>
-        public Concept ToEditConceptModel(Concept concept)
+	    /// <summary>
+	    /// Converts an <see cref="EditConceptModel"/> instance to a <see cref="Concept"/> instance.
+	    /// </summary>
+	    /// <param name="imsiServiceClient">The ImsiServiceClient instance.</param>
+	    /// <param name="concept">The concept.</param>
+	    /// <returns>Returns the converted concept instance.</returns>
+	    public Concept ToEditConceptModel(ImsiServiceClient imsiServiceClient, Concept concept)
 		{
 			if (!string.Equals(this.ConceptClass, concept.ClassKey.ToString()))
 			{
@@ -150,7 +153,17 @@ namespace OpenIZAdmin.Models.ConceptModels
 				};
 			}
 
-			concept.Mnemonic = this.Mnemonic;            
+			concept.Mnemonic = this.Mnemonic;           
+
+            if (string.IsNullOrWhiteSpace(AddReferenceTerm) || string.IsNullOrWhiteSpace(RelationshipType)) return concept;
+            
+            Guid id, relationshipKey;
+
+            if (Guid.TryParse(AddReferenceTerm, out id) && Guid.TryParse(RelationshipType, out relationshipKey))
+            {
+                var term = imsiServiceClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
+                if (term != null) concept.ReferenceTerms.Add(new ConceptReferenceTerm(term.Key, relationshipKey));            
+            }
 
             return concept;
 		}

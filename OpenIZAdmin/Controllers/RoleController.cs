@@ -169,7 +169,10 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var model = new EditRoleModel(securityRoleInfo);
+				var model = new EditRoleModel(securityRoleInfo)
+				{
+                    PoliciesList = new List<SelectListItem>()
+                };
 
 				model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id"));
 

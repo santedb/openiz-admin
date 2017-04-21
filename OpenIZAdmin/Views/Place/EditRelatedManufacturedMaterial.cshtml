@@ -1,14 +1,14 @@
 ﻿@model OpenIZAdmin.Models.EntityRelationshipModels.EntityRelationshipModel
 @{
-    ViewBag.Title = Locale.Create + " " + Locale.Place;
+    ViewBag.Title = Locale.Edit + " " + Locale.ManufacturedMaterial;
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.Create + " " + Locale.ManufacturedMaterial)</span>
+        <span class="panel-title">@(Locale.Edit + " " + Locale.ManufacturedMaterial)</span>
     </div>
     <div class="panel panel-body">
-        @using (Html.BeginForm("CreateRelatedManufacturedMaterial", "Place", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        @using (Html.BeginForm("EditRelatedManufacturedMaterial", "Place", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
