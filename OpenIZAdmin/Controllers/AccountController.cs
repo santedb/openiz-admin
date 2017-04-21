@@ -296,7 +296,12 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("JoinRealm", "Realm");
 			}
 
-			ViewBag.ReturnUrl = returnUrl;
+		    if (User.Identity.IsAuthenticated)
+		    {
+		        return RedirectToAction("Index", "Home");
+		    }
+                                      
+            ViewBag.ReturnUrl = returnUrl;
 			return View();
 		}
 
