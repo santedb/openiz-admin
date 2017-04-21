@@ -1402,6 +1402,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to InverseOf.
+        /// </summary>
+        public static string InverseOf {
+            get {
+                return ResourceManager.GetString("InverseOf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is Public.
         /// </summary>
         public static string IsPublic {
@@ -1672,6 +1681,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to MemberOf.
+        /// </summary>
+        public static string MemberOf {
+            get {
+                return ResourceManager.GetString("MemberOf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Message.
         /// </summary>
         public static string Message {
@@ -1794,6 +1812,15 @@ namespace OpenIZAdmin.Localization {
         public static string Names {
             get {
                 return ResourceManager.GetString("Names", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NegationOf.
+        /// </summary>
+        public static string NegationOf {
+            get {
+                return ResourceManager.GetString("NegationOf", resourceCulture);
             }
         }
         
@@ -2586,6 +2613,15 @@ namespace OpenIZAdmin.Localization {
         public static string RolesRequired {
             get {
                 return ResourceManager.GetString("RolesRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SameAs.
+        /// </summary>
+        public static string SameAs {
+            get {
+                return ResourceManager.GetString("SameAs", resourceCulture);
             }
         }
         

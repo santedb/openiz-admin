@@ -1404,4 +1404,16 @@
   <data name="RelationshipRequired" xml:space="preserve">
     <value>The relationship is required</value>
   </data>
+  <data name="InverseOf" xml:space="preserve">
+    <value>InverseOf</value>
+  </data>
+  <data name="MemberOf" xml:space="preserve">
+    <value>MemberOf</value>
+  </data>
+  <data name="NegationOf" xml:space="preserve">
+    <value>NegationOf</value>
+  </data>
+  <data name="SameAs" xml:space="preserve">
+    <value>SameAs</value>
+  </data>
 </root>

@@ -27,6 +27,7 @@ using System.Linq;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Messaging.IMSI.Client;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ConceptModels
@@ -58,11 +59,11 @@ namespace OpenIZAdmin.Models.ConceptModels
 
             RelationshipTypeList = new List<SelectListItem>()
             {
-                new SelectListItem() {Text = "", Value = ""},
-                new SelectListItem() {Text = "SameAs", Value = ConceptRelationshipTypeKeys.SameAs.ToString()},
-                new SelectListItem() {Text = "InverseOf", Value = ConceptRelationshipTypeKeys.InverseOf.ToString()},
-                new SelectListItem() {Text = "MemberOf", Value = ConceptRelationshipTypeKeys.MemberOf.ToString()},
-                new SelectListItem() {Text = "NegationOf", Value = ConceptRelationshipTypeKeys.NegationOf.ToString()}
+                new SelectListItem() {Text = "", Value = ""},                
+                new SelectListItem() {Text = Locale.InverseOf, Value = ConceptRelationshipTypeKeys.InverseOf.ToString()},
+                new SelectListItem() {Text = Locale.MemberOf, Value = ConceptRelationshipTypeKeys.MemberOf.ToString()},
+                new SelectListItem() {Text = Locale.NegationOf, Value = ConceptRelationshipTypeKeys.NegationOf.ToString()},
+                new SelectListItem() {Text = Locale.SameAs, Value = ConceptRelationshipTypeKeys.SameAs.ToString()}
             };
         }
 
