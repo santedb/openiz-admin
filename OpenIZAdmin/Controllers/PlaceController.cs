@@ -304,7 +304,7 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditPlaceModel(place)
 				{
-					TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(t => t.Key == place.TypeConceptKey.Value).ToList()
+					TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(t => t.Key == place.TypeConceptKey).ToList()
 				};
 
 				return View(model);
