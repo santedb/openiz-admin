@@ -215,9 +215,19 @@
             The parameter type key.
             </summary>
         </member>
+        <member name="F:OpenIZ.Core.Model.RISI.ReportParameter.parameterType">
+            <summary>
+            The parameter type.
+            </summary>
+        </member>
         <member name="F:OpenIZ.Core.Model.RISI.ReportParameter.reportDefinitionKey">
             <summary>
             The report definition key.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.RISI.ReportParameter.reportDefinition">
+            <summary>
+            The report definition.
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.RISI.ReportParameter.#ctor">
@@ -278,12 +288,6 @@
             Gets or sets the parameter type associated with the report parameter.
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.RISI.ReportParameter.ParameterTypeKey">
-            <summary>
-            Gets or sets the parameter type key.
-            </summary>
-            <value>The parameter type key.</value>
-        </member>
         <member name="P:OpenIZ.Core.Model.RISI.ReportParameter.ReportDefinitionKey">
             <summary>
             Gets or sets the report definition key.
@@ -319,11 +323,6 @@
         <member name="P:OpenIZ.Core.Model.RISI.ParameterType.AutoCompleteSourceDefinition">
             <summary>
             Gets or sets the auto-complete source.
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Model.RISI.ParameterType.ReportParameters">
-            <summary>
-            Gets or sets a list of report parameters associated with the parameter type.
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.RISI.ParameterType.SystemType">
