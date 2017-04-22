@@ -1429,6 +1429,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is this a service delivery location? (That being, does this place provide a service, such as care?).
+        /// </summary>
+        public static string IsServiceDeliveryLocation {
+            get {
+                return ResourceManager.GetString("IsServiceDeliveryLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Join New Realm.
         /// </summary>
         public static string JoinNewRealm {

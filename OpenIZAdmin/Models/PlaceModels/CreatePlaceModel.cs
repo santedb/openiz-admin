@@ -42,6 +42,13 @@ namespace OpenIZAdmin.Models.PlaceModels
 		}
 
 		/// <summary>
+		/// Gets or sets a value indicating whether this instance is service delivery location.
+		/// </summary>
+		/// <value><c>true</c> if this instance is service delivery location; otherwise, <c>false</c>.</value>
+		[Display(Name = "IsServiceDeliveryLocation", ResourceType = typeof(Locale))]
+		public bool IsServiceDeliveryLocation { get; set; }
+
+		/// <summary>
 		/// Gets or sets the name.
 		/// </summary>
 		/// <value>The name.</value>
@@ -79,6 +86,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		{
 			var place = new Place
 			{
+				ClassConceptKey = this.IsServiceDeliveryLocation ? EntityClassKeys.ServiceDeliveryLocation : EntityClassKeys.Place,
 				Key = Guid.NewGuid(),
 				Names = new List<EntityName>
 				{

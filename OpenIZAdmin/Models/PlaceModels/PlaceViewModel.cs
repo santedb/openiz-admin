@@ -47,11 +47,19 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <param name="place">The place.</param>
 		public PlaceViewModel(Place place) : base(place)
 		{
+			this.IsServiceDeliveryLocation = place.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation ? Locale.Yes : Locale.No;
 			if (place.Extensions.Any(e => e.ExtensionTypeKey  == Constants.TargetPopulationExtensionTypeKey))
 			{
 				this.TargetPopulation = BitConverter.ToInt64(place.Extensions.First(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey).ExtensionValueXml, 0);
 			}
 		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is service delivery location.
+		/// </summary>
+		/// <value><c>true</c> if this instance is service delivery location; otherwise, <c>false</c>.</value>
+		[Display(Name = "IsServiceDeliveryLocation", ResourceType = typeof(Locale))]
+		public string IsServiceDeliveryLocation { get; set; }
 
 		/// <summary>
 		/// Gets or sets the target population.

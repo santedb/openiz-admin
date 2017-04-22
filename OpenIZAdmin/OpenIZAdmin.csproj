@@ -656,8 +656,6 @@
     <Content Include="Views\EntityRelationship\Edit.cshtml" />
     <Content Include="Views\Place\EditRelatedPlace.cshtml" />
     <Content Include="Views\Place\CreateRelatedPlace.cshtml" />
-    <Content Include="Views\Place\CreateRelatedManufacturedMaterial.cshtml" />
-    <Content Include="Views\Place\EditRelatedManufacturedMaterial.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ResetPassword.cshtml" />
     <Content Include="Views\Shared\_ObsoleteWarningPartial.cshtml" />

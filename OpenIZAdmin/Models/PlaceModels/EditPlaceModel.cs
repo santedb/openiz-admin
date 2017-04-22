@@ -49,6 +49,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <param name="place">The <see cref="Place"/> instance.</param>
 		public EditPlaceModel(Place place) : base(place)
 		{
+			this.IsServiceDeliveryLocation = place.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation;
 			this.Name = string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value));
 
 			if (place.Extensions.Any(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey))
@@ -58,6 +59,13 @@ namespace OpenIZAdmin.Models.PlaceModels
 
 			this.TypeConcepts = new List<SelectListItem>();
 		}
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is service delivery location.
+		/// </summary>
+		/// <value><c>true</c> if this instance is service delivery location; otherwise, <c>false</c>.</value>
+		[Display(Name = "IsServiceDeliveryLocation", ResourceType = typeof(Locale))]
+		public bool IsServiceDeliveryLocation { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the place.

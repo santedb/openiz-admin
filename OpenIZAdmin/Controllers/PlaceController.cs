@@ -163,87 +163,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Creates the related manufactured material.
-		/// </summary>
-		/// <param name="id">The identifier.</param>
-		/// <returns>ActionResult.</returns>
-		[HttpGet]
-		public ActionResult CreateRelatedManufacturedMaterial(Guid id)
-		{
-			try
-			{
-				var place = this.GetEntity<Place>(id);
-
-				if (place == null)
-				{
-					this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
-
-					return RedirectToAction("Edit", new { id = id });
-				}
-
-				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
-				{
-					ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
-				};
-
-				model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.OwnedEntity).ToList());
-
-				return View(model);
-			}
-			catch (Exception e)
-			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				Trace.TraceError($"Unable to create related place: { e }");
-			}
-
-			this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
-
-			return RedirectToAction("Edit", new { id = id });
-		}
-
-		/// <summary>
-		/// Creates the related manufactured material.
-		/// </summary>
-		/// <param name="model">The model.</param>
-		/// <returns>ActionResult.</returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult CreateRelatedManufacturedMaterial(EntityRelationshipModel model)
-		{
-			try
-			{
-				if (this.ModelState.IsValid)
-				{
-					var place = this.GetEntity<Place>(model.SourceId);
-
-					if (place == null)
-					{
-						this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
-						return RedirectToAction("Edit", new { id = model.SourceId });
-					}
-
-					place.Relationships.RemoveAll(r => r.TargetEntityKey == model.TargetId && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
-					place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { EffectiveVersionSequenceId = place.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
-
-					this.ImsiClient.Update(place);
-
-					this.TempData["success"] = Locale.Related + " " + Locale.ManufacturedMaterial + " " + Locale.Created + " " + Locale.Successfully;
-
-					return RedirectToAction("Edit", new { id = place.Key.Value });
-				}
-			}
-			catch (Exception e)
-			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				Trace.TraceError($"Unable to create related manufactured material: { e }");
-			}
-
-			this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
-
-			return View(model);
-		}
-
-		/// <summary>
 		/// Creates the related place.
 		/// </summary>
 		/// <param name="id">The identifier.</param>
@@ -413,11 +332,11 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var bundle = this.ImsiClient.Query<Place>(p => p.Key == model.Id && p.ClassConceptKey == EntityClassKeys.Place && p.ObsoletionTime == null, 0, null, true);
+					var bundle = this.ImsiClient.Query<Place>(p => p.Key == model.Id && p.ObsoletionTime == null, 0, null, true);
 
 					bundle.Reconstitute();
 
-					var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == model.Id && p.ClassConceptKey == EntityClassKeys.Place && p.ObsoletionTime == null);
+					var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == model.Id && p.ObsoletionTime == null);
 
 					if (place == null)
 					{
@@ -449,91 +368,6 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			this.TempData["error"] = Locale.UnableToUpdate + " " + Locale.Place;
-
-			return View(model);
-		}
-
-		/// <summary>
-		/// Edits the related manufactured material.
-		/// </summary>
-		/// <param name="id">The identifier.</param>
-		/// <returns>ActionResult.</returns>
-		[HttpGet]
-		public ActionResult EditRelatedManufacturedMaterial(Guid id)
-		{
-			try
-			{
-				var place = this.GetEntity<Place>(id);
-
-				if (place == null)
-				{
-					this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
-
-					return RedirectToAction("Edit", new { id = id });
-				}
-
-				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
-				{
-					ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
-				};
-
-				model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.OwnedEntity).ToList());
-
-				return View(model);
-			}
-			catch (Exception e)
-			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				Trace.TraceError($"Unable to create related place: { e }");
-			}
-
-			this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
-
-			return RedirectToAction("Edit", new { id = id });
-		}
-
-		/// <summary>
-		/// Edits the related manufactured material.
-		/// </summary>
-		/// <param name="model">The model.</param>
-		/// <returns>ActionResult.</returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult EditRelatedManufacturedMaterial(EntityRelationshipModel model)
-		{
-			try
-			{
-				if (this.ModelState.IsValid)
-				{
-					var place = this.ImsiClient.Get<Place>(model.SourceId, null) as Place;
-
-					if (place == null)
-					{
-						this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
-						return RedirectToAction("Edit", new { id = model.SourceId });
-					}
-
-					var bundle = new Bundle
-					{
-						Key = Guid.NewGuid()
-					};
-
-					bundle.Item.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { EffectiveVersionSequenceId = place.VersionSequence, Key = Guid.NewGuid(), SourceEntityKey = model.SourceId });
-
-					this.ImsiClient.Create(bundle);
-
-					this.TempData["success"] = Locale.Related + " " + Locale.ManufacturedMaterial + " " + Locale.Created + " " + Locale.Successfully;
-
-					return RedirectToAction("Edit", new { id = place.Key.Value });
-				}
-			}
-			catch (Exception e)
-			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				Trace.TraceError($"Unable to create related manufactured material: { e }");
-			}
-
-			this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
 
 			return View(model);
 		}
