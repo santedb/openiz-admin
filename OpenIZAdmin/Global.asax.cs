@@ -19,6 +19,7 @@
 
 using Elmah;
 using System;
+using System.Configuration;
 using System.Diagnostics;
 using System.Runtime.Caching;
 using System.Web;
@@ -82,10 +83,13 @@ namespace OpenIZAdmin
 			// realm initialization
 			RealmConfig.Initialize();
 
-			// quartz initialization
-#if !DEBUG
-			QuartzConfig.Initialize();
-#endif
+			var enableCaching = Convert.ToBoolean(ConfigurationManager.AppSettings["enableCaching"]);
+
+			if (enableCaching)
+			{
+				Trace.TraceInformation("Enabling caching");
+				QuartzConfig.Initialize();
+			}
 
 			Trace.TraceInformation("Application started");
 		}
