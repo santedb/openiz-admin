@@ -159,6 +159,23 @@
             Gets or sets the static list of auto-complete items.
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Model.RISI.ReportBundle">
+            <summary>
+            Represents a report bundle.
+            </summary>
+            <seealso cref="T:OpenIZ.Core.Model.BaseEntityData" />
+        </member>
+        <member name="M:OpenIZ.Core.Model.RISI.ReportBundle.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.RISI.ReportBundle"/> class.
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.RISI.ReportBundle.Parameters">
+            <summary>
+            Gets or sets the parameters.
+            </summary>
+            <value>The parameters.</value>
+        </member>
         <member name="T:OpenIZ.Core.Model.RISI.ReportFormat">
             <summary>
             Represents a report format.

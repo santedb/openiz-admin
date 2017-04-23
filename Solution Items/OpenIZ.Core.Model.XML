@@ -403,6 +403,36 @@
             Determine semantic equality
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Model.Acts.CarePlan">
+            <summary>
+            Represents a care plan
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Acts.CarePlan.Target">
+            <summary>
+            Target of the careplan
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Acts.CarePlan.Action">
+            <summary>
+            Action to take
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Acts.CarePlan.#ctor">
+            <summary>
+            Default ctor
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Acts.CarePlan.#ctor(OpenIZ.Core.Model.Roles.Patient,System.Collections.Generic.IEnumerable{OpenIZ.Core.Model.Acts.Act})">
+            <summary>
+            Create care plan with acts
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Acts.CarePlan.CreateCarePlanRequest(OpenIZ.Core.Model.Roles.Patient)">
+            <summary>
+            Create a care plan request
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Acts.ControlAct">
             <summary>
             Represents an act which indicates why data was created/changed
@@ -4368,31 +4398,6 @@
             Get relationships
             </summary>
         </member>
-        <member name="T:OpenIZ.Core.Model.Extensions.DictionaryExtensionHandler">
-            <summary>
-            Extension that emits data as kvp
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Model.Extensions.DictionaryExtensionHandler.Name">
-            <summary>
-            Gets the name of the extension
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.Extensions.DictionaryExtensionHandler.DeSerialize(System.Byte[])">
-            <summary>
-            Deserialize data from the extension
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.Extensions.DictionaryExtensionHandler.GetDisplay(System.Object)">
-            <summary>
-            Get display value
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.Extensions.DictionaryExtensionHandler.Serialize(System.Object)">
-            <summary>
-            Serialize actual data
-            </summary>
-        </member>
         <member name="T:OpenIZ.Core.Model.LoadState">
             <summary>
             Identifies the state of loading of the object
@@ -5467,6 +5472,16 @@
             Compute a basic hash string
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.HasProperty(System.Dynamic.ExpandoObject,System.String)">
+            <summary>
+            Determines whether the specified property name has property.
+            </summary>
+            <param name="source">The source.</param>
+            <param name="propertyName">Name of the property.</param>
+            <returns><c>true</c> if the specified property name has property; otherwise, <c>false</c>.</returns>
+            <exception cref="T:System.ArgumentNullException">source - Value cannot be null</exception>
+            <exception cref="T:System.ArgumentException">Value cannot be null or empty - propertyName</exception>
+        </member>
         <member name="M:OpenIZ.Core.Model.ExtensionMethods.IsActive(System.Linq.Expressions.Expression,System.Object)">
             <summary>
             Create a version filter
@@ -6073,6 +6088,31 @@
         <member name="M:OpenIZ.Core.Extensions.DecimalExtensionHandler.Serialize(System.Object)">
             <summary>
             Serialize the data
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Extensions.DictionaryExtensionHandler">
+            <summary>
+            Extension that emits data as kvp
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Extensions.DictionaryExtensionHandler.Name">
+            <summary>
+            Gets the name of the extension
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Extensions.DictionaryExtensionHandler.DeSerialize(System.Byte[])">
+            <summary>
+            Deserialize data from the extension
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Extensions.DictionaryExtensionHandler.GetDisplay(System.Object)">
+            <summary>
+            Get display value
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Extensions.DictionaryExtensionHandler.Serialize(System.Object)">
+            <summary>
+            Serialize actual data
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Extensions.StringExtensionHandler">

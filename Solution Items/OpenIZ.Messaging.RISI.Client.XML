@@ -16,6 +16,13 @@
             </summary>
             <param name="restClient">The REST client instance.</param>
         </member>
+        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.CreateDatamart(OpenIZ.Core.Data.Warehouse.DatamartDefinition)">
+            <summary>
+            Creates the datamart.
+            </summary>
+            <param name="definition">The definition.</param>
+            <returns>Returns the created datamart.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.CreateParameterType(OpenIZ.Core.Model.RISI.ParameterType)">
             <summary>
             Creates a new report parameter type definition.
@@ -36,6 +43,28 @@
             </summary>
             <param name="reportFormat">The report format to create.</param>
             <returns>Returns the created report format.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.CreateStoredQuery(System.Guid,OpenIZ.Core.Data.Warehouse.DatamartStoredQuery)">
+            <summary>
+            Creates the stored query.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="queryDefinition">The query definition.</param>
+            <returns>Returns the created stored query.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.CreateWarehouseObject(System.Guid,OpenIZ.Core.Data.Warehouse.DataWarehouseObject)">
+            <summary>
+            Creates the warehouse object.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="dataWarehouseObject">The data warehouse object.</param>
+            <returns>Returns the created warehouse object.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.DeleteDatamart(System.Guid)">
+            <summary>
+            Deletes the datamart.
+            </summary>
+            <param name="id">The identifier.</param>
         </member>
         <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.DeleteParameterType(System.Guid)">
             <summary>
@@ -58,22 +87,39 @@
             <param name="id">The id of the report format.</param>
             <returns>Returns the report deleted report format.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.Dispose">
+        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.ExecuteAdhocQuery(System.Guid)">
             <summary>
-            Dispose of any managed resources.
+            Executes the adhoc query.
             </summary>
+            <param name="id">The identifier.</param>
+            <returns>Returns the executed datawarehouse object.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.Dispose(System.Boolean)">
+        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.ExecuteStoredQuery(System.Guid,System.Guid)">
             <summary>
-            Dispose of any managed resources.
+            Executes the stored query.
             </summary>
-            <param name="disposing">Whether the current invocation is disposing.</param>
+            <param name="datamartId">The datamart identifier.</param>
+            <param name="queryId">The query identifier.</param>
+            <returns>Returns the list of object which were executed as a prt of the stored query.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.GetAllReportParameterTypes">
             <summary>
             Gets a list of all report parameter types.
             </summary>
             <returns>Returns a list of report parameter types.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.GetDatamart(System.Guid)">
+            <summary>
+            Gets the datamart.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Returns the datamar definition.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.GetDatamarts">
+            <summary>
+            Gets the datamarts.
+            </summary>
+            <returns>Returns a list of datamarts.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.GetReportDefinition(System.Guid)">
             <summary>
@@ -130,13 +176,39 @@
             <param name="id">The id of the report for which to retrieve the source.</param>
             <returns>Returns the report source.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.RunReport(System.Guid,System.String,OpenIZ.Core.Model.RISI.RisiCollection{OpenIZ.Core.Model.RISI.ReportParameter})">
+        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.GetStoredQueries(System.Guid)">
+            <summary>
+            Gets the stored queries.
+            </summary>
+            <param name="id">The identifier.</param>
+            <returns>Returns the storied queries on the datamart.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.GetWarehouseObject(System.Guid,System.Guid)">
+            <summary>
+            Gets the warehouse object.
+            </summary>
+            <param name="id">The identifier.</param>
+            <param name="objectId">The object identifier.</param>
+            <returns>Returns the warehouse object.</returns>
+        </member>
+        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.Dispose">
+            <summary>
+            Dispose of any managed resources.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.Dispose(System.Boolean)">
+            <summary>
+            Dispose of any managed resources.
+            </summary>
+            <param name="disposing">Whether the current invocation is disposing.</param>
+        </member>
+        <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.RunReport(System.Guid,System.String,OpenIZ.Core.Model.RISI.ReportBundle)">
             <summary>
             Executes a report.
             </summary>
             <param name="id">The id of the report.</param>
             <param name="format">The output format of the report.</param>
-            <param name="parameters">The list of parameters of the report.</param>
+            <param name="bundle">The list of parameters of the report.</param>
             <returns>Returns the report in raw format.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.RISI.Client.RisiServiceClient.UpdateParameterTypeDefinition(System.Guid,OpenIZ.Core.Model.RISI.ParameterType)">
