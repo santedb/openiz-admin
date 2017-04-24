@@ -63,6 +63,11 @@ namespace OpenIZAdmin
 		public const string DateTimeFormatViewWithTimestamp = "{0:dd/MM/yyyy hh:mm:ss tt}";
 
 		/// <summary>
+		/// The imported data tag.
+		/// </summary>
+		public const string ImportedDataTag = "http://openiz.org/tags/contrib/importedData";
+
+		/// <summary>
 		/// The IMSI endpoint name.
 		/// </summary>
 		public const string Imsi = "IMSI";

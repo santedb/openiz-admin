@@ -745,6 +745,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data verified successfully.
+        /// </summary>
+        public static string DataVerifiedSuccessfully {
+            get {
+                return ResourceManager.GetString("DataVerifiedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date Requested.
         /// </summary>
         public static string DateRequested {
@@ -2419,6 +2428,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Record verification required.
+        /// </summary>
+        public static string RecordVerificationRequired {
+            get {
+                return ResourceManager.GetString("RecordVerificationRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reference Term.
         /// </summary>
         public static string ReferenceTerm {
@@ -3706,6 +3724,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to verify data.
+        /// </summary>
+        public static string UnableToVerifyData {
+            get {
+                return ResourceManager.GetString("UnableToVerifyData", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Updated .
         /// </summary>
         public static string Updated {
@@ -3945,6 +3972,24 @@ namespace OpenIZAdmin.Localization {
         public static string VerificationRequired {
             get {
                 return ResourceManager.GetString("VerificationRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verify.
+        /// </summary>
+        public static string Verify {
+            get {
+                return ResourceManager.GetString("Verify", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attention: this record is from an external system, if you wish to make changes, you will need to first verify this record. This can be done by clicking the &apos;Verify&apos; button below.
+        /// </summary>
+        public static string VerifyRecordMessage {
+            get {
+                return ResourceManager.GetString("VerifyRecordMessage", resourceCulture);
             }
         }
         

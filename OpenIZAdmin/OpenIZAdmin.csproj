@@ -240,6 +240,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Attributes\TokenAuthorize.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\EntityController.cs" />
     <Compile Include="Controllers\AssociationController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AlertController.cs" />
@@ -310,6 +311,7 @@
     <Compile Include="Models\Core\EntityViewModel.cs" />
     <Compile Include="Models\Core\ReferenceTermNameModel.cs" />
     <Compile Include="Models\Core\SecurityViewModel.cs" />
+    <Compile Include="Models\Core\VerifyEntityModel.cs" />
     <Compile Include="Models\Core\VersionedMetadataEditModelBase.cs" />
     <Compile Include="Models\DebugModels\SubmitBugReportModel.cs" />
     <Compile Include="Models\DependentPropertyValidator.cs" />
@@ -317,6 +319,7 @@
     <Compile Include="Models\EntityIdentifierModels\EntityIdentifierViewModel.cs" />
     <Compile Include="Models\EntityRelationshipModels\EntityRelationshipModel.cs" />
     <Compile Include="Models\EntityRelationshipModels\EntityRelationshipViewModel.cs" />
+    <Compile Include="Models\EntityTagModels\EntityTagViewModel.cs" />
     <Compile Include="Models\FacilityModel.cs" />
     <Compile Include="Models\Core\LanguageModel.cs" />
     <Compile Include="Models\LanguageModels\LanguageViewModel.cs" />
@@ -691,6 +694,7 @@
     <Content Include="Views\CodeSystem\ViewCodeSystem.cshtml" />
     <Content Include="Views\Shared\_CodeSystemsPartial.cshtml" />
     <Content Include="Views\Shared\_ManageCodeSystemPartial.cshtml" />
+    <Content Include="Views\Shared\_VerifyEntityPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

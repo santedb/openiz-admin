@@ -144,6 +144,9 @@ namespace OpenIZAdmin.Models.UserModels
 				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, facility));
 			}
 
+			userEntity.CreationTime = DateTimeOffset.Now;
+			userEntity.VersionKey = null;
+
 			return userEntity;
 		}
 	}

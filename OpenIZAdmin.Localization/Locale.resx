@@ -1428,4 +1428,19 @@
   <data name="ResetPasswordVerificationHelp" xml:space="preserve">
     <value>Please enter either the first part of your email i.e. 'john.smith' if you selected email, or enter the last 4 digits of your phone number if you selected SMS.</value>
   </data>
+  <data name="VerifyRecordMessage" xml:space="preserve">
+    <value>Attention: this record is from an external system, if you wish to make changes, you will need to first verify this record. This can be done by clicking the 'Verify' button below</value>
+  </data>
+  <data name="RecordVerificationRequired" xml:space="preserve">
+    <value>Record verification required</value>
+  </data>
+  <data name="DataVerifiedSuccessfully" xml:space="preserve">
+    <value>Data verified successfully</value>
+  </data>
+  <data name="UnableToVerifyData" xml:space="preserve">
+    <value>Unable to verify data</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>Verify</value>
+  </data>
 </root>

@@ -1,0 +1,21 @@
+﻿@model OpenIZAdmin.Models.Core.VerifyEntityModel
+
+<h3>@Locale.RecordVerificationRequired</h3>
+
+<div class="well">
+    <h5 class="text-capitalize text-danger">@Locale.VerifyRecordMessage</h5>
+</div>
+
+@using (Html.BeginForm("Verify", "Entity", new { returnUrl = Request.RawUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.Type)
+
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">@Locale.Verify</button>
+    </div>
+}
+

@@ -24,7 +24,9 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Models.EntityRelationshipModels;
+using OpenIZAdmin.Models.EntityTagModels;
 
 namespace OpenIZAdmin.Models.Core
 {
@@ -62,6 +64,7 @@ namespace OpenIZAdmin.Models.Core
 			this.Name = string.Join(" ", entity.Names.SelectMany(n => n.Component).Select(c => c.Value));
 			this.ObsoletionTime = entity.ObsoletionTime?.DateTime;
 			this.Relationships = entity.Relationships.Select(r => new EntityRelationshipViewModel(r)).OrderBy(r => r.TargetName).ToList();
+			this.Tags = entity.Tags.Select(t => new EntityTagViewModel(t)).ToList();
 			this.Type = entity.TypeConcept != null ? string.Join(" ", entity.TypeConcept.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
 			this.VersionKey = entity.VersionKey;
 			this.VersionSequence = entity.VersionSequence;
@@ -94,6 +97,12 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		/// <value>The relationships.</value>
 		public List<EntityRelationshipViewModel> Relationships { get; set; }
+
+		/// <summary>
+		/// Gets or sets the tags.
+		/// </summary>
+		/// <value>The tags.</value>
+		public List<EntityTagViewModel> Tags { get; set; }
 
 		/// <summary>
 		/// Gets or sets the type of the entity.
