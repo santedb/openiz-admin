@@ -542,7 +542,7 @@ namespace OpenIZAdmin.Controllers
 						material.TypeConcept = this.GetTypeConcept(material);
 					}
 
-					results = bundle.Item.OfType<Material>().LatestVersionOnly().Where(p => p.ClassConceptKey == EntityClassKeys.Material).Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+					results = bundle.Item.OfType<Material>().LatestVersionOnly().Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
 				}
 				else
 				{
@@ -553,7 +553,7 @@ namespace OpenIZAdmin.Controllers
 						material.TypeConcept = this.GetTypeConcept(material);
 					}
 
-					results = bundle.Item.OfType<Material>().Where(nameExpression.Compile()).LatestVersionOnly().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material).Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+					results = bundle.Item.OfType<Material>().Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
 				}
 			}
 

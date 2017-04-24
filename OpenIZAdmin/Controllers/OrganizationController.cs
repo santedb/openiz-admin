@@ -398,7 +398,7 @@ namespace OpenIZAdmin.Controllers
 				}
 				else
 				{
-					bundle = this.ImsiClient.Query<Organization>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material);
+					bundle = this.ImsiClient.Query<Organization>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Organization);
 
 					foreach (var organization in bundle.Item.OfType<Organization>().LatestVersionOnly())
 					{
@@ -441,7 +441,7 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				Trace.TraceError($"Unable to retrive organization: { e }");
+				Trace.TraceError($"Unable to retrieve organization: { e }");
 			}
 
 			TempData["error"] = Locale.Organization + " " + Locale.NotFound;
