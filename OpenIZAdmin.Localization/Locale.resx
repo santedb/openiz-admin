@@ -1419,4 +1419,13 @@
   <data name="IsServiceDeliveryLocation" xml:space="preserve">
     <value>Is this a service delivery location? (That being, does this place provide a service, such as care?)</value>
   </data>
+  <data name="ResetPasswordTfaMethodHelp" xml:space="preserve">
+    <value>Please select a method to use to reset your password</value>
+  </data>
+  <data name="ResetPasswordUsernameHelp" xml:space="preserve">
+    <value>Please enter your username</value>
+  </data>
+  <data name="ResetPasswordVerificationHelp" xml:space="preserve">
+    <value>Please enter either the first part of your email i.e. 'john.smith' if you selected email, or enter the last 4 digits of your phone number if you selected SMS.</value>
+  </data>
 </root>

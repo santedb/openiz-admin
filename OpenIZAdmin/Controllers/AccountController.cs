@@ -32,10 +32,12 @@ using OpenIZAdmin.Models.AccountModels;
 using OpenIZAdmin.Services.Http;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
@@ -237,50 +239,46 @@ namespace OpenIZAdmin.Controllers
 		{
 			var amiServiceClient = GetDeviceServiceClient();
 
+			var userId = Guid.Empty;
+
+			var resetPasswordModel = new ResetPasswordModel
+			{
+				UserId = userId
+			};
+
 			try
 			{
-				if (this.ModelState.IsValid)
+				amiServiceClient.SendTfaSecret(new TfaRequestInfo
 				{
-					amiServiceClient.SendTfaSecret(new TfaRequestInfo
-					{
-						Purpose = "PasswordReset",
-						ResetMechanism = model.TfaMechanism,
-						UserName = model.Username,
-						Verification = model.Verification
+					Purpose = "PasswordReset",
+					ResetMechanism = model.TfaMechanism,
+					UserName = model.Username,
+					Verification = model.Verification
+				});
+
+				var user = this.AmiClient.GetUsers(u => u.UserName == model.Username && u.ObsoletionTime == null).CollectionItem.FirstOrDefault();
+
+				// here, we don't care if the user is null, since throwing an error if the user in null
+				// could indicate that the user doesn't exist to a potentially malicious user
+				if (user == null)
+				{
+					user = new SecurityUserInfo(new SecurityUser
+					{ 
+						Key = Guid.NewGuid()
 					});
-
-					var user = this.AmiClient.GetUsers(u => u.UserName == model.Username && u.ObsoletionTime == null).CollectionItem.FirstOrDefault();
-
-					if (user == null)
-					{
-						this.TempData["error"] = Locale.UnableToReset + " " + Locale.Password;
-						return RedirectToAction("ForgotPassword");
-					}
-
-					var resetPasswordModel = new ResetPasswordModel
-					{
-						UserId = user.UserId.Value
-					};
-
-					this.TempData["success"] = Locale.ResetCodeSent;
-
-					return View("ResetPassword", resetPasswordModel);
 				}
+
+				resetPasswordModel.UserId = user.UserId.Value;
+
+				this.TempData["success"] = Locale.ResetCodeSent;
 			}
 			catch (Exception e)
 			{
-				this.TempData["error"] = Locale.UnableTo + " " + Locale.Reset + " " + Locale.Password;
-
 				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to send TFA mechanism: {e}");
 			}
 
-			var twoFactorAuthenticationMechanisms = amiServiceClient.GetTwoFactorMechanisms();
-
-			model.TfaMechanisms = model.TfaMechanisms = twoFactorAuthenticationMechanisms.CollectionItem.Select(t => new TfaMechanismModel(t)).ToList();
-
-			this.TempData["error"] = Locale.UnableToReset + " " + Locale.Password;
-
-			return View(model);
+			return View("ResetPassword", resetPasswordModel);
 		}
 
 		/// <summary>

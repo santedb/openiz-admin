@@ -2554,6 +2554,33 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select a method to use to reset your password.
+        /// </summary>
+        public static string ResetPasswordTfaMethodHelp {
+            get {
+                return ResourceManager.GetString("ResetPasswordTfaMethodHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter your username.
+        /// </summary>
+        public static string ResetPasswordUsernameHelp {
+            get {
+                return ResourceManager.GetString("ResetPasswordUsernameHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter either the first part of your email i.e. &apos;john.smith&apos; if you selected email, or enter the last 4 digits of your phone number if you selected SMS..
+        /// </summary>
+        public static string ResetPasswordVerificationHelp {
+            get {
+                return ResourceManager.GetString("ResetPasswordVerificationHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Retrieve.
         /// </summary>
         public static string Retrieve {
