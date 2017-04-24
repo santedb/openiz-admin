@@ -31,7 +31,7 @@
         maximumSelectionLength: 1,
         keepSearchResults: true,
         escapeMarkup: function (markup) { return markup; },
-        minimumInputLength: 4,
+        minimumInputLength: 3,
         templateResult: function (data)
         {
             return "<span class='glyphicon glyphicon-user'> " + data.text + "</span>";
