@@ -17,11 +17,11 @@
  * Date: 2016-11-29
  */
 
+using OpenIZ.Core.Model.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.DataTypes;
 
 namespace OpenIZAdmin.Models.Core
 {
@@ -29,61 +29,61 @@ namespace OpenIZAdmin.Models.Core
 	/// Represents a reference term model.
 	/// </summary>
 	public abstract class ReferenceTermModel
-	{ 
-        /// <summary>
-        /// Gets or sets the Code System
-        /// </summary>
-        public Guid? CodeSystem { get; set; }
+	{
+		/// <summary>
+		/// Gets or sets the Code System
+		/// </summary>
+		public Guid? CodeSystem { get; set; }
 
-        /// <summary>
-        /// Gets or sets the code system list.
-        /// </summary>
-        /// <value>The code system list.</value>
-        [Display(Name = "CodeSystem", ResourceType = typeof(Localization.Locale))]
-        public List<SelectListItem> CodeSystemList { get; set; }
+		/// <summary>
+		/// Gets or sets the code system list.
+		/// </summary>
+		/// <value>The code system list.</value>
+		[Display(Name = "CodeSystem", ResourceType = typeof(Localization.Locale))]
+		public List<SelectListItem> CodeSystemList { get; set; }
 
-        /// <summary>
-        /// Gets or sets the list of reference term names 
-        /// </summary>
-        public List<ReferenceTermName> DisplayNames { get; set; }
+		/// <summary>
+		/// Gets or sets the list of reference term names
+		/// </summary>
+		public List<ReferenceTermName> DisplayNames { get; set; }
 
-	    /// <summary>
+		/// <summary>
 		/// Gets or sets the identifier.
 		/// </summary>
 		/// <value>The identifier.</value>
-		public Guid Id { get; set; }        
+		public Guid Id { get; set; }
 
-        /// <summary>
-        /// Gets or sets the current language.
-        /// </summary>
-        /// <value>The language.</value>        
-        [Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
-        //[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public virtual string Language { get; set; }        
+		/// <summary>
+		/// Gets or sets the current language.
+		/// </summary>
+		/// <value>The language.</value>
+		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
+		//[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		public virtual string Language { get; set; }
 
-        /// <summary>
-        /// Gets or sets the mnemonic.
-        /// </summary>
-        /// <value>The mnemonic.</value>
-        [Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(50, ErrorMessageResourceName = "MnemonicLength50", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string Mnemonic { get; set; }
+		/// <summary>
+		/// Gets or sets the mnemonic.
+		/// </summary>
+		/// <value>The mnemonic.</value>
+		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(50, ErrorMessageResourceName = "MnemonicLength50", ErrorMessageResourceType = typeof(Localization.Locale))]
+		public string Mnemonic { get; set; }
 
-        /// <summary>
-        /// Gets or sets the name.
-        /// </summary>
-        /// <value>The name.</value>
-        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(256, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string Name { get; set; }
+		/// <summary>
+		/// Gets or sets the name.
+		/// </summary>
+		/// <value>The name.</value>
+		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(256, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
+		public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the two letter language code of the language.
-        /// </summary>
-        [Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        public string TwoLetterCountryCode { get; set; }        
-    }
+		/// <summary>
+		/// Gets or sets the two letter language code of the language.
+		/// </summary>
+		[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
+		[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		public string TwoLetterCountryCode { get; set; }
+	}
 }

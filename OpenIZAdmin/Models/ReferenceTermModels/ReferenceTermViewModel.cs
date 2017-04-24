@@ -17,88 +17,86 @@
  * Date: 2017-4-12
  */
 
+using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Models.Core;
+using OpenIZAdmin.Models.ReferenceTermNameModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Models.Core;
-using OpenIZAdmin.Models.ReferenceTermNameModels;
 
 namespace OpenIZAdmin.Models.ReferenceTermModels
 {
-    /// <summary>
+	/// <summary>
 	/// Represents a model to view a reference term.
 	/// </summary>
-    public class ReferenceTermViewModel : ReferenceTermModel
-    {
-
-        /// <summary>
+	public class ReferenceTermViewModel : ReferenceTermModel
+	{
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ReferenceTermViewModel"/> class.
 		/// </summary>
 		public ReferenceTermViewModel()
-        {            
-            DisplayNames = new List<ReferenceTermName>();
-            ReferenceTermNamesList = new List<ReferenceTermNameViewModel>();
-        }
+		{
+			DisplayNames = new List<ReferenceTermName>();
+			ReferenceTermNamesList = new List<ReferenceTermNameViewModel>();
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ReferenceTermViewModel"/> class.
 		/// </summary>
 		public ReferenceTermViewModel(ReferenceTerm referenceTerm) : this()
-        {
-            DisplayNames = referenceTerm.DisplayNames;
-            Id = referenceTerm.Key ?? Guid.Empty;            
-            Mnemonic = referenceTerm.Mnemonic;            
-            Name = string.Join(" ", referenceTerm.DisplayNames.Select(d => d.Name));
-            ReferenceTermNamesList = referenceTerm.DisplayNames.Select(n => new ReferenceTermNameViewModel(n)).ToList();
-        }
+		{
+			this.CreationTime = referenceTerm.CreationTime.DateTime;
+			DisplayNames = referenceTerm.DisplayNames;
+			Id = referenceTerm.Key.Value;
+			Mnemonic = referenceTerm.Mnemonic;
+			Name = string.Join(" ", referenceTerm.DisplayNames.Select(d => d.Name));
+			ReferenceTermNamesList = referenceTerm.DisplayNames.Select(n => new ReferenceTermNameViewModel(n)).ToList();
+		}
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReferenceTermViewModel"/> class.
-        /// </summary>
-        public ReferenceTermViewModel(ReferenceTerm term, Concept concept) : this(term)
-        {
-            ConceptId = concept?.Key;
-            ConceptVersionKey = concept?.VersionKey;
-        }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ReferenceTermViewModel"/> class.
+		/// </summary>
+		public ReferenceTermViewModel(ReferenceTerm term, Concept concept) : this(term)
+		{
+			ConceptId = concept?.Key;
+			ConceptVersionKey = concept?.VersionKey;
+		}
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="ReferenceTermViewModel"/> class.
-        /// </summary>
-        public ReferenceTermViewModel(Concept concept)
-        {
-            ConceptId = concept?.Key;
-            ConceptVersionKey = concept?.VersionKey;            
-        }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ReferenceTermViewModel"/> class.
+		/// </summary>
+		public ReferenceTermViewModel(Concept concept)
+		{
+			ConceptId = concept?.Key;
+			ConceptVersionKey = concept?.VersionKey;
+		}
 
+		/// <summary>
+		/// Gets or sets the concept identifier associated with the reference term
+		/// </summary>
+		public Guid? ConceptId { get; set; }
 
+		/// <summary>
+		///  Gets or sets the concept version identifier associated with the reference term
+		/// </summary>
+		public Guid? ConceptVersionKey { get; set; }
 
-        /// <summary>
-        /// Gets or sets the concept identifier associated with the reference term
-        /// </summary>
-        public Guid? ConceptId { get; set; }
-        /// <summary>
-        ///  Gets or sets the concept version identifier associated with the reference term
-        /// </summary>
-        public Guid? ConceptVersionKey { get; set; }
+		/// <summary>
+		/// Gets or sets the creation time of the concept.
+		/// </summary>
+		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+		public DateTime CreationTime { get; set; }
 
-        /// <summary>
-        /// Gets or sets the creation time of the concept.
-        /// </summary>
-        [Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-        public DateTime CreationTime { get; set; }
+		/// <summary>
+		/// Gets or sets the concatenated display names of the Reference Term
+		/// </summary>
+		[Display(Name = "Names", ResourceType = typeof(Localization.Locale))]
+		public string Names { get; set; }
 
-        /// <summary>
-        /// Gets or sets the concatenated display names of the Reference Term
-        /// </summary>
-        [Display(Name = "Names", ResourceType = typeof(Localization.Locale))]
-        public string Names { get; set; }
-
-        /// <summary>
-        /// Gets or sets the list of reference names associated with the reference term
-        /// </summary>
-        public List<ReferenceTermNameViewModel> ReferenceTermNamesList{ get; set; }
-    }
+		/// <summary>
+		/// Gets or sets the list of reference names associated with the reference term
+		/// </summary>
+		public List<ReferenceTermNameViewModel> ReferenceTermNamesList { get; set; }
+	}
 }
