@@ -300,6 +300,12 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
+				if (place.Tags.Any(t => t.TagKey == Constants.ImportedDataTag && t.Value?.ToLower() == "true"))
+				{
+					this.TempData["warning"] = Locale.RecordMustBeVerifiedBeforeEditing;
+					return RedirectToAction("ViewPlace", new { id, versionId });
+				}
+
 				place.Relationships = this.GetEntityRelationships<Place, Place>(place.Key.Value, place.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child || r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent).ToList();
 
 				var model = new EditPlaceModel(place)

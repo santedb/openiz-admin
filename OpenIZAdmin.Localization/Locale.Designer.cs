@@ -2428,6 +2428,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attention, this record must be verified before editing.
+        /// </summary>
+        public static string RecordMustBeVerifiedBeforeEditing {
+            get {
+                return ResourceManager.GetString("RecordMustBeVerifiedBeforeEditing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Record verification required.
         /// </summary>
         public static string RecordVerificationRequired {

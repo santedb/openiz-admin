@@ -1443,4 +1443,7 @@
   <data name="Verify" xml:space="preserve">
     <value>Verify</value>
   </data>
+  <data name="RecordMustBeVerifiedBeforeEditing" xml:space="preserve">
+    <value>Attention, this record must be verified before editing</value>
+  </data>
 </root>
