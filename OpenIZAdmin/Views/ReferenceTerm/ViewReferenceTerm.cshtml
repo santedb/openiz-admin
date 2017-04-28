@@ -42,7 +42,15 @@
     <script type="text/javascript">
         $(document).ready(function ()
         {
-            $('#referenceTermNamesTable').DataTable();
+            //$('#referenceTermNamesTable').DataTable();
+            $('#referenceTermNamesTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null                  
+                ]
+            });
 
         });
     </script>

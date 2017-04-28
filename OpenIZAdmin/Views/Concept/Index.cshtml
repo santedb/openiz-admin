@@ -28,7 +28,23 @@
 
             $('#search-partial').bind("DOMSubtreeModified", function ()
             {
-                $("#conceptsSearchTable").DataTable();
+                if (!$('#conceptsSearchTable').length)
+                    return;
+
+                if ($.fn.DataTable.isDataTable('#conceptsSearchTable'))
+                    return;
+
+                //$("#conceptsSearchTable").DataTable();
+                $('#conceptsSearchTable').dataTable({
+                    order: [],
+                    columns: [
+                      { "orderable": false },
+                      null,
+                      null,
+                      null,
+                      { "orderable": false }
+                    ]
+                });
             });
         });
     </script>

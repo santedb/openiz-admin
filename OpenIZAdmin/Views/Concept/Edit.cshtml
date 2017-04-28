@@ -113,8 +113,27 @@
                 maximumSelectionLength: 1
             });
 
-            $('#languages-table').DataTable();
-            $('#referenceTermsTable').DataTable();            
+            //$('#languages-table').DataTable();
+            $('#languages-table').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },                  
+                  null,
+                  null,
+                  { "orderable": false }
+                ]
+            });
+
+            //$('#referenceTermsTable').DataTable();
+            $('#referenceTermsTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },                  
+                  null,
+                  null,
+                  { "orderable": false }
+                ]
+            });
         });
 
         //$('#AddReferenceTerm').on('change', function () {            

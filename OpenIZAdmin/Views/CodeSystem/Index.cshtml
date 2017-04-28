@@ -29,7 +29,24 @@
 
             $('#search-partial').bind("DOMSubtreeModified", function ()
             {
-                $("#codeSystemSearchTable").DataTable();
+                if (!$('#codeSystemSearchTable').length)
+                    return;
+
+                if ($.fn.DataTable.isDataTable('#codeSystemSearchTable'))
+                    return;
+
+                //$("#codeSystemSearchTable").DataTable();
+                $('#codeSystemSearchTable').DataTable({
+                    order: [],
+                    columns: [
+                      { "orderable": false },
+                      null,
+                      null,
+                      null,
+                      null,
+                      { "orderable": false }
+                    ]
+                });
             });
         });
     </script>

@@ -50,3 +50,24 @@
 </div>
 
 @Html.Partial("_ReferenceTermNamesPartial", Model.ReferenceTermNameList)
+
+
+@section scripts
+{
+    <script>
+        
+        $(document).ready(function () {
+
+            $('#referenceTermNamesTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null                  
+                ]
+            });
+
+        });
+
+    </script> 
+}

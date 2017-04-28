@@ -109,7 +109,17 @@
             });
 
 
-            $('#conceptListTable').DataTable();                       
+            //$('#conceptListTable').DataTable();
+            $('#conceptListTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  { "orderable": false }
+                ]
+            });
         });
 
 </script>    

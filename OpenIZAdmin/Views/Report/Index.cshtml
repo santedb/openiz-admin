@@ -40,7 +40,15 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            $("#reportsTable").DataTable();
+            //$("#reportsTable").DataTable();
+            $('#reportsTable').DataTable({
+                order: [],
+                columns: [                  
+                  null,
+                  null,
+                  { "orderable": false }
+                ]
+            });
         });
     </script>
     

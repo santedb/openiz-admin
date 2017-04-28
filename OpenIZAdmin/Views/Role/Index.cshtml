@@ -30,7 +30,24 @@
 
             $('#search-partial').bind("DOMSubtreeModified", function ()
             {
-                $("#rolesSearchTable").DataTable();
+                if (!$('#rolesSearchTable').length)
+                    return;
+
+                if ($.fn.DataTable.isDataTable('#rolesSearchTable'))
+                    return;
+
+                //$("#rolesSearchTable").DataTable();
+                $('#rolesSearchTable').DataTable({
+                    order: [],
+                    columns: [
+                      { "orderable": false },
+                      null,
+                      null,
+                      null,
+                      null,
+                      { "orderable": false }
+                    ]
+                });
             });
         });
     </script>

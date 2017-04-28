@@ -29,7 +29,25 @@
 
             $('#search-partial').bind("DOMSubtreeModified", function ()
             {
-                $("#policiesSearchTable").DataTable();
+                if (!$('#policiesSearchTable').length)
+                    return;
+
+                if ($.fn.DataTable.isDataTable('#policiesSearchTable'))
+                    return;
+
+                //$("#policiesSearchTable").DataTable();
+                $('#policiesSearchTable').DataTable({
+                    order: [],
+                    columns: [
+                      { "orderable": false },
+                      null,
+                      null,
+                      null,
+                      null,
+                      null,
+                      { "orderable": false }
+                    ]
+                });
             });
         });
     </script>

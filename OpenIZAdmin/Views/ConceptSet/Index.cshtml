@@ -31,7 +31,23 @@
 
             $('#search-partial').bind("DOMSubtreeModified", function ()
             {
-                $("#conceptSetSearchTable").DataTable();
+                if (!$('#conceptSetSearchTable').length)
+                    return;
+
+                if ($.fn.DataTable.isDataTable('#conceptSetSearchTable'))
+                    return;
+
+                //$("#conceptSetSearchTable").DataTable();
+                $('#conceptSetSearchTable').dataTable({
+                    order: [],
+                    columns: [
+                      { "orderable": false },
+                      null,
+                      null,
+                      null,
+                      { "orderable": false }
+                    ]
+                });
             });
         });
     </script>

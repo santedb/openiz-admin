@@ -30,7 +30,22 @@
 
             $('#search-partial').bind("DOMSubtreeModified", function ()
             {
-                $("#assigningAuthorityTable").DataTable();
+                if (!$('#assigningAuthorityTable').length)
+                    return;
+
+                if ($.fn.DataTable.isDataTable('#assigningAuthorityTable'))
+                    return;
+
+                //$("#assigningAuthorityTable").DataTable();
+                $('#assigningAuthorityTable').DataTable({
+                    order: [],
+                    columns: [
+                      { "orderable": false },
+                      null,
+                      null,                      
+                      { "orderable": false }
+                    ]
+                });
             });
         });
     </script>

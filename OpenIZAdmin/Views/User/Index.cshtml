@@ -30,7 +30,25 @@
 
             $('#search-partial').bind("DOMSubtreeModified", function ()
             {
-                $("#usersSearchTable").DataTable();
+                if (!$('#usersSearchTable').length)
+                    return;
+
+                if ($.fn.DataTable.isDataTable('#usersSearchTable'))
+                    return;
+
+                //$("#usersSearchTable").DataTable();
+                $('#usersSearchTable').DataTable({
+                    order: [],
+                    columns: [
+                      { "orderable": false },
+                      null,
+                      null,
+                      null,
+                      null,
+                      null,
+                      { "orderable": false }
+                    ]
+                });
             });
         });
     </script>
