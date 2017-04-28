@@ -24,8 +24,8 @@
                         <tbody>
                             @foreach (var item in Model)
                             {
-                                <tr>
-                                    <td><span class="glyphicon glyphicon-baby-formula"></span></td>
+                                <tr>                                    
+                                    <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-baby-formula" aria-hidden="true"></span></td>
                                     <td>@item.CreationTime.ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
                                     <td>@item.Name</td>
                                     <td>@item.LotNumber</td>

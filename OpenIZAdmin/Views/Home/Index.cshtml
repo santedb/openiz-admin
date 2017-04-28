@@ -23,10 +23,54 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            $("#rolesSearchTable").DataTable();
-            $("#appletsSearchTable").DataTable();
-            $("#certificateRequestsTable").DataTable();
-            $("#devicesSearchTable").DataTable();
+
+            $('#appletsTable').DataTable({
+                order: [],
+                columns: [                  
+                  null,
+                  null,
+                  null,
+                  null,
+                  { "orderable": false }
+                ]
+            });
+            
+            $('#certificateRequestsTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  null,
+                  { "orderable": false }
+                ]
+            });
+            
+            $('#devicesSearchTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  null,
+                  { "orderable": false }
+                ]
+            });
+
+            $('#rolesSearchTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  null,
+                  { "orderable": false }
+                ]
+            });                                                            
+
             $("#usersSearchTable").DataTable();
         });
     </script>

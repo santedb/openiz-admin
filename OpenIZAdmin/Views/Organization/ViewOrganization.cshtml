@@ -50,8 +50,40 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            $("#identifiersTable").DataTable();
-            $("#manufacturedMaterialsTable").DataTable();
+
+            //$("#identifiersTable").DataTable();
+            $('#identifiersTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null                  
+                ]
+            });
+
+            //$("#manufacturedMaterialsTable").DataTable();
+            $('#manufacturedMaterialsTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  null                  
+                ]
+            });
+
+            $('#relationshipsTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  null
+                ]
+            });
         });
     </script>
 }

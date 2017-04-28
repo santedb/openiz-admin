@@ -135,3 +135,36 @@
     </div>
     @Html.Partial("_ManageRelationshipsPartial", Model.Relationships)
 </div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            $('#identifiersTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  { "orderable": false }
+                ]
+            });
+
+            $('#relationshipsTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  null,
+                  { "orderable": false }
+                ]
+            });
+
+        });
+    </script>
+
+}

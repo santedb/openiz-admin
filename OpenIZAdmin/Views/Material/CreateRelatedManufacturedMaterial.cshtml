@@ -35,3 +35,24 @@
 </div>
 
 @Html.Partial("_RelationshipsPartial", Model.ExistingRelationships)
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            $('#relationshipsTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  null
+                ]
+            });
+            
+        });
+    </script>
+
+}

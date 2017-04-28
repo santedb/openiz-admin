@@ -58,7 +58,16 @@
         <script type="text/javascript">
             $(document).ready(function () {
 
-                $("#conceptListTable").DataTable();
+                //$("#conceptListTable").DataTable();
+                $('#conceptListTable').dataTable({
+                    order: [],
+                    columns: [
+                      { "orderable": false },
+                      null,
+                      null,
+                      null                      
+                    ]
+                });
             });
         </script>
     }

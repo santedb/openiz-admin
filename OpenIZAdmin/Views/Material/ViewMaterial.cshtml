@@ -57,7 +57,39 @@
     <script>
         $(document).ready(function ()
         {
-            $("#identifiersTable").DataTable();
+            //$("#identifiersTable").DataTable();
+            $('#identifiersTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null                  
+                ]
+            });
+
+            $('#manufacturedMaterialsTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  null
+                ]
+            });
+            
+            $('#relationshipsTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  null
+                ]
+            });
+            
         });
     </script>
 }

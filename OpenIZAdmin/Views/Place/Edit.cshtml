@@ -133,11 +133,34 @@
     <script>
         $(document).ready(function ()
         {
-            $("#viewPlaceTable").DataTable();
+            //$("#viewPlaceTable").DataTable();
             $('.dynamic-dropdown').select2({
                 tags: true,
                 tokenSeparators: [','],
                 width: '100%'
+            });
+
+            $('#identifiersTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  { "orderable": false }
+                ]
+            });
+
+            $('#relationshipsTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  null,
+                  { "orderable": false }
+                ]
             });
 
         });

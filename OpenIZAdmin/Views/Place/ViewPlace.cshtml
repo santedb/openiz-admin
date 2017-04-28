@@ -62,7 +62,39 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            $("#viewPlaceTable").DataTable();
+            
+            if (!$('#identifiersTable').length)
+                return;
+
+            if ($.fn.DataTable.isDataTable('#identifiersTable'))
+                return;
+
+            $('#identifiersTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null
+                ]
+            });
+
+            if (!$('#relationshipsTable').length)
+                return;
+
+            if ($.fn.DataTable.isDataTable('#relationshipsTable'))
+                return;
+
+            $('#relationshipsTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  null
+                ]
+            });
 
         });
     </script>

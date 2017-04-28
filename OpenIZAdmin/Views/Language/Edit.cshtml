@@ -42,3 +42,23 @@
 </div>
 
 @Html.Partial("_LanguagesPartial", Model.Languages)
+
+@section scripts
+{
+    <script>
+
+        $(document).ready(function () {
+
+            $('#languages-table').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null
+                ]
+            });
+
+        });
+
+    </script>
+}

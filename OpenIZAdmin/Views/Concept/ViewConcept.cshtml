@@ -56,9 +56,26 @@
 
     <script type="text/javascript">
         $(document).ready(function ()
-        {            
-            $('#languages-table').DataTable();
-            $('#referenceTermsTable').DataTable();
+        {                        
+            //$('#languages-table').DataTable();
+            $('#languages-table').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null                  
+                ]
+            });
+
+            //$('#referenceTermsTable').DataTable();
+            $('#referenceTermsTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null                  
+                ]
+            });
 
         });
     </script>

@@ -41,7 +41,20 @@
     <script>
         $(document).ready(function ()
         {
-            $("#policyTable").DataTable();
+            //$("#policyTable").DataTable();
+            $('#policyTable').DataTable({
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  null,
+                  null,
+                  null                  
+                ]
+            });
+
         });
     </script>
 }
