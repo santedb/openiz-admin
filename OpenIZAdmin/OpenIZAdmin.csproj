@@ -695,6 +695,7 @@
     <Content Include="Views\Shared\_CodeSystemsPartial.cshtml" />
     <Content Include="Views\Shared\_ManageCodeSystemPartial.cshtml" />
     <Content Include="Views\Shared\_VerifyEntityPartial.cshtml" />
+    <Content Include="Views\Shared\_UserRolesPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

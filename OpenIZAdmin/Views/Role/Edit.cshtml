@@ -63,9 +63,9 @@
         <div class="form-group col-md-offset-2 col-md-8">
             <div class="pull-right">
                 @if (!Model.IsObsolete)
-            {
-                using (Html.BeginForm("Delete", "Role", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                 {
+                    using (Html.BeginForm("Delete", "Role", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                    {
                         @Html.AntiForgeryToken()
 
                         <button type="submit" class="btn btn-danger">
@@ -93,7 +93,9 @@
     
 </div>
 
-<div class="panel panel-default">
+@Html.Partial("_PoliciesPartial", Model.RolePolicies);
+
+@*<div class="panel panel-default">
     <div class="panel-heading">
         <span class="panel-title">@Locale.Policies</span>           
     </div>
@@ -139,7 +141,7 @@
             </div>
         </div>
     </div>
-</div>                          
+</div>*@                          
 
 @section scripts
 {
