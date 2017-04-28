@@ -26,6 +26,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
@@ -104,7 +106,31 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
+					var synchronizersRole = this.AmiClient.GetRoles(r => r.Name == "SYNCHRONIZERS").CollectionItem.FirstOrDefault();
+					var deviceRole = this.AmiClient.GetRoles(r => r.Name == "DEVICE").CollectionItem.FirstOrDefault();
+
 					var device = this.AmiClient.CreateDevice(model.ToSecurityDeviceInfo());
+
+
+					var securityUserInfo = new SecurityUserInfo
+					{
+						Password = model.DeviceSecret,
+						Roles = new List<SecurityRoleInfo>
+						{
+							deviceRole,
+							synchronizersRole
+						},
+						UserName = model.Name,
+						User = new SecurityUser
+						{
+							Key = Guid.NewGuid(),
+							UserClass = UserClassKeys.ApplicationUser,
+							UserName = model.Name,
+							SecurityHash = Guid.NewGuid().ToString()
+						},
+					};
+
+					this.AmiClient.CreateUser(securityUserInfo);
 
 					TempData["success"] = Locale.Device + " " + Locale.Created + " " + Locale.Successfully;
 
