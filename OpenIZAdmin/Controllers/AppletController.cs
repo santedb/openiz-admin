@@ -29,6 +29,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Web.Mvc;
 using System.Xml.Serialization;
+using OpenIZ.Core.Model.AMI.Applet;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -248,10 +249,11 @@ namespace OpenIZAdmin.Controllers
 									package = (AppletPackage)serializer.Deserialize(stream);
 								}
 
-								using (var stream = new MemoryStream(package.Manifest))
-								{
-									manifest = AppletManifest.Load(stream);
-								}
+								this.AmiClient.CreateApplet(package);
+
+								TempData["success"] = Locale.Applet + " " + Locale.Uploaded + " " + Locale.Successfully;
+
+								return RedirectToAction("Index");
 							}
 							catch (Exception e)
 							{
@@ -264,22 +266,6 @@ namespace OpenIZAdmin.Controllers
 						default:
 							ModelState.AddModelError(nameof(model.File), Locale.UnableToUpload + " " + Locale.Applet);
 							break;
-					}
-
-					// ensure that the model state wasn't invalidated when attempting to serialize the applet file
-					if (ModelState.IsValid)
-					{
-						//var manifestInfo = new AppletManifestInfo
-						//{
-						//	FileExtension = fileInfo.Extension,
-						//	AppletManifest = manifest
-						//};
-
-						//this.AmiClient.CreateApplet(manifestInfo);
-
-						TempData["success"] = Locale.Applet + " " + Locale.Uploaded + " " + Locale.Successfully;
-
-						return RedirectToAction("Index");
 					}
 				}
 			}

@@ -84,25 +84,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Forces the load concepts.
-		/// </summary>
-		/// <param name="conceptSet">The concept set.</param>
-		/// <returns>Returns the concept set with the nested loaded concepts.</returns>
-		private ConceptSet ForceLoadConcepts(ConceptSet conceptSet)
-		{
-			Expression<Func<Concept, bool>> nameExpression = c => c.ConceptNames.Any() || c.Mnemonic != null;
-
-			// HACK: force load missing concept names and mnemonics
-			for (var i = 0; i < conceptSet.Concepts.Count(nameExpression.Compile()); i++)
-			{
-				var concept = conceptSet.Concepts.Where(nameExpression.Compile()).ToArray()[i];
-				conceptSet.Concepts.Where(nameExpression.Compile()).ToArray()[i] = this.ImsiClient.Get<Concept>(concept.Key.Value, null) as Concept;
-			}
-
-			return conceptSet;
-		}
-
-		/// <summary>
 		/// Gets all roles.
 		/// </summary>
 		/// <returns>Returns a list of all roles as role view model instances.</returns>
@@ -350,10 +331,8 @@ namespace OpenIZAdmin.Controllers
 
 				if (conceptSet != null)
 				{
-					conceptSet = ForceLoadConcepts(conceptSet);
+					MvcApplication.MemoryCache.Set(new CacheItem(ConceptSetKeys.TelecomAddressUse.ToString(), conceptSet), MvcApplication.CacheItemPolicy);
 				}
-
-				MvcApplication.MemoryCache.Set(new CacheItem(ConceptSetKeys.TelecomAddressUse.ToString(), conceptSet), MvcApplication.CacheItemPolicy);
 			}
 
 			return conceptSet;
