@@ -77,7 +77,7 @@ namespace OpenIZAdmin.Controllers
 
 			this.TempData["error"] = Locale.UnableToDelete + " " + Locale.Relationship;
 
-			return RedirectToAction("Edit" + type, type, new { id = sourceId, versionId = versionKey });
+			return RedirectToAction("Edit", type, new { id = sourceId, versionId = versionKey });
 		}
 
         /// <summary>

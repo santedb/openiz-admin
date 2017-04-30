@@ -1303,6 +1303,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Identifier deleted successfully.
+        /// </summary>
+        public static string IdentifierDeletedSuccessfully {
+            get {
+                return ResourceManager.GetString("IdentifierDeletedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The identifier format is not valid.
         /// </summary>
         public static string IdentifierFormatInvalid {
@@ -3531,6 +3540,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToDelete {
             get {
                 return ResourceManager.GetString("UnableToDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to delete identifier.
+        /// </summary>
+        public static string UnableToDeleteIdentifier {
+            get {
+                return ResourceManager.GetString("UnableToDeleteIdentifier", resourceCulture);
             }
         }
         

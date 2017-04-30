@@ -274,6 +274,11 @@ namespace OpenIZAdmin.Controllers
 
 			var entity = bundle.Item.OfType<T>().Where(query.Compile()).LatestVersionOnly().FirstOrDefault(query.Compile().Invoke);
 
+			if (entity == null)
+			{
+				return null;
+			}
+
 			if (entity.TypeConceptKey.HasValue && entity.TypeConceptKey != Guid.Empty)
 			{
 				entity.TypeConcept = this.ImsiClient.Get<Concept>(entity.TypeConceptKey.Value, null) as Concept;

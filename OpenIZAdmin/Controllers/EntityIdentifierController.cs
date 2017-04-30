@@ -122,6 +122,8 @@ namespace OpenIZAdmin.Controllers
 					}
 
 					entity.Identifiers.Add(new EntityIdentifier(authority, model.Value));
+					entity.CreationTime = DateTimeOffset.Now;
+					entity.VersionKey = null;
 
 					var updatedEntity = this.UpdateEntity(entity, modelType);
 
@@ -163,6 +165,8 @@ namespace OpenIZAdmin.Controllers
 
 				var updatedEntity = this.UpdateEntity(entity, modelType);
 
+				this.TempData["success"] = Locale.IdentifierDeletedSuccessfully;
+
 				return RedirectToAction("Edit", type, new { id = updatedEntity.Key.Value });
 			}
 			catch (Exception e)
@@ -171,7 +175,9 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to delete entity identifier: { e }");
 			}
 
-			return RedirectToAction("View" + type, type, new { id = entityId });
+			this.TempData["error"] = Locale.UnableToDeleteIdentifier;
+
+			return RedirectToAction("Edit", type, new { id = entityId });
 		}
 
 		/// <summary>

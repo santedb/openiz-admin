@@ -564,11 +564,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var bundle = this.ImsiClient.Query<Place>(p => p.Key == id && p.VersionKey == versionId, 0, null, true);
-
-				bundle.Reconstitute();
-
-				var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == id && p.VersionKey == versionId);
+				var place = this.GetEntity<Place>(id, versionId);
 
 				if (place == null)
 				{
