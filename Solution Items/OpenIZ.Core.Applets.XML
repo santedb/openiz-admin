@@ -317,6 +317,16 @@
             Gets or sets the definition
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Applets.Model.AppletTemplateDefinition.Description">
+            <summary>
+            Gets or sets the definition
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Applets.Model.AppletTemplateDefinition.Oid">
+            <summary>
+            Gets or sets the definition
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Applets.Model.AppletTemplateDefinition.DefinitionContent">
             <summary>
             The content loaded

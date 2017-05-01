@@ -2927,6 +2927,16 @@
             <param name="codeSystem">The code system.</param>
             <returns>Returns the updated code system.</returns>
         </member>
+        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.GetTemplateDefinition(System.String)">
+            <summary>
+            Get tempate definition
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IMetadataRepositoryService.CreateTemplateDefinition(OpenIZ.Core.Model.DataTypes.TemplateDefinition)">
+            <summary>
+            Create a template definition
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Services.IClientRegistryNotificationService">
             <summary>
             Represents a client registry notification service.
