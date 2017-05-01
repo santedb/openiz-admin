@@ -55,7 +55,7 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		public EntityRelationshipViewModel(EntityRelationship entityRelationship)
 		{
 			this.Id = entityRelationship.Key.Value;
-			this.Quantity = entityRelationship.Quantity;
+			this.Quantity = entityRelationship.Quantity ?? 0;
 			this.RelationshipTypeName = entityRelationship.RelationshipType != null ? string.Join(" ", entityRelationship.RelationshipType.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
 			this.TargetName = entityRelationship.TargetEntity != null ? string.Join(" ", entityRelationship.TargetEntity.Names.SelectMany(n => n.Component).Select(c => c.Value)) : Constants.NotApplicable;
 			this.TargetTypeConcept = entityRelationship.TargetEntity?.TypeConcept != null ? string.Join(" ", entityRelationship.TargetEntity.TypeConcept.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;

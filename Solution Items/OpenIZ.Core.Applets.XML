@@ -1417,6 +1417,13 @@
             Serialize to the specified text writer
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Applets.ViewModel.Json.JsonViewModelSerializer.Serialize(Newtonsoft.Json.JsonWriter,OpenIZ.Core.Model.IdentifiedData)">
+            <summary>
+            Serialize data
+            </summary>
+            <param name="jw"></param>
+            <param name="data"></param>
+        </member>
         <member name="T:OpenIZ.Core.Applets.ViewModel.IViewModelSerializer">
             <summary>
             Represents a view model serializer instance

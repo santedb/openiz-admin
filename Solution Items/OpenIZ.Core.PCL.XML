@@ -180,6 +180,16 @@
             Identifies the column is an object which has other data
             </summary>
         </member>
+        <member name="F:OpenIZ.Core.Data.Warehouse.SchemaPropertyType.DateTime">
+            <summary>
+            Identifies a column has a date and a time
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Data.Warehouse.SchemaPropertyType.TimeStamp">
+            <summary>
+            Represents a timestamp (with timezone)
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Data.Warehouse.DatamartStoredQuery">
             <summary>
             Represents a stored query creation statement
@@ -188,6 +198,11 @@
         <member name="M:OpenIZ.Core.Data.Warehouse.DatamartStoredQuery.#ctor">
             <summary>
             Stored query
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Data.Warehouse.DatamartStoredQuery.DataSource">
+            <summary>
+            Attachments
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Data.Warehouse.DatamartStoredQuery.Id">
@@ -223,6 +238,56 @@
         <member name="P:OpenIZ.Core.Data.Warehouse.DatamartStoredQueryDefinition.Query">
             <summary>
             The SQL 
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Data.Warehouse.DataWarehouseObjectPropertyValue">
+            <summary>
+            Warehouse object property value
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Data.Warehouse.DataWarehouseObjectPropertyValue.#ctor">
+            <summary>
+            Creates a new warehouse object
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Data.Warehouse.DataWarehouseObjectPropertyValue.#ctor(System.Collections.Generic.KeyValuePair{System.String,System.Object})">
+            <summary>
+            Creates a new property value from kvp provided
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Data.Warehouse.DataWarehouseObjectPropertyValue.Name">
+            <summary>
+            Gets or sets the name
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Data.Warehouse.DataWarehouseObjectPropertyValue.Value">
+            <summary>
+            Value of the object
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Data.Warehouse.DataWarehouseObjectPropertyValue.Expand">
+            <summary>
+            Expand the value 
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Data.Warehouse.DataWarehouseObject">
+            <summary>
+            Data warehousing object wrapper 
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Data.Warehouse.DataWarehouseObject.#ctor">
+            <summary>
+            Data warehouse object wrapper
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Data.Warehouse.DataWarehouseObject.#ctor(System.Collections.Generic.IDictionary{System.String,System.Object})">
+            <summary>
+            Data warehouse object
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Data.Warehouse.DataWarehouseObject.Properties">
+            <summary>
+            Gets or sets the properties
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Data.Warehouse.IDatamartSchemaPropertyContainer">
@@ -399,6 +464,11 @@
         <member name="M:OpenIZ.Core.Exceptions.DetectedIssueException.#ctor(System.Collections.Generic.List{OpenIZ.Core.Services.DetectedIssue})">
             <summary>
             Creates a new detected issue exception with the specified issue list
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Exceptions.DetectedIssueException.ToString">
+            <summary>
+            Write to string
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Exceptions.PatchException">
@@ -853,11 +923,6 @@
             Fired after the request has been finished
             </summary>
         </member>
-        <member name="E:OpenIZ.Core.Http.IRestClient.ProgressChanged">
-            <summary>
-            Fired when progress has changed
-            </summary>
-        </member>
         <member name="T:OpenIZ.Core.Http.JsonBodySerializer">
             <summary>
             Represents a body serializer that uses JSON
@@ -948,7 +1013,7 @@
             Progress has changed
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Http.RestClientBase.FireProgressChanged(System.String,System.String,OpenIZ.Core.Model.Query.NameValueCollection,System.String,System.Int32,System.Single)">
+        <member name="M:OpenIZ.Core.Http.RestClientBase.FireProgressChanged(System.Object,System.Single)">
             <summary>
             Fire that progress has changed
             </summary>
@@ -1222,21 +1287,6 @@
             Identifies the response code
             </summary>
         </member>
-        <member name="T:OpenIZ.Core.Http.RestStatusEventArgs">
-            <summary>
-            Status changed event args
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Http.RestStatusEventArgs.#ctor(System.String,System.String,OpenIZ.Core.Model.Query.NameValueCollection,System.String,System.Object,System.Int32,System.Single)">
-            <summary>
-            REST response client event args
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Http.RestStatusEventArgs.Progress">
-            <summary>
-            Gets or sets the progress
-            </summary>
-        </member>
         <member name="T:OpenIZ.Core.Http.XmlBodySerializer">
             <summary>
             Represents a body serializer that uses XmlSerializer
@@ -1458,13 +1508,13 @@
             Represents a simple patch service which can calculate patches and apply them
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.Impl.SimplePatchService.Diff(OpenIZ.Core.Model.IdentifiedData,OpenIZ.Core.Model.IdentifiedData)">
+        <member name="M:OpenIZ.Core.Services.Impl.SimplePatchService.Diff(OpenIZ.Core.Model.IdentifiedData,OpenIZ.Core.Model.IdentifiedData,System.String[])">
             <summary>
             Perform a diff using a simple .compare() method
             </summary>
             <remarks>This method only performs a diff on the root object passed and does not cascade to collections</remarks>
         </member>
-        <member name="M:OpenIZ.Core.Services.Impl.SimplePatchService.DiffInternal(OpenIZ.Core.Model.IdentifiedData,OpenIZ.Core.Model.IdentifiedData,System.String)">
+        <member name="M:OpenIZ.Core.Services.Impl.SimplePatchService.DiffInternal(OpenIZ.Core.Model.IdentifiedData,OpenIZ.Core.Model.IdentifiedData,System.String,System.String[])">
             <summary>
             Difference internal
             </summary>
@@ -2145,6 +2195,13 @@
             <param name="key">The key of the concept set to be obsoleted.</param>
             <returns>Returns the obsoleted concept set.</returns>
         </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.ObsoleteReferenceTerm(System.Guid)">
+            <summary>
+            Obsoletes the reference term.
+            </summary>
+            <param name="key">The key.</param>
+            <returns>Returns the obsoleted reference term.</returns>
+        </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.SaveConcept(OpenIZ.Core.Model.DataTypes.Concept)">
             <summary>
             Insert or updates a concept.
@@ -2263,6 +2320,11 @@
             Gets the specified datamart
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Services.IAdHocDatawarehouseService.GetDatamart(System.Guid)">
+            <summary>
+            Gets the specified datamart
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Services.IAdHocDatawarehouseService.DeleteDatamart(System.Guid)">
             <summary>
             Deletes a datamart
@@ -2271,6 +2333,11 @@
         <member name="M:OpenIZ.Core.Services.IAdHocDatawarehouseService.Get(System.Guid,System.Guid)">
             <summary>
             Gets data from an ad-hoc data mart
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IAdHocDatawarehouseService.AdhocQuery(System.String)">
+            <summary>
+            Executes the specified query 
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.IAdHocDatawarehouseService.AdhocQuery(System.Guid,System.Object)">
@@ -2399,7 +2466,7 @@
             Represents a patch service which can calculate and apply patches
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IPatchService.Diff(OpenIZ.Core.Model.IdentifiedData,OpenIZ.Core.Model.IdentifiedData)">
+        <member name="M:OpenIZ.Core.Services.IPatchService.Diff(OpenIZ.Core.Model.IdentifiedData,OpenIZ.Core.Model.IdentifiedData,System.String[])">
             <summary>
             Performs a DIFF and creates the related patch which can be used to update <paramref name="existing"/>
             to <paramref name="updated"/>
@@ -2470,6 +2537,31 @@
             </summary>
             <param name="person">The person to save.</param>
             <returns>Returns the saved person.</returns>
+        </member>
+        <member name="P:OpenIZ.Core.Services.ProgressChangedEventArgs.Progress">
+            <summary>
+            Gets or sets the progress
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Services.ProgressChangedEventArgs.State">
+            <summary>
+            Display attached with the progress
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ProgressChangedEventArgs.#ctor(System.Single,System.Object)">
+            <summary>
+            Progress changed event args
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Services.IReportProgressChanged">
+            <summary>
+            Represents a class which reports progress
+            </summary>
+        </member>
+        <member name="E:OpenIZ.Core.Services.IReportProgressChanged.ProgressChanged">
+            <summary>
+            Identifies that progress has changed
+            </summary>
         </member>
         <member name="T:OpenIZ.Core.Services.IRepositoryService`1">
             <summary>
@@ -3446,6 +3538,16 @@
             <param name="startPeriod">The start period.</param>
             <param name="endPeriod">The end period.</param>
             <returns>IEnumerable&lt;Act&gt;.</returns>
+        </member>
+        <member name="T:OpenIZ.Core.Services.ITagPersistenceService">
+            <summary>
+            Taggable persistence service
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.ITagPersistenceService.Save(System.Guid,OpenIZ.Core.Model.Interfaces.ITag)">
+            <summary>
+            Save tag to source key
+            </summary>
         </member>
         <member name="T:OpenIZ.Core.Services.IThreadPoolService">
             <summary>

@@ -213,6 +213,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="P:OpenIZ.Core.Model.Acts.Act.OpenIZ#Core#Model#Interfaces#ITaggable#Tags">
+            <summary>
+            Gets the tags
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Acts.ActParticipation">
             <summary>
             Associates an entity which participates in an act
@@ -305,6 +310,11 @@
         <member name="M:OpenIZ.Core.Model.Acts.ActParticipation.ShouldSerializeActKey">
             <summary>
             Should serialize act key
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Acts.ActParticipation.ToString">
+            <summary>
+            Represent as string
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Acts.ActProtocol">
@@ -402,6 +412,12 @@
             <summary>
             Determine semantic equality
             </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Acts.ActRelationship.ToString">
+            <summary>
+            To string
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:OpenIZ.Core.Model.Acts.CarePlan">
             <summary>
@@ -3934,6 +3950,11 @@
             Shoudl serialize source entity?
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityRelationship.ToString">
+            <summary>
+            Represent as string
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Entities.EntityTelecomAddress">
             <summary>
             Represents an entity telecom address
@@ -4561,6 +4582,31 @@
         <member name="M:OpenIZ.Core.Model.Interfaces.ISecurable.Mask">
             <summary>
             True if the object is masked
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.Interfaces.ITaggable">
+            <summary>
+            Represents a class which can hold tags
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Interfaces.ITaggable.Tags">
+            <summary>
+            Gets the tags associated with the object
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.Interfaces.ITag">
+            <summary>
+            Represents a tag
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Interfaces.ITag.TagKey">
+            <summary>
+            Gets the key for the tag
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Interfaces.ITag.Value">
+            <summary>
+            Gets the value for the tag
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Interfaces.IVersionedAssociation">
