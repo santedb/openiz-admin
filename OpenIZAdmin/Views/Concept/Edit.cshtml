@@ -55,7 +55,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-8">
-                    <a href="@Url.Action("Index")" class="btn btn-danger">@Locale.Cancel</a>
+                    <a href="@Url.Action("ViewConcept", new { id = Model.Id, versionId = Model.VersionKey })">@Locale.Cancel</a>
                     @if (Model.IsObsolete)
                     {
                         <button type="submit" class="btn btn-primary" disabled="disabled" title="@Locale.ToolTip_Submit">@Locale.CannotUpdateNotActive</button>

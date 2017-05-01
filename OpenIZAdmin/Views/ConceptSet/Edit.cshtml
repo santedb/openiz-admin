@@ -4,45 +4,45 @@
 }
 
 <div>
-    
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <span class="panel-title">@(Locale.Edit + " " + Locale.ConceptSet)</span>
-            </div>            
-            <div class="panel panel-body">
-                @using (Html.BeginForm("Edit", "ConceptSet", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "editForm" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                    @Html.HiddenFor(m => m.Id)                    
 
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Mnemonic, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", title = Locale.ToolTip_ConceptMnemonic })
-                        </div>
-                    </div>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="panel-title">@(Locale.Edit + " " + Locale.ConceptSet)</span>
+        </div>
+        <div class="panel panel-body">
+            @using (Html.BeginForm("Edit", "ConceptSet", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", @id = "editForm" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.Id)
 
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_ConceptName })
-                        </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Mnemonic, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", title = Locale.ToolTip_ConceptMnemonic })
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Oid, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.Oid, new { @class = "form-control", title = Locale.ToolTip_Oid })
-                        </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_ConceptName })
                     </div>
+                </div>
 
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Url, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-8">
-                            @Html.TextBoxFor(m => m.Url, new { @class = "form-control", title = Locale.ToolTip_Url })
-                        </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Oid, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Oid, new { @class = "form-control", title = Locale.ToolTip_Oid })
                     </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.Url, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-8">
+                        @Html.TextBoxFor(m => m.Url, new { @class = "form-control", title = Locale.ToolTip_Url })
+                    </div>
+                </div>
 
                     <div class="form-group">
                         @Html.LabelFor(m => m.AddConcepts, new { @class = "col-md-2 control-label" })
@@ -53,36 +53,21 @@
                     </div>
 
                     <div class="form-group">
-                        <div class="col-md-offset-2 col-md-8">                            
-                            <a href="@Url.Action("Index")" class="btn btn-danger">@Locale.Cancel</a>                            
+                        <div class="col-md-offset-2 col-md-8">
+                            <a href="@Url.Action("ViewConceptSet", new { id = Model.Id })">@Locale.Cancel</a>
                             <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
-                        </div>                     
+                        </div>
                     </div>
-                }
-                
-                @*<div class="pull-right">
-                    @using (Html.BeginForm("Delete", "ConceptSet", new { setId = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-
-                        <button type="submit" class="btn btn-danger">
-                            @Locale.Delete
-                            <span class="glyphicon glyphicon-remove"></span>
-                        </button>
-                    }
-                </div>*@
-
-
-
-            </div>                                       
+}
         </div>
+    </div>
 
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <span class="panel-title">@Locale.Concepts</span>                
-            </div>
-            @Html.Partial("_ManageConceptsPartial", Model.Concepts)
-        </div>                  
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="panel-title">@Locale.Concepts</span>
+        </div>
+        @Html.Partial("_ManageConceptsPartial", Model.Concepts)
+    </div>
     @*//}*@
 
 </div>
@@ -92,9 +77,10 @@
 @section scripts
 {
     <script type="text/javascript">
-            
-        $(document).ready(function () {
-        
+
+        $(document).ready(function ()
+        {
+
             $('.dynamic-dropdown').select2({
                 tags: true,
                 tokenSeparators: [','],
@@ -107,7 +93,7 @@
                 width: '100%',
                 maximumSelectionLength: 1
             });
-            
+
             $('#conceptListTable').DataTable({
                 order: [],
                 columns: [
@@ -120,6 +106,6 @@
             });
         });
 
-</script>    
+    </script>
 
 }
