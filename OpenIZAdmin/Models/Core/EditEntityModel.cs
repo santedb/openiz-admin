@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Constants;
 using OpenIZAdmin.Models.EntityIdentifierModels;
 using OpenIZAdmin.Models.EntityRelationshipModels;
 
@@ -60,7 +61,7 @@ namespace OpenIZAdmin.Models.Core
 		protected EditEntityModel(Entity entity) : this(entity.Key.Value)
 		{
 			this.Identifiers = entity.Identifiers.Select(i => new EntityIdentifierModel(i, entity.Key.Value, entity.Type)).OrderBy(i => i.Name).ToList();
-			this.IsObsolete = entity.ObsoletionTime != null;
+			this.IsObsolete = entity.StatusConceptKey == StatusKeys.Obsolete;
 			this.Relationships = entity.Relationships.Select(r => new EntityRelationshipModel(r, entity.Type) { Quantity = r.Quantity }).ToList();
 			this.Types = entity.Identifiers.Select(i => new SelectListItem { Text = i.Authority.Name, Value = i.AuthorityKey?.ToString() }).ToList();
 			this.VersionKey = entity.VersionKey;

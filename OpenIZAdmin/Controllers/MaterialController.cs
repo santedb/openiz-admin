@@ -69,8 +69,7 @@ namespace OpenIZAdmin.Controllers
 				}
 
 				material.CreationTime = DateTimeOffset.Now;
-				material.ObsoletedByKey = null;
-				material.ObsoletionTime = null;
+				material.StatusConceptKey = StatusKeys.Active;
 				material.VersionKey = null;
 
 				var updatedMaterial = this.ImsiClient.Update(material);
@@ -279,7 +278,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var material = this.GetEntity<Material>(id, versionId);
+				var material = this.GetEntity<Material>(id, null);
 
 				if (material == null)
 				{
@@ -573,7 +572,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var material = this.GetEntity<Material>(id, versionId);
+				var material = this.GetEntity<Material>(id, null);
 
 				if (material == null)
 				{

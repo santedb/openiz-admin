@@ -59,7 +59,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var organization = this.GetEntity<Organization>(id, versionId);
+				var organization = this.GetEntity<Organization>(id, null);
 
 				if (organization == null)
 				{
@@ -68,8 +68,7 @@ namespace OpenIZAdmin.Controllers
 				}
 
 				organization.CreationTime = DateTimeOffset.Now;
-				organization.ObsoletedByKey = null;
-				organization.ObsoletionTime = null;
+				organization.StatusConceptKey = StatusKeys.Active;
 				organization.VersionKey = null;
 
 				var updatedOrganization = this.ImsiClient.Update(organization);
@@ -283,7 +282,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var organization = this.GetEntity<Organization>(id, versionId, m => m.ClassConceptKey == EntityClassKeys.Organization);
+				var organization = this.GetEntity<Organization>(id, null, m => m.ClassConceptKey == EntityClassKeys.Organization);
 
 				if (organization == null)
 				{
@@ -425,7 +424,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var organization = this.GetEntity<Organization>(id, versionId);
+				var organization = this.GetEntity<Organization>(id, null);
 
 				if (organization == null)
 				{

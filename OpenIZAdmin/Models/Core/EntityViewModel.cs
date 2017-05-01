@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Models.EntityRelationshipModels;
 using OpenIZAdmin.Models.EntityTagModels;
@@ -60,7 +61,7 @@ namespace OpenIZAdmin.Models.Core
 		protected EntityViewModel(Entity entity) : base(entity)
 		{
 			this.Identifiers = entity.Identifiers.Select(i => new EntityIdentifierViewModel(i)).OrderBy(i => i.Name).ToList();
-			this.IsObsolete = entity.ObsoletionTime.HasValue;
+			this.IsObsolete = entity.StatusConceptKey == StatusKeys.Obsolete;
 			this.Name = string.Join(" ", entity.Names.SelectMany(n => n.Component).Select(c => c.Value));
 			this.ObsoletionTime = entity.ObsoletionTime?.DateTime;
 			this.Relationships = entity.Relationships.Select(r => new EntityRelationshipViewModel(r)).OrderBy(r => r.TargetName).ToList();

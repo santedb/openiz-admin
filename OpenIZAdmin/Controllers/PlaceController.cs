@@ -70,7 +70,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var place = this.GetEntity<Place>(id, versionId);
+				var place = this.GetEntity<Place>(id, null);
 
 				if (place == null)
 				{
@@ -79,9 +79,8 @@ namespace OpenIZAdmin.Controllers
 				}
 
 				place.CreationTime = DateTimeOffset.Now;
-				place.ObsoletedByKey = null;
-				place.ObsoletionTime = null;
 				place.VersionKey = null;
+				place.StatusConceptKey = StatusKeys.Active;
 
 				var updatedPlace = this.ImsiClient.Update(place);
 
@@ -292,7 +291,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var place = this.GetEntity<Place>(id, versionId);
+				var place = this.GetEntity<Place>(id, null);
 
 				if (place == null)
 				{
@@ -564,7 +563,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var place = this.GetEntity<Place>(id, versionId);
+				var place = this.GetEntity<Place>(id, null);
 
 				if (place == null)
 				{
