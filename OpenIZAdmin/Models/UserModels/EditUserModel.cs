@@ -219,14 +219,17 @@ namespace OpenIZAdmin.Models.UserModels
 
 			var facility = Guid.Empty;
 
-			// only update the facility if it actually changes
-			if (!string.IsNullOrEmpty(this.Facility) &&
-				Guid.TryParse(this.Facility, out facility) &&
+            // only update the facility if it actually changes
+            if (string.IsNullOrWhiteSpace(this.Facility))
+            {
+                userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+            }
+            else if (!string.IsNullOrEmpty(this.Facility) && Guid.TryParse(this.Facility, out facility) &&
 				userEntity.Relationships.Find(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation && r.TargetEntityKey == facility) == null)
 			{
 				userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, facility));
-			}
+			}            
 
 			if (!string.IsNullOrEmpty(this.PhoneNumber) && !string.IsNullOrWhiteSpace(this.PhoneNumber))
 			{
