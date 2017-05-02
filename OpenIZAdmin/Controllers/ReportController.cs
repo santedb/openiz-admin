@@ -20,6 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Mime;
 using System.Web.Mvc;
 using Elmah;
 using OpenIZ.Messaging.RISI.Client;
@@ -60,7 +61,15 @@ namespace OpenIZAdmin.Controllers
 			{
 				var reportSourceStream = this.RisiClient.GetReportSource(id);
 
-				return File(reportSourceStream, "text/xml");
+				var contentDisposition = new ContentDisposition
+				{
+					FileName = "Report-" + Guid.NewGuid() + ".xml",
+					Inline = false
+				};
+
+				this.Response.AppendHeader("Content-Disposition", contentDisposition.ToString());
+
+				return File(reportSourceStream, MediaTypeNames.Text.Xml);
 			}
 			catch (Exception e)
 			{
