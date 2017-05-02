@@ -171,10 +171,16 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
 				{
+					RelationshipType = EntityRelationshipTypeKeys.ManufacturedProduct.ToString(),
 					ExistingRelationships = material.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
 				};
 
-				model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct).ToList());
+				var concepts = new List<Concept>
+				{
+					this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct)
+				};
+
+				model.RelationshipTypes.AddRange(concepts.ToSelectList());
 
 				return View(model);
 			}
