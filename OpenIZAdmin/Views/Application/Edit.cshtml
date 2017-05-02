@@ -55,6 +55,8 @@
                 {
                     using (Html.BeginForm("Activate", "Application", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                     {
+                        @Html.AntiForgeryToken()
+
                         <button type="submit" class="btn btn-success">
                             @Locale.Activate
                             <span class="glyphicon glyphicon-upload"></span>
