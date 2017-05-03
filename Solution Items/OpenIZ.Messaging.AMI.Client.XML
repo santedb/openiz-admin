@@ -392,6 +392,13 @@
             <param name="report">The diagnostic report.</param>
             <returns>Returns the submitted diagnostic report.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.SubmitAudit(OpenIZ.Core.Model.AMI.Security.AuditInfo)">
+            <summary>
+            Submits a diagnostic report.
+            </summary>
+            <param name="report">The diagnostic report.</param>
+            <returns>Returns the submitted diagnostic report.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.UpdateAlert(System.String,OpenIZ.Core.Model.AMI.Alerting.AlertMessageInfo)">
             <summary>
             Updates an alert.

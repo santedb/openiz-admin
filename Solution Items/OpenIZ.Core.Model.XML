@@ -474,6 +474,11 @@
             Gets or sets the interpretation concept
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.Acts.Observation.ValueType">
+            <summary>
+            Value type
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.Acts.Observation.InterpretationConcept">
             <summary>
             Gets or sets the concept which indicates the interpretation of the observtion
@@ -489,6 +494,11 @@
             Semantic equality function
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Acts.Observation.ShouldSerializeValueType">
+            <summary>
+            Should serialize value type?
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Acts.QuantityObservation">
             <summary>
             Represents an observation that contains a quantity
@@ -497,6 +507,11 @@
         <member name="P:OpenIZ.Core.Model.Acts.QuantityObservation.Value">
             <summary>
             Gets or sets the observed quantity
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Acts.QuantityObservation.ValueType">
+            <summary>
+            Value type
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.QuantityObservation.UnitOfMeasureKey">
@@ -524,6 +539,11 @@
             Represents an observation with a text value
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.Acts.TextObservation.ValueType">
+            <summary>
+            Value type
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.Acts.TextObservation.Value">
             <summary>
             Gets or sets the textual value
@@ -537,6 +557,11 @@
         <member name="T:OpenIZ.Core.Model.Acts.CodedObservation">
             <summary>
             Represents an observation with a concept value
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Acts.CodedObservation.ValueType">
+            <summary>
+            Value type
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.CodedObservation.ValueKey">
@@ -5484,6 +5509,21 @@
         <member name="T:OpenIZ.Core.Model.ExtensionMethods">
             <summary>
             Reflection tools
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.LoadProperty``1(OpenIZ.Core.Model.IdentifiedData,System.String)">
+            <summary>
+            Delay load property
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.LoadCollection``1(OpenIZ.Core.Model.IdentifiedData,System.String)">
+            <summary>
+            Delay load property
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.LoadProperty(OpenIZ.Core.Model.IdentifiedData,System.String)">
+            <summary>
+            Delay load property
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.ExtensionMethods.Aggregate(System.Linq.Expressions.Expression,OpenIZ.Core.Model.Map.AggregationFunctionType)">
