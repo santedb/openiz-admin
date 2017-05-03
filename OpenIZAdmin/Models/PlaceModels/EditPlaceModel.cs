@@ -103,6 +103,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <returns>Returns a <see cref="Place"/> instance.</returns>
 		public Place ToPlace(Place place)
 		{
+			place.ClassConceptKey = this.IsServiceDeliveryLocation ? EntityClassKeys.ServiceDeliveryLocation : EntityClassKeys.Place;
 			place.CreationTime = DateTimeOffset.Now;
 			place.Extensions.RemoveAll(e => e.ExtensionType.Name == Constants.TargetPopulationUrl);
 			place.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.OfficialRecord);

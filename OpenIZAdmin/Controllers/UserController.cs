@@ -156,6 +156,7 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				TempData["error"] = Locale.UnableToCreate + " " + Locale.User;
 			}
 
 			model.RolesList = this.GetAllRoles().ToSelectList("Name", "Name");

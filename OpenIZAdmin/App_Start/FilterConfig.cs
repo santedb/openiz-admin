@@ -34,6 +34,15 @@ namespace OpenIZAdmin
 		public static void RegisterGlobalFilters(GlobalFilterCollection filters)
 		{
 			filters.Add(new LanguageActionFilter());
+
+			// courtesy of https://stackoverflow.com/questions/12948156/asp-net-mvc-how-to-disable-automatic-caching-option
+			filters.Add(new OutputCacheAttribute
+			{
+				VaryByParam = "*",
+				Duration = 0,
+				NoStore = true,
+			});
+
 			filters.Add(new HandleErrorAttribute());
 		}
 	}

@@ -52,6 +52,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Locale.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Locale.sw.resx" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="OpenIZAdmin.licenseheader" />

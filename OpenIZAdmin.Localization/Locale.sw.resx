@@ -1,0 +1,1197 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ChangeLanguage">
+    <value>Badili lugha</value>
+  </data>
+  <data name="Password">
+    <value>Nywila</value>
+  </data>
+  <data name="PasswordRequired">
+    <value>Sehemu ya nywila inahitajika</value>
+  </data>
+  <data name="Username">
+    <value>Jina la mtumiaji</value>
+  </data>
+  <data name="UsernameRequired">
+    <value>Sehemu ya jina la mtumiaji inahitajika</value>
+  </data>
+  <data name="UsernameTooLong">
+    <value>sehemu ya jina la mtumiaji lazima iwe kati ya neno 1 
+na 255</value>
+  </data>
+  <data name="Certificates">
+    <value>Vyeti</value>
+  </data>
+  <data name="Concept">
+    <value>Dhana</value>
+  </data>
+  <data name="ConceptName">
+    <value>Jina la dhana</value>
+  </data>
+  <data name="Concepts">
+    <value>Dhana</value>
+  </data>
+  <data name="Dashboard">
+    <value>Muonekano</value>
+  </data>
+  <data name="Devices">
+    <value>Vifaa</value>
+  </data>
+  <data name="Name">
+    <value>Jina </value>
+  </data>
+  <data name="Places">
+    <value>Maeneo</value>
+  </data>
+  <data name="RealmManagement">
+    <value>Udhibiti ulimwengu</value>
+  </data>
+  <data name="Roles">
+    <value>Kazi</value>
+  </data>
+  <data name="Search">
+    <value>Tafuta</value>
+  </data>
+  <data name="UserRoles">
+    <value>Kazi za mtumiaji</value>
+  </data>
+  <data name="Users">
+    <value>watumiaji</value>
+  </data>
+  <data name="Reset">
+    <value>weka upya</value>
+  </data>
+  <data name="AppletId">
+    <value>Kitambulisho cha kijiprogramu</value>
+  </data>
+  <data name="Applets">
+    <value>Vijiprogramu</value>
+  </data>
+  <data name="CertificateRequests">
+    <value>Maombi ya cheti</value>
+  </data>
+  <data name="CertificateSigningRequestId">
+    <value>Kitambulisho cha maombi ya kuweka sahihi cheti</value>
+  </data>
+  <data name="CommonName">
+    <value>Jina maarufu</value>
+  </data>
+  <data name="DateRequested">
+    <value>Tarehe iliyoombwa</value>
+  </data>
+  <data name="Description">
+    <value>Maelezo</value>
+  </data>
+  <data name="Email">
+    <value>Barua pepe</value>
+  </data>
+  <data name="Group">
+    <value>Kundi</value>
+  </data>
+  <data name="LockedOut">
+    <value>Fungiwa nje?</value>
+  </data>
+  <data name="NoUserRolesAdded">
+    <value>Hakuna kazi za mtumiaji zilizoongezwa</value>
+  </data>
+  <data name="RoleId">
+    <value>Kitambulisho cha kazi</value>
+  </data>
+  <data name="Version">
+    <value>Toleo</value>
+  </data>
+  <data name="Cancel">
+    <value>Kata</value>
+  </data>
+  <data name="CurrentRealm">
+    <value>Hali ya sasa</value>
+  </data>
+  <data name="Hello">
+    <value>Helo</value>
+  </data>
+  <data name="LeaveRealm">
+    <value>Acha ulimwengu</value>
+  </data>
+  <data name="Logoff">
+    <value>Ondoka</value>
+  </data>
+  <data name="Save">
+    <value>Hifadhi</value>
+  </data>
+  <data name="Submit">
+    <value>Peleka</value>
+  </data>
+  <data name="UnableToRetrieveDeviceList">
+    <value>Imeshindikana kupata orodha ya vifaa</value>
+  </data>
+  <data name="UnableToRetrieveRoleList">
+    <value>Imeshindikana kupata orodha ya majukumu</value>
+  </data>
+  <data name="UnableToRetrieveUserList">
+    <value>Imeshindikana kupata orodha ya watumiaji</value>
+  </data>
+  <data name="New">
+    <value>Mpya</value>
+  </data>
+  <data name="NoNewCertificateSigningRequestsSubmitted">
+    <value>Hakuna cheti cha maombi ya sahihi kilichowasilishwa</value>
+  </data>
+  <data name="ConceptSearchResults">
+    <value>Matokeo ya utafutaji dhana</value>
+  </data>
+  <data name="SearchResults">
+    <value>Matokeo ya kutafuta</value>
+  </data>
+  <data name="CreationTime">
+    <value>Muda wa utengenezaji</value>
+  </data>
+  <data name="View">
+    <value>Ona</value>
+  </data>
+  <data name="JoinNewRealm">
+    <value>Ingia Realm</value>
+  </data>
+  <data name="Address">
+    <value>Anuani</value>
+  </data>
+  <data name="ApplicationId">
+    <value>Anuani ya programu tumizi</value>
+  </data>
+  <data name="Id">
+    <value>Kitambulisho </value>
+  </data>
+  <data name="NoDevicesAdded">
+    <value>Hakuna vifaa vilivyoongezwa</value>
+  </data>
+  <data name="Login">
+    <value>Ingia</value>
+  </data>
+  <data name="PlaceSearchResults">
+    <value>Matokeo ya utafutaji sehemu</value>
+  </data>
+  <data name="Latitude">
+    <value>Latitudo</value>
+  </data>
+  <data name="Longitude">
+    <value>Longitudo</value>
+  </data>
+  <data name="NoRolesAdded">
+    <value>Hakuna kazi zilizoongezwa</value>
+  </data>
+  <data name="SearchTerm">
+    <value>Vigezo vya utafutaji</value>
+  </data>
+  <data name="UserId">
+    <value>Kitambulisho cha mtumiaji</value>
+  </data>
+  <data name="NoUsersAdded">
+    <value>Hakuna watumiaji walioongezwa</value>
+  </data>
+  <data name="SearchType">
+    <value>Aina ya utafutaji</value>
+  </data>
+  <data name="SearchTypeRequired">
+    <value>Tafadhali chagua aina ya utafutaji</value>
+  </data>
+  <data name="MnemonicTooLong">
+    <value>Mnemonic hayawezi kuzidi vibambo 255</value>
+  </data>
+  <data name="NameLength255">
+    <value>Jina lisizidi herufi 255</value>
+  </data>
+  <data name="NameRequired">
+    <value>Sehemu ya jina inatakiwa</value>
+  </data>
+  <data name="IncorrectUsernameOrPassword">
+    <value>Jina la mtumiaji au neno siri vimekosewa</value>
+  </data>
+  <data name="NoAdditionalDetails">
+    <value>Hakuna maelezo ya ziada yaliyotolewa</value>
+  </data>
+  <data name="Place">
+    <value>Mahali</value>
+  </data>
+  <data name="Error">
+    <value>Kosa</value>
+  </data>
+  <data name="GenericErrorMessage">
+    <value>Kosa limetokea wakati wa kufanyia kazi ombi lako</value>
+  </data>
+  <data name="Edit">
+    <value>Rekebisha</value>
+  </data>
+  <data name="User">
+    <value>Mtumiaji</value>
+  </data>
+  <data name="FirstName">
+    <value>Jina la kwanza</value>
+  </data>
+  <data name="LastName">
+    <value>Jina la mwisho</value>
+  </data>
+  <data name="FirstNameRequired">
+    <value>Eneo la jina la kwanza linatakiwa</value>
+  </data>
+  <data name="FirstNameTooLong">
+    <value>Jina la kwanza lisizidi herufi 255</value>
+  </data>
+  <data name="LastNameRequired">
+    <value>Eneo la jina la mwisho linatakiwa</value>
+  </data>
+  <data name="LastNameTooLong">
+    <value>Jina la mwisho lisizidi herufi 255</value>
+  </data>
+  <data name="EmailRequired">
+    <value>Sehemu ya baruapepe inatakiwa</value>
+  </data>
+  <data name="InvalidEmailAddress">
+    <value>Tafadhali ingiza anuani sahihi ya barua pepe</value>
+  </data>
+  <data name="Role">
+    <value>jukumu</value>
+  </data>
+  <data name="RolesRequired">
+    <value>tafadhali chagua majukumu</value>
+  </data>
+  <data name="Policies">
+    <value>Sera</value>
+  </data>
+  <data name="Policy">
+    <value>Sera</value>
+  </data>
+  <data name="PolicySearchResults">
+    <value>Matokeo ya sera ya utafutaji</value>
+  </data>
+  <data name="CanOverride">
+    <value>Inaweza kubatilisha</value>
+  </data>
+  <data name="Oid">
+    <value>OID</value>
+  </data>
+  <data name="OidRequired">
+    <value>uwanja OID inahitajika</value>
+  </data>
+  <data name="Grant">
+    <value>Ruzuku</value>
+  </data>
+  <data name="Grants">
+    <value>Ruzuku</value>
+  </data>
+  <data name="GrantsRequired">
+    <value>Chagua aina ya ruzuku</value>
+  </data>
+  <data name="Select">
+    <value>Chagua</value>
+  </data>
+  <data name="Deny">
+    <value>Kataa</value>
+  </data>
+  <data name="Elevate">
+    <value>Inua</value>
+  </data>
+  <data name="IsPublic">
+    <value>jumuiya</value>
+  </data>
+  <data name="ChangePassword">
+    <value>Badili neno siri</value>
+  </data>
+  <data name="AdministrativeContactEmail">
+    <value>Anuani ya baruapepe ya utawala</value>
+  </data>
+  <data name="AdministrativeContactName">
+    <value>Jina la mawasiliano utawala</value>
+  </data>
+  <data name="DistinguishedName">
+    <value>Jina linalojulikana</value>
+  </data>
+  <data name="SubmissionTime">
+    <value>Muda wa kuwasilishwa</value>
+  </data>
+  <data name="JoinRealm">
+    <value>Kujiunga ulimwengu</value>
+  </data>
+  <data name="Language">
+    <value>Lugha</value>
+  </data>
+  <data name="LanguageRequired">
+    <value>Tafadhali chagua lugha</value>
+  </data>
+  <data name="MnemonicRequired">
+    <value>uwanja mnemonic inahitajika</value>
+  </data>
+  <data name="Details">
+    <value>Maelezo</value>
+  </data>
+  <data name="Device">
+    <value>Kifaa</value>
+  </data>
+  <data name="ConfirmPassword">
+    <value>Hakiki neno siri</value>
+  </data>
+  <data name="ConfirmPasswordMatch">
+    <value>Neno siri na hakiki neno siri hazilandani</value>
+  </data>
+  <data name="ConfirmPasswordRequired">
+    <value>Nafasi ya kuhakiki neno siri inatakiwa</value>
+  </data>
+  <data name="ExistingPassword">
+    <value>Neno siri lililopo</value>
+  </data>
+  <data name="ExistingPasswordRequired">
+    <value>nafasi ya neno siri lililopo inatakiwa</value>
+  </data>
+  <data name="UnableToChangePassword">
+    <value>Haiwezi kubadili neno siri</value>
+  </data>
+  <data name="PasswordChanged">
+    <value>Badili neno siri</value>
+  </data>
+  <data name="No">
+    <value>Hapana</value>
+  </data>
+  <data name="Yes">
+    <value>Ndio</value>
+  </data>
+  <data name="Manage">
+    <value>Simamia</value>
+  </data>
+  <data name="UpdateProfile">
+    <value>Badili muonekano</value>
+  </data>
+  <data name="FamilyNames">
+    <value>Jina la familia</value>
+  </data>
+  <data name="Names">
+    <value>Majina</value>
+  </data>
+  <data name="Facility">
+    <value>Kituo</value>
+  </data>
+  <data name="FacilityRequired">
+    <value>Tafadhali chagua kituo</value>
+  </data>
+  <data name="PhoneType">
+    <value>Aina ya simu</value>
+  </data>
+  <data name="Phone">
+    <value>Simu</value>
+  </data>
+  <data name="SessionTimedOut">
+    <value>kipindi kimeisha wakati</value>
+  </data>
+  <data name="AssigningAuthorities">
+    <value>Ugawaji madaraka</value>
+  </data>
+  <data name="Providers">
+    <value>watoaji</value>
+  </data>
+  <data name="DescriptionLength255">
+    <value>Maelezo yasizidi herufi 255</value>
+  </data>
+  <data name="Loading">
+    <value>Kupandisha</value>
+  </data>
+  <data name="HealthFacility">
+    <value>Kituo cha afya</value>
+  </data>
+  <data name="Deactivate">
+    <value>Kuzima</value>
+  </data>
+  <data name="LastLoginTime">
+    <value>Muda wa mwisho kuingia</value>
+  </data>
+  <data name="Activate">
+    <value>Amilisha</value>
+  </data>
+  <data name="SearchProviders">
+    <value>Watoaji tafutizi</value>
+  </data>
+  <data name="AssigningDeviceId">
+    <value>Ugawaji wa utambulisho kwa kifaa</value>
+  </data>
+  <data name="DomainName">
+    <value>Jina la kikoa</value>
+  </data>
+  <data name="Url">
+    <value>Url</value>
+  </data>
+  <data name="Delete">
+    <value>Futa</value>
+  </data>
+  <data name="Acknowledge">
+    <value>Tambua</value>
+  </data>
+  <data name="Alerts">
+    <value>Tahadhari</value>
+  </data>
+  <data name="From">
+    <value>Kutoka</value>
+  </data>
+  <data name="Subject">
+    <value>Somo</value>
+  </data>
+  <data name="Time">
+    <value>Muda</value>
+  </data>
+  <data name="To">
+    <value>kwenda</value>
+  </data>
+  <data name="Close">
+    <value>Funga</value>
+  </data>
+  <data name="NotFound">
+    <value>Haijapatikana</value>
+  </data>
+  <data name="ProviderSpecialty">
+    <value>Mtoaji maalum</value>
+  </data>
+  <data name="HL7CX4">
+    <value>HL7CX4</value>
+  </data>
+  <data name="OIDAllCaps">
+    <value>OID</value>
+  </data>
+  <data name="Message">
+    <value>Ujumbe</value>
+  </data>
+  <data name="MessageRequired">
+    <value>Tafadhali ingiza ujumbe</value>
+  </data>
+  <data name="Acknowledged">
+    <value>Kubaliwa</value>
+  </data>
+  <data name="Alert">
+    <value>Tahadhari</value>
+  </data>
+  <data name="HighPriority">
+    <value>Yenye umuhimu mkubwa</value>
+  </data>
+  <data name="System">
+    <value>Mfumo</value>
+  </data>
+  <data name="Activated">
+    <value>Imeamshwa</value>
+  </data>
+  <data name="Uploaded">
+    <value>Imepandishwa</value>
+  </data>
+  <data name="AssigningAuthority">
+    <value>Mamlaka ya</value>
+  </data>
+  <data name="Certificate">
+    <value>cheti</value>
+  </data>
+  <data name="CertificateSigningRequestAccepted">
+    <value>Ombi la kutia sahihi cheti limefanikiwa</value>
+  </data>
+  <data name="CertificateSigningRequestSuccessfullySubmitted">
+    <value>Ombi la kutia sahihi cheti limewasilishwa</value>
+  </data>
+  <data name="ConceptSets">
+    <value>Seti za dhana</value>
+  </data>
+  <data name="Created">
+    <value>Imetengenezwa</value>
+  </data>
+  <data name="Deactivated">
+    <value>Imezimwa</value>
+  </data>
+  <data name="Edited">
+    <value>Imerekebishwa</value>
+  </data>
+  <data name="InvalidSearch">
+    <value>Upekuzi batili, tafadhali angalia aina ya upekuzi</value>
+  </data>
+  <data name="NoPoliciesFound">
+    <value>Hakuna sera iliyopatikana</value>
+  </data>
+  <data name="NoProvidersFound">
+    <value>Hakuna watoaji waliopatikana</value>
+  </data>
+  <data name="Profile">
+    <value>Maelezo mafupi</value>
+  </data>
+  <data name="Provider">
+    <value>Mtoaji </value>
+  </data>
+  <data name="Realm">
+    <value>eneo</value>
+  </data>
+  <data name="RealmJoined">
+    <value>ulimwengu alijiunga</value>
+  </data>
+  <data name="RealmLeft">
+    <value>ulimwengu wa kushoto</value>
+  </data>
+  <data name="RealmSwitched">
+    <value>ulimwengu Imebadili</value>
+  </data>
+  <data name="SecurityApplication">
+    <value>programu tumizi ya ulinzi</value>
+  </data>
+  <data name="Upload">
+    <value>Pakia</value>
+  </data>
+  <data name="UnableToAcceptCertificateSigningRequest">
+    <value>Imeshindikana kupokea cheti cha ombi la kuingia</value>
+  </data>
+  <data name="UnableToActivate">
+    <value>Imeshindikana kuamsha</value>
+  </data>
+  <data name="UnableToCreate">
+    <value>Imeshindikana kutengeneza</value>
+  </data>
+  <data name="UnableToDeactivate">
+    <value>Imeshindikana kuzima</value>
+  </data>
+  <data name="UnableToDelete">
+    <value>imeshindikana kufuta</value>
+  </data>
+  <data name="UnableToFindSpecifiedCertificate">
+    <value>Imeshindikana kupata cheti husika</value>
+  </data>
+  <data name="UnableToFindSpecifiedCertificateSigningRequest">
+    <value>Imeshindikana kupata ombi la kuweka sahihi cheti</value>
+  </data>
+  <data name="UnableToJoinRealm">
+    <value>Imeshindiakana kujiunga na realm</value>
+  </data>
+  <data name="UnableToLeaveRealm">
+    <value>Imeshindikana kujiunga na realm</value>
+  </data>
+  <data name="UnableToRejectCertificateSigningRequest">
+    <value>Imeshindikana kukataa ombi la kuweka sahihi cheti</value>
+  </data>
+  <data name="UnableToRetrieve">
+    <value>Imeshindikana kupata</value>
+  </data>
+  <data name="UnableToRetrieveCertificateList">
+    <value>Imeshindikana kupata orodha ya cheti</value>
+  </data>
+  <data name="UnableToRetrieveCertificateRevocationlist">
+    <value>Imeshindikana kupata orodha ya vyeti vilivyokataliwa</value>
+  </data>
+  <data name="UnableToRetrieveCertificateSigningRequestList">
+    <value>Imeshindikana kupata orodha ya maombi ya kuweka
+ sahihi</value>
+  </data>
+  <data name="UnableToRetrievePlaceList">
+    <value>Imeshindikana kupata orodha ya sehemu</value>
+  </data>
+  <data name="UnableToSubmitCertificateSigningRequest">
+    <value>Imeshindikana kuwasilisha ombi la kutia sahihi cheti</value>
+  </data>
+  <data name="UnableToSwitchRealm">
+    <value>Imeshindikana kubadili realm</value>
+  </data>
+  <data name="UnableToUpdate">
+    <value>Imeshindikana kusasisha</value>
+  </data>
+  <data name="Updated">
+    <value>Imesasishwa</value>
+  </data>
+  <data name="Priority">
+    <value>Kipaumbele</value>
+  </data>
+  <data name="PriorityRequired">
+    <value>tafadhali chagua kipaumbele</value>
+  </data>
+  <data name="SubjectRequired">
+    <value>Tafadhali ingiza somo</value>
+  </data>
+  <data name="ToRequired">
+    <value>Tafadhali chagua mpokeaji</value>
+  </data>
+  <data name="Author">
+    <value>Mwandishi</value>
+  </data>
+  <data name="Applet">
+    <value>Kijiprogramu</value>
+  </data>
+  <data name="UnableToUpload">
+    <value>Imeshindikana kupakia</value>
+  </data>
+  <data name="Download">
+    <value>Pakua</value>
+  </data>
+  <data name="Create">
+    <value>Unda</value>
+  </data>
+  <data name="AddPolicy">
+    <value>Ongeza sera</value>
+  </data>
+  <data name="DeviceSecret">
+    <value>Siri ya kifaa</value>
+  </data>
+  <data name="AddPolicies">
+    <value>Ongeza sera</value>
+  </data>
+  <data name="Information">
+    <value>Taarifa</value>
+  </data>
+  <data name="About">
+    <value>Kuhusu</value>
+  </data>
+  <data name="HasPolicies">
+    <value>Ina sera</value>
+  </data>
+  <data name="Successfully">
+    <value>Imefanikiwa</value>
+  </data>
+  <data name="DeviceSecretRequired">
+    <value>Siri ya kifaa inatakiwa</value>
+  </data>
+  <data name="DeviceSecret64">
+    <value>Siri ya kifaa isizidi herufi 64</value>
+  </data>
+  <data name="AddUsers">
+    <value>Ongeza watumiaji</value>
+  </data>
+  <data name="ApplicationName">
+    <value>Jina la programu tumizi</value>
+  </data>
+  <data name="Applications">
+    <value>programu tumizi </value>
+  </data>
+  <data name="NoApplicationsFound">
+    <value>Hakuna programu tumizi zilizopatikana</value>
+  </data>
+  <data name="SoftwareName">
+    <value>Jina la programu</value>
+  </data>
+  <data name="VendorName">
+    <value>Jina la mchuuzi</value>
+  </data>
+  <data name="VersionName">
+    <value>Jina la toleo</value>
+  </data>
+  <data name="Application">
+    <value>Programu tumizi</value>
+  </data>
+  <data name="ApplicationSecret">
+    <value>Siri ya programu tumizi</value>
+  </data>
+  <data name="ConceptClass">
+    <value>Tabaka la dhana</value>
+  </data>
+  <data name="ConceptClassRequired">
+    <value>Sehemu ya tabaka la dhana inatakiwa</value>
+  </data>
+  <data name="Material">
+    <value>Mali</value>
+  </data>
+  <data name="Materials">
+    <value>Mali</value>
+  </data>
+  <data name="Found">
+    <value>Patikana</value>
+  </data>
+  <data name="NoDevicesFound">
+    <value>Hakuna vifaa vilivyopatika</value>
+  </data>
+  <data name="NoPoliciesAdded">
+    <value>Hakuna sera zilizopatikana</value>
+  </data>
+  <data name="BusinessRules">
+    <value>Taratibu za kibiashara</value>
+  </data>
+  <data name="ConceptSet">
+    <value>Seti ya dhana</value>
+  </data>
+  <data name="For">
+    <value>Kwa</value>
+  </data>
+  <data name="NoRolesFound">
+    <value>Hakuna majukumu yaliyopatikana</value>
+  </data>
+  <data name="Add">
+    <value>Ongeza</value>
+  </data>
+  <data name="ReferenceTerms">
+    <value>Vigezo rejea</value>
+  </data>
+  <data name="FormConcept">
+    <value>Fomu ya dhana</value>
+  </data>
+  <data name="QuantityConcept">
+    <value>Dhana ya idadi</value>
+  </data>
+  <data name="CreatedBy">
+    <value>Imetengenezwa na</value>
+  </data>
+  <data name="IsReadOnly">
+    <value>Ni ya kusoma tu?</value>
+  </data>
+  <data name="Type">
+    <value>Chapa</value>
+  </data>
+  <data name="NewConceptSet">
+    <value>Seti ya dhana mpya</value>
+  </data>
+  <data name="Home">
+    <value>Nyumbani</value>
+  </data>
+  <data name="LeaveRealmPrompt">
+    <value>Ungependa kuondoka kwenye realm iliyopo?</value>
+  </data>
+  <data name="Assets">
+    <value>Mali</value>
+  </data>
+  <data name="MimeType">
+    <value>Aina ya Mime</value>
+  </data>
+  <data name="Deleted">
+    <value>Imefutwa</value>
+  </data>
+  <data name="SubmitBugReport">
+    <value>Wasilisha taarifa ya mdudu.</value>
+  </data>
+  <data name="AttachBugInfo">
+    <value>Ambatanisha taarifa za programu tumizi (matoleo, faili
+ la batli,mipangilio n.k)</value>
+  </data>
+  <data name="BugDetails">
+    <value>Maelezo mdudu</value>
+  </data>
+  <data name="BugReport">
+    <value>Taarifa ya mdudu</value>
+  </data>
+  <data name="Reporter">
+    <value>Mwandishi</value>
+  </data>
+  <data name="UnableToSubmit">
+    <value>Imeshindwa kuwasilisha</value>
+  </data>
+  <data name="StepsToReproduce">
+    <value>Hatua za kutengeneza tena</value>
+  </data>
+  <data name="English">
+    <value>Kiingereza</value>
+  </data>
+  <data name="Kiswahili">
+    <value>Kiswahili</value>
+  </data>
+  <data name="EN">
+    <value>en</value>
+  </data>
+  <data name="SW">
+    <value>sw</value>
+  </data>
+  <data name="UserNameExists">
+    <value>Jina la mtumiaji tayari lipo. Tafadhali chagua jina 
+lingine</value>
+  </data>
+  <data name="CurrentPassword">
+    <value>Nywila ya sasa</value>
+  </data>
+  <data name="CurrentPasswordRequired">
+    <value>Nywila ya sasa inatakiwa</value>
+  </data>
+  <data name="InvalidCurrrentPassword">
+    <value>Nywila ya sasa sio sahihi</value>
+  </data>
+  <data name="Surname">
+    <value>Jina la ukoo</value>
+  </data>
+  <data name="GivenName">
+    <value>Jina alilopewa</value>
+  </data>
+  <data name="PasswordLength">
+    <value>Urefu wa neno siri sio sawa. Herufi nyingi sana</value>
+  </data>
+  <data name="PasswordStrength">
+    <value>Neno siri liwe na herufi moja kubwa na moja ndogo
+ ni isiwe na herufi zaidi ya 8</value>
+  </data>
+  <data name="UnableToRetrieveNewUser">
+    <value>Imeshindikana kupata mtumiaji mpya</value>
+  </data>
+  <data name="ToolTip_AlertTo">
+    <value>Mpokeaji wa ujumbe wa tahadhari</value>
+  </data>
+  <data name="ToolTip_AppName">
+    <value>Jina la programu tumizi</value>
+  </data>
+  <data name="ToolTip_AppSecret">
+    <value>Siri ya programu tumizi</value>
+  </data>
+  <data name="ToolTip_AssigningAuthorityDescription">
+    <value>Maelezo ya mamlaka ugawaji</value>
+  </data>
+  <data name="ToolTip_AssigningAuthorityName">
+    <value>Jina la mamlaka ya ugawaji</value>
+  </data>
+  <data name="ToolTip_Cancel">
+    <value>Chagua kusitisha na kurudi kwenye programu tumizi</value>
+  </data>
+  <data name="ToolTip_ConceptClass">
+    <value>Tabaka la dhana ndio shirikishi</value>
+  </data>
+  <data name="ToolTip_ConceptClassList">
+    <value>Chagua menyu kunjuzi kuchagua tabaka la dhana. 
+Matabaka kadhaa yanaweza kuchaguliwa. Kuondoa
+ tabaka lililopo, chagua "X" iliyopo upande wa kushoto
+ wa kichwa cha tabaka la dhana.</value>
+  </data>
+  <data name="ToolTip_ConceptMnemonic">
+    <value>Jina la kuleta shirikisho</value>
+  </data>
+  <data name="ToolTip_ConceptName">
+    <value>Jina ladhana</value>
+  </data>
+  <data name="ToolTip_CreationTime">
+    <value>Tarehe na muda kuonyesha pointi ya uhifadhi wa kwanza</value>
+  </data>
+  <data name="ToolTip_CurrentPassword">
+    <value>Nywila ya sasa ya mtumiaji</value>
+  </data>
+  <data name="ToolTip_DeviceName">
+    <value>Jina la kifaa</value>
+  </data>
+  <data name="ToolTip_DeviceSecret">
+    <value>Nywila ya kifaa</value>
+  </data>
+  <data name="ToolTip_DomainName">
+    <value>Kutambua maneno yanayotambulisha realm</value>
+  </data>
+  <data name="ToolTip_Edit">
+    <value>Chagua kurekebisha na kusasisha</value>
+  </data>
+  <data name="ToolTip_Facilities">
+    <value>ingiza herufi 4 za mwanzo wa kituo
+chagua kituo katika matokeo y autafutaji
+Unaweza kuchagua kituo kimoja tu. Kuondoa kituo kilichopo chagua "X" iliyopo kushoto kwa jina la kituo</value>
+  </data>
+  <data name="ToolTip_File">
+    <value>Bonyeza kuchagua na kupakua faili </value>
+  </data>
+  <data name="ToolTip_GivenNamesListBox">
+    <value>Ingiza majina ya watumiaji uliyopewa na bonyeza 
+"ingia". Kama kuna jina zaidi ya moja bonyeza ingia 
+kila unapoingiza jina moja. Kuondoa jina lililopo, chagua
+ "X" iliyopo upande wa kushoto wa sehemu ya 
+kuandikia jina. </value>
+  </data>
+  <data name="ToolTip_Grant">
+    <value>Kiwango cha idhini kinahusika</value>
+  </data>
+  <data name="ToolTip_JoinRealm">
+    <value>chagua kujiunga na realm</value>
+  </data>
+  <data name="ToolTip_JoinRealm_Address">
+    <value>anwani ya proramu tumizi (mfano - www.realm.com</value>
+  </data>
+  <data name="ToolTip_JoinRealm_AppId">
+    <value>Kitambulishi cha programu tumizi</value>
+  </data>
+  <data name="ToolTip_JoinRealm_AppSecret">
+    <value>Siri ya programu tumizi</value>
+  </data>
+  <data name="ToolTip_Language">
+    <value>Chaguo msingi la lugha ya mtumiaji</value>
+  </data>
+  <data name="ToolTip_LeaveRealm">
+    <value>chagua kutoka kwenye realm iliyopo na kujiunga na realm nyingine</value>
+  </data>
+  <data name="ToolTip_MaterialFormConcepts">
+    <value>Fomu ya dhana ya mali</value>
+  </data>
+  <data name="ToolTip_MaterialName">
+    <value>Jina la mali</value>
+  </data>
+  <data name="ToolTip_MaterialQuantityConcepts">
+    <value>Dhana ya idadi ya mali</value>
+  </data>
+  <data name="ToolTip_Message">
+    <value>Ujumbe wa kuwemo ndani ya tahadhari</value>
+  </data>
+  <data name="ToolTip_Oid">
+    <value>Jina linalotumika kutambua kitu ikiwemo kilichopatikana
+ kishirika na/au kupangiwa</value>
+  </data>
+  <data name="ToolTip_Password">
+    <value>Nywila ya kuhusishwa na akaunti ya mtumiaji</value>
+  </data>
+  <data name="ToolTip_PhoneNumber">
+    <value>Namba ya simu inayohusishwa na mtumiaji</value>
+  </data>
+  <data name="ToolTip_PhoneType">
+    <value>Taarifa za mawasiliano au aina ya mawasiliano ya simu
+ yanayohusu namba ya simu.</value>
+  </data>
+  <data name="ToolTip_PlaceLatitude">
+    <value>pembe (iliyopo kati ya nyuzi 0 hadi 90) inayoenda
+ kaskazini hadi kusini</value>
+  </data>
+  <data name="ToolTip_PlaceLongitude">
+    <value>pembe (iliyopo kati ya nyuzi 0 hadi 180) inayoenda 
+kutoka mashariki kwenda magharibi</value>
+  </data>
+  <data name="ToolTip_PlaceName">
+    <value>jina la sehemu</value>
+  </data>
+  <data name="ToolTip_Policies">
+    <value>Bofya kwenye menyu kunjuzi kuchagua dhana. Dhana
+ kadhaa zinaweza kuchaguliwa. Kuondoa dhana iliyopo
+, chagua "X" iliyopo upande wa kushoto wa maandishi</value>
+  </data>
+  <data name="ToolTip_PolicyCanOverride">
+    <value>Inaweka kiwango cha ruhhusa kama sera inaweza
+ kubatilishwa  </value>
+  </data>
+  <data name="ToolTip_PolicyName">
+    <value>Sera ya jina</value>
+  </data>
+  <data name="ToolTip_Priority">
+    <value>Inagundua kiwango cha umuhimu</value>
+  </data>
+  <data name="ToolTip_RoleDescription">
+    <value>maelezo ya majukumu ikiwemo sera na ruhusa 
+zinazohusishwa</value>
+  </data>
+  <data name="ToolTip_RoleName">
+    <value>Jina la jukumu</value>
+  </data>
+  <data name="ToolTip_Roles">
+    <value>Bofya menyu kunjuzi kuchagua jukumu. Majukumu 
+kadhaa yanaweza kuchaguliwa. Kuondoa jukumu
+ lililopo chagua "X" iliyopo upande wa kushoto wa
+ kichwa cha majukumu.</value>
+  </data>
+  <data name="ToolTip_Search">
+    <value>Inawasilisha au kuchuja maandishi yaliyoingizwa</value>
+  </data>
+  <data name="ToolTip_Subject">
+    <value>Maelezo mafupi ya somo</value>
+  </data>
+  <data name="ToolTip_Submit">
+    <value>Chagua kuwasilisha</value>
+  </data>
+  <data name="ToolTip_SurnamesListBox">
+    <value>Ingiza jina la ukoo la mtumiaji kisha bofya ingia. Kama
+ kuna jina la ukoo zaidi ya moja bofya ingia baada ya
+ kila jina moja. Kuondoa jina lililopo, chagua "X" 
+iliyopo upande wa kushoto wa jina.</value>
+  </data>
+  <data name="ToolTip_Upload">
+    <value>Chagua kupakia.</value>
+  </data>
+  <data name="ToolTip_Url">
+    <value>Ingiza anuani ya wavuti inayoonyesha anwani ya IP 
+au jina la kikoa</value>
+  </data>
+  <data name="ToolTip_UserEmail">
+    <value>Ingiza barua pepe inayohusiana na mtumiaji</value>
+  </data>
+  <data name="ToolTip_Username">
+    <value>Jina la mtumiaji la kuhusishwa na akaunti ya mtumiaji</value>
+  </data>
+  <data name="ConfirmDelete">
+    <value>Una hakika unataka kufuta kitu hiki?</value>
+  </data>
+  <data name="Manifest">
+    <value>dhahiri</value>
+  </data>
+  <data name="UnableToReset">
+    <value>Imeshindwa kuweka upya</value>
+  </data>
+  <data name="BugSubmittedSuccessfully">
+    <value>Suala lako limefanikiwa kuwasilishwa kwenye mfumo
+ wa kati wa tiketi.</value>
+  </data>
+  <data name="StepsToReproduceTooLong">
+    <value>Hatua za kutengeneza tena haziwezi kuzidi herufi 4000</value>
+  </data>
+  <data name="TicketReferenceId">
+    <value>Kwa rejea, kitambulisho chako cha tiketi ni:</value>
+  </data>
+  <data name="DeviceNotActive">
+    <value>Onyo, kifaa sio amilifu</value>
+  </data>
+  <data name="ApplicationNotActive">
+    <value>Onyo, programu tumizi sio amilifu</value>
+  </data>
+  <data name="CmcRequest">
+    <value>Ombi la CMC</value>
+  </data>
+  <data name="Organization">
+    <value>Mpangilio</value>
+  </data>
+  <data name="Organizations">
+    <value>Mipangilio</value>
+  </data>
+  <data name="InvalidPhoneNumber">
+    <value>Tafadhali ingiza namba sahihi ya simu</value>
+  </data>
+  <data name="PhoneNumberTooLong">
+    <value>Sehemu ya namba ya simu isizidi herufi 25</value>
+  </data>
+  <data name="LotNumber">
+    <value>namba ya kundi</value>
+  </data>
+  <data name="Industry">
+    <value>Kiwanda</value>
+  </data>
+  <data name="Identifiers">
+    <value>Vitambuzi</value>
+  </data>
+  <data name="NoAssociatedIdentifiers">
+    <value>Hakuna vitambuzi husishi</value>
+  </data>
+  <data name="Value">
+    <value>Thamani</value>
+  </data>
+  <data name="ObsoletionTime">
+    <value>Haitumiki tena</value>
+  </data>
+  <data name="ManufacturedMaterial">
+    <value>Mali iliyotengenezwa</value>
+  </data>
+  <data name="ManufacturedMaterials">
+    <value>Mali zilizotengenezwa</value>
+  </data>
+  <data name="NoAssociatedManufacturedMaterials">
+    <value>Hakuna mali za utengenezaji zilizohusishwa</value>
+  </data>
+  <data name="NameLength64">
+    <value>Jina lisizid herufi 64</value>
+  </data>
+  <data name="NameLength50">
+    <value>Jina lisizidi herufi 50</value>
+  </data>
+  <data name="UrlInvalid">
+    <value>Tafadhali ingiza URL sahihi</value>
+  </data>
+  <data name="NoAssociatedPolicies">
+    <value>Tafadhali ingiza anuani sahihi ya mtandao</value>
+  </data>
+  <data name="IndustryConcept">
+    <value>Dhana ya kiwanda</value>
+  </data>
+  <data name="File">
+    <value>Faili</value>
+  </data>
+  <data name="FileRequired">
+    <value>Tafadhali chagua faili la kupandisha</value>
+  </data>
+  <data name="InvalidFileExtension">
+    <value>Mpanuko wa faili usiosaidiwa</value>
+  </data>
+</root>
