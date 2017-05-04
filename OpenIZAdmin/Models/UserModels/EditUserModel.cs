@@ -174,12 +174,24 @@ namespace OpenIZAdmin.Models.UserModels
 		/// </summary>
 		public IEnumerable<RoleViewModel> UserRoles { get; set; }
 
-		/// <summary>
-		/// Converts an <see cref="EditUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
-		/// </summary>
-		/// <param name="userEntity">The <see cref="UserEntity"/> instance.</param>
-		/// <returns>Returns a <see cref="SecurityUserInfo"/> instance.</returns>
-		public SecurityUserInfo ToSecurityUserInfo(UserEntity userEntity)
+        /// <summary>
+	    /// Checks if any of the the Role(s) assigned are an empty selection
+	    /// </summary>
+	    /// <returns>Returns true if an empty string is contained in the List</returns>
+	    public void CheckForEmptyRoleAssigned()
+        {
+            if (Roles != null && Roles.Any())
+            {
+                Roles.RemoveAll(r => string.IsNullOrWhiteSpace(r) || string.IsNullOrEmpty(r));
+            }            
+        }
+
+        /// <summary>
+        /// Converts an <see cref="EditUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
+        /// </summary>
+        /// <param name="userEntity">The <see cref="UserEntity"/> instance.</param>
+        /// <returns>Returns a <see cref="SecurityUserInfo"/> instance.</returns>
+        public SecurityUserInfo ToSecurityUserInfo(UserEntity userEntity)
 		{
 			var securityUserInfo = new SecurityUserInfo
 			{

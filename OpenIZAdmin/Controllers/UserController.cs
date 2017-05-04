@@ -116,41 +116,49 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				if (ModelState.IsValid)
-				{
-					//check if username exists
+                //hack - check if empty string passed and remove - select2 issue                        
+                model.CheckForEmptyRoleAssigned();
+                if (!model.Roles.Any())
+                {
+                    ModelState.AddModelError("Roles", Locale.RolesRequired);
+                }
+
+                if (ModelState.IsValid)
+				{					
 					if (this.UsernameExists(model.Username))
 					{
 						TempData["error"] = Locale.UserNameExists;
-					}
+					}                    
 					else
-					{
-						var user = this.AmiClient.CreateUser(model.ToSecurityUserInfo());
+                    {                                                
+                        var user = this.AmiClient.CreateUser(model.ToSecurityUserInfo());
 
-						var userEntity = this.GetUserEntityBySecurityUserKey(user.UserId.Value);
+                        var userEntity = this.GetUserEntityBySecurityUserKey(user.UserId.Value);
 
-						if (userEntity == null)
-						{
-							TempData["error"] = Locale.UnableToRetrieveNewUser;
-							return RedirectToAction("Index");
-						}
+                        if (userEntity == null)
+                        {
+                            TempData["error"] = Locale.UnableToRetrieveNewUser;
+                            return RedirectToAction("Index");
+                        }
 
-						if (model.Roles.Contains(Constants.ClinicalStaff))
-						{
-							var provider = this.ImsiClient.Create<Provider>(new Provider { Key = Guid.NewGuid() });
+                        if (model.Roles.Contains(Constants.ClinicalStaff))
+                        {
+                            var provider = this.ImsiClient.Create<Provider>(new Provider {Key = Guid.NewGuid()});
 
-							userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, provider)
-							{
-								SourceEntityKey = userEntity.Key.Value
-							});
-						}
+                            userEntity.Relationships.Add(
+                                new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, provider)
+                                {
+                                    SourceEntityKey = userEntity.Key.Value
+                                });
+                        }
 
-						this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
+                        this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
 
-						TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;
+                        TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;
 
-						return RedirectToAction("Edit", new { id = user.UserId.ToString() });
-					}
+                        return RedirectToAction("Edit", new {id = user.UserId.ToString()});
+                        
+                    }
 				}
 			}
 			catch (Exception e)
@@ -274,7 +282,21 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				if (ModelState.IsValid)
+                //hack - check if empty string passed and remove - select2 issue                        
+                model.CheckForEmptyRoleAssigned();
+
+                if (!model.Roles.Any())
+                {
+                    ModelState.AddModelError("Roles", Locale.RoleIsRequired);
+                    var userEntity = this.GetUserEntityBySecurityUserKey(model.Id);
+                    if (userEntity != null)
+                    {
+                        var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUserKey.ToString());
+                        if(securityUserInfo != null) model.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
+                    }                    
+                }
+
+                if (ModelState.IsValid)
 				{
 					var userEntity = this.GetUserEntityBySecurityUserKey(model.Id);
 
@@ -533,5 +555,6 @@ namespace OpenIZAdmin.Controllers
 
 			return RedirectToAction("Index");
 		}
-	}
+        
+    }
 }

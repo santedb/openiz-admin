@@ -529,6 +529,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Code Systems.
+        /// </summary>
+        public static string CodeSystems {
+            get {
+                return ResourceManager.GetString("CodeSystems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Common Name.
         /// </summary>
         public static string CommonName {
@@ -948,6 +957,15 @@ namespace OpenIZAdmin.Localization {
         public static string Download {
             get {
                 return ResourceManager.GetString("Download", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download Source.
+        /// </summary>
+        public static string DownloadSource {
+            get {
+                return ResourceManager.GetString("DownloadSource", resourceCulture);
             }
         }
         
@@ -2658,6 +2676,15 @@ namespace OpenIZAdmin.Localization {
         public static string RoleId {
             get {
                 return ResourceManager.GetString("RoleId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role is required.
+        /// </summary>
+        public static string RoleIsRequired {
+            get {
+                return ResourceManager.GetString("RoleIsRequired", resourceCulture);
             }
         }
         
