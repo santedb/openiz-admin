@@ -529,6 +529,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Code Systems.
+        /// </summary>
+        public static string CodeSystems {
+            get {
+                return ResourceManager.GetString("CodeSystems", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Common Name.
         /// </summary>
         public static string CommonName {
