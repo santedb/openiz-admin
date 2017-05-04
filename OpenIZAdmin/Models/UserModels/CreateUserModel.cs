@@ -77,9 +77,9 @@ namespace OpenIZAdmin.Models.UserModels
 		/// <summary>
 		/// Gets or sets the list of roles of the user.
 		/// </summary>
-		[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Locale))]
-		public IEnumerable<string> Roles { get; set; }
+		[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]        
+		[Required(AllowEmptyStrings = false, ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Locale))]
+		public List<string> Roles { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of available roles
@@ -100,11 +100,24 @@ namespace OpenIZAdmin.Models.UserModels
 		[StringLength(255, ErrorMessageResourceName = "UsernameTooLong", ErrorMessageResourceType = typeof(Locale))]
 		public string Username { get; set; }
 
-		/// <summary>
-		/// Converts a <see cref="CreateUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
-		/// </summary>
-		/// <returns>Returns a <see cref="SecurityUserInfo"/> instance.</returns>
-		public SecurityUserInfo ToSecurityUserInfo()
+	    /// <summary>
+	    /// Checks if any of the the Role(s) assigned are an empty selection
+	    /// </summary>
+	    /// <returns>Returns true if an empty string is contained in the List</returns>
+	    public void CheckForEmptyRoleAssigned()
+	    {
+	        if (Roles.Any())
+	        {
+                Roles.RemoveAll(r => string.IsNullOrWhiteSpace(r) || string.IsNullOrEmpty(r));
+            }
+	        //return Roles.Any() && Roles.All(r => string.IsNullOrWhiteSpace(r) || string.IsNullOrEmpty(r));
+	    }
+
+	    /// <summary>
+        /// Converts a <see cref="CreateUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
+        /// </summary>
+        /// <returns>Returns a <see cref="SecurityUserInfo"/> instance.</returns>
+        public SecurityUserInfo ToSecurityUserInfo()
 		{
 			return new SecurityUserInfo
 			{

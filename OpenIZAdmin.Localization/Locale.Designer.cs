@@ -952,6 +952,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download Source.
+        /// </summary>
+        public static string DownloadSource {
+            get {
+                return ResourceManager.GetString("DownloadSource", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {

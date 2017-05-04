@@ -115,42 +115,54 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Create(CreateUserModel model)
 		{
 			try
-			{
-				if (ModelState.IsValid)
-				{
-					//check if username exists
+			{                
+                if (ModelState.IsValid)
+				{					
 					if (this.UsernameExists(model.Username))
 					{
 						TempData["error"] = Locale.UserNameExists;
-					}
+					}                    
 					else
-					{
-						var user = this.AmiClient.CreateUser(model.ToSecurityUserInfo());
+                    {
+                        //hack - check if empty string passed and remove - select2 issue
+                        //if (model.HasEmptyRoleAssigned()) model.Roles.RemoveAll(r => string.IsNullOrWhiteSpace(r) || string.IsNullOrEmpty(r));
+                        model.CheckForEmptyRoleAssigned();
 
-						var userEntity = this.GetUserEntityBySecurityUserKey(user.UserId.Value);
+                        if (!model.Roles.Any())
+                        {                            
+                            ModelState.AddModelError("Roles", Locale.RolesRequired);
+                            model.RolesList = this.GetAllRoles().ToSelectList("Name", "Name");
+                            return View(model);
+                        }                        
+                        
+                        var user = this.AmiClient.CreateUser(model.ToSecurityUserInfo());
 
-						if (userEntity == null)
-						{
-							TempData["error"] = Locale.UnableToRetrieveNewUser;
-							return RedirectToAction("Index");
-						}
+                        var userEntity = this.GetUserEntityBySecurityUserKey(user.UserId.Value);
 
-						if (model.Roles.Contains(Constants.ClinicalStaff))
-						{
-							var provider = this.ImsiClient.Create<Provider>(new Provider { Key = Guid.NewGuid() });
+                        if (userEntity == null)
+                        {
+                            TempData["error"] = Locale.UnableToRetrieveNewUser;
+                            return RedirectToAction("Index");
+                        }
 
-							userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, provider)
-							{
-								SourceEntityKey = userEntity.Key.Value
-							});
-						}
+                        if (model.Roles.Contains(Constants.ClinicalStaff))
+                        {
+                            var provider = this.ImsiClient.Create<Provider>(new Provider {Key = Guid.NewGuid()});
 
-						this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
+                            userEntity.Relationships.Add(
+                                new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, provider)
+                                {
+                                    SourceEntityKey = userEntity.Key.Value
+                                });
+                        }
 
-						TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;
+                        this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
 
-						return RedirectToAction("Edit", new { id = user.UserId.ToString() });
-					}
+                        TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;
+
+                        return RedirectToAction("Edit", new {id = user.UserId.ToString()});
+                        
+                    }
 				}
 			}
 			catch (Exception e)
@@ -532,5 +544,6 @@ namespace OpenIZAdmin.Controllers
 
 			return RedirectToAction("Index");
 		}
-	}
+        
+    }
 }

@@ -89,12 +89,17 @@
                 tokenSeparators: [','],
                 width: '100%'
             });
+
             $('.dynamic-dropdown-limited').select2({
                 tags: true,
                 tokenSeparators: [','],
                 width: '100%',
                 maximumSelectionLength: 1
             });
+
+            //hack -- can select an empty entry - this resets on refresh to ensure
+            //that the value is not persisted
+            $('.dynamic-dropdown').select2("val", null);
         });
     </script>
 

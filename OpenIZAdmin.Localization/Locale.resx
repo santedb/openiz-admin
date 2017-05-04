@@ -1452,4 +1452,7 @@
   <data name="IdentifierDeletedSuccessfully" xml:space="preserve">
     <value>Identifier deleted successfully</value>
   </data>
+  <data name="DownloadSource" xml:space="preserve">
+    <value>Download Source</value>
+  </data>
 </root>
