@@ -115,7 +115,14 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Create(CreateUserModel model)
 		{
 			try
-			{                
+			{
+                //hack - check if empty string passed and remove - select2 issue                        
+                model.CheckForEmptyRoleAssigned();
+                if (!model.Roles.Any())
+                {
+                    ModelState.AddModelError("Roles", Locale.RolesRequired);
+                }
+
                 if (ModelState.IsValid)
 				{					
 					if (this.UsernameExists(model.Username))
@@ -123,18 +130,7 @@ namespace OpenIZAdmin.Controllers
 						TempData["error"] = Locale.UserNameExists;
 					}                    
 					else
-                    {
-                        //hack - check if empty string passed and remove - select2 issue
-                        //if (model.HasEmptyRoleAssigned()) model.Roles.RemoveAll(r => string.IsNullOrWhiteSpace(r) || string.IsNullOrEmpty(r));
-                        model.CheckForEmptyRoleAssigned();
-
-                        if (!model.Roles.Any())
-                        {                            
-                            ModelState.AddModelError("Roles", Locale.RolesRequired);
-                            model.RolesList = this.GetAllRoles().ToSelectList("Name", "Name");
-                            return View(model);
-                        }                        
-                        
+                    {                                                
                         var user = this.AmiClient.CreateUser(model.ToSecurityUserInfo());
 
                         var userEntity = this.GetUserEntityBySecurityUserKey(user.UserId.Value);
@@ -285,7 +281,21 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				if (ModelState.IsValid)
+                //hack - check if empty string passed and remove - select2 issue                        
+                model.CheckForEmptyRoleAssigned();
+
+                if (!model.Roles.Any())
+                {
+                    ModelState.AddModelError("Roles", Locale.RoleIsRequired);
+                    var userEntity = this.GetUserEntityBySecurityUserKey(model.Id);
+                    if (userEntity != null)
+                    {
+                        var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUserKey.ToString());
+                        if(securityUserInfo != null) model.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
+                    }                    
+                }
+
+                if (ModelState.IsValid)
 				{
 					var userEntity = this.GetUserEntityBySecurityUserKey(model.Id);
 

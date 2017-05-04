@@ -106,8 +106,8 @@ namespace OpenIZAdmin.Models.UserModels
 	    /// <returns>Returns true if an empty string is contained in the List</returns>
 	    public void CheckForEmptyRoleAssigned()
 	    {
-	        if (Roles.Any())
-	        {
+            if (Roles != null && Roles.Any())
+            {
                 Roles.RemoveAll(r => string.IsNullOrWhiteSpace(r) || string.IsNullOrEmpty(r));
             }
 	        //return Roles.Any() && Roles.All(r => string.IsNullOrWhiteSpace(r) || string.IsNullOrEmpty(r));

@@ -2671,6 +2671,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Role is required.
+        /// </summary>
+        public static string RoleIsRequired {
+            get {
+                return ResourceManager.GetString("RoleIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warning, this role is not active.
         /// </summary>
         public static string RoleNotActive {

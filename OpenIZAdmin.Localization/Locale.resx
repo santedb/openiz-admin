@@ -1455,4 +1455,7 @@
   <data name="DownloadSource" xml:space="preserve">
     <value>Download Source</value>
   </data>
+  <data name="RoleIsRequired" xml:space="preserve">
+    <value>Role is required</value>
+  </data>
 </root>
