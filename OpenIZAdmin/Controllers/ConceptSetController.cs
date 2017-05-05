@@ -66,6 +66,15 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
+				var exists = this.ImsiClient.Query<ConceptSet>(c => c.Oid == model.Oid).Item.OfType<ConceptSet>().Any();
+
+				if (exists)
+				{
+					TempData["error"] = Locale.UnableToCreate + " " + Locale.ConceptSet;
+
+					return View(model);
+				}
+
 				if (ModelState.IsValid)
 				{
 					var conceptSet = new ConceptSet
