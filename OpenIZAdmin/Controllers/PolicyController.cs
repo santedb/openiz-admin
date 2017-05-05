@@ -68,9 +68,9 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreatePolicyModel model)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				try
+				if (this.ModelState.IsValid)
 				{
 					var policy = this.AmiClient.CreatePolicy(model.ToSecurityPolicyInfo());
 
@@ -78,10 +78,20 @@ namespace OpenIZAdmin.Controllers
 
 					return RedirectToAction("ViewPolicy", new { id = policy.Policy.Key.ToString() });
 				}
-				catch (Exception e)
-				{
-					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
+
+			model.GrantsList.Add(new SelectListItem { Text = Locale.Select, Value = "" });
+			model.GrantsList.Add(new SelectListItem { Text = Locale.Deny, Value = "0" });
+			model.GrantsList.Add(new SelectListItem { Text = Locale.Elevate, Value = "1" });
+			model.GrantsList.Add(new SelectListItem { Text = Locale.Grant, Value = "2" });
+
+			if (!string.IsNullOrEmpty(model.Grant) && !string.IsNullOrWhiteSpace(model.Grant))
+			{
+				model.GrantsList = model.GrantsList.Select(g => new SelectListItem { Selected = model.Grant == g.Value, Text = g.Text, Value = g.Value}).ToList();
 			}
 
 			TempData["error"] = Locale.UnableToCreate + " " + Locale.Policy;
