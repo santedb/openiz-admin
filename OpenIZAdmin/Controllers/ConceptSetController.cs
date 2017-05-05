@@ -68,14 +68,15 @@ namespace OpenIZAdmin.Controllers
 			{
 				var exists = this.ImsiClient.Query<ConceptSet>(c => c.Oid == model.Oid).Item.OfType<ConceptSet>().Any();
 
-				if (exists)
-				{
-					TempData["error"] = Locale.UnableToCreate + " " + Locale.ConceptSet;
+                if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
 
-					return View(model);
-				}
 
-				if (ModelState.IsValid)
+                var duplicate = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == model.Mnemonic).Item.OfType<ConceptSet>().Any();
+
+                if (duplicate) ModelState.AddModelError("Mnemonic", Locale.MnemonicMustBeUnique);
+
+
+                if (ModelState.IsValid)
 				{
 					var conceptSet = new ConceptSet
 					{
@@ -99,48 +100,10 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to create concept set: {e}");
 			}
 
-			TempData["error"] = Locale.UnableToCreate + " " + Locale.ConceptSet;
+			TempData["error"] = Locale.UnableToCreateConceptSet;
 
 			return View(model);
-		}
-
-        /////////-------------REMOVED as per Paul/Nityan 2017-4-19
-		///// <summary>
-		///// Removes the selected Concept from the Concept Set
-		///// </summary>
-		///// <param name="setId"> The Guid of the Concept</param>
-		///// <returns></returns>
-		//[HttpPost]
-		//[ValidateAntiForgeryToken]
-		//public ActionResult Delete(Guid setId)
-		//{
-		//	try
-		//	{
-		//		var conceptSet = this.ImsiClient.Get<ConceptSet>(setId, null) as ConceptSet;
-
-		//		if (conceptSet == null)
-		//		{
-		//			TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
-		//			return RedirectToAction("Index");
-		//		}
-
-		//		if (conceptSet.Concepts.Any())
-		//		{
-		//			TempData["error"] = Locale.UnableTo + " " + Locale.Delete + ". " + Locale.ConceptSet + " " + Locale.ContainsConcepts;
-		//			return RedirectToAction("ViewConceptSet", "ConceptSet", new { id = setId });
-		//		}
-
-		//		this.ImsiClient.Obsolete<ConceptSet>(conceptSet);
-		//	}
-		//	catch (Exception e)
-		//	{
-		//		ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-		//		Trace.TraceError($"Unable to delete concept set: {e}");
-		//	}
-
-		//	TempData["success"] = Locale.ConceptSet + " " + Locale.Deleted + " " + Locale.Successfully;
-		//	return RedirectToAction("Index");
-		//}
+		}        
 
 		/// <summary>
 		///
@@ -226,40 +189,51 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				if (ModelState.IsValid)
-				{
-					var conceptSet = this.GetConceptSet(model.Id);
+                var conceptSet = this.GetConceptSet(model.Id);
 
-					if (conceptSet == null)
-					{
-						TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
+                if (conceptSet == null)
+                {
+                    TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
 
-						return RedirectToAction("Index");
-					}
+                    return RedirectToAction("Index");
+                }
 
-					if (!string.Equals(conceptSet.Mnemonic, model.Mnemonic) && !DoesConceptSetExist(model.Mnemonic))
-					{
-						TempData["error"] = Locale.Mnemonic + " " + Locale.MustBeUnique;
-						return View(model);
-					}
+                //check oid
+                if (!conceptSet.Oid.Equals(model.Oid))
+                {
+                    var exists = this.ImsiClient.Query<ConceptSet>(c => c.Oid == model.Oid).Item.OfType<ConceptSet>().Any();
 
-					conceptSet = model.ToConceptSet(conceptSet);
+                    if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+                }
 
-					var result = this.ImsiClient.Update<ConceptSet>(conceptSet);
+                //check mnemonic
+                if (!string.Equals(conceptSet.Mnemonic, model.Mnemonic))
+                {
+                    var duplicate = DoesConceptSetExist(model.Mnemonic);
+                    if(duplicate) ModelState.AddModelError("Mnemonic", Locale.MnemonicMustBeUnique);                    
+                }
 
-					TempData["success"] = Locale.ConceptSet + " " + Locale.Updated + " " + Locale.Successfully;
+                if (ModelState.IsValid)
+				{									                        				
+                    conceptSet = model.ToConceptSet(conceptSet);
 
-					return RedirectToAction("ViewConceptSet", new { id = result.Key });
+                    var result = this.ImsiClient.Update<ConceptSet>(conceptSet);
+
+                    TempData["success"] = Locale.ConceptSet + " " + Locale.Updated + " " + Locale.Successfully;
+
+                    return RedirectToAction("ViewConceptSet", new { id = result.Key });
+                    					
 				}
 			}
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to update concept set: {e}");
-				this.TempData["error"] = Locale.UnableToUpdate + " " + Locale.ConceptSet;
+				this.TempData["error"] = Locale.UnableToUpdateConceptSet;
 			}
 
-			return View(model);
+            TempData["error"] = Locale.UnableToUpdateConceptSet;
+            return View(model);
 		}
 
 		/// <summary>

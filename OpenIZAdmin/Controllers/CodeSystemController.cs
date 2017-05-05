@@ -59,7 +59,11 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				if (ModelState.IsValid)
+                var exists = this.AmiClient.GetCodeSystems(c => c.Oid == model.Oid);
+
+                if (exists != null && exists.CollectionItem.Any()) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+
+                if (ModelState.IsValid)
 				{
 					var codeSystem = this.AmiClient.CreateCodeSystem(model.ToCodeSystem());
 
@@ -74,7 +78,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to create code system: {e}");
 			}
 
-			TempData["error"] = Locale.UnableToCreate + " " + Locale.CodeSystem;
+			TempData["error"] = Locale.UnableToCreateCodeSystem;
 
 			return View(model);
 		}
@@ -122,17 +126,25 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				if (ModelState.IsValid)
-				{
-					var codeSystem = this.AmiClient.GetCodeSystem(model.Id.ToString());
+                var codeSystem = this.AmiClient.GetCodeSystem(model.Id.ToString());
 
-					if (codeSystem == null)
-					{
-						TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
+                if (codeSystem == null)
+                {
+                    TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
 
-						return RedirectToAction("Index");
-					}
+                    return RedirectToAction("Index");
+                }                                
 
+                //check oid
+                if (!codeSystem.Oid.Equals(model.Oid))
+                {
+                    var exists = this.AmiClient.GetCodeSystems(c => c.Oid == model.Oid);
+
+                    if (exists != null && exists.CollectionItem.Any()) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+                }
+
+                if (ModelState.IsValid)
+				{					
 					codeSystem = this.AmiClient.UpdateCodeSystem(model.Id.ToString(), model.ToCodeSystem(codeSystem));
 
 					TempData["success"] = Locale.CodeSystem + " " + Locale.Updated + " " + Locale.Successfully;
@@ -146,7 +158,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to update code system: {e}");
 			}
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.CodeSystem;
+			TempData["error"] = Locale.UnableToUpdateCodeSystem;
 
 			return View(model);
 		}

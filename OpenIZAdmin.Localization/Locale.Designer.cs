@@ -1780,6 +1780,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Mnemonic cannot exceed 64 characters.
+        /// </summary>
+        public static string MnemonicLength64 {
+            get {
+                return ResourceManager.GetString("MnemonicLength64", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Mnemonic must be unique.
+        /// </summary>
+        public static string MnemonicMustBeUnique {
+            get {
+                return ResourceManager.GetString("MnemonicMustBeUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The mnemonic field is required.
         /// </summary>
         public static string MnemonicRequired {
@@ -2154,6 +2172,15 @@ namespace OpenIZAdmin.Localization {
         public static string OidLength64 {
             get {
                 return ResourceManager.GetString("OidLength64", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oid must be unique.
+        /// </summary>
+        public static string OidMustBeUnique {
+            get {
+                return ResourceManager.GetString("OidMustBeUnique", resourceCulture);
             }
         }
         
@@ -3562,6 +3589,42 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to create assigning authority.
+        /// </summary>
+        public static string UnableToCreateAssigningAuthority {
+            get {
+                return ResourceManager.GetString("UnableToCreateAssigningAuthority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to create code system.
+        /// </summary>
+        public static string UnableToCreateCodeSystem {
+            get {
+                return ResourceManager.GetString("UnableToCreateCodeSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to create concept set.
+        /// </summary>
+        public static string UnableToCreateConceptSet {
+            get {
+                return ResourceManager.GetString("UnableToCreateConceptSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to create policy.
+        /// </summary>
+        public static string UnableToCreatePolicy {
+            get {
+                return ResourceManager.GetString("UnableToCreatePolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to deactivate.
         /// </summary>
         public static string UnableToDeactivate {
@@ -3774,6 +3837,33 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToUpdate {
             get {
                 return ResourceManager.GetString("UnableToUpdate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to update assigning authority.
+        /// </summary>
+        public static string UnableToUpdateAssigningAuthority {
+            get {
+                return ResourceManager.GetString("UnableToUpdateAssigningAuthority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to update code system.
+        /// </summary>
+        public static string UnableToUpdateCodeSystem {
+            get {
+                return ResourceManager.GetString("UnableToUpdateCodeSystem", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to update concept set.
+        /// </summary>
+        public static string UnableToUpdateConceptSet {
+            get {
+                return ResourceManager.GetString("UnableToUpdateConceptSet", resourceCulture);
             }
         }
         

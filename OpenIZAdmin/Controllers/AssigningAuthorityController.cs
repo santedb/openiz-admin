@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.DataTypes;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -64,7 +65,11 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				if (ModelState.IsValid)
+                var exists = this.ImsiClient.Query<AssigningAuthority>(c => c.Oid == model.Oid).Item.OfType<AssigningAuthority>().Any();
+
+                if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+
+                if (ModelState.IsValid)
 				{
 					var assigningAuthority = this.AmiClient.CreateAssigningAuthority(model.ToAssigningAuthorityInfo());
 
@@ -78,7 +83,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToCreate + " " + Locale.AssigningAuthority;
+			TempData["error"] = Locale.UnableToCreateAssigningAuthority;
 
 			return View(model);
 		}
@@ -158,7 +163,23 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				if (ModelState.IsValid)
+                var assigningAuthorityInfo = this.AmiClient.GetAssigningAuthorities(m => m.Key == model.Id).CollectionItem.FirstOrDefault();
+
+                if (assigningAuthorityInfo == null)
+                {
+                    TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+                    return RedirectToAction("Index");
+                }
+
+                //check oid
+                if (!assigningAuthorityInfo.AssigningAuthority.Oid.Equals(model.Oid))
+                {
+                    var exists = this.ImsiClient.Query<AssigningAuthority>(c => c.Oid == model.Oid).Item.OfType<AssigningAuthority>().Any();
+
+                    if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+                }                
+
+                if (ModelState.IsValid)
 				{
 					this.AmiClient.UpdateAssigningAuthority(model.Id.ToString(), model.ToAssigningAuthorityInfo());
 
@@ -171,7 +192,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.AssigningAuthority;
+			TempData["error"] = Locale.UnableToUpdateAssigningAuthority;
 
 			return View(model);
 		}

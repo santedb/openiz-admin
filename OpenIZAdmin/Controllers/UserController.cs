@@ -118,10 +118,8 @@ namespace OpenIZAdmin.Controllers
 			{
                 //hack - check if empty string passed and remove - select2 issue                        
                 model.CheckForEmptyRoleAssigned();
-                if (!model.Roles.Any())
-                {
-                    ModelState.AddModelError("Roles", Locale.RolesRequired);
-                }
+
+                if (!model.Roles.Any()) ModelState.AddModelError("Roles", Locale.RolesRequired);                
 
                 if (ModelState.IsValid)
 				{					

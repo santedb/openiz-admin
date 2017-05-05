@@ -18,6 +18,7 @@
  */
 
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
@@ -27,30 +28,36 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 	/// </summary>
 	public class CreateConceptSetModel : ConceptSetModel
 	{
-		/// <summary>
-		/// Gets or sets the mnemonic of the concept.
-		/// </summary>
-		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
-		[Required]
-		public override string Mnemonic { get; set; }
+        /// <summary>
+        /// Gets or sets the mnemonic of the concept.
+        /// </summary>
+        [Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
+        [Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(64, ErrorMessageResourceName = "MnemonicLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public override string Mnemonic { get; set; }
 
-		/// <summary>
-		/// Gets or sets the name of the concept set.
-		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required]
-		public override string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the name of the concept set.
+        /// </summary>
+        [Display(Name = "Name", ResourceType = typeof(Locale))]
+        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(64, ErrorMessageResourceName = "NameLength50", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public override string Name { get; set; }
 
-		/// <summary>
-		/// Get or sets the OID of the concept set.
-		/// </summary>
-		[Required]
-		public override string Oid { get; set; }
+        /// <summary>
+        /// Get or sets the OID of the concept set.
+        /// </summary>
+        [Display(Name = "Oid", ResourceType = typeof(Locale))]
+        [Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public override string Oid { get; set; }
 
-		/// <summary>
-		/// Get or sets the URL of the concept set.
-		/// </summary>
-		[Required]
-		public override string Url { get; set; }
+        /// <summary>
+        /// Get or sets the URL of the concept set.
+        /// </summary>
+        [Display(Name = "Url", ResourceType = typeof(Locale))]
+        [Required(ErrorMessageResourceName = "UrlRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(64, ErrorMessageResourceName = "UrlLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public override string Url { get; set; }
 	}
 }

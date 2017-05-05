@@ -1464,4 +1464,34 @@
   <data name="TargetPopulationMustBePositive" xml:space="preserve">
     <value>The target population must be a number greater than 0 and less than 18,446,744,073,709,551,615</value>
   </data>
+  <data name="MnemonicMustBeUnique" xml:space="preserve">
+    <value>Mnemonic must be unique</value>
+  </data>
+  <data name="OidMustBeUnique" xml:space="preserve">
+    <value>Oid must be unique</value>
+  </data>
+  <data name="UnableToCreateAssigningAuthority" xml:space="preserve">
+    <value>Unable to create assigning authority</value>
+  </data>
+  <data name="UnableToCreateCodeSystem" xml:space="preserve">
+    <value>Unable to create code system</value>
+  </data>
+  <data name="UnableToCreateConceptSet" xml:space="preserve">
+    <value>Unable to create concept set</value>
+  </data>
+  <data name="UnableToCreatePolicy" xml:space="preserve">
+    <value>Unable to create policy</value>
+  </data>
+  <data name="UnableToUpdateAssigningAuthority" xml:space="preserve">
+    <value>Unable to update assigning authority</value>
+  </data>
+  <data name="UnableToUpdateCodeSystem" xml:space="preserve">
+    <value>Unable to update code system</value>
+  </data>
+  <data name="UnableToUpdateConceptSet" xml:space="preserve">
+    <value>Unable to update concept set</value>
+  </data>
+  <data name="MnemonicLength64" xml:space="preserve">
+    <value>Mnemonic cannot exceed 64 characters</value>
+  </data>
 </root>

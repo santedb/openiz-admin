@@ -93,31 +93,35 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		/// Gets or sets the mnemonic of the concept.
 		/// </summary>
 		[Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
-		[Required]
-		public override string Mnemonic { get; set; }
+        [Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(64, ErrorMessageResourceName = "MnemonicLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public override string Mnemonic { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the concept set.
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
-		[Required]
-		public override string Name { get; set; }
+        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(64, ErrorMessageResourceName = "NameLength50", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public override string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the oid.
 		/// </summary>
 		/// <value>The oid.</value>
 		[Display(Name = "Oid", ResourceType = typeof(Locale))]
-		[Required]
-		public override string Oid { get; set; }
+        [Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public override string Oid { get; set; }
 
 		/// <summary>
 		/// Gets or sets the URL.
 		/// </summary>
 		/// <value>The URL.</value>
 		[Display(Name = "Url", ResourceType = typeof(Locale))]
-		[Required]
-		public override string Url { get; set; }
+        [Required(ErrorMessageResourceName = "UrlRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(64, ErrorMessageResourceName = "UrlLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public override string Url { get; set; }
 
 		/// <summary>
 		/// Converts an <see cref="EditConceptSetModel"/> instance to a <see cref="ConceptSet"/> instance.

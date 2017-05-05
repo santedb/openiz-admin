@@ -20,6 +20,7 @@
                     @Html.LabelFor(m => m.Mnemonic, new { @class = "col-md-2 control-label" })
                     <div class="col-md-8">
                         @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", title = Locale.ToolTip_ConceptMnemonic })
+                        @Html.ValidationMessageFor(m => m.Mnemonic, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -27,6 +28,7 @@
                     @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
                     <div class="col-md-8">
                         @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_ConceptName })
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -34,6 +36,7 @@
                     @Html.LabelFor(m => m.Oid, new { @class = "col-md-2 control-label" })
                     <div class="col-md-8">
                         @Html.TextBoxFor(m => m.Oid, new { @class = "form-control", title = Locale.ToolTip_Oid })
+                        @Html.ValidationMessageFor(m => m.Oid, "", new { @class = "text-danger" })
                     </div>
                 </div>
 
@@ -41,6 +44,7 @@
                     @Html.LabelFor(m => m.Url, new { @class = "col-md-2 control-label" })
                     <div class="col-md-8">
                         @Html.TextBoxFor(m => m.Url, new { @class = "form-control", title = Locale.ToolTip_Url })
+                        @Html.ValidationMessageFor(m => m.Url, "", new { @class = "text-danger" })
                     </div>
                 </div>
 

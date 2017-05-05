@@ -26,6 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -70,7 +71,11 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				if (this.ModelState.IsValid)
+                var exists = this.ImsiClient.Query<SecurityPolicy>(c => c.Oid == model.Oid).Item.OfType<SecurityPolicy>().Any();
+
+                if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+
+                if (this.ModelState.IsValid)
 				{
 					var policy = this.AmiClient.CreatePolicy(model.ToSecurityPolicyInfo());
 
@@ -94,7 +99,7 @@ namespace OpenIZAdmin.Controllers
 				model.GrantsList = model.GrantsList.Select(g => new SelectListItem { Selected = model.Grant == g.Value, Text = g.Text, Value = g.Value}).ToList();
 			}
 
-			TempData["error"] = Locale.UnableToCreate + " " + Locale.Policy;
+			TempData["error"] = Locale.UnableToCreatePolicy;
 
 			return View(model);
 		}
