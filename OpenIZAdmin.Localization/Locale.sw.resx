@@ -112,1086 +112,1089 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ChangeLanguage">
+  <data name="ChangeLanguage" xml:space="preserve">
     <value>Badili lugha</value>
   </data>
-  <data name="Password">
+  <data name="Password" xml:space="preserve">
     <value>Nywila</value>
   </data>
-  <data name="PasswordRequired">
+  <data name="PasswordRequired" xml:space="preserve">
     <value>Sehemu ya nywila inahitajika</value>
   </data>
-  <data name="Username">
+  <data name="Username" xml:space="preserve">
     <value>Jina la mtumiaji</value>
   </data>
-  <data name="UsernameRequired">
+  <data name="UsernameRequired" xml:space="preserve">
     <value>Sehemu ya jina la mtumiaji inahitajika</value>
   </data>
-  <data name="UsernameTooLong">
+  <data name="UsernameTooLong" xml:space="preserve">
     <value>sehemu ya jina la mtumiaji lazima iwe kati ya neno 1 
 na 255</value>
   </data>
-  <data name="Certificates">
+  <data name="Certificates" xml:space="preserve">
     <value>Vyeti</value>
   </data>
-  <data name="Concept">
+  <data name="Concept" xml:space="preserve">
     <value>Dhana</value>
   </data>
-  <data name="ConceptName">
+  <data name="ConceptName" xml:space="preserve">
     <value>Jina la dhana</value>
   </data>
-  <data name="Concepts">
+  <data name="Concepts" xml:space="preserve">
     <value>Dhana</value>
   </data>
-  <data name="Dashboard">
+  <data name="Dashboard" xml:space="preserve">
     <value>Muonekano</value>
   </data>
-  <data name="Devices">
+  <data name="Devices" xml:space="preserve">
     <value>Vifaa</value>
   </data>
-  <data name="Name">
+  <data name="Name" xml:space="preserve">
     <value>Jina </value>
   </data>
-  <data name="Places">
+  <data name="Places" xml:space="preserve">
     <value>Maeneo</value>
   </data>
-  <data name="RealmManagement">
+  <data name="RealmManagement" xml:space="preserve">
     <value>Udhibiti ulimwengu</value>
   </data>
-  <data name="Roles">
+  <data name="Roles" xml:space="preserve">
     <value>Kazi</value>
   </data>
-  <data name="Search">
+  <data name="Search" xml:space="preserve">
     <value>Tafuta</value>
   </data>
-  <data name="UserRoles">
+  <data name="UserRoles" xml:space="preserve">
     <value>Kazi za mtumiaji</value>
   </data>
-  <data name="Users">
+  <data name="Users" xml:space="preserve">
     <value>watumiaji</value>
   </data>
-  <data name="Reset">
+  <data name="Reset" xml:space="preserve">
     <value>weka upya</value>
   </data>
-  <data name="AppletId">
+  <data name="AppletId" xml:space="preserve">
     <value>Kitambulisho cha kijiprogramu</value>
   </data>
-  <data name="Applets">
+  <data name="Applets" xml:space="preserve">
     <value>Vijiprogramu</value>
   </data>
-  <data name="CertificateRequests">
+  <data name="CertificateRequests" xml:space="preserve">
     <value>Maombi ya cheti</value>
   </data>
-  <data name="CertificateSigningRequestId">
+  <data name="CertificateSigningRequestId" xml:space="preserve">
     <value>Kitambulisho cha maombi ya kuweka sahihi cheti</value>
   </data>
-  <data name="CommonName">
+  <data name="CommonName" xml:space="preserve">
     <value>Jina maarufu</value>
   </data>
-  <data name="DateRequested">
+  <data name="DateRequested" xml:space="preserve">
     <value>Tarehe iliyoombwa</value>
   </data>
-  <data name="Description">
+  <data name="Description" xml:space="preserve">
     <value>Maelezo</value>
   </data>
-  <data name="Email">
+  <data name="Email" xml:space="preserve">
     <value>Barua pepe</value>
   </data>
-  <data name="Group">
+  <data name="Group" xml:space="preserve">
     <value>Kundi</value>
   </data>
-  <data name="LockedOut">
+  <data name="LockedOut" xml:space="preserve">
     <value>Fungiwa nje?</value>
   </data>
-  <data name="NoUserRolesAdded">
+  <data name="NoUserRolesAdded" xml:space="preserve">
     <value>Hakuna kazi za mtumiaji zilizoongezwa</value>
   </data>
-  <data name="RoleId">
+  <data name="RoleId" xml:space="preserve">
     <value>Kitambulisho cha kazi</value>
   </data>
-  <data name="Version">
+  <data name="Version" xml:space="preserve">
     <value>Toleo</value>
   </data>
-  <data name="Cancel">
+  <data name="Cancel" xml:space="preserve">
     <value>Kata</value>
   </data>
-  <data name="CurrentRealm">
+  <data name="CurrentRealm" xml:space="preserve">
     <value>Hali ya sasa</value>
   </data>
-  <data name="Hello">
+  <data name="Hello" xml:space="preserve">
     <value>Helo</value>
   </data>
-  <data name="LeaveRealm">
+  <data name="LeaveRealm" xml:space="preserve">
     <value>Acha ulimwengu</value>
   </data>
-  <data name="Logoff">
+  <data name="Logoff" xml:space="preserve">
     <value>Ondoka</value>
   </data>
-  <data name="Save">
+  <data name="Save" xml:space="preserve">
     <value>Hifadhi</value>
   </data>
-  <data name="Submit">
+  <data name="Submit" xml:space="preserve">
     <value>Peleka</value>
   </data>
-  <data name="UnableToRetrieveDeviceList">
+  <data name="UnableToRetrieveDeviceList" xml:space="preserve">
     <value>Imeshindikana kupata orodha ya vifaa</value>
   </data>
-  <data name="UnableToRetrieveRoleList">
+  <data name="UnableToRetrieveRoleList" xml:space="preserve">
     <value>Imeshindikana kupata orodha ya majukumu</value>
   </data>
-  <data name="UnableToRetrieveUserList">
+  <data name="UnableToRetrieveUserList" xml:space="preserve">
     <value>Imeshindikana kupata orodha ya watumiaji</value>
   </data>
-  <data name="New">
+  <data name="New" xml:space="preserve">
     <value>Mpya</value>
   </data>
-  <data name="NoNewCertificateSigningRequestsSubmitted">
+  <data name="NoNewCertificateSigningRequestsSubmitted" xml:space="preserve">
     <value>Hakuna cheti cha maombi ya sahihi kilichowasilishwa</value>
   </data>
-  <data name="ConceptSearchResults">
+  <data name="ConceptSearchResults" xml:space="preserve">
     <value>Matokeo ya utafutaji dhana</value>
   </data>
-  <data name="SearchResults">
+  <data name="SearchResults" xml:space="preserve">
     <value>Matokeo ya kutafuta</value>
   </data>
-  <data name="CreationTime">
+  <data name="CreationTime" xml:space="preserve">
     <value>Muda wa utengenezaji</value>
   </data>
-  <data name="View">
+  <data name="View" xml:space="preserve">
     <value>Ona</value>
   </data>
-  <data name="JoinNewRealm">
+  <data name="JoinNewRealm" xml:space="preserve">
     <value>Ingia Realm</value>
   </data>
-  <data name="Address">
+  <data name="Address" xml:space="preserve">
     <value>Anuani</value>
   </data>
-  <data name="ApplicationId">
+  <data name="ApplicationId" xml:space="preserve">
     <value>Anuani ya programu tumizi</value>
   </data>
-  <data name="Id">
+  <data name="Id" xml:space="preserve">
     <value>Kitambulisho </value>
   </data>
-  <data name="NoDevicesAdded">
+  <data name="NoDevicesAdded" xml:space="preserve">
     <value>Hakuna vifaa vilivyoongezwa</value>
   </data>
-  <data name="Login">
+  <data name="Login" xml:space="preserve">
     <value>Ingia</value>
   </data>
-  <data name="PlaceSearchResults">
+  <data name="PlaceSearchResults" xml:space="preserve">
     <value>Matokeo ya utafutaji sehemu</value>
   </data>
-  <data name="Latitude">
+  <data name="Latitude" xml:space="preserve">
     <value>Latitudo</value>
   </data>
-  <data name="Longitude">
+  <data name="Longitude" xml:space="preserve">
     <value>Longitudo</value>
   </data>
-  <data name="NoRolesAdded">
+  <data name="NoRolesAdded" xml:space="preserve">
     <value>Hakuna kazi zilizoongezwa</value>
   </data>
-  <data name="SearchTerm">
+  <data name="SearchTerm" xml:space="preserve">
     <value>Vigezo vya utafutaji</value>
   </data>
-  <data name="UserId">
+  <data name="UserId" xml:space="preserve">
     <value>Kitambulisho cha mtumiaji</value>
   </data>
-  <data name="NoUsersAdded">
+  <data name="NoUsersAdded" xml:space="preserve">
     <value>Hakuna watumiaji walioongezwa</value>
   </data>
-  <data name="SearchType">
+  <data name="SearchType" xml:space="preserve">
     <value>Aina ya utafutaji</value>
   </data>
-  <data name="SearchTypeRequired">
+  <data name="SearchTypeRequired" xml:space="preserve">
     <value>Tafadhali chagua aina ya utafutaji</value>
   </data>
-  <data name="MnemonicTooLong">
+  <data name="MnemonicTooLong" xml:space="preserve">
     <value>Mnemonic hayawezi kuzidi vibambo 255</value>
   </data>
-  <data name="NameLength255">
+  <data name="NameLength255" xml:space="preserve">
     <value>Jina lisizidi herufi 255</value>
   </data>
-  <data name="NameRequired">
+  <data name="NameRequired" xml:space="preserve">
     <value>Sehemu ya jina inatakiwa</value>
   </data>
-  <data name="IncorrectUsernameOrPassword">
+  <data name="IncorrectUsernameOrPassword" xml:space="preserve">
     <value>Jina la mtumiaji au neno siri vimekosewa</value>
   </data>
-  <data name="NoAdditionalDetails">
+  <data name="NoAdditionalDetails" xml:space="preserve">
     <value>Hakuna maelezo ya ziada yaliyotolewa</value>
   </data>
-  <data name="Place">
+  <data name="Place" xml:space="preserve">
     <value>Mahali</value>
   </data>
-  <data name="Error">
+  <data name="Error" xml:space="preserve">
     <value>Kosa</value>
   </data>
-  <data name="GenericErrorMessage">
+  <data name="GenericErrorMessage" xml:space="preserve">
     <value>Kosa limetokea wakati wa kufanyia kazi ombi lako</value>
   </data>
-  <data name="Edit">
+  <data name="Edit" xml:space="preserve">
     <value>Rekebisha</value>
   </data>
-  <data name="User">
+  <data name="User" xml:space="preserve">
     <value>Mtumiaji</value>
   </data>
-  <data name="FirstName">
+  <data name="FirstName" xml:space="preserve">
     <value>Jina la kwanza</value>
   </data>
-  <data name="LastName">
+  <data name="LastName" xml:space="preserve">
     <value>Jina la mwisho</value>
   </data>
-  <data name="FirstNameRequired">
+  <data name="FirstNameRequired" xml:space="preserve">
     <value>Eneo la jina la kwanza linatakiwa</value>
   </data>
-  <data name="FirstNameTooLong">
+  <data name="FirstNameTooLong" xml:space="preserve">
     <value>Jina la kwanza lisizidi herufi 255</value>
   </data>
-  <data name="LastNameRequired">
+  <data name="LastNameRequired" xml:space="preserve">
     <value>Eneo la jina la mwisho linatakiwa</value>
   </data>
-  <data name="LastNameTooLong">
+  <data name="LastNameTooLong" xml:space="preserve">
     <value>Jina la mwisho lisizidi herufi 255</value>
   </data>
-  <data name="EmailRequired">
+  <data name="EmailRequired" xml:space="preserve">
     <value>Sehemu ya baruapepe inatakiwa</value>
   </data>
-  <data name="InvalidEmailAddress">
+  <data name="InvalidEmailAddress" xml:space="preserve">
     <value>Tafadhali ingiza anuani sahihi ya barua pepe</value>
   </data>
-  <data name="Role">
+  <data name="Role" xml:space="preserve">
     <value>jukumu</value>
   </data>
-  <data name="RolesRequired">
+  <data name="RolesRequired" xml:space="preserve">
     <value>tafadhali chagua majukumu</value>
   </data>
-  <data name="Policies">
+  <data name="Policies" xml:space="preserve">
     <value>Sera</value>
   </data>
-  <data name="Policy">
+  <data name="Policy" xml:space="preserve">
     <value>Sera</value>
   </data>
-  <data name="PolicySearchResults">
+  <data name="PolicySearchResults" xml:space="preserve">
     <value>Matokeo ya sera ya utafutaji</value>
   </data>
-  <data name="CanOverride">
+  <data name="CanOverride" xml:space="preserve">
     <value>Inaweza kubatilisha</value>
   </data>
-  <data name="Oid">
+  <data name="Oid" xml:space="preserve">
     <value>OID</value>
   </data>
-  <data name="OidRequired">
+  <data name="OidRequired" xml:space="preserve">
     <value>uwanja OID inahitajika</value>
   </data>
-  <data name="Grant">
+  <data name="Grant" xml:space="preserve">
     <value>Ruzuku</value>
   </data>
-  <data name="Grants">
+  <data name="Grants" xml:space="preserve">
     <value>Ruzuku</value>
   </data>
-  <data name="GrantsRequired">
+  <data name="GrantsRequired" xml:space="preserve">
     <value>Chagua aina ya ruzuku</value>
   </data>
-  <data name="Select">
+  <data name="Select" xml:space="preserve">
     <value>Chagua</value>
   </data>
-  <data name="Deny">
+  <data name="Deny" xml:space="preserve">
     <value>Kataa</value>
   </data>
-  <data name="Elevate">
+  <data name="Elevate" xml:space="preserve">
     <value>Inua</value>
   </data>
-  <data name="IsPublic">
+  <data name="IsPublic" xml:space="preserve">
     <value>jumuiya</value>
   </data>
-  <data name="ChangePassword">
+  <data name="ChangePassword" xml:space="preserve">
     <value>Badili neno siri</value>
   </data>
-  <data name="AdministrativeContactEmail">
+  <data name="AdministrativeContactEmail" xml:space="preserve">
     <value>Anuani ya baruapepe ya utawala</value>
   </data>
-  <data name="AdministrativeContactName">
+  <data name="AdministrativeContactName" xml:space="preserve">
     <value>Jina la mawasiliano utawala</value>
   </data>
-  <data name="DistinguishedName">
+  <data name="DistinguishedName" xml:space="preserve">
     <value>Jina linalojulikana</value>
   </data>
-  <data name="SubmissionTime">
+  <data name="SubmissionTime" xml:space="preserve">
     <value>Muda wa kuwasilishwa</value>
   </data>
-  <data name="JoinRealm">
+  <data name="JoinRealm" xml:space="preserve">
     <value>Kujiunga ulimwengu</value>
   </data>
-  <data name="Language">
+  <data name="Language" xml:space="preserve">
     <value>Lugha</value>
   </data>
-  <data name="LanguageRequired">
+  <data name="LanguageRequired" xml:space="preserve">
     <value>Tafadhali chagua lugha</value>
   </data>
-  <data name="MnemonicRequired">
+  <data name="MnemonicRequired" xml:space="preserve">
     <value>uwanja mnemonic inahitajika</value>
   </data>
-  <data name="Details">
+  <data name="Details" xml:space="preserve">
     <value>Maelezo</value>
   </data>
-  <data name="Device">
+  <data name="Device" xml:space="preserve">
     <value>Kifaa</value>
   </data>
-  <data name="ConfirmPassword">
+  <data name="ConfirmPassword" xml:space="preserve">
     <value>Hakiki neno siri</value>
   </data>
-  <data name="ConfirmPasswordMatch">
+  <data name="ConfirmPasswordMatch" xml:space="preserve">
     <value>Neno siri na hakiki neno siri hazilandani</value>
   </data>
-  <data name="ConfirmPasswordRequired">
+  <data name="ConfirmPasswordRequired" xml:space="preserve">
     <value>Nafasi ya kuhakiki neno siri inatakiwa</value>
   </data>
-  <data name="ExistingPassword">
+  <data name="ExistingPassword" xml:space="preserve">
     <value>Neno siri lililopo</value>
   </data>
-  <data name="ExistingPasswordRequired">
+  <data name="ExistingPasswordRequired" xml:space="preserve">
     <value>nafasi ya neno siri lililopo inatakiwa</value>
   </data>
-  <data name="UnableToChangePassword">
+  <data name="UnableToChangePassword" xml:space="preserve">
     <value>Haiwezi kubadili neno siri</value>
   </data>
-  <data name="PasswordChanged">
+  <data name="PasswordChanged" xml:space="preserve">
     <value>Badili neno siri</value>
   </data>
-  <data name="No">
+  <data name="No" xml:space="preserve">
     <value>Hapana</value>
   </data>
-  <data name="Yes">
+  <data name="Yes" xml:space="preserve">
     <value>Ndio</value>
   </data>
-  <data name="Manage">
+  <data name="Manage" xml:space="preserve">
     <value>Simamia</value>
   </data>
-  <data name="UpdateProfile">
+  <data name="UpdateProfile" xml:space="preserve">
     <value>Badili muonekano</value>
   </data>
-  <data name="FamilyNames">
+  <data name="FamilyNames" xml:space="preserve">
     <value>Jina la familia</value>
   </data>
-  <data name="Names">
+  <data name="Names" xml:space="preserve">
     <value>Majina</value>
   </data>
-  <data name="Facility">
+  <data name="Facility" xml:space="preserve">
     <value>Kituo</value>
   </data>
-  <data name="FacilityRequired">
+  <data name="FacilityRequired" xml:space="preserve">
     <value>Tafadhali chagua kituo</value>
   </data>
-  <data name="PhoneType">
+  <data name="PhoneType" xml:space="preserve">
     <value>Aina ya simu</value>
   </data>
-  <data name="Phone">
+  <data name="Phone" xml:space="preserve">
     <value>Simu</value>
   </data>
-  <data name="SessionTimedOut">
+  <data name="SessionTimedOut" xml:space="preserve">
     <value>kipindi kimeisha wakati</value>
   </data>
-  <data name="AssigningAuthorities">
+  <data name="AssigningAuthorities" xml:space="preserve">
     <value>Ugawaji madaraka</value>
   </data>
-  <data name="Providers">
+  <data name="Providers" xml:space="preserve">
     <value>watoaji</value>
   </data>
-  <data name="DescriptionLength255">
+  <data name="DescriptionLength255" xml:space="preserve">
     <value>Maelezo yasizidi herufi 255</value>
   </data>
-  <data name="Loading">
+  <data name="Loading" xml:space="preserve">
     <value>Kupandisha</value>
   </data>
-  <data name="HealthFacility">
+  <data name="HealthFacility" xml:space="preserve">
     <value>Kituo cha afya</value>
   </data>
-  <data name="Deactivate">
+  <data name="Deactivate" xml:space="preserve">
     <value>Kuzima</value>
   </data>
-  <data name="LastLoginTime">
+  <data name="LastLoginTime" xml:space="preserve">
     <value>Muda wa mwisho kuingia</value>
   </data>
-  <data name="Activate">
+  <data name="Activate" xml:space="preserve">
     <value>Amilisha</value>
   </data>
-  <data name="SearchProviders">
+  <data name="SearchProviders" xml:space="preserve">
     <value>Watoaji tafutizi</value>
   </data>
-  <data name="AssigningDeviceId">
+  <data name="AssigningDeviceId" xml:space="preserve">
     <value>Ugawaji wa utambulisho kwa kifaa</value>
   </data>
-  <data name="DomainName">
+  <data name="DomainName" xml:space="preserve">
     <value>Jina la kikoa</value>
   </data>
-  <data name="Url">
+  <data name="Url" xml:space="preserve">
     <value>Url</value>
   </data>
-  <data name="Delete">
+  <data name="Delete" xml:space="preserve">
     <value>Futa</value>
   </data>
-  <data name="Acknowledge">
+  <data name="Acknowledge" xml:space="preserve">
     <value>Tambua</value>
   </data>
-  <data name="Alerts">
+  <data name="Alerts" xml:space="preserve">
     <value>Tahadhari</value>
   </data>
-  <data name="From">
+  <data name="From" xml:space="preserve">
     <value>Kutoka</value>
   </data>
-  <data name="Subject">
+  <data name="Subject" xml:space="preserve">
     <value>Somo</value>
   </data>
-  <data name="Time">
+  <data name="Time" xml:space="preserve">
     <value>Muda</value>
   </data>
-  <data name="To">
+  <data name="To" xml:space="preserve">
     <value>kwenda</value>
   </data>
-  <data name="Close">
+  <data name="Close" xml:space="preserve">
     <value>Funga</value>
   </data>
-  <data name="NotFound">
+  <data name="NotFound" xml:space="preserve">
     <value>Haijapatikana</value>
   </data>
-  <data name="ProviderSpecialty">
+  <data name="ProviderSpecialty" xml:space="preserve">
     <value>Mtoaji maalum</value>
   </data>
-  <data name="HL7CX4">
+  <data name="HL7CX4" xml:space="preserve">
     <value>HL7CX4</value>
   </data>
-  <data name="OIDAllCaps">
+  <data name="OIDAllCaps" xml:space="preserve">
     <value>OID</value>
   </data>
-  <data name="Message">
+  <data name="Message" xml:space="preserve">
     <value>Ujumbe</value>
   </data>
-  <data name="MessageRequired">
+  <data name="MessageRequired" xml:space="preserve">
     <value>Tafadhali ingiza ujumbe</value>
   </data>
-  <data name="Acknowledged">
+  <data name="Acknowledged" xml:space="preserve">
     <value>Kubaliwa</value>
   </data>
-  <data name="Alert">
+  <data name="Alert" xml:space="preserve">
     <value>Tahadhari</value>
   </data>
-  <data name="HighPriority">
+  <data name="HighPriority" xml:space="preserve">
     <value>Yenye umuhimu mkubwa</value>
   </data>
-  <data name="System">
+  <data name="System" xml:space="preserve">
     <value>Mfumo</value>
   </data>
-  <data name="Activated">
+  <data name="Activated" xml:space="preserve">
     <value>Imeamshwa</value>
   </data>
-  <data name="Uploaded">
+  <data name="Uploaded" xml:space="preserve">
     <value>Imepandishwa</value>
   </data>
-  <data name="AssigningAuthority">
+  <data name="AssigningAuthority" xml:space="preserve">
     <value>Mamlaka ya</value>
   </data>
-  <data name="Certificate">
+  <data name="Certificate" xml:space="preserve">
     <value>cheti</value>
   </data>
-  <data name="CertificateSigningRequestAccepted">
+  <data name="CertificateSigningRequestAccepted" xml:space="preserve">
     <value>Ombi la kutia sahihi cheti limefanikiwa</value>
   </data>
-  <data name="CertificateSigningRequestSuccessfullySubmitted">
+  <data name="CertificateSigningRequestSuccessfullySubmitted" xml:space="preserve">
     <value>Ombi la kutia sahihi cheti limewasilishwa</value>
   </data>
-  <data name="ConceptSets">
+  <data name="ConceptSets" xml:space="preserve">
     <value>Seti za dhana</value>
   </data>
-  <data name="Created">
+  <data name="Created" xml:space="preserve">
     <value>Imetengenezwa</value>
   </data>
-  <data name="Deactivated">
+  <data name="Deactivated" xml:space="preserve">
     <value>Imezimwa</value>
   </data>
-  <data name="Edited">
+  <data name="Edited" xml:space="preserve">
     <value>Imerekebishwa</value>
   </data>
-  <data name="InvalidSearch">
+  <data name="InvalidSearch" xml:space="preserve">
     <value>Upekuzi batili, tafadhali angalia aina ya upekuzi</value>
   </data>
-  <data name="NoPoliciesFound">
+  <data name="NoPoliciesFound" xml:space="preserve">
     <value>Hakuna sera iliyopatikana</value>
   </data>
-  <data name="NoProvidersFound">
+  <data name="NoProvidersFound" xml:space="preserve">
     <value>Hakuna watoaji waliopatikana</value>
   </data>
-  <data name="Profile">
+  <data name="Profile" xml:space="preserve">
     <value>Maelezo mafupi</value>
   </data>
-  <data name="Provider">
+  <data name="Provider" xml:space="preserve">
     <value>Mtoaji </value>
   </data>
-  <data name="Realm">
+  <data name="Realm" xml:space="preserve">
     <value>eneo</value>
   </data>
-  <data name="RealmJoined">
+  <data name="RealmJoined" xml:space="preserve">
     <value>ulimwengu alijiunga</value>
   </data>
-  <data name="RealmLeft">
+  <data name="RealmLeft" xml:space="preserve">
     <value>ulimwengu wa kushoto</value>
   </data>
-  <data name="RealmSwitched">
+  <data name="RealmSwitched" xml:space="preserve">
     <value>ulimwengu Imebadili</value>
   </data>
-  <data name="SecurityApplication">
+  <data name="SecurityApplication" xml:space="preserve">
     <value>programu tumizi ya ulinzi</value>
   </data>
-  <data name="Upload">
+  <data name="Upload" xml:space="preserve">
     <value>Pakia</value>
   </data>
-  <data name="UnableToAcceptCertificateSigningRequest">
+  <data name="UnableToAcceptCertificateSigningRequest" xml:space="preserve">
     <value>Imeshindikana kupokea cheti cha ombi la kuingia</value>
   </data>
-  <data name="UnableToActivate">
+  <data name="UnableToActivate" xml:space="preserve">
     <value>Imeshindikana kuamsha</value>
   </data>
-  <data name="UnableToCreate">
+  <data name="UnableToCreate" xml:space="preserve">
     <value>Imeshindikana kutengeneza</value>
   </data>
-  <data name="UnableToDeactivate">
+  <data name="UnableToDeactivate" xml:space="preserve">
     <value>Imeshindikana kuzima</value>
   </data>
-  <data name="UnableToDelete">
+  <data name="UnableToDelete" xml:space="preserve">
     <value>imeshindikana kufuta</value>
   </data>
-  <data name="UnableToFindSpecifiedCertificate">
+  <data name="UnableToFindSpecifiedCertificate" xml:space="preserve">
     <value>Imeshindikana kupata cheti husika</value>
   </data>
-  <data name="UnableToFindSpecifiedCertificateSigningRequest">
+  <data name="UnableToFindSpecifiedCertificateSigningRequest" xml:space="preserve">
     <value>Imeshindikana kupata ombi la kuweka sahihi cheti</value>
   </data>
-  <data name="UnableToJoinRealm">
+  <data name="UnableToJoinRealm" xml:space="preserve">
     <value>Imeshindiakana kujiunga na realm</value>
   </data>
-  <data name="UnableToLeaveRealm">
+  <data name="UnableToLeaveRealm" xml:space="preserve">
     <value>Imeshindikana kujiunga na realm</value>
   </data>
-  <data name="UnableToRejectCertificateSigningRequest">
+  <data name="UnableToRejectCertificateSigningRequest" xml:space="preserve">
     <value>Imeshindikana kukataa ombi la kuweka sahihi cheti</value>
   </data>
-  <data name="UnableToRetrieve">
+  <data name="UnableToRetrieve" xml:space="preserve">
     <value>Imeshindikana kupata</value>
   </data>
-  <data name="UnableToRetrieveCertificateList">
+  <data name="UnableToRetrieveCertificateList" xml:space="preserve">
     <value>Imeshindikana kupata orodha ya cheti</value>
   </data>
-  <data name="UnableToRetrieveCertificateRevocationlist">
+  <data name="UnableToRetrieveCertificateRevocationlist" xml:space="preserve">
     <value>Imeshindikana kupata orodha ya vyeti vilivyokataliwa</value>
   </data>
-  <data name="UnableToRetrieveCertificateSigningRequestList">
+  <data name="UnableToRetrieveCertificateSigningRequestList" xml:space="preserve">
     <value>Imeshindikana kupata orodha ya maombi ya kuweka
  sahihi</value>
   </data>
-  <data name="UnableToRetrievePlaceList">
+  <data name="UnableToRetrievePlaceList" xml:space="preserve">
     <value>Imeshindikana kupata orodha ya sehemu</value>
   </data>
-  <data name="UnableToSubmitCertificateSigningRequest">
+  <data name="UnableToSubmitCertificateSigningRequest" xml:space="preserve">
     <value>Imeshindikana kuwasilisha ombi la kutia sahihi cheti</value>
   </data>
-  <data name="UnableToSwitchRealm">
+  <data name="UnableToSwitchRealm" xml:space="preserve">
     <value>Imeshindikana kubadili realm</value>
   </data>
-  <data name="UnableToUpdate">
+  <data name="UnableToUpdate" xml:space="preserve">
     <value>Imeshindikana kusasisha</value>
   </data>
-  <data name="Updated">
+  <data name="Updated" xml:space="preserve">
     <value>Imesasishwa</value>
   </data>
-  <data name="Priority">
+  <data name="Priority" xml:space="preserve">
     <value>Kipaumbele</value>
   </data>
-  <data name="PriorityRequired">
+  <data name="PriorityRequired" xml:space="preserve">
     <value>tafadhali chagua kipaumbele</value>
   </data>
-  <data name="SubjectRequired">
+  <data name="SubjectRequired" xml:space="preserve">
     <value>Tafadhali ingiza somo</value>
   </data>
-  <data name="ToRequired">
+  <data name="ToRequired" xml:space="preserve">
     <value>Tafadhali chagua mpokeaji</value>
   </data>
-  <data name="Author">
+  <data name="Author" xml:space="preserve">
     <value>Mwandishi</value>
   </data>
-  <data name="Applet">
+  <data name="Applet" xml:space="preserve">
     <value>Kijiprogramu</value>
   </data>
-  <data name="UnableToUpload">
+  <data name="UnableToUpload" xml:space="preserve">
     <value>Imeshindikana kupakia</value>
   </data>
-  <data name="Download">
+  <data name="Download" xml:space="preserve">
     <value>Pakua</value>
   </data>
-  <data name="Create">
+  <data name="Create" xml:space="preserve">
     <value>Unda</value>
   </data>
-  <data name="AddPolicy">
+  <data name="AddPolicy" xml:space="preserve">
     <value>Ongeza sera</value>
   </data>
-  <data name="DeviceSecret">
+  <data name="DeviceSecret" xml:space="preserve">
     <value>Siri ya kifaa</value>
   </data>
-  <data name="AddPolicies">
+  <data name="AddPolicies" xml:space="preserve">
     <value>Ongeza sera</value>
   </data>
-  <data name="Information">
+  <data name="Information" xml:space="preserve">
     <value>Taarifa</value>
   </data>
-  <data name="About">
+  <data name="About" xml:space="preserve">
     <value>Kuhusu</value>
   </data>
-  <data name="HasPolicies">
+  <data name="HasPolicies" xml:space="preserve">
     <value>Ina sera</value>
   </data>
-  <data name="Successfully">
+  <data name="Successfully" xml:space="preserve">
     <value>Imefanikiwa</value>
   </data>
-  <data name="DeviceSecretRequired">
+  <data name="DeviceSecretRequired" xml:space="preserve">
     <value>Siri ya kifaa inatakiwa</value>
   </data>
-  <data name="DeviceSecret64">
+  <data name="DeviceSecret64" xml:space="preserve">
     <value>Siri ya kifaa isizidi herufi 64</value>
   </data>
-  <data name="AddUsers">
+  <data name="AddUsers" xml:space="preserve">
     <value>Ongeza watumiaji</value>
   </data>
-  <data name="ApplicationName">
+  <data name="ApplicationName" xml:space="preserve">
     <value>Jina la programu tumizi</value>
   </data>
-  <data name="Applications">
+  <data name="Applications" xml:space="preserve">
     <value>programu tumizi </value>
   </data>
-  <data name="NoApplicationsFound">
+  <data name="NoApplicationsFound" xml:space="preserve">
     <value>Hakuna programu tumizi zilizopatikana</value>
   </data>
-  <data name="SoftwareName">
+  <data name="SoftwareName" xml:space="preserve">
     <value>Jina la programu</value>
   </data>
-  <data name="VendorName">
+  <data name="VendorName" xml:space="preserve">
     <value>Jina la mchuuzi</value>
   </data>
-  <data name="VersionName">
+  <data name="VersionName" xml:space="preserve">
     <value>Jina la toleo</value>
   </data>
-  <data name="Application">
+  <data name="Application" xml:space="preserve">
     <value>Programu tumizi</value>
   </data>
-  <data name="ApplicationSecret">
+  <data name="ApplicationSecret" xml:space="preserve">
     <value>Siri ya programu tumizi</value>
   </data>
-  <data name="ConceptClass">
+  <data name="ConceptClass" xml:space="preserve">
     <value>Tabaka la dhana</value>
   </data>
-  <data name="ConceptClassRequired">
+  <data name="ConceptClassRequired" xml:space="preserve">
     <value>Sehemu ya tabaka la dhana inatakiwa</value>
   </data>
-  <data name="Material">
+  <data name="Material" xml:space="preserve">
     <value>Mali</value>
   </data>
-  <data name="Materials">
+  <data name="Materials" xml:space="preserve">
     <value>Mali</value>
   </data>
-  <data name="Found">
+  <data name="Found" xml:space="preserve">
     <value>Patikana</value>
   </data>
-  <data name="NoDevicesFound">
+  <data name="NoDevicesFound" xml:space="preserve">
     <value>Hakuna vifaa vilivyopatika</value>
   </data>
-  <data name="NoPoliciesAdded">
+  <data name="NoPoliciesAdded" xml:space="preserve">
     <value>Hakuna sera zilizopatikana</value>
   </data>
-  <data name="BusinessRules">
+  <data name="BusinessRules" xml:space="preserve">
     <value>Taratibu za kibiashara</value>
   </data>
-  <data name="ConceptSet">
+  <data name="ConceptSet" xml:space="preserve">
     <value>Seti ya dhana</value>
   </data>
-  <data name="For">
+  <data name="For" xml:space="preserve">
     <value>Kwa</value>
   </data>
-  <data name="NoRolesFound">
+  <data name="NoRolesFound" xml:space="preserve">
     <value>Hakuna majukumu yaliyopatikana</value>
   </data>
-  <data name="Add">
+  <data name="Add" xml:space="preserve">
     <value>Ongeza</value>
   </data>
-  <data name="ReferenceTerms">
+  <data name="ReferenceTerms" xml:space="preserve">
     <value>Vigezo rejea</value>
   </data>
-  <data name="FormConcept">
+  <data name="FormConcept" xml:space="preserve">
     <value>Fomu ya dhana</value>
   </data>
-  <data name="QuantityConcept">
+  <data name="QuantityConcept" xml:space="preserve">
     <value>Dhana ya idadi</value>
   </data>
-  <data name="CreatedBy">
+  <data name="CreatedBy" xml:space="preserve">
     <value>Imetengenezwa na</value>
   </data>
-  <data name="IsReadOnly">
+  <data name="IsReadOnly" xml:space="preserve">
     <value>Ni ya kusoma tu?</value>
   </data>
-  <data name="Type">
+  <data name="Type" xml:space="preserve">
     <value>Chapa</value>
   </data>
-  <data name="NewConceptSet">
+  <data name="NewConceptSet" xml:space="preserve">
     <value>Seti ya dhana mpya</value>
   </data>
-  <data name="Home">
+  <data name="Home" xml:space="preserve">
     <value>Nyumbani</value>
   </data>
-  <data name="LeaveRealmPrompt">
+  <data name="LeaveRealmPrompt" xml:space="preserve">
     <value>Ungependa kuondoka kwenye realm iliyopo?</value>
   </data>
-  <data name="Assets">
+  <data name="Assets" xml:space="preserve">
     <value>Mali</value>
   </data>
-  <data name="MimeType">
+  <data name="MimeType" xml:space="preserve">
     <value>Aina ya Mime</value>
   </data>
-  <data name="Deleted">
+  <data name="Deleted" xml:space="preserve">
     <value>Imefutwa</value>
   </data>
-  <data name="SubmitBugReport">
+  <data name="SubmitBugReport" xml:space="preserve">
     <value>Wasilisha taarifa ya mdudu.</value>
   </data>
-  <data name="AttachBugInfo">
+  <data name="AttachBugInfo" xml:space="preserve">
     <value>Ambatanisha taarifa za programu tumizi (matoleo, faili
  la batli,mipangilio n.k)</value>
   </data>
-  <data name="BugDetails">
+  <data name="BugDetails" xml:space="preserve">
     <value>Maelezo mdudu</value>
   </data>
-  <data name="BugReport">
+  <data name="BugReport" xml:space="preserve">
     <value>Taarifa ya mdudu</value>
   </data>
-  <data name="Reporter">
+  <data name="Reporter" xml:space="preserve">
     <value>Mwandishi</value>
   </data>
-  <data name="UnableToSubmit">
+  <data name="UnableToSubmit" xml:space="preserve">
     <value>Imeshindwa kuwasilisha</value>
   </data>
-  <data name="StepsToReproduce">
+  <data name="StepsToReproduce" xml:space="preserve">
     <value>Hatua za kutengeneza tena</value>
   </data>
-  <data name="English">
+  <data name="English" xml:space="preserve">
     <value>Kiingereza</value>
   </data>
-  <data name="Kiswahili">
+  <data name="Kiswahili" xml:space="preserve">
     <value>Kiswahili</value>
   </data>
-  <data name="EN">
+  <data name="EN" xml:space="preserve">
     <value>en</value>
   </data>
-  <data name="SW">
+  <data name="SW" xml:space="preserve">
     <value>sw</value>
   </data>
-  <data name="UserNameExists">
+  <data name="UserNameExists" xml:space="preserve">
     <value>Jina la mtumiaji tayari lipo. Tafadhali chagua jina 
 lingine</value>
   </data>
-  <data name="CurrentPassword">
+  <data name="CurrentPassword" xml:space="preserve">
     <value>Nywila ya sasa</value>
   </data>
-  <data name="CurrentPasswordRequired">
+  <data name="CurrentPasswordRequired" xml:space="preserve">
     <value>Nywila ya sasa inatakiwa</value>
   </data>
-  <data name="InvalidCurrrentPassword">
+  <data name="InvalidCurrrentPassword" xml:space="preserve">
     <value>Nywila ya sasa sio sahihi</value>
   </data>
-  <data name="Surname">
+  <data name="Surname" xml:space="preserve">
     <value>Jina la ukoo</value>
   </data>
-  <data name="GivenName">
+  <data name="GivenName" xml:space="preserve">
     <value>Jina alilopewa</value>
   </data>
-  <data name="PasswordLength">
+  <data name="PasswordLength" xml:space="preserve">
     <value>Urefu wa neno siri sio sawa. Herufi nyingi sana</value>
   </data>
-  <data name="PasswordStrength">
+  <data name="PasswordStrength" xml:space="preserve">
     <value>Neno siri liwe na herufi moja kubwa na moja ndogo
  ni isiwe na herufi zaidi ya 8</value>
   </data>
-  <data name="UnableToRetrieveNewUser">
+  <data name="UnableToRetrieveNewUser" xml:space="preserve">
     <value>Imeshindikana kupata mtumiaji mpya</value>
   </data>
-  <data name="ToolTip_AlertTo">
+  <data name="ToolTip_AlertTo" xml:space="preserve">
     <value>Mpokeaji wa ujumbe wa tahadhari</value>
   </data>
-  <data name="ToolTip_AppName">
+  <data name="ToolTip_AppName" xml:space="preserve">
     <value>Jina la programu tumizi</value>
   </data>
-  <data name="ToolTip_AppSecret">
+  <data name="ToolTip_AppSecret" xml:space="preserve">
     <value>Siri ya programu tumizi</value>
   </data>
-  <data name="ToolTip_AssigningAuthorityDescription">
+  <data name="ToolTip_AssigningAuthorityDescription" xml:space="preserve">
     <value>Maelezo ya mamlaka ugawaji</value>
   </data>
-  <data name="ToolTip_AssigningAuthorityName">
+  <data name="ToolTip_AssigningAuthorityName" xml:space="preserve">
     <value>Jina la mamlaka ya ugawaji</value>
   </data>
-  <data name="ToolTip_Cancel">
+  <data name="ToolTip_Cancel" xml:space="preserve">
     <value>Chagua kusitisha na kurudi kwenye programu tumizi</value>
   </data>
-  <data name="ToolTip_ConceptClass">
+  <data name="ToolTip_ConceptClass" xml:space="preserve">
     <value>Tabaka la dhana ndio shirikishi</value>
   </data>
-  <data name="ToolTip_ConceptClassList">
+  <data name="ToolTip_ConceptClassList" xml:space="preserve">
     <value>Chagua menyu kunjuzi kuchagua tabaka la dhana. 
 Matabaka kadhaa yanaweza kuchaguliwa. Kuondoa
  tabaka lililopo, chagua "X" iliyopo upande wa kushoto
  wa kichwa cha tabaka la dhana.</value>
   </data>
-  <data name="ToolTip_ConceptMnemonic">
+  <data name="ToolTip_ConceptMnemonic" xml:space="preserve">
     <value>Jina la kuleta shirikisho</value>
   </data>
-  <data name="ToolTip_ConceptName">
+  <data name="ToolTip_ConceptName" xml:space="preserve">
     <value>Jina ladhana</value>
   </data>
-  <data name="ToolTip_CreationTime">
+  <data name="ToolTip_CreationTime" xml:space="preserve">
     <value>Tarehe na muda kuonyesha pointi ya uhifadhi wa kwanza</value>
   </data>
-  <data name="ToolTip_CurrentPassword">
+  <data name="ToolTip_CurrentPassword" xml:space="preserve">
     <value>Nywila ya sasa ya mtumiaji</value>
   </data>
-  <data name="ToolTip_DeviceName">
+  <data name="ToolTip_DeviceName" xml:space="preserve">
     <value>Jina la kifaa</value>
   </data>
-  <data name="ToolTip_DeviceSecret">
+  <data name="ToolTip_DeviceSecret" xml:space="preserve">
     <value>Nywila ya kifaa</value>
   </data>
-  <data name="ToolTip_DomainName">
+  <data name="ToolTip_DomainName" xml:space="preserve">
     <value>Kutambua maneno yanayotambulisha realm</value>
   </data>
-  <data name="ToolTip_Edit">
+  <data name="ToolTip_Edit" xml:space="preserve">
     <value>Chagua kurekebisha na kusasisha</value>
   </data>
-  <data name="ToolTip_Facilities">
+  <data name="ToolTip_Facilities" xml:space="preserve">
     <value>ingiza herufi 4 za mwanzo wa kituo
 chagua kituo katika matokeo y autafutaji
 Unaweza kuchagua kituo kimoja tu. Kuondoa kituo kilichopo chagua "X" iliyopo kushoto kwa jina la kituo</value>
   </data>
-  <data name="ToolTip_File">
+  <data name="ToolTip_File" xml:space="preserve">
     <value>Bonyeza kuchagua na kupakua faili </value>
   </data>
-  <data name="ToolTip_GivenNamesListBox">
+  <data name="ToolTip_GivenNamesListBox" xml:space="preserve">
     <value>Ingiza majina ya watumiaji uliyopewa na bonyeza 
 "ingia". Kama kuna jina zaidi ya moja bonyeza ingia 
 kila unapoingiza jina moja. Kuondoa jina lililopo, chagua
  "X" iliyopo upande wa kushoto wa sehemu ya 
 kuandikia jina. </value>
   </data>
-  <data name="ToolTip_Grant">
+  <data name="ToolTip_Grant" xml:space="preserve">
     <value>Kiwango cha idhini kinahusika</value>
   </data>
-  <data name="ToolTip_JoinRealm">
+  <data name="ToolTip_JoinRealm" xml:space="preserve">
     <value>chagua kujiunga na realm</value>
   </data>
-  <data name="ToolTip_JoinRealm_Address">
+  <data name="ToolTip_JoinRealm_Address" xml:space="preserve">
     <value>anwani ya proramu tumizi (mfano - www.realm.com</value>
   </data>
-  <data name="ToolTip_JoinRealm_AppId">
+  <data name="ToolTip_JoinRealm_AppId" xml:space="preserve">
     <value>Kitambulishi cha programu tumizi</value>
   </data>
-  <data name="ToolTip_JoinRealm_AppSecret">
+  <data name="ToolTip_JoinRealm_AppSecret" xml:space="preserve">
     <value>Siri ya programu tumizi</value>
   </data>
-  <data name="ToolTip_Language">
+  <data name="ToolTip_Language" xml:space="preserve">
     <value>Chaguo msingi la lugha ya mtumiaji</value>
   </data>
-  <data name="ToolTip_LeaveRealm">
+  <data name="ToolTip_LeaveRealm" xml:space="preserve">
     <value>chagua kutoka kwenye realm iliyopo na kujiunga na realm nyingine</value>
   </data>
-  <data name="ToolTip_MaterialFormConcepts">
+  <data name="ToolTip_MaterialFormConcepts" xml:space="preserve">
     <value>Fomu ya dhana ya mali</value>
   </data>
-  <data name="ToolTip_MaterialName">
+  <data name="ToolTip_MaterialName" xml:space="preserve">
     <value>Jina la mali</value>
   </data>
-  <data name="ToolTip_MaterialQuantityConcepts">
+  <data name="ToolTip_MaterialQuantityConcepts" xml:space="preserve">
     <value>Dhana ya idadi ya mali</value>
   </data>
-  <data name="ToolTip_Message">
+  <data name="ToolTip_Message" xml:space="preserve">
     <value>Ujumbe wa kuwemo ndani ya tahadhari</value>
   </data>
-  <data name="ToolTip_Oid">
+  <data name="ToolTip_Oid" xml:space="preserve">
     <value>Jina linalotumika kutambua kitu ikiwemo kilichopatikana
  kishirika na/au kupangiwa</value>
   </data>
-  <data name="ToolTip_Password">
+  <data name="ToolTip_Password" xml:space="preserve">
     <value>Nywila ya kuhusishwa na akaunti ya mtumiaji</value>
   </data>
-  <data name="ToolTip_PhoneNumber">
+  <data name="ToolTip_PhoneNumber" xml:space="preserve">
     <value>Namba ya simu inayohusishwa na mtumiaji</value>
   </data>
-  <data name="ToolTip_PhoneType">
+  <data name="ToolTip_PhoneType" xml:space="preserve">
     <value>Taarifa za mawasiliano au aina ya mawasiliano ya simu
  yanayohusu namba ya simu.</value>
   </data>
-  <data name="ToolTip_PlaceLatitude">
+  <data name="ToolTip_PlaceLatitude" xml:space="preserve">
     <value>pembe (iliyopo kati ya nyuzi 0 hadi 90) inayoenda
  kaskazini hadi kusini</value>
   </data>
-  <data name="ToolTip_PlaceLongitude">
+  <data name="ToolTip_PlaceLongitude" xml:space="preserve">
     <value>pembe (iliyopo kati ya nyuzi 0 hadi 180) inayoenda 
 kutoka mashariki kwenda magharibi</value>
   </data>
-  <data name="ToolTip_PlaceName">
+  <data name="ToolTip_PlaceName" xml:space="preserve">
     <value>jina la sehemu</value>
   </data>
-  <data name="ToolTip_Policies">
+  <data name="ToolTip_Policies" xml:space="preserve">
     <value>Bofya kwenye menyu kunjuzi kuchagua dhana. Dhana
  kadhaa zinaweza kuchaguliwa. Kuondoa dhana iliyopo
 , chagua "X" iliyopo upande wa kushoto wa maandishi</value>
   </data>
-  <data name="ToolTip_PolicyCanOverride">
+  <data name="ToolTip_PolicyCanOverride" xml:space="preserve">
     <value>Inaweka kiwango cha ruhhusa kama sera inaweza
  kubatilishwa  </value>
   </data>
-  <data name="ToolTip_PolicyName">
+  <data name="ToolTip_PolicyName" xml:space="preserve">
     <value>Sera ya jina</value>
   </data>
-  <data name="ToolTip_Priority">
+  <data name="ToolTip_Priority" xml:space="preserve">
     <value>Inagundua kiwango cha umuhimu</value>
   </data>
-  <data name="ToolTip_RoleDescription">
+  <data name="ToolTip_RoleDescription" xml:space="preserve">
     <value>maelezo ya majukumu ikiwemo sera na ruhusa 
 zinazohusishwa</value>
   </data>
-  <data name="ToolTip_RoleName">
+  <data name="ToolTip_RoleName" xml:space="preserve">
     <value>Jina la jukumu</value>
   </data>
-  <data name="ToolTip_Roles">
+  <data name="ToolTip_Roles" xml:space="preserve">
     <value>Bofya menyu kunjuzi kuchagua jukumu. Majukumu 
 kadhaa yanaweza kuchaguliwa. Kuondoa jukumu
  lililopo chagua "X" iliyopo upande wa kushoto wa
  kichwa cha majukumu.</value>
   </data>
-  <data name="ToolTip_Search">
+  <data name="ToolTip_Search" xml:space="preserve">
     <value>Inawasilisha au kuchuja maandishi yaliyoingizwa</value>
   </data>
-  <data name="ToolTip_Subject">
+  <data name="ToolTip_Subject" xml:space="preserve">
     <value>Maelezo mafupi ya somo</value>
   </data>
-  <data name="ToolTip_Submit">
+  <data name="ToolTip_Submit" xml:space="preserve">
     <value>Chagua kuwasilisha</value>
   </data>
-  <data name="ToolTip_SurnamesListBox">
+  <data name="ToolTip_SurnamesListBox" xml:space="preserve">
     <value>Ingiza jina la ukoo la mtumiaji kisha bofya ingia. Kama
  kuna jina la ukoo zaidi ya moja bofya ingia baada ya
  kila jina moja. Kuondoa jina lililopo, chagua "X" 
 iliyopo upande wa kushoto wa jina.</value>
   </data>
-  <data name="ToolTip_Upload">
+  <data name="ToolTip_Upload" xml:space="preserve">
     <value>Chagua kupakia.</value>
   </data>
-  <data name="ToolTip_Url">
+  <data name="ToolTip_Url" xml:space="preserve">
     <value>Ingiza anuani ya wavuti inayoonyesha anwani ya IP 
 au jina la kikoa</value>
   </data>
-  <data name="ToolTip_UserEmail">
+  <data name="ToolTip_UserEmail" xml:space="preserve">
     <value>Ingiza barua pepe inayohusiana na mtumiaji</value>
   </data>
-  <data name="ToolTip_Username">
+  <data name="ToolTip_Username" xml:space="preserve">
     <value>Jina la mtumiaji la kuhusishwa na akaunti ya mtumiaji</value>
   </data>
-  <data name="ConfirmDelete">
+  <data name="ConfirmDelete" xml:space="preserve">
     <value>Una hakika unataka kufuta kitu hiki?</value>
   </data>
-  <data name="Manifest">
+  <data name="Manifest" xml:space="preserve">
     <value>dhahiri</value>
   </data>
-  <data name="UnableToReset">
+  <data name="UnableToReset" xml:space="preserve">
     <value>Imeshindwa kuweka upya</value>
   </data>
-  <data name="BugSubmittedSuccessfully">
+  <data name="BugSubmittedSuccessfully" xml:space="preserve">
     <value>Suala lako limefanikiwa kuwasilishwa kwenye mfumo
  wa kati wa tiketi.</value>
   </data>
-  <data name="StepsToReproduceTooLong">
+  <data name="StepsToReproduceTooLong" xml:space="preserve">
     <value>Hatua za kutengeneza tena haziwezi kuzidi herufi 4000</value>
   </data>
-  <data name="TicketReferenceId">
+  <data name="TicketReferenceId" xml:space="preserve">
     <value>Kwa rejea, kitambulisho chako cha tiketi ni:</value>
   </data>
-  <data name="DeviceNotActive">
+  <data name="DeviceNotActive" xml:space="preserve">
     <value>Onyo, kifaa sio amilifu</value>
   </data>
-  <data name="ApplicationNotActive">
+  <data name="ApplicationNotActive" xml:space="preserve">
     <value>Onyo, programu tumizi sio amilifu</value>
   </data>
-  <data name="CmcRequest">
+  <data name="CmcRequest" xml:space="preserve">
     <value>Ombi la CMC</value>
   </data>
-  <data name="Organization">
+  <data name="Organization" xml:space="preserve">
     <value>Mpangilio</value>
   </data>
-  <data name="Organizations">
+  <data name="Organizations" xml:space="preserve">
     <value>Mipangilio</value>
   </data>
-  <data name="InvalidPhoneNumber">
+  <data name="InvalidPhoneNumber" xml:space="preserve">
     <value>Tafadhali ingiza namba sahihi ya simu</value>
   </data>
-  <data name="PhoneNumberTooLong">
+  <data name="PhoneNumberTooLong" xml:space="preserve">
     <value>Sehemu ya namba ya simu isizidi herufi 25</value>
   </data>
-  <data name="LotNumber">
+  <data name="LotNumber" xml:space="preserve">
     <value>namba ya kundi</value>
   </data>
-  <data name="Industry">
+  <data name="Industry" xml:space="preserve">
     <value>Kiwanda</value>
   </data>
-  <data name="Identifiers">
+  <data name="Identifiers" xml:space="preserve">
     <value>Vitambuzi</value>
   </data>
-  <data name="NoAssociatedIdentifiers">
+  <data name="NoAssociatedIdentifiers" xml:space="preserve">
     <value>Hakuna vitambuzi husishi</value>
   </data>
-  <data name="Value">
+  <data name="Value" xml:space="preserve">
     <value>Thamani</value>
   </data>
-  <data name="ObsoletionTime">
+  <data name="ObsoletionTime" xml:space="preserve">
     <value>Haitumiki tena</value>
   </data>
-  <data name="ManufacturedMaterial">
+  <data name="ManufacturedMaterial" xml:space="preserve">
     <value>Mali iliyotengenezwa</value>
   </data>
-  <data name="ManufacturedMaterials">
+  <data name="ManufacturedMaterials" xml:space="preserve">
     <value>Mali zilizotengenezwa</value>
   </data>
-  <data name="NoAssociatedManufacturedMaterials">
+  <data name="NoAssociatedManufacturedMaterials" xml:space="preserve">
     <value>Hakuna mali za utengenezaji zilizohusishwa</value>
   </data>
-  <data name="NameLength64">
+  <data name="NameLength64" xml:space="preserve">
     <value>Jina lisizid herufi 64</value>
   </data>
-  <data name="NameLength50">
+  <data name="NameLength50" xml:space="preserve">
     <value>Jina lisizidi herufi 50</value>
   </data>
-  <data name="UrlInvalid">
+  <data name="UrlInvalid" xml:space="preserve">
     <value>Tafadhali ingiza URL sahihi</value>
   </data>
-  <data name="NoAssociatedPolicies">
+  <data name="NoAssociatedPolicies" xml:space="preserve">
     <value>Tafadhali ingiza anuani sahihi ya mtandao</value>
   </data>
-  <data name="IndustryConcept">
+  <data name="IndustryConcept" xml:space="preserve">
     <value>Dhana ya kiwanda</value>
   </data>
-  <data name="File">
+  <data name="File" xml:space="preserve">
     <value>Faili</value>
   </data>
-  <data name="FileRequired">
+  <data name="FileRequired" xml:space="preserve">
     <value>Tafadhali chagua faili la kupandisha</value>
   </data>
-  <data name="InvalidFileExtension">
+  <data name="InvalidFileExtension" xml:space="preserve">
     <value>Mpanuko wa faili usiosaidiwa</value>
+  </data>
+  <data name="TargetPopulationMustBePositive" xml:space="preserve">
+    <value>Walengwa lazima iwe kubwa kuliko 0 na chini ya 18.446.744.073.709.551.615</value>
   </data>
 </root>

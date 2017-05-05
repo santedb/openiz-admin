@@ -2941,6 +2941,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The target population must be a number greater than 0 and less than 18,446,744,073,709,551,615.
+        /// </summary>
+        public static string TargetPopulationMustBePositive {
+            get {
+                return ResourceManager.GetString("TargetPopulationMustBePositive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter a target population.
         /// </summary>
         public static string TargetPopulationRequired {

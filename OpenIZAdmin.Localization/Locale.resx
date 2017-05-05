@@ -1461,4 +1461,7 @@
   <data name="CodeSystems" xml:space="preserve">
     <value>Code Systems</value>
   </data>
+  <data name="TargetPopulationMustBePositive" xml:space="preserve">
+    <value>The target population must be a number greater than 0 and less than 18,446,744,073,709,551,615</value>
+  </data>
 </root>

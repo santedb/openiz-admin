@@ -381,7 +381,7 @@ namespace OpenIZAdmin.Controllers
 
 			bundle.Reconstitute();
 
-			return bundle.Item.OfType<UserEntity>().FirstOrDefault(u => u.SecurityUserKey == securityUserId);
+			return bundle.Item.OfType<UserEntity>().Where(u => u.SecurityUserKey == securityUserId).LatestVersionOnly().FirstOrDefault();
 		}
 
 		/// <summary>

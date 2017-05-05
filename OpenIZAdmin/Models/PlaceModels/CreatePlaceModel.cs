@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using System.Web.Mvc.Routing.Constraints;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Localization;
 
@@ -63,6 +64,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <value>The target population.</value>
 		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "TargetPopulation", ErrorMessageResourceType = typeof(Locale))]
+		[Range(1, long.MaxValue, ErrorMessageResourceName = "TargetPopulationMustBePositive", ErrorMessageResourceType = typeof(Locale))]
 		public long TargetPopulation { get; set; }
 
 		/// <summary>
