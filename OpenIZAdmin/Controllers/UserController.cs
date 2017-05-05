@@ -167,7 +167,7 @@ namespace OpenIZAdmin.Controllers
 
 			model.RolesList = this.GetAllRoles().ToSelectList("Name", "Name");
 
-			if (TempData.ContainsKey("error") && TempData["error"] == null)
+			if (!TempData.ContainsKey("error") || TempData["error"] == null)
 			{
 				TempData["error"] = Locale.UnableToCreate + " " + Locale.User;
 			}

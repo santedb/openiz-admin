@@ -64,10 +64,10 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Create(CreateAssigningAuthorityModel model)
 		{
 			try
-			{
-                var exists = this.ImsiClient.Query<AssigningAuthority>(c => c.Oid == model.Oid).Item.OfType<AssigningAuthority>().Any();
+			{                
+                var exists = this.AmiClient.GetAssigningAuthorities(m => m.Oid == model.Oid).CollectionItem.FirstOrDefault();
 
-                if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+                if (exists?.AssigningAuthority != null) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
 
                 if (ModelState.IsValid)
 				{
@@ -174,9 +174,9 @@ namespace OpenIZAdmin.Controllers
                 //check oid
                 if (!assigningAuthorityInfo.AssigningAuthority.Oid.Equals(model.Oid))
                 {
-                    var exists = this.ImsiClient.Query<AssigningAuthority>(c => c.Oid == model.Oid).Item.OfType<AssigningAuthority>().Any();
+                    var exists = this.AmiClient.GetAssigningAuthorities(m => m.Oid == model.Oid).CollectionItem.FirstOrDefault();
 
-                    if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+                    if (exists?.AssigningAuthority != null) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
                 }                
 
                 if (ModelState.IsValid)

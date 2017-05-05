@@ -1494,4 +1494,7 @@
   <data name="MnemonicLength64" xml:space="preserve">
     <value>Mnemonic cannot exceed 64 characters</value>
   </data>
+  <data name="DomainMustBeUnique" xml:space="preserve">
+    <value>Domain must be unique</value>
+  </data>
 </root>

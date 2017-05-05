@@ -63,6 +63,11 @@ namespace OpenIZAdmin.Controllers
 
                 if (exists != null && exists.CollectionItem.Any()) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
 
+                //var duplicate = this.AmiClient.GetCodeSystems(c => c.Authority == model.Domain);
+
+                //if (duplicate != null && duplicate.CollectionItem.Any()) ModelState.AddModelError("Domain", Locale.DomainMustBeUnique);
+
+
                 if (ModelState.IsValid)
 				{
 					var codeSystem = this.AmiClient.CreateCodeSystem(model.ToCodeSystem());
@@ -140,10 +145,19 @@ namespace OpenIZAdmin.Controllers
                 {
                     var exists = this.AmiClient.GetCodeSystems(c => c.Oid == model.Oid);
 
-                    if (exists != null && exists.CollectionItem.Any()) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+                    if (exists != null && exists.CollectionItem.Any())
+                        ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
                 }
 
-                if (ModelState.IsValid)
+			    if (!codeSystem.Authority.Equals(model.Domain))
+			    {
+			        var duplicate = this.AmiClient.GetCodeSystems(c => c.Authority == model.Domain);
+
+			        if (duplicate != null && duplicate.CollectionItem.Any())
+			            ModelState.AddModelError("Domain", Locale.DomainMustBeUnique);
+			    }
+
+			    if (ModelState.IsValid)
 				{					
 					codeSystem = this.AmiClient.UpdateCodeSystem(model.Id.ToString(), model.ToCodeSystem(codeSystem));
 

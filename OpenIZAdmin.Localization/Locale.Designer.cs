@@ -934,6 +934,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Domain must be unique.
+        /// </summary>
+        public static string DomainMustBeUnique {
+            get {
+                return ResourceManager.GetString("DomainMustBeUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Domain Name.
         /// </summary>
         public static string DomainName {
