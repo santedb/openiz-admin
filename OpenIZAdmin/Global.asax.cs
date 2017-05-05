@@ -53,18 +53,7 @@ namespace OpenIZAdmin
 		/// <param name="e">The event arguments.</param>
 		protected void Application_Error(object sender, EventArgs e)
 		{
-			try
-			{
-				ErrorLog.GetDefault(HttpContext.Current).Log(new Error(this.Server.GetLastError(), HttpContext.Current));
-			}
-			catch
-			{
-				// ignored
-			}
-			finally
-			{
-				Trace.TraceError($"Application error: { this.Server.GetLastError() }");
-			}
+			Trace.TraceError($"Unexpected application error: {Server.GetLastError()}");
 		}
 
 		/// <summary>
