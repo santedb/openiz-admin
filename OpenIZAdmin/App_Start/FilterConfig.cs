@@ -39,8 +39,7 @@ namespace OpenIZAdmin
 			filters.Add(new OutputCacheAttribute
 			{
 				VaryByParam = "*",
-				Duration = 0,
-				NoStore = true,
+				Duration = 1
 			});
 
 			filters.Add(new HandleErrorAttribute());
