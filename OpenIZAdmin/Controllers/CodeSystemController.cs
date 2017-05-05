@@ -60,12 +60,13 @@ namespace OpenIZAdmin.Controllers
 			try
 			{
                 var exists = this.AmiClient.GetCodeSystems(c => c.Oid == model.Oid);
-
                 if (exists != null && exists.CollectionItem.Any()) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
 
-                //var duplicate = this.AmiClient.GetCodeSystems(c => c.Authority == model.Domain);
+                var duplicate = this.AmiClient.GetCodeSystems(c => c.Url == model.Url);
+                if (duplicate != null && duplicate.CollectionItem.Any()) ModelState.AddModelError("Url", Locale.UrlMustBeUnique);
 
-                //if (duplicate != null && duplicate.CollectionItem.Any()) ModelState.AddModelError("Domain", Locale.DomainMustBeUnique);
+                var duplicateDomainName = this.AmiClient.GetCodeSystems(c => c.Authority == model.Domain);
+                if (duplicateDomainName != null && duplicateDomainName.CollectionItem.Any()) ModelState.AddModelError("Domain", Locale.DomainNameMustBeUnique);
 
 
                 if (ModelState.IsValid)
@@ -139,22 +140,24 @@ namespace OpenIZAdmin.Controllers
 
                     return RedirectToAction("Index");
                 }                                
-
-                //check oid
+                
                 if (!codeSystem.Oid.Equals(model.Oid))
                 {
                     var exists = this.AmiClient.GetCodeSystems(c => c.Oid == model.Oid);
-
-                    if (exists != null && exists.CollectionItem.Any())
-                        ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+                    if (exists != null && exists.CollectionItem.Any()) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
                 }
+
+			    if (!codeSystem.Url.Equals(model.Url))
+			    {
+                    var duplicate = this.AmiClient.GetCodeSystems(c => c.Url == model.Url);
+                    if (duplicate != null && duplicate.CollectionItem.Any()) ModelState.AddModelError("Url", Locale.UrlMustBeUnique);                    
+			    }
 
 			    if (!codeSystem.Authority.Equals(model.Domain))
 			    {
-			        var duplicate = this.AmiClient.GetCodeSystems(c => c.Authority == model.Domain);
 
-			        if (duplicate != null && duplicate.CollectionItem.Any())
-			            ModelState.AddModelError("Domain", Locale.DomainMustBeUnique);
+			        var duplicateDomainName = this.AmiClient.GetCodeSystems(c => c.Authority == model.Domain);
+			        if (duplicateDomainName != null && duplicateDomainName.CollectionItem.Any()) ModelState.AddModelError("Domain", Locale.DomainNameMustBeUnique);
 			    }
 
 			    if (ModelState.IsValid)

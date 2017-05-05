@@ -66,8 +66,13 @@ namespace OpenIZAdmin.Controllers
 			try
 			{                
                 var exists = this.AmiClient.GetAssigningAuthorities(m => m.Oid == model.Oid).CollectionItem.FirstOrDefault();
-
                 if (exists?.AssigningAuthority != null) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+
+                var duplicateName = this.AmiClient.GetAssigningAuthorities(m => m.Name == model.Name).CollectionItem.FirstOrDefault();
+                if (duplicateName?.AssigningAuthority != null) ModelState.AddModelError("Name", Locale.NameMustBeUnique);
+
+                var duplicateDomainName = this.AmiClient.GetAssigningAuthorities(m => m.DomainName == model.DomainName).CollectionItem.FirstOrDefault();
+                if (duplicateDomainName?.AssigningAuthority != null) ModelState.AddModelError("DomainName", Locale.DomainNameMustBeUnique);
 
                 if (ModelState.IsValid)
 				{
@@ -170,16 +175,28 @@ namespace OpenIZAdmin.Controllers
                     TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
                     return RedirectToAction("Index");
                 }
-
-                //check oid
+                
                 if (!assigningAuthorityInfo.AssigningAuthority.Oid.Equals(model.Oid))
                 {
                     var exists = this.AmiClient.GetAssigningAuthorities(m => m.Oid == model.Oid).CollectionItem.FirstOrDefault();
-
                     if (exists?.AssigningAuthority != null) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
-                }                
+                }
 
-                if (ModelState.IsValid)
+			    if (!assigningAuthorityInfo.AssigningAuthority.Name.Equals(model.Name))
+			    {
+			        var duplicateName = this.AmiClient.GetAssigningAuthorities(m => m.Name == model.Name).CollectionItem.FirstOrDefault();
+			        if (duplicateName?.AssigningAuthority != null) ModelState.AddModelError("Name", Locale.NameMustBeUnique);
+			    }
+
+			    if (!assigningAuthorityInfo.AssigningAuthority.DomainName.Equals(model.DomainName))
+			    {
+			        var duplicateDomainName = this.AmiClient.GetAssigningAuthorities(m => m.DomainName == model.DomainName).CollectionItem.FirstOrDefault();
+			        if (duplicateDomainName?.AssigningAuthority != null) ModelState.AddModelError("DomainName", Locale.DomainNameMustBeUnique);
+			    }
+
+
+
+			    if (ModelState.IsValid)
 				{
 					this.AmiClient.UpdateAssigningAuthority(model.Id.ToString(), model.ToAssigningAuthorityInfo());
 

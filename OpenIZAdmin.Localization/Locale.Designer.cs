@@ -952,6 +952,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Domain name must be unique .
+        /// </summary>
+        public static string DomainNameMustBeUnique {
+            get {
+                return ResourceManager.GetString("DomainNameMustBeUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter a domain.
         /// </summary>
         public static string DomainRequired {
@@ -1866,6 +1875,15 @@ namespace OpenIZAdmin.Localization {
         public static string NameLength64 {
             get {
                 return ResourceManager.GetString("NameLength64", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name must be unique.
+        /// </summary>
+        public static string NameMustBeUnique {
+            get {
+                return ResourceManager.GetString("NameMustBeUnique", resourceCulture);
             }
         }
         
@@ -3963,6 +3981,15 @@ namespace OpenIZAdmin.Localization {
         public static string UrlLength256 {
             get {
                 return ResourceManager.GetString("UrlLength256", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Url must be unique.
+        /// </summary>
+        public static string UrlMustBeUnique {
+            get {
+                return ResourceManager.GetString("UrlMustBeUnique", resourceCulture);
             }
         }
         

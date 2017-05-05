@@ -1497,4 +1497,13 @@
   <data name="DomainMustBeUnique" xml:space="preserve">
     <value>Domain must be unique</value>
   </data>
+  <data name="DomainNameMustBeUnique" xml:space="preserve">
+    <value>Domain name must be unique </value>
+  </data>
+  <data name="NameMustBeUnique" xml:space="preserve">
+    <value>Name must be unique</value>
+  </data>
+  <data name="UrlMustBeUnique" xml:space="preserve">
+    <value>Url must be unique</value>
+  </data>
 </root>
