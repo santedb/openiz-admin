@@ -530,7 +530,7 @@ namespace OpenIZAdmin.Controllers
 		[ValidateInput(false)]
 		public ActionResult Search(string searchTerm)
 		{
-			IEnumerable<MaterialViewModel> results = new List<MaterialViewModel>();
+			var results = new List<MaterialViewModel>();
 
 			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 			{
@@ -551,14 +551,28 @@ namespace OpenIZAdmin.Controllers
 				}
 				else
 				{
-					bundle = this.ImsiClient.Query<Material>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material);
+					Guid materialId;
 
-					foreach (var material in bundle.Item.OfType<Material>().LatestVersionOnly())
+					if (!Guid.TryParse(searchTerm, out materialId))
 					{
-						material.TypeConcept = this.GetTypeConcept(material);
-					}
+						bundle = this.ImsiClient.Query<Material>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material);
 
-					results = bundle.Item.OfType<Material>().Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+						foreach (var material in bundle.Item.OfType<Material>().LatestVersionOnly())
+						{
+							material.TypeConcept = this.GetTypeConcept(material);
+						}
+
+						results = bundle.Item.OfType<Material>().Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+					}
+					else
+					{
+						var material = this.GetEntity<Material>(materialId);
+
+						if (material != null)
+						{
+							results.Add(new MaterialViewModel(material));
+						}
+					}
 				}
 			}
 

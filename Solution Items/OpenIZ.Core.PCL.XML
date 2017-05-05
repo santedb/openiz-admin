@@ -1450,6 +1450,56 @@
             </summary>
             <param name="clientName">Client name.</param>
         </member>
+        <member name="T:OpenIZ.Core.Interop.ServiceEndpointType">
+            <summary>
+            Service endpoint type
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Interop.ServiceEndpointCapabilities">
+            <summary>
+            Represents service capabilities
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Interop.ServiceEndpointCapabilities.None">
+            <summary>
+            No options
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Interop.ServiceEndpointCapabilities.BasicAuth">
+            <summary>
+            Basic auth
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Interop.ServiceEndpointCapabilities.BearerAuth">
+            <summary>
+            Bearer auth
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Interop.ServiceEndpointCapabilities.Compression">
+            <summary>
+            Endpoint supports compression
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Interop.ServiceEndpointOptions">
+            <summary>
+            Service endpoint options
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Interop.ServiceEndpointOptions.ServiceType">
+            <summary>
+            Gets or sets the service endpoint type
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Interop.ServiceEndpointOptions.Capabilities">
+            <summary>
+            Capabilities
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Interop.ServiceEndpointOptions.BaseUrl">
+            <summary>
+            Base URL type
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Interop.ServiceOptions">
             <summary>
             Service options
@@ -1468,6 +1518,11 @@
         <member name="P:OpenIZ.Core.Interop.ServiceOptions.Services">
             <summary>
             Gets the service resource options
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Interop.ServiceOptions.Endpoints">
+            <summary>
+            Gets or sets the endpoint options
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Interop.ServiceOptions.ModifiedOn">
@@ -2278,7 +2333,7 @@
             Get the specified cache item
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IDataCachingService.GetCacheItem(System.Type,System.Guid)">
+        <member name="M:OpenIZ.Core.Services.IDataCachingService.GetCacheItem(System.Guid)">
             <summary>
             Gets the specified cache item
             </summary>
@@ -2288,7 +2343,7 @@
             Adds the specified item to the cache
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Services.IDataCachingService.Remove(System.Type,System.Guid)">
+        <member name="M:OpenIZ.Core.Services.IDataCachingService.Remove(System.Guid)">
             <summary>
             Removes an object from the cache
             </summary>

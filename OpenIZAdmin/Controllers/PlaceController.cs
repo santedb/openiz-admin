@@ -34,6 +34,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
+using OpenIZ.Core.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -127,19 +128,17 @@ namespace OpenIZAdmin.Controllers
 			{
 				try
 				{
-					var targetPopulationExtensionBundle = this.ImsiClient.Query<ExtensionType>(e => e.Name == Constants.TargetPopulationUrl && e.ObsoletionTime == null, 0, 100, false);
-
-					targetPopulationExtensionBundle.Reconstitute();
-
-					var targetPopulationExtensionType = targetPopulationExtensionBundle.Item.OfType<ExtensionType>().FirstOrDefault(e => e.Name == Constants.TargetPopulationUrl);
+					var targetPopulationExtensionType = this.ImsiClient.Get<ExtensionType>(Constants.TargetPopulationExtensionTypeKey, null) as ExtensionType;
 
 					var placeToCreate = model.ToPlace();
 
-					var targetPopulation = BitConverter.GetBytes(model.TargetPopulation);
+					var entityExtension = new EntityExtension
+					{
+						ExtensionType = targetPopulationExtensionType,
+						ExtensionValue = Convert.ToDecimal(model.TargetPopulation)
+					};
 
-					Array.Resize(ref targetPopulation, 24);
-
-					placeToCreate.Extensions.Add(new EntityExtension(targetPopulationExtensionType.Key.Value, targetPopulation));
+					placeToCreate.Extensions.Add(entityExtension);
 
 					var createdPlace = this.ImsiClient.Create<Place>(placeToCreate);
 
@@ -354,11 +353,15 @@ namespace OpenIZAdmin.Controllers
 
 					var placeToUpdate = model.ToPlace(place);
 
-					var targetPopulation = BitConverter.GetBytes(model.TargetPopulation);
+					var targetPopulationExtensionType = this.ImsiClient.Get<ExtensionType>(Constants.TargetPopulationExtensionTypeKey, null) as ExtensionType;
 
-					Array.Resize(ref targetPopulation, 24);
+					var entityExtension = new EntityExtension
+					{
+						ExtensionType = targetPopulationExtensionType,
+						ExtensionValue = Convert.ToDecimal(model.TargetPopulation)
+					};
 
-					placeToUpdate.Extensions.Add(new EntityExtension(Constants.TargetPopulationExtensionTypeKey, targetPopulation));
+					placeToUpdate.Extensions.Add(entityExtension);
 
 					var updatedPlace = this.ImsiClient.Update<Place>(placeToUpdate);
 
@@ -516,14 +519,28 @@ namespace OpenIZAdmin.Controllers
 				}
 				else
 				{
-					bundle = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))), 0, null, new[] { "typeConcept" });
+					Guid placeId;
 
-					foreach (var place in bundle.Item.OfType<Place>().LatestVersionOnly())
+					if (!Guid.TryParse(searchTerm, out placeId))
 					{
-						place.TypeConcept = this.GetTypeConcept(place);
-					}
+						bundle = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))), 0, null, new[] { "typeConcept" });
 
-					results = bundle.Item.OfType<Place>().Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+						foreach (var place in bundle.Item.OfType<Place>().LatestVersionOnly())
+						{
+							place.TypeConcept = this.GetTypeConcept(place);
+						}
+
+						results = bundle.Item.OfType<Place>().Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+					}
+					else
+					{
+						var place = this.GetEntity<Place>(placeId);
+
+						if (place != null)
+						{
+							results.Add(new PlaceViewModel(place));
+						}
+					}
 				}
 			}
 

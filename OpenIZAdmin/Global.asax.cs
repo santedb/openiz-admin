@@ -63,7 +63,7 @@ namespace OpenIZAdmin
 			}
 			finally
 			{
-				Trace.TraceError($"Application error: { e }");
+				Trace.TraceError($"Application error: { this.Server.GetLastError() }");
 			}
 		}
 
