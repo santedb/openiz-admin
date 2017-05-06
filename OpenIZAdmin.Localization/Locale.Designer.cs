@@ -4039,7 +4039,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The username cannot exceed 50 characters.
+        ///   Looks up a localized string similar to The username cannot exceed 50 characters or be less than 6 characters.
         /// </summary>
         public static string UsernameLength50 {
             get {
@@ -4053,15 +4053,6 @@ namespace OpenIZAdmin.Localization {
         public static string UsernameRequired {
             get {
                 return ResourceManager.GetString("UsernameRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to The Username field must be between 1 and 255 characters.
-        /// </summary>
-        public static string UsernameTooLong {
-            get {
-                return ResourceManager.GetString("UsernameTooLong", resourceCulture);
             }
         }
         

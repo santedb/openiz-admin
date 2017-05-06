@@ -46,7 +46,7 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// </summary>
 		[Display(Name = "Username", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(255, ErrorMessageResourceName = "UsernameTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(50, ErrorMessageResourceName = "UsernameLength50", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Username { get; set; }
 	}
 }

@@ -132,10 +132,6 @@
   <data name="UsernameRequired" xml:space="preserve">
     <value>Sehemu ya jina la mtumiaji inahitajika</value>
   </data>
-  <data name="UsernameTooLong" xml:space="preserve">
-    <value>sehemu ya jina la mtumiaji lazima iwe kati ya neno 1 
-na 255</value>
-  </data>
   <data name="Certificates" xml:space="preserve">
     <value>Vyeti</value>
   </data>
@@ -1196,5 +1192,8 @@ au jina la kikoa</value>
   </data>
   <data name="TargetPopulationMustBePositive" xml:space="preserve">
     <value>Walengwa lazima iwe kubwa kuliko 0 na chini ya 18.446.744.073.709.551.615</value>
+  </data>
+  <data name="UsernameLength50" xml:space="preserve">
+    <value>Jina la mtumiaji haiwezi kuzidi herufi 50 au kuwa chini ya herufi 6</value>
   </data>
 </root>

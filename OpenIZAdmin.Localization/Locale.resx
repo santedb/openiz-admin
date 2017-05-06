@@ -132,9 +132,6 @@
   <data name="UsernameRequired" xml:space="preserve">
     <value>The Username field is required</value>
   </data>
-  <data name="UsernameTooLong" xml:space="preserve">
-    <value>The Username field must be between 1 and 255 characters</value>
-  </data>
   <data name="Certificates" xml:space="preserve">
     <value>Certificates</value>
   </data>
@@ -1246,7 +1243,7 @@
     <value>Please select a reset mechanism</value>
   </data>
   <data name="UsernameLength50" xml:space="preserve">
-    <value>The username cannot exceed 50 characters</value>
+    <value>The username cannot exceed 50 characters or be less than 6 characters</value>
   </data>
   <data name="Retrieve" xml:space="preserve">
     <value>Retrieve</value>
