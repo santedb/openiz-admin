@@ -715,7 +715,7 @@
     <value>Please enter a subject</value>
   </data>
   <data name="ToRequired" xml:space="preserve">
-    <value>Please select a recipient</value>
+    <value>Please select a recipient or user not found</value>
   </data>
   <data name="Author" xml:space="preserve">
     <value>Author</value>

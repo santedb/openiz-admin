@@ -3544,7 +3544,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select a recipient.
+        ///   Looks up a localized string similar to Please select a recipient or user not found.
         /// </summary>
         public static string ToRequired {
             get {
