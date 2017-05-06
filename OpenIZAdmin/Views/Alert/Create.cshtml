@@ -70,10 +70,8 @@
                     case "@((int)AlertMessageFlags.System)":
                         $("#@Html.IdFor(m => m.To)").append($("<option>", { text: "@Locale.System", value: "@Locale.System" }));
                         $("#@Html.IdFor(m => m.To)").val("@Locale.System").trigger("change");
-
                         break;
                     default:
-                        $("#@Html.IdFor(m => m.To) option").remove();
                         break;
                 }
                 console.log(selectedValue);
