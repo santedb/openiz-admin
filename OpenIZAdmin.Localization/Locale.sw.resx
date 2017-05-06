@@ -628,7 +628,7 @@
     <value>Mtoaji </value>
   </data>
   <data name="Realm" xml:space="preserve">
-    <value>eneo</value>
+    <value>Eneo</value>
   </data>
   <data name="RealmJoined" xml:space="preserve">
     <value>ulimwengu alijiunga</value>
@@ -1195,5 +1195,11 @@ au jina la kikoa</value>
   </data>
   <data name="UsernameLength50" xml:space="preserve">
     <value>Jina la mtumiaji haiwezi kuzidi herufi 50 au kuwa chini ya herufi 6</value>
+  </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>Mtumiaji hajapatikana</value>
+  </data>
+  <data name="PasswordUpdatedSuccessfully" xml:space="preserve">
+    <value>Nywila imesasishwa</value>
   </data>
 </root>

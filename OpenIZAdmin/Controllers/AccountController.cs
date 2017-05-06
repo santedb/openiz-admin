@@ -123,7 +123,7 @@ namespace OpenIZAdmin.Controllers
 				if (securityUser == null)
 				{
 					// if the user is null yet they are logged in, we need to log them out for security purposes
-					TempData["error"] = Locale.User + " " + Locale.NotFound;
+					TempData["error"] = Locale.UserNotFound;
 
 					HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 					Response.Cookies.Remove("access_token");
@@ -159,7 +159,7 @@ namespace OpenIZAdmin.Controllers
 					if (securityUser == null)
 					{
 						// if the user is null yet they are logged in, we need to log them out for security purposes
-						TempData["error"] = Locale.User + " " + Locale.NotFound;
+						TempData["error"] = Locale.UserNotFound;
 
 						HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 						Response.Cookies.Remove("access_token");
@@ -176,7 +176,7 @@ namespace OpenIZAdmin.Controllers
 
 						this.AmiClient.UpdateUser(securityUser.UserId.Value, securityUser);
 
-						TempData["success"] = Locale.Password + " " + Locale.Updated + " " + Locale.Successfully;
+						TempData["success"] = Locale.PasswordUpdatedSuccessfully;
 
 						HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 						Response.Cookies.Remove("access_token");

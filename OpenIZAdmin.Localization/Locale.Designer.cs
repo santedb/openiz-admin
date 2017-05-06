@@ -2302,6 +2302,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Password updated successfully.
+        /// </summary>
+        public static string PasswordUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("PasswordUpdatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phone.
         /// </summary>
         public static string Phone {
@@ -4062,6 +4071,15 @@ namespace OpenIZAdmin.Localization {
         public static string UserNotActive {
             get {
                 return ResourceManager.GetString("UserNotActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User not found.
+        /// </summary>
+        public static string UserNotFound {
+            get {
+                return ResourceManager.GetString("UserNotFound", resourceCulture);
             }
         }
         

@@ -1503,4 +1503,10 @@
   <data name="UrlMustBeUnique" xml:space="preserve">
     <value>Url must be unique</value>
   </data>
+  <data name="UserNotFound" xml:space="preserve">
+    <value>User not found</value>
+  </data>
+  <data name="PasswordUpdatedSuccessfully" xml:space="preserve">
+    <value>Password updated successfully</value>
+  </data>
 </root>
