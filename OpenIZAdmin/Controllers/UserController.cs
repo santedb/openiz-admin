@@ -99,7 +99,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			var model = new CreateUserModel
 			{
-				RolesList = this.GetAllRoles().ToSelectList("Name", "Name")
+				RolesList = this.GetAllRoles().ToSelectList("Name", "Name", null, true)
 			};
 
 			return View(model);
@@ -165,7 +165,7 @@ namespace OpenIZAdmin.Controllers
 				TempData["error"] = Locale.UnableToCreate + " " + Locale.User;
 			}
 
-			model.RolesList = this.GetAllRoles().ToSelectList("Name", "Name");
+			model.RolesList = this.GetAllRoles().ToSelectList("Name", "Name", null, true);
 
 			if (!TempData.ContainsKey("error") || TempData["error"] == null)
 			{
@@ -228,7 +228,7 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditUserModel(userEntity, securityUserInfo)
 				{
-					RolesList = this.GetAllRoles().ToSelectList("Name", "Id")
+					RolesList = this.GetAllRoles().ToSelectList("Name", "Id", null, true)
 				};
 
 				var facilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
@@ -330,7 +330,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			model.RolesList = this.GetAllRoles().ToSelectList("Name", "Id");
+			model.RolesList = this.GetAllRoles().ToSelectList("Name", "Id", null, true);
 
 			TempData["error"] = Locale.UnableToUpdate + " " + Locale.User;
 

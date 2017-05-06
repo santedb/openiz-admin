@@ -43,9 +43,10 @@ namespace OpenIZAdmin.Extensions
 		/// <param name="textPropertyName">The text property name.</param>
 		/// <param name="valuePropertyName">The value property name.</param>
 		/// <param name="selectedExpression">An expression which evaluates to set selected items.</param>
+		/// <param name="skipDefaultEntry">if set to <c>true</c> [skip default entry].</param>
 		/// <returns>Returns a select list.</returns>
 		/// <exception cref="System.ArgumentNullException">If the source or textPropertyName or valuePropertyName is null.</exception>
-		public static List<SelectListItem> ToSelectList<T>(this IEnumerable<T> source, string textPropertyName, string valuePropertyName, Expression<Func<T, bool>> selectedExpression = null)
+		public static List<SelectListItem> ToSelectList<T>(this IEnumerable<T> source, string textPropertyName, string valuePropertyName, Expression<Func<T, bool>> selectedExpression = null, bool skipDefaultEntry = false)
 		{
 			if (source == null)
 			{
@@ -54,10 +55,12 @@ namespace OpenIZAdmin.Extensions
 
 			var clonedList = new List<T>(source);
 
-			var selectList = new List<SelectListItem>
+			var selectList = new List<SelectListItem>();
+
+			if (!skipDefaultEntry)
 			{
-				new SelectListItem { Text = string.Empty, Value = string.Empty }
-			};
+				selectList.Add(new SelectListItem { Text = string.Empty, Value = string.Empty });
+			}
 
 			if (string.IsNullOrEmpty(textPropertyName) || string.IsNullOrWhiteSpace(textPropertyName))
 			{
