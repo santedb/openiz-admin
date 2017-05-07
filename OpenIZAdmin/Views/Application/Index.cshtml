@@ -21,9 +21,9 @@
                 {
                     $("#search-results").html(data);
                 },
-                complete: function()
+                complete: function (e, xhr, status)
                 {
-                    hideLoadingBar();
+                    hideLoadingBar(xhr);
                 }
             });
 
