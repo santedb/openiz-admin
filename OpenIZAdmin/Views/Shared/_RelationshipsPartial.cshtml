@@ -29,7 +29,14 @@
                                     <td>@item.TargetName</td>
                                     <td>@item.RelationshipTypeName</td>
                                     <td>@item.TargetTypeConcept</td>
-                                    <td>@item.Quantity</td>
+                            @if (item.Quantity.HasValue)
+                            {
+                                <td>@item.Quantity</td>
+                            }
+                            else
+                            {
+                                <td>N/A</td>
+                            }
                                 </tr>}
 
                         </tbody>

@@ -24,7 +24,14 @@
                                 <td>@item.TargetName</td>
                                 <td>@item.RelationshipTypeName</td>
                                 <td>@item.TargetTypeConcept</td>
-                                <td>@(item.Quantity ?? 0)</td>
+                                @if (item.Quantity.HasValue)
+                                {
+                                    <td>@item.Quantity</td>
+                                }
+                                else
+                                {
+                                    <td>N/A</td>
+                                }
                                 <td class="autoFitContents centerContent">
                                     <a class="btn btn-warning" href="@Url.Action("Edit", "EntityRelationship", new { id = item.Id, sourceId = item.SourceId, type = item.SourceType })">
                                         @Locale.Edit
@@ -46,7 +53,7 @@
                 </table>}
             else
             {
-                <p>@Locale.NoAssociatedIdentifiers</p>}
+                <p>@Locale.NoAssociatedRelationships</p>}
         </div>
 
     </div>

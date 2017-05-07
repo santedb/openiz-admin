@@ -220,7 +220,7 @@
     <value>Hali ya sasa</value>
   </data>
   <data name="Hello" xml:space="preserve">
-    <value>Helo</value>
+    <value>Habari</value>
   </data>
   <data name="LeaveRealm" xml:space="preserve">
     <value>Acha ulimwengu</value>
@@ -1231,5 +1231,47 @@ au jina la kikoa</value>
   </data>
   <data name="SurnameRequired" xml:space="preserve">
     <value>Tafadhali weka jina</value>
+  </data>
+  <data name="Active" xml:space="preserve">
+    <value>kazi</value>
+  </data>
+  <data name="CodeSystem" xml:space="preserve">
+    <value>Kanuni Mfumo</value>
+  </data>
+  <data name="DisplayName" xml:space="preserve">
+    <value>kuonyesha Jina</value>
+  </data>
+  <data name="ForgotPassword" xml:space="preserve">
+    <value>Umesahau nywila</value>
+  </data>
+  <data name="LanguageCode" xml:space="preserve">
+    <value>lugha Kanuni</value>
+  </data>
+  <data name="Next" xml:space="preserve">
+    <value>ya</value>
+  </data>
+  <data name="Quantity" xml:space="preserve">
+    <value>kiasi</value>
+  </data>
+  <data name="Relationships" xml:space="preserve">
+    <value>mahusiano</value>
+  </data>
+  <data name="RelationshipType" xml:space="preserve">
+    <value>Aina uhusiano</value>
+  </data>
+  <data name="ResetPasswordTfaMethodHelp" xml:space="preserve">
+    <value>Tafadhali tafuta mbinu ya kutumia kuweka upya nenosiri lako</value>
+  </data>
+  <data name="ResetPasswordUsernameHelp" xml:space="preserve">
+    <value>Tafadhali weka jina la mtumiaji</value>
+  </data>
+  <data name="ResetPasswordVerificationHelp" xml:space="preserve">
+    <value>Tafadhali weka ama sehemu ya kwanza ya barua pepe yako yaani 'John.Smith' kama wewe kuchaguliwa barua pepe, au kuingia mwisho tarakimu 4 ya namba yako ya kama wewe kuchaguliwa SMS.</value>
+  </data>
+  <data name="Status" xml:space="preserve">
+    <value>Hali</value>
+  </data>
+  <data name="Verification" xml:space="preserve">
+    <value>Uhakiki</value>
   </data>
 </root>

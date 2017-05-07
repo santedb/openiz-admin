@@ -56,7 +56,7 @@ namespace OpenIZAdmin.Models.RealmModels
 		/// Gets or sets the application identifier.
 		/// </summary>
 		/// <value>The application identifier.</value>
-		[Display(Name = "Application Id")]
+		[Display(Name = "ApplicationId", ResourceType = typeof(Locale))]
 		public string ApplicationId { get; set; }
 
 		/// <summary>

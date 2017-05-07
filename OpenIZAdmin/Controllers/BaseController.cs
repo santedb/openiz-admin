@@ -297,7 +297,7 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="entityExpression">The entity expression.</param>
 		/// <param name="entityRelationshipExpression">The entity relationship expression.</param>
 		/// <returns>Returns a list of entity relationships for a given entity.</returns>
-		protected IEnumerable<EntityRelationship> GetEntityRelationships<TSourceType, TTargetType>(Guid id, Guid? versionId = null, Expression<Func<TSourceType, bool>> entityExpression = null, Expression < Func<EntityRelationship, bool>> entityRelationshipExpression = null) where TSourceType : Entity where TTargetType : Entity
+		protected IEnumerable<EntityRelationship> GetEntityRelationships<TSourceType, TTargetType>(Guid id, Guid? versionId = null, Expression<Func<TSourceType, bool>> entityExpression = null, Expression<Func<EntityRelationship, bool>> entityRelationshipExpression = null) where TSourceType : Entity where TTargetType : Entity
 		{
 			var entity = this.GetEntity<TSourceType>(id, versionId, entityExpression);
 
@@ -312,10 +312,22 @@ namespace OpenIZAdmin.Controllers
 
 			foreach (var entityRelationship in entity.Relationships.Where(expression.Compile()))
 			{
+				entityRelationship.RelationshipType = this.GetConcept(entityRelationship.RelationshipTypeKey);
 				entityRelationship.TargetEntity = this.ImsiClient.Get<TTargetType>(entityRelationship.TargetEntityKey.Value, null) as TTargetType;
+				if (entityRelationship.TargetEntity?.TypeConcept == null && entityRelationship.TargetEntity?.TypeConceptKey.HasValue == true && entityRelationship.TargetEntity?.TypeConceptKey != Guid.Empty)
+				{
+					entityRelationship.TargetEntity.TypeConcept = this.GetConcept(entityRelationship.TargetEntity.TypeConceptKey.Value);
+				}
 			}
 
-			return entity.Relationships;
+			if (entityRelationshipExpression == null)
+			{
+				return entity.Relationships;
+			}
+			else
+			{
+				return entity.Relationships.Where(entityRelationshipExpression.Compile());
+			}
 		}
 
 		/// <summary>
