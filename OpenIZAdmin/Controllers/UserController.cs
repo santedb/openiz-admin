@@ -116,47 +116,57 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-                //hack - check if empty string passed and remove - select2 issue                        
-                model.CheckForEmptyRoleAssigned();
+				//hack - check if empty string passed and remove - select2 issue                        
+				model.CheckForEmptyRoleAssigned();
 
-                if (!model.Roles.Any()) ModelState.AddModelError("Roles", Locale.RolesRequired);                
+				if (!model.Roles.Any()) ModelState.AddModelError("Roles", Locale.RolesRequired);
 
-                if (ModelState.IsValid)
-				{					
+				if (ModelState.IsValid)
+				{
 					if (this.UsernameExists(model.Username))
 					{
 						TempData["error"] = Locale.UserNameExists;
-					}                    
+					}
 					else
-                    {                                                
-                        var user = this.AmiClient.CreateUser(model.ToSecurityUserInfo());
+					{
+						if (model.GivenNames.Any(n => !this.IsValidNameLength(n)))
+						{
+							this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);
+						}
 
-                        var userEntity = this.GetUserEntityBySecurityUserKey(user.UserId.Value);
+						if (model.Surnames.Any(n => !this.IsValidNameLength(n)))
+						{
+							this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);
+						}
 
-                        if (userEntity == null)
-                        {
-                            TempData["error"] = Locale.UnableToRetrieveNewUser;
-                            return RedirectToAction("Index");
-                        }
+						var user = this.AmiClient.CreateUser(model.ToSecurityUserInfo());
 
-                        if (model.Roles.Contains(Constants.ClinicalStaff))
-                        {
-                            var provider = this.ImsiClient.Create<Provider>(new Provider {Key = Guid.NewGuid()});
+						var userEntity = this.GetUserEntityBySecurityUserKey(user.UserId.Value);
 
-                            userEntity.Relationships.Add(
-                                new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, provider)
-                                {
-                                    SourceEntityKey = userEntity.Key.Value
-                                });
-                        }
+						if (userEntity == null)
+						{
+							TempData["error"] = Locale.UnableToRetrieveNewUser;
+							return RedirectToAction("Index");
+						}
 
-                        this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
+						if (model.Roles.Contains(Constants.ClinicalStaff))
+						{
+							var provider = this.ImsiClient.Create<Provider>(new Provider { Key = Guid.NewGuid() });
 
-                        TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;
+							userEntity.Relationships.Add(
+								new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, provider)
+								{
+									SourceEntityKey = userEntity.Key.Value
+								});
+						}
 
-                        return RedirectToAction("Edit", new {id = user.UserId.ToString()});
-                        
-                    }
+						this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
+
+						TempData["success"] = Locale.User + " " + Locale.Created + " " + Locale.Successfully;
+
+						return RedirectToAction("Edit", new { id = user.UserId.ToString() });
+
+					}
 				}
 			}
 			catch (Exception e)
@@ -280,21 +290,31 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-                //hack - check if empty string passed and remove - select2 issue                        
-                model.CheckForEmptyRoleAssigned();
+				//hack - check if empty string passed and remove -select2 issue
+				model.CheckForEmptyRoleAssigned();
 
-                if (!model.Roles.Any())
-                {
-                    ModelState.AddModelError("Roles", Locale.RoleIsRequired);
-                    var userEntity = this.GetUserEntityBySecurityUserKey(model.Id);
-                    if (userEntity != null)
-                    {
-                        var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUserKey.ToString());
-                        if(securityUserInfo != null) model.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
-                    }                    
-                }
+				if (model.GivenNames.Any(n => !this.IsValidNameLength(n)))
+				{
+					this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);
+				}
 
-                if (ModelState.IsValid)
+				if (model.Surnames.Any(n => !this.IsValidNameLength(n)))
+				{
+					this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);
+				}
+
+				if (!model.Roles.Any())
+				{
+					ModelState.AddModelError("Roles", Locale.RoleIsRequired);
+					var userEntity = this.GetUserEntityBySecurityUserKey(model.Id);
+					if (userEntity != null)
+					{
+						var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUserKey.ToString());
+						if (securityUserInfo != null) model.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
+					}
+				}
+
+				if (ModelState.IsValid)
 				{
 					var userEntity = this.GetUserEntityBySecurityUserKey(model.Id);
 
@@ -345,8 +365,24 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "User";
-		    TempData["searchTerm"] = "*";
+			TempData["searchTerm"] = "*";
 			return View();
+		}
+
+		/// <summary>
+		/// Determines whether the name is between 1 and 100 characters.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <returns><c>true</c> if the name is between 1 and 100 characters; otherwise, <c>false</c>.</returns>
+		/// <exception cref="System.ArgumentNullException">name</exception>
+		private bool IsValidNameLength(string name)
+		{
+			if (name == null)
+			{
+				throw new ArgumentNullException(nameof(name), Locale.ValueCannotBeNull);
+			}
+
+			return name.Length > 0 && name.Length <= 100;
 		}
 
 		/// <summary>
@@ -553,6 +589,6 @@ namespace OpenIZAdmin.Controllers
 
 			return RedirectToAction("Index");
 		}
-        
-    }
+
+	}
 }

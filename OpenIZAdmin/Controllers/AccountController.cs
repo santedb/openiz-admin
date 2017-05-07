@@ -282,6 +282,22 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Determines whether the name is between 1 and 100 characters.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <returns><c>true</c> if the name is between 1 and 100 characters; otherwise, <c>false</c>.</returns>
+		/// <exception cref="System.ArgumentNullException">name</exception>
+		private bool IsValidNameLength(string name)
+		{
+			if (name == null)
+			{
+				throw new ArgumentNullException(nameof(name), Locale.ValueCannotBeNull);
+			}
+
+			return name.Length > 0 && name.Length <= 100;
+		}
+
+		/// <summary>
 		/// Displays the login view.
 		/// </summary>
 		/// <param name="returnUrl">The return URL for an unauthenticated user.</param>
@@ -498,6 +514,16 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
+					if (model.GivenNames.Any(n => !this.IsValidNameLength(n)))
+					{
+						this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);
+					}
+
+					if (model.Surnames.Any(n => !this.IsValidNameLength(n)))
+					{
+						this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);
+					}
+
 					var userId = Guid.Parse(User.Identity.GetUserId());
 
 					var securityUserInfo = this.AmiClient.GetUser(userId.ToString());

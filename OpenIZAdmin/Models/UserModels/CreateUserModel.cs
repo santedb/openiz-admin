@@ -64,7 +64,6 @@ namespace OpenIZAdmin.Models.UserModels
 		/// </summary>
 		[Display(Name = "GivenName", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "GivenNameRequired", ErrorMessageResourceType = typeof(Locale))]
-		[StringLength(100, MinimumLength = 1, ErrorMessageResourceName = "GivenNameLength100", ErrorMessageResourceType = typeof(Locale))]
 		public List<string> GivenNames { get; set; }
 
 		/// <summary>
@@ -81,7 +80,7 @@ namespace OpenIZAdmin.Models.UserModels
 		/// Gets or sets the list of roles of the user.
 		/// </summary>
 		[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]        
-		[Required(AllowEmptyStrings = false, ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Locale))]
 		public List<string> Roles { get; set; }
 
 		/// <summary>
@@ -94,7 +93,6 @@ namespace OpenIZAdmin.Models.UserModels
 		/// </summary>
 		[Display(Name = "Surname", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "SurnameRequired", ErrorMessageResourceType = typeof(Locale))]
-		[StringLength(100, MinimumLength = 1, ErrorMessageResourceName = "SurnameLength100", ErrorMessageResourceType = typeof(Locale))]
 		public List<string> Surnames { get; set; }
 
 		/// <summary>
