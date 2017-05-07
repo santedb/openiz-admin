@@ -55,7 +55,7 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// The username of the user.
 		/// </summary>
 		[Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Locale))]
-		[StringLength(50, ErrorMessageResourceName = "UsernameLength50", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(50, MinimumLength = 5, ErrorMessageResourceName = "UsernameLength50", ErrorMessageResourceType = typeof(Locale))]
 		[RegularExpression("^[a-zA-Z0-9]+$", ErrorMessageResourceName = "InvalidUsername", ErrorMessageResourceType = typeof(Locale))]
 		public string Username { get; set; }
 

@@ -1194,7 +1194,7 @@ au jina la kikoa</value>
     <value>Walengwa lazima iwe kubwa kuliko 0 na chini ya 18.446.744.073.709.551.615</value>
   </data>
   <data name="UsernameLength50" xml:space="preserve">
-    <value>Jina la mtumiaji haiwezi kuzidi herufi 50 au kuwa chini ya herufi 6</value>
+    <value>Jina la mtumiaji haiwezi kuzidi herufi 50 au kuwa chini ya herufi 5</value>
   </data>
   <data name="UserNotFound" xml:space="preserve">
     <value>Mtumiaji hajapatikana</value>

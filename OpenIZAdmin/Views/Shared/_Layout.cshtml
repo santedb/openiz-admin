@@ -222,7 +222,7 @@
                 {
                     var response = JSON.parse(xhr.getResponseHeader("X-Responded-JSON"));
 
-                    if (response.status === 401)
+                    if (response !== undefined && response !== null && response.status === 401)
                     {
                         window.location = "@Url.Action("Login", "Account")";
                     }
