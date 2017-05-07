@@ -1220,4 +1220,16 @@ au jina la kikoa</value>
   <data name="ForbiddenMessage" xml:space="preserve">
     <value>Haramu, huruhusiwi kufikia rasilimali aliomba</value>
   </data>
+  <data name="GivenNameLength100" xml:space="preserve">
+    <value>Jina aliyopewa haiwezi kuzidi wahusika 100 au kuwa chini ya herufi 1</value>
+  </data>
+  <data name="GivenNameRequired" xml:space="preserve">
+    <value>Tafadhali ingiza jina aliyopewa</value>
+  </data>
+  <data name="SurnameLength100" xml:space="preserve">
+    <value>Jina haiwezi kuzidi wahusika 100 au kuwa chini ya herufi 1</value>
+  </data>
+  <data name="SurnameRequired" xml:space="preserve">
+    <value>Tafadhali weka jina</value>
+  </data>
 </root>

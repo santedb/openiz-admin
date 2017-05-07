@@ -1249,6 +1249,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The given name cannot exceed 100 characters or be less than 1 character.
+        /// </summary>
+        public static string GivenNameLength100 {
+            get {
+                return ResourceManager.GetString("GivenNameLength100", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a given name.
+        /// </summary>
+        public static string GivenNameRequired {
+            get {
+                return ResourceManager.GetString("GivenNameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Grant.
         /// </summary>
         public static string Grant {
@@ -3027,6 +3045,24 @@ namespace OpenIZAdmin.Localization {
         public static string Surname {
             get {
                 return ResourceManager.GetString("Surname", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The surname cannot exceed 100 characters or be less than 1 character.
+        /// </summary>
+        public static string SurnameLength100 {
+            get {
+                return ResourceManager.GetString("SurnameLength100", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a surname.
+        /// </summary>
+        public static string SurnameRequired {
+            get {
+                return ResourceManager.GetString("SurnameRequired", resourceCulture);
             }
         }
         

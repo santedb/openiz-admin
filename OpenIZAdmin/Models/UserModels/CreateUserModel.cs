@@ -25,6 +25,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Threading;
 using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.UserModels
@@ -62,6 +63,8 @@ namespace OpenIZAdmin.Models.UserModels
 		/// Gets or sets the givens names of the user.
 		/// </summary>
 		[Display(Name = "GivenName", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "GivenNameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(100, MinimumLength = 1, ErrorMessageResourceName = "GivenNameLength100", ErrorMessageResourceType = typeof(Locale))]
 		public List<string> GivenNames { get; set; }
 
 		/// <summary>
@@ -90,6 +93,8 @@ namespace OpenIZAdmin.Models.UserModels
 		/// Gets or sets the family names of the user.
 		/// </summary>
 		[Display(Name = "Surname", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "SurnameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(100, MinimumLength = 1, ErrorMessageResourceName = "SurnameLength100", ErrorMessageResourceType = typeof(Locale))]
 		public List<string> Surnames { get; set; }
 
 		/// <summary>

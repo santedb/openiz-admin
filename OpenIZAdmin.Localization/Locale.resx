@@ -1527,4 +1527,16 @@
   <data name="ForbiddenMessage" xml:space="preserve">
     <value>Forbidden, you are not allowed to access the requested resource</value>
   </data>
+  <data name="GivenNameLength100" xml:space="preserve">
+    <value>The given name cannot exceed 100 characters or be less than 1 character</value>
+  </data>
+  <data name="GivenNameRequired" xml:space="preserve">
+    <value>Please enter a given name</value>
+  </data>
+  <data name="SurnameLength100" xml:space="preserve">
+    <value>The surname cannot exceed 100 characters or be less than 1 character</value>
+  </data>
+  <data name="SurnameRequired" xml:space="preserve">
+    <value>Please enter a surname</value>
+  </data>
 </root>
