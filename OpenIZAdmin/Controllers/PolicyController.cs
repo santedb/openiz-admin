@@ -71,7 +71,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-                var exists = this.ImsiClient.Query<SecurityPolicy>(c => c.Oid == model.Oid).Item.OfType<SecurityPolicy>().Any();
+				var exists = this.AmiClient.GetPolicies(c => c.Oid == model.Oid).CollectionItem.Any();
 
                 if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
 

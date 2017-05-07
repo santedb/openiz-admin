@@ -113,7 +113,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (!this.IsValidIdentifier(authority, model.Value))
 					{
-						this.ModelState.AddModelError("", Locale.IdentifierFormatInvalid);
+						this.ModelState.AddModelError(nameof(model.Value), Locale.IdentifierFormatInvalid);
 
 						model = this.RepopulateModel(model, identifiers);
 
@@ -263,7 +263,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (!this.IsValidIdentifier(authority, model.Value))
 					{
-						this.ModelState.AddModelError("", Locale.IdentifierFormatInvalid);
+						this.ModelState.AddModelError(nameof(model.Value), Locale.IdentifierFormatInvalid);
 
 						model = this.RepopulateModel(model, identifiers);
 

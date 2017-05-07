@@ -1168,6 +1168,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Forbidden.
+        /// </summary>
+        public static string Forbidden {
+            get {
+                return ResourceManager.GetString("Forbidden", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Forbidden, you are not allowed to access the requested resource.
+        /// </summary>
+        public static string ForbiddenMessage {
+            get {
+                return ResourceManager.GetString("ForbiddenMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Forgot password.
         /// </summary>
         public static string ForgotPassword {
@@ -1398,6 +1416,24 @@ namespace OpenIZAdmin.Localization {
         public static string Information {
             get {
                 return ResourceManager.GetString("Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Internal server error.
+        /// </summary>
+        public static string InternalServerError {
+            get {
+                return ResourceManager.GetString("InternalServerError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Oops! Something went wrong. If the problem persists please contact your administrator.
+        /// </summary>
+        public static string InternalServerErrorMessage {
+            get {
+                return ResourceManager.GetString("InternalServerErrorMessage", resourceCulture);
             }
         }
         
@@ -2244,6 +2280,24 @@ namespace OpenIZAdmin.Localization {
         public static string Organizations {
             get {
                 return ResourceManager.GetString("Organizations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page not found.
+        /// </summary>
+        public static string PageNotFound {
+            get {
+                return ResourceManager.GetString("PageNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The page you requested could not be found.
+        /// </summary>
+        public static string PageNotFoundMessage {
+            get {
+                return ResourceManager.GetString("PageNotFoundMessage", resourceCulture);
             }
         }
         

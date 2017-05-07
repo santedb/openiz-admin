@@ -1202,4 +1202,22 @@ au jina la kikoa</value>
   <data name="PasswordUpdatedSuccessfully" xml:space="preserve">
     <value>Nywila imesasishwa</value>
   </data>
+  <data name="PageNotFound" xml:space="preserve">
+    <value>Ukurasa haukupatikana</value>
+  </data>
+  <data name="PageNotFoundMessage" xml:space="preserve">
+    <value>Ukurasa ulioomba haikuweza kupatikana</value>
+  </data>
+  <data name="InternalServerError" xml:space="preserve">
+    <value>Hitilafu ya seva ya</value>
+  </data>
+  <data name="InternalServerErrorMessage" xml:space="preserve">
+    <value>Oops! Kulikuwa na tatizo. Tatizo likiendelea tafadhali wasiliana na msimamizi wako</value>
+  </data>
+  <data name="Forbidden" xml:space="preserve">
+    <value>Haramu</value>
+  </data>
+  <data name="ForbiddenMessage" xml:space="preserve">
+    <value>Haramu, huruhusiwi kufikia rasilimali aliomba</value>
+  </data>
 </root>

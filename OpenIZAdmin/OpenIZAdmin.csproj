@@ -248,6 +248,7 @@
     <Compile Include="Controllers\CodeSystemController.cs" />
     <Compile Include="Controllers\ConceptSetController.cs" />
     <Compile Include="Controllers\EntityRelationshipController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\ManufacturedMaterialController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
@@ -616,11 +617,9 @@
     <Content Include="Views\AssigningAuthority\Create.cshtml" />
     <Content Include="Views\AssigningAuthority\ViewAssigningAuthority.cshtml" />
     <Content Include="Views\AssigningAuthority\Edit.cshtml" />
-    <Content Include="Views\Shared\_NotFound.cshtml" />
     <Content Include="Views\Concept\Edit.cshtml" />
     <Content Include="Views\Device\Edit.cshtml" />
     <Content Include="Views\Alert\Create.cshtml" />
-    <Content Include="Views\Shared\_Error.cshtml" />
     <Content Include="Views\Alert\ViewAlert.cshtml" />
     <Content Include="Views\Applet\ViewApplet.cshtml" />
     <Content Include="Views\Home\VersionInformation.cshtml" />
@@ -696,6 +695,9 @@
     <Content Include="Views\Shared\_ManageCodeSystemPartial.cshtml" />
     <Content Include="Views\Shared\_VerifyEntityPartial.cshtml" />
     <Content Include="Views\Shared\_UserRolesPartial.cshtml" />
+    <Content Include="Views\Error\NotFound.cshtml" />
+    <Content Include="Views\Error\InternalServerError.cshtml" />
+    <Content Include="Views\Error\Forbidden.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

@@ -111,7 +111,7 @@ namespace OpenIZAdmin.Controllers
 				if (alert == null)
 				{
 					TempData["error"] = Locale.Alert + " " + Locale.NotFound;
-					return View("_NotFound", model: Locale.NotFound);
+					return RedirectToAction("Index");
 				}
 
 				alert.AlertMessage.ObsoletionTime = DateTimeOffset.Now;

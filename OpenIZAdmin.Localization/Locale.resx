@@ -1509,4 +1509,22 @@
   <data name="PasswordUpdatedSuccessfully" xml:space="preserve">
     <value>Password updated successfully</value>
   </data>
+  <data name="PageNotFound" xml:space="preserve">
+    <value>Page not found</value>
+  </data>
+  <data name="PageNotFoundMessage" xml:space="preserve">
+    <value>The page you requested could not be found</value>
+  </data>
+  <data name="InternalServerError" xml:space="preserve">
+    <value>Internal server error</value>
+  </data>
+  <data name="InternalServerErrorMessage" xml:space="preserve">
+    <value>Oops! Something went wrong. If the problem persists please contact your administrator</value>
+  </data>
+  <data name="Forbidden" xml:space="preserve">
+    <value>Forbidden</value>
+  </data>
+  <data name="ForbiddenMessage" xml:space="preserve">
+    <value>Forbidden, you are not allowed to access the requested resource</value>
+  </data>
 </root>

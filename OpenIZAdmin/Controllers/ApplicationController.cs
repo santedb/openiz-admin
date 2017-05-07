@@ -128,6 +128,32 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Deletes an application.
+		/// </summary>
+		/// <param name="id">The id of the application to delete.</param>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Delete(Guid id)
+		{
+			try
+			{
+				this.AmiClient.DeleteApplication(id.ToString());
+				TempData["success"] = Locale.Application + " " + Locale.Deleted + " " + Locale.Successfully;
+
+				return RedirectToAction("Index");
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+			}
+
+			TempData["error"] = Locale.UnableToDelete + " " + Locale.Application;
+
+			return RedirectToAction("Index");
+		}
+
+		/// <summary>
 		/// Displays the edit application view.
 		/// </summary>
 		/// <param name="id">The id of the application to be edit.</param>
