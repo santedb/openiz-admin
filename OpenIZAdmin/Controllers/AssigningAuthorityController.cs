@@ -65,14 +65,14 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{                
-                var exists = this.AmiClient.GetAssigningAuthorities(m => m.Oid == model.Oid).CollectionItem.FirstOrDefault();
-                if (exists?.AssigningAuthority != null) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+                var exists = this.AmiClient.GetAssigningAuthorities(m => m.Oid == model.Oid).CollectionItem.Any();
+                if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
 
-                var duplicateName = this.AmiClient.GetAssigningAuthorities(m => m.Name == model.Name).CollectionItem.FirstOrDefault();
-                if (duplicateName?.AssigningAuthority != null) ModelState.AddModelError("Name", Locale.NameMustBeUnique);
+                var duplicateName = this.AmiClient.GetAssigningAuthorities(m => m.Name == model.Name).CollectionItem.Any();
+                if (duplicateName) ModelState.AddModelError("Name", Locale.NameMustBeUnique);
 
-                var duplicateDomainName = this.AmiClient.GetAssigningAuthorities(m => m.DomainName == model.DomainName).CollectionItem.FirstOrDefault();
-                if (duplicateDomainName?.AssigningAuthority != null) ModelState.AddModelError("DomainName", Locale.DomainNameMustBeUnique);
+                var duplicateDomainName = this.AmiClient.GetAssigningAuthorities(m => m.DomainName == model.DomainName).CollectionItem.Any();
+                if (duplicateDomainName) ModelState.AddModelError("DomainName", Locale.DomainNameMustBeUnique);
 
                 if (ModelState.IsValid)
 				{
