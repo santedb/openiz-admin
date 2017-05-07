@@ -20,6 +20,7 @@
 using System;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -86,11 +87,21 @@ namespace OpenIZAdmin.Attributes
 		{
 			filterContext.HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
+			//filterContext.Result = new HttpUnauthorizedResult();
 			filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary
 			{
 				{ "action", "Login" },
 				{ "controller", "Account" }
 			});
+
+			if (filterContext.HttpContext.Request.IsAjaxRequest())
+			{
+				filterContext.Result = new HttpUnauthorizedResult();
+
+				filterContext.HttpContext.Response.Clear();
+				filterContext.HttpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+				filterContext.HttpContext.Response.SuppressFormsAuthenticationRedirect = true;
+			}
 
 			filterContext.HttpContext.Response.Cookies.Remove("access_token");
 		}

@@ -212,9 +212,22 @@
 
         }
 
-        function hideLoadingBar()
+        function hideLoadingBar(xhr)
         {
             $("#loading-bar").hide();
+
+            if (xhr !== undefined && xhr !== null)
+            {
+                if (typeof xhr.getResponseHeader === 'function')
+                {
+                    var response = JSON.parse(xhr.getResponseHeader("X-Responded-JSON"));
+
+                    if (response.status === 401)
+                    {
+                        window.location = "@Url.Action("Login", "Account")";
+                    }
+                }
+            }
         }
 
         function showLoadingBar()

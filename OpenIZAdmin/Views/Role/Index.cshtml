@@ -9,46 +9,48 @@
 
 @section scripts{
     <script>
-        $(document).ready(function ()
+        
+        $(document).ready(function()
         {
             $.ajax({
                 url: "Search?searchTerm=*",
                 type: "GET",
-                beforeSend: function ()
+                beforeSend: function()
                 {
                     showLoadingBar();
                 },
-                success: function (data)
+                success: function(data)
                 {
                     $("#search-results").html(data);
                 },
-                complete: function ()
+                complete: function(e, xhr, status)
                 {
-                    hideLoadingBar();
+                    hideLoadingBar(xhr);
                 }
             });
 
-            $('#search-partial').bind("DOMSubtreeModified", function ()
-            {
-                if (!$('#rolesSearchTable').length)
-                    return;
+            $('#search-partial').bind("DOMSubtreeModified",
+                function()
+                {
+                    if (!$('#rolesSearchTable').length)
+                        return;
 
-                if ($.fn.DataTable.isDataTable('#rolesSearchTable'))
-                    return;
+                    if ($.fn.DataTable.isDataTable('#rolesSearchTable'))
+                        return;
 
-                //$("#rolesSearchTable").DataTable();
-                $('#rolesSearchTable').DataTable({
-                    order: [],
-                    columns: [
-                      { "orderable": false },
-                      null,
-                      null,
-                      null,
-                      null,
-                      { "orderable": false }
-                    ]
+                    //$("#rolesSearchTable").DataTable();
+                    $('#rolesSearchTable').DataTable({
+                        order: [],
+                        columns: [
+                            { "orderable": false },
+                            null,
+                            null,
+                            null,
+                            null,
+                            { "orderable": false }
+                        ]
+                    });
                 });
-            });
         });
     </script>
 }
