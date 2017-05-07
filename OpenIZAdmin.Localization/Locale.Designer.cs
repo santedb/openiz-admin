@@ -2365,7 +2365,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Password must contain one upper case and one lower case character and have a minimum of 8 characters.
+        ///   Looks up a localized string similar to Password must be at least 8 characters.
         /// </summary>
         public static string PasswordStrength {
             get {

@@ -71,8 +71,7 @@ namespace OpenIZAdmin.Models.UserModels
 		/// </summary>
 		[DataType(DataType.Password)]
 		[Display(Name = "Password", ResourceType = typeof(Locale))]
-		[StringLength(255, ErrorMessageResourceName = "PasswordLength", ErrorMessageResourceType = typeof(Locale))]
-		[RegularExpression(@"^(?=.*[a-z])(?=.*[A-Z])[a-zA-Z\d]{8,}$", ErrorMessageResourceName = "PasswordStrength", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string Password { get; set; }
 

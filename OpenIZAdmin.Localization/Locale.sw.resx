@@ -913,8 +913,7 @@ lingine</value>
     <value>Urefu wa neno siri sio sawa. Herufi nyingi sana</value>
   </data>
   <data name="PasswordStrength" xml:space="preserve">
-    <value>Neno siri liwe na herufi moja kubwa na moja ndogo
- ni isiwe na herufi zaidi ya 8</value>
+    <value>Nenosiri lazima liwe na angalau herufi 8</value>
   </data>
   <data name="UnableToRetrieveNewUser" xml:space="preserve">
     <value>Imeshindikana kupata mtumiaji mpya</value>

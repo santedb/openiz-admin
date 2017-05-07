@@ -913,7 +913,7 @@
     <value>Password length is invalid. Too many characters.</value>
   </data>
   <data name="PasswordStrength" xml:space="preserve">
-    <value>Password must contain one upper case and one lower case character and have a minimum of 8 characters</value>
+    <value>Password must be at least 8 characters</value>
   </data>
   <data name="UnableToRetrieveNewUser" xml:space="preserve">
     <value>Unable to retrieve new user</value>
