@@ -538,6 +538,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Code system updated successfully.
+        /// </summary>
+        public static string CodeSystemUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("CodeSystemUpdatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Common Name.
         /// </summary>
         public static string CommonName {
@@ -3679,11 +3688,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to activate.
+        ///   Looks up a localized string similar to Unable to activate user.
         /// </summary>
-        public static string UnableToActivate {
+        public static string UnableToActivateUser {
             get {
-                return ResourceManager.GetString("UnableToActivate", resourceCulture);
+                return ResourceManager.GetString("UnableToActivateUser", resourceCulture);
             }
         }
         
@@ -3693,15 +3702,6 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToChangePassword {
             get {
                 return ResourceManager.GetString("UnableToChangePassword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to create.
-        /// </summary>
-        public static string UnableToCreate {
-            get {
-                return ResourceManager.GetString("UnableToCreate", resourceCulture);
             }
         }
         
@@ -3742,20 +3742,29 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to deactivate.
+        ///   Looks up a localized string similar to Unable to create user.
         /// </summary>
-        public static string UnableToDeactivate {
+        public static string UnableToCreateUser {
             get {
-                return ResourceManager.GetString("UnableToDeactivate", resourceCulture);
+                return ResourceManager.GetString("UnableToCreateUser", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to delete.
+        ///   Looks up a localized string similar to Unable to deactivate user.
         /// </summary>
-        public static string UnableToDelete {
+        public static string UnableToDeactivateUser {
             get {
-                return ResourceManager.GetString("UnableToDelete", resourceCulture);
+                return ResourceManager.GetString("UnableToDeactivateUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to delete certificate.
+        /// </summary>
+        public static string UnableToDeleteCertificate {
+            get {
+                return ResourceManager.GetString("UnableToDeleteCertificate", resourceCulture);
             }
         }
         
@@ -3841,29 +3850,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to reset.
-        /// </summary>
-        public static string UnableToReset {
-            get {
-                return ResourceManager.GetString("UnableToReset", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Unable to reset password.
         /// </summary>
         public static string UnableToResetPassword {
             get {
                 return ResourceManager.GetString("UnableToResetPassword", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to retrieve.
-        /// </summary>
-        public static string UnableToRetrieve {
-            get {
-                return ResourceManager.GetString("UnableToRetrieve", resourceCulture);
             }
         }
         
@@ -3985,15 +3976,6 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to update.
-        /// </summary>
-        public static string UnableToUpdate {
-            get {
-                return ResourceManager.GetString("UnableToUpdate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Unable to update assigning authority.
         /// </summary>
         public static string UnableToUpdateAssigningAuthority {
@@ -4021,6 +4003,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to update user.
+        /// </summary>
+        public static string UnableToUpdateUser {
+            get {
+                return ResourceManager.GetString("UnableToUpdateUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to upload.
         /// </summary>
         public static string UnableToUpload {
@@ -4035,15 +4026,6 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToVerifyData {
             get {
                 return ResourceManager.GetString("UnableToVerifyData", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Updated .
-        /// </summary>
-        public static string Updated {
-            get {
-                return ResourceManager.GetString("Updated", resourceCulture);
             }
         }
         
@@ -4215,6 +4197,15 @@ namespace OpenIZAdmin.Localization {
         public static string Users {
             get {
                 return ResourceManager.GetString("Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User updated successfully.
+        /// </summary>
+        public static string UserUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("UserUpdatedSuccessfully", resourceCulture);
             }
         }
         

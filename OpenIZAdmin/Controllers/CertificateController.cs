@@ -98,7 +98,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to delete certificate: { e }");
 			}
 
-			this.TempData["error"] = Locale.UnableToDelete + " " + Locale.Certificate;
+			this.TempData["error"] = Locale.UnableToDeleteCertificate;
 
 			return View(model);
 		}

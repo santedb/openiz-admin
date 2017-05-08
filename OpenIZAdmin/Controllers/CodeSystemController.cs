@@ -164,7 +164,7 @@ namespace OpenIZAdmin.Controllers
 				{					
 					codeSystem = this.AmiClient.UpdateCodeSystem(model.Id.ToString(), model.ToCodeSystem(codeSystem));
 
-					TempData["success"] = Locale.CodeSystem + " " + Locale.Updated + " " + Locale.Successfully;
+					TempData["success"] = Locale.CodeSystemUpdatedSuccessfully;
 
 					return RedirectToAction("ViewCodeSystem", new { id = codeSystem.Key });
 				}

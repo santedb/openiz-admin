@@ -85,7 +85,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToActivate + " " + Locale.User;
+			TempData["error"] = Locale.UnableToActivateUser;
 
 			return RedirectToAction("Index");
 		}
@@ -172,14 +172,14 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				TempData["error"] = Locale.UnableToCreate + " " + Locale.User;
+				TempData["error"] = Locale.UnableToCreateUser;
 			}
 
 			model.RolesList = this.GetAllRoles().ToSelectList("Name", "Name", null, true);
 
 			if (!TempData.ContainsKey("error") || TempData["error"] == null)
 			{
-				TempData["error"] = Locale.UnableToCreate + " " + Locale.User;
+				TempData["error"] = Locale.UnableToCreateUser;
 			}
 
 			return View(model);
@@ -207,7 +207,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToDeactivate + " " + Locale.User;
+			TempData["error"] = Locale.UnableToDeactivateUser;
 
 			return RedirectToAction("Index");
 		}
@@ -340,7 +340,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, securityInfo);
 
-					TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;
+					TempData["success"] = Locale.UserUpdatedSuccessfully;
 
 					return RedirectToAction("ViewUser", new { id = userEntity.SecurityUserKey.ToString() });
 				}
@@ -352,7 +352,7 @@ namespace OpenIZAdmin.Controllers
 
 			model.RolesList = this.GetAllRoles().ToSelectList("Name", "Id", null, true);
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.User;
+			TempData["error"] = Locale.UnableToUpdateUser;
 
 			return View(model);
 		}
@@ -456,7 +456,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToReset + " " + Locale.Password;
+			TempData["error"] = Locale.UnableToResetPassword;
 
 			return View(model);
 		}
