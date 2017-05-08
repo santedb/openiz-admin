@@ -1821,4 +1821,13 @@
   <data name="UserDeactivatedSuccessfully" xml:space="preserve">
     <value>User deactivated successfully</value>
   </data>
+  <data name="ReferenceTermCreatedSuccessfully" xml:space="preserve">
+    <value>Reference term created successfully</value>
+  </data>
+  <data name="ReferenceTermNameCreatedSuccessfully" xml:space="preserve">
+    <value>Reference term name created successfully</value>
+  </data>
+  <data name="ReferenceTermNameDeletedSuccessfully" xml:space="preserve">
+    <value>Reference term name deleted successfully</value>
+  </data>
 </root>

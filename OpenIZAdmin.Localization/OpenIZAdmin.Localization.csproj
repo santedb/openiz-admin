@@ -40,7 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Locale2.Designer.cs">
+    <Compile Include="Locale3.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Locale.resx</DependentUpon>
@@ -60,7 +60,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Locale.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Locale2.Designer.cs</LastGenOutput>
+      <LastGenOutput>Locale3.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Locale.sw.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>

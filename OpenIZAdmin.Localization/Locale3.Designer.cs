@@ -2923,6 +2923,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reference term created successfully.
+        /// </summary>
+        public static string ReferenceTermCreatedSuccessfully {
+            get {
+                return ResourceManager.GetString("ReferenceTermCreatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reference term deactivated successfully.
         /// </summary>
         public static string ReferenceTermDeactivatedSuccessfully {
@@ -2937,6 +2946,15 @@ namespace OpenIZAdmin.Localization {
         public static string ReferenceTermName {
             get {
                 return ResourceManager.GetString("ReferenceTermName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reference term name created successfully.
+        /// </summary>
+        public static string ReferenceTermNameCreatedSuccessfully {
+            get {
+                return ResourceManager.GetString("ReferenceTermNameCreatedSuccessfully", resourceCulture);
             }
         }
         

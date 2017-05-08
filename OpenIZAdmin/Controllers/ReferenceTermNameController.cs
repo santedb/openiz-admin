@@ -91,7 +91,7 @@ namespace OpenIZAdmin.Controllers
 
                     var result = this.ImsiClient.Update<ReferenceTerm>(referenceTerm);
 
-                    TempData["success"] = Locale.ReferenceTermName + " " + Locale.Created + " " + Locale.Successfully;
+                    TempData["success"] = Locale.ReferenceTermNameCreatedSuccessfully;
 
                     return RedirectToAction("Edit", "ReferenceTerm", new { id = result.Key });
                 }
@@ -142,7 +142,7 @@ namespace OpenIZAdmin.Controllers
 
                 var result = this.ImsiClient.Update<ReferenceTerm>(referenceTerm);
 
-                TempData["success"] = Locale.ReferenceTermName + " " + Locale.Deleted + " " + Locale.Successfully;
+                TempData["success"] = Locale.ReferenceTermNameDeletedSuccessfully;
 
                 return RedirectToAction("Edit", "ReferenceTerm", new { id = result.Key });
 

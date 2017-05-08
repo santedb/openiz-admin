@@ -82,7 +82,7 @@ namespace OpenIZAdmin.Controllers
 
                     var result = this.ImsiClient.Create(referenceTerm);
 
-					TempData["success"] = Locale.ReferenceTerm + " " + Locale.Created + " " + Locale.Successfully;
+					TempData["success"] = Locale.ReferenceTermCreatedSuccessfully;
 
 					return RedirectToAction("ViewReferenceTerm", new { id = result.Key });
 				}
