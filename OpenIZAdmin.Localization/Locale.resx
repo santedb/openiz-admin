@@ -1261,7 +1261,7 @@
     <value>Verification</value>
   </data>
   <data name="VerificationLength50" xml:space="preserve">
-    <value>The verification cannot exceed 50 characeters</value>
+    <value>The verification cannot exceed 50 characters</value>
   </data>
   <data name="VerificationRequired" xml:space="preserve">
     <value>Please enter a verification</value>

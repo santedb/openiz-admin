@@ -4246,7 +4246,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The verification cannot exceed 50 characeters.
+        ///   Looks up a localized string similar to The verification cannot exceed 50 characters.
         /// </summary>
         public static string VerificationLength50 {
             get {

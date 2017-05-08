@@ -1273,4 +1273,299 @@ au jina la kikoa</value>
   <data name="Verification" xml:space="preserve">
     <value>Uhakiki</value>
   </data>
+  <data name="Mnemonic" xml:space="preserve">
+    <value>Nemoniki</value>
+  </data>
+  <data name="TypeConcept" xml:space="preserve">
+    <value>aina dhana</value>
+  </data>
+  <data name="ValidationRegex" xml:space="preserve">
+    <value>uthibitisho wa mara kwa mara kujieleza</value>
+  </data>
+  <data name="ValueCannotBeNull" xml:space="preserve">
+    <value>Thamani hawezi kuwa null</value>
+  </data>
+  <data name="Identifier" xml:space="preserve">
+    <value>Kitambulisho</value>
+  </data>
+  <data name="Entity" xml:space="preserve">
+    <value>chombo</value>
+  </data>
+  <data name="TypeRequired" xml:space="preserve">
+    <value>Tafadhali chagua aina</value>
+  </data>
+  <data name="ValueRequired" xml:space="preserve">
+    <value>Tafadhali weka thamani</value>
+  </data>
+  <data name="IdentifierFormatInvalid" xml:space="preserve">
+    <value>kitambulisho format si sahihi</value>
+  </data>
+  <data name="Relationship" xml:space="preserve">
+    <value>uhusiano</value>
+  </data>
+  <data name="NoAssociatedRelationships" xml:space="preserve">
+    <value>Hakuna uhusiano kuhusishwa</value>
+  </data>
+  <data name="Related" xml:space="preserve">
+    <value>kuhusiana na</value>
+  </data>
+  <data name="RelationRequired" xml:space="preserve">
+    <value>Tafadhali chagua uhusiano</value>
+  </data>
+  <data name="RelationshipTypeRequired" xml:space="preserve">
+    <value>Tafadhali chagua aina ya uhusiano</value>
+  </data>
+  <data name="TargetPopulation" xml:space="preserve">
+    <value>walengwa</value>
+  </data>
+  <data name="TargetPopulationRequired" xml:space="preserve">
+    <value>Tafadhali weka walengwa</value>
+  </data>
+  <data name="CannotUpdateNotActive" xml:space="preserve">
+    <value>Hatuwezi kusasisha, si kazi</value>
+  </data>
+  <data name="Code" xml:space="preserve">
+    <value>kanuni</value>
+  </data>
+  <data name="CodeLength4" xml:space="preserve">
+    <value>kanuni haiwezi kuzidi herufi 4</value>
+  </data>
+  <data name="CodeRequired" xml:space="preserve">
+    <value>Tafadhali ingiza msimbo</value>
+  </data>
+  <data name="InvalidUsername" xml:space="preserve">
+    <value>Jina batili la mtumiaji</value>
+  </data>
+  <data name="NoTfaMechanisms" xml:space="preserve">
+    <value>Hakuna njia mbili uthibitishaji kimeundwa</value>
+  </data>
+  <data name="PasswordLength50" xml:space="preserve">
+    <value>password haiwezi kuzidi herufi 50</value>
+  </data>
+  <data name="TfaMechanismRequired" xml:space="preserve">
+    <value>Tafadhali chagua utaratibu upya</value>
+  </data>
+  <data name="Retrieve" xml:space="preserve">
+    <value>Rejesha</value>
+  </data>
+  <data name="UnableTo" xml:space="preserve">
+    <value>Haiwezi</value>
+  </data>
+  <data name="ForgotPasswordMechanisms" xml:space="preserve">
+    <value>Umesahau taratibu password</value>
+  </data>
+  <data name="VerificationLength50" xml:space="preserve">
+    <value>uhakiki haiwezi kuzidi herufi 50</value>
+  </data>
+  <data name="VerificationRequired" xml:space="preserve">
+    <value>Tafadhali weka ukaguzi</value>
+  </data>
+  <data name="ResetCodeSent" xml:space="preserve">
+    <value>Tumetuma nambari kuweka upya nenosiri lako</value>
+  </data>
+  <data name="MaterialNotActive" xml:space="preserve">
+    <value>Onyo, nyenzo hii si kazi</value>
+  </data>
+  <data name="OrganizationNotActive" xml:space="preserve">
+    <value>Onyo, shirika hili si kazi</value>
+  </data>
+  <data name="PlaceNotActive" xml:space="preserve">
+    <value>Onyo, mahali hapa si kazi</value>
+  </data>
+  <data name="RoleNotActive" xml:space="preserve">
+    <value>Onyo, jukumu hili si kazi</value>
+  </data>
+  <data name="UserNotActive" xml:space="preserve">
+    <value>Onyo, user hii si kazi</value>
+  </data>
+  <data name="RevokeReason" xml:space="preserve">
+    <value>batilisha Sababu</value>
+  </data>
+  <data name="RevokeReasonRequired" xml:space="preserve">
+    <value>Tafadhali chagua kubatilisha sababu</value>
+  </data>
+  <data name="NoDataAvailable" xml:space="preserve">
+    <value>Hakuna data inayopatikana</value>
+  </data>
+  <data name="Languages" xml:space="preserve">
+    <value>lugha</value>
+  </data>
+  <data name="NoLanguagesAssigned" xml:space="preserve">
+    <value>Hakuna Languages kupeana</value>
+  </data>
+  <data name="NoAssociatedLanguages" xml:space="preserve">
+    <value>Hakuna lugha kuhusishwa</value>
+  </data>
+  <data name="UploadNewVersion" xml:space="preserve">
+    <value>Pakia toleo jipya</value>
+  </data>
+  <data name="LanguagCodeTooLong" xml:space="preserve">
+    <value>kanuni lugha hayawezi kuzidi vibambo 2</value>
+  </data>
+  <data name="MustBeUnique" xml:space="preserve">
+    <value>lazima yawe ya kipekee</value>
+  </data>
+  <data name="NoConceptsFound" xml:space="preserve">
+    <value>Hakuna dhana ya kupatikana</value>
+  </data>
+  <data name="ContainsConcepts" xml:space="preserve">
+    <value>ina dhana</value>
+  </data>
+  <data name="ConceptNotActive" xml:space="preserve">
+    <value>Onyo, dhana hii si kazi</value>
+  </data>
+  <data name="ReferenceTerm" xml:space="preserve">
+    <value>Kumbukumbu Muda</value>
+  </data>
+  <data name="MnemonicLength50" xml:space="preserve">
+    <value>mnemonic haiwezi kuzidi herufi 50</value>
+  </data>
+  <data name="ReferenceTermNames" xml:space="preserve">
+    <value>Kumbukumbu Majina Muda</value>
+  </data>
+  <data name="ReferenceTermName" xml:space="preserve">
+    <value>Jina Kumbukumbu Muda</value>
+  </data>
+  <data name="Reports" xml:space="preserve">
+    <value>Ripoti</value>
+  </data>
+  <data name="UnableToDownloadReport" xml:space="preserve">
+    <value>Haiwezi kupakua ripoti</value>
+  </data>
+  <data name="UnableToLoadReports" xml:space="preserve">
+    <value>Haiwezi kupakia ripoti</value>
+  </data>
+  <data name="Domain" xml:space="preserve">
+    <value>uwanja</value>
+  </data>
+  <data name="DomainLength50" xml:space="preserve">
+    <value>uwanja haiwezi kuzidi herufi 50</value>
+  </data>
+  <data name="DomainRequired" xml:space="preserve">
+    <value>Tafadhali weka uwanja</value>
+  </data>
+  <data name="OidLength64" xml:space="preserve">
+    <value>OID haiwezi kuzidi herufi 64</value>
+  </data>
+  <data name="UrlLength256" xml:space="preserve">
+    <value>url haiwezi kuzidi herufi 256</value>
+  </data>
+  <data name="UrlRequired" xml:space="preserve">
+    <value>Tafadhali weka Url</value>
+  </data>
+  <data name="VersionLength10" xml:space="preserve">
+    <value>toleo haiwezi kuzidi wahusika 10</value>
+  </data>
+  <data name="NoCodeSystemsFound" xml:space="preserve">
+    <value>Hakuna mifumo code kupatikana</value>
+  </data>
+  <data name="ConceptSetNotFound" xml:space="preserve">
+    <value>Dhana ya kuweka halikupatikana</value>
+  </data>
+  <data name="ToolTip_CodeSystem" xml:space="preserve">
+    <value>mfumo code kuhusishwa</value>
+  </data>
+  <data name="AddReferenceTerms" xml:space="preserve">
+    <value>Kuongeza Kumbukumbu Masharti</value>
+  </data>
+  <data name="NoNewAppletsSubmitted" xml:space="preserve">
+    <value>Hakuna applets mpya imewasilishwa</value>
+  </data>
+  <data name="ToolTip_RelationshipList" xml:space="preserve">
+    <value>uhusiano dhana</value>
+  </data>
+  <data name="RelationshipRequired" xml:space="preserve">
+    <value>uhusiano inahitajika</value>
+  </data>
+  <data name="InverseOf" xml:space="preserve">
+    <value>kinyume Of</value>
+  </data>
+  <data name="MemberOf" xml:space="preserve">
+    <value>Mbunge wa</value>
+  </data>
+  <data name="NegationOf" xml:space="preserve">
+    <value>kukanusha ya</value>
+  </data>
+  <data name="SameAs" xml:space="preserve">
+    <value>Sawa na
+</value>
+  </data>
+  <data name="IsServiceDeliveryLocation" xml:space="preserve">
+    <value>Je, hii ni kutoa huduma ya eneo? (Kuwa Kwamba, haina nafasi hii kutoa huduma, kama vile huduma?)</value>
+  </data>
+  <data name="VerifyRecordMessage" xml:space="preserve">
+    <value>Tahadhari: rekodi hii ni kutoka kwenye mfumo wa nje, kama unataka kufanya mabadiliko, unahitaji kwanza kuthibitisha rekodi hii. Hii inaweza kufanyika kwa kubonyeza 'Thibitisha' hapa chini</value>
+  </data>
+  <data name="RecordVerificationRequired" xml:space="preserve">
+    <value>Rekodi ya kuthibitisha Inahitajika</value>
+  </data>
+  <data name="DataVerifiedSuccessfully" xml:space="preserve">
+    <value>data kuthibitishwa mafanikio</value>
+  </data>
+  <data name="UnableToVerifyData" xml:space="preserve">
+    <value>Haiwezi kuthibitisha data</value>
+  </data>
+  <data name="Verify" xml:space="preserve">
+    <value>Thibitisha</value>
+  </data>
+  <data name="RecordMustBeVerifiedBeforeEditing" xml:space="preserve">
+    <value>Makini, rekodi hii muhimu ithibitishwe kabla ya kubadilisha</value>
+  </data>
+  <data name="UnableToDeleteIdentifier" xml:space="preserve">
+    <value>Haikuweza kufuta kitambulisho</value>
+  </data>
+  <data name="IdentifierDeletedSuccessfully" xml:space="preserve">
+    <value>Kitambulisho imefutwa</value>
+  </data>
+  <data name="DownloadSource" xml:space="preserve">
+    <value>download chanzo</value>
+  </data>
+  <data name="RoleIsRequired" xml:space="preserve">
+    <value>Wajibu inahitajika</value>
+  </data>
+  <data name="CodeSystems" xml:space="preserve">
+    <value>mifumo kanuni</value>
+  </data>
+  <data name="MnemonicMustBeUnique" xml:space="preserve">
+    <value>Nemoniki lazima yawe ya kipekee</value>
+  </data>
+  <data name="OidMustBeUnique" xml:space="preserve">
+    <value>OID lazima yawe ya kipekee</value>
+  </data>
+  <data name="UnableToCreateAssigningAuthority" xml:space="preserve">
+    <value>Haikuweza kuunda mamlaka kumshirikisha</value>
+  </data>
+  <data name="UnableToCreateCodeSystem" xml:space="preserve">
+    <value>Haikuweza kuunda mfumo code</value>
+  </data>
+  <data name="UnableToCreateConceptSet" xml:space="preserve">
+    <value>Haikuweza kuunda dhana ya kuweka</value>
+  </data>
+  <data name="UnableToCreatePolicy" xml:space="preserve">
+    <value>Haikuweza kuunda sera</value>
+  </data>
+  <data name="UnableToUpdateAssigningAuthority" xml:space="preserve">
+    <value>Haikuweza kusasisha kumshirikisha mamlaka</value>
+  </data>
+  <data name="UnableToUpdateCodeSystem" xml:space="preserve">
+    <value>Haikuweza kusasisha mfumo code</value>
+  </data>
+  <data name="UnableToUpdateConceptSet" xml:space="preserve">
+    <value>Haikuweza kusasisha dhana ya kuweka</value>
+  </data>
+  <data name="MnemonicLength64" xml:space="preserve">
+    <value>Nemoniki haiwezi kuzidi herufi 64</value>
+  </data>
+  <data name="DomainMustBeUnique" xml:space="preserve">
+    <value>uwanja lazima yawe ya kipekee</value>
+  </data>
+  <data name="DomainNameMustBeUnique" xml:space="preserve">
+    <value>Jina la kikoa lazima yawe ya kipekee</value>
+  </data>
+  <data name="NameMustBeUnique" xml:space="preserve">
+    <value>Jina lazima yawe ya kipekee</value>
+  </data>
+  <data name="UrlMustBeUnique" xml:space="preserve">
+    <value>Url lazima yawe ya kipekee</value>
+  </data>
 </root>
