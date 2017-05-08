@@ -1830,4 +1830,61 @@
   <data name="ReferenceTermNameDeletedSuccessfully" xml:space="preserve">
     <value>Reference term name deleted successfully</value>
   </data>
+  <data name="AppletUploadedSuccessfully" xml:space="preserve">
+    <value>Applet uploaded successfully</value>
+  </data>
+  <data name="ApplicationActivatedSuccessfully" xml:space="preserve">
+    <value>Application activated successfully</value>
+  </data>
+  <data name="ApplicationDeletedSuccessfully" xml:space="preserve">
+    <value>Application deleted successfully</value>
+  </data>
+  <data name="AssigningAuthorityCreatedSuccessfully" xml:space="preserve">
+    <value>Assigning authority created successfully</value>
+  </data>
+  <data name="AssigningAuthorityUpdatedSuccessfully" xml:space="preserve">
+    <value>Assigning authority updated successfully</value>
+  </data>
+  <data name="CertificateDeletedSuccessfully" xml:space="preserve">
+    <value>Certificate deleted successfully</value>
+  </data>
+  <data name="CodeSystemCreatedSuccessfully" xml:space="preserve">
+    <value>Code system created successfully</value>
+  </data>
+  <data name="ConceptCreatedSuccessfully" xml:space="preserve">
+    <value>Concept created successfully</value>
+  </data>
+  <data name="ConceptDeletedSuccessfully" xml:space="preserve">
+    <value>Concept deleted successfully</value>
+  </data>
+  <data name="ConceptReferenceTermDeletedSuccessfully" xml:space="preserve">
+    <value>Concept reference term deleted successfully</value>
+  </data>
+  <data name="ConceptSetCreatedSuccessfully" xml:space="preserve">
+    <value>Concept set created successfully</value>
+  </data>
+  <data name="IdentifierCreatedSuccessfully" xml:space="preserve">
+    <value>Identifier created successfully</value>
+  </data>
+  <data name="MaterialDeletedSuccessfully" xml:space="preserve">
+    <value>Material deleted successfully</value>
+  </data>
+  <data name="OrganizationActivatedSuccessfully" xml:space="preserve">
+    <value>Organization activated successfully</value>
+  </data>
+  <data name="OrganizationCreatedSuccessfully" xml:space="preserve">
+    <value>Organization created successfully</value>
+  </data>
+  <data name="PolicyCreatedSuccessfully" xml:space="preserve">
+    <value>Policy created successfully</value>
+  </data>
+  <data name="RealmJoinedSuccessfully" xml:space="preserve">
+    <value>Realm joined successfully</value>
+  </data>
+  <data name="RealmLeftSuccessfully" xml:space="preserve">
+    <value>Realm left successfully</value>
+  </data>
+  <data name="RelationshipDeletedSuccessfully" xml:space="preserve">
+    <value>Relationship deleted successfully</value>
+  </data>
 </root>

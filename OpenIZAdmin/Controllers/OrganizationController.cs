@@ -73,7 +73,7 @@ namespace OpenIZAdmin.Controllers
 
 				var updatedOrganization = this.ImsiClient.Update(organization);
 
-				this.TempData["success"] = Locale.Organization + " " + Locale.Activated + " " + Locale.Successfully;
+				this.TempData["success"] = Locale.OrganizationActivatedSuccessfully;
 
 				return RedirectToAction("Edit", new { id = id, versionId = updatedOrganization.VersionKey });
 			}
@@ -120,7 +120,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					var organization = this.ImsiClient.Create(model.ToOrganization());
 
-					TempData["success"] = Locale.Organization + " " + Locale.Created + " " + Locale.Successfully;
+					TempData["success"] = Locale.OrganizationCreatedSuccessfully;
 
 					return RedirectToAction("ViewOrganization", new { id = organization.Key, versionId = organization.VersionKey });
 				}

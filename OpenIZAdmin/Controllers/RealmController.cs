@@ -338,7 +338,7 @@ namespace OpenIZAdmin.Controllers
 							return View(model);
 					}
 
-					this.TempData["success"] = Locale.RealmJoined + " " + Locale.Successfully;
+					this.TempData["success"] = Locale.RealmJoinedSuccessfully;
 
 					return RedirectToAction("Login", "Account");
 				}
@@ -419,7 +419,7 @@ namespace OpenIZAdmin.Controllers
 					this.Response.Cookies.Remove("access_token");
 					HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
-					TempData["success"] = Locale.RealmLeft + " " + Locale.Successfully;
+					TempData["success"] = Locale.RealmLeftSuccessfully;
 
 					return RedirectToAction("JoinRealm", "Realm");
 				}

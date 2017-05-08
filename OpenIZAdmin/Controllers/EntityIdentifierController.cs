@@ -127,7 +127,7 @@ namespace OpenIZAdmin.Controllers
 
 					var updatedEntity = this.UpdateEntity(entity, modelType);
 
-					this.TempData["success"] = Locale.Identifier + " " + Locale.Created + " " + Locale.Successfully;
+					this.TempData["success"] = Locale.IdentifierCreatedSuccessfully;
 
 					return RedirectToAction("Edit", model.ModelType, new { id = updatedEntity.Key.Value, versionId = updatedEntity.VersionKey });
 				}
@@ -276,7 +276,7 @@ namespace OpenIZAdmin.Controllers
 
 					var updatedEntity = this.UpdateEntity(entity, modelType);
 
-					this.TempData["success"] = Locale.Identifier + " " + Locale.Created + " " + Locale.Successfully;
+					this.TempData["success"] = Locale.IdentifierCreatedSuccessfully;
 
 					return RedirectToAction("Edit", model.ModelType, new { id = updatedEntity.Key.Value, versionId = updatedEntity.VersionKey });
 				}

@@ -65,7 +65,7 @@ namespace OpenIZAdmin.Controllers
 
 				var updatedEntity = this.UpdateEntity(entity, modelType);
 
-				this.TempData["success"] = Locale.Relationship + " " + Locale.Deleted + " " + Locale.Successfully;
+				this.TempData["success"] = Locale.RelationshipDeletedSuccessfully;
 
 				return RedirectToAction("Edit", type, new { id = updatedEntity.Key.Value, versionId = updatedEntity.VersionKey.Value });
 			}

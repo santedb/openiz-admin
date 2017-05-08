@@ -79,7 +79,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					var assigningAuthority = this.AmiClient.CreateAssigningAuthority(model.ToAssigningAuthorityInfo());
 
-					TempData["success"] = Locale.AssigningAuthority + " " + Locale.Created + " " + Locale.Successfully;
+					TempData["success"] = Locale.AssigningAuthorityCreatedSuccessfully;
 
 					return RedirectToAction("ViewAssigningAuthority", new { id = assigningAuthority.Id });
 				}
@@ -201,7 +201,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					this.AmiClient.UpdateAssigningAuthority(model.Id.ToString(), model.ToAssigningAuthorityInfo());
 
-					TempData["success"] = Locale.AssigningAuthority + " " + Locale.Edited + " " + Locale.Successfully;
+					TempData["success"] = Locale.AssigningAuthorityUpdatedSuccessfully;
 					return RedirectToAction("ViewAssigningAuthority", new { id = model.Id });
 				}
 			}

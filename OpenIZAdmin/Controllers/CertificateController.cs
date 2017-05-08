@@ -87,7 +87,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					this.AmiClient.DeleteCertificate(model.CertificateId, model.RevokeReason);
 
-					this.TempData["success"] = Locale.Certificate + " " + Locale.Deleted + " " + Locale.Successfully;
+					this.TempData["success"] = Locale.CertificateDeletedSuccessfully;
 
 					return RedirectToAction("Index");
 				}

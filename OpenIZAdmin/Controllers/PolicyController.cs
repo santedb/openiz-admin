@@ -79,7 +79,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					var policy = this.AmiClient.CreatePolicy(model.ToSecurityPolicyInfo());
 
-					TempData["success"] = Locale.Policy + " " + Locale.Created + " " + Locale.Successfully;
+					TempData["success"] = Locale.PolicyCreatedSuccessfully;
 
 					return RedirectToAction("ViewPolicy", new { id = policy.Policy.Key.ToString() });
 				}

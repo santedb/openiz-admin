@@ -177,7 +177,7 @@ namespace OpenIZAdmin.Controllers
 
 						//this.AmiClient.CreateApplet(manifestInfo);
 
-						TempData["success"] = Locale.Applet + " " + Locale.Uploaded + " " + Locale.Successfully;
+						TempData["success"] = Locale.AppletUploadedSuccessfully;
 
 						return RedirectToAction("Index");
 					}
@@ -251,7 +251,7 @@ namespace OpenIZAdmin.Controllers
 
 								this.AmiClient.CreateApplet(package);
 
-								TempData["success"] = Locale.Applet + " " + Locale.Uploaded + " " + Locale.Successfully;
+								TempData["success"] = Locale.AppletUploadedSuccessfully;
 
 								return RedirectToAction("Index");
 							}

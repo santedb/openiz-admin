@@ -70,7 +70,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.AmiClient.UpdateApplication(id.ToString(), securityApplicationInfo);
 
-				TempData["success"] = Locale.Application + " " + Locale.Activated + " " + Locale.Successfully;
+				TempData["success"] = Locale.ApplicationActivatedSuccessfully;
 
 				return RedirectToAction("ViewApplication", new { id = securityApplicationInfo.Id });
 			}
@@ -139,7 +139,7 @@ namespace OpenIZAdmin.Controllers
 			try
 			{
 				this.AmiClient.DeleteApplication(id.ToString());
-				TempData["success"] = Locale.Application + " " + Locale.Deleted + " " + Locale.Successfully;
+				TempData["success"] = Locale.ApplicationDeletedSuccessfully;
 
 				return RedirectToAction("Index");
 			}

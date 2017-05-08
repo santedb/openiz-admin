@@ -73,7 +73,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					var codeSystem = this.AmiClient.CreateCodeSystem(model.ToCodeSystem());
 
-					TempData["success"] = Locale.CodeSystem + " " + Locale.Created + " " + Locale.Successfully;
+					TempData["success"] = Locale.CodeSystemCreatedSuccessfully;
 
 					return RedirectToAction("ViewCodeSystem", new { id = codeSystem.Key });
 				}
