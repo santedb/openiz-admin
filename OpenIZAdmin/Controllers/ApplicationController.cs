@@ -58,7 +58,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (securityApplicationInfo == null)
 				{
-					TempData["error"] = Locale.Application + " " + Locale.NotFound;
+					TempData["error"] = Locale.ApplicationNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -79,7 +79,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToActivate + " " + Locale.Application;
+			TempData["error"] = Locale.UnableToActivateApplication;
 
 			return RedirectToAction("Index");
 		}
@@ -148,7 +148,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToDelete + " " + Locale.Application;
+			TempData["error"] = Locale.UnableToDeleteApplication;
 
 			return RedirectToAction("Index");
 		}
@@ -167,7 +167,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (securityApplicationInfo == null)
 				{
-					TempData["error"] = Locale.Application + " " + Locale.NotFound;
+					TempData["error"] = Locale.ApplicationNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -183,7 +183,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.Application + " " + Locale.NotFound;
+			TempData["error"] = Locale.ApplicationNotFound;
 
 			return RedirectToAction("Index");
 		}
@@ -205,7 +205,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (appEntity == null)
 					{
-						TempData["error"] = Locale.Application + " " + Locale.NotFound;
+						TempData["error"] = Locale.ApplicationNotFound;
 
 						return RedirectToAction("Index");
 					}
@@ -214,7 +214,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
 
-					TempData["success"] = Locale.Application + " " + Locale.Updated + " " + Locale.Successfully;
+					TempData["success"] = Locale.ApplicationUpdatedSuccessfully;
 
 					return RedirectToAction("ViewApplication", new { id = appInfo.Id.ToString() });
 				}
@@ -224,7 +224,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Application;
+			TempData["error"] = Locale.UnableToUpdateApplication;
 
 			return View(model);
 		}
@@ -290,7 +290,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (result == null)
 				{
-					TempData["error"] = Locale.Application + " " + Locale.NotFound;
+					TempData["error"] = Locale.ApplicationNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -302,7 +302,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.Application + " " + Locale.NotFound;
+			TempData["error"] = Locale.ApplicationNotFound;
 
 			return RedirectToAction("Index");
 		}

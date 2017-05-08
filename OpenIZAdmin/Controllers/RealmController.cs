@@ -391,7 +391,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (realm == null)
 					{
-						TempData["error"] = Locale.Realm + " " + Locale.NotFound;
+						TempData["error"] = Locale.RealmNotFound;
 						return RedirectToAction("Index");
 					}
 

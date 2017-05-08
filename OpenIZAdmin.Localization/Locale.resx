@@ -606,9 +606,6 @@
   <data name="Created" xml:space="preserve">
     <value>created </value>
   </data>
-  <data name="Deactivated" xml:space="preserve">
-    <value>deactivated</value>
-  </data>
   <data name="Edited" xml:space="preserve">
     <value>edited</value>
   </data>
@@ -1709,5 +1706,104 @@
   </data>
   <data name="UserUpdatedSuccessfully" xml:space="preserve">
     <value>User updated successfully</value>
+  </data>
+  <data name="ApplicationNotFound" xml:space="preserve">
+    <value>Application not found</value>
+  </data>
+  <data name="ApplicationUpdatedSuccessfully" xml:space="preserve">
+    <value>Application updated successfully</value>
+  </data>
+  <data name="CodeSystemNotFound" xml:space="preserve">
+    <value>Code system not found</value>
+  </data>
+  <data name="MaterialActivatedSuccessfully" xml:space="preserve">
+    <value>Material activated successfully</value>
+  </data>
+  <data name="MaterialCreatedSuccessfully" xml:space="preserve">
+    <value>Material created successfully</value>
+  </data>
+  <data name="MaterialNotFound" xml:space="preserve">
+    <value>Material not found</value>
+  </data>
+  <data name="OrganizationDeletedSuccessfully" xml:space="preserve">
+    <value>Organization deleted successfully</value>
+  </data>
+  <data name="OrganizationNotFound" xml:space="preserve">
+    <value>Organization not found</value>
+  </data>
+  <data name="OrganizationUpdatedSuccessfully" xml:space="preserve">
+    <value>Organization updated successfully</value>
+  </data>
+  <data name="PlaceDeletedSuccessfully" xml:space="preserve">
+    <value>Place deleted successfully</value>
+  </data>
+  <data name="PlaceNotFound" xml:space="preserve">
+    <value>Place not found</value>
+  </data>
+  <data name="PolicyDeletedSuccessfully" xml:space="preserve">
+    <value>Policy deleted successfully</value>
+  </data>
+  <data name="PolicyNotFound" xml:space="preserve">
+    <value>Policy not found</value>
+  </data>
+  <data name="RealmNotFound" xml:space="preserve">
+    <value>Realm not found</value>
+  </data>
+  <data name="ReferenceTermDeactivatedSuccessfully" xml:space="preserve">
+    <value>Reference term deactivated successfully</value>
+  </data>
+  <data name="ReferenceTermNameNotFound" xml:space="preserve">
+    <value>Reference term name not found</value>
+  </data>
+  <data name="ReferenceTermNotFound" xml:space="preserve">
+    <value>Reference term not found</value>
+  </data>
+  <data name="ReferenceTermUpdatedSuccessfully" xml:space="preserve">
+    <value>Reference term updated successfully</value>
+  </data>
+  <data name="RelatedManufacturedMaterialCreatedSuccessfully" xml:space="preserve">
+    <value>Related manufactured material created successfully</value>
+  </data>
+  <data name="RelatedPlaceCreatedSuccessfully" xml:space="preserve">
+    <value>Related place created successfully</value>
+  </data>
+  <data name="RoleNotFound" xml:space="preserve">
+    <value>Role not found</value>
+  </data>
+  <data name="UnableToActivateApplication" xml:space="preserve">
+    <value>Unable to activate application</value>
+  </data>
+  <data name="UnableToActivateOrganization" xml:space="preserve">
+    <value>Unable to activate organization</value>
+  </data>
+  <data name="UnableToCreateOrganization" xml:space="preserve">
+    <value>Unable to create organization</value>
+  </data>
+  <data name="UnableToCreateReferenceTermName" xml:space="preserve">
+    <value>Unable to create reference term name</value>
+  </data>
+  <data name="UnableToDeleteApplication" xml:space="preserve">
+    <value>Unable to delete application</value>
+  </data>
+  <data name="UnableToDeleteReferenceTerm" xml:space="preserve">
+    <value>Unable to delete reference term</value>
+  </data>
+  <data name="UnableToRetrieveOrganization" xml:space="preserve">
+    <value>Unable to retrieve organization</value>
+  </data>
+  <data name="UnableToRetrievePlace" xml:space="preserve">
+    <value>Unable to retrieve place</value>
+  </data>
+  <data name="UnableToUpdateApplication" xml:space="preserve">
+    <value>Unable to update application</value>
+  </data>
+  <data name="UnableToUpdateConcept" xml:space="preserve">
+    <value>Unable to update concept</value>
+  </data>
+  <data name="UnableToUpdateOrganization" xml:space="preserve">
+    <value>Unable to update organization</value>
+  </data>
+  <data name="UserDeactivatedSuccessfully" xml:space="preserve">
+    <value>User deactivated successfully</value>
   </data>
 </root>

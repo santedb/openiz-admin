@@ -57,7 +57,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (securityRoleInfo == null)
 				{
-					TempData["error"] = Locale.Role + " " + Locale.NotFound;
+					TempData["error"] = Locale.RoleNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -164,7 +164,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (securityRoleInfo == null)
 				{
-					TempData["error"] = Locale.Role + " " + Locale.NotFound;
+					TempData["error"] = Locale.RoleNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -183,7 +183,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.Role + " " + Locale.NotFound;
+			TempData["error"] = Locale.RoleNotFound;
 
 			return RedirectToAction("Index");
 		}
@@ -205,7 +205,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (roleInfo == null)
 					{
-						TempData["error"] = Locale.Role + " " + Locale.NotFound;
+						TempData["error"] = Locale.RoleNotFound;
 
 						return RedirectToAction("Index");
 					}
@@ -288,7 +288,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (securityRoleInfo == null)
 				{
-					TempData["error"] = Locale.Role + " " + Locale.NotFound;
+					TempData["error"] = Locale.RoleNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -300,7 +300,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.Role + " " + Locale.NotFound;
+			TempData["error"] = Locale.RoleNotFound;
 
 			return RedirectToAction("Index");
 		}

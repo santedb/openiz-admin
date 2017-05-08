@@ -118,7 +118,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (concept == null)
 				{
-					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+					TempData["error"] = Locale.ConceptNotFound;
 					return RedirectToAction("Index");
 				}
 
@@ -136,7 +136,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to delete reference term from concept: {e}");
 			}
 
-			TempData["error"] = Locale.UnableToDelete + " " + Locale.ReferenceTerm;
+			TempData["error"] = Locale.UnableToDeleteReferenceTerm;
 
 			return RedirectToAction("Index");
 		}
@@ -156,7 +156,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (concept == null)
 				{
-					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+					TempData["error"] = Locale.ConceptNotFound;
 					return RedirectToAction("Index");
 				}
 
@@ -182,7 +182,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to retrieve concept: {e}");
-				this.TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+				this.TempData["error"] = Locale.ConceptNotFound;
 			}
 
 			return RedirectToAction("Index");
@@ -203,7 +203,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (concept == null)
 				{
-					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+					TempData["error"] = Locale.ConceptNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -220,7 +220,7 @@ namespace OpenIZAdmin.Controllers
 
 					var result = this.ImsiClient.Update<Concept>(concept);
 
-					TempData["success"] = Locale.Concept + " " + Locale.Updated + " " + Locale.Successfully;
+					TempData["success"] = Locale.ConceptUpdatedSuccessfully;
 
 					return RedirectToAction("ViewConcept", new { id = result.Key, versionId = result.VersionKey });
 				}
@@ -244,7 +244,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to update concept: {e}");
 			}
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Concept;
+			TempData["error"] = Locale.UnableToUpdateConcept;
 
 			return View(model);
 		}
@@ -346,7 +346,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (concept == null)
 				{
-					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+					TempData["error"] = Locale.ConceptNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -364,7 +364,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to load concept: {e}");
 			}
 
-			TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+			TempData["error"] = Locale.ConceptNotFound;
 
 			return RedirectToAction("Index");
 		}

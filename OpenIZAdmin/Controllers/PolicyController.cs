@@ -116,7 +116,7 @@ namespace OpenIZAdmin.Controllers
 			try
 			{
 				this.AmiClient.DeletePolicy(id.ToString());
-				TempData["success"] = Locale.Policy + " " + Locale.Deleted + " " + Locale.Successfully;
+				TempData["success"] = Locale.PolicyDeletedSuccessfully;
 
 				return RedirectToAction("Index");
 			}
@@ -190,7 +190,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (!result.CollectionItem.Any())
 				{
-					TempData["error"] = Locale.Policy + " " + Locale.NotFound;
+					TempData["error"] = Locale.PolicyNotFound;
 
 					return RedirectToAction("Index");
 				}			    
@@ -202,7 +202,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.Policy + " " + Locale.NotFound;
+			TempData["error"] = Locale.PolicyNotFound;
 
 			return RedirectToAction("Index");
 		}

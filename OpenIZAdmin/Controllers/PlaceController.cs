@@ -75,7 +75,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (place == null)
 				{
-					this.TempData["error"] = Locale.UnableToRetrieve + " " + Locale.Place;
+					this.TempData["error"] = Locale.UnableToRetrievePlace;
 					return RedirectToAction("Edit", new { id = id, versionId = versionId });
 				}
 
@@ -174,7 +174,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (place == null)
 				{
-					this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+					this.TempData["error"] = Locale.PlaceNotFound;
 
 					return RedirectToAction("Edit", new { id = id });
 				}
@@ -194,7 +194,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to create related place: { e }");
 			}
 
-			this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+			this.TempData["error"] = Locale.PlaceNotFound;
 
 			return RedirectToAction("Edit", new { id = id });
 		}
@@ -225,7 +225,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.ImsiClient.Update(place);
 
-					this.TempData["success"] = Locale.Related + " " + Locale.Place + " " + Locale.Created + " " + Locale.Successfully;
+					this.TempData["success"] = Locale.RelatedPlaceCreatedSuccessfully;
 
 					return RedirectToAction("Edit", new { id = place.Key.Value });
 				}
@@ -258,12 +258,12 @@ namespace OpenIZAdmin.Controllers
 
 				if (place == null)
 				{
-					TempData["error"] = Locale.Place + " " + Locale.NotFound;
+					TempData["error"] = Locale.PlaceNotFound;
 
 					return RedirectToAction("Index");
 				}
 
-				this.TempData["success"] = Locale.Place + " " + Locale.Deleted + " " + Locale.Successfully;
+				this.TempData["success"] = Locale.PlaceDeletedSuccessfully;
 
 				this.ImsiClient.Obsolete<Place>(place);
 
@@ -294,7 +294,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (place == null)
 				{
-					TempData["error"] = Locale.Place + " " + Locale.NotFound;
+					TempData["error"] = Locale.PlaceNotFound;
 					return RedirectToAction("Index");
 				}
 
@@ -322,7 +322,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to retrieve place: { e }");
 			}
 
-			TempData["error"] = Locale.Place + " " + Locale.NotFound;
+			TempData["error"] = Locale.PlaceNotFound;
 			return RedirectToAction("Index");
 		}
 
@@ -347,7 +347,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (place == null)
 					{
-						TempData["error"] = Locale.Place + " " + Locale.NotFound;
+						TempData["error"] = Locale.PlaceNotFound;
 
 						return RedirectToAction("Index");
 					}
@@ -398,7 +398,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (place == null)
 				{
-					this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+					this.TempData["error"] = Locale.PlaceNotFound;
 					return RedirectToAction("Edit", new { id = id });
 				}
 
@@ -414,7 +414,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to edit related place: { e }");
 			}
 
-			this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+			this.TempData["error"] = Locale.PlaceNotFound;
 			return RedirectToAction("Edit", new { id = id });
 		}
 
@@ -587,7 +587,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (place == null)
 				{
-					TempData["error"] = Locale.Place + " " + Locale.NotFound;
+					TempData["error"] = Locale.PlaceNotFound;
 					return RedirectToAction("Index");
 				}
 
@@ -604,7 +604,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to retrieve place: { e }");
 			}
 
-			TempData["error"] = Locale.Place + " " + Locale.NotFound;
+			TempData["error"] = Locale.PlaceNotFound;
 
 			return RedirectToAction("Index");
 		}

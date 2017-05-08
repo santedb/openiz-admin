@@ -63,7 +63,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (organization == null)
 				{
-					this.TempData["error"] = Locale.UnableToRetrieve + " " + Locale.Organization;
+					this.TempData["error"] = Locale.UnableToRetrieveOrganization;
 					return RedirectToAction("Edit", new { id = id, versionId = versionId });
 				}
 
@@ -83,7 +83,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to activate organization: { e }");
 			}
 
-			this.TempData["error"] = Locale.UnableToActivate + " " + Locale.Organization;
+			this.TempData["error"] = Locale.UnableToActivateOrganization;
 
 			return RedirectToAction("Edit", new { id = id, versionId = versionId });
 		}
@@ -135,7 +135,7 @@ namespace OpenIZAdmin.Controllers
 
 			model.IndustryConcepts = industryConceptSet.Concepts.ToSelectList(c => c.Key == Guid.Parse(model.IndustryConcept)).ToList();
 
-			TempData["error"] = Locale.UnableToCreate + " " + Locale.Organization;
+			TempData["error"] = Locale.UnableToCreateOrganization;
 
 			return View(model);
 		}
@@ -154,7 +154,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (organization == null)
 				{
-					this.TempData["error"] = Locale.Organization + " " + Locale.NotFound;
+					this.TempData["error"] = Locale.OrganizationNotFound;
 
 					return RedirectToAction("Edit", new { id = id });
 				}
@@ -180,7 +180,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to create related place: { e }");
 			}
 
-			this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+			this.TempData["error"] = Locale.PlaceNotFound;
 
 			return RedirectToAction("Edit", new { id = id });
 		}
@@ -202,7 +202,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (organization == null)
 					{
-						this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
+						this.TempData["error"] = Locale.UnableToCreateRelatedManufacturedMaterial;
 						return RedirectToAction("Edit", new { id = model.SourceId });
 					}
 
@@ -211,7 +211,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.ImsiClient.Update(organization);
 
-					this.TempData["success"] = Locale.Related + " " + Locale.ManufacturedMaterial + " " + Locale.Created + " " + Locale.Successfully;
+					this.TempData["success"] = Locale.RelatedManufacturedMaterialCreatedSuccessfully;
 
 					return RedirectToAction("Edit", new { id = organization.Key.Value });
 				}
@@ -230,7 +230,7 @@ namespace OpenIZAdmin.Controllers
 
 			model.RelationshipTypes.AddRange(concepts.ToSelectList());
 
-			this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
+			this.TempData["error"] = Locale.UnableToCreateRelatedManufacturedMaterial;
 
 			return View(model);
 		}
@@ -250,14 +250,14 @@ namespace OpenIZAdmin.Controllers
 
 				if (organization == null)
 				{
-					TempData["error"] = Locale.Organization + " " + Locale.NotFound;
+					TempData["error"] = Locale.OrganizationNotFound;
 
 					return RedirectToAction("Index");
 				}
 
 				this.ImsiClient.Obsolete<Organization>(organization);
 
-				TempData["success"] = Locale.Organization + " " + Locale.Deleted + " " + Locale.Successfully;
+				TempData["success"] = Locale.OrganizationDeletedSuccessfully;
 
 				return RedirectToAction("Index");
 			}
@@ -286,7 +286,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (organization == null)
 				{
-					TempData["error"] = Locale.Organization + " " + Locale.NotFound;
+					TempData["error"] = Locale.OrganizationNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -307,7 +307,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.Organization + " " + Locale.NotFound;
+			TempData["error"] = Locale.OrganizationNotFound;
 
 			return RedirectToAction("Index");
 		}
@@ -329,14 +329,14 @@ namespace OpenIZAdmin.Controllers
 
 					if (organization == null)
 					{
-						TempData["error"] = Locale.Organization + " " + Locale.NotFound;
+						TempData["error"] = Locale.OrganizationNotFound;
 
 						return RedirectToAction("Index");
 					}
 
 					var updatedOrganization = this.ImsiClient.Update<Organization>(model.ToOrganization(organization));
 
-					TempData["success"] = Locale.Organization + " " + Locale.Updated + " " + Locale.Successfully;
+					TempData["success"] = Locale.OrganizationUpdatedSuccessfully;
 
 					return RedirectToAction("ViewOrganization", new { id = updatedOrganization.Key, versionId = updatedOrganization.VersionKey });
 				}
@@ -350,7 +350,7 @@ namespace OpenIZAdmin.Controllers
 
 			model.IndustryConcepts = industryConceptSet?.Concepts.ToSelectList().ToList();
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Organization;
+			TempData["error"] = Locale.UnableToUpdateOrganization;
 
 			return View(model);
 		}
@@ -428,7 +428,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (organization == null)
 				{
-					TempData["error"] = Locale.Organization + " " + Locale.NotFound;
+					TempData["error"] = Locale.OrganizationNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -443,7 +443,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to retrieve organization: { e }");
 			}
 
-			TempData["error"] = Locale.Organization + " " + Locale.NotFound;
+			TempData["error"] = Locale.OrganizationNotFound;
 
 			return RedirectToAction("Index");
 		}

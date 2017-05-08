@@ -62,7 +62,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (user == null)
 				{
-					TempData["error"] = Locale.User + " " + Locale.NotFound;
+					TempData["error"] = Locale.UserNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -198,7 +198,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				this.AmiClient.DeleteUser(id.ToString());
 
-				TempData["success"] = Locale.User + " " + Locale.Deactivated + " " + Locale.Successfully;
+				TempData["success"] = Locale.UserDeactivatedSuccessfully;
 
 				return RedirectToAction("Index");
 			}
@@ -274,7 +274,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.User + " " + Locale.NotFound;
+			TempData["error"] = Locale.UserNotFound;
 
 			return RedirectToAction("Index");
 		}
@@ -320,7 +320,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (userEntity == null)
 					{
-						TempData["error"] = Locale.User + " " + Locale.NotFound;
+						TempData["error"] = Locale.UserNotFound;
 						return RedirectToAction("Index");
 					}
 
@@ -398,7 +398,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (user == null)
 				{
-					TempData["error"] = Locale.User + " " + Locale.NotFound;
+					TempData["error"] = Locale.UserNotFound;
 					return Redirect(Request.UrlReferrer?.ToString());
 				}
 
@@ -414,7 +414,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.User + " " + Locale.NotFound;
+			TempData["error"] = Locale.UserNotFound;
 
 			return Redirect(Request.UrlReferrer?.ToString());
 		}
@@ -436,7 +436,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (user == null)
 					{
-						TempData["error"] = Locale.User + " " + Locale.NotFound;
+						TempData["error"] = Locale.UserNotFound;
 						return Redirect(Request.UrlReferrer?.ToString());
 					}
 
@@ -490,7 +490,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.User + " " + Locale.NotFound;
+			TempData["error"] = Locale.UserNotFound;
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_UsersPartial", users);
@@ -540,7 +540,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (userInfo == null)
 				{
-					TempData["error"] = Locale.User + " " + Locale.NotFound;
+					TempData["error"] = Locale.UserNotFound;
 					return RedirectToAction("Index");
 				}
 
@@ -585,7 +585,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.User + " " + Locale.NotFound;
+			TempData["error"] = Locale.UserNotFound;
 
 			return RedirectToAction("Index");
 		}

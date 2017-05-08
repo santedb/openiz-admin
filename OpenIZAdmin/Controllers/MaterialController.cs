@@ -74,7 +74,7 @@ namespace OpenIZAdmin.Controllers
 
 				var updatedMaterial = this.ImsiClient.Update(material);
 
-				this.TempData["success"] = Locale.Material + " " + Locale.Activated + " " + Locale.Successfully;
+				this.TempData["success"] = Locale.MaterialActivatedSuccessfully;
 
 				return RedirectToAction("Edit", new { id = id, versionId = updatedMaterial.VersionKey });
 			}
@@ -125,7 +125,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					var material = this.ImsiClient.Create(model.ToMaterial());
 
-					TempData["success"] = Locale.Material + " " + Locale.Created + " " + Locale.Successfully;
+					TempData["success"] = Locale.MaterialCreatedSuccessfully;
 
 					return RedirectToAction("ViewMaterial", new { id = material.Key, versionId = material.VersionKey });
 				}
@@ -162,7 +162,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (material == null)
 				{
-					this.TempData["error"] = Locale.Material + " " + Locale.NotFound;
+					this.TempData["error"] = Locale.MaterialNotFound;
 
 					return RedirectToAction("Edit", new { id = id });
 				}
@@ -190,7 +190,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to create related place: { e }");
 			}
 
-			this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+			this.TempData["error"] = Locale.PlaceNotFound;
 
 			return RedirectToAction("Edit", new { id = id });
 		}
@@ -221,7 +221,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.ImsiClient.Update(material);
 
-					this.TempData["success"] = Locale.Related + " " + Locale.ManufacturedMaterial + " " + Locale.Created + " " + Locale.Successfully;
+					this.TempData["success"] = Locale.RelatedManufacturedMaterialCreatedSuccessfully;
 
 					return RedirectToAction("Edit", new { id = material.Key.Value });
 				}
@@ -252,7 +252,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (material == null)
 				{
-					TempData["error"] = Locale.Material + " " + Locale.NotFound;
+					TempData["error"] = Locale.MaterialNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -288,7 +288,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (material == null)
 				{
-					TempData["error"] = Locale.Material + " " + Locale.NotFound;
+					TempData["error"] = Locale.MaterialNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -313,7 +313,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.Material + " " + Locale.NotFound;
+			TempData["error"] = Locale.MaterialNotFound;
 
 			return RedirectToAction("Index");
 		}
@@ -332,7 +332,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (material == null)
 				{
-					this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+					this.TempData["error"] = Locale.PlaceNotFound;
 
 					return RedirectToAction("Edit", new { id = id });
 				}
@@ -357,7 +357,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to retrieve related manufactured material: { e }");
 			}
 
-			this.TempData["error"] = Locale.Place + " " + Locale.NotFound;
+			this.TempData["error"] = Locale.PlaceNotFound;
 
 			return RedirectToAction("Edit", new { id = id });
 		}
@@ -388,7 +388,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.ImsiClient.Update(material);
 
-					this.TempData["success"] = Locale.Related + " " + Locale.ManufacturedMaterial + " " + Locale.Created + " " + Locale.Successfully;
+					this.TempData["success"] = Locale.RelatedManufacturedMaterialCreatedSuccessfully;
 
 					return RedirectToAction("Edit", new { id = material.Key.Value });
 				}
@@ -487,7 +487,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (material == null)
 					{
-						TempData["error"] = Locale.Material + " " + Locale.NotFound;
+						TempData["error"] = Locale.MaterialNotFound;
 
 						return RedirectToAction("Index");
 					}
@@ -596,7 +596,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (material == null)
 				{
-					TempData["error"] = Locale.Material + " " + Locale.NotFound;
+					TempData["error"] = Locale.MaterialNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -615,7 +615,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to retrieve material: {e}");
 			}
 
-			TempData["error"] = Locale.Material + " " + Locale.NotFound;
+			TempData["error"] = Locale.MaterialNotFound;
 
 			return RedirectToAction("Index");
 		}

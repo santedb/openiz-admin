@@ -50,7 +50,7 @@ namespace OpenIZAdmin.Controllers
 
             if (referenceTerm == null)
             {
-                TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+                TempData["error"] = Locale.ReferenceTermNotFound;
 
                 return RedirectToAction("Index", "ReferenceTerm");
             }
@@ -82,7 +82,7 @@ namespace OpenIZAdmin.Controllers
 
                     if (referenceTerm == null)
                     {
-                        TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+                        TempData["error"] = Locale.ReferenceTermNotFound;
 
                         return RedirectToAction("Index", "ReferenceTerm");
                     }
@@ -102,7 +102,7 @@ namespace OpenIZAdmin.Controllers
                 Trace.TraceError($"Unable to retrieve entity: { e }");
             }
 
-            TempData["error"] = Locale.UnableToCreate + " " + Locale.ReferenceTermName;            
+            TempData["error"] = Locale.UnableToCreateReferenceTermName;            
             model.LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList();
 
             return View(model);
@@ -124,7 +124,7 @@ namespace OpenIZAdmin.Controllers
 
                 if (referenceTerm == null)
                 {
-                    TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+                    TempData["error"] = Locale.ReferenceTermNotFound;
 
                     return RedirectToAction("Index", "ReferenceTerm");
                 }
@@ -133,7 +133,7 @@ namespace OpenIZAdmin.Controllers
 
                 if (index == -1)
                 {
-                    TempData["error"] = Locale.ReferenceTermName + " " + Locale.NotFound;
+                    TempData["error"] = Locale.ReferenceTermNameNotFound;
 
                     return RedirectToAction("Edit", "ReferenceTerm", new { referenceTerm.Key });
                 }
@@ -153,7 +153,7 @@ namespace OpenIZAdmin.Controllers
                 Trace.TraceError($"Unable to retrieve entity: { e }");
             }
 
-            TempData["error"] = Locale.ReferenceTermName + " " + Locale.NotFound;
+            TempData["error"] = Locale.ReferenceTermNameNotFound;
 
             return RedirectToAction("Index", "ReferenceTerm");
         }
@@ -173,7 +173,7 @@ namespace OpenIZAdmin.Controllers
 
                 if (referenceTerm == null)
                 {
-                    TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+                    TempData["error"] = Locale.ReferenceTermNotFound;
 
                     return RedirectToAction("Index", "ReferenceTerm");
                 }
@@ -182,7 +182,7 @@ namespace OpenIZAdmin.Controllers
 
                 if (index == -1)
                 {
-                    TempData["error"] = Locale.ReferenceTermName + " " + Locale.NotFound;
+                    TempData["error"] = Locale.ReferenceTermNameNotFound;
 
                     return RedirectToAction("Edit", "ReferenceTerm", new { referenceTerm.Key });
                 }
@@ -223,7 +223,7 @@ namespace OpenIZAdmin.Controllers
 
                 if (referenceTerm == null)
                 {
-                    TempData["error"] = Locale.ReferenceTerm + " " + Locale.NotFound;
+                    TempData["error"] = Locale.ReferenceTermNotFound;
 
                     return RedirectToAction("Index", "ReferenceTerm");
                 }
@@ -232,7 +232,7 @@ namespace OpenIZAdmin.Controllers
 
                 if (index == -1)
                 {
-                    TempData["error"] = Locale.ReferenceTermName + " " + Locale.NotFound;
+                    TempData["error"] = Locale.ReferenceTermNameNotFound;
 
                     return RedirectToAction("Edit", "ReferenceTerm", new { referenceTerm.Key });
                 }
