@@ -115,6 +115,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Code System.
+        /// </summary>
+        public static string AddCodeSystem_Heading {
+            get {
+                return ResourceManager.GetString("AddCodeSystem_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Policies.
         /// </summary>
         public static string AddPolicies {
@@ -898,11 +907,38 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create.
+        ///   Looks up a localized string similar to Create Alert.
         /// </summary>
-        public static string Create {
+        public static string CreateAlert_Heading {
             get {
-                return ResourceManager.GetString("Create", resourceCulture);
+                return ResourceManager.GetString("CreateAlert_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Application.
+        /// </summary>
+        public static string CreateApplication_Heading {
+            get {
+                return ResourceManager.GetString("CreateApplication_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Assigning Authority.
+        /// </summary>
+        public static string CreateAssigningAuthority_Heading {
+            get {
+                return ResourceManager.GetString("CreateAssigningAuthority_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Concept Set.
+        /// </summary>
+        public static string CreateConceptSet_Heading {
+            get {
+                return ResourceManager.GetString("CreateConceptSet_Heading", resourceCulture);
             }
         }
         
@@ -1227,6 +1263,42 @@ namespace OpenIZAdmin.Localization {
         public static string Edit {
             get {
                 return ResourceManager.GetString("Edit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Application.
+        /// </summary>
+        public static string EditApplication_Heading {
+            get {
+                return ResourceManager.GetString("EditApplication_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Assigning Authority.
+        /// </summary>
+        public static string EditAssigningAuthority_Heading {
+            get {
+                return ResourceManager.GetString("EditAssigningAuthority_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Code System.
+        /// </summary>
+        public static string EditCodeSystem_Heading {
+            get {
+                return ResourceManager.GetString("EditCodeSystem_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Concept Set.
+        /// </summary>
+        public static string EditConceptSet_Heading {
+            get {
+                return ResourceManager.GetString("EditConceptSet_Heading", resourceCulture);
             }
         }
         
@@ -3301,6 +3373,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reset Password.
+        /// </summary>
+        public static string ResetPassword_Heading {
+            get {
+                return ResourceManager.GetString("ResetPassword_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select a method to use to reset your password.
         /// </summary>
         public static string ResetPasswordTfaMethodHelp {
@@ -5029,6 +5110,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update Applet.
+        /// </summary>
+        public static string UpdateApplet_Heading {
+            get {
+                return ResourceManager.GetString("UpdateApplet_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update profile.
         /// </summary>
         public static string UpdateProfile {
@@ -5043,6 +5133,15 @@ namespace OpenIZAdmin.Localization {
         public static string Upload {
             get {
                 return ResourceManager.GetString("Upload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload Applet.
+        /// </summary>
+        public static string UploadApplet_Heading {
+            get {
+                return ResourceManager.GetString("UploadApplet_Heading", resourceCulture);
             }
         }
         
@@ -5358,6 +5457,60 @@ namespace OpenIZAdmin.Localization {
         public static string View {
             get {
                 return ResourceManager.GetString("View", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Alert.
+        /// </summary>
+        public static string ViewAlert_Heading {
+            get {
+                return ResourceManager.GetString("ViewAlert_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Applet.
+        /// </summary>
+        public static string ViewApplet_Heading {
+            get {
+                return ResourceManager.GetString("ViewApplet_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Application.
+        /// </summary>
+        public static string ViewApplication_Heading {
+            get {
+                return ResourceManager.GetString("ViewApplication_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Assigning Authority.
+        /// </summary>
+        public static string ViewAssigningAuthority_Heading {
+            get {
+                return ResourceManager.GetString("ViewAssigningAuthority_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Code System.
+        /// </summary>
+        public static string ViewCodeSystem_Heading {
+            get {
+                return ResourceManager.GetString("ViewCodeSystem_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Concept Set.
+        /// </summary>
+        public static string ViewConceptSet_Heading {
+            get {
+                return ResourceManager.GetString("ViewConceptSet_Heading", resourceCulture);
             }
         }
         

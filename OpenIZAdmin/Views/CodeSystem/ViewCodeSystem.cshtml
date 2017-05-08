@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.CodeSystemModels.CodeSystemViewModel
 @{
-    ViewBag.Title = Locale.View + " " + Locale.CodeSystem;
+    ViewBag.Title = Locale.ViewCodeSystem_Heading;
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.View + " " + Locale.CodeSystem)</span>
+        <span class="panel-title">@Locale.ViewCodeSystem_Heading</span>
         <div class="pull-right">
             <a href="@Url.Action("Edit", new { id = Model.Id })" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-pencil"></span>

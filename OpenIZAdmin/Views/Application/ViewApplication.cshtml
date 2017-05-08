@@ -1,6 +1,6 @@
 ﻿@model OpenIZAdmin.Models.ApplicationModels.ApplicationViewModel
 @{
-    ViewBag.Title = Locale.View + " " + Locale.Application;
+    ViewBag.Title = Locale.ViewApplication_Heading;
 }
 
 @{
@@ -11,7 +11,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.View + " " + Locale.Application)</span>
+        <span class="panel-title">@Locale.ViewApplication_Heading</span>
         <div class="pull-right">
             <a href="@Url.Action("Edit", "Application", new { id = Model.Id })" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-pencil"></span>

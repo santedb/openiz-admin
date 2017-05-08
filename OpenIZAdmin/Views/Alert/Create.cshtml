@@ -1,12 +1,12 @@
 ﻿@using OpenIZ.Core.Alert.Alerting
 @model OpenIZAdmin.Models.AlertModels.CreateAlertModel
 @{
-    ViewBag.Title = Locale.Create + " " + Locale.Alert;
+    ViewBag.Title = Locale.CreateAlert_Heading;
 }
 
 <div class="panel panel-default">
     <div class="panel panel-heading">
-        <span class="h4">@(Locale.Create + " " + Locale.Alert)</span>
+        <span class="h4">@Locale.CreateAlert_Heading</span>
     </div>
     <div class="panel panel-body">
         @using (Html.BeginForm("Create", "Alert", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

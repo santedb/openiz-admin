@@ -696,9 +696,6 @@
   <data name="Download" xml:space="preserve">
     <value>Download</value>
   </data>
-  <data name="Create" xml:space="preserve">
-    <value>Create</value>
-  </data>
   <data name="AddPolicy" xml:space="preserve">
     <value>Add Policy</value>
   </data>
@@ -1886,5 +1883,59 @@
   </data>
   <data name="RelationshipDeletedSuccessfully" xml:space="preserve">
     <value>Relationship deleted successfully</value>
+  </data>
+  <data name="AddCodeSystem_Heading" xml:space="preserve">
+    <value>Add Code System</value>
+  </data>
+  <data name="CreateAlert_Heading" xml:space="preserve">
+    <value>Create Alert</value>
+  </data>
+  <data name="CreateApplication_Heading" xml:space="preserve">
+    <value>Create Application</value>
+  </data>
+  <data name="CreateAssigningAuthority_Heading" xml:space="preserve">
+    <value>Create Assigning Authority</value>
+  </data>
+  <data name="CreateConceptSet_Heading" xml:space="preserve">
+    <value>Create Concept Set</value>
+  </data>
+  <data name="EditApplication_Heading" xml:space="preserve">
+    <value>Edit Application</value>
+  </data>
+  <data name="EditAssigningAuthority_Heading" xml:space="preserve">
+    <value>Edit Assigning Authority</value>
+  </data>
+  <data name="EditCodeSystem_Heading" xml:space="preserve">
+    <value>Edit Code System</value>
+  </data>
+  <data name="EditConceptSet_Heading" xml:space="preserve">
+    <value>Edit Concept Set</value>
+  </data>
+  <data name="ResetPassword_Heading" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
+  <data name="UpdateApplet_Heading" xml:space="preserve">
+    <value>Update Applet</value>
+  </data>
+  <data name="UploadApplet_Heading" xml:space="preserve">
+    <value>Upload Applet</value>
+  </data>
+  <data name="ViewAlert_Heading" xml:space="preserve">
+    <value>View Alert</value>
+  </data>
+  <data name="ViewApplet_Heading" xml:space="preserve">
+    <value>View Applet</value>
+  </data>
+  <data name="ViewApplication_Heading" xml:space="preserve">
+    <value>View Application</value>
+  </data>
+  <data name="ViewAssigningAuthority_Heading" xml:space="preserve">
+    <value>View Assigning Authority</value>
+  </data>
+  <data name="ViewCodeSystem_Heading" xml:space="preserve">
+    <value>View Code System</value>
+  </data>
+  <data name="ViewConceptSet_Heading" xml:space="preserve">
+    <value>View Concept Set</value>
   </data>
 </root>
