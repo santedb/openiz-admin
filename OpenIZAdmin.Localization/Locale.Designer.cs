@@ -1141,6 +1141,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Deactivated.
+        /// </summary>
+        public static string Deactivated {
+            get {
+                return ResourceManager.GetString("Deactivated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Delete.
         /// </summary>
         public static string Delete {
@@ -5799,6 +5808,15 @@ namespace OpenIZAdmin.Localization {
         public static string ViewRole_Heading {
             get {
                 return ResourceManager.GetString("ViewRole_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View User.
+        /// </summary>
+        public static string ViewUser_Heading {
+            get {
+                return ResourceManager.GetString("ViewUser_Heading", resourceCulture);
             }
         }
         

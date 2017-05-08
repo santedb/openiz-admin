@@ -2034,6 +2034,9 @@
   <data name="ViewRole_Heading" xml:space="preserve">
     <value>View Role</value>
   </data>
+  <data name="Deactivated" xml:space="preserve">
+    <value>Deactivated</value>
+  </data>
   <data name="ViewUser_Heading" xml:space="preserve">
     <value>View User</value>
   </data>

@@ -55,6 +55,7 @@
   <ItemGroup>
     <EmbeddedResource Include="Locale.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Locale.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Locale.sw.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
