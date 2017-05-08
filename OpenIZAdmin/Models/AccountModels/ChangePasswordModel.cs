@@ -18,6 +18,7 @@
  */
 
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.AccountModels
 {
@@ -37,27 +38,28 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// Gets or sets the password confirmation of the model.
 		/// </summary>
 		[DataType(DataType.Password)]
-		[Display(Name = "ConfirmPassword", ResourceType = typeof(Localization.Locale))]
-		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "ConfirmPasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "ConfirmPassword", ResourceType = typeof(Locale))]
+		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "ConfirmPasswordRequired", ErrorMessageResourceType = typeof(Locale))]
+		[Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Locale))]
 		public string ConfirmPassword { get; set; }
 
 		/// <summary>
 		/// Gets or sets the current user password of the model.
 		/// </summary>
 		[DataType(DataType.Password)]
-		[Display(Name = "CurrentPassword", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "CurrentPasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "CurrentPassword", ResourceType = typeof(Locale))]
+        [StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
+        [Required(ErrorMessageResourceName = "CurrentPasswordRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string CurrentPassword { get; set; }
 
 		/// <summary>
 		/// Gets or sets the password of the model.
 		/// </summary>
 		[DataType(DataType.Password)]
-		[Display(Name = "Password", ResourceType = typeof(Localization.Locale))]
-		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Password", ResourceType = typeof(Locale))]
+		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string Password { get; set; }
 
 		/// <summary>
