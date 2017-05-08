@@ -1248,9 +1248,6 @@
   <data name="Retrieve" xml:space="preserve">
     <value>Retrieve</value>
   </data>
-  <data name="UnableTo" xml:space="preserve">
-    <value>Unable to</value>
-  </data>
   <data name="ForgotPasswordMechanisms" xml:space="preserve">
     <value>Forgot password mechanisms</value>
   </data>
@@ -1538,5 +1535,17 @@
   </data>
   <data name="SurnameRequired" xml:space="preserve">
     <value>Please enter a surname</value>
+  </data>
+  <data name="UnableToEditRelationship" xml:space="preserve">
+    <value>Unable to edit relationship</value>
+  </data>
+  <data name="UnableToResetPassword" xml:space="preserve">
+    <value>Unable to reset password</value>
+  </data>
+  <data name="UnableToRetrieveCertificates" xml:space="preserve">
+    <value>Unable to retrieve certificates</value>
+  </data>
+  <data name="UnableToRetrieveForgotPasswordMechanisms" xml:space="preserve">
+    <value>Unable to retrieve forgot password mechanisms</value>
   </data>
 </root>

@@ -3670,15 +3670,6 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to.
-        /// </summary>
-        public static string UnableTo {
-            get {
-                return ResourceManager.GetString("UnableTo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Unable to accept certificate signing request.
         /// </summary>
         public static string UnableToAcceptCertificateSigningRequest {
@@ -3787,6 +3778,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to edit relationship.
+        /// </summary>
+        public static string UnableToEditRelationship {
+            get {
+                return ResourceManager.GetString("UnableToEditRelationship", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to find specified certificate.
         /// </summary>
         public static string UnableToFindSpecifiedCertificate {
@@ -3850,6 +3850,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to reset password.
+        /// </summary>
+        public static string UnableToResetPassword {
+            get {
+                return ResourceManager.GetString("UnableToResetPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to retrieve.
         /// </summary>
         public static string UnableToRetrieve {
@@ -3877,6 +3886,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to retrieve certificates.
+        /// </summary>
+        public static string UnableToRetrieveCertificates {
+            get {
+                return ResourceManager.GetString("UnableToRetrieveCertificates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to retrieve certificate signing request list.
         /// </summary>
         public static string UnableToRetrieveCertificateSigningRequestList {
@@ -3891,6 +3909,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToRetrieveDeviceList {
             get {
                 return ResourceManager.GetString("UnableToRetrieveDeviceList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to retrieve forgot password mechanisms.
+        /// </summary>
+        public static string UnableToRetrieveForgotPasswordMechanisms {
+            get {
+                return ResourceManager.GetString("UnableToRetrieveForgotPasswordMechanisms", resourceCulture);
             }
         }
         

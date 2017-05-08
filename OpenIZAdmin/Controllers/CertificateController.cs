@@ -151,7 +151,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to retrieve certificate: { e }");
 			}
 
-			TempData["error"] = Locale.UnableTo + " " + Locale.Retrieve + " " + Locale.Certificates;
+			TempData["error"] = Locale.UnableToRetrieveCertificates;
 
 			return this.RedirectToRequestOrHome();
 		}
@@ -177,7 +177,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to retrieve certificate: { e }");
 			}
 
-			TempData["error"] = Locale.UnableTo + " " + Locale.Retrieve + " " + Locale.Certificates;
+			TempData["error"] = Locale.UnableToRetrieveCertificates;
 
 			return this.RedirectToRequestOrHome();
 		}

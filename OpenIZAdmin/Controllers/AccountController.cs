@@ -219,7 +219,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				this.TempData["error"] = Locale.UnableTo + " " + Locale.Retrieve + " " + Locale.ForgotPasswordMechanisms;
+				this.TempData["error"] = Locale.UnableToRetrieveForgotPasswordMechanisms;
 
 				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
 			}
@@ -440,7 +440,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
 			}
 
-			this.TempData["error"] = Locale.UnableTo + " " + Locale.Reset + " " + Locale.Password;
+			this.TempData["error"] = Locale.UnableToResetPassword;
 
 			return View("ResetPassword", model);
 		}
