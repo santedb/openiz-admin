@@ -418,7 +418,7 @@ namespace OpenIZAdmin.Controllers
 
 						amiServiceClient.UpdateUser(user.UserId.Value, user);
 
-						this.TempData["success"] = Locale.Password + " " + Locale.Reset + " " + Locale.Successfully;
+						this.TempData["success"] = Locale.PasswordResetSuccessfully;
 					}
 
 					switch (result)

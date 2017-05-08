@@ -3166,6 +3166,33 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Role activated successfully.
+        /// </summary>
+        public static string RoleActivatedSuccessfully {
+            get {
+                return ResourceManager.GetString("RoleActivatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role created successfully.
+        /// </summary>
+        public static string RoleCreatedSuccessfully {
+            get {
+                return ResourceManager.GetString("RoleCreatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role deleted successfully.
+        /// </summary>
+        public static string RoleDeletedSuccessfully {
+            get {
+                return ResourceManager.GetString("RoleDeletedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Role Id.
         /// </summary>
         public static string RoleId {

@@ -582,9 +582,6 @@
   <data name="System" xml:space="preserve">
     <value>System</value>
   </data>
-  <data name="Activated" xml:space="preserve">
-    <value>activated</value>
-  </data>
   <data name="Uploaded" xml:space="preserve">
     <value>uploaded </value>
   </data>
@@ -602,9 +599,6 @@
   </data>
   <data name="ConceptSets" xml:space="preserve">
     <value>Concept Sets</value>
-  </data>
-  <data name="Created" xml:space="preserve">
-    <value>created </value>
   </data>
   <data name="Edited" xml:space="preserve">
     <value>edited</value>
@@ -723,9 +717,6 @@
   <data name="HasPolicies" xml:space="preserve">
     <value>Has Policies</value>
   </data>
-  <data name="Successfully" xml:space="preserve">
-    <value>successfully</value>
-  </data>
   <data name="DeviceSecretRequired" xml:space="preserve">
     <value>Device Secret required</value>
   </data>
@@ -827,9 +818,6 @@
   </data>
   <data name="MimeType" xml:space="preserve">
     <value>Mime Type</value>
-  </data>
-  <data name="Deleted" xml:space="preserve">
-    <value>deleted</value>
   </data>
   <data name="SubmitBugReport" xml:space="preserve">
     <value>Submit Bug Report</value>
@@ -1740,6 +1728,9 @@
   <data name="OrganizationUpdatedSuccessfully" xml:space="preserve">
     <value>Organization updated successfully</value>
   </data>
+  <data name="PasswordResetSuccessfully" xml:space="preserve">
+    <value>Password reset successfully</value>
+  </data>
   <data name="PlaceDeletedSuccessfully" xml:space="preserve">
     <value>Place deleted successfully</value>
   </data>
@@ -1772,6 +1763,15 @@
   </data>
   <data name="RelatedPlaceCreatedSuccessfully" xml:space="preserve">
     <value>Related place created successfully</value>
+  </data>
+  <data name="RoleActivatedSuccessfully" xml:space="preserve">
+    <value>Role activated successfully</value>
+  </data>
+  <data name="RoleCreatedSuccessfully" xml:space="preserve">
+    <value>Role created successfully</value>
+  </data>
+  <data name="RoleDeletedSuccessfully" xml:space="preserve">
+    <value>Role deleted successfully</value>
   </data>
   <data name="RoleNotFound" xml:space="preserve">
     <value>Role not found</value>
@@ -1811,6 +1811,12 @@
   </data>
   <data name="UnableToUploadApplet" xml:space="preserve">
     <value>Unable to upload applet</value>
+  </data>
+  <data name="UserActivatedSuccessfully" xml:space="preserve">
+    <value>User activated successfully</value>
+  </data>
+  <data name="UserCreatedSuccessfully" xml:space="preserve">
+    <value>User created successfully</value>
   </data>
   <data name="UserDeactivatedSuccessfully" xml:space="preserve">
     <value>User deactivated successfully</value>
