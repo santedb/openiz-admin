@@ -1707,6 +1707,9 @@
   <data name="UserUpdatedSuccessfully" xml:space="preserve">
     <value>User updated successfully</value>
   </data>
+  <data name="AppletNotFound" xml:space="preserve">
+    <value>Applet not found</value>
+  </data>
   <data name="ApplicationNotFound" xml:space="preserve">
     <value>Application not found</value>
   </data>
@@ -1715,6 +1718,9 @@
   </data>
   <data name="CodeSystemNotFound" xml:space="preserve">
     <value>Code system not found</value>
+  </data>
+  <data name="ConceptSetUpdatedSuccessfully" xml:space="preserve">
+    <value>Concept set updated successfully</value>
   </data>
   <data name="MaterialActivatedSuccessfully" xml:space="preserve">
     <value>Material activated successfully</value>
@@ -1802,6 +1808,9 @@
   </data>
   <data name="UnableToUpdateOrganization" xml:space="preserve">
     <value>Unable to update organization</value>
+  </data>
+  <data name="UnableToUploadApplet" xml:space="preserve">
+    <value>Unable to upload applet</value>
   </data>
   <data name="UserDeactivatedSuccessfully" xml:space="preserve">
     <value>User deactivated successfully</value>

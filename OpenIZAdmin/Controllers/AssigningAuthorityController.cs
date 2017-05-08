@@ -64,7 +64,8 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Create(CreateAssigningAuthorityModel model)
 		{
 			try
-			{                
+			{   
+                //refactor at later time             
                 var exists = this.AmiClient.GetAssigningAuthorities(m => m.Oid == model.Oid).CollectionItem.Any();
                 if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
 
@@ -142,7 +143,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (assigningAuthority == null)
 				{
-					TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+					TempData["error"] = Locale.AssigningAuthorityNotFound;
 					return RedirectToAction("Index");
 				}
 
@@ -153,7 +154,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+			TempData["error"] = Locale.AssigningAuthorityNotFound;
 			return RedirectToAction("Index");
 		}
 
@@ -172,7 +173,7 @@ namespace OpenIZAdmin.Controllers
 
                 if (assigningAuthorityInfo == null)
                 {
-                    TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+                    TempData["error"] = Locale.AssigningAuthorityNotFound;
                     return RedirectToAction("Index");
                 }
                 
@@ -268,7 +269,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (assigningAuthority == null)
 				{
-					TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+					TempData["error"] = Locale.AssigningAuthorityNotFound;
 					return RedirectToAction("Index");
 				}
 
@@ -279,7 +280,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+			TempData["error"] = Locale.AssigningAuthorityNotFound;
 
 			return RedirectToAction("Index");
 		}

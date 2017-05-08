@@ -99,7 +99,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (applet == null)
 				{
-					TempData["error"] = Locale.Applet + " " + Locale.NotFound;
+					TempData["error"] = Locale.AppletNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -113,7 +113,7 @@ namespace OpenIZAdmin.Controllers
 				return View(model);
 			}
 
-			TempData["error"] = Locale.Applet + " " + Locale.NotFound;
+			TempData["error"] = Locale.AppletNotFound;
 
 			return RedirectToAction("Index");
 		}
@@ -197,14 +197,14 @@ namespace OpenIZAdmin.Controllers
 
 			if (applet == null)
 			{
-				TempData["error"] = Locale.Applet + " " + Locale.NotFound;
+				TempData["error"] = Locale.AppletNotFound;
 
 				return RedirectToAction("Index");
 			}
 
 			model.AppletViewModel = new AppletViewModel(applet);
 
-			TempData["error"] = Locale.UnableToUpload + " " + Locale.Applet;
+			TempData["error"] = Locale.UnableToUploadApplet;
 
 			return View(model);
 		}
@@ -298,7 +298,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (applet == null)
 				{
-					TempData["error"] = Locale.Applet + " " + Locale.NotFound;
+					TempData["error"] = Locale.AppletNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -306,7 +306,7 @@ namespace OpenIZAdmin.Controllers
 				return View(new AppletViewModel(applet));
 			}
 
-			TempData["error"] = Locale.Applet + " " + Locale.NotFound;
+			TempData["error"] = Locale.AppletNotFound;
 
 			return RedirectToAction("Index");
 		}

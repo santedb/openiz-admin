@@ -103,7 +103,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (codeSystem == null)
 				{
-					TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
+					TempData["error"] = Locale.CodeSystemNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -136,7 +136,7 @@ namespace OpenIZAdmin.Controllers
 
                 if (codeSystem == null)
                 {
-                    TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
+                    TempData["error"] = Locale.CodeSystemNotFound;
 
                     return RedirectToAction("Index");
                 }                                
@@ -241,7 +241,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (codeSystem == null)
 				{
-					TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
+					TempData["error"] = Locale.CodeSystemNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -253,7 +253,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.CodeSystem + " " + Locale.NotFound;
+			TempData["error"] = Locale.CodeSystemNotFound;
 
 			return RedirectToAction("Index");
 		}

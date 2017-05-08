@@ -107,7 +107,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (authority == null)
 					{
-						this.TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+						this.TempData["error"] = Locale.AssigningAuthorityNotFound;
 						return Redirect(returnUrl.ToString());
 					}
 
@@ -140,7 +140,7 @@ namespace OpenIZAdmin.Controllers
 
 			model.Types = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key").ToList(), identifiers);
 
-			this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Identifier;
+			this.TempData["error"] = Locale.UnableToCreateIdentifier;
 
 			return View(model);
 		}

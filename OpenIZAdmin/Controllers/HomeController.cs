@@ -93,7 +93,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (securityUserInfo == null)
 				{
-					TempData["error"] = Locale.User + " " + Locale.NotFound;
+					TempData["error"] = Locale.UserNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -107,7 +107,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.User + " " + Locale.NotFound;
+			TempData["error"] = Locale.UserNotFound;
 
 			return RedirectToAction("Index");
 		}

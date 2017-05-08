@@ -531,7 +531,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (securityUserInfo == null || userEntity == null)
 					{
-						TempData["error"] = Locale.User + " " + Locale.NotFound;
+						TempData["error"] = Locale.UserNotFound;
 
 						return RedirectToAction("Index", "Home");
 					}

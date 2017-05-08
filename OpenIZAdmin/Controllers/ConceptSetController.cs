@@ -121,7 +121,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (conceptSet == null)
 				{
-					TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
+					TempData["error"] = Locale.ConceptSetNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -193,7 +193,7 @@ namespace OpenIZAdmin.Controllers
 
                 if (conceptSet == null)
                 {
-                    TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
+                    TempData["error"] = Locale.ConceptSetNotFound;
 
                     return RedirectToAction("Index");
                 }
@@ -219,7 +219,7 @@ namespace OpenIZAdmin.Controllers
 
                     var result = this.ImsiClient.Update<ConceptSet>(conceptSet);
 
-                    TempData["success"] = Locale.ConceptSet + " " + Locale.Updated + " " + Locale.Successfully;
+                    TempData["success"] = Locale.ConceptSetUpdatedSuccessfully;
 
                     return RedirectToAction("ViewConceptSet", new { id = result.Key });
                     					
@@ -319,7 +319,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (conceptSet == null)
 				{
-					TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
+					TempData["error"] = Locale.ConceptSetNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -331,7 +331,7 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				this.TempData["error"] = Locale.ConceptSet + " " + Locale.NotFound;
+				this.TempData["error"] = Locale.ConceptSetNotFound;
 			}
 
 			return RedirectToAction("Index");

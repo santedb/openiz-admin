@@ -46,7 +46,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (concept == null)
 			{
-				TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+				TempData["error"] = Locale.ConceptNotFound;
 				return RedirectToAction("Index", "Concept");
 			}
 
@@ -141,7 +141,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+			TempData["error"] = Locale.ConceptNotFound;
 
 			return RedirectToAction("Index", "Concept");
 		}
@@ -162,7 +162,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (concept == null)
 			{
-				TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+				TempData["error"] = Locale.ConceptNotFound;
 				return RedirectToAction("Index", "Concept");
 			}
 
@@ -189,7 +189,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (concept == null)
 				{
-					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+					TempData["error"] = Locale.ConceptNotFound;
 					return RedirectToAction("Index", "Concept");
 				}
 
@@ -197,7 +197,7 @@ namespace OpenIZAdmin.Controllers
 
                 if (index < 0)
 				{
-					TempData["error"] = Locale.LanguageCode + " " + Locale.NotFound;
+					TempData["error"] = Locale.LanguageCodeNotFound;
 					return RedirectToAction("Edit", "Concept", new { id = model.ConceptId, versionKey = model.ConceptVersionKey });
 				}
 
@@ -216,7 +216,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to retrieve entity: { e }");
 			}
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Concept;
+			TempData["error"] = Locale.UnableToUpdateConcept;
 
 			return RedirectToAction("ViewConcept", "Concept", new { id = model.ConceptId, model.ConceptVersionKey });
 		}

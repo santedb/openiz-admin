@@ -250,6 +250,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Applet not found.
+        /// </summary>
+        public static string AppletNotFound {
+            get {
+                return ResourceManager.GetString("AppletNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Applets.
         /// </summary>
         public static string Applets {
@@ -732,6 +741,15 @@ namespace OpenIZAdmin.Localization {
         public static string ConceptSets {
             get {
                 return ResourceManager.GetString("ConceptSets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Concept set updated successfully.
+        /// </summary>
+        public static string ConceptSetUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("ConceptSetUpdatedSuccessfully", resourceCulture);
             }
         }
         
@@ -4791,6 +4809,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToUpload {
             get {
                 return ResourceManager.GetString("UnableToUpload", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to upload applet.
+        /// </summary>
+        public static string UnableToUploadApplet {
+            get {
+                return ResourceManager.GetString("UnableToUploadApplet", resourceCulture);
             }
         }
         
