@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.LanguageModels.LanguageViewModel
 @{
-    ViewBag.Title = Locale.Edit + " " + Locale.Languages;
+    ViewBag.Title = Locale.EditLanguages_Heading;
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.Edit + " " + Locale.Language)</span>
+        <span class="panel-title">@Locale.EditLanguages_Heading</span>
     </div>
     <div class="panel panel-body">
         @using (Html.BeginForm("Edit", "Language", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

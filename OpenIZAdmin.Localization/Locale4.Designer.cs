@@ -1411,6 +1411,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Organization.
+        /// </summary>
+        public static string EditOrganization_Heading {
+            get {
+                return ResourceManager.GetString("EditOrganization_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Relationship.
         /// </summary>
         public static string EditRelationship_Heading {

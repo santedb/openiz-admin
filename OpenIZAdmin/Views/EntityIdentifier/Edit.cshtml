@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.EntityIdentifierModels.EntityIdentifierModel
 @{
-    ViewBag.Title = Locale.Edit + " " + Locale.Identifier;
+    ViewBag.Title = Locale.EditIdentifier_Heading;
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.Edit + " " + Locale.Identifier)</span>
+        <span class="panel-title">@Locale.EditIdentifier_Heading</span>
     </div>
     <div class="panel panel-body">
         @using (Html.BeginForm("Edit", "EntityIdentifier", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

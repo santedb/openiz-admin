@@ -1,6 +1,6 @@
 ﻿@model OpenIZAdmin.Models.DeviceModels.DeviceViewModel
 @{
-    ViewBag.Title = Locale.View + " " + Locale.Device;
+    ViewBag.Title = Locale.ViewDevice_Heading;
 }
 
 @{
@@ -11,7 +11,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.View + " " + Locale.Device)</span>
+        <span class="panel-title">@Locale.ViewDevice_Heading</span>
         <div class="pull-right">
             <a href="@Url.Action("Edit", "Device", new { id = Model.Id })" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-pencil"></span>

@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.EntityRelationshipModels.EntityRelationshipModel
 @{
-    ViewBag.Title = Locale.Create + " " + Locale.ManufacturedMaterial;
+    ViewBag.Title = Locale.CreateManufacturedMaterial_Heading;
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.Create + " " + Locale.ManufacturedMaterial)</span>
+        <span class="panel-title">@Locale.CreateManufacturedMaterial_Heading</span>
     </div>
     <div class="panel panel-body">
         @using (Html.BeginForm("CreateRelatedManufacturedMaterial", "Organization", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
