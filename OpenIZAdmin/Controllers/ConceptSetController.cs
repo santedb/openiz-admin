@@ -141,7 +141,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to delete concept from concept set: {e}");
 			}
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.ConceptSet;
+			TempData["error"] = Locale.UnableToUpdateConceptSet;
 
 			return RedirectToAction("Edit", new { id = setId });
 		}

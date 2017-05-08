@@ -80,7 +80,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.AmiClient.CreateAlert(alertMessageInfo);
 
-					TempData["success"] = Locale.Alert + " " + Locale.Created + " " + Locale.Successfully;
+					TempData["success"] = Locale.AlertCreatedSuccessfully;
 
 					return RedirectToAction("Index");
 				}
@@ -90,7 +90,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToCreate + " " + Locale.Alert;
+			TempData["error"] = Locale.UnableToCreateAlert;
 
 			return View(model);
 		}
@@ -110,7 +110,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (alert == null)
 				{
-					TempData["error"] = Locale.Alert + " " + Locale.NotFound;
+					TempData["error"] = Locale.AlertNotFound;
 					return RedirectToAction("Index");
 				}
 
@@ -122,7 +122,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.AmiClient.UpdateAlert(alert.Id.ToString(), alert);
 
-				TempData["success"] = Locale.Alert + " " + Locale.Updated + " " + Locale.Successfully;
+				TempData["success"] = Locale.AlertUpdatedSuccessfully;
 
 				return RedirectToAction("Index");
 			}
@@ -131,7 +131,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Alert;
+			TempData["error"] = Locale.UnableToUpdateAlert;
 
 			return RedirectToAction("Index");
 		}
@@ -156,7 +156,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToRetrieve + " " + Locale.Alerts;
+			TempData["error"] = Locale.UnableToRetrieveAlerts;
 
 			return View(models);
 		}
@@ -199,7 +199,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (alert == null)
 				{
-					TempData["error"] = Locale.Alert + " " + Locale.NotFound;
+					TempData["error"] = Locale.AlertNotFound;
 					return RedirectToAction("Index", "Home");
 				}
 
@@ -207,7 +207,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.AmiClient.UpdateAlert(alert.Id.ToString(), alert);
 
-				TempData["success"] = Locale.Alert + " " + Locale.Updated + " " + Locale.Successfully;
+				TempData["success"] = Locale.AlertUpdatedSuccessfully;
 
 				return RedirectToAction("Index");
 			}
@@ -216,7 +216,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Alert;
+			TempData["error"] = Locale.UnableToUpdateAlert;
 
 			return RedirectToAction("Index");
 		}
@@ -281,7 +281,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (alert == null)
 				{
-					TempData["error"] = Locale.Alert + " " + Locale.NotFound;
+					TempData["error"] = Locale.AlertNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -295,7 +295,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.Alert + " " + Locale.NotFound;
+			TempData["error"] = Locale.AlertNotFound;
 
 			return RedirectToAction("Index");
 		}

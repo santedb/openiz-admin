@@ -93,7 +93,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to retrieve entity: { e }");
 			}
 
-			TempData["error"] = Locale.UnableToCreate + " " + Locale.ReferenceTerm;
+			TempData["error"] = Locale.UnableToCreateReferenceTerm;
 
 		    model.CodeSystemList = this.GetCodeSystems().CollectionItem.ToSelectList("Oid", "Key").ToList();
 			model.LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList();

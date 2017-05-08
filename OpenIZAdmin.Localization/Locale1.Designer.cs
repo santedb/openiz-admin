@@ -196,11 +196,38 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Alert created successfully.
+        /// </summary>
+        public static string AlertCreatedSuccessfully {
+            get {
+                return ResourceManager.GetString("AlertCreatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alert not found.
+        /// </summary>
+        public static string AlertNotFound {
+            get {
+                return ResourceManager.GetString("AlertNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Alerts.
         /// </summary>
         public static string Alerts {
             get {
                 return ResourceManager.GetString("Alerts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Alert updated successfully.
+        /// </summary>
+        public static string AlertUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("AlertUpdatedSuccessfully", resourceCulture);
             }
         }
         
@@ -237,6 +264,15 @@ namespace OpenIZAdmin.Localization {
         public static string Application {
             get {
                 return ResourceManager.GetString("Application", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Application created successfully.
+        /// </summary>
+        public static string ApplicationCreatedSuccessfully {
+            get {
+                return ResourceManager.GetString("ApplicationCreatedSuccessfully", resourceCulture);
             }
         }
         
@@ -309,6 +345,24 @@ namespace OpenIZAdmin.Localization {
         public static string AssigningAuthority {
             get {
                 return ResourceManager.GetString("AssigningAuthority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assigning authority deleted successfully.
+        /// </summary>
+        public static string AssigningAuthorityDeletedSuccessfully {
+            get {
+                return ResourceManager.GetString("AssigningAuthorityDeletedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Assigning authority not found.
+        /// </summary>
+        public static string AssigningAuthorityNotFound {
+            get {
+                return ResourceManager.GetString("AssigningAuthorityNotFound", resourceCulture);
             }
         }
         
@@ -601,6 +655,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Concept not found.
+        /// </summary>
+        public static string ConceptNotFound {
+            get {
+                return ResourceManager.GetString("ConceptNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Concepts.
         /// </summary>
         public static string Concepts {
@@ -642,6 +705,15 @@ namespace OpenIZAdmin.Localization {
         public static string ConceptSets {
             get {
                 return ResourceManager.GetString("ConceptSets", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Concept updated successfully.
+        /// </summary>
+        public static string ConceptUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("ConceptUpdatedSuccessfully", resourceCulture);
             }
         }
         
@@ -862,11 +934,47 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Device activated successfully.
+        /// </summary>
+        public static string DeviceActivatedSuccessfully {
+            get {
+                return ResourceManager.GetString("DeviceActivatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device created successfully.
+        /// </summary>
+        public static string DeviceCreatedSuccessfully {
+            get {
+                return ResourceManager.GetString("DeviceCreatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device deleted successfully.
+        /// </summary>
+        public static string DeviceDeletedSuccessfully {
+            get {
+                return ResourceManager.GetString("DeviceDeletedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warning, this device is not active.
         /// </summary>
         public static string DeviceNotActive {
             get {
                 return ResourceManager.GetString("DeviceNotActive", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device not found.
+        /// </summary>
+        public static string DeviceNotFound {
+            get {
+                return ResourceManager.GetString("DeviceNotFound", resourceCulture);
             }
         }
         
@@ -903,6 +1011,15 @@ namespace OpenIZAdmin.Localization {
         public static string DeviceSecretRequired {
             get {
                 return ResourceManager.GetString("DeviceSecretRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Device updated successfully.
+        /// </summary>
+        public static string DeviceUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("DeviceUpdatedSuccessfully", resourceCulture);
             }
         }
         
@@ -1065,6 +1182,15 @@ namespace OpenIZAdmin.Localization {
         public static string Entity {
             get {
                 return ResourceManager.GetString("Entity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity not found.
+        /// </summary>
+        public static string EntityNotFound {
+            get {
+                return ResourceManager.GetString("EntityNotFound", resourceCulture);
             }
         }
         
@@ -1609,6 +1735,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language code not found.
+        /// </summary>
+        public static string LanguageCodeNotFound {
+            get {
+                return ResourceManager.GetString("LanguageCodeNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language deleted successfully.
+        /// </summary>
+        public static string LanguageDeletedSuccessfully {
+            get {
+                return ResourceManager.GetString("LanguageDeletedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select a language.
         /// </summary>
         public static string LanguageRequired {
@@ -1623,6 +1767,15 @@ namespace OpenIZAdmin.Localization {
         public static string Languages {
             get {
                 return ResourceManager.GetString("Languages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Language updated successfully.
+        /// </summary>
+        public static string LanguageUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("LanguageUpdatedSuccessfully", resourceCulture);
             }
         }
         
@@ -2212,15 +2365,6 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Not Found.
-        /// </summary>
-        public static string NotFound {
-            get {
-                return ResourceManager.GetString("NotFound", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to No user roles have been added.
         /// </summary>
         public static string NoUserRolesAdded {
@@ -2437,6 +2581,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Place activated successfully.
+        /// </summary>
+        public static string PlaceActivatedSuccessfully {
+            get {
+                return ResourceManager.GetString("PlaceActivatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warning, this place is not active.
         /// </summary>
         public static string PlaceNotActive {
@@ -2460,6 +2613,15 @@ namespace OpenIZAdmin.Localization {
         public static string PlaceSearchResults {
             get {
                 return ResourceManager.GetString("PlaceSearchResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Place successfully created.
+        /// </summary>
+        public static string PlaceSuccessfullyCreated {
+            get {
+                return ResourceManager.GetString("PlaceSuccessfullyCreated", resourceCulture);
             }
         }
         
@@ -2676,15 +2838,6 @@ namespace OpenIZAdmin.Localization {
         public static string ReferenceTerms {
             get {
                 return ResourceManager.GetString("ReferenceTerms", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Related.
-        /// </summary>
-        public static string Related {
-            get {
-                return ResourceManager.GetString("Related", resourceCulture);
             }
         }
         
@@ -3724,11 +3877,29 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to activate device.
+        /// </summary>
+        public static string UnableToActivateDevice {
+            get {
+                return ResourceManager.GetString("UnableToActivateDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to activate material.
         /// </summary>
         public static string UnableToActivateMaterial {
             get {
                 return ResourceManager.GetString("UnableToActivateMaterial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to activate place.
+        /// </summary>
+        public static string UnableToActivatePlace {
+            get {
+                return ResourceManager.GetString("UnableToActivatePlace", resourceCulture);
             }
         }
         
@@ -3760,6 +3931,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to create alert.
+        /// </summary>
+        public static string UnableToCreateAlert {
+            get {
+                return ResourceManager.GetString("UnableToCreateAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to create application.
+        /// </summary>
+        public static string UnableToCreateApplication {
+            get {
+                return ResourceManager.GetString("UnableToCreateApplication", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to create assigning authority.
         /// </summary>
         public static string UnableToCreateAssigningAuthority {
@@ -3778,11 +3967,38 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to create concept.
+        /// </summary>
+        public static string UnableToCreateConcept {
+            get {
+                return ResourceManager.GetString("UnableToCreateConcept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to create concept set.
         /// </summary>
         public static string UnableToCreateConceptSet {
             get {
                 return ResourceManager.GetString("UnableToCreateConceptSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to create device.
+        /// </summary>
+        public static string UnableToCreateDevice {
+            get {
+                return ResourceManager.GetString("UnableToCreateDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to create identifier.
+        /// </summary>
+        public static string UnableToCreateIdentifier {
+            get {
+                return ResourceManager.GetString("UnableToCreateIdentifier", resourceCulture);
             }
         }
         
@@ -3796,11 +4012,29 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to create place.
+        /// </summary>
+        public static string UnableToCreatePlace {
+            get {
+                return ResourceManager.GetString("UnableToCreatePlace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to create policy.
         /// </summary>
         public static string UnableToCreatePolicy {
             get {
                 return ResourceManager.GetString("UnableToCreatePolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to create reference term.
+        /// </summary>
+        public static string UnableToCreateReferenceTerm {
+            get {
+                return ResourceManager.GetString("UnableToCreateReferenceTerm", resourceCulture);
             }
         }
         
@@ -3850,11 +4084,29 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to delete assigning authority.
+        /// </summary>
+        public static string UnableToDeleteAssigningAuthority {
+            get {
+                return ResourceManager.GetString("UnableToDeleteAssigningAuthority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to delete certificate.
         /// </summary>
         public static string UnableToDeleteCertificate {
             get {
                 return ResourceManager.GetString("UnableToDeleteCertificate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to delete device.
+        /// </summary>
+        public static string UnableToDeleteDevice {
+            get {
+                return ResourceManager.GetString("UnableToDeleteDevice", resourceCulture);
             }
         }
         
@@ -3877,11 +4129,38 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to delete organization.
+        /// </summary>
+        public static string UnableToDeleteOrganization {
+            get {
+                return ResourceManager.GetString("UnableToDeleteOrganization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to delete place.
         /// </summary>
         public static string UnableToDeletePlace {
             get {
                 return ResourceManager.GetString("UnableToDeletePlace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to delete policy.
+        /// </summary>
+        public static string UnableToDeletePolicy {
+            get {
+                return ResourceManager.GetString("UnableToDeletePolicy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to delete relationship.
+        /// </summary>
+        public static string UnableToDeleteRelationship {
+            get {
+                return ResourceManager.GetString("UnableToDeleteRelationship", resourceCulture);
             }
         }
         
@@ -3972,6 +4251,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToResetPassword {
             get {
                 return ResourceManager.GetString("UnableToResetPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to retrieve alerts.
+        /// </summary>
+        public static string UnableToRetrieveAlerts {
+            get {
+                return ResourceManager.GetString("UnableToRetrieveAlerts", resourceCulture);
             }
         }
         
@@ -4102,6 +4390,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to update alert.
+        /// </summary>
+        public static string UnableToUpdateAlert {
+            get {
+                return ResourceManager.GetString("UnableToUpdateAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to update assigning authority.
         /// </summary>
         public static string UnableToUpdateAssigningAuthority {
@@ -4125,6 +4422,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToUpdateConceptSet {
             get {
                 return ResourceManager.GetString("UnableToUpdateConceptSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to update device.
+        /// </summary>
+        public static string UnableToUpdateDevice {
+            get {
+                return ResourceManager.GetString("UnableToUpdateDevice", resourceCulture);
             }
         }
         

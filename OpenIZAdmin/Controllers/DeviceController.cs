@@ -53,7 +53,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (securityDeviceInfo == null)
 				{
-					TempData["error"] = Locale.Device + " " + Locale.NotFound;
+					TempData["error"] = Locale.DeviceNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -64,7 +64,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.AmiClient.UpdateDevice(id.ToString(), securityDeviceInfo);
 
-				TempData["success"] = Locale.Device + " " + Locale.Activated + " " + Locale.Successfully;
+				TempData["success"] = Locale.DeviceActivatedSuccessfully;
 
 				return RedirectToAction("ViewDevice", new { id = securityDeviceInfo.Id });
 			}
@@ -73,7 +73,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToActivate + " " + Locale.Device;
+			TempData["error"] = Locale.UnableToActivateDevice;
 
 			return RedirectToAction("Index");
 		}
@@ -132,7 +132,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.AmiClient.CreateUser(securityUserInfo);
 
-					TempData["success"] = Locale.Device + " " + Locale.Created + " " + Locale.Successfully;
+					TempData["success"] = Locale.DeviceCreatedSuccessfully;
 
 					return RedirectToAction("ViewDevice", new { id = device.Id });
 				}
@@ -142,7 +142,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToCreate + " " + Locale.Device;
+			TempData["error"] = Locale.UnableToCreateDevice;
 
 			return View(model);
 		}
@@ -159,7 +159,7 @@ namespace OpenIZAdmin.Controllers
 			try
 			{
 				this.AmiClient.DeleteDevice(id.ToString());
-				TempData["success"] = Locale.Device + " " + Locale.Deleted + " " + Locale.Successfully;
+				TempData["success"] = Locale.DeviceDeletedSuccessfully;
 
 				return RedirectToAction("Index");
 			}
@@ -168,7 +168,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToDelete + " " + Locale.Device;
+			TempData["error"] = Locale.UnableToDeleteDevice;
 
 			return RedirectToAction("Index");
 		}
@@ -187,7 +187,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (securityDeviceInfo == null)
 				{
-					TempData["error"] = Locale.Device + " " + Locale.NotFound;
+					TempData["error"] = Locale.DeviceNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -203,7 +203,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.Device + " " + Locale.NotFound;
+			TempData["error"] = Locale.DeviceNotFound;
 
 			return RedirectToAction("Index");
 		}
@@ -225,7 +225,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (securityDeviceInfo == null)
 					{
-						TempData["error"] = Locale.Device + " " + Locale.NotFound;
+						TempData["error"] = Locale.DeviceNotFound;
 
 						return RedirectToAction("Index");
 					}
@@ -234,7 +234,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
 
-					TempData["success"] = Locale.Device + " " + Locale.Updated + " " + Locale.Successfully;
+					TempData["success"] = Locale.DeviceUpdatedSuccessfully;
 
 					return RedirectToAction("ViewDevice", new { id = securityDeviceInfo.Id.ToString() });
 				}
@@ -244,7 +244,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Device;
+			TempData["error"] = Locale.UnableToUpdateDevice;
 
 			return View(model);
 		}
@@ -309,7 +309,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (result == null)
 				{
-					TempData["error"] = Locale.Device + " " + Locale.NotFound;
+					TempData["error"] = Locale.DeviceNotFound;
 
 					return RedirectToAction("Index");
 				}
@@ -321,7 +321,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.Device + " " + Locale.NotFound;
+			TempData["error"] = Locale.DeviceNotFound;
 
 			return RedirectToAction("Index");
 		}

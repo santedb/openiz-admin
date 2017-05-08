@@ -190,7 +190,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Password;
+			TempData["error"] = Locale.UnableToUpdatePassword;
 
 			return View(model);
 		}
@@ -398,7 +398,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (user == null || user?.User?.ObsoletionTime != null)
 					{
-						this.TempData["error"] = Locale.UnableToReset + " " + Locale.Password;
+						this.TempData["error"] = Locale.UnableToResetPassword;
 						return RedirectToAction("ForgotPassword");
 					}
 
@@ -496,7 +496,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToRetrieve + " " + Locale.Profile;
+			TempData["error"] = Locale.UnableToRetrieveProfile;
 
 			return Redirect(Request.UrlReferrer.ToString());
 		}
@@ -548,7 +548,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.UserManager.Update(user);
 
-					TempData["success"] = Locale.User + " " + Locale.Updated + " " + Locale.Successfully;
+					TempData["success"] = Locale.UserUpdatedSuccessfully;
 
 					return RedirectToAction("Index", "Home");
 				}
@@ -558,7 +558,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Profile;
+			TempData["error"] = Locale.UnableToUpdateProfile;
 
 			return View(model);
 		}

@@ -85,7 +85,7 @@ namespace OpenIZAdmin.Controllers
 
 				var updatedPlace = this.ImsiClient.Update(place);
 
-				this.TempData["success"] = Locale.Place + " " + Locale.Activated + " " + Locale.Successfully;
+				this.TempData["success"] = Locale.PlaceActivatedSuccessfully;
 
 				return RedirectToAction("Edit", new { id = id, versionId = updatedPlace.VersionKey });
 			}
@@ -95,7 +95,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to activate place: { e }");
 			}
 
-			this.TempData["error"] = Locale.UnableToActivate + " " + Locale.Place;
+			this.TempData["error"] = Locale.UnableToActivatePlace;
 
 			return RedirectToAction("Edit", new { id = id, versionId = versionId });
 		}
@@ -142,7 +142,7 @@ namespace OpenIZAdmin.Controllers
 
 					var createdPlace = this.ImsiClient.Create<Place>(placeToCreate);
 
-					TempData["success"] = Locale.Place + " " + Locale.Successfully + " " + Locale.Created;
+					TempData["success"] = Locale.PlaceSuccessfullyCreated;
 
 					return RedirectToAction("ViewPlace", new { id = createdPlace.Key, versionId = createdPlace.VersionKey });
 				}
@@ -155,7 +155,7 @@ namespace OpenIZAdmin.Controllers
 
 			model.TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList().ToList();
 
-			this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Place;
+			this.TempData["error"] = Locale.UnableToCreatePlace;
 
 			return View(model);
 		}
@@ -216,7 +216,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (place == null)
 					{
-						this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.Place;
+						this.TempData["error"] = Locale.UnableToCreateRelatedPlace;
 						return RedirectToAction("Edit", new { id = model.SourceId });
 					}
 
@@ -238,7 +238,7 @@ namespace OpenIZAdmin.Controllers
 
 			model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.SkipWhile(c => c.Key != EntityRelationshipTypeKeys.Child || c.Key != EntityRelationshipTypeKeys.Parent).ToSelectList().ToList());
 
-			this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.Place;
+			this.TempData["error"] = Locale.UnableToCreateRelatedPlace;
 
 			return View(model);
 		}
@@ -274,7 +274,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToDelete + " " + Locale.Place;
+			TempData["error"] = Locale.UnableToDeletePlace;
 
 			return RedirectToAction("Index");
 		}
@@ -368,7 +368,7 @@ namespace OpenIZAdmin.Controllers
 
 					var updatedPlace = this.ImsiClient.Update<Place>(placeToUpdate);
 
-					TempData["success"] = Locale.Place + " " + Locale.Successfully + " " + Locale.Updated;
+					TempData["success"] = Locale.PlaceSuccessfullyUpdated;
 
 					return RedirectToAction("ViewPlace", new { id = updatedPlace.Key, versionId = updatedPlace.VersionKey });
 				}
@@ -378,7 +378,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			this.TempData["error"] = Locale.UnableToUpdate + " " + Locale.Place;
+			this.TempData["error"] = Locale.UnableToUpdatePlace;
 
 			return View(model);
 		}
@@ -461,7 +461,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (place == null)
 					{
-						this.TempData["error"] = Locale.UnableToUpdate + " " + Locale.Place;
+						this.TempData["error"] = Locale.UnableToUpdatePlace;
 						return RedirectToAction("Edit", new { id = model.SourceId });
 					}
 

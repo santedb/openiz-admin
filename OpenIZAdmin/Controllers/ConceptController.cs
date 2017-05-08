@@ -92,7 +92,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to create concept: {e}");
 			}
 
-			TempData["error"] = Locale.UnableToCreate + " " + Locale.Concept;
+			TempData["error"] = Locale.UnableToCreateConcept;
 
 			Guid conceptClass;
 			model.LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList();

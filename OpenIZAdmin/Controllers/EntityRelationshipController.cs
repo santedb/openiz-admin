@@ -75,7 +75,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to delete entity relationship: { e }");
 			}
 
-			this.TempData["error"] = Locale.UnableToDelete + " " + Locale.Relationship;
+			this.TempData["error"] = Locale.UnableToDeleteRelationship;
 
 			return RedirectToAction("Edit", type, new { id = sourceId, versionId = versionKey });
 		}

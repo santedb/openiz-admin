@@ -108,13 +108,13 @@ namespace OpenIZAdmin.Controllers
 
 				if (assigningAuthority == null)
 				{
-					TempData["error"] = Locale.AssigningAuthority + " " + Locale.NotFound;
+					TempData["error"] = Locale.AssigningAuthorityNotFound;
 					return RedirectToAction("Index");
 				}
 
 				this.AmiClient.DeleteAssigningAuthority(id.ToString());
 
-				TempData["success"] = Locale.AssigningAuthority + " " + Locale.Deleted + " " + Locale.Successfully;
+				TempData["success"] = Locale.AssigningAuthorityDeletedSuccessfully;
 
 				return RedirectToAction("Index");
 			}
@@ -123,7 +123,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToDelete + " " + Locale.AssigningAuthority;
+			TempData["error"] = Locale.UnableToDeleteAssigningAuthority;
 
 			return RedirectToAction("Index");
 		}

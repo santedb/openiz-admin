@@ -202,7 +202,7 @@ namespace OpenIZAdmin.Controllers
                 Trace.TraceError($"Unable to retrieve entity: { e }");
             }
 
-            TempData["error"] = Locale.UnableToUpdate + " " + Locale.ReferenceTerm;
+            TempData["error"] = Locale.UnableToUpdateReferenceTerm;
 
             return RedirectToAction("ViewReferenceTerm", "ReferenceTerm", new { id });
 
@@ -242,7 +242,7 @@ namespace OpenIZAdmin.Controllers
 
                 var result = this.ImsiClient.Update<ReferenceTerm>(referenceTerm);
 
-                TempData["success"] = Locale.ReferenceTermName + " " + Locale.Updated + " " + Locale.Successfully;
+                TempData["success"] = Locale.ReferenceTermNameUpdatedSuccessfully;
 
                 return RedirectToAction("Edit", "ReferenceTerm", new { id = result.Key });
             }
@@ -252,7 +252,7 @@ namespace OpenIZAdmin.Controllers
                 Trace.TraceError($"Unable to retrieve entity: { e }");
             }
 
-            TempData["error"] = Locale.UnableToUpdate + " " + Locale.ReferenceTerm;
+            TempData["error"] = Locale.UnableToUpdateReferenceTerm;
 
             return RedirectToAction("ViewReferenceTerm", "ReferenceTerm", new { id = model.ReferenceTermId });
         } 

@@ -266,7 +266,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToDelete + " " + Locale.Organization;
+			TempData["error"] = Locale.UnableToDeleteOrganization;
 
 			return RedirectToAction("Index");
 		}

@@ -555,9 +555,6 @@
   <data name="Close" xml:space="preserve">
     <value>Close</value>
   </data>
-  <data name="NotFound" xml:space="preserve">
-    <value>Not Found</value>
-  </data>
   <data name="ProviderSpecialty" xml:space="preserve">
     <value>Provider Specialty</value>
   </data>
@@ -851,9 +848,6 @@
   </data>
   <data name="Reporter" xml:space="preserve">
     <value>Reporter</value>
-  </data>
-  <data name="UnableToSubmit" xml:space="preserve">
-    <value>Unable to submit</value>
   </data>
   <data name="StepsToReproduce" xml:space="preserve">
     <value>Steps to Reproduce</value>
@@ -1172,9 +1166,6 @@
   </data>
   <data name="NoAssociatedRelationships" xml:space="preserve">
     <value>No associated relationships</value>
-  </data>
-  <data name="Related" xml:space="preserve">
-    <value>Related</value>
   </data>
   <data name="RelationRequired" xml:space="preserve">
     <value>Please select a relation</value>
@@ -1524,11 +1515,125 @@
   <data name="UnableToRetrieveForgotPasswordMechanisms" xml:space="preserve">
     <value>Unable to retrieve forgot password mechanisms</value>
   </data>
+  <data name="AlertCreatedSuccessfully" xml:space="preserve">
+    <value>Alert created successfully</value>
+  </data>
+  <data name="AlertNotFound" xml:space="preserve">
+    <value>Alert not found</value>
+  </data>
+  <data name="AlertUpdatedSuccessfully" xml:space="preserve">
+    <value>Alert updated successfully</value>
+  </data>
+  <data name="ApplicationCreatedSuccessfully" xml:space="preserve">
+    <value>Application created successfully</value>
+  </data>
+  <data name="AssigningAuthorityDeletedSuccessfully" xml:space="preserve">
+    <value>Assigning authority deleted successfully</value>
+  </data>
+  <data name="AssigningAuthorityNotFound" xml:space="preserve">
+    <value>Assigning authority not found</value>
+  </data>
   <data name="CodeSystemUpdatedSuccessfully" xml:space="preserve">
     <value>Code system updated successfully</value>
   </data>
+  <data name="ConceptNotFound" xml:space="preserve">
+    <value>Concept not found</value>
+  </data>
+  <data name="ConceptUpdatedSuccessfully" xml:space="preserve">
+    <value>Concept updated successfully</value>
+  </data>
+  <data name="DeviceActivatedSuccessfully" xml:space="preserve">
+    <value>Device activated successfully</value>
+  </data>
+  <data name="DeviceCreatedSuccessfully" xml:space="preserve">
+    <value>Device created successfully</value>
+  </data>
+  <data name="DeviceDeletedSuccessfully" xml:space="preserve">
+    <value>Device deleted successfully</value>
+  </data>
+  <data name="DeviceNotFound" xml:space="preserve">
+    <value>Device not found</value>
+  </data>
+  <data name="DeviceUpdatedSuccessfully" xml:space="preserve">
+    <value>Device updated successfully</value>
+  </data>
+  <data name="EntityNotFound" xml:space="preserve">
+    <value>Entity not found</value>
+  </data>
+  <data name="LanguageCodeNotFound" xml:space="preserve">
+    <value>Language code not found</value>
+  </data>
+  <data name="LanguageDeletedSuccessfully" xml:space="preserve">
+    <value>Language deleted successfully</value>
+  </data>
+  <data name="LanguageUpdatedSuccessfully" xml:space="preserve">
+    <value>Language updated successfully</value>
+  </data>
+  <data name="MaterialUpdatedSuccessfully" xml:space="preserve">
+    <value>Material updated successfully</value>
+  </data>
+  <data name="PlaceActivatedSuccessfully" xml:space="preserve">
+    <value>Place activated successfully</value>
+  </data>
+  <data name="PlaceSuccessfullyCreated" xml:space="preserve">
+    <value>Place successfully created</value>
+  </data>
+  <data name="PlaceSuccessfullyUpdated" xml:space="preserve">
+    <value>Place successfully updated</value>
+  </data>
+  <data name="ReferenceTermNameUpdatedSuccessfully" xml:space="preserve">
+    <value>Reference term name updated successfully</value>
+  </data>
+  <data name="RoleUpdatedSuccessfully" xml:space="preserve">
+    <value>Role updated successfully</value>
+  </data>
+  <data name="UnableToActivateDevice" xml:space="preserve">
+    <value>Unable to activate device</value>
+  </data>
+  <data name="UnableToActivateMaterial" xml:space="preserve">
+    <value>Unable to activate material</value>
+  </data>
+  <data name="UnableToActivatePlace" xml:space="preserve">
+    <value>Unable to activate place</value>
+  </data>
+  <data name="UnableToActivateRole" xml:space="preserve">
+    <value>Unable to activate role</value>
+  </data>
   <data name="UnableToActivateUser" xml:space="preserve">
     <value>Unable to activate user</value>
+  </data>
+  <data name="UnableToCreateAlert" xml:space="preserve">
+    <value>Unable to create alert</value>
+  </data>
+  <data name="UnableToCreateApplication" xml:space="preserve">
+    <value>Unable to create application</value>
+  </data>
+  <data name="UnableToCreateConcept" xml:space="preserve">
+    <value>Unable to create concept</value>
+  </data>
+  <data name="UnableToCreateDevice" xml:space="preserve">
+    <value>Unable to create device</value>
+  </data>
+  <data name="UnableToCreateIdentifier" xml:space="preserve">
+    <value>Unable to create identifier</value>
+  </data>
+  <data name="UnableToCreateMaterial" xml:space="preserve">
+    <value>Unable to create material</value>
+  </data>
+  <data name="UnableToCreatePlace" xml:space="preserve">
+    <value>Unable to create place</value>
+  </data>
+  <data name="UnableToCreateReferenceTerm" xml:space="preserve">
+    <value>Unable to create reference term</value>
+  </data>
+  <data name="UnableToCreateRelatedManufacturedMaterial" xml:space="preserve">
+    <value>Unable to create related manufactured material</value>
+  </data>
+  <data name="UnableToCreateRelatedPlace" xml:space="preserve">
+    <value>Unable to create related place</value>
+  </data>
+  <data name="UnableToCreateRole" xml:space="preserve">
+    <value>Unable to create role</value>
   </data>
   <data name="UnableToCreateUser" xml:space="preserve">
     <value>Unable to create user</value>
@@ -1536,8 +1641,68 @@
   <data name="UnableToDeactivateUser" xml:space="preserve">
     <value>Unable to deactivate user</value>
   </data>
+  <data name="UnableToDeleteAssigningAuthority" xml:space="preserve">
+    <value>Unable to delete assigning authority</value>
+  </data>
   <data name="UnableToDeleteCertificate" xml:space="preserve">
     <value>Unable to delete certificate</value>
+  </data>
+  <data name="UnableToDeleteDevice" xml:space="preserve">
+    <value>Unable to delete device</value>
+  </data>
+  <data name="UnableToDeleteMaterial" xml:space="preserve">
+    <value>Unable to delete material</value>
+  </data>
+  <data name="UnableToDeleteOrganization" xml:space="preserve">
+    <value>Unable to delete organization</value>
+  </data>
+  <data name="UnableToDeletePlace" xml:space="preserve">
+    <value>Unable to delete place</value>
+  </data>
+  <data name="UnableToDeletePolicy" xml:space="preserve">
+    <value>Unable to delete policy</value>
+  </data>
+  <data name="UnableToDeleteRelationship" xml:space="preserve">
+    <value>Unable to delete relationship</value>
+  </data>
+  <data name="UnableToDeleteRole" xml:space="preserve">
+    <value>Unable to delete role</value>
+  </data>
+  <data name="UnableToRetrieveAlerts" xml:space="preserve">
+    <value>Unable to retrieve alerts</value>
+  </data>
+  <data name="UnableToRetrieveMaterial" xml:space="preserve">
+    <value>Unable to retrieve material</value>
+  </data>
+  <data name="UnableToRetrieveProfile" xml:space="preserve">
+    <value>Unable to retrieve profile</value>
+  </data>
+  <data name="UnableToUpdateAlert" xml:space="preserve">
+    <value>Unable to update alert</value>
+  </data>
+  <data name="UnableToUpdateDevice" xml:space="preserve">
+    <value>Unable to update device</value>
+  </data>
+  <data name="UnableToUpdateMaterial" xml:space="preserve">
+    <value>Unable to update material</value>
+  </data>
+  <data name="UnableToUpdatePassword" xml:space="preserve">
+    <value>Unable to update password</value>
+  </data>
+  <data name="UnableToUpdatePlace" xml:space="preserve">
+    <value>Unable to update place</value>
+  </data>
+  <data name="UnableToUpdateProfile" xml:space="preserve">
+    <value>Unable to update profile</value>
+  </data>
+  <data name="UnableToUpdateReferenceTerm" xml:space="preserve">
+    <value>Unable to update reference term</value>
+  </data>
+  <data name="UnableToUpdateRelatedManufacturedMaterial" xml:space="preserve">
+    <value>Unable to update related manufactured material</value>
+  </data>
+  <data name="UnableToUpdateRole" xml:space="preserve">
+    <value>Unable to update role</value>
   </data>
   <data name="UnableToUpdateUser" xml:space="preserve">
     <value>Unable to update user</value>

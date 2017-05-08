@@ -74,7 +74,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (concept == null)
 				{
-					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+					TempData["error"] = Locale.ConceptNotFound;
 					return RedirectToAction("Index", "Concept");
 				}
 
@@ -86,7 +86,7 @@ namespace OpenIZAdmin.Controllers
 
 				var result = this.ImsiClient.Update<Concept>(concept);
 
-				TempData["success"] = Locale.Language + " " + Locale.Updated + " " + Locale.Successfully;
+				TempData["success"] = Locale.LanguageUpdatedSuccessfully;
 
 				return RedirectToAction("Edit", "Concept", new { id = result.Key, versionId = result.VersionKey });
 			}
@@ -117,14 +117,14 @@ namespace OpenIZAdmin.Controllers
 
 				if (concept == null)
 				{
-					TempData["error"] = Locale.Concept + " " + Locale.NotFound;
+					TempData["error"] = Locale.ConceptNotFound;
 					return RedirectToAction("Index", "Concept");
 				}
 
 				var index = concept.ConceptNames.FindIndex(c => c.Language == langCode && c.Name == displayName);
 				if (index < 0)
 				{
-					TempData["error"] = Locale.LanguageCode + " " + Locale.NotFound;
+					TempData["error"] = Locale.LanguageCodeNotFound;
 					return RedirectToAction("ViewConcept", "Concept", new { id, versionKey = versionId });
 				}
 
@@ -132,7 +132,7 @@ namespace OpenIZAdmin.Controllers
 
 				var result = this.ImsiClient.Update<Concept>(concept);
 
-				TempData["success"] = Locale.Language + " " + Locale.Deleted + " " + Locale.Successfully;
+				TempData["success"] = Locale.LanguageDeletedSuccessfully;
 
 				return RedirectToAction("Edit", "Concept", new { id = result.Key, versionId = result.VersionKey });
 			}
@@ -206,7 +206,7 @@ namespace OpenIZAdmin.Controllers
 
 				var result = this.ImsiClient.Update<Concept>(concept);
 
-				TempData["success"] = Locale.Concept + " " + Locale.Updated + " " + Locale.Successfully;
+				TempData["success"] = Locale.ConceptUpdatedSuccessfully;
 
 				return RedirectToAction("Edit", "Concept", new { id = result.Key, versionId = result.VersionKey });
 			}

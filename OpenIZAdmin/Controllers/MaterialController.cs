@@ -64,7 +64,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (material == null)
 				{
-					this.TempData["error"] = Locale.UnableToRetrieve + " " + Locale.Material;
+					this.TempData["error"] = Locale.UnableToRetrieveMaterial;
 					return RedirectToAction("Edit", new { id = id, versionId = versionId });
 				}
 
@@ -84,7 +84,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to activate material: { e }");
 			}
 
-			this.TempData["error"] = Locale.UnableToActivate + " " + Locale.Material;
+			this.TempData["error"] = Locale.UnableToActivateMaterial;
 
 			return RedirectToAction("Edit", new { id = id, versionId = versionId });
 		}
@@ -143,7 +143,7 @@ namespace OpenIZAdmin.Controllers
 			model.QuantityConcepts = quantityConcepts.ToSelectList().ToList();
 			model.TypeConcepts = typeConcepts.ToSelectList().ToList();
 
-			TempData["error"] = Locale.UnableToCreate + " " + Locale.Material;
+			TempData["error"] = Locale.UnableToCreateMaterial;
 
 			return View(model);
 		}
@@ -212,7 +212,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (material == null)
 					{
-						this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
+						this.TempData["error"] = Locale.UnableToCreateRelatedManufacturedMaterial;
 						return RedirectToAction("Edit", new { id = model.SourceId });
 					}
 
@@ -232,7 +232,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to create related manufactured material: { e }");
 			}
 
-			this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
+			this.TempData["error"] = Locale.UnableToCreateRelatedManufacturedMaterial;
 
 			return View(model);
 		}
@@ -268,7 +268,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToDelete + " " + Locale.Material;
+			TempData["error"] = Locale.UnableToDeleteMaterial;
 
 			return RedirectToAction("Index");
 		}
@@ -379,7 +379,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (material == null)
 					{
-						this.TempData["error"] = Locale.UnableToCreate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
+						this.TempData["error"] = Locale.UnableToCreateRelatedManufacturedMaterial;
 						return RedirectToAction("Edit", new { id = model.SourceId });
 					}
 
@@ -399,7 +399,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to update related manufactured material: { e }");
 			}
 
-			this.TempData["error"] = Locale.UnableToUpdate + " " + Locale.Related + " " + Locale.ManufacturedMaterial;
+			this.TempData["error"] = Locale.UnableToUpdateRelatedManufacturedMaterial;
 
 			return View(model);
 		}
@@ -494,7 +494,7 @@ namespace OpenIZAdmin.Controllers
 
 					var updatedMaterial = this.ImsiClient.Update<Material>(model.ToMaterial(material));
 
-					TempData["success"] = Locale.Material + " " + Locale.Updated + " " + Locale.Successfully;
+					TempData["success"] = Locale.MaterialUpdatedSuccessfully;
 
 					return RedirectToAction("ViewMaterial", new { id = updatedMaterial.Key, versionId = updatedMaterial.VersionKey });
 				}
@@ -504,7 +504,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Material;
+			TempData["error"] = Locale.UnableToUpdateMaterial;
 
 			return View(model);
 		}

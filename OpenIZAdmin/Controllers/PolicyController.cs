@@ -125,7 +125,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToDelete + " " + Locale.Policy;
+			TempData["error"] = Locale.UnableToDeletePolicy;
 
 			return RedirectToAction("Index");
 		}

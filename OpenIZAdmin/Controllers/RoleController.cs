@@ -78,7 +78,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to activate role: { e }");
 			}
 
-			TempData["error"] = Locale.UnableToActivate + " " + Locale.Role;
+			TempData["error"] = Locale.UnableToActivateRole;
 
 			return RedirectToAction("Index");
 		}
@@ -118,7 +118,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToCreate + " " + Locale.Role;
+			TempData["error"] = Locale.UnableToCreateRole;
 
 			return View(model);
 		}
@@ -145,7 +145,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToDelete + " " + Locale.Role;
+			TempData["error"] = Locale.UnableToDeleteRole;
 
 			return RedirectToAction("Index");
 		}
@@ -212,7 +212,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.AmiClient.UpdateRole(roleInfo.Id.ToString(), this.ToSecurityRoleInfo(model, roleInfo));
 
-					TempData["success"] = Locale.Role + " " + Locale.Updated + " " + Locale.Successfully;
+					TempData["success"] = Locale.RoleUpdatedSuccessfully;
 
 					return RedirectToAction("ViewRole", new { id = roleInfo.Id.ToString() });
 				}
@@ -222,7 +222,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = Locale.UnableToUpdate + " " + Locale.Role;
+			TempData["error"] = Locale.UnableToUpdateRole;
 
 			return View(model);
 		}

@@ -112,7 +112,7 @@ namespace OpenIZAdmin.Controllers
 				{
 					var application = this.AmiClient.CreateApplication(model.ToSecurityApplication());
 
-					TempData["success"] = Locale.Application + " " + Locale.Created + " " + Locale.Successfully;
+					TempData["success"] = Locale.ApplicationCreatedSuccessfully;
 
 					return RedirectToAction("ViewApplication", new { id = application.Id.ToString() });
 				}
@@ -122,7 +122,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToCreate + " " + Locale.Application;
+			TempData["error"] = Locale.UnableToCreateApplication;
 
 			return View(model);
 		}
