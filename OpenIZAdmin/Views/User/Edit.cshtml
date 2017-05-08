@@ -1,14 +1,14 @@
 ﻿@using OpenIZAdmin.Models
 @model OpenIZAdmin.Models.UserModels.EditUserModel
 @{
-    ViewBag.Title = Locale.Edit + " " + Locale.User;
+    ViewBag.Title = Locale.EditUser_Heading;
 }
 
 @Html.Partial("_ObsoleteWarningPartial", new ObsoleteWarningViewModel(Model.IsObsolete, Locale.UserNotActive))
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.Edit + " " + Locale.User)</span>
+        <span class="panel-title">@Locale.EditUser_Heading</span>
         <div class="pull-right">
             @if (!Model.IsObsolete)
             {

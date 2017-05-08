@@ -5803,6 +5803,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View User.
+        /// </summary>
+        public static string ViewUser_Heading {
+            get {
+                return ResourceManager.GetString("ViewUser_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Yes.
         /// </summary>
         public static string Yes {

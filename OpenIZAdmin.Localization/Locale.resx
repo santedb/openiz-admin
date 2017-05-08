@@ -2019,4 +2019,22 @@
   <data name="ViewReferenceTerm_Heading" xml:space="preserve">
     <value>View Reference Term</value>
   </data>
+  <data name="CreateRole_Heading" xml:space="preserve">
+    <value>Create Role</value>
+  </data>
+  <data name="CreateUser_Heading" xml:space="preserve">
+    <value>Create User</value>
+  </data>
+  <data name="EditRole_Heading" xml:space="preserve">
+    <value>Edit Role</value>
+  </data>
+  <data name="EditUser_Heading" xml:space="preserve">
+    <value>Edit User</value>
+  </data>
+  <data name="ViewRole_Heading" xml:space="preserve">
+    <value>View Role</value>
+  </data>
+  <data name="ViewUser_Heading" xml:space="preserve">
+    <value>View User</value>
+  </data>
 </root>
