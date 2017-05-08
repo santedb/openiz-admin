@@ -2,7 +2,7 @@
 @using OpenIZAdmin.Models.Core
 @model OpenIZAdmin.Models.PlaceModels.PlaceViewModel
 @{
-    ViewBag.Title = Locale.View + " " + Locale.Place;
+    ViewBag.Title = Locale.ViewPlace_Heading;
 }
 
 @if (Model.Tags.Any(t => t.TagKey == Constants.ImportedDataTag && t.TagValue?.ToLower() == "true"))
@@ -12,7 +12,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.View + " " + Locale.Place)</span>
+        <span class="panel-title">@Locale.ViewPlace_Heading</span>
         <div class="pull-right">
             <a href="@Url.Action("Edit", "Place", new {id = Model.Id, versionId = Model.VersionKey})" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-pencil"></span>

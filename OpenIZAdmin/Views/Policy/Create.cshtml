@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.PolicyModels.CreatePolicyModel
 @{
-    ViewBag.Title = Locale.Create + " " + Locale.Policy;
+    ViewBag.Title = Locale.CreatePolicy_Heading;
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.Create + " " + Locale.Policy)</span>
+        <span class="panel-title">@Locale.CreatePolicy_Heading</span>
     </div>
     <div class="panel panel-body">
         @using (Html.BeginForm("Create", "Policy", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

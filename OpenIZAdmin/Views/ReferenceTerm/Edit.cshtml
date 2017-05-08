@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.ReferenceTermModels.EditReferenceTermViewModel
 @{
-    ViewBag.Title = Locale.Edit + " " + Locale.ReferenceTerm;
+    ViewBag.Title = Locale.EditReferenceTerm_Heading;
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.Edit + " " + Locale.ReferenceTerm)</span>
+        <span class="panel-title">@Locale.EditReferenceTerm_Heading</span>
     </div>
     <div class="panel-body">
         @using (Html.BeginForm("Edit", "ReferenceTerm", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

@@ -1986,4 +1986,37 @@
   <data name="ViewMaterial_Heading" xml:space="preserve">
     <value>View Material</value>
   </data>
+  <data name="AddReferenceTermName_Heading" xml:space="preserve">
+    <value>Add Reference Term Name</value>
+  </data>
+  <data name="AddReferenceTerm_Heading" xml:space="preserve">
+    <value>Add Reference Term</value>
+  </data>
+  <data name="CreatePlace_Heading" xml:space="preserve">
+    <value>Create Place</value>
+  </data>
+  <data name="CreatePolicy_Heading" xml:space="preserve">
+    <value>Create Policy</value>
+  </data>
+  <data name="EditPlace_Heading" xml:space="preserve">
+    <value>Edit Place</value>
+  </data>
+  <data name="EditReferenceTermName_Heading" xml:space="preserve">
+    <value>Edit Reference Term Name</value>
+  </data>
+  <data name="EditReferenceTerm_Heading" xml:space="preserve">
+    <value>Edit Reference Term</value>
+  </data>
+  <data name="ViewOrganization_Heading" xml:space="preserve">
+    <value>View Organization</value>
+  </data>
+  <data name="ViewPlace_Heading" xml:space="preserve">
+    <value>View Place</value>
+  </data>
+  <data name="ViewPolicy_Heading" xml:space="preserve">
+    <value>View Policy</value>
+  </data>
+  <data name="ViewReferenceTerm_Heading" xml:space="preserve">
+    <value>View Reference Term</value>
+  </data>
 </root>

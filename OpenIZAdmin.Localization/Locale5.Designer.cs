@@ -178,6 +178,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Reference Term Name.
+        /// </summary>
+        public static string AddReferenceTermName_Heading {
+            get {
+                return ResourceManager.GetString("AddReferenceTermName_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Reference Terms.
         /// </summary>
         public static string AddReferenceTerms {
@@ -1461,6 +1470,15 @@ namespace OpenIZAdmin.Localization {
         public static string EditReferenceTerm_Heading {
             get {
                 return ResourceManager.GetString("EditReferenceTerm_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Reference Term Name.
+        /// </summary>
+        public static string EditReferenceTermName_Heading {
+            get {
+                return ResourceManager.GetString("EditReferenceTermName_Heading", resourceCulture);
             }
         }
         
@@ -5727,6 +5745,15 @@ namespace OpenIZAdmin.Localization {
         public static string ViewPolicy_Heading {
             get {
                 return ResourceManager.GetString("ViewPolicy_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Reference Term.
+        /// </summary>
+        public static string ViewReferenceTerm_Heading {
+            get {
+                return ResourceManager.GetString("ViewReferenceTerm_Heading", resourceCulture);
             }
         }
         

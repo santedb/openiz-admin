@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.EntityRelationshipModels.EntityRelationshipModel
 @{
-    ViewBag.Title = Locale.Edit + " " + Locale.Place;
+    ViewBag.Title = Locale.EditPlace_Heading;
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.Edit + " " + Locale.Place)</span>
+        <span class="panel-title">@Locale.EditPlace_Heading</span>
     </div>
     <div class="panel panel-body">
         @using (Html.BeginForm("EditRelatedPlace", "Place", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))

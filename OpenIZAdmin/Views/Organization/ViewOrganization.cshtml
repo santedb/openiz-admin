@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.OrganizationModels.OrganizationViewModel
 @{
-    ViewBag.Title = Locale.View + " " +  Locale.Organization;
+    ViewBag.Title = Locale.ViewOrganization_Heading;
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.View + " " + Locale.Organization)</span>
+        <span class="panel-title">@Locale.ViewOrganization_Heading</span>
         <div class="pull-right">
             <a href="@Url.Action("Edit", "Organization", new { id = Model.Id, versionId = Model.VersionKey})" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-pencil"></span>
