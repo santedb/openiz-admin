@@ -17,14 +17,31 @@
                 <div class="col-md-8">
                     @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_PlaceName })
                     @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                    <span class="help-block">@Locale.ToolTip_PlaceName </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.TargetPopulation, new {@class = "col-md-2 control-label"})
+                <div class="col-md-8">
+                    
+                    <div class="input-group date" id="targetPopulationYearInputGroup">
+                        @Html.TextBoxFor(m => m.Year, new {@class = "form-control", title = Locale.ToolTip_TargetPopulationYear})
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Year, "", new {@class = "text-danger"})
+                    <span class="help-block">@Locale.ToolTip_TargetPopulationYear </span>
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(m => m.TargetPopulation, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.TargetPopulation, new { @class = "form-control", title = Locale.ToolTip_PlaceName })
+                    @Html.TextBoxFor(m => m.TargetPopulation, new { @class = "form-control", title = Locale.ToolTip_TargetPopulationValue })
                     @Html.ValidationMessageFor(m => m.TargetPopulation, "", new { @class = "text-danger" })
+                    <span class="help-block">@Locale.ToolTip_TargetPopulationValue </span>
                 </div>
             </div>
 
@@ -51,3 +68,16 @@
             </div>}
     </div>
 </div>
+
+@section Scripts
+{
+    @Scripts.Render("~/bundles/bootstrap-datetimepicker")
+
+    <script type="text/javascript">
+        $("#targetPopulationYearInputGroup").datetimepicker({
+            defaultDate: 'now',
+            format: " yyyy",
+            viewMode: "years"
+        });
+    </script>
+}

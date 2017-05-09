@@ -63,9 +63,17 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// </summary>
 		/// <value>The target population.</value>
 		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "TargetPopulation", ErrorMessageResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "TargetPopulationRequired", ErrorMessageResourceType = typeof(Locale))]
 		[Range(1, long.MaxValue, ErrorMessageResourceName = "TargetPopulationMustBePositive", ErrorMessageResourceType = typeof(Locale))]
 		public long TargetPopulation { get; set; }
+
+		/// <summary>
+		/// Gets or sets the year.
+		/// </summary>
+		/// <value>The year.</value>
+		[Display(Name = "Year", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "YearRequired", ErrorMessageResourceType = typeof(Locale))]
+		public int Year { get; set; }
 
 		/// <summary>
 		/// Gets or sets the type concept.

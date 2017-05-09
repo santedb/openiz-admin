@@ -2698,6 +2698,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No concept sets found.
+        /// </summary>
+        public static string NoConceptSetsFound {
+            get {
+                return ResourceManager.GetString("NoConceptSetsFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No concepts found.
         /// </summary>
         public static string NoConceptsFound {
@@ -2757,6 +2766,15 @@ namespace OpenIZAdmin.Localization {
         public static string NoNewCertificateSigningRequestsSubmitted {
             get {
                 return ResourceManager.GetString("NoNewCertificateSigningRequestsSubmitted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No places found.
+        /// </summary>
+        public static string NoPlacesFound {
+            get {
+                return ResourceManager.GetString("NoPlacesFound", resourceCulture);
             }
         }
         
@@ -4498,6 +4516,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The target population.
+        /// </summary>
+        public static string ToolTip_TargetPopulationValue {
+            get {
+                return ResourceManager.GetString("ToolTip_TargetPopulationValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The year of the target population.
+        /// </summary>
+        public static string ToolTip_TargetPopulationYear {
+            get {
+                return ResourceManager.GetString("ToolTip_TargetPopulationYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select to upload.
         /// </summary>
         public static string ToolTip_Upload {
@@ -5335,6 +5371,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to An unexpected error has occurred, if the problem persists, please contact the administrator.
+        /// </summary>
+        public static string UnexpectedErrorMessage {
+            get {
+                return ResourceManager.GetString("UnexpectedErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update Applet.
         /// </summary>
         public static string UpdateApplet_Heading {
@@ -5817,6 +5862,24 @@ namespace OpenIZAdmin.Localization {
         public static string ViewUser_Heading {
             get {
                 return ResourceManager.GetString("ViewUser_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Year.
+        /// </summary>
+        public static string Year {
+            get {
+                return ResourceManager.GetString("Year", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a year.
+        /// </summary>
+        public static string YearRequired {
+            get {
+                return ResourceManager.GetString("YearRequired", resourceCulture);
             }
         }
         

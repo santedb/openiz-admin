@@ -312,6 +312,7 @@
     <Compile Include="Models\Core\EntityViewModel.cs" />
     <Compile Include="Models\Core\ReferenceTermNameModel.cs" />
     <Compile Include="Models\Core\SecurityViewModel.cs" />
+    <Compile Include="Models\Core\Serialization\TargetPopulation.cs" />
     <Compile Include="Models\Core\VerifyEntityModel.cs" />
     <Compile Include="Models\Core\VersionedMetadataEditModelBase.cs" />
     <Compile Include="Models\DebugModels\SubmitBugReportModel.cs" />
@@ -408,6 +409,7 @@
     <Compile Include="Util\LanguageUtil.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\datatables.css" />
@@ -514,10 +516,16 @@
     <Content Include="Content\metro-bootstrap\labels.less" />
     <Content Include="Content\metro-bootstrap\checkbox.less" />
     <Content Include="Content\metro-bootstrap\alerts.less" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Content\bootstrap\mixins\reset-text.less" />
+    <Content Include="Content\_bootstrap-datetimepicker.less" />
+    <Content Include="Content\bootstrap-datetimepicker-build.less" />
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\MARC_HI_khannan_TImRAdmin.pubxml" />
+    <Content Include="Scripts\bootstrap-datetimepicker.js" />
+    <Content Include="Scripts\bootstrap-datetimepicker.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\concept-search.js" />

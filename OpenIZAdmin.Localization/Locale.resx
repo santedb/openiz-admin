@@ -2040,4 +2040,25 @@
   <data name="ViewUser_Heading" xml:space="preserve">
     <value>View User</value>
   </data>
+  <data name="Year" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="YearRequired" xml:space="preserve">
+    <value>Please select a year</value>
+  </data>
+  <data name="ToolTip_TargetPopulationValue" xml:space="preserve">
+    <value>The target population</value>
+  </data>
+  <data name="ToolTip_TargetPopulationYear" xml:space="preserve">
+    <value>The year of the target population</value>
+  </data>
+  <data name="NoConceptSetsFound" xml:space="preserve">
+    <value>No concept sets found</value>
+  </data>
+  <data name="NoPlacesFound" xml:space="preserve">
+    <value>No places found</value>
+  </data>
+  <data name="UnexpectedErrorMessage" xml:space="preserve">
+    <value>An unexpected error has occurred, if the problem persists, please contact the administrator</value>
+  </data>
 </root>

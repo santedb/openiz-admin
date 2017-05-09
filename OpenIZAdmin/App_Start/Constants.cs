@@ -33,11 +33,6 @@ namespace OpenIZAdmin
 		public const string Acs = "ACS";
 
 		/// <summary>
-		/// The administrators role.
-		/// </summary>
-		public const string Administrators = "ADMINISTRATORS";
-
-		/// <summary>
 		/// The AMI endpoint name.
 		/// </summary>
 		public const string Ami = "AMI";

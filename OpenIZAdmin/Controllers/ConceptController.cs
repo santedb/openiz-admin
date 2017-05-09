@@ -182,7 +182,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to retrieve concept: {e}");
-				this.TempData["error"] = Locale.ConceptNotFound;
+				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
 
 			return RedirectToAction("Index");
@@ -362,9 +362,8 @@ namespace OpenIZAdmin.Controllers
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to load concept: {e}");
+				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
-
-			TempData["error"] = Locale.ConceptNotFound;
 
 			return RedirectToAction("Index");
 		}

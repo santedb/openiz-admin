@@ -163,9 +163,8 @@ namespace OpenIZAdmin.Controllers
 			{
 				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to retrieve entity: { e }");
+				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
-
-			TempData["error"] = Locale.UnableToUpdateReferenceTerm;
 
 			return RedirectToAction("ViewReferenceTerm", "ReferenceTerm", new { id });
 
@@ -273,9 +272,8 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
-
-			TempData["error"] = Locale.ReferenceTermNotFound;
 
 			return RedirectToAction("Index");
 		}

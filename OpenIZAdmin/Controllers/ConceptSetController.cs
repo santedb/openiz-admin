@@ -172,7 +172,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to retrieve concept set: {e}");
-				this.TempData["error"] = Locale.ConceptSetNotFound;
+				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
 
 			return RedirectToAction("ViewConceptSet", new { id = id });
@@ -331,7 +331,7 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				this.TempData["error"] = Locale.ConceptSetNotFound;
+				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
 
 			return RedirectToAction("Index");

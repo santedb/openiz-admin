@@ -25,8 +25,9 @@ using OpenIZAdmin.Models.Core;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.DataTypes;
+using OpenIZ.Core.Extensions;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.Core.Serialization;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
@@ -54,7 +55,9 @@ namespace OpenIZAdmin.Models.PlaceModels
 
 			if (place.Extensions.Any(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey))
 			{
-				this.TargetPopulation = BitConverter.ToInt64(place.Extensions.First(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey).ExtensionValueXml, 0);
+				var extension = place.Extensions.First(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey);
+				this.TargetPopulation = (extension.ExtensionValue as TargetPopulation)?.Value ?? 0;
+				this.Year = (extension.ExtensionValue as TargetPopulation)?.Year ?? 0;
 			}
 
 			this.TypeConcepts = new List<SelectListItem>();
@@ -80,9 +83,17 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// </summary>
 		/// <value>The target population.</value>
 		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "TargetPopulation", ErrorMessageResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "TargetPopulationRequired", ErrorMessageResourceType = typeof(Locale))]
 		[Range(1, long.MaxValue, ErrorMessageResourceName = "TargetPopulationMustBePositive", ErrorMessageResourceType = typeof(Locale))]
 		public long TargetPopulation { get; set; }
+
+		/// <summary>
+		/// Gets or sets the year.
+		/// </summary>
+		/// <value>The year.</value>
+		[Display(Name = "Year", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "YearRequired", ErrorMessageResourceType = typeof(Locale))]
+		public int Year { get; set; }
 
 		/// <summary>
 		/// Gets or sets the type concept.

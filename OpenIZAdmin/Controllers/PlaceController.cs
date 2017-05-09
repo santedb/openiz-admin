@@ -35,6 +35,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
 using OpenIZ.Core.Extensions;
+using OpenIZAdmin.Models.Core.Serialization;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -135,7 +136,7 @@ namespace OpenIZAdmin.Controllers
 					var entityExtension = new EntityExtension
 					{
 						ExtensionType = targetPopulationExtensionType,
-						ExtensionValue = Convert.ToDecimal(model.TargetPopulation)
+						ExtensionValue = new TargetPopulation(model.TargetPopulation, model.Year)
 					};
 
 					placeToCreate.Extensions.Add(entityExtension);
@@ -320,9 +321,9 @@ namespace OpenIZAdmin.Controllers
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to retrieve place: { e }");
+				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
 
-			TempData["error"] = Locale.PlaceNotFound;
 			return RedirectToAction("Index");
 		}
 
@@ -489,8 +490,8 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Place";
-            TempData["searchTerm"] = "*";
-            return View();
+			TempData["searchTerm"] = "*";
+			return View();
 		}
 
 		/// <summary>
@@ -562,14 +563,14 @@ namespace OpenIZAdmin.Controllers
 		{
 			var viewModels = new List<PlaceViewModel>();
 
-		    if (!ModelState.IsValid) return Json(viewModels, JsonRequestBehavior.AllowGet);
+			if (!ModelState.IsValid) return Json(viewModels, JsonRequestBehavior.AllowGet);
 
-		    //var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation);
-		    var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation);
-		    //viewModels = places.Item.OfType<Place>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation).LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
-		    viewModels = places.Item.OfType<Place>().LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+			//var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation);
+			var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation);
+			//viewModels = places.Item.OfType<Place>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation).LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+			viewModels = places.Item.OfType<Place>().LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 
-		    return Json(viewModels, JsonRequestBehavior.AllowGet);
+			return Json(viewModels, JsonRequestBehavior.AllowGet);
 		}
 
 		/// <summary>
@@ -591,9 +592,9 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				place.Relationships = this.GetEntityRelationships<Place, Place>(place.Key.Value, place.VersionKey.Value, null, 
-					r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child || 
-						r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent || 
+				place.Relationships = this.GetEntityRelationships<Place, Place>(place.Key.Value, place.VersionKey.Value, null,
+					r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
+						r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
 						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).ToList();
 
 				return View(new PlaceViewModel(place));
@@ -602,9 +603,8 @@ namespace OpenIZAdmin.Controllers
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to retrieve place: { e }");
+				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
-
-			TempData["error"] = Locale.PlaceNotFound;
 
 			return RedirectToAction("Index");
 		}

@@ -46,7 +46,7 @@ namespace OpenIZAdmin.Models.CodeSystemModels
 		{
 			this.Description = codeSystem.Description;
 			this.Domain = codeSystem.Authority;
-			this.Name = codeSystem.Name ?? "N/A";
+			this.Name = codeSystem.Name ?? Constants.NotApplicable;
 			this.Oid = codeSystem.Oid;
 			this.Url = codeSystem.Url;
 			this.Version = codeSystem.VersionText;

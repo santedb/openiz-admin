@@ -272,9 +272,8 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
-
-			TempData["error"] = Locale.UserNotFound;
 
 			return RedirectToAction("Index");
 		}
@@ -583,9 +582,8 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
-
-			TempData["error"] = Locale.UserNotFound;
 
 			return RedirectToAction("Index");
 		}

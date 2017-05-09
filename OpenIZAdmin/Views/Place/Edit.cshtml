@@ -8,7 +8,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@Locale.EditPlace_Heading</span>        
+        <span class="panel-title">@Locale.EditPlace_Heading</span>
     </div>
     <div class="panel panel-body">
         @using (Html.BeginForm("Edit", "Place", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -29,8 +29,24 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.TargetPopulation, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.TargetPopulation, new { @class = "form-control", title = Locale.ToolTip_PlaceName })
+
+                    <div class="input-group date" id="targetPopulationYearInputGroup">
+                        @Html.TextBoxFor(m => m.Year, new { @class = "form-control", title = Locale.ToolTip_TargetPopulationYear })
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                    @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
+                    <span class="help-block">@Locale.ToolTip_TargetPopulationYear </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.TargetPopulation, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.TargetPopulation, new { @class = "form-control", title = Locale.ToolTip_TargetPopulationValue })
                     @Html.ValidationMessageFor(m => m.TargetPopulation, "", new { @class = "text-danger" })
+                    <span class="help-block">@Locale.ToolTip_TargetPopulationValue </span>
                 </div>
             </div>
 
@@ -45,7 +61,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.IsServiceDeliveryLocation, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.CheckBoxFor(m => m.IsServiceDeliveryLocation, new {@class = "col-md-offset-2"})
+                    @Html.CheckBoxFor(m => m.IsServiceDeliveryLocation, new { @class = "col-md-offset-2" })
                 </div>
             </div>
 
@@ -55,11 +71,11 @@
                     @if (Model.IsObsolete)
                     {
                         <button type="submit" class="btn btn-primary" disabled="disabled" title="@Locale.ToolTip_Submit">@Locale.CannotUpdateNotActive</button>
-                    }
+}
                     else
                     {
                         <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
-                    }
+}
                 </div>
             </div>
         }
@@ -67,16 +83,16 @@
         <div class="form-group col-md-offset-2 col-md-8">
             <div class="pull-right">
                 @if (!Model.IsObsolete)
-            {
-                using (Html.BeginForm("Delete", "Place", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                 {
+                    using (Html.BeginForm("Delete", "Place", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                    {
                         @Html.AntiForgeryToken()
 
                         <button type="submit" class="btn btn-danger">
                             @Locale.Deactivate
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
-                    }
+}
                 }
                 else
                 {
@@ -88,7 +104,7 @@
                             @Locale.Activate
                             <span class="glyphicon glyphicon-upload"></span>
                         </button>
-                    }
+}
                 }
             </div>
         </div>
@@ -114,7 +130,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="panel-title">@Locale.Relationships</span>
-        
+
         @if (!Model.IsObsolete)
         {
             <div class="pull-right">
@@ -129,9 +145,18 @@
     @Html.Partial("_ManageRelationshipsPartial", Model.Relationships)
 </div>
 
+@section Scripts
+{
 
-@section scripts{
-    <script>
+    @Scripts.Render("~/bundles/bootstrap-datetimepicker")
+    <script type="text/javascript">
+
+        $("#targetPopulationYearInputGroup").datetimepicker({
+            defaultDate: 'now',
+            format: "YYYY",
+            viewMode: "years"
+        });
+
         $(document).ready(function ()
         {
             //$("#viewPlaceTable").DataTable();
@@ -144,23 +169,23 @@
             $('#identifiersTable').DataTable({
                 order: [],
                 columns: [
-                  { "orderable": false },
-                  null,
-                  null,
-                  null,
-                  { "orderable": false }
+                    { "orderable": false },
+                    null,
+                    null,
+                    null,
+                    { "orderable": false }
                 ]
             });
 
             $('#relationshipsTable').DataTable({
                 order: [],
                 columns: [
-                  { "orderable": false },
-                  null,
-                  null,
-                  null,
-                  null,
-                  { "orderable": false }
+                    { "orderable": false },
+                    null,
+                    null,
+                    null,
+                    null,
+                    { "orderable": false }
                 ]
             });
 

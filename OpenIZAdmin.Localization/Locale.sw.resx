@@ -1568,4 +1568,19 @@ au jina la kikoa</value>
   <data name="UrlMustBeUnique" xml:space="preserve">
     <value>Url lazima yawe ya kipekee</value>
   </data>
+  <data name="ToolTip_TargetPopulationValue" xml:space="preserve">
+    <value>walengwa</value>
+  </data>
+  <data name="ToolTip_TargetPopulationYear" xml:space="preserve">
+    <value>mwaka wa idadi ya watu lengo</value>
+  </data>
+  <data name="NoConceptsSetsFound" xml:space="preserve">
+    <value>Hakuna seti ya dhana ya kupatikana</value>
+  </data>
+  <data name="NoPlacesFound" xml:space="preserve">
+    <value>Hakuna mahali kupatikana</value>
+  </data>
+  <data name="UnexpectedErrorMessage" xml:space="preserve">
+    <value>hitilafu isiyotarajiwa imetokea, kama tatizo litaendelea, tafadhali wasiliana na msimamizi</value>
+  </data>
 </root>
