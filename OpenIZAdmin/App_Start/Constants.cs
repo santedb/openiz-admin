@@ -86,7 +86,14 @@ namespace OpenIZAdmin
         /// <summary>
         /// Regular expression string for username validation
         /// </summary>
-        public const string RegExPhoneNumberAlternate = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";        
+        public const string RegExPhoneNumberAlternate = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
+
+        //reference: https://gist.github.com/muya/ce5a18a3f119cc4ac286
+        /// <summary>
+        /// Regular expression string for username validation
+        /// </summary>
+        public const string RegExPhoneNumberTanzania = @"/(\+?255|0|^){1}[-. ]?([7]{1}[1]{1}[2-9]{1}|[6]{1}[57]{1}[2-9]{1})[0-9]{6}\z/";
+
 
         /// <summary>
         /// Regular expression string for username validation

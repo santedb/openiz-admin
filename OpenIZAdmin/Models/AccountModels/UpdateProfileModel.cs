@@ -153,7 +153,7 @@ namespace OpenIZAdmin.Models.AccountModels
         [Display(Name = "Phone", ResourceType = typeof(Locale))]
         [Required(ErrorMessageResourceName = "PhoneNumberRequired", ErrorMessageResourceType = typeof(Locale))]
         [StringLength(25, ErrorMessageResourceName = "PhoneNumberTooLong", ErrorMessageResourceType = typeof(Locale))]        
-        [RegularExpression(Constants.RegExPhoneNumberAlternate, ErrorMessageResourceName = "InvalidPhoneNumber", ErrorMessageResourceType = typeof(Locale))]
+        [RegularExpression(Constants.RegExPhoneNumberTanzania, ErrorMessageResourceName = "InvalidPhoneNumber", ErrorMessageResourceType = typeof(Locale))]
         //[Phone(ErrorMessageResourceName = "InvalidPhoneNumber", ErrorMessageResourceType = typeof(Locale))]
         public string PhoneNumber { get; set; }
 
