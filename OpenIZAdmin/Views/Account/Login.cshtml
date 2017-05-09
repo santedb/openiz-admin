@@ -6,7 +6,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="panel-title">@Locale.Login</span>
-</div>
+    </div>
     <div class="panel panel-body">
         @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
@@ -37,3 +37,35 @@
         }
     </div>
 </div>
+
+@section scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var userVal = document.getElementById('txtOne');
+            userVal.value = userVal.value.replace(/\s/g, "");
+
+            //$("#topNav" + $("#breadCrumb2nd").text().replace(/\s+/g, ''));
+
+            @*@if (!Model.TfaMechanisms.Any())
+            {
+                <text>$("#reset-password").attr("disabled", "disabled");</text>
+            }
+
+            $("#username-next").on("click", function (e)
+            {
+                e.preventDefault();
+                $("#username-section").addClass("hidden");
+                $("#tfa-mechanisms-section").removeClass("hidden");
+            });
+
+            $("#tfa-mechanisms-next").on("click", function (e)
+            {
+                e.preventDefault();
+                $("#tfa-mechanisms-section").addClass("hidden");
+                $("#verification-section").removeClass("hidden");
+            });*@
+        });
+    </script>
+}
