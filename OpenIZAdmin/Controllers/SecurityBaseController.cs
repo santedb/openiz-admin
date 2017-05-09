@@ -140,7 +140,7 @@ namespace OpenIZAdmin.Controllers
 		protected SecurityRoleInfo ToSecurityRoleInfo(EditRoleModel model, SecurityRoleInfo roleInfo)
 		{
 			roleInfo.Role.Description = model.Description;
-			roleInfo.Name = model.Name;
+			roleInfo.Role.Name = model.Name;
 
 			var addPoliciesList = this.GetNewPolicies(model.Policies.Select(Guid.Parse));
 
