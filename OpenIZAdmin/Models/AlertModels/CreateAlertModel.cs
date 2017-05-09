@@ -46,11 +46,6 @@ namespace OpenIZAdmin.Models.AlertModels
 				{
 					Text = Locale.HighPriority,
 					Value = ((int)AlertMessageFlags.HighPriority).ToString()
-				},
-				new SelectListItem
-				{
-					Text = Locale.System,
-					Value = ((int)AlertMessageFlags.System).ToString()
 				}
 			};
 
