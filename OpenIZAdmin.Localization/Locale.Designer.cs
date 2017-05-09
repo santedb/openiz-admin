@@ -979,6 +979,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Concept.
+        /// </summary>
+        public static string CreateConcept_Heading {
+            get {
+                return ResourceManager.GetString("CreateConcept_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Concept Set.
         /// </summary>
         public static string CreateConceptSet_Heading {
@@ -1416,6 +1425,15 @@ namespace OpenIZAdmin.Localization {
         public static string EditCodeSystem_Heading {
             get {
                 return ResourceManager.GetString("EditCodeSystem_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Concept.
+        /// </summary>
+        public static string EditConcept_Heading {
+            get {
+                return ResourceManager.GetString("EditConcept_Heading", resourceCulture);
             }
         }
         
@@ -5799,6 +5817,15 @@ namespace OpenIZAdmin.Localization {
         public static string ViewCodeSystem_Heading {
             get {
                 return ResourceManager.GetString("ViewCodeSystem_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Concept.
+        /// </summary>
+        public static string ViewConcept_Heading {
+            get {
+                return ResourceManager.GetString("ViewConcept_Heading", resourceCulture);
             }
         }
         

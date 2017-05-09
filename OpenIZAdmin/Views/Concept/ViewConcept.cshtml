@@ -1,11 +1,11 @@
 ﻿@model OpenIZAdmin.Models.ConceptModels.ConceptViewModel
 @{
-    ViewBag.Title = Locale.View + " " + Locale.Concept;
+    ViewBag.Title = Locale.ViewConcept_Heading;
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@(Locale.View + " " + Locale.Concept)</span>
+        <span class="panel-title">@Locale.ViewConcept_Heading</span>
         <div class="pull-right">
             @if (!Model.IsSystemConcept)
             {

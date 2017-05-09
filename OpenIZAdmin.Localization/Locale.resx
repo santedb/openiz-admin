@@ -2067,4 +2067,13 @@
   <data name="UsernameValidationErrorMessage" xml:space="preserve">
     <value>Whitespace and special characters ! @ # $ % &amp; : . ; * / and '\' are not allowed</value>
   </data>
+  <data name="CreateConcept_Heading" xml:space="preserve">
+    <value>Create Concept</value>
+  </data>
+  <data name="EditConcept_Heading" xml:space="preserve">
+    <value>Edit Concept</value>
+  </data>
+  <data name="ViewConcept_Heading" xml:space="preserve">
+    <value>View Concept</value>
+  </data>
 </root>
