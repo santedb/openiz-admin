@@ -265,9 +265,9 @@ namespace OpenIZAdmin.Controllers
 
 				Guid phoneType;
 
-				model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList().ToList();
+				model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList().ToList();                
 
-				return View(model);
+                return View(model);
 			}
 			catch (Exception e)
 			{

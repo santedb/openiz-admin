@@ -486,10 +486,14 @@ namespace OpenIZAdmin.Controllers
 				var phoneTypes = this.GetPhoneTypeConceptSet().Concepts.ToList();
 
 				Guid phoneType;
-
 				model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList().ToList();
 
-				return View(model);
+			    //if (userEntity.Telecoms.All(t => t.AddressUseKey != TelecomAddressUseKeys.MobileContact)) return View(model);
+			    
+			    //model.PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;
+			    //model.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
+			    
+			    return View(model);
 			}
 			catch (Exception e)
 			{

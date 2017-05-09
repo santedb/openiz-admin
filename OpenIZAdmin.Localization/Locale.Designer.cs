@@ -3103,6 +3103,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a phone number.
+        /// </summary>
+        public static string PhoneNumberRequired {
+            get {
+                return ResourceManager.GetString("PhoneNumberRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The phone number field cannot exceed 25 characters.
         /// </summary>
         public static string PhoneNumberTooLong {

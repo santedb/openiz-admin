@@ -83,23 +83,32 @@ namespace OpenIZAdmin.Models.AccountModels
                 }
 			};
 
-			if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
-			{
-				this.PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;
-				this.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
-			}
-			else
-			{
-				this.PhoneNumber = userEntity.Telecoms.FirstOrDefault()?.Value;
-				this.PhoneType = userEntity.Telecoms.FirstOrDefault()?.AddressUseKey?.ToString();
-			}
+            if (userEntity.Telecoms.Any())
+            {
+                //can have more than one contact - default to show mobile
+                if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
+                {
+                    PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;
+                    PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
+                }
+                else
+                {
+                    PhoneNumber = userEntity.Telecoms.FirstOrDefault()?.Value;
+                    PhoneType = userEntity.Telecoms.FirstOrDefault()?.AddressUseKey?.ToString();
+                }                
+            }
+            else
+            {
+                //Default to Mobile - requirement
+                PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
+            }   
 		}
 
-		/// <summary>
-		/// Gets or sets the email address of the user.
-		/// </summary>
-		[Required(ErrorMessageResourceName = "EmailRequired", ErrorMessageResourceType = typeof(Locale))]
-		[EmailAddress(ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Locale))]
+        /// <summary>
+        /// Gets or sets the email address of the user.
+        /// </summary>		
+        [DataType(DataType.EmailAddress)]
+        [EmailAddress(ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Locale))]
 		public string Email { get; set; }
 
 		/// <summary>
@@ -137,13 +146,16 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// </summary>
 		public List<SelectListItem> LanguageList { get; set; }
 
-		/// <summary>
-		/// Gets or sets the phone number of the user.
-		/// </summary>
-		[Display(Name = "Phone", ResourceType = typeof(Locale))]
-		[StringLength(25, ErrorMessageResourceName = "PhoneNumberTooLong", ErrorMessageResourceType = typeof(Locale))]
-		[Phone(ErrorMessageResourceName = "InvalidPhoneNumber", ErrorMessageResourceType = typeof(Locale))]
-		public string PhoneNumber { get; set; }
+        /// <summary>
+        /// Gets or sets the phone number of the user.
+        /// </summary>
+        [DataType(DataType.PhoneNumber)]
+        [Display(Name = "Phone", ResourceType = typeof(Locale))]
+        [Required(ErrorMessageResourceName = "PhoneNumberRequired", ErrorMessageResourceType = typeof(Locale))]
+        [StringLength(25, ErrorMessageResourceName = "PhoneNumberTooLong", ErrorMessageResourceType = typeof(Locale))]        
+        [RegularExpression(Constants.RegExPhoneNumberAlternate, ErrorMessageResourceName = "InvalidPhoneNumber", ErrorMessageResourceType = typeof(Locale))]
+        //[Phone(ErrorMessageResourceName = "InvalidPhoneNumber", ErrorMessageResourceType = typeof(Locale))]
+        public string PhoneNumber { get; set; }
 
 		/// <summary>
 		/// Gets or sets the phone type of the user.
@@ -214,7 +226,7 @@ namespace OpenIZAdmin.Models.AccountModels
 				userEntity.LanguageCommunication.Add(new PersonLanguageCommunication(this.Language, true));
 			}
 
-			if (!string.IsNullOrEmpty(this.PhoneNumber) && !string.IsNullOrWhiteSpace(this.PhoneNumber))
+			if (!string.IsNullOrEmpty(PhoneNumber) && !string.IsNullOrWhiteSpace(PhoneNumber))
 			{
 				var phoneType = Guid.Empty;
 

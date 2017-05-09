@@ -81,7 +81,17 @@ namespace OpenIZAdmin
         /// <summary>
         /// Regular expression string for username validation
         /// </summary>
-        public const string RegExUsername = @"^[^ !@#$%&\\/:*;\.\)\(]+$";
+        public const string RegExPhoneNumber = @"^(?:\d{8}|00\d{10}|\+\d{2}\d{8})$";
+
+        /// <summary>
+        /// Regular expression string for username validation
+        /// </summary>
+        public const string RegExPhoneNumberAlternate = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";        
+
+        /// <summary>
+        /// Regular expression string for username validation
+        /// </summary>
+        public const string RegExUsername = @"^[^ !@#$%&\\/:*;\.\)\(]+$";        
 
         /// <summary>
         /// The RISI endpoint name.
