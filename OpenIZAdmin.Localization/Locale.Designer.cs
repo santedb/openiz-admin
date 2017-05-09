@@ -3067,6 +3067,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Whitespace and special characters ! @ % : . ; * / and &apos;\&apos; are not allowed.
+        /// </summary>
+        public static string PasswordValidationErrorMessage {
+            get {
+                return ResourceManager.GetString("PasswordValidationErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Phone.
         /// </summary>
         public static string Phone {
@@ -5556,6 +5565,15 @@ namespace OpenIZAdmin.Localization {
         public static string UsernameRequired {
             get {
                 return ResourceManager.GetString("UsernameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Whitespace and special characters ! @ # $ % &amp; : . ; * / and &apos;\&apos; are not allowed.
+        /// </summary>
+        public static string UsernameValidationErrorMessage {
+            get {
+                return ResourceManager.GetString("UsernameValidationErrorMessage", resourceCulture);
             }
         }
         

@@ -41,7 +41,8 @@ namespace OpenIZAdmin.Models.AccountModels
 		[Display(Name = "ConfirmPassword", ResourceType = typeof(Locale))]
 		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "ConfirmPasswordRequired", ErrorMessageResourceType = typeof(Locale))]
-		[Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Locale))]
+        [RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
+        [Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Locale))]
 		public string ConfirmPassword { get; set; }
 
 		/// <summary>
@@ -51,7 +52,8 @@ namespace OpenIZAdmin.Models.AccountModels
 		[Display(Name = "CurrentPassword", ResourceType = typeof(Locale))]
         [StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
         [Required(ErrorMessageResourceName = "CurrentPasswordRequired", ErrorMessageResourceType = typeof(Locale))]
-		public string CurrentPassword { get; set; }
+        [RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
+        public string CurrentPassword { get; set; }
 
 		/// <summary>
 		/// Gets or sets the password of the model.
@@ -60,7 +62,8 @@ namespace OpenIZAdmin.Models.AccountModels
 		[Display(Name = "Password", ResourceType = typeof(Locale))]
 		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Locale))]
-		public string Password { get; set; }
+        [RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
+        public string Password { get; set; }
 
 		/// <summary>
 		/// Gets or sets the username.

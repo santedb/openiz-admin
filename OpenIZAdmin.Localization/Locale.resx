@@ -2061,4 +2061,10 @@
   <data name="UnexpectedErrorMessage" xml:space="preserve">
     <value>An unexpected error has occurred, if the problem persists, please contact the administrator</value>
   </data>
+  <data name="PasswordValidationErrorMessage" xml:space="preserve">
+    <value>Whitespace and special characters ! @ % : . ; * / and '\' are not allowed</value>
+  </data>
+  <data name="UsernameValidationErrorMessage" xml:space="preserve">
+    <value>Whitespace and special characters ! @ # $ % &amp; : . ; * / and '\' are not allowed</value>
+  </data>
 </root>

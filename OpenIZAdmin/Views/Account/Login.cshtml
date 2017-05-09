@@ -37,17 +37,3 @@
         }
     </div>
 </div>
-
-@section scripts
-{
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            $("#userName").blur(function() {
-                var userVal = document.getElementById("userName");
-                userVal.value = userVal.value.replace(/\s/g, "");               
-            });
-
-        });
-    </script>
-}

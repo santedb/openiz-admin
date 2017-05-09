@@ -54,7 +54,8 @@ namespace OpenIZAdmin.Models.AccountModels
 		[Display(Name = "ConfirmPassword", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "ConfirmPasswordRequired", ErrorMessageResourceType = typeof(Locale))]
 		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
-		[Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Locale))]
+        [RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
+        [Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Locale))]
 		public string ConfirmPassword { get; set; }
 
 		/// <summary>
@@ -65,7 +66,8 @@ namespace OpenIZAdmin.Models.AccountModels
 		[Display(Name = "Password", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Locale))]
 		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
-		public string Password { get; set; }
+        [RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
+        public string Password { get; set; }
 
 		/// <summary>
 		/// Gets or sets the user identifier.

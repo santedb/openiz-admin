@@ -72,10 +72,21 @@ namespace OpenIZAdmin
 		/// </summary>
 		public const string NotApplicable = "N/A";
 
-		/// <summary>
-		/// The RISI endpoint name.
-		/// </summary>
-		public const string Risi = "RISI";
+        /// <summary>
+        /// Regular expression string for password validation
+        /// </summary>
+        public const string RegExPassword = @"^[^ !@%\\/:*;\.\)\(]+$";
+        //public const string RegExPassword = @"^[^ \\/:*;\.\)\(]+$";
+
+        /// <summary>
+        /// Regular expression string for username validation
+        /// </summary>
+        public const string RegExUsername = @"^[^ !@#$%&\\/:*;\.\)\(]+$";
+
+        /// <summary>
+        /// The RISI endpoint name.
+        /// </summary>
+        public const string Risi = "RISI";
 
 		/// <summary>
 		/// The system user identifier.

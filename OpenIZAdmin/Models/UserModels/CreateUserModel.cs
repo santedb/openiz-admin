@@ -71,9 +71,10 @@ namespace OpenIZAdmin.Models.UserModels
 		/// </summary>
 		[DataType(DataType.Password)]
 		[Display(Name = "Password", ResourceType = typeof(Locale))]
-		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Locale))]
-		public string Password { get; set; }
+        [Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Locale))]
+        [StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]		
+        [RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
+        public string Password { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of roles of the user.
@@ -94,13 +95,25 @@ namespace OpenIZAdmin.Models.UserModels
 		[Required(ErrorMessageResourceName = "SurnameRequired", ErrorMessageResourceType = typeof(Locale))]
 		public List<string> Surnames { get; set; }
 
-		/// <summary>
-		/// Gets or sets the username of the user.
-		/// </summary>
-		[Display(Name = "Username", ResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Locale))]
-		[StringLength(50, MinimumLength = 5, ErrorMessageResourceName = "UsernameLength50", ErrorMessageResourceType = typeof(Locale))]
-		public string Username { get; set; }
+	    /// <summary>
+	    /// Gets or sets the username of the user.
+	    /// </summary>
+	    [Display(Name = "Username", ResourceType = typeof(Locale))]
+	    [Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Locale))]
+	    [StringLength(50, MinimumLength = 5, ErrorMessageResourceName = "UsernameLength50",
+	        ErrorMessageResourceType = typeof(Locale))]
+        //[RegularExpression(Constants.RegExUsername, ErrorMessage = "Whitespace and special characters ! @ # $ % & : . ; * / and '\' are not allowed")]
+        [RegularExpression(Constants.RegExUsername, ErrorMessageResourceName = "UsernameValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]        
+        public string Username { get; set; }
+
+	    //{	        
+	    //    get { return Username; }	         
+	    //    set {
+	    //        Username = !string.IsNullOrWhiteSpace(value) ? string.Join("", value.Split(default(string[]), StringSplitOptions.RemoveEmptyEntries)) : value;
+	    //    }
+	    //}
+        
+
 
 	    /// <summary>
 	    /// Checks if any of the the Role(s) assigned are an empty selection
