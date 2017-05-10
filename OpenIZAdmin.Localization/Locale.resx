@@ -1192,7 +1192,7 @@
     <value>Please select a reset mechanism</value>
   </data>
   <data name="UsernameLength50" xml:space="preserve">
-    <value>The username cannot exceed 50 characters or be less than 5 characters</value>
+    <value>The username cannot exceed 50 characters or be less than 3 characters</value>
   </data>
   <data name="Retrieve" xml:space="preserve">
     <value>Retrieve</value>

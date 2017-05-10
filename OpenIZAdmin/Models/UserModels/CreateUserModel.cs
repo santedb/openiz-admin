@@ -99,7 +99,7 @@ namespace OpenIZAdmin.Models.UserModels
 	    /// </summary>
 	    [Display(Name = "Username", ResourceType = typeof(Locale))]
 	    [Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Locale))]
-	    [StringLength(50, MinimumLength = 5, ErrorMessageResourceName = "UsernameLength50", ErrorMessageResourceType = typeof(Locale))]        
+	    [StringLength(50, MinimumLength = 3, ErrorMessageResourceName = "UsernameLength50", ErrorMessageResourceType = typeof(Locale))]        
         [RegularExpression(Constants.RegExUsername, ErrorMessageResourceName = "UsernameValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]        
         public string Username { get; set; }	            
 
