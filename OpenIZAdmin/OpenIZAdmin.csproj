@@ -314,6 +314,7 @@
     <Compile Include="Models\Core\SecurityViewModel.cs" />
     <Compile Include="Models\Core\Serialization\TargetPopulation.cs" />
     <Compile Include="Models\Core\UserModel.cs" />
+    <Compile Include="Models\Core\UserModelBase.cs" />
     <Compile Include="Models\Core\VerifyEntityModel.cs" />
     <Compile Include="Models\Core\VersionedMetadataEditModelBase.cs" />
     <Compile Include="Models\DebugModels\SubmitBugReportModel.cs" />

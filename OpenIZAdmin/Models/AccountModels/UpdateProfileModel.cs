@@ -25,13 +25,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.AccountModels
 {
 	/// <summary>
 	/// Represents a model to allow a user to update their profile.
 	/// </summary>
-	public class UpdateProfileModel
+	public class UpdateProfileModel : UserModelBase
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="UpdateProfileModel"/> class.
@@ -102,32 +103,12 @@ namespace OpenIZAdmin.Models.AccountModels
                 //Default to Mobile - requirement
                 PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
             }   
-		}
-
-        /// <summary>
-        /// Gets or sets the email address of the user.
-        /// </summary>		
-        [DataType(DataType.EmailAddress)]
-        [EmailAddress(ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Locale))]
-		public string Email { get; set; }
-
-		/// <summary>
-		/// Gets or sets the id of the facility of the user.
-		/// </summary>
-		[Display(Name = "Facility", ResourceType = typeof(Locale))]
-		public string Facility { get; set; }
+		}  
 
 		/// <summary>
 		/// Gets or sets the list of facilities.
 		/// </summary>
-		public List<SelectListItem> FacilityList { get; set; }
-
-		/// <summary>
-		/// Gets or sets the givens names of the user.
-		/// </summary>
-		[Display(Name = "GivenName", ResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "GivenNameRequired", ErrorMessageResourceType = typeof(Locale))]
-		public List<string> GivenNames { get; set; }
+		public List<SelectListItem> FacilityList { get; set; }		
 
 		/// <summary>
 		/// Gets or sets the list of given names of the user.
@@ -144,37 +125,7 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// <summary>
 		/// Gets or sets the list of languages.
 		/// </summary>
-		public List<SelectListItem> LanguageList { get; set; }
-
-        /// <summary>
-        /// Gets or sets the phone number of the user.
-        /// </summary>
-        [DataType(DataType.PhoneNumber)]
-        [Display(Name = "Phone", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "PhoneNumberRequired", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(25, ErrorMessageResourceName = "PhoneNumberTooLong", ErrorMessageResourceType = typeof(Locale))]        
-        [RegularExpression(Constants.RegExPhoneNumberTanzania, ErrorMessageResourceName = "InvalidPhoneNumber", ErrorMessageResourceType = typeof(Locale))]
-        //[Phone(ErrorMessageResourceName = "InvalidPhoneNumber", ErrorMessageResourceType = typeof(Locale))]
-        public string PhoneNumber { get; set; }
-
-		/// <summary>
-		/// Gets or sets the phone type of the user.
-		/// </summary>
-		[Display(Name = "PhoneType", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "PhoneTypeRequired", ErrorMessageResourceType = typeof(Locale))]
-        public string PhoneType { get; set; }
-
-		/// <summary>
-		/// Gets or sets the types of phones.
-		/// </summary>
-		public List<SelectListItem> PhoneTypeList { get; set; }
-
-		/// <summary>
-		/// Gets or sets the family names of the user.
-		/// </summary>
-		[Display(Name = "Surname", ResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "SurnameRequired", ErrorMessageResourceType = typeof(Locale))]
-		public List<string> Surnames { get; set; }
+		public List<SelectListItem> LanguageList { get; set; } 
 
 		/// <summary>
 		/// Gets or sets the list of family names of the user.
@@ -202,20 +153,28 @@ namespace OpenIZAdmin.Models.AccountModels
 				name.Component.AddRange(this.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
 
 				userEntity.Names = new List<EntityName> { name };
-			}
+			}            
 
-			Guid facility;
+            // only update the facility if it actually changes
+            var facilityId = ConvertFacilityToGuid();
+            
+            //if (facilityId != null && HasSelectedNewFacility(userEntity, facilityId))
+            //{                                    
+            //    userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+            //    userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, facilityId));
+            //}
 
-			// only update the facility if it actually changes
-			if (!string.IsNullOrEmpty(this.Facility) &&
-				Guid.TryParse(this.Facility, out facility) &&
-				userEntity.Relationships.Find(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation && r.TargetEntityKey == facility) == null)
-			{
-				userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, facility));
-			}
+            if (facilityId == null)
+            {
+                userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+            }
+            else if (HasSelectedNewFacility(userEntity, facilityId))
+            {
+                userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, facilityId));
+            }
 
-			if (!string.IsNullOrEmpty(this.Language))
+            if (!string.IsNullOrWhiteSpace(Language))
 			{
 				var currentLanguage = userEntity.LanguageCommunication.Find(l => l.IsPreferred);
 
@@ -225,25 +184,24 @@ namespace OpenIZAdmin.Models.AccountModels
 				}
 
 				userEntity.LanguageCommunication.Add(new PersonLanguageCommunication(this.Language, true));
-			}
+			}		
 
-			if (!string.IsNullOrEmpty(PhoneNumber) && !string.IsNullOrWhiteSpace(PhoneNumber))
-			{
-				var phoneType = Guid.Empty;
+            if (HasPhoneNumberAndType())
+            {
+                var phoneType = ConvertPhoneTypeToGuid();
+                if (phoneType != null)
+                {
+                    userEntity.Telecoms.Clear();
+                    userEntity.Telecoms.Add(new EntityTelecomAddress((Guid)phoneType, PhoneNumber));
+                }
+                else
+                {
+                    userEntity.Telecoms.RemoveAll(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact);
+                    userEntity.Telecoms.Add(new EntityTelecomAddress(TelecomAddressUseKeys.MobileContact, PhoneNumber));
+                }
+            }
 
-				if (Guid.TryParse(this.PhoneType, out phoneType))
-				{
-					userEntity.Telecoms.Clear();
-					userEntity.Telecoms.Add(new EntityTelecomAddress(phoneType, this.PhoneNumber));
-				}
-				else
-				{
-					userEntity.Telecoms.RemoveAll(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact);
-					userEntity.Telecoms.Add(new EntityTelecomAddress(TelecomAddressUseKeys.MobileContact, this.PhoneNumber));
-				}
-			}
-
-			userEntity.CreationTime = DateTimeOffset.Now;
+            userEntity.CreationTime = DateTimeOffset.Now;
 			userEntity.VersionKey = null;
 
 			return userEntity;

@@ -45,27 +45,7 @@ namespace OpenIZAdmin.Models.UserModels
 			this.GivenNames = new List<string>();
             this.PhoneTypeList = new List<SelectListItem>();
             this.RolesList = new List<SelectListItem>();
-		}
-
-		///// <summary>
-		///// Gets or sets the email address of the user.
-		///// </summary>		
-		//[Display(Name = "Email", ResourceType = typeof(Locale))]		
-		//[EmailAddress(ErrorMessage = null, ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Locale))]
-		//public string Email { get; set; }
-
-		///// <summary>
-		///// Gets or sets the id of the facility of the user.
-		///// </summary>
-		//[Display(Name = "Facility", ResourceType = typeof(Locale))]
-		//public string Facility { get; set; }
-
-		///// <summary>
-		///// Gets or sets the givens names of the user.
-		///// </summary>
-		//[Display(Name = "GivenName", ResourceType = typeof(Locale))]
-		//[Required(ErrorMessageResourceName = "GivenNameRequired", ErrorMessageResourceType = typeof(Locale))]
-		//public List<string> GivenNames { get; set; }
+		}		
 
 		/// <summary>
 		/// Gets or sets the password of the user.
@@ -76,48 +56,7 @@ namespace OpenIZAdmin.Models.UserModels
         [StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]		
         [RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
         public string Password { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the phone number of the user.
-        ///// </summary>
-        //[DataType(DataType.PhoneNumber)]
-        //[Display(Name = "Phone", ResourceType = typeof(Locale))]
-        //[Required(ErrorMessageResourceName = "PhoneNumberRequired", ErrorMessageResourceType = typeof(Locale))]
-        //[StringLength(25, ErrorMessageResourceName = "PhoneNumberTooLong", ErrorMessageResourceType = typeof(Locale))]
-        //[RegularExpression(Constants.RegExPhoneNumberTanzania, ErrorMessageResourceName = "InvalidPhoneNumber", ErrorMessageResourceType = typeof(Locale))]        
-        //public string PhoneNumber { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the phone type of the user.
-        ///// </summary>
-        //[Display(Name = "PhoneType", ResourceType = typeof(Locale))]
-        //[Required(ErrorMessageResourceName = "PhoneTypeRequired", ErrorMessageResourceType = typeof(Locale))]
-        //public string PhoneType { get; set; }
-
-  //      /// <summary>
-		///// Gets or sets the types of phones.
-		///// </summary>
-		//public List<SelectListItem> PhoneTypeList { get; set; }
-
-  //      /// <summary>
-  //      /// Gets or sets the list of roles of the user.
-  //      /// </summary>
-  //      [Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]        
-		//[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Locale))]
-		//public List<string> Roles { get; set; }
-
-		///// <summary>
-		///// Gets or sets the list of available roles
-		///// </summary>
-		//public List<SelectListItem> RolesList { get; set; }
-
-		///// <summary>
-		///// Gets or sets the family names of the user.
-		///// </summary>
-		//[Display(Name = "Surname", ResourceType = typeof(Locale))]
-		//[Required(ErrorMessageResourceName = "SurnameRequired", ErrorMessageResourceType = typeof(Locale))]
-		//public List<string> Surnames { get; set; }
-
+       
 	    /// <summary>
 	    /// Gets or sets the username of the user.
 	    /// </summary>
@@ -125,20 +64,7 @@ namespace OpenIZAdmin.Models.UserModels
 	    [Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Locale))]
 	    [StringLength(50, MinimumLength = 3, ErrorMessageResourceName = "UsernameLength50", ErrorMessageResourceType = typeof(Locale))]        
         [RegularExpression(Constants.RegExUsername, ErrorMessageResourceName = "UsernameValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]        
-        public string Username { get; set; }	            
-
-	    ///// <summary>
-	    ///// Checks if any of the the Role(s) assigned are an empty selection
-	    ///// </summary>
-	    ///// <returns>Returns true if an empty string is contained in the List</returns>
-	    //public void CheckForEmptyRoleAssigned()
-	    //{
-     //       if (Roles != null && Roles.Any())
-     //       {
-     //           Roles.RemoveAll(r => string.IsNullOrWhiteSpace(r) || string.IsNullOrEmpty(r));
-     //       }
-	    //    //return Roles.Any() && Roles.All(r => string.IsNullOrWhiteSpace(r) || string.IsNullOrEmpty(r));
-	    //}
+        public string Username { get; set; }	            	    
 
 	    /// <summary>
         /// Converts a <see cref="CreateUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.

@@ -30,52 +30,8 @@ namespace OpenIZAdmin.Models.Core
     /// <summary>
     /// Represents a model of a user.
     /// </summary>
-    public abstract class UserModel
-    {
-        /// <summary>
-        /// Gets or sets the email address of the user.
-        /// </summary>		
-        [Display(Name = "Email", ResourceType = typeof(Locale))]
-        [EmailAddress(ErrorMessage = null, ErrorMessageResourceName = "InvalidEmailAddress",
-            ErrorMessageResourceType = typeof(Locale))]
-        public string Email { get; set; }
-
-        /// <summary>
-        /// Gets or sets the id of the facility of the user.
-        /// </summary>
-        [Display(Name = "Facility", ResourceType = typeof(Locale))]
-        public string Facility { get; set; }
-
-        /// <summary>
-        /// Gets or sets the givens names of the user.
-        /// </summary>
-        [Display(Name = "GivenName", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "GivenNameRequired", ErrorMessageResourceType = typeof(Locale))]
-        public List<string> GivenNames { get; set; }
-
-        /// <summary>
-        /// Gets or sets the phone number of the user.
-        /// </summary>
-        [DataType(DataType.PhoneNumber)]
-        [Display(Name = "Phone", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "PhoneNumberRequired", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(25, ErrorMessageResourceName = "PhoneNumberTooLong", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExPhoneNumberTanzania, ErrorMessageResourceName = "InvalidPhoneNumber",
-            ErrorMessageResourceType = typeof(Locale))]
-        public string PhoneNumber { get; set; }
-
-        /// <summary>
-        /// Gets or sets the phone type of the user.
-        /// </summary>
-        [Display(Name = "PhoneType", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "PhoneTypeRequired", ErrorMessageResourceType = typeof(Locale))]
-        public string PhoneType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the types of phones.
-        /// </summary>
-        public List<SelectListItem> PhoneTypeList { get; set; }
-
+    public abstract class UserModel : UserModelBase
+    {       
         /// <summary>
         /// Gets or sets the list of roles of the user.
         /// </summary>
@@ -86,14 +42,7 @@ namespace OpenIZAdmin.Models.Core
         /// <summary>
         /// Gets or sets the list of available roles
         /// </summary>
-        public List<SelectListItem> RolesList { get; set; }
-
-        /// <summary>
-        /// Gets or sets the family names of the user.
-        /// </summary>
-        [Display(Name = "Surname", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "SurnameRequired", ErrorMessageResourceType = typeof(Locale))]
-        public List<string> Surnames { get; set; }
+        public List<SelectListItem> RolesList { get; set; }      
 
         /// <summary>
         /// Checks if any of the Role(s) assigned are an empty selection
@@ -104,44 +53,8 @@ namespace OpenIZAdmin.Models.Core
             if (Roles != null && Roles.Any())
             {
                 Roles.RemoveAll(string.IsNullOrWhiteSpace);
-            }
-            //return Roles.Any() && Roles.All(r => string.IsNullOrWhiteSpace(r) || string.IsNullOrEmpty(r));
+            }            
         }
-
-        /// <summary>
-        /// Converts the phone type entry from string to a guid
-        /// </summary>
-        /// <returns>Returns the phone type guid, null if the operation was unsuccessful</returns>
-        public Guid? ConvertFacilityToGuid()
-        {
-            if (string.IsNullOrWhiteSpace(Facility)) return null;
-
-            Guid facilityId;
-
-            if (Guid.TryParse(Facility, out facilityId)) return facilityId;
-            
-            return null;
-        }
-
-        /// <summary>
-        /// Converts the phone type entry from string to a guid
-        /// </summary>
-        /// <returns>Returns the phone type guid, null if the operation was unsuccessful</returns>
-        public Guid? ConvertPhoneTypeToGuid()
-        {
-            if (string.IsNullOrWhiteSpace(PhoneType)) return null;
-
-            Guid phoneTypeId;
-
-            if (Guid.TryParse(PhoneType, out phoneTypeId)) return phoneTypeId;
-
-            return null;
-        }
-
-        /// <summary>
-        /// Checks if the Phone Number and Type input contains an entry
-        /// </summary>
-        /// <returns>Returns true if a number and type exists, false if no phone number or type is assigned</returns>
-        public bool HasPhoneNumberAndType() => !string.IsNullOrWhiteSpace(PhoneNumber) && !string.IsNullOrWhiteSpace(PhoneType);                     
+                             
     }
 }

@@ -89,32 +89,12 @@ namespace OpenIZAdmin.Models.UserModels
 		/// Gets or sets the creation time of the user account.
 		/// </summary>
 		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
-		public DateTimeOffset CreationTime { get; set; }
-
-  //      /// <summary>
-  //      /// Gets or sets the email address of the user.
-  //      /// </summary>        
-  //      [Display(Name = "Email", ResourceType = typeof(Localization.Locale))]		
-		//[EmailAddress(ErrorMessage = null, ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Localization.Locale))]
-		//public string Email { get; set; }
-
-		///// <summary>
-		///// Gets or sets the id of the facility of the user.
-		///// </summary>
-		//[Display(Name = "Facility", ResourceType = typeof(Localization.Locale))]
-		//public string Facility { get; set; }
+		public DateTimeOffset CreationTime { get; set; }  
 
 		/// <summary>
 		/// Gets or sets the list of facilities.
 		/// </summary>
-		public List<SelectListItem> FacilityList { get; set; }
-
-		///// <summary>
-		///// Gets or sets the givens names of the user.
-		///// </summary>
-		//[Display(Name = "GivenName", ResourceType = typeof(Localization.Locale))]
-		//[Required(ErrorMessageResourceName = "GivenNameRequired", ErrorMessageResourceType = typeof(Locale))]
-		//public List<string> GivenNames { get; set; }
+		public List<SelectListItem> FacilityList { get; set; }		
 
 		/// <summary>
 		/// Gets or sets the list of given names.
@@ -130,69 +110,17 @@ namespace OpenIZAdmin.Models.UserModels
 		/// <summary>
 		/// Gets or sets whether the security entity is obsolete.
 		/// </summary>
-		public bool IsObsolete { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the phone number of the user.
-        ///// </summary>
-        //[DataType(DataType.PhoneNumber)]
-        //[Display(Name = "Phone", ResourceType = typeof(Locale))]
-        //[Required(ErrorMessageResourceName = "PhoneNumberRequired", ErrorMessageResourceType = typeof(Locale))]
-        //[StringLength(25, ErrorMessageResourceName = "PhoneNumberTooLong", ErrorMessageResourceType = typeof(Locale))]
-        //[RegularExpression(Constants.RegExPhoneNumberTanzania, ErrorMessageResourceName = "InvalidPhoneNumber", ErrorMessageResourceType = typeof(Locale))]        
-        //public string PhoneNumber { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the phone type of the user.
-        ///// </summary>
-        //[Display(Name = "PhoneType", ResourceType = typeof(Locale))]
-        //[Required(ErrorMessageResourceName = "PhoneTypeRequired", ErrorMessageResourceType = typeof(Locale))]
-        //public string PhoneType { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the types of phones.
-        ///// </summary>
-        //public List<SelectListItem> PhoneTypeList { get; set; }
-
-		///// <summary>
-		///// Gets or sets the roles to apply to the user account.
-		///// </summary>
-		//[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
-		//public List<string> Roles { get; set; }
-
-		///// <summary>
-		///// Gets or sets the list of roles.
-		///// </summary>
-		//public List<SelectListItem> RolesList { get; set; }
+		public bool IsObsolete { get; set; }        
 
 		/// <summary>
 		/// Gets or sets the list of family names.
 		/// </summary>
-		public List<SelectListItem> SurnameList { get; set; }
-
-		///// <summary>
-		///// Gets or sets the family names of the user.
-		///// </summary>
-		//[Display(Name = "Surname", ResourceType = typeof(Localization.Locale))]
-		//[Required(ErrorMessageResourceName = "SurnameRequired", ErrorMessageResourceType = typeof(Locale))]
-		//public List<string> Surnames { get; set; }
+		public List<SelectListItem> SurnameList { get; set; }		
 
 		/// <summary>
 		/// Gets or sets the current roles of the user.
 		/// </summary>
-		public IEnumerable<RoleViewModel> UserRoles { get; set; }
-
-     //   /// <summary>
-	    ///// Checks if any of the the Role(s) assigned are an empty selection
-	    ///// </summary>
-	    ///// <returns>Returns true if an empty string is contained in the List</returns>
-	    //public void CheckForEmptyRoleAssigned()
-     //   {
-     //       if (Roles != null && Roles.Any())
-     //       {
-     //           Roles.RemoveAll(r => string.IsNullOrWhiteSpace(r) || string.IsNullOrEmpty(r));
-     //       }            
-     //   }
+		public IEnumerable<RoleViewModel> UserRoles { get; set; }     
 
         /// <summary>
         /// Converts an <see cref="EditUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
@@ -237,17 +165,17 @@ namespace OpenIZAdmin.Models.UserModels
 				userEntity.Names = new List<EntityName> { name };
 			}
 
-            var facility = ConvertFacilityToGuid();
-            
-            if (facility == null)
+            var facilityId = ConvertFacilityToGuid();
+
+            if (facilityId == null)
             {
                 userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
             }
-            else if (userEntity.Relationships.Find(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation && r.TargetEntityKey == facility) == null)
-			{
-				userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, facility));
-			}
+            else if (HasSelectedNewFacility(userEntity, facilityId))
+            {
+                userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, facilityId));
+            }
 
             if (HasPhoneNumberAndType())
             {
