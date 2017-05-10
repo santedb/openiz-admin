@@ -659,7 +659,6 @@
     <Content Include="Views\Shared\_ManageIdentifiersPartial.cshtml" />
     <Content Include="Views\EntityIdentifier\Edit.cshtml" />
     <Content Include="Views\Shared\_ManageRelationshipsPartial.cshtml" />
-    <Content Include="Views\EntityRelationship\Create.cshtml" />
     <Content Include="Views\Shared\_RelationshipsPartial.cshtml" />
     <Content Include="Views\EntityRelationship\Edit.cshtml" />
     <Content Include="Views\Place\EditRelatedPlace.cshtml" />
