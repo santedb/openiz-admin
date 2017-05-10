@@ -38,7 +38,7 @@ namespace OpenIZAdmin.Models.CodeSystemModels
 		/// Gets or sets the Description
 		/// </summary>
 		[Display(Name = "Description", ResourceType = typeof(Localization.Locale))]
-		[StringLength(256, ErrorMessageResourceName = "DescriptionLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(256, ErrorMessageResourceName = "DescriptionLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Description { get; set; }
 
 		/// <summary>
@@ -54,7 +54,7 @@ namespace OpenIZAdmin.Models.CodeSystemModels
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(256, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
 		public string Name { get; set; }
 
 		/// <summary>

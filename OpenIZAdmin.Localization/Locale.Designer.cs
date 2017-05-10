@@ -1186,15 +1186,6 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The description cannot exceed 255 characters.
-        /// </summary>
-        public static string DescriptionLength255 {
-            get {
-                return ResourceManager.GetString("DescriptionLength255", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The description cannot exceed 256 characters.
         /// </summary>
         public static string DescriptionLength256 {
@@ -1717,7 +1708,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The first name cannot exceed 255 characters.
+        ///   Looks up a localized string similar to The first name cannot exceed 256 characters.
         /// </summary>
         public static string FirstNameTooLong {
             get {
@@ -2248,7 +2239,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The last name cannot exceed 255 characters.
+        ///   Looks up a localized string similar to The last name cannot exceed 256 characters.
         /// </summary>
         public static string LastNameTooLong {
             get {
@@ -2527,7 +2518,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The mnemonic cannot exceed 255 characters.
+        ///   Looks up a localized string similar to The mnemonic cannot exceed 256 characters.
         /// </summary>
         public static string MnemonicTooLong {
             get {
@@ -2554,11 +2545,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The name cannot exceed 255 characters.
+        ///   Looks up a localized string similar to The name cannot exceed 256 characters.
         /// </summary>
-        public static string NameLength255 {
+        public static string NameLength256 {
             get {
-                return ResourceManager.GetString("NameLength255", resourceCulture);
+                return ResourceManager.GetString("NameLength256", resourceCulture);
             }
         }
         

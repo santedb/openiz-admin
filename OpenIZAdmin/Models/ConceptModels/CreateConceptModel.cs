@@ -75,7 +75,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// <value>The name.</value>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
         [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
         public new string Name { get; set; }
        
         /// <summary>

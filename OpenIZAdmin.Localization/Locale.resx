@@ -310,10 +310,7 @@
     <value>Please select a search type</value>
   </data>
   <data name="MnemonicTooLong" xml:space="preserve">
-    <value>The mnemonic cannot exceed 255 characters</value>
-  </data>
-  <data name="NameLength255" xml:space="preserve">
-    <value>The name cannot exceed 255 characters</value>
+    <value>The mnemonic cannot exceed 256 characters</value>
   </data>
   <data name="NameRequired" xml:space="preserve">
     <value>The name field is required</value>
@@ -349,13 +346,13 @@
     <value>The first name field is required</value>
   </data>
   <data name="FirstNameTooLong" xml:space="preserve">
-    <value>The first name cannot exceed 255 characters</value>
+    <value>The first name cannot exceed 256 characters</value>
   </data>
   <data name="LastNameRequired" xml:space="preserve">
     <value>The last name field is required</value>
   </data>
   <data name="LastNameTooLong" xml:space="preserve">
-    <value>The last name cannot exceed 255 characters</value>
+    <value>The last name cannot exceed 256 characters</value>
   </data>
   <data name="EmailRequired" xml:space="preserve">
     <value>The email field is required</value>
@@ -500,9 +497,6 @@
   </data>
   <data name="Providers" xml:space="preserve">
     <value>Providers</value>
-  </data>
-  <data name="DescriptionLength255" xml:space="preserve">
-    <value>The description cannot exceed 255 characters</value>
   </data>
   <data name="Loading" xml:space="preserve">
     <value>Loading</value>
@@ -2084,5 +2078,8 @@
   </data>
   <data name="PhoneTypeRequired" xml:space="preserve">
     <value>Please select a phone type</value>
+  </data>
+  <data name="NameLength256" xml:space="preserve">
+    <value>The name cannot exceed 256 characters</value>
   </data>
 </root>
