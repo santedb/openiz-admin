@@ -3139,6 +3139,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select a phone type.
+        /// </summary>
+        public static string PhoneTypeRequired {
+            get {
+                return ResourceManager.GetString("PhoneTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Place.
         /// </summary>
         public static string Place {

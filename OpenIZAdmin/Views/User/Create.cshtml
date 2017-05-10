@@ -45,15 +45,6 @@
                 </div>
             </div>
 
-
-            <div class="form-group">
-                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", title = Locale.ToolTip_UserEmail })
-                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                </div>
-            </div>
-
             <div class="form-group">
                 @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
@@ -67,6 +58,30 @@
                 <div class="col-md-6">
                     @Html.DropDownListFor(m => m.Facility, new List<SelectListItem>(), new { @class = "place-search form-control", multiple = "multiple", title = Locale.ToolTip_Facilities })
                     @Html.ValidationMessageFor(m => m.Facility, "", new { @class = "text-danger" })
+                </div>
+            </div>           
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.PhoneType, new { @class = "col-md-2 control-label" })
+                <div class="col-md-6">
+                    @Html.DropDownListFor(m => m.PhoneType, Model.PhoneTypeList, new { @class = "form-control", title = Locale.ToolTip_PhoneType })
+                    @Html.ValidationMessageFor(m => m.PhoneType, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+                <div class="col-md-6">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", title = Locale.ToolTip_UserEmail })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                 </div>
             </div>
 

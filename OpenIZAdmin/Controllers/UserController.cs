@@ -96,13 +96,15 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the create user view.</returns>
 		[HttpGet]
 		public ActionResult Create()
-		{
-			var model = new CreateUserModel
+		{            
+            var model = new CreateUserModel
 			{
-				RolesList = this.GetAllRoles().ToSelectList("Name", "Name", null, true)
-			};
+				RolesList = this.GetAllRoles().ToSelectList("Name", "Name", null, true),
+                PhoneTypeList = GetPhoneTypeConceptSet().Concepts.ToSelectList().ToList(),
+            PhoneType = TelecomAddressUseKeys.MobileContact.ToString()
+            };                        
 
-			return View(model);
+            return View(model);
 		}
 
 		/// <summary>
@@ -175,7 +177,8 @@ namespace OpenIZAdmin.Controllers
 				TempData["error"] = Locale.UnableToCreateUser;
 			}
 
-			model.RolesList = this.GetAllRoles().ToSelectList("Name", "Name", null, true);
+			model.RolesList = this.GetAllRoles().ToSelectList("Name", "Name", null, true);            
+		    model.PhoneTypeList = GetPhoneTypeConceptSet().Concepts.ToSelectList().ToList();
 
 			if (!TempData.ContainsKey("error") || TempData["error"] == null)
 			{
@@ -261,11 +264,11 @@ namespace OpenIZAdmin.Controllers
 					model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Selected = f.Id == model.Facility, Text = f.Name, Value = f.Id }));
 				}
 
-				var phoneTypes = this.GetPhoneTypeConceptSet().Concepts.ToList();
+				var phoneTypeList = this.GetPhoneTypeConceptSet().Concepts.ToList();
 
-				Guid phoneType;
+				var userPhoneType = model.ConvertPhoneTypeToGuid();
 
-				model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList().ToList();                
+				model.PhoneTypeList = (userPhoneType != null) ? phoneTypeList.ToSelectList(p => p.Key == userPhoneType).ToList() : phoneTypeList.ToSelectList().ToList();                
 
                 return View(model);
 			}

@@ -161,7 +161,8 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// Gets or sets the phone type of the user.
 		/// </summary>
 		[Display(Name = "PhoneType", ResourceType = typeof(Locale))]
-		public string PhoneType { get; set; }
+        [Required(ErrorMessageResourceName = "PhoneTypeRequired", ErrorMessageResourceType = typeof(Locale))]
+        public string PhoneType { get; set; }
 
 		/// <summary>
 		/// Gets or sets the types of phones.
