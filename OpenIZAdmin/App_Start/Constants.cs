@@ -75,8 +75,8 @@ namespace OpenIZAdmin
         /// <summary>
         /// Regular expression string for password validation
         /// </summary>
-        public const string RegExPassword = @"^[^ !@%\\/:*;\.\)\(]+$";
-        //public const string RegExPassword = @"^[^ \\/:*;\.\)\(]+$";
+        //public const string RegExPassword = @"^[^ !@%\\/:*;\.\)\(]+$";
+        public const string RegExPassword = @"^[^\s\\/:*;\.\)\(]+$";
 
         /// <summary>
         /// Regular expression string for username validation
@@ -92,8 +92,12 @@ namespace OpenIZAdmin
         /// <summary>
         /// Regular expression string for username validation
         /// </summary>
-        public const string RegExPhoneNumberTanzania = @"/(\+?255|0|^){1}[-. ]?([7]{1}[1]{1}[2-9]{1}|[6]{1}[57]{1}[2-9]{1})[0-9]{6}\z/";
+        //public const string RegExPhoneNumberTanzania = @"/(\+?255|0|^){1}[-. ]?([7]{1}[1]{1}[2-9]{1}|[6]{1}[57]{1}[2-9]{1})[0-9]{6}\z/";
+        //public const string RegExPhoneNumberTanzania = @"/(\[+]?[0-9]{3})?[-. ]?([7]{1}[1]{1}[2-9]{1}|[6]{1}[57]{1}[2-9]{1})[0-9]{6}\z/";
+	    public const string RegExPhoneNumberTanzania = @"^(?:\+?(\d{3}))?[-. ]?(\d{2,4})[-. ]?(\d{3})[-. ]?(\d{2,4})$";
 
+        //modified from  - http://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number
+        //^(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$
 
         /// <summary>
         /// Regular expression string for username validation
