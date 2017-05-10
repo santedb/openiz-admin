@@ -30,6 +30,14 @@
             </div>
 
             <div class="form-group">
+                @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", title = Locale.ToolTip_Password, autocomplete = "off" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
                 @Html.LabelFor(m => m.GivenNames, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
                     @Html.ListBoxFor(m => m.GivenNames, new List<SelectListItem>(), new { @class = "dynamic-dropdown form-control", multiple = "multiple", title = Locale.ToolTip_GivenNamesListBox })

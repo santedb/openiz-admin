@@ -45,12 +45,23 @@ namespace OpenIZAdmin.Models.UserModels
 			this.GivenNames = new List<string>();
             this.PhoneTypeList = new List<SelectListItem>();
             this.RolesList = new List<SelectListItem>();
-		}		
+		}
 
-		/// <summary>
-		/// Gets or sets the password of the user.
-		/// </summary>
-		[DataType(DataType.Password)]
+        /// <summary>
+        /// Gets or sets the password confirmation of the model.
+        /// </summary>
+        [DataType(DataType.Password)]
+        [Display(Name = "ConfirmPassword", ResourceType = typeof(Locale))]
+        [StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
+        [Required(ErrorMessageResourceName = "ConfirmPasswordRequired", ErrorMessageResourceType = typeof(Locale))]
+        [RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Locale))]
+        public string ConfirmPassword { get; set; }
+
+        /// <summary>
+        /// Gets or sets the password of the user.
+        /// </summary>
+        [DataType(DataType.Password)]
 		[Display(Name = "Password", ResourceType = typeof(Locale))]
         [Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Locale))]
         [StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]		
