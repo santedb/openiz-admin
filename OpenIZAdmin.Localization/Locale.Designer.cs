@@ -3274,6 +3274,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Target PopulationYear.
+        /// </summary>
+        public static string PopulationYear {
+            get {
+                return ResourceManager.GetString("PopulationYear", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Priority.
         /// </summary>
         public static string Priority {

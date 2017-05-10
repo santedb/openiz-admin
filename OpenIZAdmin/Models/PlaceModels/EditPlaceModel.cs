@@ -91,7 +91,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// Gets or sets the year.
 		/// </summary>
 		/// <value>The year.</value>
-		[Display(Name = "Year", ResourceType = typeof(Locale))]
+		[Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "YearRequired", ErrorMessageResourceType = typeof(Locale))]
 		public int Year { get; set; }
 
