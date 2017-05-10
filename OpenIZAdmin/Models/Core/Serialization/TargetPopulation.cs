@@ -46,7 +46,7 @@ namespace OpenIZAdmin.Models.Core.Serialization
 		/// </summary>
 		/// <param name="value">The value.</param>
 		/// <param name="year">The year.</param>
-		public TargetPopulation(long value, int year)
+		public TargetPopulation(ulong value, int year)
 		{
 			this.Value = value;
 			this.Year = year;
@@ -57,7 +57,7 @@ namespace OpenIZAdmin.Models.Core.Serialization
 		/// </summary>
 		/// <value>The value.</value>
 		[JsonProperty("value")]
-		public long Value { get; set; }
+		public ulong Value { get; set; }
 
 		/// <summary>
 		/// Gets or sets the year.

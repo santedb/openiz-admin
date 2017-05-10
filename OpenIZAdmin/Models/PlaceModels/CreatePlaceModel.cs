@@ -64,8 +64,8 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <value>The target population.</value>
 		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "TargetPopulationRequired", ErrorMessageResourceType = typeof(Locale))]
-		[Range(1, long.MaxValue, ErrorMessageResourceName = "TargetPopulationMustBePositive", ErrorMessageResourceType = typeof(Locale))]
-		public long TargetPopulation { get; set; }
+		[Range(1, ulong.MaxValue, ErrorMessageResourceName = "TargetPopulationMustBePositive", ErrorMessageResourceType = typeof(Locale))]
+		public ulong TargetPopulation { get; set; }
 
 		/// <summary>
 		/// Gets or sets the year.
