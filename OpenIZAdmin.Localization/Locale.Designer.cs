@@ -3553,6 +3553,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Related.
+        /// </summary>
+        public static string Related {
+            get {
+                return ResourceManager.GetString("Related", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Related manufactured material created successfully.
         /// </summary>
         public static string RelatedManufacturedMaterialCreatedSuccessfully {
