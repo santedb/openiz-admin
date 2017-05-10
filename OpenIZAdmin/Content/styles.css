@@ -34,10 +34,16 @@ span.glyphicon {
     width: 1%;
 }
 
-/*this align all the td's in the centre - bootstrap is default to top*/
+/*aligns all the td's in the centre - bootstrap is default to top*/
+/*added word-break so that text overrunning the td width doesn't force scrolling off page*/
 .table tbody>tr>td{
     vertical-align: middle;
+    word-break:break-all;
 }
+
+/*.table tbody>tr>td.is-breakable{  
+  word-break:break-all;      
+}*/
 
 .table tbody>tr>td.capitalize{
     text-transform: capitalize;
