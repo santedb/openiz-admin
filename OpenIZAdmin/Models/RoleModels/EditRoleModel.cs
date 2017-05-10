@@ -62,7 +62,7 @@ namespace OpenIZAdmin.Models.RoleModels
 		/// Gets or sets the description of the role.
 		/// </summary>
 		[Display(Name = "Description", ResourceType = typeof(Locale))]
-		[StringLength(255, ErrorMessageResourceName = "DescriptionLength255", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(256, ErrorMessageResourceName = "DescriptionLength256", ErrorMessageResourceType = typeof(Locale))]
 		public string Description { get; set; }
 
 		/// <summary>
@@ -82,8 +82,8 @@ namespace OpenIZAdmin.Models.RoleModels
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
-		[StringLength(255, ErrorMessageResourceName = "NameLength255", ErrorMessageResourceType = typeof(Locale))]
-		public string Name { get; set; }
+        [StringLength(50, ErrorMessageResourceName = "NameLength50", ErrorMessageResourceType = typeof(Locale))]
+        public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of policies associated with the role.

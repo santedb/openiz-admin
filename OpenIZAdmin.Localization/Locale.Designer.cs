@@ -1195,6 +1195,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The description cannot exceed 256 characters.
+        /// </summary>
+        public static string DescriptionLength256 {
+            get {
+                return ResourceManager.GetString("DescriptionLength256", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Details.
         /// </summary>
         public static string Details {

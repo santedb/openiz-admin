@@ -2076,6 +2076,9 @@
   <data name="ViewConcept_Heading" xml:space="preserve">
     <value>View Concept</value>
   </data>
+  <data name="DescriptionLength256" xml:space="preserve">
+    <value>The description cannot exceed 256 characters</value>
+  </data>
   <data name="PhoneNumberRequired" xml:space="preserve">
     <value>Please enter a phone number</value>
   </data>
