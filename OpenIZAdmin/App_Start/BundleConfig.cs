@@ -41,9 +41,6 @@ namespace OpenIZAdmin
 			bundles.Add(new ScriptBundle("~/bundles/jqueryajax").Include(
 						"~/Scripts/jquery.unobtrusive-ajax.min.js"));
 
-			bundles.Add(new ScriptBundle("~/bundles/bootstrap-datetimepicker").Include(
-						"~/Scripts/bootstrap-datetimepicker.min.js"));
-
 			bundles.Add(new ScriptBundle("~/bundles/moment").Include(
 						"~/Scripts/moment.min.js"));
 
@@ -71,14 +68,17 @@ namespace OpenIZAdmin
 			bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
 				  "~/Scripts/datatables.js"));
 
-			bundles.Add(new StyleBundle("~/Content/css").Include(
-						"~/Content/bootstrap.min.css",
-						"~/Content/bootstrap-datetimepicker.min.css",
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap-datetimepicker").Include(
+            "~/Scripts/bootstrap-datetimepicker.min.js"));
+
+            bundles.Add(new StyleBundle("~/Content/css").Include(
+						"~/Content/bootstrap.min.css",						
 						"~/Content/datatables.css",
-						"~/Content/select2.min.css",
+                        "~/Content/bootstrap-datetimepicker.min.css",
+                        "~/Content/select2.min.css",
 						"~/Content/toastr.min.css",
-						"~/Content/metro-bootstrap.min.css",
-						"~/Content/styles.css"));
+						"~/Content/metro-bootstrap.min.css",                        
+                        "~/Content/styles.css"));
 
 #if !DEBUG
 			BundleTable.EnableOptimizations = true;
