@@ -49,24 +49,28 @@ namespace OpenIZAdmin.Models.Core
 		/// Gets or sets the mnemonic of the concept.
 		/// </summary>
 		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
-		public virtual string Mnemonic { get; set; }
+        [StringLength(64, ErrorMessageResourceName = "MnemonicLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public virtual string Mnemonic { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the concept set.
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		public virtual string Name { get; set; }
+        [StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public virtual string Name { get; set; }
 
 		/// <summary>
 		/// Get or sets the OID of the concept set.
 		/// </summary>
 		[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
-		public virtual string Oid { get; set; }
+        [StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Localization.Locale))]        
+        public virtual string Oid { get; set; }
 
 		/// <summary>
 		/// Get or sets the URL of the concept set.
 		/// </summary>
 		[Display(Name = "Url", ResourceType = typeof(Localization.Locale))]
-		public virtual string Url { get; set; }
+        [StringLength(256, ErrorMessageResourceName = "UrlLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public virtual string Url { get; set; }
 	}
 }

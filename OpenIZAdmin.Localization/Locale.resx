@@ -2112,4 +2112,7 @@
   <data name="Scopes" xml:space="preserve">
     <value>Scopes</value>
   </data>
+  <data name="EmailLength256" xml:space="preserve">
+    <value>Email cannot exceed 256 characters</value>
+  </data>
 </root>

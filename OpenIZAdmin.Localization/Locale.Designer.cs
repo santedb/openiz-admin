@@ -1591,6 +1591,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Email cannot exceed 256 characters.
+        /// </summary>
+        public static string EmailLength256 {
+            get {
+                return ResourceManager.GetString("EmailLength256", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The email field is required.
         /// </summary>
         public static string EmailRequired {

@@ -69,8 +69,8 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(256, ErrorMessageResourceName = "MnemonicTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string Mnemonic { get; set; }
+        [StringLength(64, ErrorMessageResourceName = "MnemonicLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string Mnemonic { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name.

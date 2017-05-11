@@ -94,6 +94,7 @@ namespace OpenIZAdmin.Models.Core
         /// <value>The oid.</value>
         [Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
         [Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Locale))]
+        [StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
         public string Oid { get; set; }
     }
 }

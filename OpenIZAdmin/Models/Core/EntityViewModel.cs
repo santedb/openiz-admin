@@ -85,7 +85,8 @@ namespace OpenIZAdmin.Models.Core
 		/// Gets or sets the name of the entity.
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
-		public string Name { get; set; }
+        [StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the obsoletion time of the entity.
