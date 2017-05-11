@@ -2220,6 +2220,11 @@
             Gets or sets the validation regex
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.DataTypes.AssigningAuthority.IsUnique">
+            <summary>
+            True if the assigning authority values should be unique
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.DataTypes.AssigningAuthority.AssigningDevice">
             <summary>
             Gets or sets the assigning device
