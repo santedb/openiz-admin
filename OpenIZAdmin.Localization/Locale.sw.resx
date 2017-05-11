@@ -1598,4 +1598,13 @@ au jina la kikoa</value>
   <data name="NewManufacturedMaterial" xml:space="preserve">
     <value>nyenzo mpya za viwandani</value>
   </data>
+  <data name="IsUnique" xml:space="preserve">
+    <value>Je kipekee</value>
+  </data>
+  <data name="AssigningAuthorityUniqueWarning" xml:space="preserve">
+    <value>ONYO, Kama mamlaka kumshirikisha ni kuundwa na alama kama ya kipekee, hii haiwezi kubadilishwa katika siku zijazo. Kabla ya kuwasilisha, tafadhali kuhakikisha kwamba kweli wangependa mamlaka hii kumshirikisha kwa zenye maadili ya kipekee.</value>
+  </data>
+  <data name="Scopes" xml:space="preserve">
+    <value>Upeo</value>
+  </data>
 </root>

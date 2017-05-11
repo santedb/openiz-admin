@@ -475,6 +475,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to WARNING, If an assigning authority is created and marked as unique, this cannot be changed in the future. Before submitting, please ensure that you truly would like this assigning authority to only contain unique values..
+        /// </summary>
+        public static string AssigningAuthorityUniqueWarning {
+            get {
+                return ResourceManager.GetString("AssigningAuthorityUniqueWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assigning authority updated successfully.
         /// </summary>
         public static string AssigningAuthorityUpdatedSuccessfully {
@@ -2118,6 +2127,15 @@ namespace OpenIZAdmin.Localization {
         public static string IsServiceDeliveryLocation {
             get {
                 return ResourceManager.GetString("IsServiceDeliveryLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Is Unique.
+        /// </summary>
+        public static string IsUnique {
+            get {
+                return ResourceManager.GetString("IsUnique", resourceCulture);
             }
         }
         
@@ -3891,6 +3909,15 @@ namespace OpenIZAdmin.Localization {
         public static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scopes.
+        /// </summary>
+        public static string Scopes {
+            get {
+                return ResourceManager.GetString("Scopes", resourceCulture);
             }
         }
         

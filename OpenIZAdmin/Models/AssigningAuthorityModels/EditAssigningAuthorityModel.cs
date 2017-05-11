@@ -21,7 +21,10 @@ using OpenIZ.Core.Model.AMI.DataTypes;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Localization;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {
@@ -35,13 +38,14 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// </summary>
 		public EditAssigningAuthorityModel()
 		{
+			this.Scopes = new List<string>();
 		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditAssigningAuthorityModel"/> class.
 		/// </summary>
 		/// <param name="assigningAuthorityInfo">The assigning authority information.</param>
-		public EditAssigningAuthorityModel(AssigningAuthorityInfo assigningAuthorityInfo)
+		public EditAssigningAuthorityModel(AssigningAuthorityInfo assigningAuthorityInfo) : this()
 		{
 			this.Id = assigningAuthorityInfo.Id;
 			this.Name = assigningAuthorityInfo.AssigningAuthority.Name;
@@ -85,6 +89,13 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		[Display(Name = "Oid", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string Oid { get; set; }
+
+		/// <summary>
+		/// Gets or sets the scopes.
+		/// </summary>
+		/// <value>The scopes.</value>
+		[Display(Name = "Scopes", ResourceType = typeof(Locale))]
+		public List<string> Scopes { get; set; }
 
 		/// <summary>
 		/// Gets or sets the URL of the assigning authority.

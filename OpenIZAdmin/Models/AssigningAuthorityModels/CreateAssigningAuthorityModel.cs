@@ -50,6 +50,13 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		public string DomainName { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether this instance is unique.
+		/// </summary>
+		/// <value><c>true</c> if this instance is unique; otherwise, <c>false</c>.</value>
+		[Display(Name = "IsUnique", ResourceType = typeof(Locale))]
+		public bool IsUnique { get; set; }
+
+		/// <summary>
 		/// Gets or sets the name of the assigning authority.
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Locale))]

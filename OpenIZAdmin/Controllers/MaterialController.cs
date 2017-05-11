@@ -311,10 +311,27 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult CreateRelatedManufacturedMaterial(EntityRelationshipModel model)
 		{
+			var concepts = new List<Concept>();
+
 			try
 			{
 				if (this.ModelState.IsValid)
 				{
+					// HACK: manually validating the quantity field, since for this particular page the quantity is required
+					// but it feels like overkill to literally create the same model for the purpose of making only 1 property
+					// required.
+					if (!model.Quantity.HasValue)
+					{
+						this.ModelState.AddModelError(nameof(model.Quantity), Locale.QuantityRequired);
+						this.TempData["error"] = Locale.QuantityRequired;
+
+						concepts.Add(this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct));
+
+						model.RelationshipTypes.AddRange(concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct));
+
+						return View(model);
+					}
+
 					var material = this.GetEntity<Material>(model.SourceId);
 
 					if (material == null)
@@ -340,6 +357,9 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			this.TempData["error"] = Locale.UnableToCreateRelatedManufacturedMaterial;
+
+			concepts.Add(this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct));
+			model.RelationshipTypes.AddRange(concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct));
 
 			return View(model);
 		}
