@@ -49,6 +49,7 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 			this.DomainName = assigningAuthority.AssigningAuthority.DomainName;
 			this.Description = assigningAuthority.AssigningAuthority.Description;
 			this.ValidationRegex = assigningAuthority.AssigningAuthority.ValidationRegex;
+			this.IsUnique = Locale.No;
 		}
 
 		/// <summary>
@@ -70,6 +71,13 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// </summary>
 		/// <value>The identifier.</value>
 		public Guid Id { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is unique.
+		/// </summary>
+		/// <value><c>true</c> if this instance is unique; otherwise, <c>false</c>.</value>
+		[Display(Name = "IsUnique", ResourceType = typeof(Locale))]
+		public string IsUnique { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name.

@@ -125,8 +125,12 @@
         @if (!Model.IsObsolete)
         {
             <div class="pull-right">
-                <a href="@Url.Action("CreateRelatedManufacturedMaterial", "Material", new { id = Model.Id })">
-                    <span class="text-primary h4">@(Locale.New + " " + Locale.ManufacturedMaterial)</span>
+                <a href="@Url.Action("AssociateMaterial", "Material", new { id = Model.Id })">
+                    <span class="text-primary h4">@Locale.AssociateMaterial</span>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                </a>
+                <a href="@Url.Action("CreateRelatedManufacturedMaterial", "Material", new {id = Model.Id})">
+                    <span class="text-primary h4">@(Locale.NewManufacturedMaterial)</span>
                     <span class="glyphicon glyphicon-plus-sign"></span>
                 </a>
             </div>

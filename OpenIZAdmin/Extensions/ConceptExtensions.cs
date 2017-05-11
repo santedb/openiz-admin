@@ -72,12 +72,12 @@ namespace OpenIZAdmin.Extensions
 				source.Select(c => new SelectListItem
 				{
 					Selected = Convert.ToBoolean(selectedExpression.Compile().DynamicInvoke(c)),
-					Text = c.ConceptNames.Any() ? string.Join(" ", c.ConceptNames.Select(n => n.Name)) + " " + c.Mnemonic : c.Mnemonic,
+					Text = c.ConceptNames?.Any() == true ? string.Join(" ", c.ConceptNames.Select(n => n.Name)) : c.Mnemonic,
 					Value = c.Key.ToString()
 				}) :
 				source.Select(c => new SelectListItem
 				{
-					Text = c.ConceptNames.Any() ? string.Join(" ", c.ConceptNames.Select(n => n.Name)) + " " + c.Mnemonic : c.Mnemonic,
+					Text = c.ConceptNames?.Any() == true ? string.Join(" ", c.ConceptNames.Select(n => n.Name)) : c.Mnemonic,
 					Value = c.Key.ToString()
 				}));
 

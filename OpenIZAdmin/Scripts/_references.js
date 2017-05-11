@@ -9,6 +9,7 @@
 /// <reference path="jquery-2.2.4.js" />
 /// <reference path="jquery-2.2.4.min.js" />
 /// <reference path="manufactured-material-search.js" />
+/// <reference path="material-search.js" />
 /// <reference path="moment.min.js" />
 /// <reference path="moment-with-locales.min.js" />
 /// <reference path="place-search.js" />

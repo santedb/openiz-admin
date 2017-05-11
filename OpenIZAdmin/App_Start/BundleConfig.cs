@@ -54,7 +54,8 @@ namespace OpenIZAdmin
 			bundles.Add(new ScriptBundle("~/bundles/ajax-search").Include(
                         "~/Scripts/reference-term-search.js",
                         "~/Scripts/concept-search.js",
-                        "~/Scripts/manufactured-material-search.js",
+                        "~/Scripts/material-search.js",
+						"~/Scripts/manufactured-material-search.js",
 						"~/Scripts/place-search.js",
 						"~/Scripts/user-search.js"));
 

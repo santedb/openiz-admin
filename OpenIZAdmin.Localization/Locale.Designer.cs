@@ -475,6 +475,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to WARNING, If an assigning authority is created and marked as unique, this cannot be changed in the future. Before submitting, please ensure that you truly would like this assigning authority to only contain unique values..
+        /// </summary>
+        public static string AssigningAuthorityUniqueWarning {
+            get {
+                return ResourceManager.GetString("AssigningAuthorityUniqueWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assigning authority updated successfully.
         /// </summary>
         public static string AssigningAuthorityUpdatedSuccessfully {
@@ -489,6 +498,15 @@ namespace OpenIZAdmin.Localization {
         public static string AssigningDeviceId {
             get {
                 return ResourceManager.GetString("AssigningDeviceId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Associate material.
+        /// </summary>
+        public static string AssociateMaterial {
+            get {
+                return ResourceManager.GetString("AssociateMaterial", resourceCulture);
             }
         }
         
@@ -2113,6 +2131,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is Unique.
+        /// </summary>
+        public static string IsUnique {
+            get {
+                return ResourceManager.GetString("IsUnique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Join New Realm.
         /// </summary>
         public static string JoinNewRealm {
@@ -2419,6 +2446,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Material related successfully.
+        /// </summary>
+        public static string MaterialRelatedSuccessfully {
+            get {
+                return ResourceManager.GetString("MaterialRelatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Materials.
         /// </summary>
         public static string Materials {
@@ -2622,6 +2658,15 @@ namespace OpenIZAdmin.Localization {
         public static string NewConceptSet {
             get {
                 return ResourceManager.GetString("NewConceptSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New manufactured material.
+        /// </summary>
+        public static string NewManufacturedMaterial {
+            get {
+                return ResourceManager.GetString("NewManufacturedMaterial", resourceCulture);
             }
         }
         
@@ -3355,6 +3400,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a quantity.
+        /// </summary>
+        public static string QuantityRequired {
+            get {
+                return ResourceManager.GetString("QuantityRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Realm.
         /// </summary>
         public static string Realm {
@@ -3549,6 +3603,15 @@ namespace OpenIZAdmin.Localization {
         public static string ReferenceTermUpdatedSuccessfully {
             get {
                 return ResourceManager.GetString("ReferenceTermUpdatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Related.
+        /// </summary>
+        public static string Related {
+            get {
+                return ResourceManager.GetString("Related", resourceCulture);
             }
         }
         
@@ -3846,6 +3909,15 @@ namespace OpenIZAdmin.Localization {
         public static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Scopes.
+        /// </summary>
+        public static string Scopes {
+            get {
+                return ResourceManager.GetString("Scopes", resourceCulture);
             }
         }
         
@@ -5088,6 +5160,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToRejectCertificateSigningRequest {
             get {
                 return ResourceManager.GetString("UnableToRejectCertificateSigningRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to relate material.
+        /// </summary>
+        public static string UnableToRelateMaterial {
+            get {
+                return ResourceManager.GetString("UnableToRelateMaterial", resourceCulture);
             }
         }
         

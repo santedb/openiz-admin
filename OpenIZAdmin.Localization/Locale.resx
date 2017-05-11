@@ -2085,4 +2085,31 @@
   <data name="PopulationYear" xml:space="preserve">
     <value>Target PopulationYear</value>
   </data>
+  <data name="Related" xml:space="preserve">
+    <value>Related</value>
+  </data>
+  <data name="UnableToRelateMaterial" xml:space="preserve">
+    <value>Unable to relate material</value>
+  </data>
+  <data name="MaterialRelatedSuccessfully" xml:space="preserve">
+    <value>Material related successfully</value>
+  </data>
+  <data name="QuantityRequired" xml:space="preserve">
+    <value>Please enter a quantity</value>
+  </data>
+  <data name="AssociateMaterial" xml:space="preserve">
+    <value>Associate material</value>
+  </data>
+  <data name="NewManufacturedMaterial" xml:space="preserve">
+    <value>New manufactured material</value>
+  </data>
+  <data name="IsUnique" xml:space="preserve">
+    <value>Is Unique</value>
+  </data>
+  <data name="AssigningAuthorityUniqueWarning" xml:space="preserve">
+    <value>WARNING, If an assigning authority is created and marked as unique, this cannot be changed in the future. Before submitting, please ensure that you truly would like this assigning authority to only contain unique values.</value>
+  </data>
+  <data name="Scopes" xml:space="preserve">
+    <value>Scopes</value>
+  </data>
 </root>
