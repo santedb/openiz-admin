@@ -2088,4 +2088,19 @@
   <data name="Related" xml:space="preserve">
     <value>Related</value>
   </data>
+  <data name="UnableToRelateMaterial" xml:space="preserve">
+    <value>Unable to relate material</value>
+  </data>
+  <data name="MaterialRelatedSuccessfully" xml:space="preserve">
+    <value>Material related successfully</value>
+  </data>
+  <data name="QuantityRequired" xml:space="preserve">
+    <value>Please enter a quantity</value>
+  </data>
+  <data name="AssociateMaterial" xml:space="preserve">
+    <value>Associate material</value>
+  </data>
+  <data name="NewManufacturedMaterial" xml:space="preserve">
+    <value>New manufactured material</value>
+  </data>
 </root>

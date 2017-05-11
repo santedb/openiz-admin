@@ -493,6 +493,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Associate material.
+        /// </summary>
+        public static string AssociateMaterial {
+            get {
+                return ResourceManager.GetString("AssociateMaterial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attach application information (versions, log files, settings, etc.).
         /// </summary>
         public static string AttachBugInfo {
@@ -2419,6 +2428,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Material related successfully.
+        /// </summary>
+        public static string MaterialRelatedSuccessfully {
+            get {
+                return ResourceManager.GetString("MaterialRelatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Materials.
         /// </summary>
         public static string Materials {
@@ -2622,6 +2640,15 @@ namespace OpenIZAdmin.Localization {
         public static string NewConceptSet {
             get {
                 return ResourceManager.GetString("NewConceptSet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to New manufactured material.
+        /// </summary>
+        public static string NewManufacturedMaterial {
+            get {
+                return ResourceManager.GetString("NewManufacturedMaterial", resourceCulture);
             }
         }
         
@@ -3351,6 +3378,15 @@ namespace OpenIZAdmin.Localization {
         public static string QuantityConcept {
             get {
                 return ResourceManager.GetString("QuantityConcept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a quantity.
+        /// </summary>
+        public static string QuantityRequired {
+            get {
+                return ResourceManager.GetString("QuantityRequired", resourceCulture);
             }
         }
         
@@ -5097,6 +5133,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToRejectCertificateSigningRequest {
             get {
                 return ResourceManager.GetString("UnableToRejectCertificateSigningRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to relate material.
+        /// </summary>
+        public static string UnableToRelateMaterial {
+            get {
+                return ResourceManager.GetString("UnableToRelateMaterial", resourceCulture);
             }
         }
         

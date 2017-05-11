@@ -33,6 +33,7 @@ using System.Linq.Expressions;
 using System.Runtime.Caching;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZ.Core.Services.Impl;
 using OpenIZAdmin.Models.EntityRelationshipModels;
 
 namespace OpenIZAdmin.Controllers
@@ -87,6 +88,113 @@ namespace OpenIZAdmin.Controllers
 			this.TempData["error"] = Locale.UnableToActivateMaterial;
 
 			return RedirectToAction("Edit", new { id = id, versionId = versionId });
+		}
+
+		/// <summary>
+		/// Associates a material to another material.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>Returns the associate material page.</returns>
+		public ActionResult AssociateMaterial(Guid id)
+		{
+			try
+			{
+				var material = this.GetEntity<Material>(id);
+
+				if (material == null)
+				{
+					this.TempData["error"] = Locale.MaterialNotFound;
+
+					return RedirectToAction("Edit", new { id = id });
+				}
+
+				material.Relationships = this.GetEntityRelationships<Material, Material>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity).ToList();
+
+				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
+				{
+					RelationshipType = EntityRelationshipTypeKeys.UsedEntity.ToString(),
+					ExistingRelationships = material.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
+				};
+
+				var concepts = new List<Concept>
+				{
+					this.GetConcept(EntityRelationshipTypeKeys.UsedEntity)
+				};
+
+				model.RelationshipTypes.AddRange(concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.UsedEntity));
+
+				return View(model);
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to load associate material page: { e }");
+				this.TempData["error"] = Locale.UnexpectedErrorMessage;
+			}
+
+			return RedirectToAction("Edit", new { id = id });
+		}
+
+		/// <summary>
+		/// Associates the material.
+		/// </summary>
+		/// <param name="model">The model.</param>
+		/// <returns>ActionResult.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult AssociateMaterial(EntityRelationshipModel model)
+		{
+			var concepts = new List<Concept>();
+
+			try
+			{
+				if (this.ModelState.IsValid)
+				{
+					// HACK: manually validating the quantity field, since for this particular page the quantity is required
+					// but it feels like overkill to literally create the same model for the purpose of making only 1 property
+					// required.
+					if (!model.Quantity.HasValue)
+					{
+						this.ModelState.AddModelError(nameof(model.Quantity), Locale.QuantityRequired);
+						this.TempData["error"] = Locale.QuantityRequired;
+
+						concepts.Add(this.GetConcept(EntityRelationshipTypeKeys.UsedEntity));
+
+						model.RelationshipTypes.AddRange(concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.UsedEntity));
+
+						return View(model);
+					}
+
+					var material = this.GetEntity<Material>(model.SourceId);
+
+					if (material == null)
+					{
+						this.TempData["error"] = Locale.MaterialNotFound;
+						return RedirectToAction("Edit", new { id = model.SourceId });
+					}
+
+					material.Relationships.RemoveAll(r => r.TargetEntityKey == model.TargetId && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
+					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { EffectiveVersionSequenceId = material.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity.Value, SourceEntityKey = model.SourceId });
+
+					this.ImsiClient.Update(material);
+
+					this.TempData["success"] = Locale.MaterialRelatedSuccessfully;
+
+					return RedirectToAction("Edit", new { id = material.Key.Value });
+				}
+			}
+			catch (Exception e)
+			{
+				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to create related manufactured material: { e }");
+			}
+
+			this.TempData["error"] = Locale.UnableToRelateMaterial;
+
+			concepts.Add(this.GetConcept(EntityRelationshipTypeKeys.UsedEntity));
+			model.RelationshipTypes.AddRange(concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.UsedEntity));
+
+			return View(model);
 		}
 
 		/// <summary>
@@ -180,17 +288,16 @@ namespace OpenIZAdmin.Controllers
 					this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct)
 				};
 
-				model.RelationshipTypes.AddRange(concepts.ToSelectList());
+				model.RelationshipTypes.AddRange(concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct));
 
 				return View(model);
 			}
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				Trace.TraceError($"Unable to create related place: { e }");
+				Trace.TraceError($"Unable to load create related manufactured material page: { e }");
+				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
-
-			this.TempData["error"] = Locale.PlaceNotFound;
 
 			return RedirectToAction("Edit", new { id = id });
 		}
@@ -297,7 +404,10 @@ namespace OpenIZAdmin.Controllers
 				var quantityConcepts = this.GetQuantityConcepts();
 				var typeConcepts = this.GetMaterialTypeConcepts();
 
-				material.Relationships = this.GetEntityRelationships<Material, ManufacturedMaterial>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList();
+				material.Relationships = new List<EntityRelationship>();
+
+				material.Relationships.AddRange(this.GetEntityRelationships<Material, Material>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity).ToList());
+				material.Relationships.AddRange(this.GetEntityRelationships<Material, ManufacturedMaterial>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList());
 
 				var model = new EditMaterialModel(material)
 				{
@@ -541,12 +651,12 @@ namespace OpenIZAdmin.Controllers
 				{
 					bundle = this.ImsiClient.Query<Material>(p => p.ClassConceptKey == EntityClassKeys.Material);
 
-					foreach (var material in bundle.Item.OfType<Material>().LatestVersionOnly())
+					foreach (var material in bundle.Item.OfType<Material>().LatestVersionOnly().Where(p => p.ClassConceptKey == EntityClassKeys.Material))
 					{
 						material.TypeConcept = this.GetTypeConcept(material);
 					}
 
-					results = bundle.Item.OfType<Material>().LatestVersionOnly().Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+					results = bundle.Item.OfType<Material>().LatestVersionOnly().Where(p => p.ClassConceptKey == EntityClassKeys.Material).Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
 				}
 				else
 				{
@@ -556,12 +666,12 @@ namespace OpenIZAdmin.Controllers
 					{
 						bundle = this.ImsiClient.Query<Material>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material);
 
-						foreach (var material in bundle.Item.OfType<Material>().LatestVersionOnly())
+						foreach (var material in bundle.Item.OfType<Material>().LatestVersionOnly().Where(p => p.ClassConceptKey == EntityClassKeys.Material))
 						{
 							material.TypeConcept = this.GetTypeConcept(material);
 						}
 
-						results = bundle.Item.OfType<Material>().Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+						results = bundle.Item.OfType<Material>().Where(nameExpression.Compile()).LatestVersionOnly().Where(p => p.ClassConceptKey == EntityClassKeys.Material).Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
 					}
 					else
 					{
@@ -578,6 +688,26 @@ namespace OpenIZAdmin.Controllers
 			TempData["searchTerm"] = searchTerm;
 
 			return PartialView("_MaterialSearchResultsPartial", results);
+		}
+
+		/// <summary>
+		/// Searches for a manufactured material.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns a list of manufactured materials which match the search term.</returns>
+		[HttpGet]
+		public ActionResult SearchAjax(string searchTerm)
+		{
+			var viewModels = new List<MaterialViewModel>();
+
+			if (ModelState.IsValid)
+			{
+				var materials = this.ImsiClient.Query<Material>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.StatusConceptKey == StatusKeys.Active && p.ClassConceptKey == EntityClassKeys.Material);
+
+				viewModels = materials.Item.OfType<Material>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))) && p.StatusConceptKey == StatusKeys.Active && p.ClassConceptKey == EntityClassKeys.Material).Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+			}
+
+			return Json(viewModels, JsonRequestBehavior.AllowGet);
 		}
 
 		/// <summary>
@@ -604,7 +734,10 @@ namespace OpenIZAdmin.Controllers
 				material.QuantityConcept = this.GetConcept(material.QuantityConceptKey);
 				material.TypeConcept = this.GetConcept(material.TypeConceptKey);
 
-				material.Relationships = this.GetEntityRelationships<Material, ManufacturedMaterial>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList();
+				material.Relationships = new List<EntityRelationship>();
+
+				material.Relationships.AddRange(this.GetEntityRelationships<Material, Material>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity).ToList());
+				material.Relationships.AddRange(this.GetEntityRelationships<Material, ManufacturedMaterial>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList());
 
 				return View(new MaterialViewModel(material));
 			}
