@@ -2044,7 +2044,7 @@
     <value>The target population</value>
   </data>
   <data name="ToolTip_TargetPopulationYear" xml:space="preserve">
-    <value>The year of the target population</value>
+    <value>The year of the target population - format 'YYYY'</value>
   </data>
   <data name="NoConceptSetsFound" xml:space="preserve">
     <value>No concept sets found</value>
@@ -2138,5 +2138,8 @@
   </data>
   <data name="UrlLength250" xml:space="preserve">
     <value>The url cannot exceed 250 characters</value>
+  </data>
+  <data name="PopulationYearInvalidFormat" xml:space="preserve">
+    <value>Target population year must be a valid year and in format YYYY</value>
   </data>
 </root>

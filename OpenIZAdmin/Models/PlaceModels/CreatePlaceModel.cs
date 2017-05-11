@@ -26,6 +26,7 @@ using System.Web.Mvc;
 using System.Web.Mvc.Routing.Constraints;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Localization;
+using Quartz.Util;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
@@ -73,13 +74,15 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <value>The year.</value>
 		[Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "YearRequired", ErrorMessageResourceType = typeof(Locale))]
-		public int Year { get; set; }
+        //[RegularExpression(Constants.RegExPopulationYear, ErrorMessageResourceName = "PopulationYearInvalidFormat", ErrorMessageResourceType = typeof(Locale))]
+        //public int? Year { get; set; }
+        public string Year { get; set; }
 
-		/// <summary>
-		/// Gets or sets the type concept.
-		/// </summary>
-		/// <value>The type concept.</value>
-		[Display(Name = "TypeConcept", ResourceType = typeof(Locale))]
+        /// <summary>
+        /// Gets or sets the type concept.
+        /// </summary>
+        /// <value>The type concept.</value>
+        [Display(Name = "TypeConcept", ResourceType = typeof(Locale))]
 		public string TypeConcept { get; set; }
 
 		/// <summary>
@@ -88,11 +91,26 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <value>The type concepts.</value>
 		public List<SelectListItem> TypeConcepts { get; set; }
 
-		/// <summary>
-		/// Converts a <see cref="CreatePlaceModel"/> instance to a <see cref="Place"/> instance.
-		/// </summary>
-		/// <returns>Returns the converted place instance.</returns>
-		public Place ToPlace()
+	    /// <summary>
+	    /// Converts a <see cref="CreatePlaceModel"/> instance to a <see cref="Place"/> instance.
+	    /// </summary>
+	    /// <returns>Returns the converted place instance.</returns>
+	    public int ConvertToPopulationYear()
+	    {
+	        if (string.IsNullOrWhiteSpace(Year)) return 0;
+
+	        var year = 0;
+	        
+	        if (int.TryParse(Year, out year) && (year >= 1900 && year <= 2100)) return year;
+
+	        return 0;
+	    }
+
+	    /// <summary>
+        /// Converts a <see cref="CreatePlaceModel"/> instance to a <see cref="Place"/> instance.
+        /// </summary>
+        /// <returns>Returns the converted place instance.</returns>
+        public Place ToPlace()
 		{
 			var place = new Place
 			{

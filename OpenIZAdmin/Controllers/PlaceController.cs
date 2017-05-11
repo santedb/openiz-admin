@@ -125,7 +125,10 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreatePlaceModel model)
 		{
-			if (ModelState.IsValid)
+		    var year = model.ConvertToPopulationYear();		    
+            if(year == 0) ModelState.AddModelError("Year", Locale.PopulationYearInvalidFormat);            
+
+            if (ModelState.IsValid)
 			{
 				try
 				{
@@ -133,13 +136,13 @@ namespace OpenIZAdmin.Controllers
 
 					var placeToCreate = model.ToPlace();
 
-					var entityExtension = new EntityExtension
-					{
-						ExtensionType = targetPopulationExtensionType,
-						ExtensionValue = new TargetPopulation(model.TargetPopulation, model.Year)
-					};
+					//var entityExtension = new EntityExtension
+					//{
+					//	ExtensionType = targetPopulationExtensionType,
+					//	ExtensionValue = new TargetPopulation(model.TargetPopulation, year)
+					//};
 
-					placeToCreate.Extensions.Add(entityExtension);
+					//placeToCreate.Extensions.Add(entityExtension);
 
 					var createdPlace = this.ImsiClient.Create<Place>(placeToCreate);
 

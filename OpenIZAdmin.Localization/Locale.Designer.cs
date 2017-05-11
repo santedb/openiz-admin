@@ -3373,6 +3373,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Target population year must be a valid year and in format YYYY.
+        /// </summary>
+        public static string PopulationYearInvalidFormat {
+            get {
+                return ResourceManager.GetString("PopulationYearInvalidFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Priority.
         /// </summary>
         public static string Priority {
@@ -4723,7 +4732,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The year of the target population.
+        ///   Looks up a localized string similar to The year of the target population - format &apos;YYYY&apos;.
         /// </summary>
         public static string ToolTip_TargetPopulationYear {
             get {

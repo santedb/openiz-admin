@@ -290,6 +290,11 @@
             Gets or sets the properties
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Data.Warehouse.DataWarehouseObject.ToExpando">
+            <summary>
+            Create an expando object
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Data.Warehouse.IDatamartSchemaPropertyContainer">
             <summary>
             Datamart schema property container
@@ -1599,6 +1604,21 @@
             Test that a patch can be applied
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Services.Impl.RegexPasswordValidator">
+            <summary>
+            Represents a regular expression password validator
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.RegexPasswordValidator.#ctor(System.String)">
+            <summary>
+            Create regex password validator with specified expression
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.Impl.RegexPasswordValidator.Validate(System.String)">
+            <summary>
+            Validate the specified password
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Services.Impl.BaseBusinessRulesService`1">
             <summary>
             Represents a business rules service with no behavior, but intended to help in the implementation of another
@@ -2514,6 +2534,16 @@
         <member name="M:OpenIZ.Core.Services.IFastQueryRepositoryService.FindFast``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@,System.Guid)">
             <summary>
             Perform a quick search (instructs the data persistence layer not to load as many properties)
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Services.IPasswordValidatorService">
+            <summary>
+            Represents a password validation service
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IPasswordValidatorService.Validate(System.String)">
+            <summary>
+            Validate the password
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Services.IPatchService">

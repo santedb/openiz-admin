@@ -43,8 +43,9 @@ namespace OpenIZAdmin.Models.EntityTagModels
 		/// <param name="tag">The tag.</param>
 		public EntityTagViewModel(EntityTag tag)
 		{
-			this.EntityId = tag.SourceEntityKey.Value;
-			this.TagKey = tag.TagKey;
+			//this.EntityId = tag.SourceEntityKey.Value;
+            this.EntityId = tag.SourceEntityKey;
+            this.TagKey = tag.TagKey;
 			this.TagValue = tag.Value;
 		}
 
@@ -52,7 +53,7 @@ namespace OpenIZAdmin.Models.EntityTagModels
 		/// Gets or sets the entity identifier.
 		/// </summary>
 		/// <value>The entity identifier.</value>
-		public Guid EntityId { get; set; }
+		public Guid? EntityId { get; set; }
 
 		/// <summary>
 		/// Gets or sets the tag key.

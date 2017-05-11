@@ -100,6 +100,11 @@ namespace OpenIZAdmin
         /// <summary>
         /// Regular expression string for username validation
         /// </summary>
+        public const string RegExPopulationYear = @"^(\d{4})$";
+
+        /// <summary>
+        /// Regular expression string for username validation
+        /// </summary>
         public const string RegExUsername = @"^[^ !@#$%&\\/:*;\.\)\(]+$";        
 
         /// <summary>
