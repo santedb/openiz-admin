@@ -77,10 +77,11 @@ namespace OpenIZAdmin.Models.DeviceModels
 		/// </summary>
 		public IEnumerable<PolicyViewModel> DevicePolicies { get; set; }
 
-		/// <summary>
-		/// Gets or sets the device secret.
-		/// </summary>
-		[StringLength(64, ErrorMessageResourceName = "DeviceSecret64", ErrorMessageResourceType = typeof(Locale))]
+        /// <summary>
+        /// Gets or sets the device secret.
+        /// </summary>
+        [Required(ErrorMessageResourceName = "DeviceSecretRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(64, ErrorMessageResourceName = "DeviceSecret64", ErrorMessageResourceType = typeof(Locale))]
 		public string DeviceSecret { get; set; }
 
 		/// <summary>

@@ -156,13 +156,7 @@ namespace OpenIZAdmin.Models.AccountModels
 			}            
 
             // only update the facility if it actually changes
-            var facilityId = ConvertFacilityToGuid();
-            
-            //if (facilityId != null && HasSelectedNewFacility(userEntity, facilityId))
-            //{                                    
-            //    userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-            //    userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, facilityId));
-            //}
+            var facilityId = ConvertFacilityToGuid();                        
 
             if (facilityId == null)
             {

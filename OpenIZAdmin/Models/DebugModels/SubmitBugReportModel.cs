@@ -51,11 +51,11 @@ namespace OpenIZAdmin.Models.DebugModels
 		[Required]
 		public Guid Id { get; set; }
 
-		/// <summary>
-		/// Gets or sets the reporter.
-		/// </summary>
-		/// <value>The reporter.</value>
-		public string Reporter { get; set; }
+        /// <summary>
+        /// Gets or sets the reporter.
+        /// </summary>
+        /// <value>The reporter.</value>        
+        public string Reporter { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this <see cref="SubmitBugReportModel"/> is success.
@@ -63,11 +63,12 @@ namespace OpenIZAdmin.Models.DebugModels
 		/// <value><c>true</c> if success; otherwise, <c>false</c>.</value>
 		public bool Success { get; set; }
 
-		/// <summary>
-		/// Gets or sets the transaction message.
-		/// </summary>
-		/// <value>The transaction message.</value>
-		public string TransactionMessage { get; set; }
+        /// <summary>
+        /// Gets or sets the transaction message.
+        /// </summary>
+        /// <value>The transaction message.</value>
+        //[StringLength(256, ErrorMessageResourceName = "TransactionLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string TransactionMessage { get; set; }
 
 		/// <summary>
 		/// Converts a <see cref="SubmitBugReportModel"/> instance to a <see cref="DiagnosticReport"/> instance.

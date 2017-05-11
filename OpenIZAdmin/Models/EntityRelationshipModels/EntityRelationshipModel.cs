@@ -115,11 +115,11 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		[Required(ErrorMessageResourceName = "RelationshipType", ErrorMessageResourceType = typeof(Locale))]
 		public string RelationshipType { get; set; }
 
-		/// <summary>
-		/// Gets or sets the name of the relationship type.
-		/// </summary>
-		/// <value>The name of the relationship type.</value>
-		public string RelationshipTypeName { get; set; }
+        /// <summary>
+        /// Gets or sets the name of the relationship type.
+        /// </summary>
+        /// <value>The name of the relationship type.</value>        
+        public string RelationshipTypeName { get; set; }
 
 		/// <summary>
 		/// Gets or sets the relationship types.

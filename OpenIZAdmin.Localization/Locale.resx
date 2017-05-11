@@ -2115,4 +2115,28 @@
   <data name="EmailLength256" xml:space="preserve">
     <value>Email cannot exceed 256 characters</value>
   </data>
+  <data name="DescriptionLength4000" xml:space="preserve">
+    <value>The description cannot exceed 4000 characters</value>
+  </data>
+  <data name="DomainNameLength32" xml:space="preserve">
+    <value>The domain name cannot exceeed 32 characters</value>
+  </data>
+  <data name="MessageLength4000" xml:space="preserve">
+    <value>The message cannot exceed 4000 characters</value>
+  </data>
+  <data name="OidLength256" xml:space="preserve">
+    <value>The oid cannot exceed 256 characters</value>
+  </data>
+  <data name="RegexLength64" xml:space="preserve">
+    <value>The regular expression length cannot exceed 64 characters</value>
+  </data>
+  <data name="SecretLength64" xml:space="preserve">
+    <value>The secret cannot exceed 64 characters</value>
+  </data>
+  <data name="SubjectLength256" xml:space="preserve">
+    <value>The subject cannot exceed 256 characters</value>
+  </data>
+  <data name="UrlLength250" xml:space="preserve">
+    <value>The url cannot exceed 250 characters</value>
+  </data>
 </root>

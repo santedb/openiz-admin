@@ -1213,6 +1213,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The description cannot exceed 4000 characters.
+        /// </summary>
+        public static string DescriptionLength4000 {
+            get {
+                return ResourceManager.GetString("DescriptionLength4000", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Details.
         /// </summary>
         public static string Details {
@@ -1371,6 +1380,15 @@ namespace OpenIZAdmin.Localization {
         public static string DomainName {
             get {
                 return ResourceManager.GetString("DomainName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The domain name cannot exceeed 32 characters.
+        /// </summary>
+        public static string DomainNameLength32 {
+            get {
+                return ResourceManager.GetString("DomainNameLength32", resourceCulture);
             }
         }
         
@@ -2500,6 +2518,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The message cannot exceed 4000 characters.
+        /// </summary>
+        public static string MessageLength4000 {
+            get {
+                return ResourceManager.GetString("MessageLength4000", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please enter a message.
         /// </summary>
         public static string MessageRequired {
@@ -2946,6 +2973,15 @@ namespace OpenIZAdmin.Localization {
         public static string OIDAllCaps {
             get {
                 return ResourceManager.GetString("OIDAllCaps", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The oid cannot exceed 256 characters.
+        /// </summary>
+        public static string OidLength256 {
+            get {
+                return ResourceManager.GetString("OidLength256", resourceCulture);
             }
         }
         
@@ -3616,6 +3652,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The regular expression length cannot exceed 64 characters.
+        /// </summary>
+        public static string RegexLength64 {
+            get {
+                return ResourceManager.GetString("RegexLength64", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Related.
         /// </summary>
         public static string Related {
@@ -3985,6 +4030,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The secret cannot exceed 64 characters.
+        /// </summary>
+        public static string SecretLength64 {
+            get {
+                return ResourceManager.GetString("SecretLength64", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to security application.
         /// </summary>
         public static string SecurityApplication {
@@ -4053,6 +4107,15 @@ namespace OpenIZAdmin.Localization {
         public static string Subject {
             get {
                 return ResourceManager.GetString("Subject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The subject cannot exceed 256 characters.
+        /// </summary>
+        public static string SubjectLength256 {
+            get {
+                return ResourceManager.GetString("SubjectLength256", resourceCulture);
             }
         }
         
@@ -5592,6 +5655,15 @@ namespace OpenIZAdmin.Localization {
         public static string UrlInvalid {
             get {
                 return ResourceManager.GetString("UrlInvalid", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The url cannot exceed 250 characters.
+        /// </summary>
+        public static string UrlLength250 {
+            get {
+                return ResourceManager.GetString("UrlLength250", resourceCulture);
             }
         }
         

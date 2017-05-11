@@ -60,14 +60,16 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// Gets or sets the description of the assigning authority.
 		/// </summary>
 		[Display(Name = "Description", ResourceType = typeof(Locale))]
-		public string Description { get; set; }
+        [StringLength(4000, ErrorMessageResourceName = "DescriptionLength4000", ErrorMessageResourceType = typeof(Locale))]
+        public string Description { get; set; }
 
 		/// <summary>
 		/// Gets or sets the domain name of the assigning authority.
 		/// </summary>
 		[Display(Name = "DomainName", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
-		public string DomainName { get; set; }
+        [StringLength(32, ErrorMessageResourceName = "DomainNameLength32", ErrorMessageResourceType = typeof(Locale))]
+        public string DomainName { get; set; }
 
 		/// <summary>
 		/// Gets or sets the id of the assigning authority.
@@ -88,7 +90,8 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// </summary>
 		[Display(Name = "Oid", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Locale))]
-		public string Oid { get; set; }
+        [StringLength(256, ErrorMessageResourceName = "OidLength256", ErrorMessageResourceType = typeof(Locale))]
+        public string Oid { get; set; }
 
 		/// <summary>
 		/// Gets or sets the scopes.
@@ -102,14 +105,16 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// </summary>
 		[Display(Name = "Url", ResourceType = typeof(Locale))]
 		[Url(ErrorMessageResourceName = "UrlInvalid", ErrorMessageResourceType = typeof(Locale))]
-		public string Url { get; set; }
+        [StringLength(250, ErrorMessageResourceName = "UrlLength250", ErrorMessageResourceType = typeof(Locale))]
+        public string Url { get; set; }
 
 		/// <summary>
 		/// Gets or sets the validation regex.
 		/// </summary>
 		/// <value>The validation regex.</value>
 		[Display(Name = "ValidationRegex", ResourceType = typeof(Locale))]
-		public string ValidationRegex { get; set; }
+        [StringLength(64, ErrorMessageResourceName = "RegexLength64", ErrorMessageResourceType = typeof(Locale))]
+        public string ValidationRegex { get; set; }
 
 		/// <summary>
 		/// Converts a <see cref="EditAssigningAuthorityModel"/> instance to an <see cref="AssigningAuthorityInfo"/> instance.
