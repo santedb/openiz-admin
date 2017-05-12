@@ -102,6 +102,7 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 				{
 					Description = this.Description,
 					DomainName = this.DomainName,
+					IsUnique = this.IsUnique,
 					Name = this.Name,
 					Oid = this.Oid,
 					Url = this.Url,
