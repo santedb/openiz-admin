@@ -1238,6 +1238,11 @@
             Perform a re-classification of values
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Applets.ViewModel.Json.JsonReflectionClassifier.LoadClassifier(System.Type,System.String)">
+            <summary>
+            Load classifier
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Applets.ViewModel.Json.JsonReflectionClassifier.GetClassifierObj(System.Object,OpenIZ.Core.Model.Attributes.ClassifierAttribute)">
             <summary>
             Get classifier object
