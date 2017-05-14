@@ -164,7 +164,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var concepts = conceptSet.ConceptsXml.Select(this.GetConcept).Where(concept => concept != null).ToList();
+				var concepts = conceptSet.ConceptsXml.Select(c => this.GetConcept(c, null)).Where(concept => concept != null).ToList();
 
 				foreach (var concept in concepts)
 				{
@@ -337,7 +337,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var concepts = conceptSet.ConceptsXml.Select(this.GetConcept).Where(concept => concept != null).ToList();
+				var concepts = conceptSet.ConceptsXml.Select(c => this.GetConcept(c, null)).Where(concept => concept != null).ToList();
 
 				foreach (var concept in concepts)
 				{
