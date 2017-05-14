@@ -78,6 +78,9 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index", "Concept");
 				}
 
+				concept.CreationTime = DateTimeOffset.Now;
+				concept.VersionKey = null;
+
 				concept.ConceptNames.Add(new ConceptName
 				{
 					Language = model.TwoLetterCountryCode,

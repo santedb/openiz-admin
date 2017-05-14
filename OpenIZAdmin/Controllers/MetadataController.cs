@@ -51,6 +51,16 @@ namespace OpenIZAdmin.Controllers
             return this.AmiClient.GetCodeSystems(c => c.ObsoletionTime == null);                        
         }
 
+		/// <summary>
+		/// Gets the concept class.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Returns the concept class for the given key, or null if no concept class is found.</returns>
+		protected ConceptClass GetConceptClass(Guid key)
+		{
+			return this.ImsiClient.Get<ConceptClass>(key, null) as ConceptClass;
+		}
+
         /// <summary>
         /// Checks if a concept exists.
         /// </summary>
