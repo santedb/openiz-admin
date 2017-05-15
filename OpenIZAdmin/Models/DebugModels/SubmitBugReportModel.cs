@@ -42,7 +42,8 @@ namespace OpenIZAdmin.Models.DebugModels
 		/// </summary>
 		[Display(Name = "StepsToReproduce", ResourceType = typeof(Localization.Locale))]
 		[StringLength(4000, ErrorMessageResourceName = "StepsToReproduceTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string BugDetails { get; set; }
+        [Required(ErrorMessageResourceName = "StepsToReproduceRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        public string BugDetails { get; set; }
 
 		/// <summary>
 		/// Gets or sets the identifier.
@@ -54,7 +55,8 @@ namespace OpenIZAdmin.Models.DebugModels
         /// <summary>
         /// Gets or sets the reporter.
         /// </summary>
-        /// <value>The reporter.</value>        
+        /// <value>The reporter.</value>       
+        [Display(Name = "Reporter", ResourceType = typeof(Localization.Locale))] 
         public string Reporter { get; set; }
 
 		/// <summary>

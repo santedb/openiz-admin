@@ -4129,6 +4129,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter the steps to reproduce.
+        /// </summary>
+        public static string StepsToReproduceRequired {
+            get {
+                return ResourceManager.GetString("StepsToReproduceRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Steps to reproduce cannot exceed 4000 characters.
         /// </summary>
         public static string StepsToReproduceTooLong {

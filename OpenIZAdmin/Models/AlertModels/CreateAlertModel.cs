@@ -58,6 +58,7 @@ namespace OpenIZAdmin.Models.AlertModels
 		[Display(Name = "Message", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "MessageRequired", ErrorMessageResourceType = typeof(Locale))]
         [StringLength(4000, ErrorMessageResourceName = "MessageLength4000", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [AllowHtml]
         public string Message { get; set; }
 
 		/// <summary>
@@ -78,6 +79,7 @@ namespace OpenIZAdmin.Models.AlertModels
 		[Display(Name = "Subject", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "SubjectRequired", ErrorMessageResourceType = typeof(Locale))]
         [StringLength(256, ErrorMessageResourceName = "SubjectLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [AllowHtml]
         public string Subject { get; set; }
 
 		/// <summary>
