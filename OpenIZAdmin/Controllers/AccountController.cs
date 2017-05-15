@@ -544,13 +544,7 @@ namespace OpenIZAdmin.Controllers
 					securityUserInfo.User.PhoneNumber = model.PhoneNumber;
 
 					this.AmiClient.UpdateUser(userId, securityUserInfo);
-					this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
-
-					var user = this.UserManager.FindById(userId.ToString());
-
-					user.Language = model.Language;
-
-					this.UserManager.Update(user);
+					this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));					
 
 					TempData["success"] = Locale.UserUpdatedSuccessfully;
 
