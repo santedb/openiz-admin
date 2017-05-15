@@ -2148,4 +2148,10 @@
   <data name="AddConcepts" xml:space="preserve">
     <value>Add concepts</value>
   </data>
+  <data name="ProfileUpdatedSuccessfully" xml:space="preserve">
+    <value>Profile updated successfully</value>
+  </data>
+  <data name="StepsToReproduceRequired" xml:space="preserve">
+    <value>Please enter the steps to reproduce</value>
+  </data>
 </root>

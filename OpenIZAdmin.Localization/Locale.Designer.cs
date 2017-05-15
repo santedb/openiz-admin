@@ -3427,6 +3427,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Profile updated successfully.
+        /// </summary>
+        public static string ProfileUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("ProfileUpdatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Provider.
         /// </summary>
         public static string Provider {
@@ -4116,6 +4125,15 @@ namespace OpenIZAdmin.Localization {
         public static string StepsToReproduce {
             get {
                 return ResourceManager.GetString("StepsToReproduce", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter the steps to reproduce.
+        /// </summary>
+        public static string StepsToReproduceRequired {
+            get {
+                return ResourceManager.GetString("StepsToReproduceRequired", resourceCulture);
             }
         }
         

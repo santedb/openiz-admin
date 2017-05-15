@@ -486,14 +486,9 @@ namespace OpenIZAdmin.Controllers
 				var phoneTypes = this.GetPhoneTypeConceptSet().Concepts.ToList();
 
 				Guid phoneType;
-				model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList().ToList();
+				model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList().ToList();                
 
-			    //if (userEntity.Telecoms.All(t => t.AddressUseKey != TelecomAddressUseKeys.MobileContact)) return View(model);
-			    
-			    //model.PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;
-			    //model.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
-			    
-			    return View(model);
+                return View(model);
 			}
 			catch (Exception e)
 			{
@@ -516,18 +511,18 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				if (ModelState.IsValid)
-				{
-					if (model.GivenNames.Any(n => !this.IsValidNameLength(n)))
-					{
-						this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);
-					}
+                if (model.GivenNames.Any(n => !this.IsValidNameLength(n)))
+                {
+                    this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);
+                }
 
-					if (model.Surnames.Any(n => !this.IsValidNameLength(n)))
-					{
-						this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);
-					}
+                if (model.Surnames.Any(n => !this.IsValidNameLength(n)))
+                {
+                    this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);
+                }
 
+                if (ModelState.IsValid)
+				{					
 					var userId = Guid.Parse(User.Identity.GetUserId());
 
 					var securityUserInfo = this.AmiClient.GetUser(userId.ToString());
@@ -544,15 +539,9 @@ namespace OpenIZAdmin.Controllers
 					securityUserInfo.User.PhoneNumber = model.PhoneNumber;
 
 					this.AmiClient.UpdateUser(userId, securityUserInfo);
-					this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
+					this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));					
 
-					var user = this.UserManager.FindById(userId.ToString());
-
-					user.Language = model.Language;
-
-					this.UserManager.Update(user);
-
-					TempData["success"] = Locale.UserUpdatedSuccessfully;
+					TempData["success"] = Locale.ProfileUpdatedSuccessfully;
 
 					return RedirectToAction("Index", "Home");
 				}
