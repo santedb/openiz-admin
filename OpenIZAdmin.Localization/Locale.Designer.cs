@@ -124,6 +124,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add concepts.
+        /// </summary>
+        public static string AddConcepts {
+            get {
+                return ResourceManager.GetString("AddConcepts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Languages.
         /// </summary>
         public static string AddLanguages_Heading {
@@ -2739,6 +2748,15 @@ namespace OpenIZAdmin.Localization {
         public static string NoApplicationsFound {
             get {
                 return ResourceManager.GetString("NoApplicationsFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No associated concepts.
+        /// </summary>
+        public static string NoAssociatedConcepts {
+            get {
+                return ResourceManager.GetString("NoAssociatedConcepts", resourceCulture);
             }
         }
         

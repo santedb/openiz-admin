@@ -52,7 +52,6 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		public EditConceptSetModel(ConceptSet conceptSet) : this()
 		{
 			Concepts = conceptSet.Concepts.Select(c => new ConceptViewModel(c, conceptSet.Key ?? Guid.Empty)).ToList();
-			CreatedBy = conceptSet.CreatedBy?.UserName;
 			CreationTime = conceptSet.CreationTime.DateTime;
 			Id = conceptSet.Key ?? Guid.Empty;
 			Mnemonic = conceptSet.Mnemonic;
@@ -61,33 +60,18 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 			Url = conceptSet.Url;
 		}
 
-		///// <summary>
-		///// Gets or sets the Mnemonic of the Concept
-		///// </summary>
-		//public string ConceptMnemonic { get; set; }
-
 		/// <summary>
 		/// Gets or sets the list of Concepts to add
 		/// </summary>
+		/// <value>The add concepts.</value>
+		[Display(Name = "AddConcepts", ResourceType = typeof(Locale))]
 		public List<string> AddConcepts { get; set; }
 
 		/// <summary>
 		/// Gets or sets the concept list from the search parameters from the ajax search method
 		/// </summary>
+		/// <value>The concept list.</value>
 		public List<SelectListItem> ConceptList { get; set; }
-
-		/// <summary>
-		/// Gets or sets the name of the concept.
-		/// </summary>
-		/// <value>The name of the concept.</value>
-		public string ConceptName { get; set; }
-
-		/// <summary>
-		/// Gets or sets the created by.
-		/// </summary>
-		/// <value>The created by.</value>
-		[Display(Name = "Created By")]
-		public string CreatedBy { get; set; }
 
 		/// <summary>
 		/// Gets or sets the mnemonic of the concept.
@@ -110,8 +94,8 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		/// </summary>
 		/// <value>The oid.</value>
 		[Display(Name = "Oid", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Locale))]
+        [StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Locale))]
         public override string Oid { get; set; }
 
 		/// <summary>
@@ -119,13 +103,14 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		/// </summary>
 		/// <value>The URL.</value>
 		[Display(Name = "Url", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "UrlRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(64, ErrorMessageResourceName = "UrlLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "UrlRequired", ErrorMessageResourceType = typeof(Locale))]
+        [StringLength(64, ErrorMessageResourceName = "UrlLength256", ErrorMessageResourceType = typeof(Locale))]
         public override string Url { get; set; }
 
 		/// <summary>
-		/// Converts an <see cref="EditConceptSetModel"/> instance to a <see cref="ConceptSet"/> instance.
+		/// Converts an <see cref="EditConceptSetModel" /> instance to a <see cref="ConceptSet" /> instance.
 		/// </summary>
+		/// <param name="conceptSet">The concept set.</param>
 		/// <returns>Returns the converted concept set.</returns>
 		public ConceptSet ToConceptSet(ConceptSet conceptSet)
 		{

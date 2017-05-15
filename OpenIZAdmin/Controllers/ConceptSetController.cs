@@ -147,7 +147,7 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		///
+		/// Displays the edit concept set view.
 		/// </summary>
 		/// <param name="id">The identifier of the ConceptSet</param>
 		/// <returns>An <see cref="ActionResult"/> instance</returns>
@@ -164,9 +164,22 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var model = new EditConceptSetModel(conceptSet);
+				var concepts = conceptSet.ConceptsXml.Select(c => this.GetConcept(c, null)).Where(concept => concept != null).ToList();
 
-				return View(model);
+				foreach (var concept in concepts)
+				{
+					if (concept.Class == null && concept.ClassKey.HasValue && concept.ClassKey.Value != Guid.Empty)
+					{
+						concept.Class = this.GetConceptClass(concept.ClassKey.Value);
+					}
+				}
+
+				var model = new EditConceptSetModel(conceptSet)
+				{
+					Concepts = concepts.Select(c => new ConceptViewModel(c, id)).ToList()
+				};
+
+			return View(model);
 			}
 			catch (Exception e)
 			{
@@ -324,7 +337,20 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var viewModel = new ConceptSetViewModel(conceptSet, true);
+				var concepts = conceptSet.ConceptsXml.Select(c => this.GetConcept(c, null)).Where(concept => concept != null).ToList();
+
+				foreach (var concept in concepts)
+				{
+					if (concept.Class == null && concept.ClassKey.HasValue && concept.ClassKey.Value != Guid.Empty)
+					{
+						concept.Class = this.GetConceptClass(concept.ClassKey.Value);
+					}
+				}
+
+				var viewModel = new ConceptSetViewModel(conceptSet)
+				{
+					Concepts = concepts.Select(c => new ConceptViewModel(c)).ToList()
+				};
 
 				return View(viewModel);
 			}

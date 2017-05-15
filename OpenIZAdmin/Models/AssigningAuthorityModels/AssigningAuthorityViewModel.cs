@@ -49,7 +49,7 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 			this.DomainName = assigningAuthority.AssigningAuthority.DomainName;
 			this.Description = assigningAuthority.AssigningAuthority.Description;
 			this.ValidationRegex = assigningAuthority.AssigningAuthority.ValidationRegex;
-			this.IsUnique = Locale.No;
+			this.IsUnique = assigningAuthority.AssigningAuthority.IsUnique ? Locale.Yes : Locale.No;
 		}
 
 		/// <summary>

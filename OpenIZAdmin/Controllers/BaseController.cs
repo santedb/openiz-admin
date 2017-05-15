@@ -176,8 +176,9 @@ namespace OpenIZAdmin.Controllers
 		/// Gets the concept set.
 		/// </summary>
 		/// <param name="key">The key.</param>
-		/// <returns>ConceptSet.</returns>
-		protected ConceptSet GetConceptSet(Guid key)
+		/// <param name="loadFast">if set to <c>true</c> [load fast].</param>
+		/// <returns>Returns the concept set for the given key.</returns>
+		protected ConceptSet GetConceptSet(Guid key, bool loadFast = false)
 		{
 			var conceptSet = MvcApplication.MemoryCache.Get(key.ToString()) as ConceptSet;
 
@@ -189,7 +190,7 @@ namespace OpenIZAdmin.Controllers
 
 				conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == key && c.ObsoletionTime == null);
 
-				if (conceptSet != null)
+				if (conceptSet != null && loadFast)
 				{
 					MvcApplication.MemoryCache.Set(new CacheItem(key.ToString(), conceptSet), MvcApplication.CacheItemPolicy);
 				}
@@ -202,8 +203,9 @@ namespace OpenIZAdmin.Controllers
 		/// Gets the concept set.
 		/// </summary>
 		/// <param name="mnemonic">The mnemonic.</param>
-		/// <returns>ConceptSet.</returns>
-		protected ConceptSet GetConceptSet(string mnemonic)
+		/// <param name="loadFast">if set to <c>true</c> [load fast].</param>
+		/// <returns>Return the concept set for the given concept set mnemonic.</returns>
+		protected ConceptSet GetConceptSet(string mnemonic, bool loadFast = false)
 		{
 			var conceptSet = MvcApplication.MemoryCache.Get(mnemonic) as ConceptSet;
 
@@ -215,7 +217,7 @@ namespace OpenIZAdmin.Controllers
 
 				conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
 
-				if (conceptSet != null)
+				if (conceptSet != null && loadFast)
 				{
 					MvcApplication.MemoryCache.Set(new CacheItem(conceptSet.Key.ToString(), conceptSet), MvcApplication.CacheItemPolicy);
 				}

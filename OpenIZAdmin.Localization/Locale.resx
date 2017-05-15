@@ -2142,4 +2142,10 @@
   <data name="PopulationYearInvalidFormat" xml:space="preserve">
     <value>Target population year must be a valid year and in format YYYY</value>
   </data>
+  <data name="NoAssociatedConcepts" xml:space="preserve">
+    <value>No associated concepts</value>
+  </data>
+  <data name="AddConcepts" xml:space="preserve">
+    <value>Add concepts</value>
+  </data>
 </root>

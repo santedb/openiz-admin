@@ -54,18 +54,17 @@ namespace OpenIZAdmin.Models.ConceptModels
 
 			ReferenceTerms = new List<ReferenceTermViewModel>();
 			Languages = new List<LanguageViewModel>();
-            //AddReferenceTermList = new List<string>();
-            ReferenceTermList = new List<SelectListItem>();            
+			ReferenceTermList = new List<SelectListItem>();
 
-            RelationshipTypeList = new List<SelectListItem>()
-            {
-                new SelectListItem() {Text = "", Value = ""},                
-                new SelectListItem() {Text = Locale.InverseOf, Value = ConceptRelationshipTypeKeys.InverseOf.ToString()},
-                new SelectListItem() {Text = Locale.MemberOf, Value = ConceptRelationshipTypeKeys.MemberOf.ToString()},
-                new SelectListItem() {Text = Locale.NegationOf, Value = ConceptRelationshipTypeKeys.NegationOf.ToString()},
-                new SelectListItem() {Text = Locale.SameAs, Value = ConceptRelationshipTypeKeys.SameAs.ToString()}
-            };
-        }
+			RelationshipTypeList = new List<SelectListItem>
+			{
+				new SelectListItem {Text = string.Empty, Value = string.Empty},
+				new SelectListItem {Text = Locale.InverseOf, Value = ConceptRelationshipTypeKeys.InverseOf.ToString()},
+				new SelectListItem {Text = Locale.MemberOf, Value = ConceptRelationshipTypeKeys.MemberOf.ToString()},
+				new SelectListItem {Text = Locale.NegationOf, Value = ConceptRelationshipTypeKeys.NegationOf.ToString()},
+				new SelectListItem {Text = Locale.SameAs, Value = ConceptRelationshipTypeKeys.SameAs.ToString()}
+			};
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditConceptModel"/> class.
@@ -80,24 +79,21 @@ namespace OpenIZAdmin.Models.ConceptModels
 			Mnemonic = concept.Mnemonic;
 			Name = string.Join(" ", concept.ConceptNames.Select(c => c.Name));
 			Languages = concept.ConceptNames.Select(k => new LanguageViewModel(k.Language, k.Name, concept)).ToList();
-			VersionKey = concept.VersionKey;		    
+			VersionKey = concept.VersionKey;
 		}
 
-        /// <summary>
-        /// Gets or sets the reference term to add
-        /// </summary>
-        //[Remote("HasRelationshipType", "Concept", AdditionalFields = "RelationshipType", ErrorMessage = "Select a relationship type for the reference term.")]
-        [DependentPropertyValidator("RelationshipType", ErrorMessage = "Reference Term and Relationship Type are required to add a Reference Term.")]        
-        [Display(Name = "AddReferenceTerms", ResourceType = typeof(Localization.Locale))]
-        //public List<string> AddReferenceTermList { get; set; }
-        public string AddReferenceTerm { get; set; }
+		/// <summary>
+		/// Gets or sets the reference term to add
+		/// </summary>
+		[DependentPropertyValidator("RelationshipType", ErrorMessage = "Reference Term and Relationship Type are required to add a Reference Term.")]
+		[Display(Name = "AddReferenceTerms", ResourceType = typeof(Localization.Locale))]
+		public string AddReferenceTerm { get; set; }
 
-        /// <summary>
-        /// Gets or sets the concept class.
-        /// </summary>
-        /// <value>The concept class.</value>
-        [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
-		//[Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		/// <summary>
+		/// Gets or sets the concept class.
+		/// </summary>
+		/// <value>The concept class.</value>
+		[Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
 		public string ConceptClass { get; set; }
 
 		/// <summary>
@@ -105,7 +101,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		/// <value>The concept class list.</value>
 		public List<SelectListItem> ConceptClassList { get; set; }
-		
+
 
 		/// <summary>
 		/// Gets or sets the language list.
@@ -116,36 +112,38 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// <summary>
 		/// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
 		/// </summary>
-		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Languages", ResourceType = typeof(Locale))]
 		public List<LanguageViewModel> Languages { get; set; }
-        
-        /// <summary>
-        /// Gets or sets the concept list from the search parameters from the ajax search method
-        /// </summary>
-        public List<SelectListItem> ReferenceTermList { get; set; }        
 
-        /// <summary>
-        /// Gets or sets the relationship.
-        /// </summary>
-        /// <value>The relationship.</value>        
-        [Display(Name = "Relationship", ResourceType = typeof(Localization.Locale))]
-        //[Remote("HasReferenceTerm", "Concept", AdditionalFields = "AddReferenceTerm", ErrorMessage = "Select a reference term to add to the concept.")]        
-        public string RelationshipType { get; set; }
+		/// <summary>
+		/// Gets or sets the concept list from the search parameters from the ajax search method
+		/// </summary>
+		public List<SelectListItem> ReferenceTermList { get; set; }
 
-        /// <summary>
-        /// Gets or sets the concept relationship list.
-        /// </summary>
-        /// <value>The concept relationship list.</value>
-        public List<SelectListItem> RelationshipTypeList { get; set; }
+		/// <summary>
+		/// Gets or sets the relationship.
+		/// </summary>
+		/// <value>The relationship.</value>        
+		[Display(Name = "Relationship", ResourceType = typeof(Locale))]
+		public string RelationshipType { get; set; }
 
-	    /// <summary>
-	    /// Converts an <see cref="EditConceptModel"/> instance to a <see cref="Concept"/> instance.
-	    /// </summary>
-	    /// <param name="imsiServiceClient">The ImsiServiceClient instance.</param>
-	    /// <param name="concept">The concept.</param>
-	    /// <returns>Returns the converted concept instance.</returns>
-	    public Concept ToEditConceptModel(ImsiServiceClient imsiServiceClient, Concept concept)
+		/// <summary>
+		/// Gets or sets the concept relationship list.
+		/// </summary>
+		/// <value>The concept relationship list.</value>
+		public List<SelectListItem> RelationshipTypeList { get; set; }
+
+		/// <summary>
+		/// Converts an <see cref="EditConceptModel"/> instance to a <see cref="Concept"/> instance.
+		/// </summary>
+		/// <param name="imsiServiceClient">The ImsiServiceClient instance.</param>
+		/// <param name="concept">The concept.</param>
+		/// <returns>Returns the converted concept instance.</returns>
+		public Concept ToEditConceptModel(ImsiServiceClient imsiServiceClient, Concept concept)
 		{
+			concept.CreationTime = DateTimeOffset.Now;
+			concept.VersionKey = null;
+
 			if (!string.Equals(this.ConceptClass, concept.ClassKey.ToString()))
 			{
 				concept.Class = new ConceptClass
@@ -154,27 +152,19 @@ namespace OpenIZAdmin.Models.ConceptModels
 				};
 			}
 
-			concept.Mnemonic = this.Mnemonic;           
+			concept.Mnemonic = this.Mnemonic;
 
-            if (string.IsNullOrWhiteSpace(AddReferenceTerm) || string.IsNullOrWhiteSpace(RelationshipType)) return concept;
-            
-            Guid id, relationshipKey;
+			if (string.IsNullOrWhiteSpace(AddReferenceTerm) || string.IsNullOrWhiteSpace(RelationshipType)) return concept;
 
-            if (Guid.TryParse(AddReferenceTerm, out id) && Guid.TryParse(RelationshipType, out relationshipKey))
-            {
-                var term = imsiServiceClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
-                if (term != null) concept.ReferenceTerms.Add(new ConceptReferenceTerm(term.Key, relationshipKey));            
-            }
+			Guid id, relationshipKey;
 
-            return concept;
+			if (Guid.TryParse(AddReferenceTerm, out id) && Guid.TryParse(RelationshipType, out relationshipKey))
+			{
+				var term = imsiServiceClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
+				if (term != null) concept.ReferenceTerms.Add(new ConceptReferenceTerm(term.Key, relationshipKey));
+			}
+
+			return concept;
 		}
-
-        //public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        //{
-        //    if (!string.IsNullOrWhiteSpace(RelationshipType) && !AddReferenceTermList.Any())
-        //    {
-        //        yield return new ValidationResult("Reference Term and Relattionship are both required");
-        //    }
-        //}
-    }
+	}
 }

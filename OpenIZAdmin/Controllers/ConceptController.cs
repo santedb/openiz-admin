@@ -160,6 +160,12 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
+				// force load concept class if the server didn't return it
+				if (concept.Class == null && concept.ClassKey.HasValue && concept.ClassKey.Value != Guid.Empty)
+				{
+					concept.Class = this.GetConceptClass(concept.ClassKey.Value);
+				}
+
 				var model = new EditConceptModel(concept)
 				{
 					LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList()
@@ -349,6 +355,12 @@ namespace OpenIZAdmin.Controllers
 					TempData["error"] = Locale.ConceptNotFound;
 
 					return RedirectToAction("Index");
+				}
+
+				// force load concept class if the server didn't return it
+				if (concept.Class == null && concept.ClassKey.HasValue && concept.ClassKey.Value != Guid.Empty)
+				{
+					concept.Class = this.GetConceptClass(concept.ClassKey.Value);
 				}
 
 				var model = new ConceptViewModel(concept)

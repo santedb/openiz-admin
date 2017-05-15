@@ -1607,4 +1607,10 @@ au jina la kikoa</value>
   <data name="Scopes" xml:space="preserve">
     <value>Upeo</value>
   </data>
+  <data name="NoAssociatedConcepts" xml:space="preserve">
+    <value>Hakuna dhana zinazohusiana</value>
+  </data>
+  <data name="AddConcepts" xml:space="preserve">
+    <value>Kuongeza dhana</value>
+  </data>
 </root>
