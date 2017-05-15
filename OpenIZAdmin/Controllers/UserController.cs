@@ -352,7 +352,11 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			model.RolesList = this.GetAllRoles().ToSelectList("Name", "Id", null, true);
+            var phoneTypeList = this.GetPhoneTypeConceptSet().Concepts.ToList();
+            var userPhoneType = model.ConvertPhoneTypeToGuid();
+            model.PhoneTypeList = (userPhoneType != null) ? phoneTypeList.ToSelectList(p => p.Key == userPhoneType).ToList() : phoneTypeList.ToSelectList().ToList();
+
+            model.RolesList = this.GetAllRoles().ToSelectList("Name", "Id", null, true);
 
 			TempData["error"] = Locale.UnableToUpdateUser;
 
