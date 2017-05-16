@@ -146,40 +146,32 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// Converts a <see cref="EditAssigningAuthorityModel"/> instance to an <see cref="AssigningAuthorityInfo"/> instance.
 		/// </summary>
 		/// <returns>Returns an <see cref="AssigningAuthorityInfo"/> instance.</returns>
-		public AssigningAuthorityInfo ToAssigningAuthorityInfo()
-		{
-			var assigningAuthorityInfo = new AssigningAuthorityInfo
-			{
-				Id = this.Id,
-				AssigningAuthority = new AssigningAuthority
-				{
-					Key = this.Id,
-					Url = this.Url,
-					DomainName = this.DomainName,
-					Description = this.Description,
-					Oid = this.Oid,
-					Name = this.Name,
-					ValidationRegex = this.ValidationRegex
-				}
-			};
+		public AssigningAuthority ToAssigningAuthorityInfo(AssigningAuthority authorityInfo)
+		{            
+            authorityInfo.Url = this.Url;
+            authorityInfo.DomainName = this.DomainName;
+            authorityInfo.Description = this.Description;
+            authorityInfo.Oid = this.Oid;
+            authorityInfo.Name = this.Name;
+            authorityInfo.ValidationRegex = this.ValidationRegex;         
 
-            if (!this.AddConcepts.Any()) return assigningAuthorityInfo;
+            if (!this.AddConcepts.Any()) return authorityInfo;
 
             foreach (var concept in AddConcepts)
             {
                 Guid id;
                 if (Guid.TryParse(concept, out id))
                 {
-                    if (assigningAuthorityInfo.AssigningAuthority.AuthorityScopeXml == null)
+                    if (authorityInfo.AuthorityScopeXml == null)
                     {
-                        assigningAuthorityInfo.AssigningAuthority.AuthorityScopeXml = new List<Guid>();
+                        authorityInfo.AuthorityScopeXml = new List<Guid>();
                     }
 
-                    assigningAuthorityInfo.AssigningAuthority.AuthorityScopeXml.Add(id);
+                    authorityInfo.AuthorityScopeXml.Add(id);
                 }
             }
 
-            return assigningAuthorityInfo;
+            return authorityInfo;
 		}
 	}
 }
