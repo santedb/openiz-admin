@@ -52,11 +52,13 @@ namespace OpenIZAdmin.Models
                 throw new ArgumentException("Property with this name not found");
 
             //RelationshipType
-            var comparisonValue = property.GetValue(validationContext.ObjectInstance)?.ToString();            
+            var comparisonValue = property.GetValue(validationContext.ObjectInstance)?.ToString();
 
-            if (string.IsNullOrWhiteSpace(currentValue) || string.IsNullOrWhiteSpace(comparisonValue)) return new ValidationResult(FormatErrorMessage((validationContext.DisplayName)));
+            if (string.IsNullOrWhiteSpace(currentValue) && string.IsNullOrWhiteSpace(comparisonValue)) return ValidationResult.Success;
 
-            return ValidationResult.Success;            
+            if (!string.IsNullOrWhiteSpace(currentValue) && !string.IsNullOrWhiteSpace(comparisonValue)) return ValidationResult.Success;            
+
+            return new ValidationResult(FormatErrorMessage((validationContext.DisplayName)));
         }
 
         ////new method

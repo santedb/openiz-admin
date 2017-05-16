@@ -3670,6 +3670,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select a reference term .
+        /// </summary>
+        public static string ReferenceTermRequired {
+            get {
+                return ResourceManager.GetString("ReferenceTermRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reference Terms.
         /// </summary>
         public static string ReferenceTerms {

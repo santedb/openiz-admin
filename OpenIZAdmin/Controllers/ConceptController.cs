@@ -204,7 +204,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Edit(EditConceptModel model)
 		{
 			try
-			{
+			{			    
 				var concept = this.GetConcept(model.Id, model.VersionKey);
 
 				if (concept == null)
@@ -214,7 +214,14 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				if (ModelState.IsValid)
+                if (model.HasAddReferenceTerm())
+                {
+                    if (string.IsNullOrWhiteSpace(model.AddReferenceTerm)) ModelState.AddModelError("AddReferenceTerm", Locale.ReferenceTermRequired);
+
+                    if (string.IsNullOrWhiteSpace(model.RelationshipType)) ModelState.AddModelError("RelationshipType", Locale.RelationshipRequired);
+                }
+
+                if (ModelState.IsValid)
 				{
 					if (!string.Equals(concept.Mnemonic, model.Mnemonic) && !DoesConceptExist(model.Mnemonic))
 					{

@@ -2154,4 +2154,7 @@
   <data name="StepsToReproduceRequired" xml:space="preserve">
     <value>Please enter the steps to reproduce</value>
   </data>
+  <data name="ReferenceTermRequired" xml:space="preserve">
+    <value>Please select a reference term </value>
+  </data>
 </root>

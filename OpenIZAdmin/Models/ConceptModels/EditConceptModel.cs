@@ -85,7 +85,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// <summary>
 		/// Gets or sets the reference term to add
 		/// </summary>
-		[DependentPropertyValidator("RelationshipType", ErrorMessage = "Reference Term and Relationship Type are required to add a Reference Term.")]
+		//[DependentPropertyValidator("RelationshipType", ErrorMessage = "Reference Term and Relationship Type are required to add a Reference Term.")]
 		[Display(Name = "AddReferenceTerms", ResourceType = typeof(Localization.Locale))]
 		public string AddReferenceTerm { get; set; }
 
@@ -124,8 +124,8 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// Gets or sets the relationship.
 		/// </summary>
 		/// <value>The relationship.</value>        
-		[Display(Name = "Relationship", ResourceType = typeof(Locale))]
-		public string RelationshipType { get; set; }
+		[Display(Name = "Relationship", ResourceType = typeof(Locale))]        
+        public string RelationshipType { get; set; }
 
 		/// <summary>
 		/// Gets or sets the concept relationship list.
@@ -166,5 +166,18 @@ namespace OpenIZAdmin.Models.ConceptModels
 
 			return concept;
 		}
+
+        /// <summary>
+		/// Checks if a reference term and relationship have been selected
+		/// </summary>
+		/// <param name="imsiServiceClient">The ImsiServiceClient instance.</param>
+		/// <param name="concept">The concept.</param>
+		/// <returns>Returns the converted concept instance.</returns>
+	    public bool HasAddReferenceTerm()
+	    {
+            if (string.IsNullOrWhiteSpace(AddReferenceTerm) && string.IsNullOrWhiteSpace(RelationshipType)) return false;            
+
+            return !string.IsNullOrWhiteSpace(AddReferenceTerm) || !string.IsNullOrWhiteSpace(RelationshipType);
+	    }
 	}
 }
