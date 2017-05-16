@@ -40,9 +40,11 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// </summary>
 		public EditAssigningAuthorityModel()
 		{
-			Scopes = new List<string>();
+            AddConcepts = new List<string>();
             AuthorityScopeList = new List<AuthorityScopeViewModel>();
-		}
+            ConceptList = new List<SelectListItem>();
+            //Scopes = new List<string>();            
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditAssigningAuthorityModel"/> class.
@@ -61,30 +63,44 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		}
 
         /// <summary>
+		/// Gets or sets the list of Concepts to add
+		/// </summary>
+		/// <value>The add concepts.</value>
+		[Display(Name = "AddConcepts", ResourceType = typeof(Locale))]
+        public List<string> AddConcepts { get; set; }
+
+        /// <summary>
 		/// Gets or sets the authority scopes.
 		/// </summary>
 		/// <value>The scopes assigned.</value>		
         public List<AuthorityScopeViewModel> AuthorityScopeList { get; set; }
 
-  //      /// <summary>
-  //      /// Gets or sets the description of the assigning authority.
-  //      /// </summary>
-  //      [Display(Name = "Description", ResourceType = typeof(Locale))]
-  //      [StringLength(4000, ErrorMessageResourceName = "DescriptionLength4000", ErrorMessageResourceType = typeof(Locale))]
-  //      public string Description { get; set; }
-
-		///// <summary>
-		///// Gets or sets the domain name of the assigning authority.
-		///// </summary>
-		//[Display(Name = "DomainName", ResourceType = typeof(Locale))]
-		//[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
-  //      [StringLength(32, ErrorMessageResourceName = "DomainNameLength32", ErrorMessageResourceType = typeof(Locale))]
-  //      public string DomainName { get; set; }
-
-		/// <summary>
-		/// Gets or sets the id of the assigning authority.
+        /// <summary>
+		/// Gets or sets the concept list from the search parameters from the ajax search method
 		/// </summary>
-		[Required]
+		/// <value>The concept list.</value>
+		public List<SelectListItem> ConceptList { get; set; }
+
+
+        //      /// <summary>
+        //      /// Gets or sets the description of the assigning authority.
+        //      /// </summary>
+        //      [Display(Name = "Description", ResourceType = typeof(Locale))]
+        //      [StringLength(4000, ErrorMessageResourceName = "DescriptionLength4000", ErrorMessageResourceType = typeof(Locale))]
+        //      public string Description { get; set; }
+
+        ///// <summary>
+        ///// Gets or sets the domain name of the assigning authority.
+        ///// </summary>
+        //[Display(Name = "DomainName", ResourceType = typeof(Locale))]
+        //[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+        //      [StringLength(32, ErrorMessageResourceName = "DomainNameLength32", ErrorMessageResourceType = typeof(Locale))]
+        //      public string DomainName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the id of the assigning authority.
+        /// </summary>
+        [Required]
 		public Guid Id { get; set; }
 
 		///// <summary>
@@ -103,12 +119,12 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
   //      [StringLength(256, ErrorMessageResourceName = "OidLength256", ErrorMessageResourceType = typeof(Locale))]
   //      public string Oid { get; set; }
 
-		/// <summary>
-		/// Gets or sets the scopes.
-		/// </summary>
-		/// <value>The scopes.</value>
-		[Display(Name = "Scopes", ResourceType = typeof(Locale))]
-		public List<string> Scopes { get; set; }
+		///// <summary>
+		///// Gets or sets the scopes.
+		///// </summary>
+		///// <value>The scopes.</value>
+		//[Display(Name = "Scopes", ResourceType = typeof(Locale))]
+		//public List<string> Scopes { get; set; }
 
 		///// <summary>
 		///// Gets or sets the URL of the assigning authority.
@@ -147,7 +163,23 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 				}
 			};
 
-			return assigningAuthorityInfo;
+            if (!this.AddConcepts.Any()) return assigningAuthorityInfo;
+
+            foreach (var concept in AddConcepts)
+            {
+                Guid id;
+                if (Guid.TryParse(concept, out id))
+                {
+                    if (assigningAuthorityInfo.AssigningAuthority.AuthorityScopeXml == null)
+                    {
+                        assigningAuthorityInfo.AssigningAuthority.AuthorityScopeXml = new List<Guid>();
+                    }
+
+                    assigningAuthorityInfo.AssigningAuthority.AuthorityScopeXml.Add(id);
+                }
+            }
+
+            return assigningAuthorityInfo;
 		}
 	}
 }

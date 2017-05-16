@@ -4390,6 +4390,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The concepts to be added to the authority scope.
+        /// </summary>
+        public static string ToolTip_AuthorityScope {
+            get {
+                return ResourceManager.GetString("ToolTip_AuthorityScope", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select to cancel and return to the application.
         /// </summary>
         public static string ToolTip_Cancel {

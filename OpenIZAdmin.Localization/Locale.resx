@@ -2166,4 +2166,7 @@
   <data name="AuthorityScopeDeletedSuccessfully" xml:space="preserve">
     <value>Authority scope deleted successfully</value>
   </data>
+  <data name="ToolTip_AuthorityScope" xml:space="preserve">
+    <value>The concepts to be added to the authority scope</value>
+  </data>
 </root>

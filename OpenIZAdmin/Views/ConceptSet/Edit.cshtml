@@ -50,7 +50,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.AddConcepts, new { @class = "col-md-2 control-label" })
                     <div class="col-md-8">
-                        @Html.ListBoxFor(m => m.AddConcepts, Model.ConceptList, new { @class = "concept-search form-control", multiple = "multiple", title = Locale.ToolTip_Policies })
+                        @Html.ListBoxFor(m => m.AddConcepts, Model.ConceptList, new { @class = "concept-search form-control", multiple = "multiple", title = Locale.ToolTip_Concepts })
                         @Html.ValidationMessageFor(m => m.AddConcepts, "", new { @class = "text-danger" })
                     </div>
                 </div>

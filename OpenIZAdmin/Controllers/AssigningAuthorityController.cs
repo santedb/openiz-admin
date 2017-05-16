@@ -239,10 +239,10 @@ namespace OpenIZAdmin.Controllers
 
 
 			    if (ModelState.IsValid)
-				{
-					this.AmiClient.UpdateAssigningAuthority(model.Id.ToString(), model.ToAssigningAuthorityInfo());
+			    {			        
+                    this.AmiClient.UpdateAssigningAuthority(model.Id.ToString(), model.ToAssigningAuthorityInfo());                    
 
-					TempData["success"] = Locale.AssigningAuthorityUpdatedSuccessfully;
+                    TempData["success"] = Locale.AssigningAuthorityUpdatedSuccessfully;
 					return RedirectToAction("ViewAssigningAuthority", new { id = model.Id });
 				}
 			}
