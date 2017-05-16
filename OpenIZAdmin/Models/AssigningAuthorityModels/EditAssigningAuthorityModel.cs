@@ -52,7 +52,7 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// <param name="assigningAuthorityInfo">The assigning authority information.</param>
 		public EditAssigningAuthorityModel(AssigningAuthorityInfo assigningAuthorityInfo) : this()
 		{
-		    AuthorityScopeList = assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x)).ToList();
+		    AuthorityScopeList = assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x, assigningAuthorityInfo.Id)).ToList();
 			this.Id = assigningAuthorityInfo.Id;
 			this.Name = assigningAuthorityInfo.AssigningAuthority.Name;
 			this.Oid = assigningAuthorityInfo.AssigningAuthority.Oid;

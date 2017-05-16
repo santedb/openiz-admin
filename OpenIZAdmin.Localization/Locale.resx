@@ -2169,4 +2169,7 @@
   <data name="ToolTip_AuthorityScope" xml:space="preserve">
     <value>The concepts to be added to the authority scope</value>
   </data>
+  <data name="ToolTip_Concepts" xml:space="preserve">
+    <value>The concepts to add to the concept set</value>
+  </data>
 </root>

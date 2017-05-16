@@ -148,16 +148,19 @@ namespace OpenIZAdmin.Controllers
                 {
                     TempData["error"] = Locale.AssigningAuthorityNotFound;
                     return RedirectToAction("Index");
+                }
+
+                if (assigningAuthority.AssigningAuthority.AuthorityScopeXml != null)
+                {
+                    var index = assigningAuthority.AssigningAuthority.AuthorityScopeXml.FindIndex(a => a.Equals(conceptId));
+                    if (index != -1) assigningAuthority.AssigningAuthority.AuthorityScopeXml.RemoveAt(index);
+
+                    var result = this.AmiClient.UpdateAssigningAuthority(authorityId.ToString(), assigningAuthority);
+
+                    TempData["success"] = Locale.AuthorityScopeDeletedSuccessfully;
+
+                    return RedirectToAction("ViewAssigningAuthority", new { id = result.Id });
                 }                
-
-                var index = assigningAuthority.AssigningAuthority.AuthorityScopeXml.FindIndex(a => a.Equals(conceptId));
-                if (index != -1) assigningAuthority.AssigningAuthority.AuthorityScopeXml.RemoveAt(index);
-
-                var result = this.AmiClient.UpdateAssigningAuthority(authorityId.ToString(), assigningAuthority);
-
-                TempData["success"] = Locale.AuthorityScopeDeletedSuccessfully;
-
-                return RedirectToAction("ViewAssigningAuthority", new { id = result.Id });
             }
             catch (Exception e)
             {

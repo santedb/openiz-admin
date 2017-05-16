@@ -51,7 +51,7 @@ namespace OpenIZAdmin.Models.AuthorityScope
         public AuthorityScopeViewModel(Concept concept) : this()
 		{
             Class = concept.Class?.Name;
-            AssigingAuthorityId = Guid.Empty;
+            //AssigingAuthorityId = Guid.Empty;
             //CreationTime = concept.CreationTime.DateTime;
             Id = concept.Key ?? Guid.Empty;
             //IsObsolete = concept.ObsoletionTime != null;

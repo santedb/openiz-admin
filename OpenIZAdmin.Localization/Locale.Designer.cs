@@ -4453,6 +4453,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The concepts to add to the concept set.
+        /// </summary>
+        public static string ToolTip_Concepts {
+            get {
+                return ResourceManager.GetString("ToolTip_Concepts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The DateTime indicating the first save point.
         /// </summary>
         public static string ToolTip_CreationTime {
