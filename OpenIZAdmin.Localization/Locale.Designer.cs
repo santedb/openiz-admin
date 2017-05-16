@@ -547,6 +547,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Authority scope deleted successfully.
+        /// </summary>
+        public static string AuthorityScopeDeletedSuccessfully {
+            get {
+                return ResourceManager.GetString("AuthorityScopeDeletedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bug Details.
         /// </summary>
         public static string BugDetails {

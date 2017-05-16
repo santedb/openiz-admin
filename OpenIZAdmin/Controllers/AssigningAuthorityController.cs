@@ -24,6 +24,7 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AssigningAuthorityModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.DataTypes;
@@ -129,12 +130,52 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Index");
 		}
 
-		/// <summary>
-		/// Displays the edit assigning authority view.
+        /// <summary>
+		///
 		/// </summary>
-		/// <param name="id">The id of the assigning authority to edit.</param>
-		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
-		[HttpGet]
+		/// <param name="authorityId"></param>
+		/// <param name="conceptId"></param>
+		/// <returns></returns>
+		[HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult DeleteScopeFromAuthority(Guid authorityId, Guid conceptId)
+        {
+            try
+            {
+                var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == authorityId).CollectionItem.FirstOrDefault();
+
+                if (assigningAuthority == null)
+                {
+                    TempData["error"] = Locale.AssigningAuthorityNotFound;
+                    return RedirectToAction("Index");
+                }                
+
+                var index = assigningAuthority.AssigningAuthority.AuthorityScopeXml.FindIndex(a => a.Equals(conceptId));
+                if (index != -1) assigningAuthority.AssigningAuthority.AuthorityScopeXml.RemoveAt(index);
+
+                var result = this.AmiClient.UpdateAssigningAuthority(authorityId.ToString(), assigningAuthority);
+
+                TempData["success"] = Locale.AuthorityScopeDeletedSuccessfully;
+
+                return RedirectToAction("ViewAssigningAuthority", new { id = result.Id });
+            }
+            catch (Exception e)
+            {
+                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+                Trace.TraceError($"Unable to delete concept from assigning authority: {e}");
+            }
+
+            TempData["error"] = Locale.UnableToUpdateAssigningAuthority;
+
+            return RedirectToAction("Edit", new { id = authorityId });
+        }
+
+        /// <summary>
+        /// Displays the edit assigning authority view.
+        /// </summary>
+        /// <param name="id">The id of the assigning authority to edit.</param>
+        /// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
+        [HttpGet]
 		public ActionResult Edit(Guid id)
 		{
 			try

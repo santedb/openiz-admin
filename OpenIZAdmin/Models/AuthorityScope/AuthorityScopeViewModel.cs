@@ -41,7 +41,7 @@ namespace OpenIZAdmin.Models.AuthorityScope
         {
             this.Names = new List<string>();
             this.ReferenceTerms = new List<ReferenceTermViewModel>();
-            this.Languages = new List<Language>();
+            //this.Languages = new List<Language>();
         }
 
         /// <summary>
@@ -51,16 +51,16 @@ namespace OpenIZAdmin.Models.AuthorityScope
         public AuthorityScopeViewModel(Concept concept) : this()
 		{
             Class = concept.Class?.Name;
-            ConceptSetId = Guid.Empty;
-            CreationTime = concept.CreationTime.DateTime;
+            AssigingAuthorityId = Guid.Empty;
+            //CreationTime = concept.CreationTime.DateTime;
             Id = concept.Key ?? Guid.Empty;
-            IsObsolete = concept.ObsoletionTime != null;
-            IsSystemConcept = concept.IsSystemConcept;
-            Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();
+            //IsObsolete = concept.ObsoletionTime != null;
+            //IsSystemConcept = concept.IsSystemConcept;
+            //Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();
             Mnemonic = concept.Mnemonic;
             Names = concept.ConceptNames.Select(c => c.Name).ToList();
             ConceptNames = (Names.Any()) ? string.Join(", ", Names) : string.Empty;
-            ReferenceTerms = new List<ReferenceTermViewModel>();
+            //ReferenceTerms = new List<ReferenceTermViewModel>();
             VersionKey = concept.VersionKey;
         }
 
@@ -68,10 +68,10 @@ namespace OpenIZAdmin.Models.AuthorityScope
         /// Initializes a new instance of the <see cref="ConceptViewModel"/> class.
         /// </summary>
         /// <param name="concept">The concept.</param>
-        /// <param name="conceptSetId">The guid of the Concept Set that the Concept is associated with</param>
-        public AuthorityScopeViewModel(Concept concept, Guid conceptSetId) : this(concept)
+        /// <param name="assigningAuthorityId">The guid of the Assigning Authority that the Concept is associated with</param>
+        public AuthorityScopeViewModel(Concept concept, Guid assigningAuthorityId) : this(concept)
 		{
-            ConceptSetId = conceptSetId;
+            AssigingAuthorityId = assigningAuthorityId;
         }
 
         /// <summary>
@@ -83,12 +83,12 @@ namespace OpenIZAdmin.Models.AuthorityScope
         /// <summary>
         /// Gets or sets the Concept Set identifier associated with the Concept instance
         /// </summary>
-        public Guid? ConceptSetId { get; set; }
+        public Guid? AssigingAuthorityId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
-        /// </summary>
-        [Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
-        public List<Language> Languages { get; set; }
+        ///// <summary>
+        ///// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
+        ///// </summary>
+        //[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
+        //public List<Language> Languages { get; set; }
     }
 }

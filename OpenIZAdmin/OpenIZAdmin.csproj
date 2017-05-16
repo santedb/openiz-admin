@@ -794,6 +794,7 @@
     <Content Include="Views\Error\Forbidden.cshtml" />
     <Content Include="Views\Material\AssociateMaterial.cshtml" />
     <Content Include="Views\Shared\_AuthorityScopePartial.cshtml" />
+    <Content Include="Views\Shared\_ManageAuthorityScopePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\bootstrap-datepicker\" />

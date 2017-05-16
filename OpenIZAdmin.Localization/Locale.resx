@@ -2163,4 +2163,7 @@
   <data name="AuthorityScope" xml:space="preserve">
     <value>Authority Scope</value>
   </data>
+  <data name="AuthorityScopeDeletedSuccessfully" xml:space="preserve">
+    <value>Authority scope deleted successfully</value>
+  </data>
 </root>

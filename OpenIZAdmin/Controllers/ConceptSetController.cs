@@ -106,7 +106,7 @@ namespace OpenIZAdmin.Controllers
 		}        
 
 		/// <summary>
-		///
+		/// Removes a concept from the concept set
 		/// </summary>
 		/// <param name="setId"></param>
 		/// <param name="conceptId"></param>

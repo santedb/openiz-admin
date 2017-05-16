@@ -1,0 +1,54 @@
+﻿@model IEnumerable<OpenIZAdmin.Models.AuthorityScope.AuthorityScopeViewModel>
+
+
+<div class="panel panel-body">
+    <div class="row">
+        <div class="col-md-12">
+            @if (Model.Any())
+            {
+                <table class="table table-striped table-bordered" id="authorityScopeListTable">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>@Locale.ConceptClass</th>
+                            <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
+                            <th>@Html.DisplayNameFor(m => m.Names)</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-compressed" aria-hidden="true"></span></td>
+                                <td>@item.Class</td>
+                                <td>@item.Mnemonic</td>
+                                <td>@item.ConceptNames</td>
+                                <td class="autoFitContents centerContent">
+                                    <a class="btn btn-primary" href="@Url.Action("Edit", "Concept", new {id = item.Id, versionId = item.VersionKey})">
+                                        @Locale.View
+                                        <span class="glyphicon glyphicon-eye-open"></span>
+                                    </a>
+
+                                    @using (Html.BeginForm("DeleteScopeFromAuthority", "AssigningAuthority", new { authorityId = item.AssigingAuthorityId, conceptId = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                    {
+                                        @Html.AntiForgeryToken()
+
+                                        <button type="submit" class="btn btn-danger">
+                                            @Locale.Delete
+                                            <span class="glyphicon glyphicon-remove"></span>
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            }
+            else
+            {
+                <p>@Locale.NoAssociatedConcepts</p>
+            }
+        </div>
+    </div>
+</div>
