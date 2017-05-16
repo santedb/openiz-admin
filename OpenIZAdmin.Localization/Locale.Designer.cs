@@ -538,6 +538,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Authority Scope.
+        /// </summary>
+        public static string AuthorityScope {
+            get {
+                return ResourceManager.GetString("AuthorityScope", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Bug Details.
         /// </summary>
         public static string BugDetails {
@@ -2802,6 +2811,15 @@ namespace OpenIZAdmin.Localization {
         public static string NoAssociatedRelationships {
             get {
                 return ResourceManager.GetString("NoAssociatedRelationships", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No authority scope found.
+        /// </summary>
+        public static string NoAuthorityScopeFound {
+            get {
+                return ResourceManager.GetString("NoAuthorityScopeFound", resourceCulture);
             }
         }
         

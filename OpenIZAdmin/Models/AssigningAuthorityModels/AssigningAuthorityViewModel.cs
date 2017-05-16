@@ -19,8 +19,11 @@
 
 using OpenIZ.Core.Model.AMI.DataTypes;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.AuthorityScope;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {
@@ -34,7 +37,8 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// </summary>
 		public AssigningAuthorityViewModel()
 		{
-		}
+            AuthorityScopeList = new List<AuthorityScopeViewModel>();
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AssigningAuthorityViewModel"/> class.
@@ -42,7 +46,8 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// <param name="assigningAuthority">The assigning authority.</param>
 		public AssigningAuthorityViewModel(AssigningAuthorityInfo assigningAuthority)
 		{
-			this.Id = assigningAuthority.Id;
+            AuthorityScopeList = assigningAuthority.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x)).ToList();
+            this.Id = assigningAuthority.Id;
 			this.Name = assigningAuthority.AssigningAuthority.Name;
 			this.Oid = assigningAuthority.AssigningAuthority.Oid;
 			this.Url = assigningAuthority.AssigningAuthority.Url;
@@ -52,11 +57,17 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 			this.IsUnique = assigningAuthority.AssigningAuthority.IsUnique ? Locale.Yes : Locale.No;
 		}
 
-		/// <summary>
-		/// Gets or sets the description.
-		/// </summary>
-		/// <value>The description.</value>
-		[Display(Name = "Description", ResourceType = typeof(Locale))]
+        /// <summary>
+        /// Gets or sets the authority scopes.
+        /// </summary>
+        /// <value>The scopes assigned.</value>		
+        public List<AuthorityScopeViewModel> AuthorityScopeList { get; set; }
+
+        /// <summary>
+        /// Gets or sets the description.
+        /// </summary>
+        /// <value>The description.</value>
+        [Display(Name = "Description", ResourceType = typeof(Locale))]
 		public string Description { get; set; }
 
 		/// <summary>

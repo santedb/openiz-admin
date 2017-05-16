@@ -21,14 +21,15 @@ using OpenIZ.Core.Model.AMI.DataTypes;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Localization;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {
 	/// <summary>
 	/// Represents a create assigning authority model.
 	/// </summary>
-	public class CreateAssigningAuthorityModel
-	{
+	public class CreateAssigningAuthorityModel : AssigningAuthorityModel
+    {
 		/// <summary>
 		/// Initializes a new instance of the <see cref="CreateAssigningAuthorityModel"/> class.
 		/// </summary>
@@ -36,20 +37,20 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		{
 		}
 
-		/// <summary>
-		/// Gets or sets the description of the assigning authority.
-		/// </summary>
-		[Display(Name = "Description", ResourceType = typeof(Locale))]
-        [StringLength(4000, ErrorMessageResourceName = "DescriptionLength4000", ErrorMessageResourceType = typeof(Locale))]        
-		public string Description { get; set; }
+		///// <summary>
+		///// Gets or sets the description of the assigning authority.
+		///// </summary>
+		//[Display(Name = "Description", ResourceType = typeof(Locale))]
+  //      [StringLength(4000, ErrorMessageResourceName = "DescriptionLength4000", ErrorMessageResourceType = typeof(Locale))]        
+		//public string Description { get; set; }
 
-		/// <summary>
-		/// Gets or sets the domain name of the assigning authority.
-		/// </summary>
-		[Display(Name = "DomainName", ResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(32, ErrorMessageResourceName = "DomainNameLength32", ErrorMessageResourceType = typeof(Locale))]
-        public string DomainName { get; set; }
+		///// <summary>
+		///// Gets or sets the domain name of the assigning authority.
+		///// </summary>
+		//[Display(Name = "DomainName", ResourceType = typeof(Locale))]
+		//[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+  //      [StringLength(32, ErrorMessageResourceName = "DomainNameLength32", ErrorMessageResourceType = typeof(Locale))]
+  //      public string DomainName { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this instance is unique.
@@ -58,37 +59,37 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		[Display(Name = "IsUnique", ResourceType = typeof(Locale))]
 		public bool IsUnique { get; set; }
 
-		/// <summary>
-		/// Gets or sets the name of the assigning authority.
-		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
-		[StringLength(50, ErrorMessageResourceName = "NameLength50", ErrorMessageResourceType = typeof(Locale))]
-		public string Name { get; set; }
+		///// <summary>
+		///// Gets or sets the name of the assigning authority.
+		///// </summary>
+		//[Display(Name = "Name", ResourceType = typeof(Locale))]
+		//[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		//[StringLength(50, ErrorMessageResourceName = "NameLength50", ErrorMessageResourceType = typeof(Locale))]
+		//public string Name { get; set; }
 
-		/// <summary>
-		/// Gets or sets the OID of the assigning authority.
-		/// </summary>
-		[Display(Name = "Oid", ResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(256, ErrorMessageResourceName = "OidLength256", ErrorMessageResourceType = typeof(Locale))]                
-		public string Oid { get; set; }
+		///// <summary>
+		///// Gets or sets the OID of the assigning authority.
+		///// </summary>
+		//[Display(Name = "Oid", ResourceType = typeof(Locale))]
+		//[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Locale))]
+  //      [StringLength(256, ErrorMessageResourceName = "OidLength256", ErrorMessageResourceType = typeof(Locale))]                
+		//public string Oid { get; set; }
 
-		/// <summary>
-		/// Gets or sets the URL of the assigning authority.
-		/// </summary>
-		[Display(Name = "Url", ResourceType = typeof(Locale))]
-		[Url(ErrorMessageResourceName = "UrlInvalid", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(250, ErrorMessageResourceName = "UrlLength250", ErrorMessageResourceType = typeof(Locale))]                        
-		public string Url { get; set; }
+		///// <summary>
+		///// Gets or sets the URL of the assigning authority.
+		///// </summary>
+		//[Display(Name = "Url", ResourceType = typeof(Locale))]
+		//[Url(ErrorMessageResourceName = "UrlInvalid", ErrorMessageResourceType = typeof(Locale))]
+  //      [StringLength(250, ErrorMessageResourceName = "UrlLength250", ErrorMessageResourceType = typeof(Locale))]                        
+		//public string Url { get; set; }
 
-		/// <summary>
-		/// Gets or sets the validation regex.
-		/// </summary>
-		/// <value>The validation regex.</value>
-		[Display(Name = "ValidationRegex", ResourceType = typeof(Locale))]
-        [StringLength(64, ErrorMessageResourceName = "RegexLength64", ErrorMessageResourceType = typeof(Locale))]                                
-		public string ValidationRegex { get; set; }
+		///// <summary>
+		///// Gets or sets the validation regex.
+		///// </summary>
+		///// <value>The validation regex.</value>
+		//[Display(Name = "ValidationRegex", ResourceType = typeof(Locale))]
+  //      [StringLength(64, ErrorMessageResourceName = "RegexLength64", ErrorMessageResourceType = typeof(Locale))]                                
+		//public string ValidationRegex { get; set; }
 
 		/// <summary>
 		/// Converts a <see cref="CreateAssigningAuthorityModel"/> instance to an <see cref="AssigningAuthorityInfo"/> instance.

@@ -2157,4 +2157,10 @@
   <data name="ReferenceTermRequired" xml:space="preserve">
     <value>Please select a reference term </value>
   </data>
+  <data name="NoAuthorityScopeFound" xml:space="preserve">
+    <value>No authority scope found</value>
+  </data>
+  <data name="AuthorityScope" xml:space="preserve">
+    <value>Authority Scope</value>
+  </data>
 </root>

@@ -169,10 +169,8 @@ namespace OpenIZAdmin.Models.ConceptModels
 
         /// <summary>
 		/// Checks if a reference term and relationship have been selected
-		/// </summary>
-		/// <param name="imsiServiceClient">The ImsiServiceClient instance.</param>
-		/// <param name="concept">The concept.</param>
-		/// <returns>Returns the converted concept instance.</returns>
+		/// </summary>		
+		/// <returns>Returns true if a reference term is to be added, false to ignore the action.</returns>
 	    public bool HasAddReferenceTerm()
 	    {
             if (string.IsNullOrWhiteSpace(AddReferenceTerm) && string.IsNullOrWhiteSpace(RelationshipType)) return false;            

@@ -294,9 +294,11 @@
     <Compile Include="Models\AppletModels\AppletViewAssetModel.cs" />
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ApplicationViewModel.cs" />
+    <Compile Include="Models\AuthorityScope\AuthorityScopeViewModel.cs" />
     <Compile Include="Models\CodeSystemModels\CodeSystemViewModel.cs" />
     <Compile Include="Models\CodeSystemModels\CreateCodeSystemModel.cs" />
     <Compile Include="Models\CodeSystemModels\EditCodeSystemModel.cs" />
+    <Compile Include="Models\Core\AssigningAuthorityModel.cs" />
     <Compile Include="Models\Core\ConceptModel.cs" />
     <Compile Include="Models\Core\IIdentifiable.cs" />
     <Compile Include="Models\Core\IdentifiedEditModel.cs" />
@@ -791,6 +793,7 @@
     <Content Include="Views\Error\InternalServerError.cshtml" />
     <Content Include="Views\Error\Forbidden.cshtml" />
     <Content Include="Views\Material\AssociateMaterial.cshtml" />
+    <Content Include="Views\Shared\_AuthorityScopePartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\bootstrap-datepicker\" />

@@ -64,3 +64,29 @@
         </div>
     </div>
 </div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.AuthorityScope</span>
+    </div>
+
+    @Html.Partial("_AuthorityScopePartial", Model.AuthorityScopeList)
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+            $(document).ready(function () {
+
+                //$("#conceptListTable").DataTable();
+                $('#authorityScopeListTable').dataTable({
+                    order: [],
+                    columns: [
+                      { "orderable": false },
+                      null,
+                      null,
+                      null
+                    ]
+                });
+            });
+    </script>
+}
