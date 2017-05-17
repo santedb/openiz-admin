@@ -23,42 +23,64 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Mnemonic, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", title = Locale.ToolTip_ConceptMnemonic })
-                    @Html.ValidationMessageFor(m => m.Mnemonic, "", new { @class = "text-danger" })
+                    @if (Model.IsSystemConcept)
+                    {
+                        @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", title = Locale.ToolTip_ConceptMnemonic, @readonly = "readonly" })
+                    }
+                    else
+                    {
+                        @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", title = Locale.ToolTip_ConceptMnemonic })
+                    }        
+                                                    
+                    @Html.ValidationMessageFor(m => m.Mnemonic, "", new {@class = "text-danger"})
                 </div>
             </div>
 
             <div class="form-group">
                 @Html.LabelFor(m => m.ConceptClass, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.DropDownListFor(m => m.ConceptClass, Model.ConceptClassList, new { @class = "form-control", title = Locale.ToolTip_ConceptClassList })
-                    @Html.ValidationMessageFor(m => m.ConceptClass, "", new { @class = "text-danger" })
+                    @if (Model.IsSystemConcept)
+                    {
+                        @Html.DropDownListFor(m => m.ConceptClass, Model.ConceptClassList, new { @class = "form-control", title = Locale.ToolTip_ConceptClassList, @disabled = "disabled" })
+                    }
+                    else
+                    {
+                        @Html.DropDownListFor(m => m.ConceptClass, Model.ConceptClassList, new { @class = "form-control", title = Locale.ToolTip_ConceptClassList })
+                    }   
+                                     
+                    @Html.ValidationMessageFor(m => m.ConceptClass, "", new {@class = "text-danger"})
                 </div>
             </div>
-            
-                <div class="form-group">
-                    @Html.LabelFor(m => m.AddReferenceTerm, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-8">
-                        @Html.ListBoxFor(m => m.AddReferenceTerm, Model.ReferenceTermList, new { @class = "reference-term-search form-control", title = Locale.ToolTip_Policies })
-                        @Html.ValidationMessageFor(m => m.AddReferenceTerm, "", new { @class = "text-danger" })
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(m => m.RelationshipType, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-8">
-                        @Html.DropDownListFor(m => m.RelationshipType, Model.RelationshipTypeList, new { @class = "form-control", title = Locale.ToolTip_RelationshipList })
-                        @Html.ValidationMessageFor(m => m.RelationshipType, "", new { @class = "text-danger" })
-                    </div>
-                </div>
+            if (!Model.IsSystemConcept)
+            {
+                 <div class="form-group">
+                     @Html.LabelFor(m => m.AddReferenceTerm, new {@class = "col-md-2 control-label"})
+                     <div class="col-md-8">
+                         @Html.ListBoxFor(m => m.AddReferenceTerm, Model.ReferenceTermList, new {@class = "reference-term-search form-control", title = Locale.ToolTip_Policies})
+                         @Html.ValidationMessageFor(m => m.AddReferenceTerm, "", new {@class = "text-danger"})
+                     </div>
+                 </div>
 
+                 <div class="form-group">
+                     @Html.LabelFor(m => m.RelationshipType, new {@class = "col-md-2 control-label"})
+                     <div class="col-md-8">
+                         @Html.DropDownListFor(m => m.RelationshipType, Model.RelationshipTypeList, new {@class = "form-control", title = Locale.ToolTip_RelationshipList})
+                         @Html.ValidationMessageFor(m => m.RelationshipType, "", new {@class = "text-danger"})
+                     </div>
+                 </div>
+             }
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-8">
                     <a href="@Url.Action("ViewConcept", new { id = Model.Id, versionId = Model.VersionKey })">@Locale.Cancel</a>
                     @if (Model.IsObsolete)
                     {
-                        <button type="submit" class="btn btn-primary" disabled="disabled" title="@Locale.ToolTip_Submit">@Locale.CannotUpdateNotActive</button>
+                        <button type="submit" class="btn btn-primary" disabled="disabled">@Locale.CannotUpdateNotActive</button>
+                    }
+                    else if (Model.IsSystemConcept)
+                    {
+                        <button type="submit" class="btn btn-primary" disabled="disabled">@Locale.CannotUpdateSystemConcept</button>
                     }
                     else
                     {

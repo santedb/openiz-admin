@@ -610,6 +610,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot update, system concept.
+        /// </summary>
+        public static string CannotUpdateSystemConcept {
+            get {
+                return ResourceManager.GetString("CannotUpdateSystemConcept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can Override.
         /// </summary>
         public static string CanOverride {
