@@ -51,16 +51,11 @@ namespace OpenIZAdmin.Models.AuthorityScope
         public AuthorityScopeViewModel(Concept concept) : this()
 		{
             Class = concept.Class?.Name;
-            //AssigingAuthorityId = Guid.Empty;
-            //CreationTime = concept.CreationTime.DateTime;
-            Id = concept.Key ?? Guid.Empty;
-            //IsObsolete = concept.ObsoletionTime != null;
-            //IsSystemConcept = concept.IsSystemConcept;
-            //Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();
+            AssigingAuthorityId = Guid.Empty;            
+            Id = concept.Key ?? Guid.Empty;            
             Mnemonic = concept.Mnemonic;
             Names = concept.ConceptNames.Select(c => c.Name).ToList();
-            ConceptNames = (Names.Any()) ? string.Join(", ", Names) : string.Empty;
-            //ReferenceTerms = new List<ReferenceTermViewModel>();
+            ConceptNames = (Names.Any()) ? string.Join(", ", Names) : string.Empty;            
             VersionKey = concept.VersionKey;
         }
 
@@ -83,12 +78,6 @@ namespace OpenIZAdmin.Models.AuthorityScope
         /// <summary>
         /// Gets or sets the Concept Set identifier associated with the Concept instance
         /// </summary>
-        public Guid? AssigingAuthorityId { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
-        ///// </summary>
-        //[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
-        //public List<Language> Languages { get; set; }
+        public Guid? AssigingAuthorityId { get; set; }       
     }
 }
