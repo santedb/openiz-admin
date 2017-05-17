@@ -96,7 +96,7 @@ namespace OpenIZAdmin.Controllers
 		/// Gets the form concept.
 		/// </summary>
 		/// <param name="key">The key.</param>
-		/// <returns>Concept.</returns>
+		/// <returns>Returns the concept for the given key, or null if no concept is found.</returns>
 		protected Concept GetConcept(Guid key)
 		{
 			var concept = MvcApplication.MemoryCache.Get(key.ToString()) as Concept;
@@ -256,8 +256,9 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The identifier.</param>
 		/// <param name="versionId">The version identifier.</param>
 		/// <param name="expression">The expression.</param>
+		/// <param name="loadFast">if set to <c>true</c> [load fast].</param>
 		/// <returns>Returns the identifier based on the id, version id, and an expression.</returns>
-		protected T GetEntity<T>(Guid id, Guid? versionId = null, Expression<Func<T, bool>> expression = null) where T : Entity
+		protected T GetEntity<T>(Guid id, Guid? versionId = null, Expression<Func<T, bool>> expression = null, bool loadFast = false) where T : Entity
 		{
 			Expression<Func<T, bool>> query = o => o.Key == id;
 
@@ -270,11 +271,53 @@ namespace OpenIZAdmin.Controllers
 				query = o => o.Key == id && o.VersionKey == versionId;
 			}
 
-			var bundle = this.ImsiClient.Query<T>(query, 0, null, true);
+			T entity = null;
 
-			bundle.Reconstitute();
+			if (!loadFast)
+			{
+				var bundle = this.ImsiClient.Query<T>(query, 0, null, true);
 
-			var entity = bundle.Item.OfType<T>().Where(query.Compile()).LatestVersionOnly().FirstOrDefault(query.Compile().Invoke);
+				bundle.Reconstitute();
+
+				entity = bundle.Item.OfType<T>().Where(query.Compile()).LatestVersionOnly().FirstOrDefault(query.Compile().Invoke);
+
+				if (entity == null)
+				{
+					return null;
+				}
+
+				if (entity.TypeConceptKey.HasValue && entity.TypeConceptKey != Guid.Empty)
+				{
+					entity.TypeConcept = this.ImsiClient.Get<Concept>(entity.TypeConceptKey.Value, null) as Concept;
+				}
+			}
+			else
+			{
+				entity = MvcApplication.MemoryCache.Get(id.ToString()) as T;
+
+				if (entity == null)
+				{
+					entity = this.GetEntityInternal<T>(id);
+
+					if (entity != null && loadFast)
+					{
+						MvcApplication.MemoryCache.Set(id.ToString(), entity, MvcApplication.CacheItemPolicy);
+					}
+				}
+			}
+
+			return entity;
+		}
+
+		/// <summary>
+		/// Gets the entity internal.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="id">The identifier.</param>
+		/// <returns>Returns the entity for the given key, or null if no entity is found.</returns>
+		private T GetEntityInternal<T>(Guid id) where T : Entity
+		{
+			var entity = this.ImsiClient.Get<T>(id, null) as T;
 
 			if (entity == null)
 			{
@@ -283,7 +326,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (entity.TypeConceptKey.HasValue && entity.TypeConceptKey != Guid.Empty)
 			{
-				entity.TypeConcept = this.ImsiClient.Get<Concept>(entity.TypeConceptKey.Value, null) as Concept;
+				entity.TypeConcept = this.GetConcept(entity.TypeConceptKey.Value);
 			}
 
 			return entity;
