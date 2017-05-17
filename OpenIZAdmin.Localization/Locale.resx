@@ -2175,4 +2175,7 @@
   <data name="CannotUpdateSystemConcept" xml:space="preserve">
     <value>Cannot update, system concept</value>
   </data>
+  <data name="ConceptSelectedExists" xml:space="preserve">
+    <value>Concept selected already exists</value>
+  </data>
 </root>

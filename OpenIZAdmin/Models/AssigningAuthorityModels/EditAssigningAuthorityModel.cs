@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
 using OpenIZAdmin.Models.AuthorityScope;
 using OpenIZAdmin.Models.Core;
@@ -52,7 +53,7 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// <param name="assigningAuthorityInfo">The assigning authority information.</param>
 		public EditAssigningAuthorityModel(AssigningAuthorityInfo assigningAuthorityInfo) : this()
 		{
-		    AuthorityScopeList = assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x, assigningAuthorityInfo.Id)).ToList();
+		    //AuthorityScopeList = assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x, assigningAuthorityInfo.Id)).ToList();
 			this.Id = assigningAuthorityInfo.Id;
 			this.Name = assigningAuthorityInfo.AssigningAuthority.Name;
 			this.Oid = assigningAuthorityInfo.AssigningAuthority.Oid;
@@ -118,5 +119,14 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 
             return authorityInfo;
 		}
+
+        /// <summary>
+        /// Checks of the selected concept is already in the authority scope list
+        /// </summary>
+        /// <returns>Returns true if the selected concept exists, false if not found</returns>
+        public bool HasSelectedAuthorityScope(AssigningAuthority authorityInfo)
+        {
+            return AddConcepts.Any() && authorityInfo.AuthorityScope.Any(scope => scope.Key.ToString().Equals(AddConcepts[0]));
+        }
 	}
 }

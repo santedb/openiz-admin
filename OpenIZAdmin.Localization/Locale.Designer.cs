@@ -907,6 +907,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Concept selected already exists.
+        /// </summary>
+        public static string ConceptSelectedExists {
+            get {
+                return ResourceManager.GetString("ConceptSelectedExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Concept Set.
         /// </summary>
         public static string ConceptSet {
