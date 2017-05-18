@@ -73,8 +73,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// </summary>
 		/// <value>The year.</value>
 		[Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
-		//[Required(ErrorMessageResourceName = "YearRequired", ErrorMessageResourceType = typeof(Locale))]
-        //[RegularExpression(Constants.RegExPopulationYear, ErrorMessageResourceName = "PopulationYearInvalidFormat", ErrorMessageResourceType = typeof(Locale))]
+		//[Required(ErrorMessageResourceName = "YearRequired", ErrorMessageResourceType = typeof(Locale))]        
         //public int? Year { get; set; }
         public string Year { get; set; }
 

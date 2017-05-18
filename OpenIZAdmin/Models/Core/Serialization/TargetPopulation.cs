@@ -29,7 +29,7 @@ namespace OpenIZAdmin.Models.Core.Serialization
 	/// <summary>
 	/// Represents a target population.
 	/// </summary>
-	[JsonObject("TargetPopulation")]
+	//[JsonObject("TargetPopulation")]
 	public class TargetPopulation
 	{
 		/// <summary>
