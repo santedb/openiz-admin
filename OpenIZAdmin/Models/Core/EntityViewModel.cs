@@ -66,7 +66,16 @@ namespace OpenIZAdmin.Models.Core
 			this.ObsoletionTime = entity.ObsoletionTime?.DateTime;
 			this.Relationships = entity.Relationships.Select(r => new EntityRelationshipViewModel(r)).OrderBy(r => r.TargetName).ToList();
 			this.Tags = entity.Tags.Select(t => new EntityTagViewModel(t)).ToList();
-			this.Type = entity.TypeConcept != null ? string.Join(" ", entity.TypeConcept.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
+
+			if (entity.TypeConcept != null)
+			{
+				this.Type = entity.TypeConcept.ConceptNames?.Any() == true ? string.Join(" ", entity.TypeConcept.ConceptNames.Select(c => c.Name)) : entity.TypeConcept.Mnemonic;
+			}
+			else
+			{
+				this.Type = Constants.NotApplicable;
+			}
+
 			this.VersionKey = entity.VersionKey;
 			this.VersionSequence = entity.VersionSequence;
 		}
