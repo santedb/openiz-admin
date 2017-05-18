@@ -2172,4 +2172,10 @@
   <data name="ToolTip_Concepts" xml:space="preserve">
     <value>The concepts to add to the concept set</value>
   </data>
+  <data name="CannotUpdateSystemConcept" xml:space="preserve">
+    <value>Cannot update, system concept</value>
+  </data>
+  <data name="ConceptSelectedExists" xml:space="preserve">
+    <value>Concept selected already exists</value>
+  </data>
 </root>

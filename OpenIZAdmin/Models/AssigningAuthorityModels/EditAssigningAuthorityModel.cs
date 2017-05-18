@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Web.Mvc;
 using OpenIZAdmin.Models.AuthorityScope;
 using OpenIZAdmin.Models.Core;
@@ -52,7 +53,7 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// <param name="assigningAuthorityInfo">The assigning authority information.</param>
 		public EditAssigningAuthorityModel(AssigningAuthorityInfo assigningAuthorityInfo) : this()
 		{
-		    AuthorityScopeList = assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x, assigningAuthorityInfo.Id)).ToList();
+		    //AuthorityScopeList = assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x, assigningAuthorityInfo.Id)).ToList();
 			this.Id = assigningAuthorityInfo.Id;
 			this.Name = assigningAuthorityInfo.AssigningAuthority.Name;
 			this.Oid = assigningAuthorityInfo.AssigningAuthority.Oid;
@@ -79,69 +80,14 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// Gets or sets the concept list from the search parameters from the ajax search method
 		/// </summary>
 		/// <value>The concept list.</value>
-		public List<SelectListItem> ConceptList { get; set; }
-
-
-        //      /// <summary>
-        //      /// Gets or sets the description of the assigning authority.
-        //      /// </summary>
-        //      [Display(Name = "Description", ResourceType = typeof(Locale))]
-        //      [StringLength(4000, ErrorMessageResourceName = "DescriptionLength4000", ErrorMessageResourceType = typeof(Locale))]
-        //      public string Description { get; set; }
-
-        ///// <summary>
-        ///// Gets or sets the domain name of the assigning authority.
-        ///// </summary>
-        //[Display(Name = "DomainName", ResourceType = typeof(Locale))]
-        //[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
-        //      [StringLength(32, ErrorMessageResourceName = "DomainNameLength32", ErrorMessageResourceType = typeof(Locale))]
-        //      public string DomainName { get; set; }
+		public List<SelectListItem> ConceptList { get; set; }       
 
         /// <summary>
         /// Gets or sets the id of the assigning authority.
         /// </summary>
         [Required]
 		public Guid Id { get; set; }
-
-		///// <summary>
-		///// Gets or sets the name of the assigning authority.
-		///// </summary>
-		//[Display(Name = "Name", ResourceType = typeof(Locale))]
-		//[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
-		//[StringLength(50, ErrorMessageResourceName = "NameLength50", ErrorMessageResourceType = typeof(Localization.Locale))]
-		//public string Name { get; set; }
-
-		///// <summary>
-		///// Gets or sets the OID of the assigning authority.
-		///// </summary>
-		//[Display(Name = "Oid", ResourceType = typeof(Locale))]
-		//[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Locale))]
-  //      [StringLength(256, ErrorMessageResourceName = "OidLength256", ErrorMessageResourceType = typeof(Locale))]
-  //      public string Oid { get; set; }
-
-		///// <summary>
-		///// Gets or sets the scopes.
-		///// </summary>
-		///// <value>The scopes.</value>
-		//[Display(Name = "Scopes", ResourceType = typeof(Locale))]
-		//public List<string> Scopes { get; set; }
-
-		///// <summary>
-		///// Gets or sets the URL of the assigning authority.
-		///// </summary>
-		//[Display(Name = "Url", ResourceType = typeof(Locale))]
-		//[Url(ErrorMessageResourceName = "UrlInvalid", ErrorMessageResourceType = typeof(Locale))]
-  //      [StringLength(250, ErrorMessageResourceName = "UrlLength250", ErrorMessageResourceType = typeof(Locale))]
-  //      public string Url { get; set; }
-
-		///// <summary>
-		///// Gets or sets the validation regex.
-		///// </summary>
-		///// <value>The validation regex.</value>
-		//[Display(Name = "ValidationRegex", ResourceType = typeof(Locale))]
-  //      [StringLength(64, ErrorMessageResourceName = "RegexLength64", ErrorMessageResourceType = typeof(Locale))]
-  //      public string ValidationRegex { get; set; }
-
+		
 		/// <summary>
 		/// Converts a <see cref="EditAssigningAuthorityModel"/> instance to an <see cref="AssigningAuthorityInfo"/> instance.
 		/// </summary>
@@ -173,5 +119,14 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 
             return authorityInfo;
 		}
+
+        /// <summary>
+        /// Checks of the selected concept is already in the authority scope list
+        /// </summary>
+        /// <returns>Returns true if the selected concept exists, false if not found</returns>
+        public bool HasSelectedAuthorityScope(AssigningAuthority authorityInfo)
+        {
+            return AddConcepts.Any() && authorityInfo.AuthorityScope.Any(scope => scope.Key.ToString().Equals(AddConcepts[0]));
+        }
 	}
 }

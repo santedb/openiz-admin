@@ -610,6 +610,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot update, system concept.
+        /// </summary>
+        public static string CannotUpdateSystemConcept {
+            get {
+                return ResourceManager.GetString("CannotUpdateSystemConcept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can Override.
         /// </summary>
         public static string CanOverride {
@@ -894,6 +903,15 @@ namespace OpenIZAdmin.Localization {
         public static string ConceptSearchResults {
             get {
                 return ResourceManager.GetString("ConceptSearchResults", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Concept selected already exists.
+        /// </summary>
+        public static string ConceptSelectedExists {
+            get {
+                return ResourceManager.GetString("ConceptSelectedExists", resourceCulture);
             }
         }
         

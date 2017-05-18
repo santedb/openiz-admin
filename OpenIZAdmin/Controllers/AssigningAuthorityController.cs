@@ -28,6 +28,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Models.AuthorityScope;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -183,15 +184,20 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == id).CollectionItem.FirstOrDefault();
+				var assigningAuthorityInfo = this.AmiClient.GetAssigningAuthorities(m => m.Key == id).CollectionItem.FirstOrDefault();
 
-				if (assigningAuthority == null)
+				if (assigningAuthorityInfo == null)
 				{
 					TempData["error"] = Locale.AssigningAuthorityNotFound;
 					return RedirectToAction("Index");
 				}
 
-				return View(new EditAssigningAuthorityModel(assigningAuthority));
+                var model = new EditAssigningAuthorityModel(assigningAuthorityInfo)
+                {
+                    AuthorityScopeList = assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x, assigningAuthorityInfo.Id)).ToList()
+                };
+				
+			    return View(model);
 			}
 			catch (Exception e)
 			{
@@ -239,7 +245,7 @@ namespace OpenIZAdmin.Controllers
 			        if (duplicateDomainName?.AssigningAuthority != null) ModelState.AddModelError("DomainName", Locale.DomainNameMustBeUnique);
 			    }
 
-
+			    if (model.HasSelectedAuthorityScope(assigningAuthorityInfo.AssigningAuthority)) ModelState.AddModelError("AddConcepts", Locale.ConceptSelectedExists);                
 
 			    if (ModelState.IsValid)
 			    {
@@ -249,15 +255,18 @@ namespace OpenIZAdmin.Controllers
                     TempData["success"] = Locale.AssigningAuthorityUpdatedSuccessfully;
 					return RedirectToAction("ViewAssigningAuthority", new { id = model.Id });
 				}
-			}
+
+                model.AuthorityScopeList = assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x, assigningAuthorityInfo.Id)).ToList();
+
+            }
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToUpdateAssigningAuthority;
+			TempData["error"] = Locale.UnableToUpdateAssigningAuthority;		    
 
-			return View(model);
+            return View(model);
 		}
 
 		/// <summary>

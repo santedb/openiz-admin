@@ -64,7 +64,7 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.AddConcepts, new { @class = "col-md-2 control-label" })
                     <div class="col-md-8">
-                        @Html.ListBoxFor(m => m.AddConcepts, Model.ConceptList, new { @class = "concept-search form-control", multiple = "multiple", title = Locale.ToolTip_AuthorityScope })
+                        @Html.ListBoxFor(m => m.AddConcepts, Model.ConceptList, new { @class = "concept-search form-control", title = Locale.ToolTip_AuthorityScope })
                         @Html.ValidationMessageFor(m => m.AddConcepts, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -103,7 +103,7 @@
                 tags: true,
                 tokenSeparators: [','],
                 width: '100%',
-                maximumSelectionLength: 4
+                maximumSelectionLength: 1
             });
 
             $('#authorityScopeListTable').DataTable({
