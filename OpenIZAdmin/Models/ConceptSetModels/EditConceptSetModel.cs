@@ -134,12 +134,12 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		}
 
         /// <summary>
-        /// Checks of the selected concept is already in the authority scope list
+        /// Checks of the selected concept is already in the concept set list
         /// </summary>
         /// <returns>Returns true if the selected concept exists, false if not found</returns>
         public bool HasSelectedConcept(ConceptSet conceptSet)
         {
-            return AddConcepts.Any() && conceptSet.Concepts.Any(scope => scope.Key.ToString().Equals(AddConcepts[0]));
+            return AddConcepts.Any() && conceptSet.Concepts.Any(c => c.Key.ToString().Equals(AddConcepts[0]));
         }
     }
 }

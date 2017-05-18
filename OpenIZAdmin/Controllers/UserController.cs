@@ -29,6 +29,7 @@ using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.UserModels;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -529,8 +530,10 @@ namespace OpenIZAdmin.Controllers
 		/// <returns><c>true</c> If the username exists, <c>false</c> otherwise.</returns>
 		private bool UsernameExists(string username)
 		{
-			return this.AmiClient.GetUsers(u => u.UserName == username).CollectionItem.Any();
-		}
+		    var name = username.ToLowerInvariant();
+            //return this.AmiClient.GetUsers(u => u.UserName == username.ToLowerInvariant()).CollectionItem.Any();
+            return this.AmiClient.GetUsers(u => u.UserName == name).CollectionItem.Any();
+        }
 
 		/// <summary>
 		/// Searches for a user to view details.
