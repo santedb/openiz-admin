@@ -83,7 +83,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// </summary>
 		/// <value>The target population.</value>
 		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "TargetPopulationRequired", ErrorMessageResourceType = typeof(Locale))]
+		//[Required(ErrorMessageResourceName = "TargetPopulationRequired", ErrorMessageResourceType = typeof(Locale))]
 		[Range(1, ulong.MaxValue, ErrorMessageResourceName = "TargetPopulationMustBePositive", ErrorMessageResourceType = typeof(Locale))]
 		public ulong TargetPopulation { get; set; }
 
@@ -92,7 +92,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// </summary>
 		/// <value>The year.</value>
 		[Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "YearRequired", ErrorMessageResourceType = typeof(Locale))]
+		//[Required(ErrorMessageResourceName = "YearRequired", ErrorMessageResourceType = typeof(Locale))]
 		public int Year { get; set; }
 
 		/// <summary>

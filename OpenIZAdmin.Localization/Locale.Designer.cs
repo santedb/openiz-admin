@@ -4327,6 +4327,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Year required when submitting population.
+        /// </summary>
+        public static string TargetYearRequired {
+            get {
+                return ResourceManager.GetString("TargetYearRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select a reset mechanism.
         /// </summary>
         public static string TfaMechanismRequired {

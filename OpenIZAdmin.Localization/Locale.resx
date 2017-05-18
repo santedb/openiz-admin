@@ -2178,4 +2178,7 @@
   <data name="ConceptSelectedExists" xml:space="preserve">
     <value>Concept selected already exists</value>
   </data>
+  <data name="TargetYearRequired" xml:space="preserve">
+    <value>Year required when submitting population</value>
+  </data>
 </root>

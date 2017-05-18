@@ -125,26 +125,38 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreatePlaceModel model)
 		{
-		    var year = model.ConvertToPopulationYear();		    
-            if(year == 0) ModelState.AddModelError("Year", Locale.PopulationYearInvalidFormat);            
+		    if (model.HasOnlyYearOrPopulation())
+		    {
+		        if(string.IsNullOrWhiteSpace(model.Year)) ModelState.AddModelError("Year", Locale.TargetYearRequired);
+
+                if (model.TargetPopulation == null) ModelState.AddModelError("TargetPopulation", Locale.TargetPopulationRequired);
+            }
+		    
+		    if (!string.IsNullOrWhiteSpace(model.Year))
+		    {                
+                if (model.ConvertToPopulationYear() == 0) ModelState.AddModelError("Year", Locale.PopulationYearInvalidFormat);
+            }		    
 
             if (ModelState.IsValid)
 			{
 				try
-				{
-					var targetPopulationExtensionType = this.ImsiClient.Get<ExtensionType>(Constants.TargetPopulationExtensionTypeKey, null) as ExtensionType;
-
+				{					
 					var placeToCreate = model.ToPlace();
 
-					//var entityExtension = new EntityExtension
-					//{
-					//	ExtensionType = targetPopulationExtensionType,
-					//	ExtensionValue = new TargetPopulation(model.TargetPopulation, year)
-					//};
+				    if (model.SubmitYearAndPopulation())
+				    {
+                        var targetPopulationExtensionType = this.ImsiClient.Get<ExtensionType>(Constants.TargetPopulationExtensionTypeKey, null) as ExtensionType;
 
-					//placeToCreate.Extensions.Add(entityExtension);
+                        var entityExtension = new EntityExtension
+                        {
+                            ExtensionType = targetPopulationExtensionType,
+                            ExtensionValue = new TargetPopulation(model.ConvertPopulationToULong(), model.ConvertToPopulationYear())
+                        };
 
-					var createdPlace = this.ImsiClient.Create<Place>(placeToCreate);
+                        placeToCreate.Extensions.Add(entityExtension);
+                    }                    
+
+                    var createdPlace = this.ImsiClient.Create<Place>(placeToCreate);
 
 					TempData["success"] = Locale.PlaceSuccessfullyCreated;
 

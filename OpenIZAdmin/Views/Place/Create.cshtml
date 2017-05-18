@@ -25,7 +25,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.TargetPopulation, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.TargetPopulation, new { @class = "form-control", placeHolder="yyyy", title = Locale.ToolTip_TargetPopulationValue })
+                    @Html.TextBoxFor(m => m.TargetPopulation, new { @class = "form-control", title = Locale.ToolTip_TargetPopulationValue })
                     @Html.ValidationMessageFor(m => m.TargetPopulation, "", new { @class = "text-danger" })
                     <span class="help-block">@Locale.ToolTip_TargetPopulationValue </span>
                 </div>

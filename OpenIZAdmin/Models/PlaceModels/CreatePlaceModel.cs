@@ -64,16 +64,16 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// </summary>
 		/// <value>The target population.</value>
 		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "TargetPopulationRequired", ErrorMessageResourceType = typeof(Locale))]
+		//[Required(ErrorMessageResourceName = "TargetPopulationRequired", ErrorMessageResourceType = typeof(Locale))]
 		[Range(1, ulong.MaxValue, ErrorMessageResourceName = "TargetPopulationMustBePositive", ErrorMessageResourceType = typeof(Locale))]
-		public ulong TargetPopulation { get; set; }
+		public ulong? TargetPopulation { get; set; }
 
 		/// <summary>
 		/// Gets or sets the year.
 		/// </summary>
 		/// <value>The year.</value>
 		[Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "YearRequired", ErrorMessageResourceType = typeof(Locale))]
+		//[Required(ErrorMessageResourceName = "YearRequired", ErrorMessageResourceType = typeof(Locale))]
         //[RegularExpression(Constants.RegExPopulationYear, ErrorMessageResourceName = "PopulationYearInvalidFormat", ErrorMessageResourceType = typeof(Locale))]
         //public int? Year { get; set; }
         public string Year { get; set; }
@@ -91,15 +91,26 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <value>The type concepts.</value>
 		public List<SelectListItem> TypeConcepts { get; set; }
 
-	    /// <summary>
-	    /// Converts a <see cref="CreatePlaceModel"/> instance to a <see cref="Place"/> instance.
+        /// <summary>
+	    /// Converts the string year to an int
 	    /// </summary>
-	    /// <returns>Returns the converted place instance.</returns>
-	    public int ConvertToPopulationYear()
-	    {
-	        if (string.IsNullOrWhiteSpace(Year)) return 0;
+	    /// <returns>Returns the year as an int or 0 if unsuccessful.</returns>
+	    public ulong ConvertPopulationToULong()
+        {            
+            if (TargetPopulation == null) return 0;
 
-	        var year = 0;
+            return (ulong) TargetPopulation;
+        }
+
+        /// <summary>
+        /// Converts the string year to an int
+        /// </summary>
+        /// <returns>Returns the year as an int or 0 if unsuccessful.</returns>
+        public int ConvertToPopulationYear()
+	    {
+	        //if (string.IsNullOrWhiteSpace(Year)) return 0;
+
+	        int year;
 	        
 	        if (int.TryParse(Year, out year) && (year >= 1900 && year <= 2100)) return year;
 
@@ -132,5 +143,27 @@ namespace OpenIZAdmin.Models.PlaceModels
 
 			return place;
 		}
-	}
+
+        /// <summary>
+        /// Checks if year and population are entered
+        /// </summary>
+        /// <returns>Returns true if both contain entries or both are empty.</returns>
+        public bool HasOnlyYearOrPopulation()
+        {
+            if (string.IsNullOrWhiteSpace(Year) && TargetPopulation != null) return true;
+
+            return !string.IsNullOrWhiteSpace(Year) && TargetPopulation == null ;
+        }
+
+        /// <summary>
+        /// Checks if year and population are entered
+        /// </summary>
+        /// <returns>Returns true if both contain entries.</returns>
+        public bool SubmitYearAndPopulation()
+        {
+            if (TargetPopulation == null) return false;
+
+            return !string.IsNullOrWhiteSpace(Year) && TargetPopulation > 0;            
+        }
+    }
 }
