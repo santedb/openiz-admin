@@ -18,6 +18,7 @@
  */
 
 using Elmah;
+using OpenIZ.Core.Extensions;
 using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
@@ -25,21 +26,17 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.Core.Serialization;
+using OpenIZAdmin.Models.EntityIdentifierModels;
 using OpenIZAdmin.Models.EntityRelationshipModels;
 using OpenIZAdmin.Models.PlaceModels;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
-using System.Web.Razor.Text;
-using Newtonsoft.Json;
-using OpenIZ.Core.Extensions;
-using OpenIZAdmin.Models.Core.Serialization;
-using OpenIZAdmin.Models.EntityIdentifierModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -463,32 +460,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Gets the place type concepts.
-		/// </summary>
-		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
-		private IEnumerable<Concept> GetPlaceTypeConcepts()
-		{
-			var typeConcepts = new List<Concept>();
-
-			if (!string.IsNullOrEmpty(this.healthFacilityMnemonic) && !string.IsNullOrWhiteSpace(this.healthFacilityMnemonic))
-			{
-				typeConcepts.AddRange(this.GetConceptSet(this.healthFacilityMnemonic).Concepts);
-			}
-
-			if (!string.IsNullOrEmpty(this.placeTypeMnemonic) && !string.IsNullOrWhiteSpace(this.placeTypeMnemonic))
-			{
-				typeConcepts.AddRange(this.GetConceptSet(this.placeTypeMnemonic).Concepts);
-			}
-
-			if (!typeConcepts.Any())
-			{
-				typeConcepts.AddRange(this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null));
-			}
-
-			return typeConcepts;
-		}
-
-		/// <summary>
 		/// Edits the related place.
 		/// </summary>
 		/// <param name="model">The model.</param>
@@ -608,9 +579,8 @@ namespace OpenIZAdmin.Controllers
 
 			if (!ModelState.IsValid) return Json(viewModels, JsonRequestBehavior.AllowGet);
 
-			//var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation);
 			var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation);
-			//viewModels = places.Item.OfType<Place>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation).LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+
 			viewModels = places.Item.OfType<Place>().LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 
 			return Json(viewModels, JsonRequestBehavior.AllowGet);
@@ -650,6 +620,32 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			return RedirectToAction("Index");
+		}
+
+		/// <summary>
+		/// Gets the place type concepts.
+		/// </summary>
+		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
+		private IEnumerable<Concept> GetPlaceTypeConcepts()
+		{
+			var typeConcepts = new List<Concept>();
+
+			if (!string.IsNullOrEmpty(this.healthFacilityMnemonic) && !string.IsNullOrWhiteSpace(this.healthFacilityMnemonic))
+			{
+				typeConcepts.AddRange(this.GetConceptSet(this.healthFacilityMnemonic).Concepts);
+			}
+
+			if (!string.IsNullOrEmpty(this.placeTypeMnemonic) && !string.IsNullOrWhiteSpace(this.placeTypeMnemonic))
+			{
+				typeConcepts.AddRange(this.GetConceptSet(this.placeTypeMnemonic).Concepts);
+			}
+
+			if (!typeConcepts.Any())
+			{
+				typeConcepts.AddRange(this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null));
+			}
+
+			return typeConcepts;
 		}
 	}
 }
