@@ -2181,4 +2181,28 @@
   <data name="TargetYearRequired" xml:space="preserve">
     <value>Year required when submitting population</value>
   </data>
+  <data name="NameLength128" xml:space="preserve">
+    <value>The name cannot exceed 128 characters</value>
+  </data>
+  <data name="HandlerClass" xml:space="preserve">
+    <value>Handler class</value>
+  </data>
+  <data name="HandlerClassRequired" xml:space="preserve">
+    <value>Please select a handler class</value>
+  </data>
+  <data name="ExtensionTypes" xml:space="preserve">
+    <value>Extension Types</value>
+  </data>
+  <data name="CreateExtensionType" xml:space="preserve">
+    <value>Create extension type</value>
+  </data>
+  <data name="UnableToCreateExtensionType" xml:space="preserve">
+    <value>Unable to create extension type</value>
+  </data>
+  <data name="ViewExtensionType" xml:space="preserve">
+    <value>View extension type</value>
+  </data>
+  <data name="ExtensionTypeNotFound" xml:space="preserve">
+    <value>Extension type not found</value>
+  </data>
 </root>

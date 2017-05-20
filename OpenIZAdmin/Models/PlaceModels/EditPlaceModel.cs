@@ -129,7 +129,6 @@ namespace OpenIZAdmin.Models.PlaceModels
 		{
 			place.ClassConceptKey = this.IsServiceDeliveryLocation ? EntityClassKeys.ServiceDeliveryLocation : EntityClassKeys.Place;
 			place.CreationTime = DateTimeOffset.Now;
-			place.Extensions.RemoveAll(e => e.ExtensionType.Name == Constants.TargetPopulationUrl);
 			place.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.OfficialRecord);
 			place.Names.Add(new EntityName(NameUseKeys.OfficialRecord, this.Name));
 			place.TypeConceptKey = Guid.Parse(this.TypeConcept);

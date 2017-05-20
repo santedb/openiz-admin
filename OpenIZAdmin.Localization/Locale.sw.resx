@@ -1613,4 +1613,28 @@ au jina la kikoa</value>
   <data name="AddConcepts" xml:space="preserve">
     <value>Kuongeza dhana</value>
   </data>
+  <data name="NameLength128" xml:space="preserve">
+    <value>jina haiwezi kuzidi wahusika 128</value>
+  </data>
+  <data name="HandlerClass" xml:space="preserve">
+    <value>handler darasa</value>
+  </data>
+  <data name="HandlerClassRequired" xml:space="preserve">
+    <value>Tafadhali chagua darasa handler</value>
+  </data>
+  <data name="ExtensionTypes" xml:space="preserve">
+    <value>Aina ugani</value>
+  </data>
+  <data name="CreateExtensionType" xml:space="preserve">
+    <value>Kujenga aina ugani</value>
+  </data>
+  <data name="UnableToCreateExtensionType" xml:space="preserve">
+    <value>Haikuweza kuunda aina ugani</value>
+  </data>
+  <data name="ViewExtensionType" xml:space="preserve">
+    <value>Mtazamo aina ugani</value>
+  </data>
+  <data name="ExtensionTypeNotFound" xml:space="preserve">
+    <value>aina ugani halikupatikana</value>
+  </data>
 </root>

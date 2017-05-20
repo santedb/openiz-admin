@@ -39,6 +39,7 @@ using System.Web.Razor.Text;
 using Newtonsoft.Json;
 using OpenIZ.Core.Extensions;
 using OpenIZAdmin.Models.Core.Serialization;
+using OpenIZAdmin.Models.EntityIdentifierModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -128,38 +129,39 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(CreatePlaceModel model)
 		{
-		    if (model.HasOnlyYearOrPopulation())
-		    {
-		        if(string.IsNullOrWhiteSpace(model.Year)) ModelState.AddModelError("Year", Locale.TargetYearRequired);
+			if (model.HasOnlyYearOrPopulation())
+			{
+				if (string.IsNullOrWhiteSpace(model.Year)) ModelState.AddModelError("Year", Locale.TargetYearRequired);
 
-                if (model.TargetPopulation == null) ModelState.AddModelError("TargetPopulation", Locale.TargetPopulationRequired);
-            }
-		    
-		    if (!string.IsNullOrWhiteSpace(model.Year))
-		    {                
-                if (model.ConvertToPopulationYear() == 0) ModelState.AddModelError("Year", Locale.PopulationYearInvalidFormat);
-            }		    
+				if (model.TargetPopulation == null) ModelState.AddModelError("TargetPopulation", Locale.TargetPopulationRequired);
+			}
 
-            if (ModelState.IsValid)
+			if (!string.IsNullOrWhiteSpace(model.Year))
+			{
+				if (model.ConvertToPopulationYear() == 0) ModelState.AddModelError("Year", Locale.PopulationYearInvalidFormat);
+			}
+
+			if (ModelState.IsValid)
 			{
 				try
-				{					
+				{
 					var placeToCreate = model.ToPlace();
 
-				    if (model.SubmitYearAndPopulation())
-				    {
-                        var targetPopulationExtensionType = this.ImsiClient.Get<ExtensionType>(Constants.TargetPopulationExtensionTypeKey, null) as ExtensionType;
+					if (model.SubmitYearAndPopulation())
+					{
+						var entityExtension = new EntityExtension
+						{
+							ExtensionType = new ExtensionType(Constants.TargetPopulationUrl, typeof(DictionaryExtensionHandler))
+							{
+								Key = Constants.TargetPopulationExtensionTypeKey
+							},
+							ExtensionValue = new TargetPopulation(model.ConvertPopulationToULong(), model.ConvertToPopulationYear())
+						};
 
-                        var entityExtension = new EntityExtension
-                        {
-                            ExtensionType = targetPopulationExtensionType,
-                            ExtensionValue = new TargetPopulation(model.ConvertPopulationToULong(), model.ConvertToPopulationYear())
-                        };
+						placeToCreate.Extensions.Add(entityExtension);
+					}
 
-                        placeToCreate.Extensions.Add(entityExtension);
-                    }                    
-
-                    var createdPlace = this.ImsiClient.Create<Place>(placeToCreate);
+					var createdPlace = this.ImsiClient.Create<Place>(placeToCreate);
 
 					TempData["success"] = Locale.PlaceSuccessfullyCreated;
 
@@ -326,9 +328,9 @@ namespace OpenIZAdmin.Controllers
 				place.Relationships = this.GetEntityRelationships<Place, Place>(place.Key.Value, place.VersionKey.Value, null,
 					r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
 						r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
-						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).ToList();			    
+						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).ToList();
 
-                var model = new EditPlaceModel(place)
+				var model = new EditPlaceModel(place)
 				{
 					TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(t => t.Key == place.TypeConceptKey).ToList()
 				};
@@ -356,19 +358,19 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-                if (model.HasOnlyYearOrPopulation())
-                {
-                    if (string.IsNullOrWhiteSpace(model.Year)) ModelState.AddModelError("Year", Locale.TargetYearRequired);
+				if (model.HasOnlyYearOrPopulation())
+				{
+					if (string.IsNullOrWhiteSpace(model.Year)) ModelState.AddModelError("Year", Locale.TargetYearRequired);
 
-                    if (model.TargetPopulation == null) ModelState.AddModelError("TargetPopulation", Locale.TargetPopulationRequired);
-                }
+					if (model.TargetPopulation == null) ModelState.AddModelError("TargetPopulation", Locale.TargetPopulationRequired);
+				}
 
-                if (!string.IsNullOrWhiteSpace(model.Year))
-                {
-                    if (model.ConvertToPopulationYear() == 0) ModelState.AddModelError("Year", Locale.PopulationYearInvalidFormat);
-                }
+				if (!string.IsNullOrWhiteSpace(model.Year))
+				{
+					if (model.ConvertToPopulationYear() == 0) ModelState.AddModelError("Year", Locale.PopulationYearInvalidFormat);
+				}
 
-                if (ModelState.IsValid)
+				if (ModelState.IsValid)
 				{
 					var bundle = this.ImsiClient.Query<Place>(p => p.Key == model.Id && p.ObsoletionTime == null, 0, null, true);
 
@@ -383,24 +385,29 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
+					// repopulate incase the update fails
+					model.Identifiers = place.Identifiers.Select(i => new EntityIdentifierModel(i.Key.Value, place.Key.Value)).ToList();
+					model.Relationships = place.Relationships.Select(r => new EntityRelationshipModel(r)).ToList();
+
 					model.TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(t => t.Key == place.TypeConceptKey).ToList();
 
 					var placeToUpdate = model.ToPlace(place);
 
-                    if (model.SubmitYearAndPopulation())
-                    {
-                        var targetPopulationExtensionType = this.ImsiClient.Get<ExtensionType>(Constants.TargetPopulationExtensionTypeKey, null) as ExtensionType;                      
+					if (model.SubmitYearAndPopulation())
+					{
+						placeToUpdate.Extensions.RemoveAll(e => e.ExtensionType.Name == Constants.TargetPopulationUrl);
 
-                        var entityExtension = new EntityExtension
-                        {
-                            ExtensionType = targetPopulationExtensionType,
-                            ExtensionValue = new TargetPopulation(model.ConvertPopulationToULong(), model.ConvertToPopulationYear())
-                        };
+						var entityExtension = new EntityExtension
+						{
+							ExtensionType = new ExtensionType(Constants.TargetPopulationUrl, typeof(DictionaryExtensionHandler))
+							{
+								Key = Constants.TargetPopulationExtensionTypeKey
+							},
+							ExtensionValue = new TargetPopulation(model.ConvertPopulationToULong(), model.ConvertToPopulationYear())
+						};
 
-                        placeToUpdate.Extensions.Add(entityExtension);
-
-
-                    }                    
+						placeToUpdate.Extensions.Add(entityExtension);
+					}
 
 					var updatedPlace = this.ImsiClient.Update<Place>(placeToUpdate);
 
@@ -412,6 +419,7 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to update place: {e}");
 			}
 
 			this.TempData["error"] = Locale.UnableToUpdatePlace;

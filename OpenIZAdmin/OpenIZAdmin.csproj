@@ -249,6 +249,7 @@
     <Compile Include="Controllers\ConceptSetController.cs" />
     <Compile Include="Controllers\EntityRelationshipController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\ExtensionTypeController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
     <Compile Include="Controllers\ManufacturedMaterialController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
@@ -326,6 +327,8 @@
     <Compile Include="Models\EntityRelationshipModels\EntityRelationshipModel.cs" />
     <Compile Include="Models\EntityRelationshipModels\EntityRelationshipViewModel.cs" />
     <Compile Include="Models\EntityTagModels\EntityTagViewModel.cs" />
+    <Compile Include="Models\ExtensionTypeModels\CreateExtensionTypeModel.cs" />
+    <Compile Include="Models\ExtensionTypeModels\ExtensionTypeViewModel.cs" />
     <Compile Include="Models\FacilityModel.cs" />
     <Compile Include="Models\Core\LanguageModel.cs" />
     <Compile Include="Models\LanguageModels\LanguageViewModel.cs" />
@@ -795,6 +798,10 @@
     <Content Include="Views\Material\AssociateMaterial.cshtml" />
     <Content Include="Views\Shared\_AuthorityScopePartial.cshtml" />
     <Content Include="Views\Shared\_ManageAuthorityScopePartial.cshtml" />
+    <Content Include="Views\Shared\_ExtensionTypesPartial.cshtml" />
+    <Content Include="Views\ExtensionType\Create.cshtml" />
+    <Content Include="Views\ExtensionType\ViewExtensionType.cshtml" />
+    <Content Include="Views\ExtensionType\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\bootstrap-datepicker\" />

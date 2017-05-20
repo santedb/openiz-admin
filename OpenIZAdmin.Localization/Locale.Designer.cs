@@ -1078,6 +1078,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create extension type.
+        /// </summary>
+        public static string CreateExtensionType {
+            get {
+                return ResourceManager.GetString("CreateExtensionType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Manufactured Material.
         /// </summary>
         public static string CreateManufacturedMaterial_Heading {
@@ -1735,6 +1744,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Extension type not found.
+        /// </summary>
+        public static string ExtensionTypeNotFound {
+            get {
+                return ResourceManager.GetString("ExtensionTypeNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extension Types.
+        /// </summary>
+        public static string ExtensionTypes {
+            get {
+                return ResourceManager.GetString("ExtensionTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Facility.
         /// </summary>
         public static string Facility {
@@ -1947,6 +1974,24 @@ namespace OpenIZAdmin.Localization {
         public static string Group {
             get {
                 return ResourceManager.GetString("Group", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Handler class.
+        /// </summary>
+        public static string HandlerClass {
+            get {
+                return ResourceManager.GetString("HandlerClass", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a handler class.
+        /// </summary>
+        public static string HandlerClassRequired {
+            get {
+                return ResourceManager.GetString("HandlerClassRequired", resourceCulture);
             }
         }
         
@@ -2658,6 +2703,15 @@ namespace OpenIZAdmin.Localization {
         public static string Name {
             get {
                 return ResourceManager.GetString("Name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The name cannot exceed 128 characters.
+        /// </summary>
+        public static string NameLength128 {
+            get {
+                return ResourceManager.GetString("NameLength128", resourceCulture);
             }
         }
         
@@ -5074,6 +5128,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to create extension type.
+        /// </summary>
+        public static string UnableToCreateExtensionType {
+            get {
+                return ResourceManager.GetString("UnableToCreateExtensionType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to create identifier.
         /// </summary>
         public static string UnableToCreateIdentifier {
@@ -6159,6 +6222,15 @@ namespace OpenIZAdmin.Localization {
         public static string ViewDevice_Heading {
             get {
                 return ResourceManager.GetString("ViewDevice_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View extension type.
+        /// </summary>
+        public static string ViewExtensionType {
+            get {
+                return ResourceManager.GetString("ViewExtensionType", resourceCulture);
             }
         }
         

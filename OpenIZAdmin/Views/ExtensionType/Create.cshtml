@@ -1,0 +1,40 @@
+﻿@model OpenIZAdmin.Models.ExtensionTypeModels.CreateExtensionTypeModel
+@{
+    ViewBag.Title = Locale.CreateExtensionType;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">        
+        <span class="panel-title">@Locale.CreateExtensionType</span>
+    </div>
+    <div class="panel panel-body">
+        @using (Html.BeginForm("Create", "ExtensionType", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_AppName })
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.HandlerClass, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.HandlerClass, Model.HandlerClasses, new { @class = "form-control", title = Locale.ToolTip_Priority })
+                    @Html.ValidationMessageFor(m => m.HandlerClass, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <a href="@Url.Action("Index")" class="btn btn-danger">@Locale.Cancel</a>
+                    <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+                </div>
+            </div>}
+    </div>
+</div>
+
