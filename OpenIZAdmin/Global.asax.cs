@@ -72,14 +72,6 @@ namespace OpenIZAdmin
 			// realm initialization
 			RealmConfig.Initialize();
 
-			var enableCaching = Convert.ToBoolean(ConfigurationManager.AppSettings["enableCaching"]);
-
-			if (enableCaching)
-			{
-				Trace.TraceInformation("Enabling caching");
-				QuartzConfig.Initialize();
-			}
-
 			Trace.TraceInformation("Application started");
 		}
 

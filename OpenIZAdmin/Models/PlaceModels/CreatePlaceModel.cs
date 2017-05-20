@@ -26,7 +26,6 @@ using System.Web.Mvc;
 using System.Web.Mvc.Routing.Constraints;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Localization;
-using Quartz.Util;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {

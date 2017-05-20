@@ -87,7 +87,6 @@ namespace OpenIZAdmin.Attributes
 		{
 			filterContext.HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
-			//filterContext.Result = new HttpUnauthorizedResult();
 			filterContext.Result = new RedirectToRouteResult(new RouteValueDictionary
 			{
 				{ "action", "Login" },

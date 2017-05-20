@@ -25,7 +25,6 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.AMI.Auth;
-using Quartz.Util;
 
 namespace OpenIZAdmin.Models.RoleModels
 {
