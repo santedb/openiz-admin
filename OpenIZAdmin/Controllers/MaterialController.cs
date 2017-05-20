@@ -45,6 +45,11 @@ namespace OpenIZAdmin.Controllers
 	public class MaterialController : BaseController
 	{
 		/// <summary>
+		/// The material types mnemonic.
+		/// </summary>
+		private const string MaterialTypesMnemonic = "MaterialTypes";
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="MaterialController"/> class.
 		/// </summary>
 		public MaterialController()
@@ -108,7 +113,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Edit", new { id = id });
 				}
 
-				material.Relationships = this.GetEntityRelationships<Material, Material>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity).ToList();
+				material.Relationships = this.GetEntityRelationships<Material, Material>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity, false).ToList();
 
 				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
 				{
@@ -275,7 +280,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Edit", new { id = id });
 				}
 
-				material.Relationships = this.GetEntityRelationships<Material, ManufacturedMaterial>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList();
+				material.Relationships = this.GetEntityRelationships<Material, ManufacturedMaterial>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct, false).ToList();
 
 				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
 				{
@@ -426,8 +431,8 @@ namespace OpenIZAdmin.Controllers
 
 				material.Relationships = new List<EntityRelationship>();
 
-				material.Relationships.AddRange(this.GetEntityRelationships<Material, Material>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity).ToList());
-				material.Relationships.AddRange(this.GetEntityRelationships<Material, ManufacturedMaterial>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList());
+				material.Relationships.AddRange(this.GetEntityRelationships<Material, Material>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity, false).ToList());
+				material.Relationships.AddRange(this.GetEntityRelationships<Material, ManufacturedMaterial>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct, false).ToList());
 
 				var model = new EditMaterialModel(material)
 				{
@@ -561,17 +566,21 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns a list of material type concepts.</returns>
 		private IEnumerable<Concept> GetMaterialTypeConcepts()
 		{
-			var concepts = MvcApplication.MemoryCache.Get(ConceptClassKeys.Material.ToString()) as IEnumerable<Concept>;
+			var concepts = MvcApplication.MemoryCache.Get(MaterialTypesMnemonic) as IEnumerable<Concept>;
 
 			if (concepts == null)
 			{
-				var bundle = this.ImsiClient.Query<Concept>(c => c.ClassKey == ConceptClassKeys.Material && c.ObsoletionTime == null);
+				var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == MaterialTypesMnemonic && c.ObsoletionTime == null, 0, null, new[] { "concept" });
 
 				bundle.Reconstitute();
 
-				concepts = bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.Material && c.ObsoletionTime == null);
+				var conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Mnemonic == MaterialTypesMnemonic && c.ObsoletionTime == null);
 
-				MvcApplication.MemoryCache.Set(new CacheItem(ConceptClassKeys.Material.ToString(), concepts.ToList()), MvcApplication.CacheItemPolicy);
+				if (conceptSet != null)
+				{
+					concepts = conceptSet.ConceptsXml.Select(this.GetConcept).ToList();
+					MvcApplication.MemoryCache.Set(new CacheItem(MaterialTypesMnemonic, concepts), MvcApplication.CacheItemPolicy);
+				}
 			}
 
 			return concepts;

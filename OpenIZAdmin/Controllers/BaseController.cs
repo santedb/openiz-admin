@@ -111,7 +111,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (concept != null)
 				{
-					MvcApplication.MemoryCache.Set(new CacheItem(concept.Key?.ToString(), concept), MvcApplication.CacheItemPolicy);
+					MvcApplication.MemoryCache.Set(new CacheItem(concept.Key.ToString(), concept), MvcApplication.CacheItemPolicy);
 				}
 			}
 
