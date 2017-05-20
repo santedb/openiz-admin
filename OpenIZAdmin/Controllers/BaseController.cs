@@ -239,7 +239,7 @@ namespace OpenIZAdmin.Controllers
 				return null;
 			}
 
-			this.Request.Cookies.Add(new HttpCookie("access_token", deviceIdentity.AccessToken));
+			this.Request.Cookies.Set(new HttpCookie("access_token", deviceIdentity.AccessToken));
 
 			var restClientService = new RestClientService(Constants.Ami)
 			{
