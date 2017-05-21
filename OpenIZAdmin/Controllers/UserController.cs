@@ -455,7 +455,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.PasswordResetSuccessfully;
 
-					return RedirectToAction("Index", "Home");
+					return RedirectToAction("Edit", new { id = user.UserId.Value });
 				}
 			}
 			catch (Exception e)
