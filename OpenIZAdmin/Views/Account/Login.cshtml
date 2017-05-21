@@ -8,32 +8,38 @@
         <span class="panel-title">@Locale.Login</span>
     </div>
     <div class="panel panel-body">
-        @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-        {
-            @Html.AntiForgeryToken()
-            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-            <div class="form-group">
-                @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
-                <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Username, new { id = "userName",  @class = "form-control", autocomplete = "off" })
-                    @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
-                </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-4">
+                <img src="@Url.Content("~/Content/Images/logo.png")" class="img-responsive center-block" />
             </div>
+            <div class="col-xs-12 col-sm-8">
+                @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Username, new { id = "userName", @class = "form-control", autocomplete = "off" })
+                            @Html.ValidationMessageFor(m => m.Username, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label", autocomplete = "off" })
-                <div class="col-md-8">
-                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                </div>
-            </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label", autocomplete = "off" })
+                        <div class="col-md-8">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <a href="@Url.Action("ForgotPassword", "Account")" class="btn btn-warning">@Locale.ForgotPassword</a>
-                    <button id="login-button" type="submit" class="btn btn-primary">@Locale.Login</button>
-                </div>
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <a href="@Url.Action("ForgotPassword", "Account")" class="btn btn-warning">@Locale.ForgotPassword</a>
+                            <button id="login-button" type="submit" class="btn btn-primary">@Locale.Login</button>
+                        </div>
+                    </div>}
             </div>
-        }
+        </div>
     </div>
 </div>
