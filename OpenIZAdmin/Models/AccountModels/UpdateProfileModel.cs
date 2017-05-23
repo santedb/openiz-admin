@@ -63,26 +63,28 @@ namespace OpenIZAdmin.Models.AccountModels
 
 			this.Language = userEntity.LanguageCommunication.FirstOrDefault(l => l.IsPreferred)?.LanguageCode;
 
-			this.LanguageList = new List<SelectListItem>
-			{
-				new SelectListItem
-				{
-					Text = string.Empty,
-					Value = string.Empty
-				},
-				new SelectListItem
-				{
-					Selected = this.Language == LocalizationConfig.LanguageCode.English,
-					Text = Locale.English,
-					Value = LocalizationConfig.LanguageCode.English
-                },
-				new SelectListItem
-				{
-					Selected = this.Language == LocalizationConfig.LanguageCode.Swahili,
-					Text = Locale.Kiswahili,
-					Value = LocalizationConfig.LanguageCode.Swahili
-                }
-			};
+		    CreateLanguageList();
+
+            //this.LanguageList = new List<SelectListItem>
+            //{
+            //	new SelectListItem
+            //	{
+            //		Text = string.Empty,
+            //		Value = string.Empty
+            //	},
+            //	new SelectListItem
+            //	{
+            //		Selected = this.Language == LocalizationConfig.LanguageCode.English,
+            //		Text = Locale.English,
+            //		Value = LocalizationConfig.LanguageCode.English
+            //             },
+            //	new SelectListItem
+            //	{
+            //		Selected = this.Language == LocalizationConfig.LanguageCode.Swahili,
+            //		Text = Locale.Kiswahili,
+            //		Value = LocalizationConfig.LanguageCode.Swahili
+            //             }
+            //};
 
             if (userEntity.Telecoms.Any())
             {
@@ -131,6 +133,33 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// Gets or sets the list of family names of the user.
 		/// </summary>
 		public List<SelectListItem> SurnamesList { get; set; }
+
+	    /// <summary>
+	    /// Initializes the Language list drop down
+	    /// </summary>
+	    public void CreateLanguageList()
+	    {
+            LanguageList = new List<SelectListItem>
+            {
+                new SelectListItem
+                {
+                    Text = string.Empty,
+                    Value = string.Empty
+                },
+                new SelectListItem
+                {
+                    Selected = this.Language == LocalizationConfig.LanguageCode.English,
+                    Text = Locale.English,
+                    Value = LocalizationConfig.LanguageCode.English
+                },
+                new SelectListItem
+                {
+                    Selected = this.Language == LocalizationConfig.LanguageCode.Swahili,
+                    Text = Locale.Kiswahili,
+                    Value = LocalizationConfig.LanguageCode.Swahili
+                }
+            };
+        }
 
 		/// <summary>
 		/// Converts an <see cref="UpdateProfileModel"/> instance to a <see cref="UserEntity"/> instance.

@@ -281,21 +281,21 @@ namespace OpenIZAdmin.Controllers
 			return View("ResetPassword", resetPasswordModel);
 		}
 
-		/// <summary>
-		/// Determines whether the name is between 1 and 100 characters.
-		/// </summary>
-		/// <param name="name">The name.</param>
-		/// <returns><c>true</c> if the name is between 1 and 100 characters; otherwise, <c>false</c>.</returns>
-		/// <exception cref="System.ArgumentNullException">name</exception>
-		private bool IsValidNameLength(string name)
-		{
-			if (name == null)
-			{
-				throw new ArgumentNullException(nameof(name), Locale.ValueCannotBeNull);
-			}
+		///// <summary>
+		///// Determines whether the name is between 1 and 100 characters.
+		///// </summary>
+		///// <param name="name">The name.</param>
+		///// <returns><c>true</c> if the name is between 1 and 100 characters; otherwise, <c>false</c>.</returns>
+		///// <exception cref="System.ArgumentNullException">name</exception>
+		//private bool IsValidNameLength(string name)
+		//{
+		//	if (name == null)
+		//	{
+		//		throw new ArgumentNullException(nameof(name), Locale.ValueCannotBeNull);
+		//	}
 
-			return name.Length > 0 && name.Length <= 100;
-		}
+		//	return name.Length > 0 && name.Length <= 100;
+		//}
 
 		/// <summary>
 		/// Displays the login view.
@@ -510,16 +510,10 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult UpdateProfile(UpdateProfileModel model)
 		{
 			try
-			{
-                if (model.GivenNames.Any(n => !this.IsValidNameLength(n)))
-                {
-                    this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);
-                }
+			{                
+                if (model.GivenNames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);                
 
-                if (model.Surnames.Any(n => !this.IsValidNameLength(n)))
-                {
-                    this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);
-                }
+                if (model.Surnames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);                
 
                 if (ModelState.IsValid)
 				{					
@@ -551,7 +545,14 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToUpdateProfile;
+            model.CreateLanguageList();
+
+            var phoneTypes = this.GetPhoneTypeConceptSet().Concepts.ToList();
+
+            Guid phoneType;
+            model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList().ToList();
+
+            TempData["error"] = Locale.UnableToUpdateProfile;
 
 			return View(model);
 		}

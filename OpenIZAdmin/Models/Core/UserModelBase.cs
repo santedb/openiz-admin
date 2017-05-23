@@ -116,6 +116,40 @@ namespace OpenIZAdmin.Models.Core
             return null;
         }
 
+        ///// <summary>
+        ///// Checks if the string length of a given name(s) is longer than 100 characters
+        ///// </summary>
+        ///// <returns>Returns true if given name exceeds 100 characters, false if within specification length</returns>
+        //public bool HasValidGivenName()
+        //{
+        //    return GivenNames.Any() && GivenNames.Select(x => x.Length > 0 && x.Length <= 100).FirstOrDefault();
+        //}
+
+        ///// <summary>
+        ///// Checks if the string length of a surname(s) is longer than 100 characters
+        ///// </summary>
+        ///// <returns>Returns true if surname(s) exceeds 100 characters, false if within specification length</returns>
+        //public bool HasValidSurName()
+        //{
+        //    return Surnames.Any() && Surnames.Select(x => x.Length > 0 && x.Length <= 100).FirstOrDefault();
+        //}
+
+        /// <summary>
+        /// Determines whether the name is between 1 and 100 characters.
+        /// </summary>
+        /// <param name="name">The name.</param>
+        /// <returns><c>true</c> if the name is between 1 and 100 characters; otherwise, <c>false</c>.</returns>
+        /// <exception cref="System.ArgumentNullException">name</exception>
+        public bool IsValidNameLength(string name)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name), Locale.ValueCannotBeNull);
+            }
+
+            return name.Length > 0 && name.Length <= 100;
+        }
+
         /// <summary>
         /// Checks if the facility selected is different than the one currently assigned to the user
         /// </summary>

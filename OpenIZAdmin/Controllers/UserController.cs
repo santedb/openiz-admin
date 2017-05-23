@@ -122,54 +122,42 @@ namespace OpenIZAdmin.Controllers
 				//hack - check if empty string passed and remove - select2 issue                        
 				model.CheckForEmptyRoleAssigned();
 
-				if (!model.Roles.Any()) ModelState.AddModelError("Roles", Locale.RolesRequired);
+                if (UsernameExists(model.Username)) ModelState.AddModelError("Username", Locale.UserNameExists);                
 
-				if (ModelState.IsValid)
-				{
-					if (this.UsernameExists(model.Username))
+                if (!model.Roles.Any()) ModelState.AddModelError("Roles", Locale.RolesRequired);                
+
+                if (model.GivenNames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);
+
+                if (model.Surnames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);
+
+                if (ModelState.IsValid)
+				{								
+					var user = this.AmiClient.CreateUser(model.ToSecurityUserInfo());
+
+					var userEntity = this.GetUserEntityBySecurityUserKey(user.UserId.Value);
+
+					if (userEntity == null)
 					{
-						TempData["error"] = Locale.UserNameExists;
+						TempData["error"] = Locale.UnableToRetrieveNewUser;
+						return RedirectToAction("Index");
 					}
-					else
+
+					if (model.Roles.Contains(Constants.ClinicalStaff))
 					{
-						if (model.GivenNames.Any(n => !this.IsValidNameLength(n)))
-						{
-							this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);
-						}
+						var provider = this.ImsiClient.Create<Provider>(new Provider { Key = Guid.NewGuid() });
 
-						if (model.Surnames.Any(n => !this.IsValidNameLength(n)))
-						{
-							this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);
-						}
-
-						var user = this.AmiClient.CreateUser(model.ToSecurityUserInfo());
-
-						var userEntity = this.GetUserEntityBySecurityUserKey(user.UserId.Value);
-
-						if (userEntity == null)
-						{
-							TempData["error"] = Locale.UnableToRetrieveNewUser;
-							return RedirectToAction("Index");
-						}
-
-						if (model.Roles.Contains(Constants.ClinicalStaff))
-						{
-							var provider = this.ImsiClient.Create<Provider>(new Provider { Key = Guid.NewGuid() });
-
-							userEntity.Relationships.Add(
-								new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, provider)
-								{
-									SourceEntityKey = userEntity.Key.Value
-								});
-						}
-
-						this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
-
-						TempData["success"] = Locale.UserCreatedSuccessfully;
-
-						return RedirectToAction("Edit", new { id = user.UserId.ToString() });
-
+						userEntity.Relationships.Add(
+							new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, provider)
+							{
+								SourceEntityKey = userEntity.Key.Value
+							});
 					}
+
+					this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
+
+					TempData["success"] = Locale.UserCreatedSuccessfully;
+
+					return RedirectToAction("Edit", new { id = user.UserId.ToString() });					
 				}
 			}
 			catch (Exception e)
@@ -294,19 +282,13 @@ namespace OpenIZAdmin.Controllers
 			try
 			{
 				//hack - check if empty string passed and remove -select2 issue
-				model.CheckForEmptyRoleAssigned();
+				model.CheckForEmptyRoleAssigned();                
 
-				if (model.GivenNames.Any(n => !this.IsValidNameLength(n)))
-				{
-					this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);
-				}
+                if (model.GivenNames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);                
 
-				if (model.Surnames.Any(n => !this.IsValidNameLength(n)))
-				{
-					this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);
-				}
+                if (model.Surnames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);
 
-				if (!model.Roles.Any())
+                if (!model.Roles.Any())
 				{
 					ModelState.AddModelError("Roles", Locale.RoleIsRequired);
 					var userEntity = this.GetUserEntityBySecurityUserKey(model.Id);
@@ -376,21 +358,21 @@ namespace OpenIZAdmin.Controllers
 			return View();
 		}
 
-		/// <summary>
-		/// Determines whether the name is between 1 and 100 characters.
-		/// </summary>
-		/// <param name="name">The name.</param>
-		/// <returns><c>true</c> if the name is between 1 and 100 characters; otherwise, <c>false</c>.</returns>
-		/// <exception cref="System.ArgumentNullException">name</exception>
-		private bool IsValidNameLength(string name)
-		{
-			if (name == null)
-			{
-				throw new ArgumentNullException(nameof(name), Locale.ValueCannotBeNull);
-			}
+		///// <summary>
+		///// Determines whether the name is between 1 and 100 characters.
+		///// </summary>
+		///// <param name="name">The name.</param>
+		///// <returns><c>true</c> if the name is between 1 and 100 characters; otherwise, <c>false</c>.</returns>
+		///// <exception cref="System.ArgumentNullException">name</exception>
+		//private bool IsValidNameLength(string name)
+		//{
+		//	if (name == null)
+		//	{
+		//		throw new ArgumentNullException(nameof(name), Locale.ValueCannotBeNull);
+		//	}
 
-			return name.Length > 0 && name.Length <= 100;
-		}
+		//	return name.Length > 0 && name.Length <= 100;
+		//}
 
 		/// <summary>
 		/// Displays the reset password view.
@@ -530,17 +512,18 @@ namespace OpenIZAdmin.Controllers
 		/// <returns><c>true</c> If the username exists, <c>false</c> otherwise.</returns>
 		private bool UsernameExists(string username)
 		{
-		    var name = username.ToLowerInvariant();
-            //return this.AmiClient.GetUsers(u => u.UserName == username.ToLowerInvariant()).CollectionItem.Any();
-            return this.AmiClient.GetUsers(u => u.UserName == name).CollectionItem.Any();
-        }
+		    //var name = username.ToLowerInvariant();
+            return this.AmiClient.GetUsers(u => u.UserName == username).CollectionItem.Any();
+            //return this.AmiClient.GetUsers(u => u.UserName == username || u.UserName.ToLowerInvariant() == name).CollectionItem.Any();
+            //return this.AmiClient.GetUsers(u => u.UserName.ToUpper().Equals(username.ToUpper())).CollectionItem.Any();
+        }  
 
-		/// <summary>
-		/// Searches for a user to view details.
-		/// </summary>
-		/// <param name="id">The user identifier search string.</param>
-		/// <returns>Returns a user view that matches the search term.</returns>
-		[HttpGet]
+        /// <summary>
+        /// Searches for a user to view details.
+        /// </summary>
+        /// <param name="id">The user identifier search string.</param>
+        /// <returns>Returns a user view that matches the search term.</returns>
+        [HttpGet]
 		public ActionResult ViewUser(Guid id)
 		{
 			try
