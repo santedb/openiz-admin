@@ -45,7 +45,7 @@ namespace OpenIZAdmin.Models.RoleModels
 		{
 			this.Description = securityRoleInfo.Role.Description;
 			this.Name = securityRoleInfo.Name;
-            HasPolicies = securityRoleInfo.Policies?.Any() == true;
+            //HasPolicies = securityRoleInfo.Policies?.Any() == true;
         }
 
 		/// <summary>
