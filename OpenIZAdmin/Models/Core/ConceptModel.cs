@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ReferenceTermModels;
 
 namespace OpenIZAdmin.Models.Core
@@ -70,6 +71,7 @@ namespace OpenIZAdmin.Models.Core
 		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         [StringLength(64, ErrorMessageResourceName = "MnemonicLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public string Mnemonic { get; set; }
 
 		/// <summary>
@@ -78,7 +80,8 @@ namespace OpenIZAdmin.Models.Core
 		/// <value>The name.</value>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]		
 		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string Name { get; set; }
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+        public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets a list of names associated with the concept.

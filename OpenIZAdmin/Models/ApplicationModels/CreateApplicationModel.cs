@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.ApplicationModels
 {
@@ -46,7 +47,8 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		[Display(Name = "ApplicationName", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string ApplicationName { get; set; }
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+        public string ApplicationName { get; set; }
 
 		/// <summary>
 		/// Gets or sets the secret of the application.
@@ -54,6 +56,7 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		[Required]
 		[Display(Name = "ApplicationSecret", ResourceType = typeof(Localization.Locale))]
         [StringLength(64, ErrorMessageResourceName = "SecretLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public string ApplicationSecret { get; set; }
 
 		/// <summary>

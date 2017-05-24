@@ -20,6 +20,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ConceptModels;
 
 namespace OpenIZAdmin.Models.Core
@@ -50,6 +51,7 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
         [StringLength(64, ErrorMessageResourceName = "MnemonicLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public virtual string Mnemonic { get; set; }
 
 		/// <summary>
@@ -57,6 +59,7 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
         [StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public virtual string Name { get; set; }
 
 		/// <summary>

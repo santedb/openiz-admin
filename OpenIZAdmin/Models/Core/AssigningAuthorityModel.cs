@@ -36,6 +36,7 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		[Display(Name = "Description", ResourceType = typeof(Locale))]
         [StringLength(4000, ErrorMessageResourceName = "DescriptionLength4000", ErrorMessageResourceType = typeof(Locale))]
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public string Description { get; set; }
 
         /// <summary>
@@ -44,6 +45,7 @@ namespace OpenIZAdmin.Models.Core
         [Display(Name = "DomainName", ResourceType = typeof(Locale))]
         [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
         [StringLength(32, ErrorMessageResourceName = "DomainNameLength32", ErrorMessageResourceType = typeof(Locale))]
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public string DomainName { get; set; }        
 
         /// <summary>
@@ -52,6 +54,7 @@ namespace OpenIZAdmin.Models.Core
         [Display(Name = "Name", ResourceType = typeof(Locale))]
         [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
         [StringLength(50, ErrorMessageResourceName = "NameLength50", ErrorMessageResourceType = typeof(Locale))]
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public string Name { get; set; }
 
         /// <summary>
