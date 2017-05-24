@@ -6100,6 +6100,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Verification cannot exceed 256 characters.
+        /// </summary>
+        public static string VerificationLength256 {
+            get {
+                return ResourceManager.GetString("VerificationLength256", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The verification cannot exceed 50 characters.
         /// </summary>
         public static string VerificationLength50 {

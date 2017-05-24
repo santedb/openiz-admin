@@ -2214,4 +2214,7 @@
   <data name="InvalidSearchEntry" xml:space="preserve">
     <value>The characters &lt; and &gt; are not allowed</value>
   </data>
+  <data name="VerificationLength256" xml:space="preserve">
+    <value>Verification cannot exceed 256 characters</value>
+  </data>
 </root>
