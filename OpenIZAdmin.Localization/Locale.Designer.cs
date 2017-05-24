@@ -2194,11 +2194,29 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The policy entered is invalid. .
+        /// </summary>
+        public static string InValidPolicySelection {
+            get {
+                return ResourceManager.GetString("InValidPolicySelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid search, please check your search criteria.
         /// </summary>
         public static string InvalidSearch {
             get {
                 return ResourceManager.GetString("InvalidSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Special characters &amp; &lt; &gt; * and @ are not allowed.
+        /// </summary>
+        public static string InvalidStringEntry {
+            get {
+                return ResourceManager.GetString("InvalidStringEntry", resourceCulture);
             }
         }
         

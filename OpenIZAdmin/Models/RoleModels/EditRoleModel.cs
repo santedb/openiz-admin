@@ -98,6 +98,6 @@ namespace OpenIZAdmin.Models.RoleModels
 		/// <summary>
 		/// Gets or sets the policies associated with the role.
 		/// </summary>
-		public IEnumerable<PolicyViewModel> RolePolicies { get; set; }
-	}
+		public IEnumerable<PolicyViewModel> RolePolicies { get; set; }       
+    }
 }

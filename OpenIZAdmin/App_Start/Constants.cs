@@ -98,6 +98,12 @@ namespace OpenIZAdmin
         //^(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$
 
         /// <summary>
+        /// Regular expression string for basic string validation
+        /// </summary>
+        //public const string RegExBasicString = @"^[^ !@%\\/:*;\.\)\(]+$";
+        public const string RegExBasicString = @"^[^*@&<>]+$";
+
+        /// <summary>
         /// Regular expression string for username validation
         /// </summary>
         public const string RegExPopulationYear = @"^(\d{4})$";

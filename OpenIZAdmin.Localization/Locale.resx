@@ -2205,4 +2205,10 @@
   <data name="ExtensionTypeNotFound" xml:space="preserve">
     <value>Extension type not found</value>
   </data>
+  <data name="InValidPolicySelection" xml:space="preserve">
+    <value>The policy entered is invalid. </value>
+  </data>
+  <data name="InvalidStringEntry" xml:space="preserve">
+    <value>Special characters &amp; &lt; &gt; * and @ are not allowed</value>
+  </data>
 </root>

@@ -20,6 +20,7 @@
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Models.Core;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace OpenIZAdmin.Models.RoleModels
 {
@@ -44,7 +45,8 @@ namespace OpenIZAdmin.Models.RoleModels
 		{
 			this.Description = securityRoleInfo.Role.Description;
 			this.Name = securityRoleInfo.Name;
-		}
+            HasPolicies = securityRoleInfo.Policies?.Any() == true;
+        }
 
 		/// <summary>
 		/// Gets or sets the description of the role.

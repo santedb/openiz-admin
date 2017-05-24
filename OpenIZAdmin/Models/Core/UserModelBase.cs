@@ -47,6 +47,7 @@ namespace OpenIZAdmin.Models.Core
         /// Gets or sets the id of the facility of the user.
         /// </summary>
         [Display(Name = "Facility", ResourceType = typeof(Locale))]
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public string Facility { get; set; }        
 
         /// <summary>
@@ -54,6 +55,7 @@ namespace OpenIZAdmin.Models.Core
         /// </summary>
         [Display(Name = "GivenName", ResourceType = typeof(Locale))]
         [Required(ErrorMessageResourceName = "GivenNameRequired", ErrorMessageResourceType = typeof(Locale))]
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public List<string> GivenNames { get; set; }
 
         /// <summary>
@@ -63,8 +65,7 @@ namespace OpenIZAdmin.Models.Core
         [Display(Name = "Phone", ResourceType = typeof(Locale))]
         [Required(ErrorMessageResourceName = "PhoneNumberRequired", ErrorMessageResourceType = typeof(Locale))]
         [StringLength(25, ErrorMessageResourceName = "PhoneNumberTooLong", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExPhoneNumberTanzania, ErrorMessageResourceName = "InvalidPhoneNumber",
-            ErrorMessageResourceType = typeof(Locale))]
+        [RegularExpression(Constants.RegExPhoneNumberTanzania, ErrorMessageResourceName = "InvalidPhoneNumber", ErrorMessageResourceType = typeof(Locale))]
         public string PhoneNumber { get; set; }
 
         /// <summary>
@@ -84,6 +85,7 @@ namespace OpenIZAdmin.Models.Core
         /// </summary>
         [Display(Name = "Surname", ResourceType = typeof(Locale))]
         [Required(ErrorMessageResourceName = "SurnameRequired", ErrorMessageResourceType = typeof(Locale))]
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public List<string> Surnames { get; set; }
 
         /// <summary>
@@ -114,25 +116,7 @@ namespace OpenIZAdmin.Models.Core
             if (Guid.TryParse(PhoneType, out phoneTypeId)) return phoneTypeId;
 
             return null;
-        }
-
-        ///// <summary>
-        ///// Checks if the string length of a given name(s) is longer than 100 characters
-        ///// </summary>
-        ///// <returns>Returns true if given name exceeds 100 characters, false if within specification length</returns>
-        //public bool HasValidGivenName()
-        //{
-        //    return GivenNames.Any() && GivenNames.Select(x => x.Length > 0 && x.Length <= 100).FirstOrDefault();
-        //}
-
-        ///// <summary>
-        ///// Checks if the string length of a surname(s) is longer than 100 characters
-        ///// </summary>
-        ///// <returns>Returns true if surname(s) exceeds 100 characters, false if within specification length</returns>
-        //public bool HasValidSurName()
-        //{
-        //    return Surnames.Any() && Surnames.Select(x => x.Length > 0 && x.Length <= 100).FirstOrDefault();
-        //}
+        }        
 
         /// <summary>
         /// Determines whether the name is between 1 and 100 characters.

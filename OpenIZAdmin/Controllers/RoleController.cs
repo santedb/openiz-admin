@@ -28,6 +28,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using OpenIZAdmin.Extensions;
+using OpenIZAdmin.Models.PolicyModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -196,11 +197,15 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditRoleModel model)
 		{
-			if (ModelState.IsValid)
-			{
-				try
+            if (model.Policies.Any(n => !IsValidGuid(n))) this.ModelState.AddModelError(nameof(model.Policies), Locale.InValidPolicySelection);
+
+		    SecurityRoleInfo roleInfo = null;
+
+            if (ModelState.IsValid)
+            {                
+                try
 				{
-					var roleInfo = this.AmiClient.GetRole(model.Id.ToString());
+					roleInfo = this.AmiClient.GetRole(model.Id.ToString());
 
 					if (roleInfo == null)
 					{
@@ -221,7 +226,16 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			TempData["error"] = Locale.UnableToUpdateRole;
+		    if (roleInfo != null)
+		    {
+                model.RolePolicies = roleInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList();
+            }            
+
+            model.PoliciesList = new List<SelectListItem>();
+            model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id"));
+            model.Policies = model.RolePolicies?.Select(p => p.Id.ToString()).ToList();
+
+            TempData["error"] = Locale.UnableToUpdateRole;
 
 			return View(model);
 		}
