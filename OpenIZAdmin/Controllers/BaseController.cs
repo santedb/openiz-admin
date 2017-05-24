@@ -34,6 +34,7 @@ using System.Runtime.Caching;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Collection;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Models.RoleModels;
 
@@ -335,48 +336,50 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Gets the entity relationships.
 		/// </summary>
-		/// <typeparam name="TSourceType">The type of the source type.</typeparam>
 		/// <typeparam name="TTargetType">The type of the t target type.</typeparam>
 		/// <param name="id">The identifier.</param>
-		/// <param name="versionId">The version identifier.</param>
-		/// <param name="entityExpression">The entity expression.</param>
 		/// <param name="entityRelationshipExpression">The entity relationship expression.</param>
-		/// <param name="loadFast">if set to <c>true</c> [load fast].</param>
-		/// <returns>Returns a list of entity relationships for a given entity.</returns>
-		protected IEnumerable<EntityRelationship> GetEntityRelationships<TSourceType, TTargetType>(Guid id, Guid? versionId = null, Expression<Func<TSourceType, bool>> entityExpression = null, Expression<Func<EntityRelationship, bool>> entityRelationshipExpression = null, bool loadFast = true) where TSourceType : Entity where TTargetType : Entity
+		/// <returns>Returns a list of entity relationships for the given entity.</returns>
+		protected IEnumerable<EntityRelationship> GetEntityRelationships<TTargetType>(Guid id, Expression<Func<EntityRelationship, bool>> entityRelationshipExpression = null) where TTargetType : Entity
 		{
-			var entity = this.GetEntity<TSourceType>(id, versionId, entityExpression);
-
-			Expression<Func<EntityRelationship, bool>> expression = r => r.TargetEntity == null && r.TargetEntityKey.HasValue && r.TargetEntityKey.Value != Guid.Empty;
+			Bundle bundle;
 
 			if (entityRelationshipExpression != null)
 			{
-				var body = Expression.AndAlso(entityRelationshipExpression.Body, Expression.Invoke(expression, entityRelationshipExpression.Parameters[0]));
-
-				expression = Expression.Lambda<Func<EntityRelationship, bool>>(body, entityRelationshipExpression.Parameters);
-			}
-
-			if (!loadFast)
-			{
-				foreach (var entityRelationship in entity.Relationships.Where(expression.Compile()))
-				{
-					entityRelationship.RelationshipType = this.GetConcept(entityRelationship.RelationshipTypeKey);
-					entityRelationship.TargetEntity = this.ImsiClient.Get<TTargetType>(entityRelationship.TargetEntityKey.Value, null) as TTargetType;
-					if (entityRelationship.TargetEntity?.TypeConcept == null && entityRelationship.TargetEntity?.TypeConceptKey.HasValue == true && entityRelationship.TargetEntity?.TypeConceptKey != Guid.Empty)
-					{
-						entityRelationship.TargetEntity.TypeConcept = this.GetConcept(entityRelationship.TargetEntity.TypeConceptKey.Value);
-					}
-				}
-			}
-
-			if (entityRelationshipExpression == null)
-			{
-				return entity.Relationships;
+				bundle = this.ImsiClient.Query<EntityRelationship>(c => c.SourceEntityKey == id && entityRelationshipExpression.Compile().Invoke(c));
 			}
 			else
 			{
-				return entity.Relationships.Where(entityRelationshipExpression.Compile());
+				bundle = this.ImsiClient.Query<EntityRelationship>(c => c.SourceEntityKey == id);
 			}
+
+			bundle.Reconstitute();
+
+			var entityRelationships = bundle.Item.OfType<EntityRelationship>().ToArray();
+
+			if (entityRelationshipExpression != null)
+			{
+				entityRelationships = entityRelationships.Where(c => entityRelationshipExpression.Compile().Invoke(c)).ToArray();
+			}
+
+			foreach (var entityRelationship in entityRelationships)
+			{
+				entityRelationship.RelationshipType = this.GetConcept(entityRelationship.RelationshipTypeKey);
+
+				// only load the target entity if the IMS didn't return the target entity by default
+				if (entityRelationship.TargetEntity == null && entityRelationship.TargetEntityKey.HasValue && entityRelationship.TargetEntityKey.Value != Guid.Empty)
+				{
+					entityRelationship.TargetEntity = this.ImsiClient.Get<TTargetType>(entityRelationship.TargetEntityKey.Value, null) as TTargetType;
+				}
+
+				// only load the type concept of the target entity if the IMS didn't return the type concept of the target entity
+				if (entityRelationship.TargetEntity?.TypeConcept == null && entityRelationship.TargetEntity?.TypeConceptKey.HasValue == true && entityRelationship.TargetEntity?.TypeConceptKey != Guid.Empty)
+				{
+					entityRelationship.TargetEntity.TypeConcept = this.GetConcept(entityRelationship.TargetEntity.TypeConceptKey.Value);
+				}
+			}
+
+			return entityRelationships;
 		}
 
 		/// <summary>

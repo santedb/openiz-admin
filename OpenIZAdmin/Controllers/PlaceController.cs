@@ -322,7 +322,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("ViewPlace", new { id, versionId });
 				}
 
-				place.Relationships = this.GetEntityRelationships<Place, Place>(place.Key.Value, place.VersionKey.Value, null,
+				place.Relationships = this.GetEntityRelationships<Place>(place.Key.Value,
 					r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
 						r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
 						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).ToList();
@@ -605,7 +605,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				place.Relationships = this.GetEntityRelationships<Place, Place>(place.Key.Value, place.VersionKey.Value, null,
+				place.Relationships = this.GetEntityRelationships<Place>(place.Key.Value,
 					r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
 						r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
 						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).ToList();
