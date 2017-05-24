@@ -145,18 +145,10 @@
 </div>
 
 @section Scripts
-{
-
-    @*@Scripts.Render("~/bundles/bootstrap-datetimepicker")*@
+{    
     @Scripts.Render("~/bundles/bootstrap-datepicker")
 
-    <script type="text/javascript">
-
-        //$("#targetPopulationYearInputGroup").datetimepicker({
-        //    defaultDate: 'now',
-        //    format: "YYYY",
-        //    viewMode: "years"
-        //});
+    <script type="text/javascript"> 
 
         $("#targetPopulationYearInputGroup").datepicker({
             autoclose: true,
@@ -169,8 +161,7 @@
         });
 
         $(document).ready(function ()
-        {
-            //$("#viewPlaceTable").DataTable();
+        {            
             $('.dynamic-dropdown').select2({
                 tags: true,
                 tokenSeparators: [','],
