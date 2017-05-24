@@ -54,8 +54,7 @@ namespace OpenIZAdmin.Models.Core
         /// Gets or sets the givens names of the user.
         /// </summary>
         [Display(Name = "GivenName", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "GivenNameRequired", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+        [Required(ErrorMessageResourceName = "GivenNameRequired", ErrorMessageResourceType = typeof(Locale))]        
         public List<string> GivenNames { get; set; }
 
         /// <summary>
@@ -84,8 +83,7 @@ namespace OpenIZAdmin.Models.Core
         /// Gets or sets the family names of the user.
         /// </summary>
         [Display(Name = "Surname", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "SurnameRequired", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+        [Required(ErrorMessageResourceName = "SurnameRequired", ErrorMessageResourceType = typeof(Locale))]        
         public List<string> Surnames { get; set; }
 
         /// <summary>

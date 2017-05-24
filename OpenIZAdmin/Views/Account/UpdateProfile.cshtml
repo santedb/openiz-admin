@@ -16,7 +16,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.GivenNames, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.GivenNames, Model.GivenNamesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple", title = Locale.ToolTip_GivenNamesListBox })
+                    @Html.ListBoxFor(m => m.GivenNames, Model.GivenNamesList, new { @class = "dynamic-dropdown-multiple form-control", multiple = "multiple", title = Locale.ToolTip_GivenNamesListBox })
                     @Html.ValidationMessageFor(m => m.GivenNames, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -24,7 +24,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Surnames, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.Surnames, Model.SurnamesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple", title = Locale.ToolTip_SurnamesListBox })
+                    @Html.ListBoxFor(m => m.Surnames, Model.SurnamesList, new { @class = "dynamic-dropdown-multiple form-control", multiple = "multiple", title = Locale.ToolTip_SurnamesListBox })
                     @Html.ValidationMessageFor(m => m.Surnames, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -81,14 +81,30 @@
 @section scripts
 {
     <script type="text/javascript">
-        $(document).ready(function ()
-        {
+        $(document).ready(function () {
 
-            $('.dynamic-dropdown').select2({
+            $('.dynamic-dropdown-multiple').select2({
+
+                createTag: function (params) {
+                    var term = $.trim(params.term);
+
+                    //if (!term.match(/^[\w()+\-\[\]{}]+$/g)) {
+                    if (!term.match(@Constants.RegExSelect2StringInput)) {
+                        return null;
+                    }
+                    return {
+                        id: term,
+                        text: term,
+                        newTag: true
+                    }
+                },
+
                 tags: true,
                 tokenSeparators: [','],
-                width: '100%'
+                width: '100%',
+                maximumInputLength: 100
             });
+
         });
     </script>
 }

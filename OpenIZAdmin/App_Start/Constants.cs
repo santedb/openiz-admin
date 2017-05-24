@@ -19,6 +19,7 @@
 
 using System;
 using System.Security.Policy;
+using System.Text.RegularExpressions;
 
 namespace OpenIZAdmin
 {
@@ -102,6 +103,11 @@ namespace OpenIZAdmin
         /// </summary>
         //public const string RegExBasicString = @"^[^ !@%\\/:*;\.\)\(]+$";
         public const string RegExBasicString = @"^[^*@&<>]+$";
+
+        /// <summary>
+        /// Regular expression string for select2 limited string validation
+        /// </summary>        
+        public const string RegExSelect2StringInput = @"/^[\w()+\-\[\]{}]+$/g";                           
 
         /// <summary>
         /// Regular expression string for username validation
