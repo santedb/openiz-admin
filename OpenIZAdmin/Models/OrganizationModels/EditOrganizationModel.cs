@@ -70,7 +70,8 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
 		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
-		public string Name { get; set; }
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+        public string Name { get; set; }
 
 		/// <summary>
 		/// Converts an <see cref="EditOrganizationModel" /> instance to an <see cref="Organization" /> instance.

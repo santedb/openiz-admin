@@ -105,6 +105,11 @@ namespace OpenIZAdmin
         public const string RegExBasicString = @"^[^*@&<>]+$";
 
         /// <summary>
+        /// Regular expression string for html tag validation
+        /// </summary>        
+        public const string RegExBasicHtmlString = @"^[^<>]+$";
+
+        /// <summary>
         /// Regular expression string for select2 limited string validation
         /// </summary>        
         public const string RegExSelect2StringInput = @"/^[\w()+\-\[\]{}]+$/g";                           

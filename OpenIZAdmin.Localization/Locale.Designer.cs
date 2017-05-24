@@ -2212,6 +2212,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The characters &lt; and &gt; are not allowed.
+        /// </summary>
+        public static string InvalidSearchEntry {
+            get {
+                return ResourceManager.GetString("InvalidSearchEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Special characters &amp; &lt; &gt; * and @ are not allowed.
         /// </summary>
         public static string InvalidStringEntry {

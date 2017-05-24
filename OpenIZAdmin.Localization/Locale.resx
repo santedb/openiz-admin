@@ -2211,4 +2211,7 @@
   <data name="InvalidStringEntry" xml:space="preserve">
     <value>Special characters &amp; &lt; &gt; * and @ are not allowed</value>
   </data>
+  <data name="InvalidSearchEntry" xml:space="preserve">
+    <value>The characters &lt; and &gt; are not allowed</value>
+  </data>
 </root>

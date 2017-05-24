@@ -18,6 +18,7 @@
  */
 
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models
 {
@@ -49,6 +50,7 @@ namespace OpenIZAdmin.Models
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string SearchTerm { get; set; }
+        [RegularExpression(Constants.RegExBasicHtmlString, ErrorMessageResourceName = "InvalidSearchEntry", ErrorMessageResourceType = typeof(Locale))]
+        public string SearchTerm { get; set; }
 	}
 }
