@@ -197,7 +197,8 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditRoleModel model)
 		{
-            if (model.Policies.Any(n => !IsValidGuid(n))) this.ModelState.AddModelError(nameof(model.Policies), Locale.InValidPolicySelection);
+            //edit - set select2 tag = false - prevents user from entering a selection that is not in the list
+            //if (model.Policies.Any(n => !IsValidGuid(n))) this.ModelState.AddModelError(nameof(model.Policies), Locale.InValidPolicySelection);
 
 		    SecurityRoleInfo roleInfo = null;
 

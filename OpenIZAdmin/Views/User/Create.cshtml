@@ -56,7 +56,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.DropDownListFor(m => m.Roles, Model.RolesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple", title = Locale.ToolTip_Roles })
+                    @Html.DropDownListFor(m => m.Roles, Model.RolesList, new { @class = "dynamic-dropdown-restricted form-control", multiple = "multiple", title = Locale.ToolTip_Roles })
                     @Html.ValidationMessageFor(m => m.Roles, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -118,6 +118,12 @@
                 tokenSeparators: [','],
                 width: '100%',
                 maximumSelectionLength: 1
+            });
+
+            $('.dynamic-dropdown-restricted').select2({
+                tags: false,
+                tokenSeparators: [','],
+                width: '100%'
             });
 
             //hack -- can select an empty entry - this resets on refresh to ensure
