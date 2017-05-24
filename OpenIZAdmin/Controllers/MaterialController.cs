@@ -113,8 +113,8 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Edit", new { id = id });
 				}
 
-				material.Relationships = this.GetEntityRelationships<Material, Material>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity, false).ToList();
-
+				material.Relationships = this.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity).ToList();
+				
 				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
 				{
 					RelationshipType = EntityRelationshipTypeKeys.UsedEntity.ToString(),
@@ -280,7 +280,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Edit", new { id = id });
 				}
 
-				material.Relationships = this.GetEntityRelationships<Material, ManufacturedMaterial>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct, false).ToList();
+				material.Relationships = this.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList();
 
 				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
 				{
@@ -416,7 +416,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var material = this.GetEntity<Material>(id, null);
+				var material = this.GetEntity<Material>(id, null, null, true);
 
 				if (material == null)
 				{
@@ -431,8 +431,8 @@ namespace OpenIZAdmin.Controllers
 
 				material.Relationships = new List<EntityRelationship>();
 
-				material.Relationships.AddRange(this.GetEntityRelationships<Material, Material>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity, false).ToList());
-				material.Relationships.AddRange(this.GetEntityRelationships<Material, ManufacturedMaterial>(material.Key.Value, material.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct, false).ToList());
+				material.Relationships.AddRange(this.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity).ToList());
+				material.Relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList());
 
 				var model = new EditMaterialModel(material)
 				{

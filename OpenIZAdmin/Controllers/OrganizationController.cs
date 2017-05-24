@@ -291,7 +291,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				organization.Relationships = this.GetEntityRelationships<Organization, ManufacturedMaterial>(organization.Key.Value, organization.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct, false).ToList();
+				organization.Relationships = this.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList();
 
 				var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
 
@@ -432,7 +432,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				organization.Relationships = this.GetEntityRelationships<Organization, ManufacturedMaterial>(organization.Key.Value, organization.VersionKey.Value, null, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct, false).ToList();
+				organization.Relationships = this.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList();
 
 				return View(new OrganizationViewModel(organization, true));
 			}
