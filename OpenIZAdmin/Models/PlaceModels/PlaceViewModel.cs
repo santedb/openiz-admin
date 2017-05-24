@@ -23,8 +23,15 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Models.Core;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 using System.Linq;
+using System.Text;
+using OpenIZ.Core.Extensions;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.Core.Serialization;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
@@ -48,9 +55,26 @@ namespace OpenIZAdmin.Models.PlaceModels
 		public PlaceViewModel(Place place) : base(place)
 		{
 			this.IsServiceDeliveryLocation = place.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation ? Locale.Yes : Locale.No;
+
 			if (place.Extensions.Any(e => e.ExtensionTypeKey  == Constants.TargetPopulationExtensionTypeKey))
 			{
-				this.TargetPopulation = BitConverter.ToInt64(place.Extensions.First(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey).ExtensionValueXml, 0);
+				try
+				{
+					var entityExtension = place.Extensions.First(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey);
+
+					entityExtension.ExtensionType = new ExtensionType(Constants.TargetPopulationUrl, typeof(DictionaryExtensionHandler))
+					{
+						Key = Constants.TargetPopulationExtensionTypeKey
+					};
+					var targetPopulation = JsonConvert.DeserializeObject<TargetPopulation>(Encoding.UTF8.GetString(entityExtension.ExtensionValueXml));
+
+					this.TargetPopulation = targetPopulation?.Value ?? 0;
+					this.TargetPopulationYear = targetPopulation?.Year ?? 0;
+				}
+				catch (Exception e)
+				{
+					Trace.TraceError($"Unable to de-serialize the target population extensions: { e }");
+				}
 			}
 		}
 
@@ -62,10 +86,17 @@ namespace OpenIZAdmin.Models.PlaceModels
 		public string IsServiceDeliveryLocation { get; set; }
 
 		/// <summary>
+		/// Gets or sets the target population year.
+		/// </summary>
+		/// <value>The target population year.</value>
+		[Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
+		public int TargetPopulationYear { get; set; }
+
+		/// <summary>
 		/// Gets or sets the target population.
 		/// </summary>
 		/// <value>The target population.</value>
 		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
-		public long TargetPopulation { get; set; }
+		public ulong TargetPopulation { get; set; }
 	}
 }

@@ -63,13 +63,14 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (ModelState.IsValid)
+				if (this.ModelState.IsValid)
 				{
 					var modelType = this.GetModelType(model.Type);
 
 					entity = this.GetEntity(model.Id, this.GetModelType(model.Type));
 
 					entity.Tags.RemoveAll(t => t.TagKey == Constants.ImportedDataTag && t.Value == "true");
+					//entity.Relationships = null;
 
 					entity = this.UpdateEntity(entity, modelType);
 

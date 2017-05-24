@@ -29,6 +29,7 @@ using System.Text;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using OpenIZ.Core.Extensions;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core.Serialization;
 
@@ -58,19 +59,25 @@ namespace OpenIZAdmin.Models.PlaceModels
 
 			if (place.Extensions.Any(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey))
 			{
-			    try
-			    {
-                    var extension = place.Extensions.First(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey);
-                    var data = JsonConvert.DeserializeObject<TargetPopulation>(Encoding.UTF8.GetString(extension.ExtensionValueXml));
-                    this.TargetPopulation = data.Value;
-                    this.Year = data.Year.ToString();
-                }
-			    catch (Exception e)
-			    {
-			        Console.WriteLine(e);
-                    Trace.TraceError($"Unable to retrieve place.Extensions: { e }");                    
-                }				
-            }
+				try
+				{
+					var entityExtension = place.Extensions.First(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey);
+
+					entityExtension.ExtensionType = new ExtensionType(Constants.TargetPopulationUrl, typeof(DictionaryExtensionHandler))
+					{
+						Key = Constants.TargetPopulationExtensionTypeKey
+					};
+
+					var targetPopulation = JsonConvert.DeserializeObject<TargetPopulation>(Encoding.UTF8.GetString(entityExtension.ExtensionValueXml));
+
+					this.TargetPopulation = targetPopulation?.Value;
+					this.Year = targetPopulation?.Year.ToString();
+				}
+				catch (Exception e)
+				{
+					Trace.TraceError($"Unable to de-serialize the target population extensions: { e }");
+				}
+			}
 
 			this.TypeConcepts = new List<SelectListItem>();
 		}
@@ -99,13 +106,13 @@ namespace OpenIZAdmin.Models.PlaceModels
 		[Range(1, ulong.MaxValue, ErrorMessageResourceName = "TargetPopulationMustBePositive", ErrorMessageResourceType = typeof(Locale))]
 		public ulong? TargetPopulation { get; set; }
 
-        /// <summary>
-        /// Gets or sets the year.
-        /// </summary>
-        /// <value>The year.</value>
-        [Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
-        //[Required(ErrorMessageResourceName = "YearRequired", ErrorMessageResourceType = typeof(Locale))]
-        public string Year { get; set; }
+		/// <summary>
+		/// Gets or sets the year.
+		/// </summary>
+		/// <value>The year.</value>
+		[Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
+		//[Required(ErrorMessageResourceName = "YearRequired", ErrorMessageResourceType = typeof(Locale))]
+		public string Year { get; set; }
 
 		/// <summary>
 		/// Gets or sets the type concept.
@@ -137,52 +144,52 @@ namespace OpenIZAdmin.Models.PlaceModels
 			return place;
 		}
 
-        /// <summary>
-        /// Converts the string year to an int
-        /// </summary>
-        /// <returns>Returns the year as an int or 0 if unsuccessful.</returns>
-        public ulong ConvertPopulationToULong()
-        {
-            if (TargetPopulation == null) return 0;
+		/// <summary>
+		/// Converts the string year to an int
+		/// </summary>
+		/// <returns>Returns the year as an int or 0 if unsuccessful.</returns>
+		public ulong ConvertPopulationToULong()
+		{
+			if (TargetPopulation == null) return 0;
 
-            return (ulong)TargetPopulation;
-        }
+			return (ulong)TargetPopulation;
+		}
 
-        /// <summary>
-        /// Converts the string year to an int
-        /// </summary>
-        /// <returns>Returns the year as an int or 0 if unsuccessful.</returns>
-        public int ConvertToPopulationYear()
-        {
-            //if (string.IsNullOrWhiteSpace(Year)) return 0;
+		/// <summary>
+		/// Converts the string year to an int
+		/// </summary>
+		/// <returns>Returns the year as an int or 0 if unsuccessful.</returns>
+		public int ConvertToPopulationYear()
+		{
+			//if (string.IsNullOrWhiteSpace(Year)) return 0;
 
-            int year;
+			int year;
 
-            if (int.TryParse(Year, out year) && (year >= 1900 && year <= 2100)) return year;
+			if (int.TryParse(Year, out year) && (year >= 1900 && year <= 2100)) return year;
 
-            return 0;
-        }
+			return 0;
+		}
 
-        /// <summary>
-        /// Checks if year and population are entered
-        /// </summary>
-        /// <returns>Returns true if both contain entries or both are empty.</returns>
-        public bool HasOnlyYearOrPopulation()
-        {
-            if (string.IsNullOrWhiteSpace(Year) && TargetPopulation != null) return true;
+		/// <summary>
+		/// Checks if year and population are entered
+		/// </summary>
+		/// <returns>Returns true if both contain entries or both are empty.</returns>
+		public bool HasOnlyYearOrPopulation()
+		{
+			if (string.IsNullOrWhiteSpace(Year) && TargetPopulation != null) return true;
 
-            return !string.IsNullOrWhiteSpace(Year) && TargetPopulation == null;
-        }
+			return !string.IsNullOrWhiteSpace(Year) && TargetPopulation == null;
+		}
 
-        /// <summary>
-        /// Checks if year and population are entered
-        /// </summary>
-        /// <returns>Returns true if both contain entries.</returns>
-        public bool SubmitYearAndPopulation()
-        {
-            if (TargetPopulation == null) return false;
+		/// <summary>
+		/// Checks if year and population are entered
+		/// </summary>
+		/// <returns>Returns true if both contain entries.</returns>
+		public bool SubmitYearAndPopulation()
+		{
+			if (TargetPopulation == null) return false;
 
-            return !string.IsNullOrWhiteSpace(Year) && TargetPopulation > 0;
-        }
-    }
+			return !string.IsNullOrWhiteSpace(Year) && TargetPopulation > 0;
+		}
+	}
 }
