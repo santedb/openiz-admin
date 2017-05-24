@@ -3,6 +3,7 @@ using OpenIZ.Core.Model.AMI.Diagnostics;
 using OpenIZ.Core.Model.Entities;
 using System;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.DebugModels
 {
@@ -43,6 +44,7 @@ namespace OpenIZAdmin.Models.DebugModels
 		[Display(Name = "StepsToReproduce", ResourceType = typeof(Localization.Locale))]
 		[StringLength(4000, ErrorMessageResourceName = "StepsToReproduceTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
         [Required(ErrorMessageResourceName = "StepsToReproduceRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public string BugDetails { get; set; }
 
 		/// <summary>

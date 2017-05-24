@@ -46,8 +46,7 @@ namespace OpenIZAdmin.Models.Core
         /// <summary>
         /// Gets or sets the id of the facility of the user.
         /// </summary>
-        [Display(Name = "Facility", ResourceType = typeof(Locale))]
-        //[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+        [Display(Name = "Facility", ResourceType = typeof(Locale))]        
         public string Facility { get; set; }        
 
         /// <summary>
