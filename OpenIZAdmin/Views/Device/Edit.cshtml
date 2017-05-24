@@ -80,7 +80,9 @@
     </div>
 </div>
 
-<div class="panel panel-default">
+@Html.Partial("_PoliciesPartial", Model.DevicePolicies)
+
+@*<div class="panel panel-default">
     <div class="panel-heading">
         <span class="panel-title">@Locale.Policies</span>
     </div>
@@ -124,7 +126,7 @@
             </div>
         </div>
     </div>
-</div>
+</div>*@
 
 
 @section scripts
@@ -145,7 +147,7 @@
             });
 
             $('.dynamic-dropdown').select2({
-                tags: true,
+                tags: false,
                 tokenSeparators: [','],
                 width: '100%'
             });

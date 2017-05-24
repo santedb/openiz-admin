@@ -64,7 +64,7 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// <value>The verification.</value>
 		[Display(Name = "Verification", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "VerificationRequired", ErrorMessageResourceType = typeof(Locale))]
-		[StringLength(50, ErrorMessageResourceName = "VerificationLength50", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(256, ErrorMessageResourceName = "VerificationLength256", ErrorMessageResourceType = typeof(Locale))]
 		public string Verification { get; set; }
 	}
 }

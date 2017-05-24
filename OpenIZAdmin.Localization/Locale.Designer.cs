@@ -2194,11 +2194,38 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The policy entered is invalid. .
+        /// </summary>
+        public static string InValidPolicySelection {
+            get {
+                return ResourceManager.GetString("InValidPolicySelection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid search, please check your search criteria.
         /// </summary>
         public static string InvalidSearch {
             get {
                 return ResourceManager.GetString("InvalidSearch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The characters &lt; and &gt; are not allowed.
+        /// </summary>
+        public static string InvalidSearchEntry {
+            get {
+                return ResourceManager.GetString("InvalidSearchEntry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Special characters &amp; &lt; &gt; * and @ are not allowed.
+        /// </summary>
+        public static string InvalidStringEntry {
+            get {
+                return ResourceManager.GetString("InvalidStringEntry", resourceCulture);
             }
         }
         
@@ -6069,6 +6096,15 @@ namespace OpenIZAdmin.Localization {
         public static string Verification {
             get {
                 return ResourceManager.GetString("Verification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verification cannot exceed 256 characters.
+        /// </summary>
+        public static string VerificationLength256 {
+            get {
+                return ResourceManager.GetString("VerificationLength256", resourceCulture);
             }
         }
         

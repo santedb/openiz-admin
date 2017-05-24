@@ -63,28 +63,7 @@ namespace OpenIZAdmin.Models.AccountModels
 
 			this.Language = userEntity.LanguageCommunication.FirstOrDefault(l => l.IsPreferred)?.LanguageCode;
 
-		    CreateLanguageList();
-
-            //this.LanguageList = new List<SelectListItem>
-            //{
-            //	new SelectListItem
-            //	{
-            //		Text = string.Empty,
-            //		Value = string.Empty
-            //	},
-            //	new SelectListItem
-            //	{
-            //		Selected = this.Language == LocalizationConfig.LanguageCode.English,
-            //		Text = Locale.English,
-            //		Value = LocalizationConfig.LanguageCode.English
-            //             },
-            //	new SelectListItem
-            //	{
-            //		Selected = this.Language == LocalizationConfig.LanguageCode.Swahili,
-            //		Text = Locale.Kiswahili,
-            //		Value = LocalizationConfig.LanguageCode.Swahili
-            //             }
-            //};
+		    CreateLanguageList();           
 
             if (userEntity.Telecoms.Any())
             {

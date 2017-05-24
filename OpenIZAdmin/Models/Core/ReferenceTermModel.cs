@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.Core
 {
@@ -68,7 +69,8 @@ namespace OpenIZAdmin.Models.Core
 		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(50, ErrorMessageResourceName = "MnemonicLength50", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string Mnemonic { get; set; }
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+        public string Mnemonic { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name.
@@ -77,7 +79,8 @@ namespace OpenIZAdmin.Models.Core
 		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
 		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
-		public string Name { get; set; }
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+        public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the two letter language code of the language.

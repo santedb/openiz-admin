@@ -41,7 +41,8 @@ namespace OpenIZAdmin.Models.RoleModels
 		/// </summary>
 		[Display(Name = "Description", ResourceType = typeof(Locale))]
 		[StringLength(256, ErrorMessageResourceName = "DescriptionLength256", ErrorMessageResourceType = typeof(Locale))]
-		public string Description { get; set; }
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+        public string Description { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the role.
@@ -49,7 +50,8 @@ namespace OpenIZAdmin.Models.RoleModels
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
 		[StringLength(50, ErrorMessageResourceName = "NameLength50", ErrorMessageResourceType = typeof(Locale))]
-		public string Name { get; set; }
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+        public string Name { get; set; }
 
 		/// <summary>
 		/// Converts a <see cref="CreateRoleModel"/> instance to a <see cref="SecurityRoleInfo"/> instance.

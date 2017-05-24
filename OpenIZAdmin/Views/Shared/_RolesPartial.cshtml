@@ -18,7 +18,7 @@
                         <th></th>
                         <th>@Html.DisplayNameFor(m => m.Name)</th>
                         <th>@Html.DisplayNameFor(m => m.Description)</th>
-                        <th>@Html.DisplayNameFor(m => m.HasPolicies)</th>
+                        @*<th>@Html.DisplayNameFor(m => m.HasPolicies)</th>*@
                         <th>@Locale.Status</th>
                         <th></th>
                     </tr>
@@ -30,8 +30,8 @@
                             <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></td>
                             <td>@item.Name</td>
                             <td>@item.Description</td>
-                            <td>@(item.HasPolicies ? Html.Raw("<text>" + Locale.Yes + "</text>") : Html.Raw("<text>" + Locale.No + "</text>"))</td>
-                            <td class="capitalize">@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
+                            @*<td>@(item.HasPolicies ? Html.Raw("<text>" + Locale.Yes + "</text>") : Html.Raw("<text>" + Locale.No + "</text>"))</td>*@
+                            <td class="col-md-1 capitalize">@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
                             <td class="autoFitContents centerContent">
                                 <a class="btn btn-primary" href="@Url.Action("ViewRole", "Role", new { id = item.Id })">
                                     @Locale.View

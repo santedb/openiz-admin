@@ -279,23 +279,7 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			return View("ResetPassword", resetPasswordModel);
-		}
-
-		///// <summary>
-		///// Determines whether the name is between 1 and 100 characters.
-		///// </summary>
-		///// <param name="name">The name.</param>
-		///// <returns><c>true</c> if the name is between 1 and 100 characters; otherwise, <c>false</c>.</returns>
-		///// <exception cref="System.ArgumentNullException">name</exception>
-		//private bool IsValidNameLength(string name)
-		//{
-		//	if (name == null)
-		//	{
-		//		throw new ArgumentNullException(nameof(name), Locale.ValueCannotBeNull);
-		//	}
-
-		//	return name.Length > 0 && name.Length <= 100;
-		//}
+		}		
 
 		/// <summary>
 		/// Displays the login view.

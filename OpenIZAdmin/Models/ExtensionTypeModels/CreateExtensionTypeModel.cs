@@ -76,7 +76,8 @@ namespace OpenIZAdmin.Models.ExtensionTypeModels
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
 		[StringLength(128, ErrorMessageResourceName = "NameLength128", ErrorMessageResourceType = typeof(Locale))]
-		public string Name { get; set; }
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+        public string Name { get; set; }
 
 		/// <summary>
 		/// Sets the handler classes.

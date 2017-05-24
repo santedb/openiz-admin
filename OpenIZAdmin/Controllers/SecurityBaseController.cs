@@ -78,13 +78,29 @@ namespace OpenIZAdmin.Controllers
 			return policies;
 		}
 
-		/// <summary>
-		/// Converts a <see cref="EditApplicationModel"/> to a <see cref="SecurityApplicationInfo"/>
-		/// </summary>
-		/// <param name="model">The edit device model to convert.</param>
-		/// <param name="appInfo">The security application info for which to apply the changes against.</param>        
-		/// <returns>Returns a security device info object.</returns>
-		protected SecurityApplicationInfo ToSecurityApplicationInfo(EditApplicationModel model, SecurityApplicationInfo appInfo)
+        /// <summary>
+        /// Checks if a string id can be converted to a guid
+        /// </summary>
+        /// <param name="id">The string representation of the guid.</param>
+        /// <returns><c>true</c> if the string can convert to a guid; otherwise, <c>false</c>.</returns>
+        /// <exception cref="System.ArgumentNullException">name</exception>
+        public bool IsValidGuid(string id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id), Locale.ValueCannotBeNull);
+            }
+            Guid validId;
+            return Guid.TryParse(id, out validId);
+        }
+
+        /// <summary>
+        /// Converts a <see cref="EditApplicationModel"/> to a <see cref="SecurityApplicationInfo"/>
+        /// </summary>
+        /// <param name="model">The edit device model to convert.</param>
+        /// <param name="appInfo">The security application info for which to apply the changes against.</param>        
+        /// <returns>Returns a security device info object.</returns>
+        protected SecurityApplicationInfo ToSecurityApplicationInfo(EditApplicationModel model, SecurityApplicationInfo appInfo)
 		{
 			appInfo.Application.Key = model.Id;
 			appInfo.Id = model.Id;
@@ -140,7 +156,7 @@ namespace OpenIZAdmin.Controllers
 		protected SecurityRoleInfo ToSecurityRoleInfo(EditRoleModel model, SecurityRoleInfo roleInfo)
 		{
 			roleInfo.Role.Description = model.Description;
-			roleInfo.Role.Name = model.Name;
+			roleInfo.Role.Name = model.Name;		   
 
 			var addPoliciesList = this.GetNewPolicies(model.Policies.Select(Guid.Parse));
 

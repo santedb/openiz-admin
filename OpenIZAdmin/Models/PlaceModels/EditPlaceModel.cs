@@ -95,24 +95,23 @@ namespace OpenIZAdmin.Models.PlaceModels
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
 		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
-		public string Name { get; set; }
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+        public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the target population.
 		/// </summary>
 		/// <value>The target population.</value>
-		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
-		//[Required(ErrorMessageResourceName = "TargetPopulationRequired", ErrorMessageResourceType = typeof(Locale))]
+		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]		
 		[Range(1, ulong.MaxValue, ErrorMessageResourceName = "TargetPopulationMustBePositive", ErrorMessageResourceType = typeof(Locale))]
 		public ulong? TargetPopulation { get; set; }
 
-		/// <summary>
-		/// Gets or sets the year.
-		/// </summary>
-		/// <value>The year.</value>
-		[Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
-		//[Required(ErrorMessageResourceName = "YearRequired", ErrorMessageResourceType = typeof(Locale))]
-		public string Year { get; set; }
+        /// <summary>
+        /// Gets or sets the year.
+        /// </summary>
+        /// <value>The year.</value>
+        [Display(Name = "PopulationYear", ResourceType = typeof(Locale))]        
+        public string Year { get; set; }
 
 		/// <summary>
 		/// Gets or sets the type concept.
@@ -155,41 +154,39 @@ namespace OpenIZAdmin.Models.PlaceModels
 			return (ulong)TargetPopulation;
 		}
 
-		/// <summary>
-		/// Converts the string year to an int
-		/// </summary>
-		/// <returns>Returns the year as an int or 0 if unsuccessful.</returns>
-		public int ConvertToPopulationYear()
-		{
-			//if (string.IsNullOrWhiteSpace(Year)) return 0;
+        /// <summary>
+        /// Converts the string year to an int
+        /// </summary>
+        /// <returns>Returns the year as an int or 0 if unsuccessful.</returns>
+        public int ConvertToPopulationYear()
+        {            
+            int year;
 
-			int year;
+            if (int.TryParse(Year, out year) && (year >= 1900 && year <= 2100)) return year;
 
-			if (int.TryParse(Year, out year) && (year >= 1900 && year <= 2100)) return year;
+            return 0;
+        }
 
-			return 0;
-		}
+        /// <summary>
+        /// Checks if year and population are entered
+        /// </summary>
+        /// <returns>Returns true if both contain entries or both are empty.</returns>
+        public bool HasOnlyYearOrPopulation()
+        {
+            if (string.IsNullOrWhiteSpace(Year) && TargetPopulation != null) return true;
 
-		/// <summary>
-		/// Checks if year and population are entered
-		/// </summary>
-		/// <returns>Returns true if both contain entries or both are empty.</returns>
-		public bool HasOnlyYearOrPopulation()
-		{
-			if (string.IsNullOrWhiteSpace(Year) && TargetPopulation != null) return true;
+            return !string.IsNullOrWhiteSpace(Year) && TargetPopulation == null;
+        }
 
-			return !string.IsNullOrWhiteSpace(Year) && TargetPopulation == null;
-		}
+        /// <summary>
+        /// Checks if year and population are entered
+        /// </summary>
+        /// <returns>Returns true if both contain entries.</returns>
+        public bool SubmitYearAndPopulation()
+        {
+            if (TargetPopulation == null) return false;
 
-		/// <summary>
-		/// Checks if year and population are entered
-		/// </summary>
-		/// <returns>Returns true if both contain entries.</returns>
-		public bool SubmitYearAndPopulation()
-		{
-			if (TargetPopulation == null) return false;
-
-			return !string.IsNullOrWhiteSpace(Year) && TargetPopulation > 0;
-		}
-	}
+            return !string.IsNullOrWhiteSpace(Year) && TargetPopulation > 0;
+        }
+    }
 }

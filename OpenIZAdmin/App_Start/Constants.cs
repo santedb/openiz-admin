@@ -19,6 +19,7 @@
 
 using System;
 using System.Security.Policy;
+using System.Text.RegularExpressions;
 
 namespace OpenIZAdmin
 {
@@ -96,6 +97,22 @@ namespace OpenIZAdmin
 
         //modified from  - http://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number
         //^(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$
+
+        /// <summary>
+        /// Regular expression string for basic string validation
+        /// </summary>
+        //public const string RegExBasicString = @"^[^ !@%\\/:*;\.\)\(]+$";
+        public const string RegExBasicString = @"^[^*@&<>]+$";
+
+        /// <summary>
+        /// Regular expression string for html tag validation
+        /// </summary>        
+        public const string RegExBasicHtmlString = @"^[^<>]+$";
+
+        /// <summary>
+        /// Regular expression string for select2 limited string validation
+        /// </summary>        
+        public const string RegExSelect2StringInput = @"/^[\w()+\-\[\]{}]+$/g";                           
 
         /// <summary>
         /// Regular expression string for username validation

@@ -70,17 +70,11 @@
 </div>
 
 @section Scripts
-{
-    @*@Scripts.Render("~/bundles/bootstrap-datetimepicker")*@
+{    
     @Scripts.Render("~/bundles/bootstrap-datepicker")
 
     <script type="text/javascript">
-        //$("#targetPopulationYearInputGroup").datetimepicker({
-        //    defaultDate: 'now',
-        //    format: " yyyy",
-        //    viewMode: "years"            
-        //});
-
+        
         $("#targetPopulationYearInputGroup").datepicker({            
             autoclose: true,
             format: " yyyy",
