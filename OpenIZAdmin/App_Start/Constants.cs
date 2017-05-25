@@ -135,7 +135,7 @@ namespace OpenIZAdmin
         /// <summary>
         /// Regular expression string for username validation
         /// </summary>
-        public const string RegExUsername = @"^[^ !@#$%&\\/:*;\.\)\(]+$";        
+        public const string RegExUsername = @"^[^ '!@#$%""&\\/:*;\.\)\(]+$";        
 
         /// <summary>
         /// The RISI endpoint name.

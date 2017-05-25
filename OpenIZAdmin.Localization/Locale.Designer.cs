@@ -6010,7 +6010,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Whitespace and special characters ! @ # $ % &amp; : . ; * / and &apos;\&apos; are not allowed.
+        ///   Looks up a localized string similar to Whitespace and special characters ! &apos; @ # $ % &amp; : . ; * &quot; / and \ are not allowed.
         /// </summary>
         public static string UsernameValidationErrorMessage {
             get {

@@ -2059,7 +2059,7 @@
     <value>Whitespace and special characters ! @ % : . ; * / and '\' are not allowed</value>
   </data>
   <data name="UsernameValidationErrorMessage" xml:space="preserve">
-    <value>Whitespace and special characters ! @ # $ % &amp; : . ; * / and '\' are not allowed</value>
+    <value>Whitespace and special characters ! ' @ # $ % &amp; : . ; * " / and \ are not allowed</value>
   </data>
   <data name="CreateConcept_Heading" xml:space="preserve">
     <value>Create Concept</value>
