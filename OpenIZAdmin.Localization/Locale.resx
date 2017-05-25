@@ -2217,12 +2217,10 @@
   <data name="VerificationLength256" xml:space="preserve">
     <value>Verification cannot exceed 256 characters</value>
   </data>
-<<<<<<< HEAD
   <data name="OidValidationErrorMessage" xml:space="preserve">
     <value>Oid contains invalid characters or sequence</value>
-=======
+  </data>
   <data name="IsSystemAlert" xml:space="preserve">
     <value>Would you like to broadcast this alert to everyone (This would be a system level alert to all users)</value>
->>>>>>> 6cd50e26a6f138f20906c9e761330b406bd593be
   </data>
 </root>
