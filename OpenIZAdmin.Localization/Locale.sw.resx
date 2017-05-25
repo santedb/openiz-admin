@@ -1637,4 +1637,7 @@ au jina la kikoa</value>
   <data name="ExtensionTypeNotFound" xml:space="preserve">
     <value>aina ugani halikupatikana</value>
   </data>
+  <data name="IsSystemAlert" xml:space="preserve">
+    <value>Je, ungependa kutangaza tahadhari hii kwa kila mtu (Hii itakuwa tahadhari ngazi ya mfumo kwa watumiaji wote)</value>
+  </data>
 </root>

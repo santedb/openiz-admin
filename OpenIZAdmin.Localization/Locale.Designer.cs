@@ -2275,6 +2275,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Would you like to broadcast this alert to everyone (This would be a system level alert to all users).
+        /// </summary>
+        public static string IsSystemAlert {
+            get {
+                return ResourceManager.GetString("IsSystemAlert", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is Unique.
         /// </summary>
         public static string IsUnique {

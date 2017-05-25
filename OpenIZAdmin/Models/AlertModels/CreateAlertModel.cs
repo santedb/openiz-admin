@@ -53,6 +53,13 @@ namespace OpenIZAdmin.Models.AlertModels
 		}
 
 		/// <summary>
+		/// Gets or sets a value indicating whether this instance is system alert.
+		/// </summary>
+		/// <value><c>true</c> if this instance is system alert; otherwise, <c>false</c>.</value>
+		[Display(Name = "IsSystemAlert", ResourceType = typeof(Locale))]
+		public bool IsSystemAlert { get; set; }
+
+		/// <summary>
 		/// Gets or sets the message of the alert.
 		/// </summary>
 		[Display(Name = "Message", ResourceType = typeof(Locale))]

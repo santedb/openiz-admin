@@ -23,6 +23,12 @@
             </div>
 
             <div class="form-group">
+                <div class="col-md-offset-2 col-md-6">
+                    @Html.CheckBoxFor(m => m.IsSystemAlert, new { @class = "col-md-offset-2" }) @Locale.IsSystemAlert
+                </div>
+            </div>
+
+            <div class="form-group">
                 @Html.LabelFor(m => m.Subject, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
                     @Html.TextBoxFor(m => m.Subject, new { @class = "form-control", title = Locale.ToolTip_Subject })
@@ -59,23 +65,29 @@
 @section Scripts
 {
     <script type="text/javascript">
-        $(document).ready(function()
+        $(document).ready(function ()
         {
-            $("#@Html.IdFor(m => m.Priority)").on('change', function ()
+            $("#@Html.IdFor(m => m.IsSystemAlert)").change(function ()
             {
-                var selectedValue = $("#@Html.IdFor(m => m.Priority) option:selected").val();
-
-                switch (selectedValue)
+                if (this.checked)
                 {
-                    case "@((int)AlertMessageFlags.System)":
-                        $("#@Html.IdFor(m => m.To)").append($("<option>", { text: "@Locale.System", value: "@Locale.System" }));
-                        $("#@Html.IdFor(m => m.To)").val("@Locale.System").trigger("change");
-                        break;
-                    default:
-                        break;
+
+                    $("#@Html.IdFor(m => m.To)").append($("<option>", {
+                        text: "@Locale.System", value: "@Locale.System"
+                    }));
+                    $("#@Html.IdFor(m => m.To)").val("@Locale.System").trigger("change");
                 }
-                console.log(selectedValue);
+                else
+                {
+
+                    var val = $("#@Html.IdFor(m => m.To)").select2('val');
+
+                    $("#@Html.IdFor(m => m.To)").empty();
+                    $("#@Html.IdFor(m => m.To)").change();
+                }
+
             });
+
         });
     </script>
 }
