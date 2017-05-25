@@ -25,6 +25,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.AccountModels
@@ -57,39 +58,14 @@ namespace OpenIZAdmin.Models.AccountModels
 		{
 			this.Surnames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
 			this.GivenNames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
-			this.Email = userEntity.SecurityUser.Email;
-			this.SurnamesList.AddRange(this.Surnames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-			this.GivenNamesList.AddRange(this.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-
-			this.Language = userEntity.LanguageCommunication.FirstOrDefault(l => l.IsPreferred)?.LanguageCode;
-
-		    CreateLanguageList();           
-
-            if (userEntity.Telecoms.Any())
-            {
-                //can have more than one contact - default to show mobile
-                if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
-                {
-                    PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;
-                    PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
-                }
-                else
-                {
-                    PhoneNumber = userEntity.Telecoms.FirstOrDefault()?.Value;
-                    PhoneType = userEntity.Telecoms.FirstOrDefault()?.AddressUseKey?.ToString();
-                }                
-            }
-            else
-            {
-                //Default to Mobile - requirement
-                PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
-            }   
-		}  
-
-		/// <summary>
-		/// Gets or sets the list of facilities.
-		/// </summary>
-		public List<SelectListItem> FacilityList { get; set; }		
+			this.Email = userEntity.SecurityUser.Email;			
+			this.Language = userEntity.LanguageCommunication.FirstOrDefault(l => l.IsPreferred)?.LanguageCode;            
+		}
+               
+        /// <summary>
+        /// Gets or sets the list of facilities.
+        /// </summary>
+        public List<SelectListItem> FacilityList { get; set; }		
 
 		/// <summary>
 		/// Gets or sets the list of given names of the user.
