@@ -83,6 +83,8 @@ namespace OpenIZAdmin.Models.UserModels
 			}
 
 			this.IsObsolete = securityUserInfo.User.ObsoletionTime != null;
+
+			this.Username = securityUserInfo.UserName;
 		}
 
 		/// <summary>

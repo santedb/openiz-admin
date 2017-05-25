@@ -73,10 +73,16 @@ namespace OpenIZAdmin.Models.Core
         [Required(ErrorMessageResourceName = "PhoneTypeRequired", ErrorMessageResourceType = typeof(Locale))]
         public string PhoneType { get; set; }
 
-        /// <summary>
-        /// Gets or sets the types of phones.
-        /// </summary>
-        public List<SelectListItem> PhoneTypeList { get; set; }
+	    /// <summary>
+	    /// Gets or sets the username of the user.
+	    /// </summary>
+	    [Display(Name = "Username", ResourceType = typeof(Locale))]
+	    public string Username { get; set; }
+
+		/// <summary>
+		/// Gets or sets the types of phones.
+		/// </summary>
+		public List<SelectListItem> PhoneTypeList { get; set; }
 
         /// <summary>
         /// Gets or sets the family names of the user.
