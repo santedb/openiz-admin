@@ -54,22 +54,20 @@
                   null,
                   null,
                   null,
-                  null,
-                  { "orderable": false }
+                  { "searchable": false }
                 ]
             });
 
             $('#rolesSearchTable').DataTable({
                 order: [],
                 columns: [
-                  { "orderable": false },
-                  null,
-                  null,
-                  null,
-                  null,
-                  { "orderable": false }
+                    { "orderable": false },
+                    null,
+                    null,
+                    null,
+                    { "searchable": false }
                 ]
-            });                                                            
+            });
 
             $("#usersSearchTable").DataTable();
         });
