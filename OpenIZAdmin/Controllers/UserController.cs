@@ -32,6 +32,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.RoleModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -228,36 +229,8 @@ namespace OpenIZAdmin.Controllers
 
 				var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUserKey.ToString());
 
-				var model = new EditUserModel(userEntity, securityUserInfo)
-				{
-					RolesList = this.GetAllRoles().ToSelectList("Name", "Id", null, true)
-				};
-
-				var facilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-
-				var place = facilityRelationship?.TargetEntity as Place;
-
-				if (facilityRelationship?.TargetEntityKey.HasValue == true && place == null)
-				{
-					place = this.ImsiClient.Get<Place>(facilityRelationship.TargetEntityKey.Value, null) as Place;
-				}
-
-				if (place != null)
-				{
-					var facility = new List<FacilityModel>
-					{
-						new FacilityModel(string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value)), place.Key?.ToString())
-					};
-
-					model.Facility = place.Key?.ToString();
-					model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Selected = f.Id == model.Facility, Text = f.Name, Value = f.Id }));
-				}
-
-				var phoneTypeList = this.GetPhoneTypeConceptSet().Concepts.ToList();
-
-				var userPhoneType = model.ConvertPhoneTypeToGuid();
-
-				model.PhoneTypeList = (userPhoneType != null) ? phoneTypeList.ToSelectList(p => p.Key == userPhoneType).ToList() : phoneTypeList.ToSelectList().ToList();                
+			    var model = new EditUserModel(userEntity, securityUserInfo);
+			    model = BuildEditModelMetaData(model, userEntity);               
 
                 return View(model);
 			}
@@ -279,10 +252,19 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditUserModel model)
 		{
+		    UserEntity userEntity = null;
 			try
 			{
-				//hack - check if empty string passed and remove -select2 issue
-				model.CheckForEmptyRoleAssigned();                
+                userEntity = this.GetUserEntityBySecurityUserKey(model.Id);
+
+                if (userEntity == null)
+                {
+                    TempData["error"] = Locale.UserNotFound;
+                    return RedirectToAction("Index");
+                }
+
+                //hack - check if empty string passed and remove -select2 issue
+                model.CheckForEmptyRoleAssigned();                
 
                 if (model.GivenNames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);                
 
@@ -291,24 +273,13 @@ namespace OpenIZAdmin.Controllers
                 if (!model.Roles.Any())
 				{
 					ModelState.AddModelError("Roles", Locale.RoleIsRequired);
-					var userEntity = this.GetUserEntityBySecurityUserKey(model.Id);
-					if (userEntity != null)
-					{
-						var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUserKey.ToString());
-						if (securityUserInfo != null) model.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
-					}
+					//restore roles on error
+					var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUserKey.ToString());
+					if (securityUserInfo != null) model.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();					
 				}
 
 				if (ModelState.IsValid)
-				{
-					var userEntity = this.GetUserEntityBySecurityUserKey(model.Id);
-
-					if (userEntity == null)
-					{
-						TempData["error"] = Locale.UserNotFound;
-						return RedirectToAction("Index");
-					}
-
+				{					
 					var updatedUserEntity = this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
 
 					if (updatedUserEntity.SecurityUser == null)
@@ -335,22 +306,82 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-            var phoneTypeList = this.GetPhoneTypeConceptSet().Concepts.ToList();
-            var userPhoneType = model.ConvertPhoneTypeToGuid();
-            model.PhoneTypeList = (userPhoneType != null) ? phoneTypeList.ToSelectList(p => p.Key == userPhoneType).ToList() : phoneTypeList.ToSelectList().ToList();
-
-            model.RolesList = this.GetAllRoles().ToSelectList("Name", "Id", null, true);
+		    if (userEntity != null)
+		    {
+		        model = BuildEditModelMetaData(model, userEntity);
+		    }            
 
 			TempData["error"] = Locale.UnableToUpdateUser;
 
 			return View(model);
 		}
 
-		/// <summary>
-		/// Displays the Index view
-		/// </summary>
-		/// <returns>Returns the index view.</returns>
-		[HttpGet]
+        /// <summary>
+	    /// Populates the EditUserModel.
+	    /// </summary>
+	    /// <param name="model">The EditUserModel instance </param>
+	    /// <param name="userEntity">The UserEntity object</param>
+	    /// <returns>Returns an <see cref="EditUserModel"/> model instance.</returns>
+	    private EditUserModel BuildEditModelMetaData(EditUserModel model, UserEntity userEntity)
+        {
+            model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
+            model.SurnameList.AddRange(model.Surnames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));            
+
+            model.RolesList = this.GetAllRoles().ToSelectList("Name", "Id", null, true);            
+
+            var facilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+
+            var place = facilityRelationship?.TargetEntity as Place;
+
+            if (facilityRelationship?.TargetEntityKey.HasValue == true && place == null)
+            {
+                place = this.ImsiClient.Get<Place>(facilityRelationship.TargetEntityKey.Value, null) as Place;
+            }
+
+            if (place != null)
+            {
+                var facility = new List<FacilityModel>
+                    {
+                        new FacilityModel(string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value)), place.Key?.ToString())
+                    };
+
+                model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Text = f.Name, Value = f.Id, Selected = f.Id == place.Key?.ToString() }));
+                model.Facility = place.Key?.ToString();
+            }
+
+            var phoneTypes = this.GetPhoneTypeConceptSet().Concepts.ToList();
+
+            Guid phoneType;
+            model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList().ToList();
+
+            if (userEntity.Telecoms.Any())
+            {
+                //can have more than one contact - default to show mobile
+                if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
+                {
+                    model.PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;
+                    model.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
+                }
+                else
+                {
+                    model.PhoneNumber = userEntity.Telecoms.FirstOrDefault()?.Value;
+                    model.PhoneType = userEntity.Telecoms.FirstOrDefault()?.AddressUseKey?.ToString();
+                }
+            }
+            else
+            {
+                //Default to Mobile - requirement
+                model.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
+            }         
+
+            return model;
+        }
+
+        /// <summary>
+        /// Displays the Index view
+        /// </summary>
+        /// <returns>Returns the index view.</returns>
+        [HttpGet]
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "User";
