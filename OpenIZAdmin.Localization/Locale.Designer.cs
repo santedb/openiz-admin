@@ -3157,6 +3157,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Oid contains invalid characters or sequence.
+        /// </summary>
+        public static string OidValidationErrorMessage {
+            get {
+                return ResourceManager.GetString("OidValidationErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Organization.
         /// </summary>
         public static string Organization {

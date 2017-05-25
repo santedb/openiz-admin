@@ -2217,4 +2217,7 @@
   <data name="VerificationLength256" xml:space="preserve">
     <value>Verification cannot exceed 256 characters</value>
   </data>
+  <data name="OidValidationErrorMessage" xml:space="preserve">
+    <value>Oid contains invalid characters or sequence</value>
+  </data>
 </root>
