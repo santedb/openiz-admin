@@ -447,30 +447,7 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new UpdateProfileModel(userEntity);
 
-				var facilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-
-				var place = facilityRelationship?.TargetEntity as Place;
-
-				if (facilityRelationship?.TargetEntityKey.HasValue == true && place == null)
-				{
-					place = this.ImsiClient.Get<Place>(facilityRelationship.TargetEntityKey.Value, null) as Place;
-				}
-
-				if (place != null)
-				{
-					var facility = new List<FacilityModel>
-					{
-						new FacilityModel(string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value)), place.Key?.ToString())
-					};
-
-					model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Text = f.Name, Value = f.Id, Selected = f.Id == place.Key?.ToString() }));
-					model.Facility = place.Key?.ToString();
-				}
-
-				var phoneTypes = this.GetPhoneTypeConceptSet().Concepts.ToList();
-
-				Guid phoneType;
-				model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList().ToList();                
+			    model = BuildUpdateModelMetaData(model, userEntity);               
 
                 return View(model);
 			}
@@ -493,26 +470,27 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult UpdateProfile(UpdateProfileModel model)
 		{
+		    UserEntity userEntity = null;
 			try
-			{                
+			{
+                var userId = Guid.Parse(User.Identity.GetUserId());
+
+                var securityUserInfo = this.AmiClient.GetUser(userId.ToString());
+                userEntity = this.GetUserEntityBySecurityUserKey(userId);
+
+                if (securityUserInfo == null || userEntity == null)
+                {
+                    TempData["error"] = Locale.UserNotFound;
+
+                    return RedirectToAction("Index", "Home");
+                }
+
                 if (model.GivenNames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);                
 
                 if (model.Surnames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);                
 
                 if (ModelState.IsValid)
-				{					
-					var userId = Guid.Parse(User.Identity.GetUserId());
-
-					var securityUserInfo = this.AmiClient.GetUser(userId.ToString());
-					var userEntity = this.GetUserEntityBySecurityUserKey(userId);
-
-					if (securityUserInfo == null || userEntity == null)
-					{
-						TempData["error"] = Locale.UserNotFound;
-
-						return RedirectToAction("Index", "Home");
-					}
-
+				{										
 					securityUserInfo.User.Email = model.Email;
 					securityUserInfo.User.PhoneNumber = model.PhoneNumber;
 
@@ -529,24 +507,83 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-            model.CreateLanguageList();
-
-            var phoneTypes = this.GetPhoneTypeConceptSet().Concepts.ToList();
-
-            Guid phoneType;
-            model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList().ToList();
+		    if (userEntity != null)
+		    {
+                model = BuildUpdateModelMetaData(model, userEntity);               
+            }            
 
             TempData["error"] = Locale.UnableToUpdateProfile;
 
 			return View(model);
 		}
 
-		/// <summary>
-		/// Disposes of any managed resources
-		/// </summary>
-		/// <param name="disposing">Parameter that acts as a logic switch</param>
-		/// <returns>Returns a dispose object result.</returns>
-		protected override void Dispose(bool disposing)
+	    /// <summary>
+	    /// Populates the UpdateProfileModel.
+	    /// </summary>
+	    /// <param name="model">The UpdateProfileModel instance </param>
+	    /// <param name="userEntity">The UserEntity object</param>
+	    /// <returns>Returns an <see cref="UpdateProfileModel"/> model instance.</returns>
+	    private UpdateProfileModel BuildUpdateModelMetaData(UpdateProfileModel model, UserEntity userEntity)
+        {
+            model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
+            model.SurnamesList.AddRange(model.Surnames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
+
+            model.CreateLanguageList();
+
+            var facilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+
+            var place = facilityRelationship?.TargetEntity as Place;
+
+            if (facilityRelationship?.TargetEntityKey.HasValue == true && place == null)
+            {
+                place = this.ImsiClient.Get<Place>(facilityRelationship.TargetEntityKey.Value, null) as Place;
+            }
+
+            if (place != null)
+            {
+                var facility = new List<FacilityModel>
+                    {
+                        new FacilityModel(string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value)), place.Key?.ToString())
+                    };
+
+                model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Text = f.Name, Value = f.Id, Selected = f.Id == place.Key?.ToString() }));
+                model.Facility = place.Key?.ToString();
+            }
+
+            var phoneTypes = this.GetPhoneTypeConceptSet().Concepts.ToList();
+
+            Guid phoneType;
+            model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList().ToList();
+
+            if (userEntity.Telecoms.Any())
+            {
+                //can have more than one contact - default to show mobile
+                if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
+                {
+                    model.PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;
+                    model.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
+                }
+                else
+                {
+                    model.PhoneNumber = userEntity.Telecoms.FirstOrDefault()?.Value;
+                    model.PhoneType = userEntity.Telecoms.FirstOrDefault()?.AddressUseKey?.ToString();
+                }
+            }
+            else
+            {
+                //Default to Mobile - requirement
+                model.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
+            }
+
+            return model;
+        }
+
+        /// <summary>
+        /// Disposes of any managed resources
+        /// </summary>
+        /// <param name="disposing">Parameter that acts as a logic switch</param>
+        /// <returns>Returns a dispose object result.</returns>
+        protected override void Dispose(bool disposing)
 		{
 			if (disposing)
 			{

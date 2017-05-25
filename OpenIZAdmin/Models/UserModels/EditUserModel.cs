@@ -63,28 +63,25 @@ namespace OpenIZAdmin.Models.UserModels
 		{
 			this.CreationTime = securityUserInfo.User.CreationTime.DateTime;
 			this.Email = securityUserInfo.User.Email;
-			this.GivenNames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
-			this.GivenNamesList.AddRange(this.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-			this.Surnames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
-			this.SurnameList.AddRange(this.Surnames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-			this.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
-			this.Id = securityUserInfo.UserId.Value;
+			this.GivenNames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();						
+            this.Id = securityUserInfo.UserId.Value;
+            this.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
+            this.Surnames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
+            this.Username = securityUserInfo.UserName; //userEntity.SecurityUser.UserName;
 			this.UserRoles = securityUserInfo.Roles.Select(r => new RoleViewModel(r)).OrderBy(q => q.Name).ToList();
 
-			if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
-			{
-				this.PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;
-				this.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
-			}
-			else
-			{
-				this.PhoneNumber = userEntity.Telecoms.FirstOrDefault()?.Value;
-				this.PhoneType = userEntity.Telecoms.FirstOrDefault()?.AddressUseKey?.ToString();
-			}
+			//if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
+			//{
+			//	this.PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;
+			//	this.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
+			//}
+			//else
+			//{
+			//	this.PhoneNumber = userEntity.Telecoms.FirstOrDefault()?.Value;
+			//	this.PhoneType = userEntity.Telecoms.FirstOrDefault()?.AddressUseKey?.ToString();
+			//}
 
-			this.IsObsolete = securityUserInfo.User.ObsoletionTime != null;
-
-			this.Username = securityUserInfo.UserName;
+			this.IsObsolete = securityUserInfo.User.ObsoletionTime != null;			
 		}
 
 		/// <summary>

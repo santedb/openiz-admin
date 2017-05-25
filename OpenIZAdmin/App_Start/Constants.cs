@@ -112,7 +112,14 @@ namespace OpenIZAdmin
         /// <summary>
         /// Regular expression string for select2 limited string validation
         /// </summary>        
-        public const string RegExSelect2StringInput = @"/^[\w()+\-\[\]{}]+$/g";                           
+        public const string RegExSelect2StringInput = @"/^[\w()+\-\[\]{}]+$/g";
+
+        /// <summary>
+        /// Regular expression string for oid validation
+        /// </summary>
+        public const string RegExOidValidation = @"^[^-.].*[^-_.]$";
+        public const string RegExOidValidation2 = @"^(?!^\.)(?!.*[-_.]$)[a-zA-Z0-9]+$";
+        //public const string RegExOidValidation = @"^[0-9]{1,3}\.([0-9]{1,3})\.[0-9]{1,3}$";
 
         /// <summary>
         /// Regular expression string for username validation
