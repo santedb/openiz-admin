@@ -71,9 +71,10 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					if (model.Priority == (int)AlertMessageFlags.System)
+					if (model.IsSystemAlert)
 					{
 						model.To = Constants.SystemUserId;
+						model.Priority = (int)AlertMessageFlags.System;
 					}
 
 					var alertMessageInfo = this.ToAlertMessageInfo(model, User);
