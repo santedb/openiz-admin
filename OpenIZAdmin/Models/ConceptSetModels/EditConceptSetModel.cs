@@ -96,6 +96,7 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		[Display(Name = "Oid", ResourceType = typeof(Locale))]
         [Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Locale))]
         [StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Locale))]
+        [RegularExpression(Constants.RegExOidValidation, ErrorMessageResourceName = "OidValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
         public override string Oid { get; set; }
 
 		/// <summary>

@@ -50,6 +50,7 @@ namespace OpenIZAdmin.Models.ConceptSetModels
         [Display(Name = "Oid", ResourceType = typeof(Locale))]
         [Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
         [StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [RegularExpression(Constants.RegExOidValidation, ErrorMessageResourceName = "OidValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
         public override string Oid { get; set; }
 
         /// <summary>
