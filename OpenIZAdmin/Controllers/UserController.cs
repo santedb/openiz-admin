@@ -230,6 +230,7 @@ namespace OpenIZAdmin.Controllers
 				var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUserKey.ToString());
 
 			    var model = new EditUserModel(userEntity, securityUserInfo);
+
 			    model = BuildEditModelMetaData(model, userEntity);               
 
                 return View(model);
