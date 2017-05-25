@@ -70,7 +70,7 @@ namespace OpenIZAdmin.Controllers
 					entity = this.GetEntity(model.Id, this.GetModelType(model.Type));
 
 					entity.Tags.RemoveAll(t => t.TagKey == Constants.ImportedDataTag && t.Value == "true");
-					//entity.Relationships = null;
+					entity.Relationships.RemoveAll(r => r.TargetEntityKey == entity.Key);
 
 					entity = this.UpdateEntity(entity, modelType);
 
