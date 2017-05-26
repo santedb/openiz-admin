@@ -5191,6 +5191,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to create language.
+        /// </summary>
+        public static string UnableToCreateLanguage {
+            get {
+                return ResourceManager.GetString("UnableToCreateLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to create material.
         /// </summary>
         public static string UnableToCreateMaterial {
@@ -5700,6 +5709,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToUpdateDevice {
             get {
                 return ResourceManager.GetString("UnableToUpdateDevice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to update language.
+        /// </summary>
+        public static string UnableToUpdateLanguage {
+            get {
+                return ResourceManager.GetString("UnableToUpdateLanguage", resourceCulture);
             }
         }
         

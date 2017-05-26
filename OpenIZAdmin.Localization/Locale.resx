@@ -2223,4 +2223,10 @@
   <data name="IsSystemAlert" xml:space="preserve">
     <value>Would you like to broadcast this alert to everyone (This would be a system level alert to all users)</value>
   </data>
+  <data name="UnableToCreateLanguage" xml:space="preserve">
+    <value>Unable to create language</value>
+  </data>
+  <data name="UnableToUpdateLanguage" xml:space="preserve">
+    <value>Unable to update language</value>
+  </data>
 </root>

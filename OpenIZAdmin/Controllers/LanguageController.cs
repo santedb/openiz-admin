@@ -42,22 +42,34 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create(Guid id, Guid? versionId)
 		{
-			var concept = this.GetConcept(id, versionId);
+		    try
+		    {
+                var concept = this.GetConcept(id, versionId);
 
-			if (concept == null)
-			{
-				TempData["error"] = Locale.ConceptNotFound;
-				return RedirectToAction("Index", "Concept");
-			}
+                if (concept == null)
+                {
+                    TempData["error"] = Locale.ConceptNotFound;
+                    return RedirectToAction("Index", "Concept");
+                }
 
-			var model = new LanguageViewModel(concept)
-			{
-				LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList(),
-				TwoLetterCountryCode = Locale.EN
-			};
+                var model = new LanguageViewModel(concept)
+                {
+                    LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList(),
+                    TwoLetterCountryCode = Locale.EN
+                };
 
-			return View(model);
-		}
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+                Trace.TraceError($"Unable to retrieve entity: { e }");
+            }
+
+            TempData["error"] = Locale.ConceptNotFound;
+
+            return RedirectToAction("Index", "Concept");            
+        }
 
         /// <summary>
         /// Adds the new language.
@@ -67,7 +79,7 @@ namespace OpenIZAdmin.Controllers
         [HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Create(LanguageViewModel model)
-		{
+        {            
 			try
 			{
 				var concept = this.GetConcept(model.ConceptId.Value, model.ConceptVersionKey);
@@ -99,8 +111,12 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to retrieve entity: { e }");
 			}
 
-			return View(model);
-		}
+            model.LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList();
+
+            TempData["error"] = Locale.UnableToCreateLanguage;
+
+            return RedirectToAction("Index", "Concept");
+        }
 
         /// <summary>
         /// Deletes a language from a Concept.
@@ -161,21 +177,38 @@ namespace OpenIZAdmin.Controllers
         [HttpGet]
 		public ActionResult Edit(Guid id, Guid versionId, Guid? langId, string langCode, string displayName)
         {
-	        var concept = this.GetConcept(id, versionId);
+            Concept concept = null;
+            try
+            {
+                concept = this.GetConcept(id, versionId);
 
-			if (concept == null)
-			{
-				TempData["error"] = Locale.ConceptNotFound;
-				return RedirectToAction("Index", "Concept");
-			}
+                if (concept == null)
+                {
+                    TempData["error"] = Locale.ConceptNotFound;
+                    return RedirectToAction("Index", "Concept");
+                }
 
-			var model = new LanguageViewModel(langCode, displayName, concept)
-			{
-				LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList()
-			};
+                var model = new LanguageViewModel(langCode, displayName, concept)
+                {
+                    LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList()
+                };
 
-			return View(model);
-		}
+                return View(model);
+            }
+            catch (Exception e)
+            {
+                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+            }           
+
+            TempData["error"] = Locale.UnableToUpdateLanguage;
+
+            if (concept != null)
+            {
+                return RedirectToAction("ViewConcept", "Concept", new { id = concept.Key, concept.VersionKey });
+            }
+
+            return RedirectToAction("Index", "Concept");
+        }
 
         /// <summary>
         /// Updates the language associated with the Concept.
@@ -217,9 +250,9 @@ namespace OpenIZAdmin.Controllers
 			{
 				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to retrieve entity: { e }");
-			}
+			}            
 
-			TempData["error"] = Locale.UnableToUpdateConcept;
+            TempData["error"] = Locale.UnableToUpdateConcept;
 
 			return RedirectToAction("ViewConcept", "Concept", new { id = model.ConceptId, model.ConceptVersionKey });
 		}
