@@ -82,13 +82,13 @@ namespace OpenIZAdmin.Models.UserModels
         /// </summary>
         /// <returns>Returns a <see cref="SecurityUserInfo"/> instance.</returns>
         public SecurityUserInfo ToSecurityUserInfo()
-		{
+	    {	        
 			return new SecurityUserInfo
 			{
 				Lockout = null,
 				Email = this.Email,
 				Password = this.Password,                                
-				UserName = this.Username,
+				UserName = this.Username?.ToLowerInvariant(),
 				Roles = this.Roles.Select(r => new SecurityRoleInfo { Name = r }).ToList()
 			};
 		}

@@ -527,11 +527,8 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="username">The username.</param>
 		/// <returns><c>true</c> If the username exists, <c>false</c> otherwise.</returns>
 		private bool UsernameExists(string username)
-		{
-		    //var name = username.ToLowerInvariant();
-            return this.AmiClient.GetUsers(u => u.UserName == username).CollectionItem.Any();
-            //return this.AmiClient.GetUsers(u => u.UserName == username || u.UserName.ToLowerInvariant() == name).CollectionItem.Any();
-            //return this.AmiClient.GetUsers(u => u.UserName.ToUpper().Equals(username.ToUpper())).CollectionItem.Any();
+		{		    
+            return this.AmiClient.GetUsers(u => u.UserName == username).CollectionItem.Any();         
         }  
 
         /// <summary>
