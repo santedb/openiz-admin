@@ -24,6 +24,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Models.UserModels
 {
@@ -51,21 +53,45 @@ namespace OpenIZAdmin.Models.UserModels
 			this.IsLockedOut = securityUserInfo.Lockout.GetValueOrDefault(false);
 			this.LastLoginTime = securityUserInfo.User.LastLoginTime?.DateTime;
 			this.PhoneNumber = securityUserInfo.User.PhoneNumber;
-
-			this.Roles = new List<RoleViewModel>();
-
-			if (this.HasRoles)
-			{
-				this.Roles = securityUserInfo.Roles.Select(r => new RoleViewModel(r));
-			}
-
-			this.Username = securityUserInfo.UserName;
+            this.Roles = new List<RoleViewModel>();            
+            this.Username = securityUserInfo.UserName;
 		}
 
-		/// <summary>
-		/// Gets or sets the email address of the user.
+        /// <summary>
+		/// Initializes a new instance of the <see cref="UserViewModel"/> class
+		/// with a specific <see cref="SecurityUserInfo"/> instance.
 		/// </summary>
-		[Display(Name = "Email", ResourceType = typeof(Localization.Locale))]
+		/// <param name="userEntity">The <see cref="UserEntity"/> instance.</param>
+		/// <param name="securityUserInfo">The <see cref="SecurityUserInfo"/> instance.</param>
+		public UserViewModel(UserEntity userEntity, SecurityUserInfo securityUserInfo) : base(securityUserInfo)
+        {
+            this.Email = securityUserInfo.Email;
+            this.HasRoles = securityUserInfo.Roles?.Any() == true;
+            this.IsLockedOut = securityUserInfo.Lockout.GetValueOrDefault(false);
+            this.LastLoginTime = securityUserInfo.User.LastLoginTime?.DateTime;
+            this.Roles = new List<RoleViewModel>();
+            this.Username = securityUserInfo.UserName;
+
+            var given = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
+            var family = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
+            Name = string.Join(" ", given) + " " + string.Join(" ", family);
+
+            if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
+            {
+                this.PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;             
+            }
+            else
+            {
+                this.PhoneNumber = userEntity.Telecoms.FirstOrDefault()?.Value;                
+            }            
+
+            if (this.HasRoles) this.Roles = securityUserInfo.Roles.Select(r => new RoleViewModel(r));                        
+        }
+
+        /// <summary>
+        /// Gets or sets the email address of the user.
+        /// </summary>
+        [Display(Name = "Email", ResourceType = typeof(Localization.Locale))]
 		public string Email { get; set; }
 
 		/// <summary>

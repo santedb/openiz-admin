@@ -561,15 +561,17 @@ namespace OpenIZAdmin.Controllers
 					});
 				}
 
-				var given = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
-				var family = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
+			    var viewModel = new UserViewModel(userEntity, userInfo);
 
-				var viewModel = new UserViewModel(userInfo)
-				{
-					Name = string.Join(" ", given) + " " + string.Join(" ", family)
-				};
+                //var given = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
+                //var family = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
 
-				var facilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                //var viewModel = new UserViewModel(userEntity, userInfo)
+                //{
+                //	Name = string.Join(" ", given) + " " + string.Join(" ", family)
+                //};
+
+                var facilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 
 				var place = facilityRelationship?.TargetEntity as Place;
 
