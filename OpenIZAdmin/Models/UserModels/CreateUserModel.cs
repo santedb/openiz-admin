@@ -27,6 +27,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.UserModels
@@ -43,51 +44,57 @@ namespace OpenIZAdmin.Models.UserModels
 		{
 			this.Surnames = new List<string>();
 			this.GivenNames = new List<string>();
-            this.PhoneTypeList = new List<SelectListItem>();
-            this.RolesList = new List<SelectListItem>();
+			this.PhoneTypeList = new List<SelectListItem>();
+			this.RolesList = new List<SelectListItem>();
 		}
 
-        /// <summary>
-        /// Gets or sets the password confirmation of the model.
-        /// </summary>
-        [DataType(DataType.Password)]
-        [Display(Name = "ConfirmPassword", ResourceType = typeof(Locale))]
-        [StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "ConfirmPasswordRequired", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Locale))]
-        public string ConfirmPassword { get; set; }
+		/// <summary>
+		/// Gets or sets the password confirmation of the model.
+		/// </summary>
+		[DataType(DataType.Password)]
+		[Display(Name = "ConfirmPassword", ResourceType = typeof(Locale))]
+		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "ConfirmPasswordRequired", ErrorMessageResourceType = typeof(Locale))]
+		[RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
+		[System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Locale))]
+		public string ConfirmPassword { get; set; }
 
-        /// <summary>
-        /// Gets or sets the password of the user.
-        /// </summary>
-        [DataType(DataType.Password)]
+		/// <summary>
+		/// Gets or sets the password of the user.
+		/// </summary>
+		[DataType(DataType.Password)]
 		[Display(Name = "Password", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]		
-        [RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
-        public string Password { get; set; }
-       
-	    /// <summary>
-	    /// Gets or sets the username of the user.
-	    /// </summary>
-	    [Display(Name = "Username", ResourceType = typeof(Locale))]
-	    [Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Locale))]
-	    [StringLength(50, MinimumLength = 3, ErrorMessageResourceName = "UsernameLength50", ErrorMessageResourceType = typeof(Locale))]        
-        [RegularExpression(Constants.RegExUsername, ErrorMessageResourceName = "UsernameValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]        
-        public new string Username { get; set; }	            	    
+		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
+		[RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
+		public string Password { get; set; }
 
-	    /// <summary>
-        /// Converts a <see cref="CreateUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
-        /// </summary>
-        /// <returns>Returns a <see cref="SecurityUserInfo"/> instance.</returns>
-        public SecurityUserInfo ToSecurityUserInfo()
-	    {	        
+		/// <summary>
+		/// Gets or sets the username of the user.
+		/// </summary>
+		[Display(Name = "Username", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(50, MinimumLength = 3, ErrorMessageResourceName = "UsernameLength50", ErrorMessageResourceType = typeof(Locale))]
+		[RegularExpression(Constants.RegExUsername, ErrorMessageResourceName = "UsernameValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
+		public new string Username { get; set; }
+
+		/// <summary>
+		/// Converts a <see cref="CreateUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
+		/// </summary>
+		/// <returns>Returns a <see cref="SecurityUserInfo"/> instance.</returns>
+		public SecurityUserInfo ToSecurityUserInfo()
+		{
 			return new SecurityUserInfo
 			{
 				Lockout = null,
 				Email = this.Email,
-				Password = this.Password,                                
+				Password = this.Password,
+				User = new SecurityUser()
+				{
+					InvalidLoginAttempts = 0,
+					PhoneNumber = this.PhoneNumber,
+					UserClass = UserClassKeys.HumanUser
+				},
 				UserName = this.Username?.ToLowerInvariant(),
 				Roles = this.Roles.Select(r => new SecurityRoleInfo { Name = r }).ToList()
 			};
@@ -114,28 +121,28 @@ namespace OpenIZAdmin.Models.UserModels
 				userEntity.Names = new List<EntityName> { name };
 			}
 
-		    var facility = ConvertFacilityToGuid();
-            if (facility != null)
+			var facility = ConvertFacilityToGuid();
+			if (facility != null)
 			{
 				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, facility));
 			}
 
-            if (HasPhoneNumberAndType())
-            {
-                var phoneType = ConvertPhoneTypeToGuid();
-                if (phoneType != null)
-                {
-                    userEntity.Telecoms.Clear();
-                    userEntity.Telecoms.Add(new EntityTelecomAddress((Guid)phoneType, PhoneNumber));
-                }
-                else
-                {
-                    userEntity.Telecoms.RemoveAll(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact);
-                    userEntity.Telecoms.Add(new EntityTelecomAddress(TelecomAddressUseKeys.MobileContact, PhoneNumber));
-                }
-            }
+			if (HasPhoneNumberAndType())
+			{
+				var phoneType = ConvertPhoneTypeToGuid();
+				if (phoneType != null)
+				{
+					userEntity.Telecoms.Clear();
+					userEntity.Telecoms.Add(new EntityTelecomAddress((Guid)phoneType, PhoneNumber));
+				}
+				else
+				{
+					userEntity.Telecoms.RemoveAll(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact);
+					userEntity.Telecoms.Add(new EntityTelecomAddress(TelecomAddressUseKeys.MobileContact, PhoneNumber));
+				}
+			}
 
-            userEntity.CreationTime = DateTimeOffset.Now;
+			userEntity.CreationTime = DateTimeOffset.Now;
 			userEntity.VersionKey = null;
 
 			return userEntity;
