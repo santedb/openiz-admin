@@ -50,7 +50,7 @@ namespace OpenIZAdmin.Models.UserModels
 		{
 			this.Email = securityUserInfo.Email;
 			this.HasRoles = securityUserInfo.Roles?.Any() == true;
-			this.IsLockedOut = securityUserInfo.Lockout.GetValueOrDefault(false);
+			this.IsLockedOut = securityUserInfo.Lockout.HasValue && securityUserInfo.Lockout.Value;
 			this.LastLoginTime = securityUserInfo.User.LastLoginTime?.DateTime;
 			this.PhoneNumber = securityUserInfo.User.PhoneNumber;
             this.Roles = new List<RoleViewModel>();            

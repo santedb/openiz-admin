@@ -447,6 +447,7 @@ namespace OpenIZAdmin.Controllers
 
 					// null out the user, since we are only updating the password
 					user.User = null;
+					user.Lockout = false;
 					user.Password = model.Password;
 
 					this.AmiClient.UpdateUser(model.Id, user);
