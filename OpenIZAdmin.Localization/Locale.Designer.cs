@@ -4246,6 +4246,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Special characters are not allowed.
+        /// </summary>
+        public static string Select2ErrorMessage {
+            get {
+                return ResourceManager.GetString("Select2ErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Session timed out.
         /// </summary>
         public static string SessionTimedOut {

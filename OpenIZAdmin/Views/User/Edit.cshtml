@@ -169,6 +169,15 @@
                     }
                 },
 
+                "language": {
+                    "noResults": function(){
+                        return "@Locale.Select2ErrorMessage";
+                    }
+                },
+                escapeMarkup: function (markup) {
+                    return markup;
+                },
+
                 tags: true,
                 tokenSeparators: [','],
                 width: '100%',
