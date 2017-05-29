@@ -4248,9 +4248,9 @@ namespace OpenIZAdmin.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Special characters are not allowed.
         /// </summary>
-        public static string Select2ErrorMessage {
+        public static string Select2SpecialCharErrorMessage {
             get {
-                return ResourceManager.GetString("Select2ErrorMessage", resourceCulture);
+                return ResourceManager.GetString("Select2SpecialCharErrorMessage", resourceCulture);
             }
         }
         

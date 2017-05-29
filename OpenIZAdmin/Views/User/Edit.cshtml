@@ -146,8 +146,7 @@
 @section scripts
 {
     <script type="text/javascript">
-        $(document).ready(function ()
-        {
+        $(document).ready(function () {
             $('.dynamic-dropdown').select2({
                 tags: false,
                 tokenSeparators: [','],
@@ -158,7 +157,7 @@
 
                 createTag: function (params) {
                     var term = $.trim(params.term);
-                    
+
                     if (!term.match(@Constants.RegExSelect2StringInput)) {
                         return null;
                     }
@@ -170,8 +169,8 @@
                 },
 
                 "language": {
-                    "noResults": function(){
-                        return "@Locale.Select2ErrorMessage";
+                    "noResults": function () {
+                        return "@Locale.Select2SpecialCharErrorMessage";
                     }
                 },
                 escapeMarkup: function (markup) {

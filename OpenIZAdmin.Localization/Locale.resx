@@ -2229,7 +2229,7 @@
   <data name="UnableToUpdateLanguage" xml:space="preserve">
     <value>Unable to update language</value>
   </data>
-  <data name="Select2ErrorMessage" xml:space="preserve">
+  <data name="Select2SpecialCharErrorMessage" xml:space="preserve">
     <value>Special characters are not allowed</value>
   </data>
 </root>
