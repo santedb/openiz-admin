@@ -2464,6 +2464,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Locked.
+        /// </summary>
+        public static string Locked {
+            get {
+                return ResourceManager.GetString("Locked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Locked Out?.
         /// </summary>
         public static string LockedOut {
@@ -5880,6 +5889,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnlockAccount {
             get {
                 return ResourceManager.GetString("UnlockAccount", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unlocked.
+        /// </summary>
+        public static string Unlocked {
+            get {
+                return ResourceManager.GetString("Unlocked", resourceCulture);
             }
         }
         

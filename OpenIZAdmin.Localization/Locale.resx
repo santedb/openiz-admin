@@ -2247,4 +2247,10 @@
   <data name="LockoutStatus" xml:space="preserve">
     <value>Lockout Status</value>
   </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Locked</value>
+  </data>
+  <data name="Unlocked" xml:space="preserve">
+    <value>Unlocked</value>
+  </data>
 </root>
