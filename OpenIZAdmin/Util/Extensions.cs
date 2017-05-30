@@ -12,12 +12,30 @@ namespace OpenIZAdmin.Util
     public static class Extensions
     {
         /// <summary>
-		/// Converts a boolean to a string representation 
+		/// Converts a boolean to a string representation to display account lockeout status 
 		/// </summary>
 		/// <returns>Returns a string based on the boolean value</returns>
         public static string ToLockoutStatus(this bool value)
         {
             return value ? Locale.Locked : Locale.Unlocked;
+        }
+
+        /// <summary>
+		/// Converts a boolean to a string representation to display user profile activation/deactivation 
+		/// </summary>
+		/// <returns>Returns a string based on the boolean value</returns>
+        public static string ToObsoleteStatus(this bool value)
+        {
+            return value ? Locale.Deactivated : Locale.Active;
+        }
+
+        /// <summary>
+        /// Converts a boolean to a string representation to display a Yes or No 
+        /// </summary>
+        /// <returns>Returns a string based on the boolean value</returns>
+        public static string ToYesOrNo(this bool value)
+        {
+            return value ? Locale.Yes : Locale.No;
         }
     }
 }

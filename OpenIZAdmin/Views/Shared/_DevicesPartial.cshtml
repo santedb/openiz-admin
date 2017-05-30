@@ -1,4 +1,5 @@
-﻿@model IEnumerable<OpenIZAdmin.Models.DeviceModels.DeviceViewModel>
+﻿@using OpenIZAdmin.Util
+@model IEnumerable<OpenIZAdmin.Models.DeviceModels.DeviceViewModel>
 @{
     ViewBag.Title = Locale.Devices;
 }
@@ -16,8 +17,7 @@
                     <tr>
                         <th></th>
                         <th>@Html.DisplayNameFor(m => m.CreationTime)</th>
-                        <th>@Html.DisplayNameFor(m => m.Name)</th>
-                        @*<th>@Html.DisplayNameFor(m => m.HasPolicies)</th>*@
+                        <th>@Html.DisplayNameFor(m => m.Name)</th>                        
                         <th>@Locale.Status</th>
                         <th></th>
                     </tr>
@@ -28,9 +28,9 @@
                         <tr>
                             <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span></td>
                             <td>@item.CreationTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
-                            <td>@item.Name</td>                            
-                            @*<td>@(item.HasPolicies ? Html.Raw("<text>" + Locale.Yes + "</text>") : Html.Raw("<text>" + Locale.No + "</text>"))</td>*@
-                            <td class="capitalize">@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
+                            <td>@item.Name</td>                                                        
+                            @*<td class="capitalize">@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>*@
+                            <td>@item.IsObsolete.ToObsoleteStatus()</td>
                             <td class="autoFitContents centerContent">
                                 <a class="btn btn-primary" href="@Url.Action("ViewDevice", "Device", new { id = item.Id })">
                                 @Locale.View

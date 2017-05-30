@@ -1,4 +1,5 @@
-﻿@model IEnumerable<OpenIZAdmin.Models.PolicyModels.PolicyViewModel>
+﻿@using OpenIZAdmin.Util
+@model IEnumerable<OpenIZAdmin.Models.PolicyModels.PolicyViewModel>
 @{
     ViewBag.Title = Locale.PolicySearchResults;
 }
@@ -37,7 +38,8 @@
                                             <td>@item.Grant</td>
                                             <td>@item.IsPublic</td>
                                             <td>@item.Oid</td>
-                                            <td class="capitalize">@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
+                                            @*<td class="capitalize">@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>*@
+                                            <td>@item.IsObsolete.ToObsoleteStatus()</td>
                                         </tr>}
 
                                 </tbody>

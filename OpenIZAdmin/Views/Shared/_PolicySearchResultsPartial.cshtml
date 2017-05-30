@@ -1,4 +1,5 @@
-﻿@model IEnumerable<OpenIZAdmin.Models.PolicyModels.PolicyViewModel>
+﻿@using OpenIZAdmin.Util
+@model IEnumerable<OpenIZAdmin.Models.PolicyModels.PolicyViewModel>
 @{
     ViewBag.Title = Locale.PolicySearchResults;
 }
@@ -33,7 +34,8 @@
                             <td>@item.Oid</td>
                             <td>@item.Grant</td>
                             <td>@item.CanOverride</td>
-                            <td class="capitalize">@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
+                            @*<td class="capitalize">@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>*@
+                            <td>@item.IsObsolete.ToObsoleteStatus()</td>
                             <td class="autoFitContents centerContent">
                                 <a class="btn btn-primary" href="@Url.Action("ViewPolicy", "Policy", new {id = item.Id})">
                                     @Locale.View
