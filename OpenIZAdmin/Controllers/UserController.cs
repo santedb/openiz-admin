@@ -542,11 +542,7 @@ namespace OpenIZAdmin.Controllers
                 }
 
                 user.UserId = id;
-                //user.User.ObsoletedBy = null;
-                //user.User.ObsoletedByKey = null;
-                //user.User.ObsoletionTime = null;
-                //user.User.ObsoletionTimeXml = null;
-
+                user.User = null;                
                 user.Lockout = false;
 
                 var result = this.AmiClient.UpdateUser(id, user);
