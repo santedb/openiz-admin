@@ -50,6 +50,8 @@ namespace OpenIZAdmin.Models.UserModels
 			this.RolesList = new List<SelectListItem>();
 			this.Roles = new List<string>();
 			this.UserRoles = new List<RoleViewModel>();
+		    this.IsLockedOut = false;
+
 		}
 
 		/// <summary>
@@ -65,29 +67,18 @@ namespace OpenIZAdmin.Models.UserModels
 			this.Email = securityUserInfo.User.Email;
 			this.GivenNames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();						
             this.Id = securityUserInfo.UserId.Value;
+            this.IsLockedOut = securityUserInfo.Lockout.GetValueOrDefault(false);
+            this.IsObsolete = securityUserInfo.User.ObsoletionTime != null;
             this.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
             this.Surnames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
             this.Username = securityUserInfo.UserName; //userEntity.SecurityUser.UserName;
-			this.UserRoles = securityUserInfo.Roles.Select(r => new RoleViewModel(r)).OrderBy(q => q.Name).ToList();
-
-			//if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
-			//{
-			//	this.PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;
-			//	this.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
-			//}
-			//else
-			//{
-			//	this.PhoneNumber = userEntity.Telecoms.FirstOrDefault()?.Value;
-			//	this.PhoneType = userEntity.Telecoms.FirstOrDefault()?.AddressUseKey?.ToString();
-			//}
-
-			this.IsObsolete = securityUserInfo.User.ObsoletionTime != null;			
+			this.UserRoles = securityUserInfo.Roles.Select(r => new RoleViewModel(r)).OrderBy(q => q.Name).ToList();						
 		}
 
 		/// <summary>
 		/// Gets or sets the creation time of the user account.
 		/// </summary>
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
 		public DateTimeOffset CreationTime { get; set; }  
 
 		/// <summary>
@@ -106,10 +97,16 @@ namespace OpenIZAdmin.Models.UserModels
 		[Required]
 		public Guid Id { get; set; }
 
-		/// <summary>
-		/// Gets or sets whether the security entity is obsolete.
+        /// <summary>
+		/// Gets or sets the locked out status of the user.
 		/// </summary>
-		public bool IsObsolete { get; set; }        
+		[Display(Name = "LockoutStatus", ResourceType = typeof(Locale))]
+        public bool IsLockedOut { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether the security entity is obsolete.
+        /// </summary>
+        public bool IsObsolete { get; set; }        
 
 		/// <summary>
 		/// Gets or sets the list of family names.

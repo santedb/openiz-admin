@@ -1,4 +1,5 @@
-﻿@model IEnumerable<OpenIZAdmin.Models.UserModels.UserViewModel>
+﻿@using OpenIZAdmin.Util
+@model IEnumerable<OpenIZAdmin.Models.UserModels.UserViewModel>
 @{
     ViewBag.Title = Locale.Users;
 }
@@ -29,7 +30,8 @@
                             <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></td>
                             <td>@item.Username</td>
                             <td>@item.Email</td>                            
-                            <td>@(item.IsLockedOut ? Html.Raw("<text>" + Locale.Yes + "</text>") : Html.Raw("<text>" + Locale.No + "</text>"))</td>                            
+                            @*<td>@(item.IsLockedOut ? Html.Raw("<text>" + Locale.Yes + "</text>") : Html.Raw("<text>" + Locale.No + "</text>"))</td>*@                            
+                            <td>@item.IsLockedOut.ToLockoutStatus()</td>                            
                             <td>@(item.HasRoles ? Html.Raw("<text>" + Locale.Yes + "</text>") : Html.Raw("<text>" + Locale.No + "</text>"))</td>
                             <td class="capitalize">@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>
                             <td class="autoFitContents centerContent">

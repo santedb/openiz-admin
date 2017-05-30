@@ -2473,6 +2473,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lockout Status.
+        /// </summary>
+        public static string LockoutStatus {
+            get {
+                return ResourceManager.GetString("LockoutStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Login.
         /// </summary>
         public static string Login {
@@ -3972,6 +3981,15 @@ namespace OpenIZAdmin.Localization {
         public static string ResetCodeSent {
             get {
                 return ResourceManager.GetString("ResetCodeSent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reset Password.
+        /// </summary>
+        public static string ResetPassword {
+            get {
+                return ResourceManager.GetString("ResetPassword", resourceCulture);
             }
         }
         
@@ -5659,6 +5677,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to unlock user account.
+        /// </summary>
+        public static string UnableToUnlockUser {
+            get {
+                return ResourceManager.GetString("UnableToUnlockUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to update alert.
         /// </summary>
         public static string UnableToUpdateAlert {
@@ -5844,6 +5871,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnexpectedErrorMessage {
             get {
                 return ResourceManager.GetString("UnexpectedErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unlock Account.
+        /// </summary>
+        public static string UnlockAccount {
+            get {
+                return ResourceManager.GetString("UnlockAccount", resourceCulture);
             }
         }
         
@@ -6078,6 +6114,15 @@ namespace OpenIZAdmin.Localization {
         public static string Users {
             get {
                 return ResourceManager.GetString("Users", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User account unlocked successfully.
+        /// </summary>
+        public static string UserUnlockedSuccessfully {
+            get {
+                return ResourceManager.GetString("UserUnlockedSuccessfully", resourceCulture);
             }
         }
         

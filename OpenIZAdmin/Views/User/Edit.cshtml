@@ -1,4 +1,5 @@
 ﻿@using OpenIZAdmin.Models
+@using OpenIZAdmin.Util
 @model OpenIZAdmin.Models.UserModels.EditUserModel
 @{
     ViewBag.Title = Locale.EditUser_Heading;
@@ -10,14 +11,24 @@
     <div class="panel-heading">
         <span class="panel-title">@Locale.EditUser_Heading</span>
         <div class="pull-right">
-            @if (!Model.IsObsolete)
-            {
-                <a href="@Url.Action("ResetPassword", "User", new { id = Model.Id })">
-                    <span class="text-danger glyphicon glyphicon-warning-sign"></span>
-                    <span class="text-danger h5">@(Locale.Reset + " " + Locale.Password)</span>
-                </a>             
-            }            
-        </div>
+                            
+        
+                @if (!Model.IsObsolete)
+                {                    
+                    if (Model.IsLockedOut)
+                    {
+                        <a href="@Url.Action("UnlockAccount", "User", new {id = Model.Id})" class="pad-right">
+                            <span class="text-warning glyphicon glyphicon-ok-sign"></span>
+                            <span class="text-warning h5">@Locale.UnlockAccount</span>
+                        </a>
+                    }                 
+
+                    <a href="@Url.Action("ResetPassword", "User", new {id = Model.Id})">
+                        <span class="text-danger glyphicon glyphicon-warning-sign"></span>
+                        <span class="text-danger h5">@Locale.ResetPassword</span>
+                    </a>
+                }
+            </div>                                
     </div>
     <div class="panel panel-body">
         @using (Html.BeginForm("Edit", "User", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -31,10 +42,17 @@
                         
                         <div class="form-group">
                             @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
-                            <div class="col-md-8">
+                            <div class="col-md-6">
                                 @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @readonly = "readonly" })
                             </div>
                         </div>  
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.IsLockedOut, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(m => m.IsLockedOut, new { @class = "form-control", @readonly = "readonly", Value=@Model.IsLockedOut.ToLockoutStatus() })
+                            </div>
+                        </div> 
 
                         <div class="form-group">
                             @Html.LabelFor(m => m.GivenNames, new { @class = "col-md-2 control-label" })

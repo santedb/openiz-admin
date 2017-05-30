@@ -1,4 +1,5 @@
 ﻿@model OpenIZAdmin.Models.UserModels.UserViewModel
+@using OpenIZAdmin.Util
 @{
     ViewBag.Title = Locale.ViewUser_Heading;
 }
@@ -52,7 +53,13 @@
                         <div class="col-md-6">
                             @Html.TextBoxFor(m => m.LastLoginTime, Constants.DateTimeFormatViewWithTimestamp, new { @class = "form-control", @readonly = "readonly" })                            
                         </div>
-                    </div>                      
+                    </div>  
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.IsLockedOut, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.IsLockedOut, new { @class = "form-control", @readonly = "readonly", Value= @Model.IsLockedOut.ToLockoutStatus() })
+                        </div>
+                    </div>                                          
                 </div>
             </div>
         </div>        

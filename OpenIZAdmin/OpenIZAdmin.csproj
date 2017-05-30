@@ -405,6 +405,7 @@
     <Compile Include="Services\Http\ServiceClientEndpoint.cs" />
     <Compile Include="Services\Http\ServiceClientSecurity.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Util\Extensions.cs" />
     <Compile Include="Util\LanguageUtil.cs" />
   </ItemGroup>
   <ItemGroup>

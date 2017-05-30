@@ -54,7 +54,7 @@ namespace OpenIZAdmin.Models.Core
         /// </summary>
         [Display(Name = "GivenName", ResourceType = typeof(Locale))]
         [Required(ErrorMessageResourceName = "GivenNameRequired", ErrorMessageResourceType = typeof(Locale))]        
-        public List<string> GivenNames { get; set; }
+        public List<string> GivenNames { get; set; }        
 
         /// <summary>
         /// Gets or sets the phone number of the user.

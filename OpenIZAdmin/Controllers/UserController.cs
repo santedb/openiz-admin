@@ -522,12 +522,56 @@ namespace OpenIZAdmin.Controllers
 			return Json(userList, JsonRequestBehavior.AllowGet);
 		}
 
-		/// <summary>
-		/// Checks against the server to determine if a username exists.
+        /// <summary>
+		/// Unlocks a user.
 		/// </summary>
-		/// <param name="username">The username.</param>
-		/// <returns><c>true</c> If the username exists, <c>false</c> otherwise.</returns>
-		private bool UsernameExists(string username)
+		/// <param name="id">The id of the user profile to be unlocked.</param>
+		/// <returns>Returns the view user view.</returns>
+		[HttpGet]        
+        public ActionResult UnlockAccount(Guid id)
+        {
+            try
+            {
+                var user = this.AmiClient.GetUser(id.ToString());
+
+                if (user == null)
+                {
+                    TempData["error"] = Locale.UserNotFound;
+
+                    return RedirectToAction("Index");
+                }
+
+                user.UserId = id;
+                //user.User.ObsoletedBy = null;
+                //user.User.ObsoletedByKey = null;
+                //user.User.ObsoletionTime = null;
+                //user.User.ObsoletionTimeXml = null;
+
+                user.Lockout = false;
+
+                var result = this.AmiClient.UpdateUser(id, user);
+
+                TempData.Clear();
+                TempData["success"] = Locale.UserUnlockedSuccessfully;
+
+                return RedirectToAction("ViewUser", new { id = result.UserId.Value });
+            }
+            catch (Exception e)
+            {
+                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+            }
+
+            TempData["error"] = Locale.UnableToUnlockUser;
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Checks against the server to determine if a username exists.
+        /// </summary>
+        /// <param name="username">The username.</param>
+        /// <returns><c>true</c> If the username exists, <c>false</c> otherwise.</returns>
+        private bool UsernameExists(string username)
 		{		    
             return this.AmiClient.GetUsers(u => u.UserName == username).CollectionItem.Any();         
         }  

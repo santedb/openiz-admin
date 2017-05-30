@@ -2232,4 +2232,19 @@
   <data name="Select2SpecialCharErrorMessage" xml:space="preserve">
     <value>Special characters are not allowed</value>
   </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Reset Password</value>
+  </data>
+  <data name="UnableToUnlockUser" xml:space="preserve">
+    <value>Unable to unlock user account</value>
+  </data>
+  <data name="UnlockAccount" xml:space="preserve">
+    <value>Unlock Account</value>
+  </data>
+  <data name="UserUnlockedSuccessfully" xml:space="preserve">
+    <value>User account unlocked successfully</value>
+  </data>
+  <data name="LockoutStatus" xml:space="preserve">
+    <value>Lockout Status</value>
+  </data>
 </root>

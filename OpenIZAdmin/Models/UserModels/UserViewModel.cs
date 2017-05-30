@@ -105,13 +105,14 @@ namespace OpenIZAdmin.Models.UserModels
 		[Display(Name = "HealthFacility", ResourceType = typeof(Localization.Locale))]
 		public string HealthFacility { get; set; }
 
-		/// <summary>
-		/// Gets or sets the locked out status of the user.
-		/// </summary>
-		[Display(Name = "LockedOut", ResourceType = typeof(Localization.Locale))]
-		public bool IsLockedOut { get; set; }
+	    /// <summary>
+	    /// Gets or sets the locked out status of the user.
+	    /// </summary>
+	    [Display(Name = "LockoutStatus", ResourceType = typeof(Localization.Locale))]
+	    public bool IsLockedOut { get; set; }
 
-		/// <summary>
+
+	    /// <summary>
 		/// Gets or sets the last login time of the user.
 		/// </summary>
 		[Display(Name = "LastLoginTime", ResourceType = typeof(Localization.Locale))]
