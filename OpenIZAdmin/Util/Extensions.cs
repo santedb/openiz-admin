@@ -12,7 +12,7 @@ namespace OpenIZAdmin.Util
     public static class Extensions
     {
         /// <summary>
-		/// Converts a boolean to a string representation to display account lockeout status 
+		/// Converts a boolean to a string representation to display account status 
 		/// </summary>
 		/// <returns>Returns a string based on the boolean value</returns>
         public static string ToLockoutStatus(this bool value)
@@ -30,7 +30,7 @@ namespace OpenIZAdmin.Util
         }
 
         /// <summary>
-        /// Converts a boolean to a string representation to display a Yes or No 
+        /// Converts a boolean to a string representation to display Yes or No 
         /// </summary>
         /// <returns>Returns a string based on the boolean value</returns>
         public static string ToYesOrNo(this bool value)
