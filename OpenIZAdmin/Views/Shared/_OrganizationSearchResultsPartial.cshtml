@@ -36,8 +36,7 @@
                             <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-equalizer" aria-hidden="true"></span></td>
                             <td>@item.CreationTime.ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
                             <td>@item.Name</td>
-                            <td>@item.Type</td>
-                            @*<td class="capitalize">@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>*@
+                            <td>@item.Type</td>                            
                             <td>@item.IsObsolete.ToObsoleteStatus()</td>
                             <td class="autoFitContents centerContent">
                                 <a class="btn btn-primary" href="@Url.Action("ViewOrganization", "Organization", new { id = item.Id, versionId = item.VersionKey })">

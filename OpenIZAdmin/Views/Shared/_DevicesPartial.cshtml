@@ -28,8 +28,7 @@
                         <tr>
                             <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-phone" aria-hidden="true"></span></td>
                             <td>@item.CreationTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
-                            <td>@item.Name</td>                                                        
-                            @*<td class="capitalize">@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>*@
+                            <td>@item.Name</td>                                                                                    
                             <td>@item.IsObsolete.ToObsoleteStatus()</td>
                             <td class="autoFitContents centerContent">
                                 <a class="btn btn-primary" href="@Url.Action("ViewDevice", "Device", new { id = item.Id })">
