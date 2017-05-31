@@ -3427,11 +3427,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Place deleted successfully.
+        ///   Looks up a localized string similar to Place deactivated successfully.
         /// </summary>
-        public static string PlaceDeletedSuccessfully {
+        public static string PlaceDeactivatedSuccessfully {
             get {
-                return ResourceManager.GetString("PlaceDeletedSuccessfully", resourceCulture);
+                return ResourceManager.GetString("PlaceDeactivatedSuccessfully", resourceCulture);
             }
         }
         
@@ -5326,6 +5326,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to deactivate place.
+        /// </summary>
+        public static string UnableToDeactivatePlace {
+            get {
+                return ResourceManager.GetString("UnableToDeactivatePlace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to deactivate user.
         /// </summary>
         public static string UnableToDeactivateUser {
@@ -5394,15 +5403,6 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToDeleteOrganization {
             get {
                 return ResourceManager.GetString("UnableToDeleteOrganization", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to delete place.
-        /// </summary>
-        public static string UnableToDeletePlace {
-            get {
-                return ResourceManager.GetString("UnableToDeletePlace", resourceCulture);
             }
         }
         

@@ -1632,8 +1632,8 @@
   <data name="UnableToDeleteOrganization" xml:space="preserve">
     <value>Unable to delete organization</value>
   </data>
-  <data name="UnableToDeletePlace" xml:space="preserve">
-    <value>Unable to delete place</value>
+  <data name="UnableToDeactivatePlace" xml:space="preserve">
+    <value>Unable to deactivate place</value>
   </data>
   <data name="UnableToDeletePolicy" xml:space="preserve">
     <value>Unable to delete policy</value>
@@ -1722,8 +1722,8 @@
   <data name="PasswordResetSuccessfully" xml:space="preserve">
     <value>Password reset successfully</value>
   </data>
-  <data name="PlaceDeletedSuccessfully" xml:space="preserve">
-    <value>Place deleted successfully</value>
+  <data name="PlaceDeactivatedSuccessfully" xml:space="preserve">
+    <value>Place deactivated successfully</value>
   </data>
   <data name="PlaceNotFound" xml:space="preserve">
     <value>Place not found</value>

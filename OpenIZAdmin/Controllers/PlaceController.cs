@@ -88,9 +88,9 @@ namespace OpenIZAdmin.Controllers
 				var updatedPlace = this.ImsiClient.Update(place);
 
 				this.TempData["success"] = Locale.PlaceActivatedSuccessfully;
-
-				return RedirectToAction("Edit", new { id = id, versionId = updatedPlace.VersionKey });
-			}
+				
+                return RedirectToAction("ViewPlace", new { id = updatedPlace.Key, versionId = updatedPlace.VersionKey });
+            }
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
@@ -281,18 +281,18 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				this.TempData["success"] = Locale.PlaceDeletedSuccessfully;
+				this.TempData["success"] = Locale.PlaceDeactivatedSuccessfully;
 
-				this.ImsiClient.Obsolete<Place>(place);
+				var result = this.ImsiClient.Obsolete<Place>(place);
 
-				return RedirectToAction("Index");
-			}
+                return RedirectToAction("ViewPlace", new { id = result.Key, versionId = result.VersionKey });
+            }
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToDeletePlace;
+			TempData["error"] = Locale.UnableToDeactivatePlace;
 
 			return RedirectToAction("Index");
 		}
