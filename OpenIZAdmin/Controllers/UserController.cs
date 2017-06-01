@@ -265,7 +265,7 @@ namespace OpenIZAdmin.Controllers
                 }
 
                 //hack - check if empty string passed and remove -select2 issue
-                model.CheckForEmptyRoleAssigned();                
+                model.CheckForEmptyRoleAssigned();                                
 
                 if (model.GivenNames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);                
 

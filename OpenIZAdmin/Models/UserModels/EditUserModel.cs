@@ -28,6 +28,7 @@ using System.Linq;
 using System.Web.Mvc;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
+using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Models.UserModels
 {
@@ -67,11 +68,12 @@ namespace OpenIZAdmin.Models.UserModels
 			this.Email = securityUserInfo.User.Email;
 			this.GivenNames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();						
             this.Id = securityUserInfo.UserId.Value;
-            this.IsLockedOut = securityUserInfo.Lockout.GetValueOrDefault(false);
+            //this.IsLockedOut = securityUserInfo.Lockout.GetValueOrDefault(false);
+		    this.LockoutStatus = securityUserInfo.Lockout.GetValueOrDefault(false).ToLockoutStatus(); //IsLockedOut.ToLockoutStatus();
             this.IsObsolete = securityUserInfo.User.ObsoletionTime != null;
             this.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
             this.Surnames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
-            this.Username = securityUserInfo.UserName; //userEntity.SecurityUser.UserName;
+            this.Username = securityUserInfo.UserName; 
 			this.UserRoles = securityUserInfo.Roles.Select(r => new RoleViewModel(r)).OrderBy(q => q.Name).ToList();						
 		}
 
@@ -99,9 +101,14 @@ namespace OpenIZAdmin.Models.UserModels
 
         /// <summary>
 		/// Gets or sets the locked out status of the user.
+		/// </summary>		
+        public bool IsLockedOut { get; set; }
+
+        /// <summary>
+		/// Gets or sets the locked out status of the user.
 		/// </summary>
 		[Display(Name = "LockoutStatus", ResourceType = typeof(Locale))]
-        public bool IsLockedOut { get; set; }
+        public string LockoutStatus { get; set; }
 
         /// <summary>
         /// Gets or sets whether the security entity is obsolete.
