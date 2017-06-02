@@ -12,11 +12,18 @@
         OnBegin = "showLoadingBar()",
         OnComplete = "hideLoadingBar(xhr)"
     };
+
+    var name = string.Empty;
+
+    if (searchType != null)
+    {
+        name = Locale.ResourceManager.GetString(searchType);
+    }
 }
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@Locale.Search @TempData["searchType"]</span>
+        <span class="panel-title">@Locale.Search @name</span>
         <div class="pull-right">            
             <a href="~/@searchType/Create">
                 <span class="text-primary h4">@Locale.New</span>
