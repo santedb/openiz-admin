@@ -111,6 +111,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			var model = new CreatePlaceModel
 			{
+				IsServiceDeliveryLocation = true,
 				TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList().ToList()
 			};
 
