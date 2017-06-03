@@ -344,18 +344,14 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Edit", new { id = model.SourceId });
 					}
 
-					var currentRelationship = material.Relationships.FirstOrDefault(r => r.TargetEntityKey == model.TargetId && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
+					material.Relationships.RemoveAll(r => r.TargetEntityKey == model.TargetId && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
+					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
 
-					if (currentRelationship != null)
-					{
-						this.ImsiClient.Obsolete(currentRelationship);
-					}
-
-					this.ImsiClient.Create(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
+					var updatedMaterial = this.UpdateEntity<Material>(material);
 
 					this.TempData["success"] = Locale.RelatedManufacturedMaterialCreatedSuccessfully;
 
-					return RedirectToAction("Edit", new { id = material.Key.Value });
+					return RedirectToAction("Edit", new { id = updatedMaterial.Key.Value, versionId = updatedMaterial.VersionKey });
 				}
 			}
 			catch (Exception e)
