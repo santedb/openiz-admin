@@ -40,7 +40,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing organizations.
 	/// </summary>
 	[TokenAuthorize]
-	public class OrganizationController : BaseController
+	public class OrganizationController : AssociationController
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OrganizationController"/> class.
@@ -209,7 +209,7 @@ namespace OpenIZAdmin.Controllers
 					organization.Relationships.RemoveAll(r => r.TargetEntityKey == model.TargetId && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
 					organization.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { EffectiveVersionSequenceId = organization.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
 
-					this.ImsiClient.Update(organization);
+					this.UpdateEntity<Organization>(organization);
 
 					this.TempData["success"] = Locale.RelatedManufacturedMaterialCreatedSuccessfully;
 

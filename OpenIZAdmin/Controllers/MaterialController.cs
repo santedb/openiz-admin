@@ -41,7 +41,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing materials.
 	/// </summary>
 	[TokenAuthorize]
-	public class MaterialController : BaseController
+	public class MaterialController : AssociationController
 	{
 		/// <summary>
 		/// The material types mnemonic.
@@ -523,7 +523,7 @@ namespace OpenIZAdmin.Controllers
 					material.Relationships.RemoveAll(r => r.Key == model.Id);
 					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId));
 
-					this.ImsiClient.Update(material);
+					this.UpdateEntity<Material>(material);
 
 					this.TempData["success"] = Locale.RelatedManufacturedMaterialCreatedSuccessfully;
 
@@ -633,11 +633,11 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
-					var updatedMaterial = this.ImsiClient.Update<Material>(model.ToMaterial(material));
+					var updatedEntity = this.UpdateEntity<Material>(model.ToMaterial(material));
 
 					TempData["success"] = Locale.MaterialUpdatedSuccessfully;
 
-					return RedirectToAction("ViewMaterial", new {id = updatedMaterial.Key, versionId = updatedMaterial.VersionKey});
+					return RedirectToAction("ViewMaterial", new {id = updatedEntity.Key, versionId = updatedEntity.VersionKey});
 				}
 			}
 			catch (Exception e)

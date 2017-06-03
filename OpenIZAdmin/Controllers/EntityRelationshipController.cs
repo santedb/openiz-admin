@@ -62,17 +62,8 @@ namespace OpenIZAdmin.Controllers
 				var entity = this.GetEntity(sourceId, modelType);
 				versionKey = entity.VersionKey;
 
-				// set the creation time
-				entity.CreationTime = DateTimeOffset.Now;
-
 				// remove the existing relationship
 				entity.Relationships.RemoveAll(r => r.Key == id);
-
-				// remove all the relationships where I am the target entity
-				entity.Relationships.RemoveAll(r => r.TargetEntityKey == sourceId);
-
-				// null out the version key
-				entity.VersionKey = null;
 
 				var updatedEntity = this.UpdateEntity(entity, modelType);
 

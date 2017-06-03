@@ -84,14 +84,38 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Updates the entity.
 		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="entity">The entity.</param>
+		/// <returns>Returns the updated entity.</returns>
+		protected T UpdateEntity<T>(Entity entity) where T : Entity
+		{
+			return this.UpdateEntity(entity, typeof(T)) as T;
+		}
+
+		/// <summary>
+		/// Updates the entity.
+		/// </summary>
 		/// <param name="entity">The entity.</param>
 		/// <param name="modelType">Type of the model.</param>
 		/// <returns>Returns the updated entity.</returns>
 		protected virtual Entity UpdateEntity(Entity entity, Type modelType)
 		{
+			// set the creation time
+			entity.CreationTime = DateTimeOffset.Now;
+
+			// remove all the relationships where I am the target entity
+			entity.Relationships.RemoveAll(r => r.TargetEntityKey == entity.Key);
+
+			// null out the version key
+			entity.VersionKey = null;
+
 			var updateMethod = this.ImsiClient.GetType().GetRuntimeMethods().First(m => m.Name == "Update" && m.IsGenericMethod).MakeGenericMethod(modelType);
 
-			return updateMethod.Invoke(this.ImsiClient, new object[] { entity }) as Entity;
+			var updatedEntity = updateMethod.Invoke(this.ImsiClient, new object[] { entity }) as Entity;
+
+			MvcApplication.MemoryCache.Set(updatedEntity.Key.ToString(), updatedEntity, MvcApplication.CacheItemPolicy);
+
+			return updatedEntity;
 		}
 	}
 }

@@ -44,7 +44,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing places.
 	/// </summary>
 	[TokenAuthorize]
-	public class PlaceController : BaseController
+	public class PlaceController : AssociationController
 	{
 		/// <summary>
 		/// The health facility mnemonic.
@@ -424,7 +424,7 @@ namespace OpenIZAdmin.Controllers
 						placeToUpdate.Extensions.Add(entityExtension);
 					}
 
-					var updatedPlace = this.ImsiClient.Update<Place>(placeToUpdate);
+					var updatedPlace = this.UpdateEntity<Place>(placeToUpdate);
 
 					TempData["success"] = Locale.PlaceSuccessfullyUpdated;
 
