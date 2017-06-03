@@ -33,7 +33,7 @@
                             <td>@item.Name</td>
                             <td>@item.Oid</td>
                             <td>@item.Grant</td>
-                            <td>@item.CanOverride</td>
+                            <td>@item.CanOverride.ToYesOrNo()</td>
                             @*<td class="capitalize">@(item.IsObsolete ? Html.Raw("<text>" + Locale.Deactivated + "</text>") : Html.Raw("<text>" + Locale.Active + "</text>"))</td>*@
                             <td>@item.IsObsolete.ToObsoleteStatus()</td>
                             <td class="autoFitContents centerContent">

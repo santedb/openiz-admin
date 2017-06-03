@@ -203,7 +203,13 @@ namespace OpenIZAdmin.Controllers
 					ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
 				};
 
-				model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList().ToList());
+				var concepts = new List<Concept>
+				{
+					this.GetConcept(EntityRelationshipTypeKeys.Child),
+					this.GetConcept(EntityRelationshipTypeKeys.Parent)
+				};
+
+				model.RelationshipTypes.AddRange(concepts.ToSelectList());
 
 				return View(model);
 			}
@@ -255,7 +261,18 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to create related place: { e }");
 			}
 
-			model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.SkipWhile(c => c.Key != EntityRelationshipTypeKeys.Child || c.Key != EntityRelationshipTypeKeys.Parent).ToSelectList().ToList());
+			var concepts = new List<Concept>
+			{
+				this.GetConcept(EntityRelationshipTypeKeys.Child),
+				this.GetConcept(EntityRelationshipTypeKeys.Parent)
+			};
+
+			Guid relationshipType;
+
+			if (Guid.TryParse(model.RelationshipType, out relationshipType))
+			{
+				model.RelationshipTypes.AddRange(concepts.ToSelectList(c => c.Key == relationshipType));
+			}
 
 			this.TempData["error"] = Locale.UnableToCreateRelatedPlace;
 

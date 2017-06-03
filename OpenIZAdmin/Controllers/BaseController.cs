@@ -289,7 +289,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (entity.TypeConceptKey.HasValue && entity.TypeConceptKey != Guid.Empty)
 				{
-					entity.TypeConcept = this.ImsiClient.Get<Concept>(entity.TypeConceptKey.Value, null) as Concept;
+					entity.TypeConcept = this.GetConcept(entity.TypeConceptKey.Value);
 				}
 			}
 			else

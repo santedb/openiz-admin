@@ -24,6 +24,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Models.EntityRelationshipModels;
 
@@ -61,13 +62,27 @@ namespace OpenIZAdmin.Controllers
 				var entity = this.GetEntity(sourceId, modelType);
 				versionKey = entity.VersionKey;
 
-				entity.Relationships.RemoveAll(r => r.Key == id);
+				// set the creation time
+				//entity.CreationTime = DateTimeOffset.Now;
 
-				var updatedEntity = this.UpdateEntity(entity, modelType);
+				// remove the existing relationship
+				//entity.Relationships.RemoveAll(r => r.Key == id);
+
+				// remove all the relationships where I am the target entity
+				//entity.Relationships.RemoveAll(r => r.TargetEntityKey == sourceId);
+
+				// null out the version key
+				//entity.VersionKey = null;
+
+				var currentEntityRelationship = this.ImsiClient.Get<EntityRelationship>(id, null) as EntityRelationship;
+
+				this.ImsiClient.Obsolete(currentEntityRelationship);
+
+				//var updatedEntity = this.UpdateEntity(entity, modelType);
 
 				this.TempData["success"] = Locale.RelationshipDeletedSuccessfully;
 
-				return RedirectToAction("Edit", type, new { id = updatedEntity.Key.Value, versionId = updatedEntity.VersionKey.Value });
+				return RedirectToAction("Edit", type, new { id = sourceId });
 			}
 			catch (Exception e)
 			{

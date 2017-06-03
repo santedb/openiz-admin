@@ -22,6 +22,7 @@ using OpenIZAdmin.Attributes;
 using System;
 using System.Linq;
 using System.Reflection;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -50,21 +51,26 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <param name="type">The type.</param>
 		/// <returns>Returns the type for a given model type.</returns>
+		/// <exception cref="System.ArgumentNullException">If the type is null or empty.</exception>
 		/// <exception cref="System.ArgumentException">If the model type is not supported.</exception>
 		protected virtual Type GetModelType(string type)
 		{
+			if (string.IsNullOrEmpty(type) || string.IsNullOrWhiteSpace(type))
+				throw new ArgumentNullException(nameof(type), Locale.ValueCannotBeNull);
+
 			Type modelType;
-			switch (type)
+
+			switch (type.ToLower())
 			{
-				case "Material":
+				case "material":
 					modelType = typeof(Material);
 					break;
 
-				case "Place":
+				case "place":
 					modelType = typeof(Place);
 					break;
 
-				case "Organization":
+				case "organization":
 					modelType = typeof(Organization);
 					break;
 
@@ -80,7 +86,7 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <param name="entity">The entity.</param>
 		/// <param name="modelType">Type of the model.</param>
-		/// <returns>Entity.</returns>
+		/// <returns>Returns the updated entity.</returns>
 		protected virtual Entity UpdateEntity(Entity entity, Type modelType)
 		{
 			var updateMethod = this.ImsiClient.GetType().GetRuntimeMethods().First(m => m.Name == "Update" && m.IsGenericMethod).MakeGenericMethod(modelType);

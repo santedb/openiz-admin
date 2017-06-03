@@ -33,7 +33,6 @@ using System.Linq.Expressions;
 using System.Runtime.Caching;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.DataTypes;
-using OpenIZ.Core.Services.Impl;
 using OpenIZAdmin.Models.EntityRelationshipModels;
 
 namespace OpenIZAdmin.Controllers
@@ -345,10 +344,14 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Edit", new { id = model.SourceId });
 					}
 
-					material.Relationships.RemoveAll(r => r.TargetEntityKey == model.TargetId && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
-					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { EffectiveVersionSequenceId = material.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
+					var currentRelationship = material.Relationships.FirstOrDefault(r => r.TargetEntityKey == model.TargetId && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
 
-					this.ImsiClient.Update(material);
+					if (currentRelationship != null)
+					{
+						this.ImsiClient.Obsolete(currentRelationship);
+					}
+
+					this.ImsiClient.Create(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
 
 					this.TempData["success"] = Locale.RelatedManufacturedMaterialCreatedSuccessfully;
 
@@ -416,7 +419,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var material = this.GetEntity<Material>(id, null, null, true);
+				var material = this.GetEntity<Material>(id, versionId);
 
 				if (material == null)
 				{
@@ -431,8 +434,8 @@ namespace OpenIZAdmin.Controllers
 
 				material.Relationships = new List<EntityRelationship>();
 
-				material.Relationships.AddRange(this.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity).ToList());
-				material.Relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList());
+				material.Relationships.AddRange(this.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity && r.ObsoleteVersionSequenceId == null).ToList());
+				material.Relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
 
 				var model = new EditMaterialModel(material)
 				{
