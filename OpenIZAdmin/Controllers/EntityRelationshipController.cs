@@ -63,26 +63,22 @@ namespace OpenIZAdmin.Controllers
 				versionKey = entity.VersionKey;
 
 				// set the creation time
-				//entity.CreationTime = DateTimeOffset.Now;
+				entity.CreationTime = DateTimeOffset.Now;
 
 				// remove the existing relationship
-				//entity.Relationships.RemoveAll(r => r.Key == id);
+				entity.Relationships.RemoveAll(r => r.Key == id);
 
 				// remove all the relationships where I am the target entity
-				//entity.Relationships.RemoveAll(r => r.TargetEntityKey == sourceId);
+				entity.Relationships.RemoveAll(r => r.TargetEntityKey == sourceId);
 
 				// null out the version key
-				//entity.VersionKey = null;
+				entity.VersionKey = null;
 
-				var currentEntityRelationship = this.ImsiClient.Get<EntityRelationship>(id, null) as EntityRelationship;
-
-				this.ImsiClient.Obsolete(currentEntityRelationship);
-
-				//var updatedEntity = this.UpdateEntity(entity, modelType);
+				var updatedEntity = this.UpdateEntity(entity, modelType);
 
 				this.TempData["success"] = Locale.RelationshipDeletedSuccessfully;
 
-				return RedirectToAction("Edit", type, new { id = sourceId });
+				return RedirectToAction("Edit", type, new { id = sourceId, versionId = updatedEntity.VersionKey });
 			}
 			catch (Exception e)
 			{
