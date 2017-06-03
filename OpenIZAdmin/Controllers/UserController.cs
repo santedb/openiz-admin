@@ -103,7 +103,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				RolesList = this.GetAllRoles().ToSelectList("Name", "Name", null, true),
                 PhoneTypeList = GetPhoneTypeConceptSet().Concepts.ToSelectList().ToList(),
-            PhoneType = TelecomAddressUseKeys.MobileContact.ToString()
+				PhoneType = TelecomAddressUseKeys.MobileContact.ToString()
             };                        
 
             return View(model);
