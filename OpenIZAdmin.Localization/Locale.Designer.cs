@@ -5058,6 +5058,15 @@ namespace OpenIZAdmin.Localization {
         /// <summary>
         ///   Looks up a localized string similar to Please select a type.
         /// </summary>
+        public static string TypeConceptRequired {
+            get {
+                return ResourceManager.GetString("TypeConceptRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a type.
+        /// </summary>
         public static string TypeRequired {
             get {
                 return ResourceManager.GetString("TypeRequired", resourceCulture);

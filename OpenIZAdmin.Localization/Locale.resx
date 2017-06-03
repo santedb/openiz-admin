@@ -2253,4 +2253,7 @@
   <data name="Unlocked" xml:space="preserve">
     <value>Unlocked</value>
   </data>
+  <data name="TypeConceptRequired" xml:space="preserve">
+    <value>Please select a type</value>
+  </data>
 </root>

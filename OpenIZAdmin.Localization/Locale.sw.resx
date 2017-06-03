@@ -1640,4 +1640,7 @@ au jina la kikoa</value>
   <data name="IsSystemAlert" xml:space="preserve">
     <value>Je, ungependa kutangaza tahadhari hii kwa kila mtu (Hii itakuwa tahadhari ngazi ya mfumo kwa watumiaji wote)</value>
   </data>
+  <data name="TypeConceptRequired" xml:space="preserve">
+    <value>Tafadhali chagua aina</value>
+  </data>
 </root>

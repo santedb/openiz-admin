@@ -78,6 +78,7 @@ namespace OpenIZAdmin.Models.PlaceModels
         /// Gets or sets the type concept.
         /// </summary>
         /// <value>The type concept.</value>
+        [Required(ErrorMessageResourceName = "TypeConceptRequired", ErrorMessageResourceType = typeof(Locale))]
         [Display(Name = "TypeConcept", ResourceType = typeof(Locale))]
 		public string TypeConcept { get; set; }
 
