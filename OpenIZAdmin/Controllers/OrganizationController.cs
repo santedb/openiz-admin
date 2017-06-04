@@ -23,6 +23,7 @@ using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Comparer;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.EntityRelationshipModels;
@@ -282,7 +283,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var organization = this.GetEntity<Organization>(id, null, m => m.ClassConceptKey == EntityClassKeys.Organization);
+				var organization = this.GetEntity<Organization>(id);
 
 				if (organization == null)
 				{
@@ -291,7 +292,11 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				organization.Relationships = this.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList();
+				var relationships = new List<EntityRelationship>();
+
+				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => (r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct) && r.ObsoleteVersionSequenceId == null).ToList());
+
+				organization.Relationships = relationships.Intersect(organization.Relationships, new EntityRelationshipComparer()).ToList();
 
 				var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
 
@@ -423,7 +428,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var organization = this.GetEntity<Organization>(id, null);
+				var organization = this.GetEntity<Organization>(id);
 
 				if (organization == null)
 				{
@@ -432,7 +437,11 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				organization.Relationships = this.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList();
+				var relationships = new List<EntityRelationship>();
+
+				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => (r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct) && r.ObsoleteVersionSequenceId == null).ToList());
+
+				organization.Relationships = relationships.Intersect(organization.Relationships, new EntityRelationshipComparer()).ToList();
 
 				return View(new OrganizationViewModel(organization, true));
 			}

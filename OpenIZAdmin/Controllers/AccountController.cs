@@ -326,8 +326,6 @@ namespace OpenIZAdmin.Controllers
 				case SignInStatus.Success:
 					Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
 					return RedirectToLocal(returnUrl);
-
-				case SignInStatus.Failure:
 				default:
 					ModelState.AddModelError("", Locale.IncorrectUsernameOrPassword);
 					return View(model);
@@ -342,6 +340,7 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult LogOff()
 		{
+			this.TempData.Clear();
 			HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 			this.Response.Cookies.Remove("access_token");
 			return RedirectToAction("Index", "Home");

@@ -24,6 +24,7 @@ using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Comparer;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core.Serialization;
@@ -326,7 +327,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var place = this.GetEntity<Place>(id, null);
+				var place = this.GetEntity<Place>(id);
 
 				if (place == null)
 				{
@@ -340,10 +341,14 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("ViewPlace", new { id, versionId });
 				}
 
-				place.Relationships = this.GetEntityRelationships<Place>(place.Key.Value,
+				var relationships = new List<EntityRelationship>();
+
+				relationships.AddRange(this.GetEntityRelationships<Place>(place.Key.Value,
 					r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
 						r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
-						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).ToList();
+						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
+
+				place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
 
 				var model = new EditPlaceModel(place)
 				{
@@ -615,7 +620,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var place = this.GetEntity<Place>(id, null);
+				var place = this.GetEntity<Place>(id);
 
 				if (place == null)
 				{
@@ -623,10 +628,14 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				place.Relationships = this.GetEntityRelationships<Place>(place.Key.Value,
-					r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
+				var relationships = new List<EntityRelationship>();
+
+				relationships.AddRange(this.GetEntityRelationships<Place>(place.Key.Value,
+						r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
 						r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
-						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation).ToList();
+						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
+
+				place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
 
 				return View(new PlaceViewModel(place));
 			}

@@ -257,9 +257,8 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The identifier.</param>
 		/// <param name="versionId">The version identifier.</param>
 		/// <param name="expression">The expression.</param>
-		/// <param name="loadFast">if set to <c>true</c> [load fast].</param>
 		/// <returns>Returns the identifier based on the id, version id, and an expression.</returns>
-		protected T GetEntity<T>(Guid id, Guid? versionId = null, Expression<Func<T, bool>> expression = null, bool loadFast = false) where T : Entity
+		protected T GetEntity<T>(Guid id, Guid? versionId = null, Expression<Func<T, bool>> expression = null) where T : Entity
 		{
 			Expression<Func<T, bool>> query = o => o.Key == id;
 
@@ -274,37 +273,20 @@ namespace OpenIZAdmin.Controllers
 
 			T entity = null;
 
-			if (!loadFast)
+			var bundle = this.ImsiClient.Query<T>(query, 0, null, true);
+
+			bundle.Reconstitute();
+
+			entity = bundle.Item.OfType<T>().Where(query.Compile()).LatestVersionOnly().FirstOrDefault(query.Compile().Invoke);
+
+			if (entity == null)
 			{
-				var bundle = this.ImsiClient.Query<T>(query, 0, null, true);
-
-				bundle.Reconstitute();
-
-				entity = bundle.Item.OfType<T>().Where(query.Compile()).LatestVersionOnly().FirstOrDefault(query.Compile().Invoke);
-
-				if (entity == null)
-				{
-					return null;
-				}
-
-				if (entity.TypeConceptKey.HasValue && entity.TypeConceptKey != Guid.Empty)
-				{
-					entity.TypeConcept = this.GetConcept(entity.TypeConceptKey.Value);
-				}
+				return null;
 			}
-			else
+
+			if (entity.TypeConceptKey.HasValue && entity.TypeConceptKey != Guid.Empty)
 			{
-				entity = MvcApplication.MemoryCache.Get(id.ToString()) as T;
-
-				if (entity == null)
-				{
-					entity = this.GetEntityInternal<T>(id);
-
-					if (entity != null && loadFast)
-					{
-						MvcApplication.MemoryCache.Set(id.ToString(), entity, MvcApplication.CacheItemPolicy);
-					}
-				}
+				entity.TypeConcept = this.GetConcept(entity.TypeConceptKey.Value);
 			}
 
 			return entity;

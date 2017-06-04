@@ -33,6 +33,7 @@ using System.Linq.Expressions;
 using System.Runtime.Caching;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Comparer;
 using OpenIZAdmin.Models.EntityRelationshipModels;
 
 namespace OpenIZAdmin.Controllers
@@ -415,7 +416,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var material = this.GetEntity<Material>(id, versionId);
+				var material = this.GetEntity<Material>(id);
 
 				if (material == null)
 				{
@@ -428,10 +429,12 @@ namespace OpenIZAdmin.Controllers
 				var quantityConcepts = this.GetQuantityConcepts();
 				var typeConcepts = this.GetMaterialTypeConcepts();
 
-				material.Relationships = new List<EntityRelationship>();
+				var relationships = new List<EntityRelationship>();
 
-				material.Relationships.AddRange(this.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity && r.ObsoleteVersionSequenceId == null).ToList());
-				material.Relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
+				relationships.AddRange(this.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity && r.ObsoleteVersionSequenceId == null).ToList());
+				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
+
+				material.Relationships = relationships.Intersect(material.Relationships, new EntityRelationshipComparer()).ToList();
 
 				var model = new EditMaterialModel(material)
 				{
@@ -753,7 +756,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var material = this.GetEntity<Material>(id, null, null, true);
+				var material = this.GetEntity<Material>(id);
 
 				if (material == null)
 				{
@@ -766,25 +769,12 @@ namespace OpenIZAdmin.Controllers
 				material.QuantityConcept = this.GetConcept(material.QuantityConceptKey);
 				material.TypeConcept = this.GetConcept(material.TypeConceptKey);
 
-				foreach (var relationship in material.Relationships.Where(r => r.TargetEntity == null && r.TargetEntityKey.HasValue && r.TargetEntityKey.Value != Guid.Empty && r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity))
-				{
-					relationship.TargetEntity = this.GetEntity<Material>(relationship.TargetEntityKey.Value, null, null, true);
+				var relationships = new List<EntityRelationship>();
 
-					if (relationship.RelationshipType == null)
-					{
-						relationship.RelationshipType = this.GetConcept(relationship.RelationshipTypeKey.Value);
-					}
-				}
+				relationships.AddRange(this.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity && r.ObsoleteVersionSequenceId == null).ToList());
+				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
 
-				foreach (var relationship in material.Relationships.Where(r => r.TargetEntity == null && r.TargetEntityKey.HasValue && r.TargetEntityKey.Value != Guid.Empty && r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct))
-				{
-					relationship.TargetEntity = this.GetEntity<ManufacturedMaterial>(relationship.TargetEntityKey.Value, null, null, true);
-
-					if (relationship.RelationshipType == null)
-					{
-						relationship.RelationshipType = this.GetConcept(relationship.RelationshipTypeKey.Value);
-					}
-				}
+				material.Relationships = relationships.Intersect(material.Relationships, new EntityRelationshipComparer()).ToList();
 
 				return View(new MaterialViewModel(material));
 			}
