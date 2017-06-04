@@ -39,11 +39,11 @@
                     <a href="@Url.Action("ViewApplication", new { id = Model.Id })">@Locale.Cancel</a>
                     @if (Model.IsObsolete)
                     {
-                        <button type="submit" class="btn btn-primary" disabled="disabled" title="@Locale.ToolTip_Submit">@Locale.CannotUpdateNotActive</button>
+                        <button type="submit" data-locale-text="@Locale.PleaseWait" class="btn btn-primary" disabled="disabled" title="@Locale.ToolTip_Submit">@Locale.CannotUpdateNotActive</button>
                     }
                     else
                     {
-                        <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+                        <button type="submit" data-locale-text="@Locale.PleaseWait" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
                     }
                 </div>
             </div>
@@ -57,7 +57,7 @@
                     {
                         @Html.AntiForgeryToken()
 
-                        <button type="submit" class="btn btn-success">
+                        <button type="submit" data-locale-text="@Locale.PleaseWait" class="btn btn-success">
                             @Locale.Activate
                             <span class="glyphicon glyphicon-upload"></span>
                         </button>
@@ -70,7 +70,7 @@
                     {
                         @Html.AntiForgeryToken()
 
-                        <button type="submit" class="btn btn-danger">
+                        <button type="submit" data-locale-text="@Locale.PleaseWait" class="btn btn-danger">
                             @Locale.Deactivate
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>

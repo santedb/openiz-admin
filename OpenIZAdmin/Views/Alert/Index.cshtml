@@ -62,12 +62,12 @@
                                 @using (Html.BeginForm("Read", "Alert", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                 {
                                     @Html.AntiForgeryToken()
-                                    <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span>@Locale.Acknowledge</button>}
+                                    <button type="submit" data-locale-text="@Locale.PleaseWait" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span>@Locale.Acknowledge</button>}
 
                                 @using (Html.BeginForm("Delete", "Alert", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                 {
                                     @Html.AntiForgeryToken()
-                                    <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>@Locale.Delete</button>}
+                                    <button type="submit" data-locale-text="@Locale.PleaseWait" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>@Locale.Delete</button>}
                             </td>
                         </tr>}
                 </tbody>

@@ -12,9 +12,10 @@ $(document).on("invalid-form.validate", "form", function ()
     }, 1);
 });
 
-// on an invalid form state, we want to find the submit button and disable it.
-$(document).on("submit", "form", function ()
+// on form submit, we want to find the submit button and disable it.
+$(document).on("submit", "form", function (data)
 {
+    console.log(data);
     var button = $(this).find('button[type="submit"]');
 
     if (button[0] !== undefined)
@@ -24,31 +25,24 @@ $(document).on("submit", "form", function ()
         // this is to prevent ajax form submit buttons from being disabled
         if (disableWait === undefined || disableWait === null || disableWait.value === "false")
         {
+            var content = button[0].attributes["data-locale-text"];
+
+            var message;
+
+            if (content === undefined || content === null || content.value === "")
+            {
+                message = "Please wait";
+            }
+            else
+            {
+                message = content.value;
+            }
+            
             setTimeout(function()
             {
-                button[0].textContent = "Please wait";
+                button[0].textContent = message;
                 button.attr("disabled", "disabled");
             }, 0);
         }
     }
 });
-
-$(document).ready(function()
-{
-    $("#confirmDeleteYes").on("click", function (e)
-    {
-        var options = $("#confirm-delete-modal").data('bs.modal').options;
-
-        $(this).text("Please wait");
-        $(this).attr("disabled", "disabled");
-        $(options.form).submit();
-    });
-});
-
-function showModal(form)
-{
-    $("#confirm-delete-modal").modal({
-        backdrop: 'static',
-        form: "#" + form
-    });
-}

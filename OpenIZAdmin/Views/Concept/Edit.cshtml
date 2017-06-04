@@ -76,15 +76,15 @@
                     <a href="@Url.Action("ViewConcept", new { id = Model.Id, versionId = Model.VersionKey })">@Locale.Cancel</a>
                     @if (Model.IsObsolete)
                     {
-                        <button type="submit" class="btn btn-primary" disabled="disabled">@Locale.CannotUpdateNotActive</button>
+                        <button type="submit" data-locale-text="@Locale.PleaseWait" class="btn btn-primary" disabled="disabled">@Locale.CannotUpdateNotActive</button>
                     }
                     else if (Model.IsSystemConcept)
                     {
-                        <button type="submit" class="btn btn-primary" disabled="disabled">@Locale.CannotUpdateSystemConcept</button>
+                        <button type="submit" data-locale-text="@Locale.PleaseWait" class="btn btn-primary" disabled="disabled">@Locale.CannotUpdateSystemConcept</button>
                     }
                     else
                     {
-                        <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+                        <button type="submit" data-locale-text="@Locale.PleaseWait" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
                     }
                 </div>
             </div>

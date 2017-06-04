@@ -43,7 +43,7 @@
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
-                    <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+                    <button type="submit" data-locale-text="@Locale.PleaseWait" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
                 </div>
             </div>
         }

@@ -1658,4 +1658,7 @@ au jina la kikoa</value>
   <data name="NoMaterialsFound" xml:space="preserve">
     <value>Hakuna vya Kupatikana</value>
   </data>
+  <data name="PleaseWait" xml:space="preserve">
+    <value>Tafadhali subiri</value>
+  </data>
 </root>

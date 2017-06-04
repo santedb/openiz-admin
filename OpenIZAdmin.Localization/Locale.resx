@@ -2265,4 +2265,7 @@
   <data name="NoMaterialsFound" xml:space="preserve">
     <value>No Materials Found</value>
   </data>
+  <data name="PleaseWait" xml:space="preserve">
+    <value>Please Wait</value>
+  </data>
 </root>
