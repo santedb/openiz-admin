@@ -86,14 +86,14 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// Gets or sets the reference term to add
 		/// </summary>
 		//[DependentPropertyValidator("RelationshipType", ErrorMessage = "Reference Term and Relationship Type are required to add a Reference Term.")]
-		[Display(Name = "AddReferenceTerms", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "AddReferenceTerms", ResourceType = typeof(Locale))]
 		public string AddReferenceTerm { get; set; }
 
 		/// <summary>
 		/// Gets or sets the concept class.
 		/// </summary>
 		/// <value>The concept class.</value>
-		[Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "ConceptClass", ResourceType = typeof(Locale))]
 		public string ConceptClass { get; set; }
 
 		/// <summary>

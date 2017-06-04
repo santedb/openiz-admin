@@ -35,7 +35,7 @@ namespace OpenIZAdmin.Models.Core
         /// <summary>
         /// Gets or sets the list of roles of the user.
         /// </summary>
-        [Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
+        [Display(Name = "Roles", ResourceType = typeof(Locale))]
         [Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Locale))]
         public List<string> Roles { get; set; }
 

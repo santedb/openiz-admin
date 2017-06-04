@@ -21,6 +21,7 @@ using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Models.Core;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.RoleModels
 {
@@ -51,13 +52,13 @@ namespace OpenIZAdmin.Models.RoleModels
 		/// <summary>
 		/// Gets or sets the description of the role.
 		/// </summary>
-		[Display(Name = "Description", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Description", ResourceType = typeof(Locale))]
 		public string Description { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the role.
 		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		public string Name { get; set; }
 	}
 }

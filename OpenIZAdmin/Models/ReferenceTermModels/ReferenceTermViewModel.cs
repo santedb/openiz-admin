@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.ReferenceTermModels
 {
@@ -85,13 +86,13 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		/// <summary>
 		/// Gets or sets the creation time of the concept.
 		/// </summary>
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
 		public DateTime CreationTime { get; set; }
 
 		/// <summary>
 		/// Gets or sets the concatenated display names of the Reference Term
 		/// </summary>
-		[Display(Name = "Names", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Names", ResourceType = typeof(Locale))]
 		public string Names { get; set; }
 
 		/// <summary>

@@ -23,6 +23,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ReferenceTermNameModels
@@ -64,8 +65,8 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
         /// <summary>
         /// Gets or sets the two letter language code of the language.
         /// </summary>
-        [Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [Display(Name = "Language", ResourceType = typeof(Locale))]
+        [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Locale))]
         public string TwoLetterCountryCode { get; set; }
 
         /// <summary>

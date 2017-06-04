@@ -39,11 +39,11 @@ namespace OpenIZAdmin.Models.UserModels
 		/// Gets or sets the password confirmation of the model.
 		/// </summary>
 		[DataType(DataType.Password)]
-		[Display(Name = "ConfirmPassword", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "ConfirmPasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "ConfirmPassword", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "ConfirmPasswordRequired", ErrorMessageResourceType = typeof(Locale))]
         [StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
         [RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
-        [Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Locale))]
 		public string ConfirmPassword { get; set; }
 
 		/// <summary>
@@ -56,8 +56,8 @@ namespace OpenIZAdmin.Models.UserModels
 		/// Gets or sets the password of the model.
 		/// </summary>
 		[DataType(DataType.Password)]
-		[Display(Name = "Password", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Password", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Locale))]
         [StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
         [RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
         public string Password { get; set; }

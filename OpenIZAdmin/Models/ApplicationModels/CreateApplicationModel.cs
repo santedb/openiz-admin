@@ -44,9 +44,9 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		/// <summary>
 		/// Gets or sets the name of the application.
 		/// </summary>
-		[Display(Name = "ApplicationName", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "ApplicationName", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
         [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public string ApplicationName { get; set; }
 
@@ -54,8 +54,8 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		/// Gets or sets the secret of the application.
 		/// </summary>
 		[Required]
-		[Display(Name = "ApplicationSecret", ResourceType = typeof(Localization.Locale))]
-        [StringLength(64, ErrorMessageResourceName = "SecretLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "ApplicationSecret", ResourceType = typeof(Locale))]
+        [StringLength(64, ErrorMessageResourceName = "SecretLength64", ErrorMessageResourceType = typeof(Locale))]
         [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public string ApplicationSecret { get; set; }
 

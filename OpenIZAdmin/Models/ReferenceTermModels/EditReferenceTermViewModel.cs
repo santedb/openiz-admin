@@ -24,6 +24,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
 using OpenIZAdmin.Models.ReferenceTermNameModels;
 
@@ -63,7 +64,7 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
         /// <summary>
         /// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
         /// </summary>		
-        [Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
+        [Display(Name = "Languages", ResourceType = typeof(Locale))]
         public List<ReferenceTermNameViewModel> TermNamesList { get; set; }
     }
 }

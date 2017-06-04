@@ -23,6 +23,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ConceptModels;
 using OpenIZAdmin.Models.Core;
 using OpenIZAdmin.Models.ReferenceTermModels;
@@ -72,7 +73,7 @@ namespace OpenIZAdmin.Models.AuthorityScope
         /// <summary>
         /// Gets or sets the class of the concept.
         /// </summary>
-        [Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
+        [Display(Name = "ConceptClass", ResourceType = typeof(Locale))]
         public string Class { get; set; }
 
         /// <summary>

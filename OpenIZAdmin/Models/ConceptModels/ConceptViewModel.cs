@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ConceptModels
@@ -75,7 +76,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// <summary>
 		/// Gets or sets the class of the concept.
 		/// </summary>
-		[Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "ConceptClass", ResourceType = typeof(Locale))]
 		public string Class { get; set; }
 
 		/// <summary>
@@ -86,7 +87,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// <summary>
 		/// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
 		/// </summary>
-		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Languages", ResourceType = typeof(Locale))]
 		public List<Language> Languages { get; set; }
 	}
 }

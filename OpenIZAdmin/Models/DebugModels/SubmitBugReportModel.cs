@@ -35,15 +35,15 @@ namespace OpenIZAdmin.Models.DebugModels
 		/// <summary>
 		/// Gets or sets whether to attach the metadata for the issue
 		/// </summary>
-		[Display(Name = "AttachBugInfo", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "AttachBugInfo", ResourceType = typeof(Locale))]
 		public bool AttachBugInfo { get; set; }
 
 		/// <summary>
 		/// Gets or sets the description of the role.
 		/// </summary>
-		[Display(Name = "StepsToReproduce", ResourceType = typeof(Localization.Locale))]
-		[StringLength(4000, ErrorMessageResourceName = "StepsToReproduceTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "StepsToReproduceRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "StepsToReproduce", ResourceType = typeof(Locale))]
+		[StringLength(4000, ErrorMessageResourceName = "StepsToReproduceTooLong", ErrorMessageResourceType = typeof(Locale))]
+        [Required(ErrorMessageResourceName = "StepsToReproduceRequired", ErrorMessageResourceType = typeof(Locale))]
         [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public string BugDetails { get; set; }
 
@@ -58,7 +58,7 @@ namespace OpenIZAdmin.Models.DebugModels
         /// Gets or sets the reporter.
         /// </summary>
         /// <value>The reporter.</value>       
-        [Display(Name = "Reporter", ResourceType = typeof(Localization.Locale))] 
+        [Display(Name = "Reporter", ResourceType = typeof(Locale))] 
         public string Reporter { get; set; }
 
 		/// <summary>
@@ -71,7 +71,7 @@ namespace OpenIZAdmin.Models.DebugModels
         /// Gets or sets the transaction message.
         /// </summary>
         /// <value>The transaction message.</value>
-        //[StringLength(256, ErrorMessageResourceName = "TransactionLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+        //[StringLength(256, ErrorMessageResourceName = "TransactionLength256", ErrorMessageResourceType = typeof(Locale))]
         public string TransactionMessage { get; set; }
 
 		/// <summary>

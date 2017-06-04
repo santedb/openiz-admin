@@ -20,6 +20,7 @@
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.DeviceModels
 {
@@ -38,17 +39,17 @@ namespace OpenIZAdmin.Models.DeviceModels
 		/// <summary>
 		/// Gets or sets the device secret.
 		/// </summary>
-		[Display(Name = "DeviceSecret", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "DeviceSecretRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(64, ErrorMessageResourceName = "DeviceSecret64", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "DeviceSecret", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "DeviceSecretRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(64, ErrorMessageResourceName = "DeviceSecret64", ErrorMessageResourceType = typeof(Locale))]
 		public string DeviceSecret { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the device.
 		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
         /// <summary>

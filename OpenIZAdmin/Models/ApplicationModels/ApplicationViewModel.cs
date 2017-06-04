@@ -20,6 +20,7 @@
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Models.Core;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.ApplicationModels
 {
@@ -48,7 +49,7 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		/// <summary>
 		/// Gets or sets the application name of the application.
 		/// </summary>
-		[Display(Name = "ApplicationName", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "ApplicationName", ResourceType = typeof(Locale))]
 		public string ApplicationName { get; set; }
 	}
 }

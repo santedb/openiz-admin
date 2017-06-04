@@ -77,16 +77,16 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		/// Gets or sets the mnemonic of the concept.
 		/// </summary>
 		[Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(64, ErrorMessageResourceName = "MnemonicLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Locale))]
+        [StringLength(64, ErrorMessageResourceName = "MnemonicLength64", ErrorMessageResourceType = typeof(Locale))]
         public override string Mnemonic { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the concept set.
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(64, ErrorMessageResourceName = "NameLength50", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+        [StringLength(64, ErrorMessageResourceName = "NameLength50", ErrorMessageResourceType = typeof(Locale))]
         public override string Name { get; set; }
 
 		/// <summary>

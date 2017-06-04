@@ -40,7 +40,7 @@ namespace OpenIZAdmin.Models.Core
 		/// Gets or sets the code system list.
 		/// </summary>
 		/// <value>The code system list.</value>
-		[Display(Name = "CodeSystem", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "CodeSystem", ResourceType = typeof(Locale))]
 		public List<SelectListItem> CodeSystemList { get; set; }
 
 		/// <summary>
@@ -58,17 +58,17 @@ namespace OpenIZAdmin.Models.Core
 		/// Gets or sets the current language.
 		/// </summary>
 		/// <value>The language.</value>
-		[Display(Name = "Languages", ResourceType = typeof(Localization.Locale))]
-		//[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Languages", ResourceType = typeof(Locale))]
+		//[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Locale))]
 		public virtual string Language { get; set; }
 
 		/// <summary>
 		/// Gets or sets the mnemonic.
 		/// </summary>
 		/// <value>The mnemonic.</value>
-		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(50, ErrorMessageResourceName = "MnemonicLength50", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(50, ErrorMessageResourceName = "MnemonicLength50", ErrorMessageResourceType = typeof(Locale))]
         [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public string Mnemonic { get; set; }
 
@@ -76,17 +76,17 @@ namespace OpenIZAdmin.Models.Core
 		/// Gets or sets the name.
 		/// </summary>
 		/// <value>The name.</value>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Locale))]
         [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the two letter language code of the language.
 		/// </summary>
-		[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Language", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string TwoLetterCountryCode { get; set; }
 	}
 }

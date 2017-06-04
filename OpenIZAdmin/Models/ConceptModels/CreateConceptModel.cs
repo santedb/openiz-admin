@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ConceptModels
@@ -44,8 +45,8 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// Gets or sets the concept class.
 		/// </summary>
 		/// <value>The concept class.</value>
-		[Display(Name = "ConceptClass", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "ConceptClass", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "ConceptClassRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string ConceptClass { get; set; }
 
 		/// <summary>
@@ -58,9 +59,9 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// Gets or sets the language.
 		/// </summary>
 		/// <value>The language.</value>
-		[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(2, ErrorMessageResourceName = "LanguagCodeTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Language", ResourceType = typeof(Locale))]
+        [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Locale))]
+        [StringLength(2, ErrorMessageResourceName = "LanguagCodeTooLong", ErrorMessageResourceType = typeof(Locale))]
         public new string Language { get; set; }
 
         /// <summary>
@@ -73,9 +74,9 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// Gets or sets the name.
 		/// </summary>
 		/// <value>The name.</value>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+        [StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Locale))]
         public new string Name { get; set; }
        
         /// <summary>

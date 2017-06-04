@@ -22,6 +22,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.AccountModels
 {
@@ -65,7 +66,7 @@ namespace OpenIZAdmin.Models.AccountModels
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
-        [StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Locale))]
         public string Name { get; set; }
 	}
 }

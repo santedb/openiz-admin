@@ -40,7 +40,7 @@ namespace OpenIZAdmin.Models.Core
         [DataType(DataType.EmailAddress)]
         [Display(Name = "Email", ResourceType = typeof(Locale))]
         [EmailAddress(ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(256, ErrorMessageResourceName = "EmailLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(256, ErrorMessageResourceName = "EmailLength256", ErrorMessageResourceType = typeof(Locale))]
         public string Email { get; set; }
 
         /// <summary>

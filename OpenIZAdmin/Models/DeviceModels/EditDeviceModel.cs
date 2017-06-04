@@ -80,7 +80,7 @@ namespace OpenIZAdmin.Models.DeviceModels
         /// <summary>
         /// Gets or sets the device secret.
         /// </summary>
-        [Required(ErrorMessageResourceName = "DeviceSecretRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [Required(ErrorMessageResourceName = "DeviceSecretRequired", ErrorMessageResourceType = typeof(Locale))]
         [StringLength(64, ErrorMessageResourceName = "DeviceSecret64", ErrorMessageResourceType = typeof(Locale))]
 		public string DeviceSecret { get; set; }
 

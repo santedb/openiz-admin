@@ -20,6 +20,7 @@
 using OpenIZ.Core.Model.AMI.Security;
 using System;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.CertificateModels
 {
@@ -51,25 +52,25 @@ namespace OpenIZAdmin.Models.CertificateModels
 		/// <summary>
 		/// Gets or sets the administrative contact email of the signing request.
 		/// </summary>
-		[Display(Name = "AdministrativeContactEmail", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "AdministrativeContactEmail", ResourceType = typeof(Locale))]
 		public string AdministrativeContactEmail { get; set; }
 
 		/// <summary>
 		/// Gets or sets the administrative contact name of the signing request.
 		/// </summary>
-		[Display(Name = "AdministrativeContactName", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "AdministrativeContactName", ResourceType = typeof(Locale))]
 		public string AdministrativeContactName { get; set; }
 
 		/// <summary>
 		/// Gets or sets the distinguished name of the signing request.
 		/// </summary>
-		[Display(Name = "DistinguishedName", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "DistinguishedName", ResourceType = typeof(Locale))]
 		public string DistinguishedName { get; set; }
 
 		/// <summary>
 		/// Gets or sets the submission time of the signing request.
 		/// </summary>
-		[Display(Name = "SubmissionTime", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "SubmissionTime", ResourceType = typeof(Locale))]
 		public DateTime SubmissionTime { get; set; }
 	}
 }

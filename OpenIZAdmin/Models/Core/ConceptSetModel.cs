@@ -38,7 +38,7 @@ namespace OpenIZAdmin.Models.Core
 		/// <summary>
 		/// Gets or sets the creation time of the concept set.
 		/// </summary>
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
 		public DateTime CreationTime { get; set; }
 
 		/// <summary>
@@ -49,31 +49,31 @@ namespace OpenIZAdmin.Models.Core
 		/// <summary>
 		/// Gets or sets the mnemonic of the concept.
 		/// </summary>
-		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
-        [StringLength(64, ErrorMessageResourceName = "MnemonicLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
+        [StringLength(64, ErrorMessageResourceName = "MnemonicLength64", ErrorMessageResourceType = typeof(Locale))]
         [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public virtual string Mnemonic { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the concept set.
 		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-        [StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+        [StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Locale))]
         [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public virtual string Name { get; set; }
 
 		/// <summary>
 		/// Get or sets the OID of the concept set.
 		/// </summary>
-		[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
-        [StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Localization.Locale))]        
+		[Display(Name = "Oid", ResourceType = typeof(Locale))]
+        [StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Locale))]        
         public virtual string Oid { get; set; }
 
 		/// <summary>
 		/// Get or sets the URL of the concept set.
 		/// </summary>
-		[Display(Name = "Url", ResourceType = typeof(Localization.Locale))]
-        [StringLength(256, ErrorMessageResourceName = "UrlLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Url", ResourceType = typeof(Locale))]
+        [StringLength(256, ErrorMessageResourceName = "UrlLength256", ErrorMessageResourceType = typeof(Locale))]
         public virtual string Url { get; set; }
 	}
 }

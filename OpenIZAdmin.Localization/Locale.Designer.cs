@@ -3544,7 +3544,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Target PopulationYear.
+        ///   Looks up a localized string similar to Target Population Year.
         /// </summary>
         public static string PopulationYear {
             get {

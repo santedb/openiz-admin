@@ -26,6 +26,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.UserModels
 {
@@ -91,7 +92,7 @@ namespace OpenIZAdmin.Models.UserModels
         /// <summary>
         /// Gets or sets the email address of the user.
         /// </summary>
-        [Display(Name = "Email", ResourceType = typeof(Localization.Locale))]
+        [Display(Name = "Email", ResourceType = typeof(Locale))]
 		public string Email { get; set; }
 
 		/// <summary>
@@ -102,45 +103,45 @@ namespace OpenIZAdmin.Models.UserModels
 		/// <summary>
 		/// Gets or sets the health facility of the user.
 		/// </summary>
-		[Display(Name = "HealthFacility", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "HealthFacility", ResourceType = typeof(Locale))]
 		public string HealthFacility { get; set; }
 
 	    /// <summary>
 	    /// Gets or sets the locked out status of the user.
 	    /// </summary>
-	    [Display(Name = "LockoutStatus", ResourceType = typeof(Localization.Locale))]
+	    [Display(Name = "LockoutStatus", ResourceType = typeof(Locale))]
 	    public bool IsLockedOut { get; set; }
 
 
 	    /// <summary>
 		/// Gets or sets the last login time of the user.
 		/// </summary>
-		[Display(Name = "LastLoginTime", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "LastLoginTime", ResourceType = typeof(Locale))]
 		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
 		public DateTime? LastLoginTime { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the user.
 		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the phone number of the user.
 		/// </summary>
-		[Display(Name = "Phone", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Phone", ResourceType = typeof(Locale))]
 		public string PhoneNumber { get; set; }
 
 		/// <summary>
 		/// Gets or sets the roles of the user.
 		/// </summary>
-		[Display(Name = "Roles", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Roles", ResourceType = typeof(Locale))]
 		public IEnumerable<RoleViewModel> Roles { get; set; }
 
 		/// <summary>
 		/// Gets or sets the username of the user.
 		/// </summary>
-		[Display(Name = "Username", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Username", ResourceType = typeof(Locale))]
 		public string Username { get; set; }
 	}
 }

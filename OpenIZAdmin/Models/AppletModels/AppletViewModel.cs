@@ -21,6 +21,7 @@ using OpenIZ.Core.Model.AMI.Applet;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.AppletModels
 {
@@ -92,25 +93,25 @@ namespace OpenIZAdmin.Models.AppletModels
 		/// <summary>
 		/// Gets or sets the author of the applet.
 		/// </summary>
-		[Display(Name = "Author", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Author", ResourceType = typeof(Locale))]
 		public string Author { get; set; }
 
 		/// <summary>
 		/// Gets or sets the group of the applet.
 		/// </summary>
-		[Display(Name = "Group", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Group", ResourceType = typeof(Locale))]
 		public string Group { get; set; }
 
 		/// <summary>
 		/// Gets or sets the id of the applet.
 		/// </summary>
-		[Display(Name = "Id", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Id", ResourceType = typeof(Locale))]
 		public string Id { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the applet.
 		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
 		/// <summary>
@@ -121,7 +122,7 @@ namespace OpenIZAdmin.Models.AppletModels
 		/// <summary>
 		/// Gets or sets the version of the applet.
 		/// </summary>
-		[Display(Name = "Version", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Version", ResourceType = typeof(Locale))]
 		public string Version { get; set; }
 	}
 }

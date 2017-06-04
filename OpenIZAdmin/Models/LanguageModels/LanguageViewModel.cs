@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ConceptModels;
 using OpenIZAdmin.Models.Core;
 
@@ -67,9 +68,9 @@ namespace OpenIZAdmin.Models.LanguageModels
         /// Gets or sets the mnemonic.
         /// </summary>
         /// <value>The mnemonic.</value>
-        [Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
-        [Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(255, ErrorMessageResourceName = "MnemonicTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
+        [Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Locale))]
+        [StringLength(255, ErrorMessageResourceName = "MnemonicTooLong", ErrorMessageResourceType = typeof(Locale))]
         public string Mnemonic { get; set; }       
 
         /// <summary>

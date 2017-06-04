@@ -38,7 +38,7 @@ namespace OpenIZAdmin.Models.Core
 		/// <summary>
 		/// Gets or sets the creation time of the concept.
 		/// </summary>
-		[Display(Name = "CreationTime", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
 		public DateTime CreationTime { get; set; }
 
 		/// <summary>
@@ -61,16 +61,16 @@ namespace OpenIZAdmin.Models.Core
 		/// Gets or sets the language.
 		/// </summary>
 		/// <value>The language.</value>
-		[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]		
-		[StringLength(2, ErrorMessageResourceName = "LanguagCodeTooLong", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Language", ResourceType = typeof(Locale))]		
+		[StringLength(2, ErrorMessageResourceName = "LanguagCodeTooLong", ErrorMessageResourceType = typeof(Locale))]
 		public string Language { get; set; }
 
 		/// <summary>
 		/// Gets or sets the mnemonic of the concept.
 		/// </summary>
-		[Display(Name = "Mnemonic", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-        [StringLength(64, ErrorMessageResourceName = "MnemonicLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Locale))]
+        [StringLength(64, ErrorMessageResourceName = "MnemonicLength64", ErrorMessageResourceType = typeof(Locale))]
         [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public string Mnemonic { get; set; }
 
@@ -78,21 +78,21 @@ namespace OpenIZAdmin.Models.Core
 		/// Gets or sets the name.
 		/// </summary>
 		/// <value>The name.</value>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]		
-		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]		
+		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Locale))]
         [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
         public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets a list of names associated with the concept.
 		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		public List<string> Names { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of reference terms associated with the concept.
 		/// </summary>
-		[Display(Name = "ReferenceTerms", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "ReferenceTerms", ResourceType = typeof(Locale))]
 		public List<ReferenceTermViewModel> ReferenceTerms { get; set; }
 
 		/// <summary>

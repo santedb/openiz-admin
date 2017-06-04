@@ -55,7 +55,7 @@ namespace OpenIZAdmin.Models.Core
         /// <summary>
         /// Gets or sets the grant enum/Id
         /// </summary>
-        [Display(Name = "Grants", ResourceType = typeof(Localization.Locale))]
+        [Display(Name = "Grants", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "GrantsRequired", ErrorMessageResourceType = typeof(Locale))]
         public int GrantId { get; set; }
 
@@ -63,7 +63,7 @@ namespace OpenIZAdmin.Models.Core
         /// Gets or sets the identifier.
         /// </summary>
         /// <value>The identifier.</value>
-        [Display(Name = "Grants", ResourceType = typeof(Localization.Locale))]
+        [Display(Name = "Grants", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "GrantsRequired", ErrorMessageResourceType = typeof(Locale))]
         public Guid Id { get; set; }
 
@@ -83,7 +83,7 @@ namespace OpenIZAdmin.Models.Core
         /// Gets or sets the name.
         /// </summary>
         /// <value>The name.</value>
-        [Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+        [Display(Name = "Name", ResourceType = typeof(Locale))]
         [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
         [StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
         [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
@@ -93,9 +93,9 @@ namespace OpenIZAdmin.Models.Core
         /// Gets or sets the oid.
         /// </summary>
         /// <value>The oid.</value>
-        [Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
+        [Display(Name = "Oid", ResourceType = typeof(Locale))]
         [Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Locale))]
         [RegularExpression(Constants.RegExOidValidation, ErrorMessageResourceName = "OidValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
         public string Oid { get; set; }
     }

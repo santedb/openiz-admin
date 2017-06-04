@@ -38,48 +38,48 @@ namespace OpenIZAdmin.Models.CodeSystemModels
 		/// <summary>
 		/// Gets or sets the Description
 		/// </summary>
-		[Display(Name = "Description", ResourceType = typeof(Localization.Locale))]
-		[StringLength(256, ErrorMessageResourceName = "DescriptionLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Description", ResourceType = typeof(Locale))]
+		[StringLength(256, ErrorMessageResourceName = "DescriptionLength256", ErrorMessageResourceType = typeof(Locale))]
 		public string Description { get; set; }
 
 		/// <summary>
 		/// Gets or sets the Domain
 		/// </summary>
-		[Display(Name = "Domain", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "DomainRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(50, ErrorMessageResourceName = "DomainLength50", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Domain", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "DomainRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(50, ErrorMessageResourceName = "DomainLength50", ErrorMessageResourceType = typeof(Locale))]
 		public string Domain { get; set; }
 
 		/// <summary>
 		/// Gets or sets the description
 		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the Oid
 		/// </summary>
-		[Display(Name = "Oid", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Oid", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Locale))]
         [RegularExpression(Constants.RegExOidValidation, ErrorMessageResourceName = "OidValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
         public string Oid { get; set; }
 
 		/// <summary>
 		/// Gets or sets the Url
 		/// </summary>
-		[Display(Name = "Url", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "UrlRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(256, ErrorMessageResourceName = "UrlLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Url", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "UrlRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(256, ErrorMessageResourceName = "UrlLength256", ErrorMessageResourceType = typeof(Locale))]
 		public string Url { get; set; }
 
 		/// <summary>
 		/// Gets or sets the Version
 		/// </summary>
-		[Display(Name = "Version", ResourceType = typeof(Localization.Locale))]
-		[StringLength(10, ErrorMessageResourceName = "VersionLength10", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Version", ResourceType = typeof(Locale))]
+		[StringLength(10, ErrorMessageResourceName = "VersionLength10", ErrorMessageResourceType = typeof(Locale))]
 		public string Version { get; set; }
 
 		/// <summary>

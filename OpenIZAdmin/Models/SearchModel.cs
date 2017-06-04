@@ -47,9 +47,9 @@ namespace OpenIZAdmin.Models
 		/// <summary>
 		/// Gets or sets the search term of the search model.
 		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Localization.Locale))]
-		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Locale))]
         [RegularExpression(Constants.RegExBasicHtmlString, ErrorMessageResourceName = "InvalidSearchEntry", ErrorMessageResourceType = typeof(Locale))]
         public string SearchTerm { get; set; }
 	}

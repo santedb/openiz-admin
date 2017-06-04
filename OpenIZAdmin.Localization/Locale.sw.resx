@@ -309,9 +309,6 @@
   <data name="MnemonicTooLong" xml:space="preserve">
     <value>Mnemonic hayawezi kuzidi vibambo 255</value>
   </data>
-  <data name="NameLength255" xml:space="preserve">
-    <value>Jina lisizidi herufi 255</value>
-  </data>
   <data name="NameRequired" xml:space="preserve">
     <value>Sehemu ya jina inatakiwa</value>
   </data>
@@ -498,9 +495,6 @@
   <data name="Providers" xml:space="preserve">
     <value>watoaji</value>
   </data>
-  <data name="DescriptionLength255" xml:space="preserve">
-    <value>Maelezo yasizidi herufi 255</value>
-  </data>
   <data name="Loading" xml:space="preserve">
     <value>Kupandisha</value>
   </data>
@@ -552,9 +546,6 @@
   <data name="Close" xml:space="preserve">
     <value>Funga</value>
   </data>
-  <data name="NotFound" xml:space="preserve">
-    <value>Haijapatikana</value>
-  </data>
   <data name="ProviderSpecialty" xml:space="preserve">
     <value>Mtoaji maalum</value>
   </data>
@@ -582,9 +573,6 @@
   <data name="System" xml:space="preserve">
     <value>Mfumo</value>
   </data>
-  <data name="Activated" xml:space="preserve">
-    <value>Imeamshwa</value>
-  </data>
   <data name="Uploaded" xml:space="preserve">
     <value>Imepandishwa</value>
   </data>
@@ -602,9 +590,6 @@
   </data>
   <data name="ConceptSets" xml:space="preserve">
     <value>Seti za dhana</value>
-  </data>
-  <data name="Created" xml:space="preserve">
-    <value>Imetengenezwa</value>
   </data>
   <data name="Deactivated" xml:space="preserve">
     <value>Imezimwa</value>
@@ -648,18 +633,6 @@
   <data name="UnableToAcceptCertificateSigningRequest" xml:space="preserve">
     <value>Imeshindikana kupokea cheti cha ombi la kuingia</value>
   </data>
-  <data name="UnableToActivate" xml:space="preserve">
-    <value>Imeshindikana kuamsha</value>
-  </data>
-  <data name="UnableToCreate" xml:space="preserve">
-    <value>Imeshindikana kutengeneza</value>
-  </data>
-  <data name="UnableToDeactivate" xml:space="preserve">
-    <value>Imeshindikana kuzima</value>
-  </data>
-  <data name="UnableToDelete" xml:space="preserve">
-    <value>imeshindikana kufuta</value>
-  </data>
   <data name="UnableToFindSpecifiedCertificate" xml:space="preserve">
     <value>Imeshindikana kupata cheti husika</value>
   </data>
@@ -674,9 +647,6 @@
   </data>
   <data name="UnableToRejectCertificateSigningRequest" xml:space="preserve">
     <value>Imeshindikana kukataa ombi la kuweka sahihi cheti</value>
-  </data>
-  <data name="UnableToRetrieve" xml:space="preserve">
-    <value>Imeshindikana kupata</value>
   </data>
   <data name="UnableToRetrieveCertificateList" xml:space="preserve">
     <value>Imeshindikana kupata orodha ya cheti</value>
@@ -696,12 +666,6 @@
   </data>
   <data name="UnableToSwitchRealm" xml:space="preserve">
     <value>Imeshindikana kubadili realm</value>
-  </data>
-  <data name="UnableToUpdate" xml:space="preserve">
-    <value>Imeshindikana kusasisha</value>
-  </data>
-  <data name="Updated" xml:space="preserve">
-    <value>Imesasishwa</value>
   </data>
   <data name="Priority" xml:space="preserve">
     <value>Kipaumbele</value>
@@ -727,9 +691,6 @@
   <data name="Download" xml:space="preserve">
     <value>Pakua</value>
   </data>
-  <data name="Create" xml:space="preserve">
-    <value>Unda</value>
-  </data>
   <data name="AddPolicy" xml:space="preserve">
     <value>Ongeza sera</value>
   </data>
@@ -747,9 +708,6 @@
   </data>
   <data name="HasPolicies" xml:space="preserve">
     <value>Ina sera</value>
-  </data>
-  <data name="Successfully" xml:space="preserve">
-    <value>Imefanikiwa</value>
   </data>
   <data name="DeviceSecretRequired" xml:space="preserve">
     <value>Siri ya kifaa inatakiwa</value>
@@ -853,9 +811,6 @@
   <data name="MimeType" xml:space="preserve">
     <value>Aina ya Mime</value>
   </data>
-  <data name="Deleted" xml:space="preserve">
-    <value>Imefutwa</value>
-  </data>
   <data name="SubmitBugReport" xml:space="preserve">
     <value>Wasilisha taarifa ya mdudu.</value>
   </data>
@@ -871,9 +826,6 @@
   </data>
   <data name="Reporter" xml:space="preserve">
     <value>Mwandishi</value>
-  </data>
-  <data name="UnableToSubmit" xml:space="preserve">
-    <value>Imeshindwa kuwasilisha</value>
   </data>
   <data name="StepsToReproduce" xml:space="preserve">
     <value>Hatua za kutengeneza tena</value>
@@ -1103,9 +1055,6 @@ au jina la kikoa</value>
   </data>
   <data name="Manifest" xml:space="preserve">
     <value>dhahiri</value>
-  </data>
-  <data name="UnableToReset" xml:space="preserve">
-    <value>Imeshindwa kuweka upya</value>
   </data>
   <data name="BugSubmittedSuccessfully" xml:space="preserve">
     <value>Suala lako limefanikiwa kuwasilishwa kwenye mfumo
@@ -1348,9 +1297,6 @@ au jina la kikoa</value>
   <data name="Retrieve" xml:space="preserve">
     <value>Rejesha</value>
   </data>
-  <data name="UnableTo" xml:space="preserve">
-    <value>Haiwezi</value>
-  </data>
   <data name="ForgotPasswordMechanisms" xml:space="preserve">
     <value>Umesahau taratibu password</value>
   </data>
@@ -1574,9 +1520,6 @@ au jina la kikoa</value>
   <data name="ToolTip_TargetPopulationYear" xml:space="preserve">
     <value>mwaka wa idadi ya watu lengo</value>
   </data>
-  <data name="NoConceptsSetsFound" xml:space="preserve">
-    <value>Hakuna seti ya dhana ya kupatikana</value>
-  </data>
   <data name="NoPlacesFound" xml:space="preserve">
     <value>Hakuna mahali kupatikana</value>
   </data>
@@ -1642,5 +1585,68 @@ au jina la kikoa</value>
   </data>
   <data name="TypeConceptRequired" xml:space="preserve">
     <value>Tafadhali chagua aina</value>
+  </data>
+  <data name="PopulationYear" xml:space="preserve">
+    <value>Lengo Idadi ya Mwaka</value>
+  </data>
+  <data name="NameLength256" xml:space="preserve">
+    <value>jina haiwezi kuzidi herufi 256</value>
+  </data>
+  <data name="YearRequired" xml:space="preserve">
+    <value>Tafadhali chagua mwaka</value>
+  </data>
+  <data name="UnableToEditRelationship" xml:space="preserve">
+    <value>Haiwezi kubadilisha uhusiano</value>
+  </data>
+  <data name="UnableToResetPassword" xml:space="preserve">
+    <value>Haiwezi kuweka upya nenosiri</value>
+  </data>
+  <data name="UnableToRetrieveCertificates" xml:space="preserve">
+    <value>Haikuweza kurejesha vyeti</value>
+  </data>
+  <data name="UnableToRetrieveForgotPasswordMechanisms" xml:space="preserve">
+    <value>Haikuweza kurejesha Nimesahau taratibu password</value>
+  </data>
+  <data name="AlertCreatedSuccessfully" xml:space="preserve">
+    <value>tahadhari umeundwa</value>
+  </data>
+  <data name="AlertNotFound" xml:space="preserve">
+    <value>Macho halikupatikana</value>
+  </data>
+  <data name="AlertUpdatedSuccessfully" xml:space="preserve">
+    <value>macho imesasishwa</value>
+  </data>
+  <data name="ApplicationCreatedSuccessfully" xml:space="preserve">
+    <value>Maombi iliyoundwa kwa mafanikio</value>
+  </data>
+  <data name="AssigningAuthorityDeletedSuccessfully" xml:space="preserve">
+    <value>Kupeana mamlaka imefutwa</value>
+  </data>
+  <data name="AssigningAuthorityNotFound" xml:space="preserve">
+    <value>Kupeana mamlaka halikupatikana</value>
+  </data>
+  <data name="CodeSystemUpdatedSuccessfully" xml:space="preserve">
+    <value>Kanuni mfumo imesasishwa</value>
+  </data>
+  <data name="ConceptNotFound" xml:space="preserve">
+    <value>Dhana halikupatikana</value>
+  </data>
+  <data name="ConceptUpdatedSuccessfully" xml:space="preserve">
+    <value>Dhana imesasishwa</value>
+  </data>
+  <data name="DeviceActivatedSuccessfully" xml:space="preserve">
+    <value>Hila ulioamilishwa kwa mafanikio</value>
+  </data>
+  <data name="DeviceCreatedSuccessfully" xml:space="preserve">
+    <value>Hila umeundwa</value>
+  </data>
+  <data name="DeviceDeletedSuccessfully" xml:space="preserve">
+    <value>Hila imefutwa</value>
+  </data>
+  <data name="DeviceNotFound" xml:space="preserve">
+    <value>Hila halikupatikana</value>
+  </data>
+  <data name="DeviceUpdatedSuccessfully" xml:space="preserve">
+    <value>Hila imesasishwa</value>
   </data>
 </root>

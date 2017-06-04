@@ -20,6 +20,7 @@
 using OpenIZ.Core.Applets.Model;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.AppletModels
 {
@@ -51,31 +52,31 @@ namespace OpenIZAdmin.Models.AppletModels
 		/// <summary>
 		/// Gets or sets the Language of the asset.
 		/// </summary>
-		[Display(Name = "Language", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Language", ResourceType = typeof(Locale))]
 		public string Language { get; set; }
 
 		/// <summary>
 		/// Gets the or sets the manifest to which the asset belongs.
 		/// </summary>
-		[Display(Name = "Manifest", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Manifest", ResourceType = typeof(Locale))]
 		public AppletManifest Manifest { get; set; }
 
 		/// <summary>
 		/// Gets or sets the Mime type of the asset.
 		/// </summary>
-		[Display(Name = "MimeType", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "MimeType", ResourceType = typeof(Locale))]
 		public string MimeType { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the asset.
 		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the Policies of the asset.
 		/// </summary>
-		[Display(Name = "Policies", ResourceType = typeof(Localization.Locale))]
+		[Display(Name = "Policies", ResourceType = typeof(Locale))]
 		public List<string> Policies { get; set; }
 	}
 }

@@ -94,7 +94,7 @@ namespace OpenIZAdmin.Models.Core
 		/// Gets or sets the name of the entity.
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
-        [StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Localization.Locale))]
+        [StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Locale))]
         public string Name { get; set; }
 
 		/// <summary>
