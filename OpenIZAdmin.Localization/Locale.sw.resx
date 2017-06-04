@@ -1661,4 +1661,166 @@ au jina la kikoa</value>
   <data name="PleaseWait" xml:space="preserve">
     <value>Tafadhali subiri</value>
   </data>
+  <data name="EmailLength256" xml:space="preserve">
+    <value>Barua pepe haiwezi kupitisha herufi 256</value>
+  </data>
+  <data name="DescriptionLength4000" xml:space="preserve">
+    <value>Maelezo hayawezi kuzidi vibambo 4000</value>
+  </data>
+  <data name="DomainNameLength32" xml:space="preserve">
+    <value>jina la uwanja haiwezi kuzidi wahusika 32</value>
+  </data>
+  <data name="MessageLength4000" xml:space="preserve">
+    <value>Ujumbe haiwezi kuzidi wahusika 4000</value>
+  </data>
+  <data name="OidLength256" xml:space="preserve">
+    <value>OID haiwezi kuzidi herufi 256</value>
+  </data>
+  <data name="RegexLength64" xml:space="preserve">
+    <value>mara kwa mara kujieleza urefu haiwezi kuzidi herufi 64</value>
+  </data>
+  <data name="SecretLength64" xml:space="preserve">
+    <value>siri haiwezi kuzidi herufi 64</value>
+  </data>
+  <data name="SubjectLength256" xml:space="preserve">
+    <value>somo hayawezi kuzidi vibambo 256</value>
+  </data>
+  <data name="UrlLength250" xml:space="preserve">
+    <value>url hayawezi kuzidi vibambo 250</value>
+  </data>
+  <data name="PopulationYearInvalidFormat" xml:space="preserve">
+    <value>mwaka Target wakazi lazima mwaka halali na katika muundo YYYY</value>
+  </data>
+  <data name="ProfileUpdatedSuccessfully" xml:space="preserve">
+    <value>wasifu imesasishwa</value>
+  </data>
+  <data name="StepsToReproduceRequired" xml:space="preserve">
+    <value>Tafadhali weka hatua za kuzaliana</value>
+  </data>
+  <data name="ReferenceTermRequired" xml:space="preserve">
+    <value>Tafadhali chagua kumbukumbu mrefu</value>
+  </data>
+  <data name="NoAuthorityScopeFound" xml:space="preserve">
+    <value>Hakuna mamlaka wigo kupatikana</value>
+  </data>
+  <data name="AuthorityScope" xml:space="preserve">
+    <value>mamlaka Upeo</value>
+  </data>
+  <data name="AuthorityScopeDeletedSuccessfully" xml:space="preserve">
+    <value>Mamlaka ya wigo imefutwa</value>
+  </data>
+  <data name="ToolTip_AuthorityScope" xml:space="preserve">
+    <value>dhana kuongezwa kwa wigo mamlaka</value>
+  </data>
+  <data name="ToolTip_Concepts" xml:space="preserve">
+    <value>dhana ya kuongeza seti ya dhana</value>
+  </data>
+  <data name="CannotUpdateSystemConcept" xml:space="preserve">
+    <value>Hatuwezi kusasisha, mfumo dhana</value>
+  </data>
+  <data name="ConceptSelectedExists" xml:space="preserve">
+    <value>Dhana ya kuchaguliwa tayari ipo</value>
+  </data>
+  <data name="TargetYearRequired" xml:space="preserve">
+    <value>Mwaka Inahitajika wakati wa kuwasilisha idadi ya watu</value>
+  </data>
+  <data name="InValidPolicySelection" xml:space="preserve">
+    <value>Sera uliotiwa si sahihi</value>
+  </data>
+  <data name="InvalidStringEntry" xml:space="preserve">
+    <value>Herufi maalum &amp; &lt;&gt; * na @ hawaruhusiwi</value>
+  </data>
+  <data name="InvalidSearchEntry" xml:space="preserve">
+    <value>wahusika &lt;na&gt; hayaruhusiwi</value>
+  </data>
+  <data name="VerificationLength256" xml:space="preserve">
+    <value>Uhakiki haiwezi kuzidi herufi 256</value>
+  </data>
+  <data name="OidValidationErrorMessage" xml:space="preserve">
+    <value>OID ina herufi batili au mlolongo</value>
+  </data>
+  <data name="UnableToCreateLanguage" xml:space="preserve">
+    <value>Haikuweza kuunda lugha</value>
+  </data>
+  <data name="UnableToUpdateLanguage" xml:space="preserve">
+    <value>Haiwezekani lugha Mwisho</value>
+  </data>
+  <data name="Select2SpecialCharErrorMessage" xml:space="preserve">
+    <value>Herufi maalum hawaruhusiwi</value>
+  </data>
+  <data name="ResetPassword" xml:space="preserve">
+    <value>Rudisha siri</value>
+  </data>
+  <data name="UnableToUnlockUser" xml:space="preserve">
+    <value>Haiwezi kufungua akaunti ya mtumiaji</value>
+  </data>
+  <data name="UnlockAccount" xml:space="preserve">
+    <value>Fungua Akaunti</value>
+  </data>
+  <data name="UserUnlockedSuccessfully" xml:space="preserve">
+    <value>Akaunti ya mtumiaji unlocked mafanikio</value>
+  </data>
+  <data name="LockoutStatus" xml:space="preserve">
+    <value>lockout Hali</value>
+  </data>
+  <data name="Locked" xml:space="preserve">
+    <value>Imefungwa</value>
+  </data>
+  <data name="Unlocked" xml:space="preserve">
+    <value>imefunguliwa</value>
+  </data>
+  <data name="PasswordValidationErrorMessage" xml:space="preserve">
+    <value>Nafasi nyeupe na herufi maalum! @%. ; * / Na '\' hawaruhusiwi</value>
+  </data>
+  <data name="UsernameValidationErrorMessage" xml:space="preserve">
+    <value>Nafasi nyeupe na herufi maalum! '@ # $% &amp;. ; * "/ Na \ hawaruhusiwi</value>
+  </data>
+  <data name="CreateConcept_Heading" xml:space="preserve">
+    <value>kujenga Dhana</value>
+  </data>
+  <data name="EditConcept_Heading" xml:space="preserve">
+    <value>hariri dhana</value>
+  </data>
+  <data name="ViewConcept_Heading" xml:space="preserve">
+    <value>mtazamo dhana</value>
+  </data>
+  <data name="DescriptionLength256" xml:space="preserve">
+    <value>Maelezo hayawezi kuzidi vibambo 256</value>
+  </data>
+  <data name="PhoneNumberRequired" xml:space="preserve">
+    <value>Tafadhali ingiza nambari ya simu</value>
+  </data>
+  <data name="PhoneTypeRequired" xml:space="preserve">
+    <value>Tafadhali chagua aina ya simu</value>
+  </data>
+  <data name="NoConceptSetsFound" xml:space="preserve">
+    <value>Hakuna seti ya dhana ya kupatikana</value>
+  </data>
+  <data name="Year" xml:space="preserve">
+    <value>mwaka</value>
+  </data>
+  <data name="ViewUser_Heading" xml:space="preserve">
+    <value>mtazamo user</value>
+  </data>
+  <data name="ViewRole_Heading" xml:space="preserve">
+    <value>Tazama Jukumu</value>
+  </data>
+  <data name="AddressRequired" xml:space="preserve">
+    <value>Anuani shamba inahitajika</value>
+  </data>
+  <data name="ApplicationIdRequired" xml:space="preserve">
+    <value>uwanja Maombi Id inahitajika</value>
+  </data>
+  <data name="ApplicationIdLength255" xml:space="preserve">
+    <value>uwanja Maombi Id hawezi kupitisha herufi 255</value>
+  </data>
+  <data name="ApplicationSecretRequired" xml:space="preserve">
+    <value>Maombi uwanja Siri inahitajika</value>
+  </data>
+  <data name="ApplicationSecretLength255" xml:space="preserve">
+    <value>Maombi ya siri uwanja haiwezi kuzidi wahusika 255</value>
+  </data>
+  <data name="AddressLength255" xml:space="preserve">
+    <value>Anuani eneo haliwezi kupitisha herufi 255</value>
+  </data>
 </root>

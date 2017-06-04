@@ -18,6 +18,7 @@
  */
 
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.RealmModels
 {
@@ -36,40 +37,40 @@ namespace OpenIZAdmin.Models.RealmModels
 		/// <summary>
 		/// Gets or sets the address of the realm.
 		/// </summary>
-		[Required]
-		[StringLength(255)]
+		[Display(Name = "Address", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "AddressRequired", ErrorMessageResourceType = typeof(Locale))]
+		//[StringLength(255, ErrorMessageResourceName = "AddressLength255", ErrorMessageResourceType = typeof(Locale))]
 		public string Address { get; set; }
 
 		/// <summary>
 		/// Gets or sets the application id of the current application.
 		/// </summary>
-		[Required]
-		[StringLength(255)]
-		[Display(Name = "Application Id")]
+		[Display(Name = "ApplicationId", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "ApplicationIdRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(255, ErrorMessageResourceName = "ApplicationIdLength255", ErrorMessageResourceType = typeof(Locale))]
 		public string ApplicationId { get; set; }
 
 		/// <summary>
 		/// Gets or sets the application secret of current application.
 		/// </summary>
-		[Required]
-		[StringLength(255)]
-		[Display(Name = "Application Secret")]
+		[Display(Name = "ApplicationSecret", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "ApplicationSecretRequired", ErrorMessageResourceType = typeof(Locale))]
+		//[StringLength(255, ErrorMessageResourceName = "ApplicationSecretLength255", ErrorMessageResourceType = typeof(Locale))]
 		public string ApplicationSecret { get; set; }
 
 		/// <summary>
 		/// Gets or sets the password used to connect to the realm.
 		/// </summary>
-		[Required]
-		[Display(Name = "Password")]
 		[DataType(DataType.Password)]
+		[Display(Name = "Password", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string Password { get; set; }
 
 		/// <summary>
 		/// Gets or sets the username used to connect to the realm.
 		/// </summary>
-		[Required]
-		[StringLength(255)]
-		[Display(Name = "Username")]
+		[Display(Name = "Username", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "UsernameRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string Username { get; set; }
 	}
 }

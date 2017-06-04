@@ -214,6 +214,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Address field is required.
+        /// </summary>
+        public static string AddressRequired {
+            get {
+                return ResourceManager.GetString("AddressRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Users.
         /// </summary>
         public static string AddUsers {
@@ -376,6 +385,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Application Id field cannot exceed 255 characters.
+        /// </summary>
+        public static string ApplicationIdLength255 {
+            get {
+                return ResourceManager.GetString("ApplicationIdLength255", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Application Id field is required.
+        /// </summary>
+        public static string ApplicationIdRequired {
+            get {
+                return ResourceManager.GetString("ApplicationIdRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Application Name.
         /// </summary>
         public static string ApplicationName {
@@ -417,6 +444,15 @@ namespace OpenIZAdmin.Localization {
         public static string ApplicationSecret {
             get {
                 return ResourceManager.GetString("ApplicationSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Application Secret field is required.
+        /// </summary>
+        public static string ApplicationSecretRequired {
+            get {
+                return ResourceManager.GetString("ApplicationSecretRequired", resourceCulture);
             }
         }
         
@@ -2194,7 +2230,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The policy entered is invalid. .
+        ///   Looks up a localized string similar to The policy entered is invalid.
         /// </summary>
         public static string InValidPolicySelection {
             get {

@@ -2206,7 +2206,7 @@
     <value>Extension type not found</value>
   </data>
   <data name="InValidPolicySelection" xml:space="preserve">
-    <value>The policy entered is invalid. </value>
+    <value>The policy entered is invalid</value>
   </data>
   <data name="InvalidStringEntry" xml:space="preserve">
     <value>Special characters &amp; &lt; &gt; * and @ are not allowed</value>
@@ -2267,5 +2267,23 @@
   </data>
   <data name="PleaseWait" xml:space="preserve">
     <value>Please Wait</value>
+  </data>
+  <data name="AddressRequired" xml:space="preserve">
+    <value>The Address field is required</value>
+  </data>
+  <data name="ApplicationIdRequired" xml:space="preserve">
+    <value>The Application Id field is required</value>
+  </data>
+  <data name="ApplicationIdLength255" xml:space="preserve">
+    <value>The Application Id field cannot exceed 255 characters</value>
+  </data>
+  <data name="ApplicationSecretRequired" xml:space="preserve">
+    <value>The Application Secret field is required</value>
+  </data>
+  <data name="ApplicationSecretLength255" xml:space="preserve">
+    <value>The Application Secret field cannot exceed 255 characters</value>
+  </data>
+  <data name="AddressLength255" xml:space="preserve">
+    <value>The Address field cannot exceed 255 characters</value>
   </data>
 </root>
