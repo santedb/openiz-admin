@@ -10,7 +10,7 @@
     <div class="panel panel-body">
         <div class="row">
             <div class="col-md-12">
-                <div class="form-horizontal">                    
+                <div class="form-horizontal">
                     <div class="form-group">
                         @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
                         <div class="col-md-8">
@@ -38,73 +38,102 @@
                             @Html.TextBoxFor(m => m.Group, new { @class = "form-control", @readonly = "readonly" })
                         </div>
                     </div>
-                                       
+
                     <div class="form-group">
                         @Html.LabelFor(m => m.Version, new { @class = "col-md-2 control-label" })
                         <div class="col-md-8">
                             @Html.TextBoxFor(m => m.Version, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                    </div>  
-                    
-                    <div class="form-group">
-                        @Html.LabelFor(m => m.Assets, new { @class = "col-md-2 control-label" })                        
-                        <div class="col-md-4">
-                            @Html.TextBoxFor(m => m.AssetCount, new { @class = "form-control", @readonly = "readonly" })
-                        </div>
-                    </div>                                  
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <span class="panel-title">@Locale.Assets</span>
-        </div>
-        <div class="panel panel-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group">
-                        <div class="col-md-12">
-                            @if (Model.Assets.Any())
-                            {
-                                <table class="table table-striped table-bordered" id="appletAssetTable">
-                                    <thead>
-                                        <tr>
-                                            <th>@Locale.Name</th>
-                                            <th>@Locale.MimeType</th>
-                                            <th>@Locale.Language</th>                                            
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach (var item in Model.Assets)
-                                        {
-                                            <tr>
-                                                <td>@item.Name</td>
-                                                <td>@item.MimeType</td>
-                                                <td>@item.Language</td>                                                
-                                            </tr>}
-
-                                    </tbody>
-                                </table>
-                            }
-                            else
-                            {
-                                <p>@Locale.No @Locale.Assets @Locale.Found</p>
-                            }
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
 </div>
 
-@section scripts{
-    <script>
-        $(document).ready(function () {
-            $("#appletAssetTable").DataTable();
-        });
-    </script>
-}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.PublisherData</span>
+    </div>
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                @if (Model.PublisherViewModel != null)
+                {
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PublisherViewModel.Issuer, new {@class = "col-md-2 control-label"})
+                            <div class="col-md-8">
+                                @Html.TextAreaFor(m => m.PublisherViewModel.Issuer, new {@class = "form-control", cols = "3", rows = "3", @readonly = "readonly"})
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PublisherViewModel.ValidFrom, new {@class = "col-md-2 control-label"})
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.PublisherViewModel.ValidFrom, new {@class = "form-control", @readonly = "readonly"})
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PublisherViewModel.ValidTo, new {@class = "col-md-2 control-label"})
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.PublisherViewModel.ValidTo, new {@class = "form-control", @readonly = "readonly"})
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.PublisherViewModel.Subject, new {@class = "col-md-2 control-label"})
+                            <div class="col-md-8">
+                                @Html.TextAreaFor(m => m.PublisherViewModel.Subject, new {@class = "form-control", cols = "3", rows = "3", @readonly = "readonly"})
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <p>@Locale.NoPublisherData</p>
+                }
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.Dependencies</span>
+    </div>
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-md-12">
+                        @if (Model.Dependencies.Any())
+                        {
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                <tr>
+                                    <th>@Locale.Id</th>
+                                    <th>@Locale.Version</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach (var item in Model.Dependencies)
+                                {
+                                    <tr>
+                                        <td>@item.Id</td>
+                                        <td>@item.Version</td>
+                                    </tr>}
+
+                                </tbody>
+                            </table>}
+                        else
+                        {
+                            <p>@Locale.NoDependenciesFound</p>}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

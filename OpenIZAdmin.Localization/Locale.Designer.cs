@@ -214,6 +214,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Address field cannot exceed 255 characters.
+        /// </summary>
+        public static string AddressLength255 {
+            get {
+                return ResourceManager.GetString("AddressLength255", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Address field is required.
         /// </summary>
         public static string AddressRequired {
@@ -300,6 +309,15 @@ namespace OpenIZAdmin.Localization {
         public static string Applet {
             get {
                 return ResourceManager.GetString("Applet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Applet deleted successfully.
+        /// </summary>
+        public static string AppletDeletedSuccessfully {
+            get {
+                return ResourceManager.GetString("AppletDeletedSuccessfully", resourceCulture);
             }
         }
         
@@ -444,6 +462,15 @@ namespace OpenIZAdmin.Localization {
         public static string ApplicationSecret {
             get {
                 return ResourceManager.GetString("ApplicationSecret", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Application Secret field cannot exceed 255 characters.
+        /// </summary>
+        public static string ApplicationSecretLength255 {
+            get {
+                return ResourceManager.GetString("ApplicationSecretLength255", resourceCulture);
             }
         }
         
@@ -1281,6 +1308,15 @@ namespace OpenIZAdmin.Localization {
         public static string Deny {
             get {
                 return ResourceManager.GetString("Deny", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dependencies.
+        /// </summary>
+        public static string Dependencies {
+            get {
+                return ResourceManager.GetString("Dependencies", resourceCulture);
             }
         }
         
@@ -2311,6 +2347,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Issuer.
+        /// </summary>
+        public static string Issuer {
+            get {
+                return ResourceManager.GetString("Issuer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Would you like to broadcast this alert to everyone (This would be a system level alert to all users).
         /// </summary>
         public static string IsSystemAlert {
@@ -3049,6 +3094,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No dependencies found.
+        /// </summary>
+        public static string NoDependenciesFound {
+            get {
+                return ResourceManager.GetString("NoDependenciesFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No devices have been added.
         /// </summary>
         public static string NoDevicesAdded {
@@ -3135,6 +3189,15 @@ namespace OpenIZAdmin.Localization {
         public static string NoProvidersFound {
             get {
                 return ResourceManager.GetString("NoProvidersFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Publisher Data.
+        /// </summary>
+        public static string NoPublisherData {
+            get {
+                return ResourceManager.GetString("NoPublisherData", resourceCulture);
             }
         }
         
@@ -3693,6 +3756,24 @@ namespace OpenIZAdmin.Localization {
         public static string ProviderSpecialty {
             get {
                 return ResourceManager.GetString("ProviderSpecialty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Public Key Token.
+        /// </summary>
+        public static string PublicKeyToken {
+            get {
+                return ResourceManager.GetString("PublicKeyToken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Publisher Data.
+        /// </summary>
+        public static string PublisherData {
+            get {
+                return ResourceManager.GetString("PublisherData", resourceCulture);
             }
         }
         
@@ -5425,6 +5506,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to delete applet.
+        /// </summary>
+        public static string UnableToDeleteApplet {
+            get {
+                return ResourceManager.GetString("UnableToDeleteApplet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to delete application.
         /// </summary>
         public static string UnableToDeleteApplication {
@@ -5520,6 +5610,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToDeleteRole {
             get {
                 return ResourceManager.GetString("UnableToDeleteRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to download applet.
+        /// </summary>
+        public static string UnableToDownloadApplet {
+            get {
+                return ResourceManager.GetString("UnableToDownloadApplet", resourceCulture);
             }
         }
         
@@ -6240,6 +6339,24 @@ namespace OpenIZAdmin.Localization {
         public static string ValidationRegex {
             get {
                 return ResourceManager.GetString("ValidationRegex", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Valid From.
+        /// </summary>
+        public static string ValidFrom {
+            get {
+                return ResourceManager.GetString("ValidFrom", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Valid To.
+        /// </summary>
+        public static string ValidTo {
+            get {
+                return ResourceManager.GetString("ValidTo", resourceCulture);
             }
         }
         

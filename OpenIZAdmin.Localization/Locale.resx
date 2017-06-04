@@ -2286,4 +2286,37 @@
   <data name="AddressLength255" xml:space="preserve">
     <value>The Address field cannot exceed 255 characters</value>
   </data>
+  <data name="PublicKeyToken" xml:space="preserve">
+    <value>Public Key Token</value>
+  </data>
+  <data name="Issuer" xml:space="preserve">
+    <value>Issuer</value>
+  </data>
+  <data name="ValidFrom" xml:space="preserve">
+    <value>Valid From</value>
+  </data>
+  <data name="ValidTo" xml:space="preserve">
+    <value>Valid To</value>
+  </data>
+  <data name="PublisherData" xml:space="preserve">
+    <value>Publisher Data</value>
+  </data>
+  <data name="Dependencies" xml:space="preserve">
+    <value>Dependencies</value>
+  </data>
+  <data name="NoDependenciesFound" xml:space="preserve">
+    <value>No dependencies found</value>
+  </data>
+  <data name="NoPublisherData" xml:space="preserve">
+    <value>No Publisher Data</value>
+  </data>
+  <data name="UnableToDownloadApplet" xml:space="preserve">
+    <value>Unable to download applet</value>
+  </data>
+  <data name="AppletDeletedSuccessfully" xml:space="preserve">
+    <value>Applet deleted successfully</value>
+  </data>
+  <data name="UnableToDeleteApplet" xml:space="preserve">
+    <value>Unable to delete applet</value>
+  </data>
 </root>

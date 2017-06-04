@@ -288,7 +288,8 @@
     <Compile Include="Models\AccountModels\ForgotPasswordModel.cs" />
     <Compile Include="Models\AccountModels\ResetPasswordModel.cs" />
     <Compile Include="Models\AccountModels\TfaMechanismModel.cs" />
-    <Compile Include="Models\AppletModels\AppletViewAssetModel.cs" />
+    <Compile Include="Models\AppletModels\AppletDependencyViewModel.cs" />
+    <Compile Include="Models\AppletModels\AppletPublisherViewModel.cs" />
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ApplicationViewModel.cs" />
     <Compile Include="Models\AuthorityScope\AuthorityScopeViewModel.cs" />

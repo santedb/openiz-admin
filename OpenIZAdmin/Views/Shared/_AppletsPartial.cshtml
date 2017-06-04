@@ -9,7 +9,7 @@
             @Locale.Applets
         </span>
         <div class="pull-right">
-            <a href="~/Applet/Upload">
+            <a href="@Url.Action("Upload", "Applet", null)">
                 <span class="text-primary h4">@Locale.New</span>
                 <span class="glyphicon glyphicon-plus-sign"></span>
             </a>
@@ -49,6 +49,15 @@
                                 @Locale.Download
                                 <span class="glyphicon glyphicon-download"></span>
                             </a>
+                            @using (Html.BeginForm("Delete", "Applet", new {id = item.Id + "/" }, FormMethod.Post, new {@class = "inlineForm form-horizontal", role = "form"}))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <button type="submit" data-locale-text="@Locale.PleaseWait" class="btn btn-danger">
+                                    @Locale.Delete
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </button>
+                            }
                         </td>
                     </tr>
                 }

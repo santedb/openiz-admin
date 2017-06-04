@@ -1823,4 +1823,37 @@ au jina la kikoa</value>
   <data name="AddressLength255" xml:space="preserve">
     <value>Anuani eneo haliwezi kupitisha herufi 255</value>
   </data>
+  <data name="PublicKeyToken" xml:space="preserve">
+    <value>umma muhimu ishara</value>
+  </data>
+  <data name="Issuer" xml:space="preserve">
+    <value>Mtoaji</value>
+  </data>
+  <data name="ValidFrom" xml:space="preserve">
+    <value>Halali kutoka</value>
+  </data>
+  <data name="ValidTo" xml:space="preserve">
+    <value>Halali Ili</value>
+  </data>
+  <data name="PublisherData" xml:space="preserve">
+    <value>data mchapishaji</value>
+  </data>
+  <data name="Dependencies" xml:space="preserve">
+    <value>maelewano</value>
+  </data>
+  <data name="NoDependenciesFound" xml:space="preserve">
+    <value>Hakuna maelewano kupatikana</value>
+  </data>
+  <data name="NoPublisherData" xml:space="preserve">
+    <value>Hakuna data mchapishaji</value>
+  </data>
+  <data name="UnableToDownloadApplet" xml:space="preserve">
+    <value>Haiwezi kupakua kijiprogramu</value>
+  </data>
+  <data name="AppletDeletedSuccessfully" xml:space="preserve">
+    <value>kijiprogramu imefutwa</value>
+  </data>
+  <data name="UnableToDeleteApplet" xml:space="preserve">
+    <value>Haikuweza kufuta kijiprogramu</value>
+  </data>
 </root>

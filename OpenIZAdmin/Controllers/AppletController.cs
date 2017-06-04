@@ -24,6 +24,7 @@ using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AppletModels;
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -40,6 +41,35 @@ namespace OpenIZAdmin.Controllers
 	public class AppletController : BaseController
 	{
 		/// <summary>
+		/// Deletes the specified identifier.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Delete(string id)
+		{
+			try
+			{
+				if (id.HasTrailingForwardSlash())
+				{
+					id = id.RemoveTrailingForwardSlash();
+				}
+
+				this.AmiClient.DeleteApplet(id);
+
+				this.TempData["success"] = Locale.AppletDeletedSuccessfully;
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to download applet: {e}");
+				this.TempData["error"] = Locale.UnableToDeleteApplet;
+			}
+
+			return this.RedirectToRequestOrHome();
+		}
+
+		/// <summary>
 		/// Downloads an applet.
 		/// </summary>
 		/// <param name="id">The id of the applet to download.</param>
@@ -47,25 +77,24 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Download(string id)
 		{
-			if (id.HasTrailingForwardSlash())
+			try
 			{
-				id = id.RemoveTrailingForwardSlash();
+				if (id.HasTrailingForwardSlash())
+				{
+					id = id.RemoveTrailingForwardSlash();
+				}
+
+				var stream = this.AmiClient.DownloadApplet(id);
+
+				return File(stream, "application/pak", id + ".pak");
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to download applet: {e}");
+				this.TempData["error"] = Locale.UnableToDownloadApplet;
 			}
 
-			var applet = this.AmiClient.GetApplet(id);
-
-			var stream = new MemoryStream();
-
-			using (var gzipStream = new GZipStream(stream, CompressionMode.Compress))
-			{
-				//var package = applet.AppletManifest.CreatePackage();
-				var serializer = new XmlSerializer(typeof(AppletPackage));
-
-				//serializer.Serialize(gzipStream, package);
-			}
-
-			//return File(stream.ToArray(), "application/pak", applet.AppletManifest.Info.Id + applet.FileExtension);
-			return File(stream.ToArray(), "application/pak", null);
+			return this.RedirectToRequestOrHome();
 		}
 
 		/// <summary>
@@ -81,10 +110,10 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// 
+		/// Displays the update applet view.
 		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
+		/// <param name="id">The identifier.</param>
+		/// <returns>Returns an <see cref="ActionResult" /> instance.</returns>
 		[HttpGet]
 		public ActionResult Update(string id)
 		{
@@ -119,21 +148,21 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Updates the Applet with the details submitted
+		/// Updates the Applet with the details submitted.
 		/// </summary>
-		/// <param name="model"></param>
-		/// <returns></returns>
+		/// <param name="model">The model.</param>
+		/// <returns>Returns an <see cref="ActionResult" /> instance.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Update(UploadAppletModel model)
 		{
+			AppletPackage package = null;
+
 			try
 			{
 				if (ModelState.IsValid)
 				{
 					var fileInfo = new FileInfo(model.File.FileName);
-
-					AppletManifest manifest = null;
 
 					switch (fileInfo.Extension)
 					{
@@ -141,41 +170,29 @@ namespace OpenIZAdmin.Controllers
 
 							try
 							{
-								AppletPackage package;
 								using (var stream = new GZipStream(model.File.InputStream, CompressionMode.Decompress))
 								{
 									var serializer = new XmlSerializer(typeof(AppletPackage));
 									package = (AppletPackage)serializer.Deserialize(stream);
 								}
-
-								using (var stream = new MemoryStream(package.Manifest))
-								{
-									manifest = AppletManifest.Load(stream);
-								}
 							}
 							catch (Exception e)
 							{
 								ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-								ModelState.AddModelError(nameof(model.File), Locale.UnableToUpload + " " + Locale.Applet);
+								ModelState.AddModelError(nameof(model.File), Locale.UnableToUploadApplet);
 							}
 
 							break;
 
 						default:
-							ModelState.AddModelError(nameof(model.File), Locale.UnableToUpload + " " + Locale.Applet);
+							ModelState.AddModelError(nameof(model.File), Locale.UnableToUploadApplet);
 							break;
 					}
 
 					// ensure that the model state wasn't invalidated when attempting to serialize the applet file
 					if (ModelState.IsValid)
 					{
-						//var manifestInfo = new AppletManifestInfo
-						//{
-						//	FileExtension = fileInfo.Extension,
-						//	AppletManifest = manifest
-						//};
-
-						//this.AmiClient.CreateApplet(manifestInfo);
+						this.AmiClient.UpdateApplet(package.Meta.Id, package);
 
 						TempData["success"] = Locale.AppletUploadedSuccessfully;
 
@@ -234,8 +251,6 @@ namespace OpenIZAdmin.Controllers
 				{
 					var fileInfo = new FileInfo(model.File.FileName);
 
-					AppletManifest manifest = null;
-
 					switch (fileInfo.Extension)
 					{
 						case ".pak":
@@ -258,13 +273,13 @@ namespace OpenIZAdmin.Controllers
 							catch (Exception e)
 							{
 								ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-								ModelState.AddModelError(nameof(model.File), Locale.UnableToUpload + " " + Locale.Applet);
+								ModelState.AddModelError(nameof(model.File), Locale.UnableToUploadApplet);
 							}
 
 							break;
 
 						default:
-							ModelState.AddModelError(nameof(model.File), Locale.UnableToUpload + " " + Locale.Applet);
+							ModelState.AddModelError(nameof(model.File), Locale.UnableToUploadApplet);
 							break;
 					}
 				}
@@ -274,7 +289,7 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToUpload + " " + Locale.Applet;
+			TempData["error"] = Locale.UnableToUploadApplet;
 
 			return View(model);
 		}

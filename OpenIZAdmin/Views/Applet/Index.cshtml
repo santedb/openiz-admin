@@ -5,21 +5,3 @@
 <div id="applets-partial">   
     @Html.Partial("_AppletsPartial", Model)
 </div>
-
-
-
-@section scripts{
-    <script>
-        $(document).ready(function () {
-
-            $('#applets-partial').bind("DOMSubtreeModified", function () {
-                $("#appletsTable").DataTable({
-                    "language":
-                    {
-                        "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
-                    }
-                });
-            });
-        });
-    </script>
-}

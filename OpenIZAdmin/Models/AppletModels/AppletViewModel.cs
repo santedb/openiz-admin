@@ -35,7 +35,7 @@ namespace OpenIZAdmin.Models.AppletModels
 		/// </summary>
 		public AppletViewModel()
 		{
-			this.Assets = new List<AppletViewAssetModel>();
+			this.Dependencies = new List<AppletDependencyViewModel>();
 		}
 
 		/// <summary>
@@ -50,51 +50,29 @@ namespace OpenIZAdmin.Models.AppletModels
             this.PublicKeyToken = appletManifestInfo.AppletInfo.PublicKeyToken;
             this.Version = appletManifestInfo.AppletInfo.Version;
             this.Name = string.Join(", ", appletManifestInfo.AppletInfo.Names.Select(l => l.Value));
-            //this.Assets = appletManifestInfo.AppletInfo..Assets.Select(a => new AppletViewAssetModel(a)).OrderBy(q => q.Name).ToList();
-            //this.Assets = appletManifestInfo.AppletInfo.Assets.Select(a => new AppletViewAssetModel(a)).OrderBy(q => q.Name).ToList();
 
-            //this.Author = appletManifestInfo.AppletManifest.Info.Author;
-            //this.Group = appletManifestInfo.AppletManifest.Info.GetGroupName("en");
-            //this.Id = appletManifestInfo.AppletManifest.Info.Id;
-            //this.PublicKeyToken = appletManifestInfo.AppletManifest.Info.PublicKeyToken;
-            //this.Version = appletManifestInfo.AppletManifest.Info.Version;
-            //this.Name = string.Join(", ", appletManifestInfo.AppletManifest.Info.Names.Select(l => l.Value));
-            //this.Assets = appletManifestInfo.AppletManifest.Assets.Select(a => new AppletViewAssetModel(a)).OrderBy(q => q.Name).ToList();
+			if (appletManifestInfo.AppletInfo.Dependencies?.Any() == true)
+			{
+				this.Dependencies = appletManifestInfo.AppletInfo.Dependencies.Select(a => new AppletDependencyViewModel(a)).ToList();
+			}
+
+			if (appletManifestInfo.PublisherData != null)
+			{
+				this.PublisherViewModel = new AppletPublisherViewModel(appletManifestInfo.PublisherData);
+			}
         }
-
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AppletViewModel"/> class
-        /// with a specific author, group, id, name, and version.
-        /// </summary>
-        /// <param name="author">The author of the applet.</param>
-        /// <param name="group">The group of the applet.</param>
-        /// <param name="id">The id of the applet.</param>
-        /// <param name="name">The name of the applet.</param>
-        /// <param name="version">The version of the applet.</param>
-        public AppletViewModel(string author, string group, string id, string name, string version)
-		{
-			this.Author = author;
-			this.Group = group;
-			this.Id = id;
-			this.Name = name;
-			this.Version = version;
-		}
-
-		/// <summary>
-		/// Gets or sets the author of the applet.
-		/// </summary>
-		public int AssetCount => this.Assets?.Count ?? 0;
-
-		/// <summary>
-		/// Gets or sets the list with the associated assets
-		/// </summary>
-		public List<AppletViewAssetModel> Assets { get; set; }
 
 		/// <summary>
 		/// Gets or sets the author of the applet.
 		/// </summary>
 		[Display(Name = "Author", ResourceType = typeof(Locale))]
 		public string Author { get; set; }
+
+		/// <summary>
+		/// Gets or sets the dependencies.
+		/// </summary>
+		/// <value>The dependencies.</value>
+		public List<AppletDependencyViewModel> Dependencies { get; set; }
 
 		/// <summary>
 		/// Gets or sets the group of the applet.
@@ -117,7 +95,14 @@ namespace OpenIZAdmin.Models.AppletModels
 		/// <summary>
 		/// Gets or sets the key token string
 		/// </summary>
+		[Display(Name = "PublicKeyToken", ResourceType = typeof(Locale))]
 		public string PublicKeyToken { get; set; }
+
+		/// <summary>
+		/// Gets or sets the publisher view model.
+		/// </summary>
+		/// <value>The publisher view model.</value>
+		public AppletPublisherViewModel PublisherViewModel { get; set; }
 
 		/// <summary>
 		/// Gets or sets the version of the applet.
