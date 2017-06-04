@@ -98,8 +98,13 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <returns>Returns the concept for the given key, or null if no concept is found.</returns>
-		protected Concept GetConcept(Guid key)
+		protected Concept GetConcept(Guid? key)
 		{
+			if (!key.HasValue || key == Guid.Empty)
+			{
+				return null;
+			}
+
 			var concept = MvcApplication.MemoryCache.Get(key.ToString()) as Concept;
 
 			if (concept == null)
@@ -128,23 +133,6 @@ namespace OpenIZAdmin.Controllers
 		protected Concept GetConcept(Guid key, Guid? versionKey)
 		{
 			return this.ImsiClient.Get<Concept>(key, versionKey) as Concept;
-		}
-
-		/// <summary>
-		/// Gets the concept.
-		/// </summary>
-		/// <param name="key">The key.</param>
-		/// <returns>Concept.</returns>
-		protected Concept GetConcept(Guid? key)
-		{
-			Concept concept = null;
-
-			if (key.HasValue && key.Value != Guid.Empty)
-			{
-				concept = this.GetConcept(key.Value);
-			}
-
-			return concept;
 		}
 
 		/// <summary>
@@ -264,7 +252,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (versionId.HasValue && versionId.Value != Guid.Empty && expression != null)
 			{
-				query = o => o.Key == id && o.VersionKey == versionId && expression.Compile().Invoke(o as T);
+				query = o => o.Key == id && o.VersionKey == versionId && expression.Compile().Invoke(o);
 			}
 			else if (versionId.HasValue && versionId.Value != Guid.Empty)
 			{
@@ -278,29 +266,6 @@ namespace OpenIZAdmin.Controllers
 			bundle.Reconstitute();
 
 			entity = bundle.Item.OfType<T>().Where(query.Compile()).LatestVersionOnly().FirstOrDefault(query.Compile().Invoke);
-
-			if (entity == null)
-			{
-				return null;
-			}
-
-			if (entity.TypeConceptKey.HasValue && entity.TypeConceptKey != Guid.Empty)
-			{
-				entity.TypeConcept = this.GetConcept(entity.TypeConceptKey.Value);
-			}
-
-			return entity;
-		}
-
-		/// <summary>
-		/// Gets the entity internal.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="id">The identifier.</param>
-		/// <returns>Returns the entity for the given key, or null if no entity is found.</returns>
-		private T GetEntityInternal<T>(Guid id) where T : Entity
-		{
-			var entity = this.ImsiClient.Get<T>(id, null) as T;
 
 			if (entity == null)
 			{
@@ -346,7 +311,11 @@ namespace OpenIZAdmin.Controllers
 
 			foreach (var entityRelationship in entityRelationships)
 			{
-				entityRelationship.RelationshipType = this.GetConcept(entityRelationship.RelationshipTypeKey);
+				// only load the relationship type concept if the IMS didn't return the relationship type concept of the relationship
+				if (entityRelationship.RelationshipType == null && entityRelationship.RelationshipTypeKey.HasValue && entityRelationship.RelationshipTypeKey.Value != Guid.Empty)
+				{
+					entityRelationship.RelationshipType = this.GetConcept(entityRelationship.RelationshipTypeKey);
+				}
 
 				// only load the target entity if the IMS didn't return the target entity by default
 				if (entityRelationship.TargetEntity == null && entityRelationship.TargetEntityKey.HasValue && entityRelationship.TargetEntityKey.Value != Guid.Empty)
@@ -374,7 +343,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (conceptSet == null)
 			{
-				var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == Constants.TelecomAddressUse, 0, null, new string[] { "concept" });
+				var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == Constants.TelecomAddressUse, 0, null, new[] { "concept" });
 
 				bundle.Reconstitute();
 

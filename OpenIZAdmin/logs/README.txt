@@ -1,1 +1,0 @@
-﻿This is a place holder file for to allow logging when running in IIS.

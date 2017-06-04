@@ -43,11 +43,11 @@ namespace OpenIZAdmin
         /// <summary>
         /// The default language for the application.
         /// </summary>
-        internal static readonly string DefaultLanguage = "en";
+        public static readonly string DefaultLanguage = "en";
 
 		/// <summary>
 		/// The default cookie name which contains the users preferred language.
 		/// </summary>
-		internal static readonly string LanguageCookieName = "__openiz_language";
+		public static readonly string LanguageCookieName = "__openiz_language";
 	}
 }

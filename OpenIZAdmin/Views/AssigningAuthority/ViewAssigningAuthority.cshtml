@@ -76,8 +76,12 @@
 @section scripts{
     <script type="text/javascript">
             $(document).ready(function () {
-                
+
                 $('#authorityScopeListTable').dataTable({
+                    "language":
+                    {
+                        "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                    },
                     order: [],
                     columns: [
                       { "orderable": false },

@@ -43,7 +43,12 @@
     <script>
         $(document).ready(function ()
         {
-            $("#policyTable").DataTable();
+            $("#policyTable").DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                }
+            });
         });
     </script>
 }

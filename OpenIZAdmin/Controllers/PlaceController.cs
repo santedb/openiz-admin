@@ -199,6 +199,15 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Edit", new { id = id });
 				}
 
+				var relationships = new List<EntityRelationship>();
+
+				relationships.AddRange(this.GetEntityRelationships<Place>(place.Key.Value,
+					r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
+						r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
+						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
+
+				place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
+
 				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
 				{
 					ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()

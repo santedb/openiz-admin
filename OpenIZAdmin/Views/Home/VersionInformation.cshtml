@@ -62,7 +62,12 @@
 @section scripts{
     <script>
         $(document).ready(function () {
-            $("#versionInformationTable").DataTable();
+            $("#versionInformationTable").DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                }
+            });
         });
     </script>
     

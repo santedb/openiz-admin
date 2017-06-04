@@ -79,6 +79,10 @@
                 return;
 
             $('#identifiersTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                },
                 order: [],
                 columns: [
                   { "orderable": false },
@@ -95,6 +99,10 @@
                 return;
 
             $('#relationshipsTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                },
                 order: [],
                 columns: [
                   { "orderable": false },

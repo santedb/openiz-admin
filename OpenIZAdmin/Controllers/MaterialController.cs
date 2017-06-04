@@ -32,6 +32,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.Caching;
 using System.Web.Mvc;
+using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Comparer;
 using OpenIZAdmin.Models.EntityRelationshipModels;
@@ -113,8 +114,12 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Edit", new { id = id });
 				}
 
-				material.Relationships = this.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity).ToList();
-				
+				var relationships = new List<EntityRelationship>();
+
+				relationships.AddRange(this.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity && r.ObsoleteVersionSequenceId == null).ToList());
+
+				material.Relationships = relationships.Intersect(material.Relationships, new EntityRelationshipComparer()).ToList();
+
 				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
 				{
 					RelationshipType = EntityRelationshipTypeKeys.UsedEntity.ToString(),
@@ -280,7 +285,11 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Edit", new { id = id });
 				}
 
-				material.Relationships = this.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct).ToList();
+				var relationships = new List<EntityRelationship>();
+
+				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
+
+				material.Relationships = relationships.Intersect(material.Relationships, new EntityRelationshipComparer()).ToList();
 
 				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
 				{
@@ -332,6 +341,16 @@ namespace OpenIZAdmin.Controllers
 
 						concepts.Add(this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct));
 
+						// re-populate the model
+						var existingMaterial = this.GetEntity<Material>(model.SourceId);
+
+						var relationships = new List<EntityRelationship>();
+
+						relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(existingMaterial.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
+
+						existingMaterial.Relationships = relationships.Intersect(existingMaterial.Relationships, new EntityRelationshipComparer()).ToList();
+
+						model.ExistingRelationships = existingMaterial.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList();
 						model.RelationshipTypes.AddRange(concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct));
 
 						return View(model);
@@ -423,6 +442,12 @@ namespace OpenIZAdmin.Controllers
 					TempData["error"] = Locale.MaterialNotFound;
 
 					return RedirectToAction("Index");
+				}
+
+				if (material.Tags.Any(t => t.TagKey == Constants.ImportedDataTag && t.Value?.ToLower() == "true"))
+				{
+					this.TempData["warning"] = Locale.RecordMustBeVerifiedBeforeEditing;
+					return RedirectToAction("ViewMaterial", new { id, versionId });
 				}
 
 				var formConcepts = this.GetFormConcepts();
@@ -580,7 +605,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (conceptSet != null)
 				{
-					concepts = conceptSet.ConceptsXml.Select(this.GetConcept).ToList();
+					concepts = conceptSet.ConceptsXml.Select(c => this.GetConcept(c)).ToList();
 					MvcApplication.MemoryCache.Set(new CacheItem(MaterialTypesMnemonic, concepts), MvcApplication.CacheItemPolicy);
 				}
 			}
@@ -676,48 +701,56 @@ namespace OpenIZAdmin.Controllers
 		{
 			var results = new List<MaterialViewModel>();
 
-			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+			try
 			{
-				Bundle bundle;
-
-				Expression<Func<Material, bool>> nameExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)));
-
-				if (searchTerm == "*")
+				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 				{
-					bundle = this.ImsiClient.Query<Material>(p => p.ClassConceptKey == EntityClassKeys.Material, 0, null, false);
+					Bundle bundle;
 
-					foreach (var material in bundle.Item.OfType<Material>().LatestVersionOnly().Where(p => p.ClassConceptKey == EntityClassKeys.Material))
+					Expression<Func<Material, bool>> nameExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)));
+
+					if (searchTerm == "*")
 					{
-						material.TypeConcept = this.GetTypeConcept(material);
-					}
+						bundle = this.ImsiClient.Query<Material>(p => p.ClassConceptKey == EntityClassKeys.Material, 0, null, false);
 
-					results = bundle.Item.OfType<Material>().LatestVersionOnly().Where(p => p.ClassConceptKey == EntityClassKeys.Material).Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
-				}
-				else
-				{
-					Guid materialId;
-
-					if (!Guid.TryParse(searchTerm, out materialId))
-					{
-						bundle = this.ImsiClient.Query<Material>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material, 0, null, false);
-
-						foreach (var material in bundle.Item.OfType<Material>().LatestVersionOnly().Where(p => p.ClassConceptKey == EntityClassKeys.Material))
+						foreach (var material in ListExtensions.LatestVersionOnly(bundle.Item.OfType<Material>()).Where(p => p.ClassConceptKey == EntityClassKeys.Material))
 						{
 							material.TypeConcept = this.GetTypeConcept(material);
 						}
 
-						results = bundle.Item.OfType<Material>().Where(nameExpression.Compile()).LatestVersionOnly().Where(p => p.ClassConceptKey == EntityClassKeys.Material).Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+						results = ListExtensions.LatestVersionOnly(bundle.Item.OfType<Material>()).Where(p => p.ClassConceptKey == EntityClassKeys.Material).Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
 					}
 					else
 					{
-						var material = this.GetEntity<Material>(materialId);
+						Guid materialId;
 
-						if (material != null)
+						if (!Guid.TryParse(searchTerm, out materialId))
 						{
-							results.Add(new MaterialViewModel(material));
+							bundle = this.ImsiClient.Query<Material>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material, 0, null, false);
+
+							foreach (var material in ListExtensions.LatestVersionOnly(bundle.Item.OfType<Material>()).Where(p => p.ClassConceptKey == EntityClassKeys.Material))
+							{
+								material.TypeConcept = this.GetTypeConcept(material);
+							}
+
+							results = ListExtensions.LatestVersionOnly(bundle.Item.OfType<Material>().Where(nameExpression.Compile())).Where(p => p.ClassConceptKey == EntityClassKeys.Material).Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+						}
+						else
+						{
+							var material = this.GetEntity<Material>(materialId);
+
+							if (material != null)
+							{
+								results.Add(new MaterialViewModel(material));
+							}
 						}
 					}
 				}
+
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to search for material: {e}");
 			}
 
 			TempData["searchTerm"] = searchTerm;

@@ -160,6 +160,12 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Edit", new { id = id });
 				}
 
+				var relationships = new List<EntityRelationship>();
+
+				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => (r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct) && r.ObsoleteVersionSequenceId == null).ToList());
+
+				organization.Relationships = relationships.Intersect(organization.Relationships, new EntityRelationshipComparer()).ToList();
+
 				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
 				{
 					ExistingRelationships = organization.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
@@ -290,6 +296,12 @@ namespace OpenIZAdmin.Controllers
 					TempData["error"] = Locale.OrganizationNotFound;
 
 					return RedirectToAction("Index");
+				}
+
+				if (organization.Tags.Any(t => t.TagKey == Constants.ImportedDataTag && t.Value?.ToLower() == "true"))
+				{
+					this.TempData["warning"] = Locale.RecordMustBeVerifiedBeforeEditing;
+					return RedirectToAction("ViewOrganization", new { id, versionId });
 				}
 
 				var relationships = new List<EntityRelationship>();

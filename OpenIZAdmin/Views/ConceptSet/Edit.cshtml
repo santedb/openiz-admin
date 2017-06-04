@@ -80,6 +80,10 @@
         $(document).ready(function ()
         {          
             $('#conceptListTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                },
                 order: [],
                 columns: [
                   { "orderable": false },

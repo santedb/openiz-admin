@@ -74,7 +74,12 @@
     <script type="text/javascript">
         $(document).ready(function ()
         {
-            $('#referenceTermNamesTable').DataTable();
+            $('#referenceTermNamesTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                }
+            });
 
         });
     </script>

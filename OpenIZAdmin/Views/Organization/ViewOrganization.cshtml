@@ -1,6 +1,13 @@
-﻿@model OpenIZAdmin.Models.OrganizationModels.OrganizationViewModel
+﻿@using OpenIZ.Core.Model.Entities
+@using OpenIZAdmin.Models.Core
+@model OpenIZAdmin.Models.OrganizationModels.OrganizationViewModel
 @{
     ViewBag.Title = Locale.ViewOrganization_Heading;
+}
+
+@if (Model.Tags.Any(t => t.TagKey == Constants.ImportedDataTag && t.TagValue?.ToLower() == "true"))
+{
+    @Html.Partial("_VerifyEntityPartial", new VerifyEntityModel(Model.Id, nameof(Organization)))
 }
 
 <div class="panel panel-default">

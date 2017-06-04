@@ -69,15 +69,11 @@ namespace OpenIZAdmin
 			bundles.Add(new ScriptBundle("~/bundles/datatables").Include(
 				  "~/Scripts/datatables.js"));
 
-            //bundles.Add(new ScriptBundle("~/bundles/bootstrap-datetimepicker").Include(
-            //"~/Scripts/bootstrap-datetimepicker.min.js"));
-
             bundles.Add(new ScriptBundle("~/bundles/bootstrap-datepicker").Include(
             "~/Scripts/bootstrap-datepicker.min.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
 						"~/Content/bootstrap.min.css",
-                        //"~/Content/bootstrap-datetimepicker.min.css",
                         "~/Content/bootstrap-datepicker.min.css",
                         "~/Content/datatables.css",                        
                         "~/Content/select2.min.css",

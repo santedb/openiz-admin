@@ -208,9 +208,14 @@ namespace OpenIZAdmin.Controllers
 
 				model.ModelType = type;
 
-				if (!string.IsNullOrEmpty(model.Type) && !string.IsNullOrWhiteSpace(model.Type))
+				Guid modelTypeKey;
+
+				if (!string.IsNullOrEmpty(model.Type) && !string.IsNullOrWhiteSpace(model.Type) && Guid.TryParse(model.Type, out modelTypeKey))
 				{
-					model.Types = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key", a => a.Key == Guid.Parse(model.Type)), entity.Identifiers);
+					model.Types = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key", a => a.Key == modelTypeKey), entity.Identifiers);
+
+					// set the selected option to the current model type
+					model.Types = model.Types.Select(i => new SelectListItem { Selected = i.Value == model.Type, Text = i.Text, Value = i.Value }).ToList();
 				}
 				else
 				{
@@ -221,6 +226,9 @@ namespace OpenIZAdmin.Controllers
 			{
 				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to retrieve entity identifier: { e }");
+
+				this.TempData["error"] = Locale.UnexpectedErrorMessage;
+				return this.RedirectToRequestOrHome();
 			}
 
 			return View(model);
@@ -287,9 +295,14 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to create entity identifier: { e }");
 			}
 
-			if (!string.IsNullOrEmpty(model.Type) && !string.IsNullOrWhiteSpace(model.Type))
+			Guid modelTypeKey;
+
+			if (!string.IsNullOrEmpty(model.Type) && !string.IsNullOrWhiteSpace(model.Type) && Guid.TryParse(model.Type, out modelTypeKey))
 			{
-				model.Types = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key", a => a.Key == Guid.Parse(model.Type)), identifiers);
+				model.Types = RemoveExistingIdentifiers(this.GetAssigningAuthorities().ToSelectList("Name", "Key", a => a.Key == modelTypeKey), identifiers);
+
+				// set the selected option to the current model type
+				model.Types = model.Types.Select(i => new SelectListItem { Selected = i.Value == model.Type, Text = i.Text, Value = i.Value }).ToList();
 			}
 			else
 			{

@@ -57,14 +57,18 @@
     @section scripts{
         <script type="text/javascript">
             $(document).ready(function () {
-                
+
                 $('#conceptListTable').dataTable({
+                    "language":
+                    {
+                        "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                    },
                     order: [],
                     columns: [
                       { "orderable": false },
                       null,
                       null,
-                      null                      
+                      null
                     ]
                 });
             });

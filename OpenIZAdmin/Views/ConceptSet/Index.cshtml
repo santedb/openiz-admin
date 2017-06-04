@@ -36,8 +36,12 @@
 
                 if ($.fn.DataTable.isDataTable('#conceptSetSearchTable'))
                     return;
-                
+
                 $('#conceptSetSearchTable').dataTable({
+                    "language":
+                    {
+                        "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                    },
                     order: [],
                     columns: [
                       { "orderable": false },

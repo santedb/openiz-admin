@@ -1,4 +1,5 @@
-﻿@using OpenIZ.Core.Alert.Alerting
+﻿@using System.ComponentModel
+@using OpenIZ.Core.Alert.Alerting
 @model IEnumerable<OpenIZAdmin.Models.AlertModels.AlertViewModel>
 @{
     ViewBag.Title = Locale.Alerts;
@@ -10,8 +11,10 @@
             @Locale.Alerts
         </span>
         <div class="pull-right">
-            <span class="text-primary h4">@Locale.New</span>
-            <a href="@Url.Action("Create", "Alert", null)" class="glyphicon glyphicon-plus-sign"></a>
+            <a href="@Url.Action("Create", "Alert", null)">
+                <span class="text-primary h4">@Locale.New</span>
+                <span class="glyphicon glyphicon-plus-sign"></span>
+            </a>
         </div>
     </div>
     <div class="panel panel-body">
@@ -56,12 +59,12 @@
                                     @Locale.View
                                     <span class="glyphicon glyphicon-eye-open"></span>
                                 </a>
-                                @using (Html.BeginForm("Read", "Alert", new {id = item.Id}, FormMethod.Post, new {@class = "inlineForm form-horizontal", role = "form"}))
+                                @using (Html.BeginForm("Read", "Alert", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                 {
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="btn btn-primary"><span class="glyphicon glyphicon-check"></span>@Locale.Acknowledge</button>}
 
-                                @using (Html.BeginForm("Delete", "Alert", new {id = item.Id}, FormMethod.Post, new {@class = "inlineForm form-horizontal", role = "form"}))
+                                @using (Html.BeginForm("Delete", "Alert", new { id = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                 {
                                     @Html.AntiForgeryToken()
                                     <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>@Locale.Delete</button>}
@@ -82,7 +85,12 @@
     <script>
         $(document).ready(function ()
         {
-            $("#alertsTable").DataTable();            
+            $("#alertsTable").DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                }
+            });
         });
     </script>
 }

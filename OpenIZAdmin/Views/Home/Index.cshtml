@@ -25,8 +25,12 @@
         $(document).ready(function () {
 
             $('#appletsTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                },
                 order: [],
-                columns: [                  
+                columns: [
                   null,
                   null,
                   null,
@@ -34,8 +38,12 @@
                   { "orderable": false }
                 ]
             });
-            
+
             $('#certificateRequestsTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                },
                 order: [],
                 columns: [
                   { "orderable": false },
@@ -46,8 +54,12 @@
                   { "orderable": false }
                 ]
             });
-            
+
             $('#devicesSearchTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                },
                 order: [],
                 columns: [
                   { "orderable": false },
@@ -59,6 +71,10 @@
             });
 
             $('#rolesSearchTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                },
                 order: [],
                 columns: [
                     { "orderable": false },
@@ -69,7 +85,12 @@
                 ]
             });
 
-            $("#usersSearchTable").DataTable();
+            $("#usersSearchTable").DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                }
+            });
         });
     </script>
 }

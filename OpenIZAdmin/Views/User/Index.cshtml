@@ -35,8 +35,12 @@
 
                 if ($.fn.DataTable.isDataTable('#usersSearchTable'))
                     return;
-                
+
                 $('#usersSearchTable').DataTable({
+                    "language":
+                    {
+                        "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                    },
                     order: [],
                     columns: [
                       { "orderable": false },

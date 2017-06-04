@@ -1,6 +1,13 @@
-﻿@model OpenIZAdmin.Models.MaterialModels.MaterialViewModel
+﻿@using OpenIZ.Core.Model.Entities
+@using OpenIZAdmin.Models.Core
+@model OpenIZAdmin.Models.MaterialModels.MaterialViewModel
 @{
     ViewBag.Title = Locale.ViewMaterial_Heading;
+}
+
+@if (Model.Tags.Any(t => t.TagKey == Constants.ImportedDataTag && t.TagValue?.ToLower() == "true"))
+{
+    @Html.Partial("_VerifyEntityPartial", new VerifyEntityModel(Model.Id, nameof(Material)))
 }
 
 <div class="panel panel-default">
@@ -58,6 +65,10 @@
         $(document).ready(function ()
         {            
             $('#identifiersTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                },
                 order: [],
                 columns: [
                   { "orderable": false },
@@ -68,6 +79,10 @@
             });
 
             $('#manufacturedMaterialsTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                },
                 order: [],
                 columns: [
                   { "orderable": false },
@@ -79,6 +94,10 @@
             });
             
             $('#relationshipsTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                },
                 order: [],
                 columns: [
                   { "orderable": false },

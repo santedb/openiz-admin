@@ -35,8 +35,11 @@
                 if ($.fn.DataTable.isDataTable('#applicationPoliciesTable'))
                     return;
 
-                //$("#applicationPoliciesTable").DataTable();
                 $('#applicationPoliciesTable').DataTable({
+                    "language":
+                    {
+                        "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                    },
                     order: [],
                     columns: [
                       { "orderable": false },

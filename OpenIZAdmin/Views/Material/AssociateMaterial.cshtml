@@ -42,7 +42,7 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <a href="@Url.Action("Edit", "Material")" class="btn btn-danger">@Locale.Cancel</a>
+                    <a href="@Url.Action("Edit", "Material", new { id = Model.SourceId })" class="btn btn-danger">@Locale.Cancel</a>
                     <button type="submit" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
                 </div>
             </div>
@@ -58,6 +58,10 @@
         $(document).ready(function ()
         {
             $('#relationshipsTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                },
                 order: [],
                 columns: [
                   { "orderable": false },

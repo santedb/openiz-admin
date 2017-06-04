@@ -125,7 +125,6 @@
     @Scripts.Render("~/bundles/select2")
     @Scripts.Render("~/bundles/ajax-search")
     @Scripts.Render("~/bundles/ui-customizations")
-    @*@Scripts.Render("~/bundles/bootstrap-datetimepicker")*@
 
     @RenderSection("scripts", required: false)
 
@@ -191,6 +190,24 @@
                 window.location.reload();
             });
         });
+
+        // courtesy of https://www.w3schools.com/js/js_cookies.asp
+        function getCookie(cname)
+        {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for(var i = 0; i <ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "@LocalizationConfig.DefaultLanguage";
+        }
 
         function newAlerts()
         {
