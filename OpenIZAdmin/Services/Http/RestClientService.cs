@@ -46,11 +46,6 @@ namespace OpenIZAdmin.Services.Http
 	public class RestClientService : RestClientBase
 	{
 		/// <summary>
-		/// The endpoints.
-		/// </summary>
-		private static readonly ConcurrentDictionary<string, Lazy<ServiceClientDescription>> endpoints = new ConcurrentDictionary<string, Lazy<ServiceClientDescription>>();
-
-		/// <summary>
 		/// The current endpoint name.
 		/// </summary>
 		private readonly string endpointName;
