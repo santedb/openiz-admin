@@ -90,7 +90,7 @@ namespace OpenIZAdmin.Controllers
 				return Redirect(returnUrl);
 			}
 
-			return RedirectToAction("View" + model.Type, model.Type, new { id = entity.Key.Value, versionId = entity.VersionKey.Value });
+			return RedirectToAction("View" + model.Type, model.Type, new { id = entity.Key.Value, versionId = entity.VersionKey });
 		}
 	}
 }
