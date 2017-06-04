@@ -263,7 +263,7 @@ namespace OpenIZAdmin.Controllers
 				if (user == null)
 				{
 					user = new SecurityUserInfo(new SecurityUser
-					{ 
+					{
 						Key = Guid.NewGuid()
 					});
 				}
@@ -279,7 +279,7 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			return View("ResetPassword", resetPasswordModel);
-		}		
+		}
 
 		/// <summary>
 		/// Displays the login view.
@@ -294,12 +294,12 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("JoinRealm", "Realm");
 			}
 
-		    if (User.Identity.IsAuthenticated)
-		    {
-		        return RedirectToAction("Index", "Home");
-		    }
-                                      
-            ViewBag.ReturnUrl = returnUrl;
+			if (User.Identity.IsAuthenticated)
+			{
+				return RedirectToAction("Index", "Home");
+			}
+
+			ViewBag.ReturnUrl = returnUrl;
 			return View();
 		}
 
@@ -446,9 +446,9 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new UpdateProfileModel(userEntity);
 
-			    model = BuildUpdateModelMetaData(model, userEntity);               
+				model = BuildUpdateModelMetaData(model, userEntity);
 
-                return View(model);
+				return View(model);
 			}
 			catch (Exception e)
 			{
@@ -469,32 +469,48 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult UpdateProfile(UpdateProfileModel model)
 		{
-		    UserEntity userEntity = null;
+			UserEntity userEntity = null;
 			try
 			{
-                var userId = Guid.Parse(User.Identity.GetUserId());
+				var userId = Guid.Parse(User.Identity.GetUserId());
 
-                var securityUserInfo = this.AmiClient.GetUser(userId.ToString());
-                userEntity = this.GetUserEntityBySecurityUserKey(userId);
+				var securityUserInfo = this.AmiClient.GetUser(userId.ToString());
+				userEntity = this.GetUserEntityBySecurityUserKey(userId);
 
-                if (securityUserInfo == null || userEntity == null)
-                {
-                    TempData["error"] = Locale.UserNotFound;
+				if (securityUserInfo == null || userEntity == null)
+				{
+					TempData["error"] = Locale.UserNotFound;
 
-                    return RedirectToAction("Index", "Home");
-                }
+					return RedirectToAction("Index", "Home");
+				}
 
-                if (model.GivenNames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);                
+				if (model.GivenNames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);
 
-                if (model.Surnames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);                
+				if (model.Surnames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);
 
-                if (ModelState.IsValid)
-				{										
+				if (ModelState.IsValid)
+				{
 					securityUserInfo.User.Email = model.Email;
 					securityUserInfo.User.PhoneNumber = model.PhoneNumber;
 
 					this.AmiClient.UpdateUser(userId, securityUserInfo);
-					this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));					
+					var updatedUser = this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
+
+					var language = updatedUser.LanguageCommunication.FirstOrDefault(u => u.IsPreferred);
+
+					var code = LocalizationConfig.LanguageCode.English;
+
+					switch (language?.LanguageCode)
+					{
+						// only swahili is currently supported
+						case LocalizationConfig.LanguageCode.Swahili:
+							code = LocalizationConfig.LanguageCode.Swahili;
+							break;
+						default:
+							break;
+					}
+
+					Response.Cookies.Add(new HttpCookie(LocalizationConfig.LanguageCookieName, code));
 
 					TempData["success"] = Locale.ProfileUpdatedSuccessfully;
 
@@ -506,83 +522,83 @@ namespace OpenIZAdmin.Controllers
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-		    if (userEntity != null)
-		    {
-                model = BuildUpdateModelMetaData(model, userEntity);               
-            }            
+			if (userEntity != null)
+			{
+				model = BuildUpdateModelMetaData(model, userEntity);
+			}
 
-            TempData["error"] = Locale.UnableToUpdateProfile;
+			TempData["error"] = Locale.UnableToUpdateProfile;
 
 			return View(model);
 		}
 
-	    /// <summary>
-	    /// Populates the UpdateProfileModel.
-	    /// </summary>
-	    /// <param name="model">The UpdateProfileModel instance </param>
-	    /// <param name="userEntity">The UserEntity object</param>
-	    /// <returns>Returns an <see cref="UpdateProfileModel"/> model instance.</returns>
-	    private UpdateProfileModel BuildUpdateModelMetaData(UpdateProfileModel model, UserEntity userEntity)
-        {
-            model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-            model.SurnamesList.AddRange(model.Surnames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
+		/// <summary>
+		/// Populates the UpdateProfileModel.
+		/// </summary>
+		/// <param name="model">The UpdateProfileModel instance </param>
+		/// <param name="userEntity">The UserEntity object</param>
+		/// <returns>Returns an <see cref="UpdateProfileModel"/> model instance.</returns>
+		private UpdateProfileModel BuildUpdateModelMetaData(UpdateProfileModel model, UserEntity userEntity)
+		{
+			model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
+			model.SurnamesList.AddRange(model.Surnames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
 
-            model.CreateLanguageList();
+			model.CreateLanguageList();
 
-            var facilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+			var facilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 
-            var place = facilityRelationship?.TargetEntity as Place;
+			var place = facilityRelationship?.TargetEntity as Place;
 
-            if (facilityRelationship?.TargetEntityKey.HasValue == true && place == null)
-            {
-                place = this.ImsiClient.Get<Place>(facilityRelationship.TargetEntityKey.Value, null) as Place;
-            }
+			if (facilityRelationship?.TargetEntityKey.HasValue == true && place == null)
+			{
+				place = this.ImsiClient.Get<Place>(facilityRelationship.TargetEntityKey.Value, null) as Place;
+			}
 
-            if (place != null)
-            {
-                var facility = new List<FacilityModel>
-                    {
-                        new FacilityModel(string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value)), place.Key?.ToString())
-                    };
+			if (place != null)
+			{
+				var facility = new List<FacilityModel>
+					{
+						new FacilityModel(string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value)), place.Key?.ToString())
+					};
 
-                model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Text = f.Name, Value = f.Id, Selected = f.Id == place.Key?.ToString() }));
-                model.Facility = place.Key?.ToString();
-            }
+				model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Text = f.Name, Value = f.Id, Selected = f.Id == place.Key?.ToString() }));
+				model.Facility = place.Key?.ToString();
+			}
 
-            var phoneTypes = this.GetPhoneTypeConceptSet().Concepts.ToList();
+			var phoneTypes = this.GetPhoneTypeConceptSet().Concepts.ToList();
 
-            Guid phoneType;
-            model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList().ToList();
+			Guid phoneType;
+			model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList().ToList();
 
-            if (userEntity.Telecoms.Any())
-            {
-                //can have more than one contact - default to show mobile
-                if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
-                {
-                    model.PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;
-                    model.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
-                }
-                else
-                {
-                    model.PhoneNumber = userEntity.Telecoms.FirstOrDefault()?.Value;
-                    model.PhoneType = userEntity.Telecoms.FirstOrDefault()?.AddressUseKey?.ToString();
-                }
-            }
-            else
-            {
-                //Default to Mobile - requirement
-                model.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
-            }
+			if (userEntity.Telecoms.Any())
+			{
+				//can have more than one contact - default to show mobile
+				if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
+				{
+					model.PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;
+					model.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
+				}
+				else
+				{
+					model.PhoneNumber = userEntity.Telecoms.FirstOrDefault()?.Value;
+					model.PhoneType = userEntity.Telecoms.FirstOrDefault()?.AddressUseKey?.ToString();
+				}
+			}
+			else
+			{
+				//Default to Mobile - requirement
+				model.PhoneType = TelecomAddressUseKeys.MobileContact.ToString();
+			}
 
-            return model;
-        }
+			return model;
+		}
 
-        /// <summary>
-        /// Disposes of any managed resources
-        /// </summary>
-        /// <param name="disposing">Parameter that acts as a logic switch</param>
-        /// <returns>Returns a dispose object result.</returns>
-        protected override void Dispose(bool disposing)
+		/// <summary>
+		/// Disposes of any managed resources
+		/// </summary>
+		/// <param name="disposing">Parameter that acts as a logic switch</param>
+		/// <returns>Returns a dispose object result.</returns>
+		protected override void Dispose(bool disposing)
 		{
 			if (disposing)
 			{

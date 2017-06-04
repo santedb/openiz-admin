@@ -27,7 +27,9 @@ using OpenIZAdmin.Models.CertificateModels;
 using OpenIZAdmin.Models.DebugModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 using OpenIZAdmin.Models.DeviceModels;
 
@@ -59,21 +61,41 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("JoinRealm", "Realm");
 			}
 
-		    //var appMan = this.AmiClient.GetApplets().CollectionItem;
-		    //var appList = new List<AppletViewModel>();
-		    //foreach (var applet in appMan)
-		    //{
-		    //    appList.Add(new AppletViewModel(applet));
-		    //}
-
             var viewModel = new DashboardViewModel
 			{
 				Applets = this.AmiClient.GetApplets().CollectionItem.Select(a => new AppletViewModel(a)),
-                //Applets = appList,
 				CertificateRequests = new List<CertificateSigningRequestViewModel>(), //CertificateUtil.GetAllCertificateSigningRequests(this.client),
 				Devices = this.GetAllDevices().OrderBy(d => d.CreationTime).ThenBy(d => d.Name).Take(15),
 				Roles = this.GetAllRoles().OrderBy(r => r.Name).Take(15)
 			};
+
+			try
+			{
+				var user = this.GetUserEntityBySecurityUserKey(Guid.Parse(this.User.Identity.GetUserId()));
+
+				if (user != null)
+				{
+					var language = user.LanguageCommunication.FirstOrDefault(u => u.IsPreferred);
+
+					var code = LocalizationConfig.LanguageCode.English;
+
+					switch (language?.LanguageCode)
+					{
+						// only swahili is currently supported
+						case LocalizationConfig.LanguageCode.Swahili:
+							code = LocalizationConfig.LanguageCode.Swahili;
+							break;
+						default:
+							break;
+					}
+
+					Response.Cookies.Add(new HttpCookie(LocalizationConfig.LanguageCookieName, code));
+				}
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to set the users default language, reverting to english: {e}");
+			}
 
 			return View(viewModel);
 		}
