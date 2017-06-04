@@ -2256,4 +2256,13 @@
   <data name="TypeConceptRequired" xml:space="preserve">
     <value>Please select a type</value>
   </data>
+  <data name="NoAlerts" xml:space="preserve">
+    <value>No Alerts</value>
+  </data>
+  <data name="NewPlace" xml:space="preserve">
+    <value>New Place</value>
+  </data>
+  <data name="NoMaterialsFound" xml:space="preserve">
+    <value>No Materials Found</value>
+  </data>
 </root>

@@ -1649,4 +1649,13 @@ au jina la kikoa</value>
   <data name="DeviceUpdatedSuccessfully" xml:space="preserve">
     <value>Hila imesasishwa</value>
   </data>
+  <data name="NoAlerts" xml:space="preserve">
+    <value>hakuna arifa</value>
+  </data>
+  <data name="NewPlace" xml:space="preserve">
+    <value>Nafasi mpya</value>
+  </data>
+  <data name="NoMaterialsFound" xml:space="preserve">
+    <value>Hakuna vya Kupatikana</value>
+  </data>
 </root>

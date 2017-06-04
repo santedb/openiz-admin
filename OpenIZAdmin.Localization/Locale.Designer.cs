@@ -2860,6 +2860,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New Place.
+        /// </summary>
+        public static string NewPlace {
+            get {
+                return ResourceManager.GetString("NewPlace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Next.
         /// </summary>
         public static string Next {
@@ -2883,6 +2892,15 @@ namespace OpenIZAdmin.Localization {
         public static string NoAdditionalDetails {
             get {
                 return ResourceManager.GetString("NoAdditionalDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Alerts.
+        /// </summary>
+        public static string NoAlerts {
+            get {
+                return ResourceManager.GetString("NoAlerts", resourceCulture);
             }
         }
         
@@ -3018,6 +3036,15 @@ namespace OpenIZAdmin.Localization {
         public static string NoLanguagesAssigned {
             get {
                 return ResourceManager.GetString("NoLanguagesAssigned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Materials Found.
+        /// </summary>
+        public static string NoMaterialsFound {
+            get {
+                return ResourceManager.GetString("NoMaterialsFound", resourceCulture);
             }
         }
         
