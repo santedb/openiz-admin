@@ -42,14 +42,14 @@ namespace OpenIZAdmin.Controllers
 
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Gets the code systems.
 		/// </summary>
 		/// <returns>Returns a list of concept classes.</returns>
 		protected AmiCollection<CodeSystem> GetCodeSystems()
-        {
-            return this.AmiClient.GetCodeSystems(c => c.ObsoletionTime == null);                        
-        }
+		{
+			return this.AmiClient.GetCodeSystems(c => c.ObsoletionTime == null);
+		}
 
 		/// <summary>
 		/// Gets the concept class.
@@ -61,12 +61,12 @@ namespace OpenIZAdmin.Controllers
 			return this.ImsiClient.Get<ConceptClass>(key, null) as ConceptClass;
 		}
 
-        /// <summary>
-        /// Checks if a concept exists.
-        /// </summary>
-        /// <param name="mnemonic">The mnemonic.</param>
-        /// <returns><c>true</c> if the concept exists, <c>false</c> otherwise.</returns>
-        protected virtual bool DoesConceptExist(string mnemonic)
+		/// <summary>
+		/// Checks if a concept exists.
+		/// </summary>
+		/// <param name="mnemonic">The mnemonic.</param>
+		/// <returns><c>true</c> if the concept exists, <c>false</c> otherwise.</returns>
+		protected virtual bool DoesConceptExist(string mnemonic)
 		{
 			return this.GetConcept(mnemonic) != null;
 		}
@@ -124,6 +124,22 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			return referenceTerms;
-		}        
-    }
+		}
+
+		/// <summary>
+		/// Loads the concept sets.
+		/// </summary>
+		/// <param name="conceptKey">The concept key.</param>
+		/// <returns>Returns a list of <see cref="Guid"/> values which represents the concept sets which are associated with the given concept.</returns>
+		protected List<Guid> LoadConceptSets(Guid conceptKey)
+		{
+			// ensure existing concept sets are sent up otherwise
+			// the IMS will remove this concept from any associated concept set
+			var bundle = this.ImsiClient.Query<ConceptSet>(cs => cs.ConceptsXml.Any(c => c == conceptKey) && cs.ObsoletionTime == null, 0, null, true);
+
+			bundle.Reconstitute();
+
+			return bundle.Item.OfType<ConceptSet>().Where(cs => cs.ConceptsXml.Any(c => c == conceptKey) && cs.Key.HasValue && cs.ObsoletionTime == null).Select(c => c.Key.Value).ToList();
+		}
+	}
 }

@@ -122,6 +122,8 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
+				concept.ConceptSetsXml = this.LoadConceptSets(id);
+
 				concept.ReferenceTerms.RemoveAll(c => c.ReferenceTermKey == refTermId);
 
 				var result = this.ImsiClient.Update(concept);
@@ -230,6 +232,8 @@ namespace OpenIZAdmin.Controllers
 					}
 
 					concept = model.ToEditConceptModel(ImsiClient, concept);
+
+					concept.ConceptSetsXml = this.LoadConceptSets(model.Id);
 
 					var result = this.ImsiClient.Update<Concept>(concept);
 

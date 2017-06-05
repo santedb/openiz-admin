@@ -23,6 +23,7 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.LanguageModels;
 using OpenIZAdmin.Util;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
@@ -90,6 +91,8 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index", "Concept");
 				}
 
+				concept.ConceptSetsXml = this.LoadConceptSets(model.ConceptId.Value);
+
 				concept.CreationTime = DateTimeOffset.Now;
 				concept.VersionKey = null;
 
@@ -139,6 +142,8 @@ namespace OpenIZAdmin.Controllers
 					TempData["error"] = Locale.ConceptNotFound;
 					return RedirectToAction("Index", "Concept");
 				}
+
+				concept.ConceptSetsXml = this.LoadConceptSets(id);
 
 				var index = concept.ConceptNames.FindIndex(c => c.Language == langCode && c.Name == displayName);
 				if (index < 0)
@@ -229,6 +234,8 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index", "Concept");
 				}
 
+				concept.ConceptSetsXml = this.LoadConceptSets(model.ConceptId.Value);
+
 				var index = concept.ConceptNames.FindIndex(c => c.Language == model.Language && c.Name == model.Name);                
 
                 if (index < 0)
@@ -256,5 +263,7 @@ namespace OpenIZAdmin.Controllers
 
 			return RedirectToAction("ViewConcept", "Concept", new { id = model.ConceptId, model.ConceptVersionKey });
 		}
+
+
 	}
 }
