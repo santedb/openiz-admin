@@ -2626,6 +2626,33 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manual Not Found.
+        /// </summary>
+        public static string ManualNotFound {
+            get {
+                return ResourceManager.GetString("ManualNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manuals.
+        /// </summary>
+        public static string Manuals {
+            get {
+                return ResourceManager.GetString("Manuals", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manual uploaded successfully.
+        /// </summary>
+        public static string ManualUploadedSuccessfully {
+            get {
+                return ResourceManager.GetString("ManualUploadedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manufactured Material.
         /// </summary>
         public static string ManufacturedMaterial {
@@ -3126,6 +3153,15 @@ namespace OpenIZAdmin.Localization {
         public static string NoLanguagesAssigned {
             get {
                 return ResourceManager.GetString("NoLanguagesAssigned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No manuals uploaded.
+        /// </summary>
+        public static string NoManualsUploaded {
+            get {
+                return ResourceManager.GetString("NoManualsUploaded", resourceCulture);
             }
         }
         
@@ -5560,6 +5596,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to delete manual.
+        /// </summary>
+        public static string UnableToDeleteManual {
+            get {
+                return ResourceManager.GetString("UnableToDeleteManual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to delete material.
         /// </summary>
         public static string UnableToDeleteMaterial {
@@ -5772,6 +5817,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToRetrieveForgotPasswordMechanisms {
             get {
                 return ResourceManager.GetString("UnableToRetrieveForgotPasswordMechanisms", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to retrieve manuals.
+        /// </summary>
+        public static string UnableToRetrieveManuals {
+            get {
+                return ResourceManager.GetString("UnableToRetrieveManuals", resourceCulture);
             }
         }
         
@@ -6046,6 +6100,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to upload manual.
+        /// </summary>
+        public static string UnableToUploadManual {
+            get {
+                return ResourceManager.GetString("UnableToUploadManual", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to verify data.
         /// </summary>
         public static string UnableToVerifyData {
@@ -6123,6 +6186,15 @@ namespace OpenIZAdmin.Localization {
         public static string Uploaded {
             get {
                 return ResourceManager.GetString("Uploaded", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload manual.
+        /// </summary>
+        public static string UploadManual {
+            get {
+                return ResourceManager.GetString("UploadManual", resourceCulture);
             }
         }
         

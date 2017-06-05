@@ -38,6 +38,12 @@ namespace OpenIZAdmin.DAL
 		}
 
 		/// <summary>
+		/// Gets or sets the manuals.
+		/// </summary>
+		/// <value>The manuals.</value>
+		public DbSet<Manual> Manuals { get; set; }
+
+		/// <summary>
 		/// Gets or sets the Realm database set.
 		/// </summary>
 		public DbSet<Realm> Realm { get; set; }

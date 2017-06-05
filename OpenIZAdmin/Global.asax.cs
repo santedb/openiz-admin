@@ -21,6 +21,7 @@ using Elmah;
 using System;
 using System.Configuration;
 using System.Diagnostics;
+using System.IO;
 using System.Runtime.Caching;
 using System.Web;
 using System.Web.Caching;
@@ -72,9 +73,18 @@ namespace OpenIZAdmin
 			// realm initialization
 			RealmConfig.Initialize();
 
+			if (!Directory.Exists(this.Server.MapPath("~/Manuals")))
+			{
+				Directory.CreateDirectory(this.Server.MapPath("~/Manuals"));
+			}
+
 			Trace.TraceInformation("Application started");
 		}
 
+		/// <summary>
+		/// Caches the item removed.
+		/// </summary>
+		/// <param name="arguments">The arguments.</param>
 		private static void CacheItemRemoved(CacheEntryRemovedArguments arguments)
 		{
 			Trace.TraceInformation($"Cache item removed key: { arguments.CacheItem.Key } value: { arguments.CacheItem.Value }");

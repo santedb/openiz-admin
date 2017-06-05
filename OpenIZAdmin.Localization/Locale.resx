@@ -2319,4 +2319,28 @@
   <data name="UnableToDeleteApplet" xml:space="preserve">
     <value>Unable to delete applet</value>
   </data>
+  <data name="ManualNotFound" xml:space="preserve">
+    <value>Manual Not Found</value>
+  </data>
+  <data name="Manuals" xml:space="preserve">
+    <value>Manuals</value>
+  </data>
+  <data name="UnableToUploadManual" xml:space="preserve">
+    <value>Unable to upload manual</value>
+  </data>
+  <data name="NoManualsUploaded" xml:space="preserve">
+    <value>No manuals uploaded</value>
+  </data>
+  <data name="ManualUploadedSuccessfully" xml:space="preserve">
+    <value>Manual uploaded successfully</value>
+  </data>
+  <data name="UploadManual" xml:space="preserve">
+    <value>Upload manual</value>
+  </data>
+  <data name="UnableToRetrieveManuals" xml:space="preserve">
+    <value>Unable to retrieve manuals</value>
+  </data>
+  <data name="UnableToDeleteManual" xml:space="preserve">
+    <value>Unable to delete manual</value>
+  </data>
 </root>

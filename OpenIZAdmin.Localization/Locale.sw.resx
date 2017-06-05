@@ -1856,4 +1856,28 @@ au jina la kikoa</value>
   <data name="UnableToDeleteApplet" xml:space="preserve">
     <value>Haikuweza kufuta kijiprogramu</value>
   </data>
+  <data name="ManualNotFound" xml:space="preserve">
+    <value>Mwongozo halikupatikana</value>
+  </data>
+  <data name="Manuals" xml:space="preserve">
+    <value>miongozo</value>
+  </data>
+  <data name="UnableToUploadManual" xml:space="preserve">
+    <value>Haiwezi kupakia mwongozo</value>
+  </data>
+  <data name="NoManualsUploaded" xml:space="preserve">
+    <value>Hakuna miongozo kupakiwa</value>
+  </data>
+  <data name="ManualUploadedSuccessfully" xml:space="preserve">
+    <value>Mwongozo imepakiwa</value>
+  </data>
+  <data name="UploadManual" xml:space="preserve">
+    <value>mwongozo upload</value>
+  </data>
+  <data name="UnableToRetrieveManuals" xml:space="preserve">
+    <value>kuepua miongozo</value>
+  </data>
+  <data name="UnableToDeleteManual" xml:space="preserve">
+    <value>Haikuweza kufuta mwongozo</value>
+  </data>
 </root>

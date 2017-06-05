@@ -314,12 +314,21 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public async Task<ActionResult> Login(LoginModel model, string returnUrl)
 		{
-			if (!ModelState.IsValid)
-			{
-				return View(model);
-			}
+			var result = SignInStatus.Failure;
 
-			var result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, false, shouldLockout: false);
+			try
+			{
+				if (!ModelState.IsValid)
+				{
+					return View(model);
+				}
+
+				result = await SignInManager.PasswordSignInAsync(model.Username, model.Password, false, shouldLockout: false);
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to login: {e}");
+			}
 
 			switch (result)
 			{

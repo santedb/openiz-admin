@@ -13,50 +13,53 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  *
- * User: Nityan
- * Date: 2016-7-14
+ * User: khannan
+ * Date: 2017-6-4
  */
 
 using OpenIZAdmin.Models.Domain;
 using System;
-using System.Threading.Tasks;
 
-namespace OpenIZAdmin.DAL
+namespace OpenIZAdmin.Models.ManualModels
 {
 	/// <summary>
-	/// Defines repositories for accessing data.
+	/// Represents a manual index view model.
 	/// </summary>
-	public interface IUnitOfWork : IDisposable
+	public class ManualIndexViewModel
 	{
-		#region Repositories
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ManualIndexViewModel"/> class.
+		/// </summary>
+		public ManualIndexViewModel()
+		{
+		}
 
 		/// <summary>
-		/// Gets the manual repository.
+		/// Initializes a new instance of the <see cref="ManualIndexViewModel"/> class.
 		/// </summary>
-		/// <value>The manual repository.</value>
-		IRepository<Manual> ManualRepository { get; }
-
-			/// <summary>
-		/// The repository for accessing realms.
-		/// </summary>
-		IRepository<Realm> RealmRepository { get; }
-
-		/// <summary>
-		/// The repository for accessing users.
-		/// </summary>
-		IRepository<ApplicationUser> UserRepository { get; }
-
-		#endregion Repositories
+		/// <param name="manual">The manual.</param>
+		public ManualIndexViewModel(Manual manual)
+		{
+			this.Id = manual.Id;
+			this.Name = manual.Name;
+		}
 
 		/// <summary>
-		/// Save any pending changes to the database.
+		/// Gets or sets the file system path.
 		/// </summary>
-		void Save();
+		/// <value>The file system path.</value>
+		public string DownloadLink { get; set; }
 
 		/// <summary>
-		/// Save any pending changes to the database.
+		/// Gets or sets the identifier.
 		/// </summary>
-		/// <returns>Returns a task.</returns>
-		Task SaveAsync();
+		/// <value>The identifier.</value>
+		public Guid Id { get; set; }
+
+		/// <summary>
+		/// Gets or sets the name.
+		/// </summary>
+		/// <value>The name.</value>
+		public string Name { get; set; }
 	}
 }

@@ -33,9 +33,14 @@ namespace OpenIZAdmin.DAL
 		/// <summary>
 		/// The application database context.
 		/// </summary>
-		private ApplicationDbContext context;
+		private readonly ApplicationDbContext context;
 
 		#region Repositories
+
+		/// <summary>
+		/// The manual repository.
+		/// </summary>
+		private IRepository<Manual> manualRepository;
 
 		/// <summary>
 		/// The internal reference to the realm repository.
@@ -84,6 +89,23 @@ namespace OpenIZAdmin.DAL
 		}
 
 		#region Repositories
+
+		/// <summary>
+		/// Gets the manual repository.
+		/// </summary>
+		/// <value>The manual repository.</value>
+		public IRepository<Manual> ManualRepository
+		{
+			get
+			{
+				if (this.manualRepository == null)
+				{
+					this.manualRepository = new EntityRepository<Manual>(context);
+				}
+
+				return manualRepository;
+			}
+		}
 
 		/// <summary>
 		/// The repository for accessing realms.

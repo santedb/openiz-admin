@@ -247,6 +247,7 @@
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ExtensionTypeController.cs" />
     <Compile Include="Controllers\LanguageController.cs" />
+    <Compile Include="Controllers\ManualController.cs" />
     <Compile Include="Controllers\ManufacturedMaterialController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
     <Compile Include="Controllers\ConceptController.cs" />
@@ -319,6 +320,7 @@
     <Compile Include="Models\Core\VersionedMetadataEditModelBase.cs" />
     <Compile Include="Models\DebugModels\SubmitBugReportModel.cs" />
     <Compile Include="Models\DependentPropertyValidator.cs" />
+    <Compile Include="Models\Domain\Manual.cs" />
     <Compile Include="Models\EntityIdentifierModels\EntityIdentifierModel.cs" />
     <Compile Include="Models\EntityIdentifierModels\EntityIdentifierViewModel.cs" />
     <Compile Include="Models\EntityRelationshipModels\EntityRelationshipModel.cs" />
@@ -329,6 +331,8 @@
     <Compile Include="Models\FacilityModel.cs" />
     <Compile Include="Models\Core\LanguageModel.cs" />
     <Compile Include="Models\LanguageModels\LanguageViewModel.cs" />
+    <Compile Include="Models\ManualModels\ManualIndexViewModel.cs" />
+    <Compile Include="Models\ManualModels\UploadManualModel.cs" />
     <Compile Include="Models\ManufacturedMaterialModels\ManufacturedMaterialViewModel.cs" />
     <Compile Include="Models\MaterialModels\EditMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\CreateMaterialModel.cs" />
@@ -800,6 +804,8 @@
     <Content Include="Views\ExtensionType\Create.cshtml" />
     <Content Include="Views\ExtensionType\ViewExtensionType.cshtml" />
     <Content Include="Views\ExtensionType\Index.cshtml" />
+    <Content Include="Views\Manual\Index.cshtml" />
+    <Content Include="Views\Manual\Upload.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Content\bootstrap-datepicker\" />
