@@ -2411,6 +2411,11 @@
             Deletes a datamart
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Services.IAdHocDatawarehouseService.Truncate(System.Guid)">
+            <summary>
+            Truncates (drops all data) the specified data mart
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Services.IAdHocDatawarehouseService.Get(System.Guid,System.Guid)">
             <summary>
             Gets data from an ad-hoc data mart
