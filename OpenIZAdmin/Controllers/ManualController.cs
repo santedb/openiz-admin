@@ -77,10 +77,10 @@ namespace OpenIZAdmin.Controllers
 				this.unitOfWork.ManualRepository.Delete(manual);
 				this.unitOfWork.Save();
 
-				var file = Directory.GetFiles(this.Server.MapPath("~/Manuals"), "*.pdf", SearchOption.TopDirectoryOnly).Select(f => new FileInfo(f)).FirstOrDefault(f => Path.GetFileNameWithoutExtension(f.FullName) == manual.Name);
+				//var file = Directory.GetFiles(this.Server.MapPath("~/Manuals"), "*.pdf", SearchOption.TopDirectoryOnly).Select(f => new FileInfo(f)).FirstOrDefault(f => Path.GetFileNameWithoutExtension(f.FullName) == manual.Name);
 
 				// delete the file from the file system
-				System.IO.File.Delete(Path.GetFullPath(file.FullName));
+				System.IO.File.Delete(manual.FileSystemPath);
 
 			}
 			catch (Exception e)
