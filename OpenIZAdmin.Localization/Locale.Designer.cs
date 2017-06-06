@@ -2959,6 +2959,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New Health Facility Registry Record.
+        /// </summary>
+        public static string NewHealthFacilityRegistryRecord {
+            get {
+                return ResourceManager.GetString("NewHealthFacilityRegistryRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New manufactured material.
         /// </summary>
         public static string NewManufacturedMaterial {

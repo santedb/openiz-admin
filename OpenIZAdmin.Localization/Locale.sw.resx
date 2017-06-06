@@ -1880,4 +1880,7 @@ au jina la kikoa</value>
   <data name="UnableToDeleteManual" xml:space="preserve">
     <value>Haikuweza kufuta mwongozo</value>
   </data>
+  <data name="NewHealthFacilityRegistryRecord" xml:space="preserve">
+    <value>mpya kituo cha afya rekodi Usajili</value>
+  </data>
 </root>
