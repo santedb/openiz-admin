@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Mvc;
 using OpenIZAdmin.Attributes;
@@ -168,6 +169,43 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Tries to validate a PDF.
+		/// </summary>
+		/// <param name="stream">The stream.</param>
+		/// <returns><c>true</c> if the PDF is valid, <c>false</c> otherwise.</returns>
+		public bool IsValidPdf(Stream stream)
+		{
+			// courtesy of:
+			// https://stackoverflow.com/questions/3108201/detect-if-pdf-file-is-correct-header-pdf
+
+			var status = false;
+
+			try
+			{
+				var br = new BinaryReader(stream);
+
+				var buffer = br.ReadBytes(1024);
+
+				var enc = new ASCIIEncoding();
+				var header = enc.GetString(buffer);
+
+				//%PDF−1.0
+				// If you are loading it into a long, this is (0x04034b50).
+
+				if (buffer[0] == 0x25 && buffer[1] == 0x50 && buffer[2] == 0x44 && buffer[3] == 0x46)
+				{
+					status = header.Contains("%PDF-");
+				}
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to verify PDF: {e}");
+			}
+
+			return status;
+		}
+
+		/// <summary>
 		/// Uploads this instance.
 		/// </summary>
 		/// <returns>ActionResult.</returns>
@@ -190,7 +228,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				var id = Guid.NewGuid();
 
-				if (this.ModelState.IsValid)
+				if (this.ModelState.IsValid && this.IsValidPdf(model.File.InputStream))
 				{
 					var path = Path.Combine(this.Server.MapPath("~/Manuals"), Path.GetFileName(model.File.FileName));
 
