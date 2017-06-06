@@ -245,8 +245,10 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to upload manual: {e}");
-				this.TempData["error"] = Locale.UnableToUploadManual;
+				
 			}
+
+			this.TempData["error"] = Locale.UnableToUploadManual;
 
 			return View(model);
 		}
