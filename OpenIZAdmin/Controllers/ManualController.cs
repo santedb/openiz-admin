@@ -98,6 +98,7 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The identifier.</param>
 		/// <returns>Returns the manual for the given id.</returns>
 		[HttpGet]
+		[AllowAnonymous]
 		public ActionResult Download(Guid id)
 		{
 			try
