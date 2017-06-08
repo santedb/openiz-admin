@@ -1,0 +1,72 @@
+﻿@model IEnumerable<OpenIZAdmin.Models.AppletModels.AppletViewModel>
+@{
+    ViewBag.Title = Locale.Applets;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">
+            @Locale.Applets
+        </span>
+        <div class="pull-right">
+            <a href="@Url.Action("Upload", "Applet", null)">
+                <span class="text-primary h4">@Locale.New</span>
+                <span class="glyphicon glyphicon-plus-sign"></span>
+            </a>
+        </div>
+    </div>
+    <div class="panel panel-body">
+        @if (Model.Any())
+        {
+            <table class="table table-striped table-bordered" id="appletsTable">
+                <thead>
+                    <tr>
+                        <th>@Locale.Author</th>
+                        @*<th>@Locale.Group</th>*@
+                        <th>@Locale.Name</th>
+                        <th>@Locale.Version</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                {
+                        <tr>
+                            <td>@item.Author</td>
+                            @*<td>@item.Group</td>*@
+                            <td>@item.Name</td>
+                            <td>@item.Version</td>
+                            <td class="centerContent autoFitContents">
+                                <a class="btn btn-primary" href="/Applet/ViewApplet/@(item.Id + "/")">
+                                    @Locale.View
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                                <a class="btn btn-primary" href="/Applet/Update/@(item.Id + "/")">
+                                    @Locale.UploadNewVersion
+                                    <span class="glyphicon glyphicon-upload"></span>
+                                </a>
+                                <a class="btn btn-primary" href="/Applet/Download/@(item.Id + "/")">
+                                    @Locale.Download
+                                    <span class="glyphicon glyphicon-download"></span>
+                                </a>
+                                @*@using (Html.BeginForm("Delete", "Applet", new { id = item.Id + "/" }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                {
+                                    @Html.AntiForgeryToken()
+
+                                    <button type="submit" data-locale-text="@Locale.PleaseWait" class="btn btn-danger">
+                                        @Locale.Delete
+                                        <span class="glyphicon glyphicon-remove"></span>
+                                    </button>
+                                }*@
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>@Locale.NoNewAppletsSubmitted</p>
+        }
+    </div>
+</div>
