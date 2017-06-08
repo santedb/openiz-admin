@@ -2335,7 +2335,7 @@
     <value>Manual uploaded successfully</value>
   </data>
   <data name="UploadManual" xml:space="preserve">
-    <value>Upload manual</value>
+    <value>Upload Manual</value>
   </data>
   <data name="UnableToRetrieveManuals" xml:space="preserve">
     <value>Unable to retrieve manuals</value>
@@ -2345,5 +2345,14 @@
   </data>
   <data name="NewHealthFacilityRegistryRecord" xml:space="preserve">
     <value>New Health Facility Registry Record</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Filename</value>
+  </data>
+  <data name="ManualDeletedSuccessfully" xml:space="preserve">
+    <value>Manual deleted successfully</value>
+  </data>
+  <data name="RequiredFileUploadFormat" xml:space="preserve">
+    <value>Only manuals in .pdf format are accepted.</value>
   </data>
 </root>

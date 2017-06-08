@@ -1870,6 +1870,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Filename.
+        /// </summary>
+        public static string Filename {
+            get {
+                return ResourceManager.GetString("Filename", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select a file to upload.
         /// </summary>
         public static string FileRequired {
@@ -2622,6 +2631,15 @@ namespace OpenIZAdmin.Localization {
         public static string Manifest {
             get {
                 return ResourceManager.GetString("Manifest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manual deleted successfully.
+        /// </summary>
+        public static string ManualDeletedSuccessfully {
+            get {
+                return ResourceManager.GetString("ManualDeletedSuccessfully", resourceCulture);
             }
         }
         
@@ -4170,6 +4188,15 @@ namespace OpenIZAdmin.Localization {
         public static string Reports {
             get {
                 return ResourceManager.GetString("Reports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Only manuals in .pdf format are accepted..
+        /// </summary>
+        public static string RequiredFileUploadFormat {
+            get {
+                return ResourceManager.GetString("RequiredFileUploadFormat", resourceCulture);
             }
         }
         
@@ -6199,7 +6226,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Upload manual.
+        ///   Looks up a localized string similar to Upload Manual.
         /// </summary>
         public static string UploadManual {
             get {

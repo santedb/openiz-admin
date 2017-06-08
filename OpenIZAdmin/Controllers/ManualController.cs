@@ -82,7 +82,8 @@ namespace OpenIZAdmin.Controllers
 				// delete the file from the file system
 				System.IO.File.Delete(manual.FileSystemPath);
 
-			}
+                this.TempData["success"] = Locale.ManualDeletedSuccessfully;
+            }
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to delete manual: {e}");
