@@ -237,15 +237,17 @@ namespace OpenIZAdmin.Controllers
 
 					return RedirectToAction("ViewDevice", new { id = securityDeviceInfo.Id.ToString() });
 				}
-			}
+
+                model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id"));
+            }
 			catch (Exception e)
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
 
-			TempData["error"] = Locale.UnableToUpdateDevice;
+			TempData["error"] = Locale.UnableToUpdateDevice;            
 
-			return View(model);
+            return View(model);
 		}
 
 		/// <summary>

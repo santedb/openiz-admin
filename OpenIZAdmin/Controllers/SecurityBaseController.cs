@@ -130,8 +130,7 @@ namespace OpenIZAdmin.Controllers
 		protected SecurityDeviceInfo ToSecurityDeviceInfo(EditDeviceModel model, SecurityDeviceInfo deviceInfo)
 		{
 			deviceInfo.Device.Key = model.Id;
-			deviceInfo.Device.Name = model.Name;
-			deviceInfo.Device.DeviceSecret = model.DeviceSecret;
+			deviceInfo.Device.Name = model.Name;			
 
 			var policyList = this.GetNewPolicies(model.Policies.Select(Guid.Parse));
 
