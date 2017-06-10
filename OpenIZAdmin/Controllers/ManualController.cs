@@ -232,7 +232,19 @@ namespace OpenIZAdmin.Controllers
 
 				if (this.ModelState.IsValid && this.IsValidPdf(model.File.InputStream))
 				{
+					var fileName = Path.GetFileNameWithoutExtension(model.File.FileName);
+
+					var existing = unitOfWork.ManualRepository.Get(c => c.Name == fileName).FirstOrDefault();
+
 					var path = Path.Combine(this.Server.MapPath("~/Manuals"), Path.GetFileName(model.File.FileName));
+
+					// delete the file from the file system and the db if the file being uploaded already exists.
+					if (existing != null)
+					{
+						System.IO.File.Delete(path);
+						this.unitOfWork.ManualRepository.Delete(existing);
+						this.unitOfWork.Save();
+					}
 
 					model.File.SaveAs(path);
 
