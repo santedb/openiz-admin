@@ -62,13 +62,6 @@ namespace OpenIZAdmin.Models.MaterialModels
 				this.Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value));
 			}
 
-			this.ManufacturedMaterials = material.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct)
-													.Select(r => r.TargetEntity)
-													.OfType<ManufacturedMaterial>()
-													.Select(m => new ManufacturedMaterialViewModel(m))
-													.OrderBy(m => m.Name)
-													.ToList();
-
 			this.QuantityConcept = material.QuantityConcept?.ConceptNames.Any() == true ? string.Join(" ", material.QuantityConcept?.ConceptNames.Select(c => c.Name)) + " " + material.QuantityConcept?.Mnemonic : material.QuantityConcept?.Mnemonic;
 		}
 
@@ -77,12 +70,6 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// </summary>
 		[Display(Name = "FormConcept", ResourceType = typeof(Locale))]
 		public string FormConcept { get; set; }
-
-		/// <summary>
-		/// Gets or sets the manufactured materials.
-		/// </summary>
-		/// <value>The manufactured materials.</value>
-		public List<ManufacturedMaterialViewModel> ManufacturedMaterials { get; set; }
 
 		/// <summary>
 		/// Gets or sets the quantity concept of the material.
