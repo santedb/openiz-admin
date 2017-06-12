@@ -455,7 +455,7 @@ namespace OpenIZAdmin.Controllers
 
 				organization.Relationships = relationships.Intersect(organization.Relationships, new EntityRelationshipComparer()).ToList();
 
-				return View(new OrganizationViewModel(organization, true));
+				return View(new OrganizationViewModel(organization));
 			}
 			catch (Exception e)
 			{

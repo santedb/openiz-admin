@@ -42,32 +42,17 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		}
 
 
-	    /// <summary>
-	    /// Initializes a new instance of the <see cref="OrganizationViewModel"/> class
-	    /// with a specific <see cref="Organization"/> instance.
-	    /// </summary>
-	    /// <param name="organization"></param>
-	    /// <param name="loadManMaterials">The conditional state that controls the loading of associated manufactured materials</param>
-	    public OrganizationViewModel(Organization organization, bool loadManMaterials = false) : base(organization)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OrganizationViewModel" /> class
+		/// with a specific <see cref="Organization" /> instance.
+		/// </summary>
+		/// <param name="organization">The organization.</param>
+		public OrganizationViewModel(Organization organization) : base(organization)
 		{
-			this.ManufacturedMaterials = new List<ManufacturedMaterialViewModel>();
-
-		    if (loadManMaterials)
-		    {
-
-		        if (organization.IndustryConcept != null)
-		        {
-		            this.IndustryConcept = string.Join(" ", organization.IndustryConcept.ConceptNames.Select(c => c.Name));
-		        }
-
-		        this.ManufacturedMaterials =
-		            organization.Relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct)
-		                .Select(r => r.TargetEntity)
-		                .OfType<ManufacturedMaterial>()
-		                .Select(m => new ManufacturedMaterialViewModel(m))
-		                .OrderBy(m => m.Name)
-		                .ToList();
-		    }
+			if (organization.IndustryConcept != null)
+			{
+				this.IndustryConcept = string.Join(" ", organization.IndustryConcept.ConceptNames.Select(c => c.Name));
+			}
 		}
 
 		/// <summary>
@@ -75,10 +60,5 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		/// </summary>
 		[Display(Name = "Industry", ResourceType = typeof(Locale))]
 		public string IndustryConcept { get; set; }
-
-		/// <summary>
-		/// Gets or sets the list of manufactured materials associated with the organization.
-		/// </summary>
-		public List<ManufacturedMaterialViewModel> ManufacturedMaterials { get; set; }
 	}
 }
