@@ -2131,6 +2131,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Welcome to the OpenIZ Administration Portal..
+        /// </summary>
+        public static string HomePageHeaderText {
+            get {
+                return ResourceManager.GetString("HomePageHeaderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Id.
         /// </summary>
         public static string Id {

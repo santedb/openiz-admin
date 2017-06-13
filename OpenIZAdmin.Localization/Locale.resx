@@ -2355,4 +2355,7 @@
   <data name="RequiredFileUploadFormat" xml:space="preserve">
     <value>Only manuals in .pdf format are accepted.</value>
   </data>
+  <data name="HomePageHeaderText" xml:space="preserve">
+    <value>Welcome to the OpenIZ Administration Portal.</value>
+  </data>
 </root>
