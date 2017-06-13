@@ -2358,4 +2358,7 @@
   <data name="HomePageHeaderText" xml:space="preserve">
     <value>Welcome to the OpenIZ Administration Portal.</value>
   </data>
+  <data name="NoUsersFound" xml:space="preserve">
+    <value>No users found</value>
+  </data>
 </root>

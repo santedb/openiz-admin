@@ -3319,6 +3319,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No users found.
+        /// </summary>
+        public static string NoUsersFound {
+            get {
+                return ResourceManager.GetString("NoUsersFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Obsoletion Time.
         /// </summary>
         public static string ObsoletionTime {
