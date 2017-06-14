@@ -69,34 +69,6 @@ namespace OpenIZAdmin.Controllers
 				Roles = this.GetAllRoles().OrderBy(r => r.Name).Take(15)
 			};
 
-			try
-			{
-				var user = this.GetUserEntityBySecurityUserKey(Guid.Parse(this.User.Identity.GetUserId()));
-
-				if (user != null)
-				{
-					var language = user.LanguageCommunication.FirstOrDefault(u => u.IsPreferred);
-
-					var code = LocalizationConfig.LanguageCode.English;
-
-					switch (language?.LanguageCode)
-					{
-						// only swahili is currently supported
-						case LocalizationConfig.LanguageCode.Swahili:
-							code = LocalizationConfig.LanguageCode.Swahili;
-							break;
-						default:
-							break;
-					}
-
-					Response.Cookies.Add(new HttpCookie(LocalizationConfig.LanguageCookieName, code));
-				}
-			}
-			catch (Exception e)
-			{
-				Trace.TraceError($"Unable to set the users default language, reverting to english: {e}");
-			}
-
 			return View(viewModel);
 		}
 

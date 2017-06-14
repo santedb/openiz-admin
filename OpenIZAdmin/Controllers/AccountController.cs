@@ -333,7 +333,30 @@ namespace OpenIZAdmin.Controllers
 			switch (result)
 			{
 				case SignInStatus.Success:
-					Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
+                    try
+                    {
+                        var user = this.GetUserEntityBySecurityUserKey(Guid.Parse(SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId()));
+
+                        if (user != null)
+                        {
+                            // Default to english
+                            var languageCode = LocalizationConfig.LanguageCode.English;
+
+                            var language = user.LanguageCommunication.FirstOrDefault(u => u.IsPreferred);
+                            if (language != null)
+                            {
+                                languageCode = language.LanguageCode;
+                            }
+
+                            Response.Cookies.Add(new HttpCookie(LocalizationConfig.LanguageCookieName, languageCode));
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        Trace.TraceError($"Unable to set the users default language, reverting to english: {e}");
+                    }
+
+                    Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
 					return RedirectToLocal(returnUrl);
 				default:
 					ModelState.AddModelError("", Locale.IncorrectUsernameOrPassword);
