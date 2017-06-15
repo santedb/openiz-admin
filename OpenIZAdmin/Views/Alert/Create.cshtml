@@ -76,6 +76,8 @@
                         text: "@Locale.System", value: "@Locale.System"
                     }));
                     $("#@Html.IdFor(m => m.To)").val("@Locale.System").trigger("change");
+                    $("#@Html.IdFor(m => m.To)").attr("disabled", "disabled");
+                    $("#@Html.IdFor(m => m.To)").attr("readonly", "readonly");
                 }
                 else
                 {
@@ -84,6 +86,8 @@
 
                     $("#@Html.IdFor(m => m.To)").empty();
                     $("#@Html.IdFor(m => m.To)").change();
+                    $("#@Html.IdFor(m => m.To)").removeAttr("disabled");
+                    $("#@Html.IdFor(m => m.To)").removeAttr("readonly");
                 }
 
             });
