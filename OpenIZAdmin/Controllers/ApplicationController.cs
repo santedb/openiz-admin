@@ -139,7 +139,7 @@ namespace OpenIZAdmin.Controllers
 			try
 			{
 				this.AmiClient.DeleteApplication(id.ToString());
-				TempData["success"] = Locale.ApplicationDeletedSuccessfully;
+				TempData["success"] = Locale.ApplicationDeactivatedSuccessfully;
 
 				return RedirectToAction("Index");
 			}

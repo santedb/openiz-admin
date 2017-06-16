@@ -1827,8 +1827,8 @@
   <data name="ApplicationActivatedSuccessfully" xml:space="preserve">
     <value>Application activated successfully</value>
   </data>
-  <data name="ApplicationDeletedSuccessfully" xml:space="preserve">
-    <value>Application deleted successfully</value>
+  <data name="ApplicationDeactivatedSuccessfully" xml:space="preserve">
+    <value>Application deactivated successfully</value>
   </data>
   <data name="AssigningAuthorityCreatedSuccessfully" xml:space="preserve">
     <value>Assigning authority created successfully</value>

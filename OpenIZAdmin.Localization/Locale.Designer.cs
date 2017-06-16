@@ -385,11 +385,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Application deleted successfully.
+        ///   Looks up a localized string similar to Application deactivated successfully.
         /// </summary>
-        public static string ApplicationDeletedSuccessfully {
+        public static string ApplicationDeactivatedSuccessfully {
             get {
-                return ResourceManager.GetString("ApplicationDeletedSuccessfully", resourceCulture);
+                return ResourceManager.GetString("ApplicationDeactivatedSuccessfully", resourceCulture);
             }
         }
         
