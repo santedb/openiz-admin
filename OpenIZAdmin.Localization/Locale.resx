@@ -2361,4 +2361,7 @@
   <data name="NoUsersFound" xml:space="preserve">
     <value>No users found</value>
   </data>
+  <data name="UsernameLettersNumbersOnly" xml:space="preserve">
+    <value>The username must consist of only letters and numbers</value>
+  </data>
 </root>

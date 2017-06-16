@@ -1883,4 +1883,7 @@ au jina la kikoa</value>
   <data name="NewHealthFacilityRegistryRecord" xml:space="preserve">
     <value>mpya kituo cha afya rekodi Usajili</value>
   </data>
+  <data name="UsernameLettersNumbersOnly" xml:space="preserve">
+    <value>jina la mtumiaji lazima iwe na herufi na nambari</value>
+  </data>
 </root>

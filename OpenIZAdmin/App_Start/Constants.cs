@@ -73,74 +73,74 @@ namespace OpenIZAdmin
 		/// </summary>
 		public const string NotApplicable = "N/A";
 
-        /// <summary>
-        /// Regular expression string for password validation
-        /// </summary>
-        //public const string RegExPassword = @"^[^ !@%\\/:*;\.\)\(]+$";
-        public const string RegExPassword = @"^[^\s\\/:*;\.\)\(]+$";
+		/// <summary>
+		/// Regular expression string for password validation
+		/// </summary>
+		//public const string RegExPassword = @"^[^ !@%\\/:*;\.\)\(]+$";
+		public const string RegExPassword = @"^[^\s\\/:*;\.\)\(]+$";
 
-        /// <summary>
-        /// Regular expression string for username validation
-        /// </summary>
-        public const string RegExPhoneNumber = @"^(?:\d{8}|00\d{10}|\+\d{2}\d{8})$";
+		/// <summary>
+		/// Regular expression string for username validation
+		/// </summary>
+		public const string RegExPhoneNumber = @"^(?:\d{8}|00\d{10}|\+\d{2}\d{8})$";
 
-        /// <summary>
-        /// Regular expression string for username validation
-        /// </summary>
-        public const string RegExPhoneNumberAlternate = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
+		/// <summary>
+		/// Regular expression string for username validation
+		/// </summary>
+		public const string RegExPhoneNumberAlternate = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
 
-        //reference: https://gist.github.com/muya/ce5a18a3f119cc4ac286
-        /// <summary>
-        /// Regular expression string for username validation
-        /// </summary>        
-	    public const string RegExPhoneNumberTanzania = @"^(?:\+?(\d{3}))?[-. ]?(\d{2,4})[-. ]?(\d{3})[-. ]?(\d{2,4})$";
+		//reference: https://gist.github.com/muya/ce5a18a3f119cc4ac286
+		/// <summary>
+		/// Regular expression string for username validation
+		/// </summary>        
+		public const string RegExPhoneNumberTanzania = @"^(?:\+?(\d{3}))?[-. ]?(\d{2,4})[-. ]?(\d{3})[-. ]?(\d{2,4})$";
 
-        //modified from  - http://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number
-        //^(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$
+		//modified from  - http://stackoverflow.com/questions/16699007/regular-expression-to-match-standard-10-digit-phone-number
+		//^(?:\+?(\d{1,3}))?[-. (]*(\d{3})[-. )]*(\d{3})[-. ]*(\d{4})(?: *x(\d+))?\s*$
 
-        /// <summary>
-        /// Regular expression string for basic string validation
-        /// </summary>
-        //public const string RegExBasicString = @"^[^ !@%\\/:*;\.\)\(]+$";
-        public const string RegExBasicString = @"^[^*@&<>]+$";
+		/// <summary>
+		/// Regular expression string for basic string validation
+		/// </summary>
+		//public const string RegExBasicString = @"^[^ !@%\\/:*;\.\)\(]+$";
+		public const string RegExBasicString = @"^[^*@&<>]+$";
 
-        /// <summary>
-        /// Regular expression string for html tag validation
-        /// </summary>        
-        public const string RegExBasicHtmlString = @"^[^<>]+$";
+		/// <summary>
+		/// Regular expression string for html tag validation
+		/// </summary>        
+		public const string RegExBasicHtmlString = @"^[^<>]+$";
 
-        /// <summary>
-        /// Regular expression string for select2 limited string validation
-        /// </summary>        
-        public const string RegExSelect2StringInput = @"/^[\w()+\-\[\]{}]+$/g";
+		/// <summary>
+		/// Regular expression string for select2 limited string validation
+		/// </summary>        
+		public const string RegExSelect2StringInput = @"/^[\w()+\-\[\]{}]+$/g";
 
-        /// <summary>
-        /// Regular expression string for oid validation
-        /// </summary>
-        public const string RegExOidValidation = @"^(?=^| )\w+(\.\w+)*(?=$| )|(?=^| )\.\w+(?=$| )$";        
-        //modified from - reference: https://stackoverflow.com/questions/5570820/regex-allow-digits-and-a-single-dot
-        //@"^(?<=^| )\w+(\.\w+)*(?=$| )|(?<=^| )\.\w+(?=$| )$"; - lookahead and behind different in JS
+		/// <summary>
+		/// Regular expression string for oid validation
+		/// </summary>
+		public const string RegExOidValidation = @"^(?=^| )\w+(\.\w+)*(?=$| )|(?=^| )\.\w+(?=$| )$";
+		//modified from - reference: https://stackoverflow.com/questions/5570820/regex-allow-digits-and-a-single-dot
+		//@"^(?<=^| )\w+(\.\w+)*(?=$| )|(?<=^| )\.\w+(?=$| )$"; - lookahead and behind different in JS
 
-        //@"^[^-.].*[^-_.]$";
-        //@"^[^-.][A-Za-z0-9]*([A-Za-z0-9]*|\.+)+[^-_.]$";
-        //@"^[^-.][\w+\.?{1}]*(\w+\.)[^-_.]$";
-        //@"^[^-.][(?<=^| )\w+(\.\w+)?(?=$| )]*[^ -_.]$";
-        //public const string RegExOidValidation = @"^[0-9]{1,3}\.([0-9]{1,3})\.[0-9]{1,3}$";
+		//@"^[^-.].*[^-_.]$";
+		//@"^[^-.][A-Za-z0-9]*([A-Za-z0-9]*|\.+)+[^-_.]$";
+		//@"^[^-.][\w+\.?{1}]*(\w+\.)[^-_.]$";
+		//@"^[^-.][(?<=^| )\w+(\.\w+)?(?=$| )]*[^ -_.]$";
+		//public const string RegExOidValidation = @"^[0-9]{1,3}\.([0-9]{1,3})\.[0-9]{1,3}$";
 
-        /// <summary>
-        /// Regular expression string for username validation
-        /// </summary>
-        public const string RegExPopulationYear = @"^(\d{4})$";
+		/// <summary>
+		/// Regular expression string for username validation
+		/// </summary>
+		public const string RegExPopulationYear = @"^(\d{4})$";
 
-        /// <summary>
-        /// Regular expression string for username validation
-        /// </summary>
-        public const string RegExUsername = @"^[^ '!@#$%""&\\/:*;\.\)\(]+$";        
+		/// <summary>
+		/// Regular expression string for username validation
+		/// </summary>
+		public const string RegExUsername = "^[a-zA-Z0-9]+$";
 
-        /// <summary>
-        /// The RISI endpoint name.
-        /// </summary>
-        public const string Risi = "RISI";
+		/// <summary>
+		/// The RISI endpoint name.
+		/// </summary>
+		public const string Risi = "RISI";
 
 		/// <summary>
 		/// The system user identifier.

@@ -6388,6 +6388,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The username must consist of only letters and numbers.
+        /// </summary>
+        public static string UsernameLettersNumbersOnly {
+            get {
+                return ResourceManager.GetString("UsernameLettersNumbersOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Username field is required.
         /// </summary>
         public static string UsernameRequired {
