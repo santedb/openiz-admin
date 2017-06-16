@@ -175,7 +175,7 @@ namespace OpenIZAdmin.Controllers
                     PoliciesList = new List<SelectListItem>()
                 };
 
-				model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id"));
+				model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id", null, true));
 
 				return View(model);
 			}
@@ -233,7 +233,7 @@ namespace OpenIZAdmin.Controllers
             }            
 
             model.PoliciesList = new List<SelectListItem>();
-            model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id"));
+            model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id", null, true));
             model.Policies = model.RolePolicies?.Select(p => p.Id.ToString()).ToList();
 
             TempData["error"] = Locale.UnableToUpdateRole;

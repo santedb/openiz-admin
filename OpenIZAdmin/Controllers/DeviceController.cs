@@ -238,7 +238,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("ViewDevice", new { id = securityDeviceInfo.Id.ToString() });
 				}
 
-                model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id"));
+                model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id", null, true));
             }
 			catch (Exception e)
 			{
