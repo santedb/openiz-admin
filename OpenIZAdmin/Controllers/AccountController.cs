@@ -39,6 +39,7 @@ using System.Web;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Extensions;
+using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -335,6 +336,9 @@ namespace OpenIZAdmin.Controllers
 				case SignInStatus.Success:
                     try
                     {
+						// set the credentials
+						this.ImsiClient.Client.Credentials = new AmiCredentials(this.User, this.SignInManager.AccessToken);
+
                         var user = this.GetUserEntityBySecurityUserKey(Guid.Parse(SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId()));
 
                         if (user != null)
