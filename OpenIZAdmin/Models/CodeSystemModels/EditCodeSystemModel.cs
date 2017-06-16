@@ -118,6 +118,7 @@ namespace OpenIZAdmin.Models.CodeSystemModels
 		/// <returns>Returns the converted code system.</returns>
 		public CodeSystem ToCodeSystem(CodeSystem codeSystem)
 		{
+			codeSystem.Description = this.Description;
 			codeSystem.Name = this.Name;
 			codeSystem.Authority = this.Domain;
 			codeSystem.Oid = this.Oid;

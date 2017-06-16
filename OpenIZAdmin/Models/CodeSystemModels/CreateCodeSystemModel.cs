@@ -90,6 +90,7 @@ namespace OpenIZAdmin.Models.CodeSystemModels
 		{
 			return new CodeSystem(this.Name, this.Oid, this.Domain)
 			{
+				Description = this.Description,
 				Url = this.Url,
 				VersionText = this.Version
 			};
