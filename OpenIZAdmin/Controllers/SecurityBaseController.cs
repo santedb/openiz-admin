@@ -109,14 +109,11 @@ namespace OpenIZAdmin.Controllers
 
 			var policyList = this.GetNewPolicies(model.Policies.Select(Guid.Parse));
 
-			if (policyList.Any())
+			appInfo.Policies.Clear();
+			appInfo.Policies.AddRange(policyList.Select(p => new SecurityPolicyInfo(p)
 			{
-				appInfo.Policies.Clear();
-				appInfo.Policies.AddRange(policyList.Select(p => new SecurityPolicyInfo(p)
-				{
-					Grant = PolicyGrantType.Grant
-				}));
-			}
+				Grant = PolicyGrantType.Grant
+			}));
 
 			return appInfo;
 		}
