@@ -174,7 +174,7 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditApplicationModel(securityApplicationInfo);
 
-				model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id"));
+				model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id", null, true));
 
 				return View(model);
 			}
