@@ -194,7 +194,7 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditDeviceModel(securityDeviceInfo);
 
-				model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id"));
+				model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id", null, true));
 
 				return View(model);
 			}
