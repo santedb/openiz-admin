@@ -192,12 +192,19 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-                var model = new EditAssigningAuthorityModel(assigningAuthorityInfo)
+				foreach (var item in assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Where(s => s.Class == null && s.ClassKey.HasValue && s.ClassKey.Value != Guid.Empty))
+				{
+					item.Class = this.ImsiClient.Get<ConceptClass>(item.ClassKey.Value, null) as ConceptClass;
+				}
+
+				var model = new EditAssigningAuthorityModel(assigningAuthorityInfo)
                 {
                     AuthorityScopeList = assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x, assigningAuthorityInfo.Id)).ToList()
                 };
-				
-			    return View(model);
+
+
+
+				return View(model);
 			}
 			catch (Exception e)
 			{
@@ -325,6 +332,11 @@ namespace OpenIZAdmin.Controllers
 				{
 					TempData["error"] = Locale.AssigningAuthorityNotFound;
 					return RedirectToAction("Index");
+				}
+
+				foreach (var item in assigningAuthority.AssigningAuthority.AuthorityScope.Where(s => s.Class == null && s.ClassKey.HasValue && s.ClassKey.Value != Guid.Empty))
+				{
+					item.Class = this.ImsiClient.Get<ConceptClass>(item.ClassKey.Value, null) as ConceptClass;
 				}
 
 				return View(new AssigningAuthorityViewModel(assigningAuthority));
