@@ -2317,7 +2317,7 @@
     <value>Applet deleted successfully</value>
   </data>
   <data name="UnableToDeleteApplet" xml:space="preserve">
-    <value>Unable to delete applet</value>
+    <value>Unable to delete applet, this may be because another applet depends on this applet.</value>
   </data>
   <data name="ManualNotFound" xml:space="preserve">
     <value>Manual Not Found</value>

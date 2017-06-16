@@ -150,7 +150,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				models.AddRange(this.GetAlerts().Select(a => new AlertViewModel(a)));
 
-				return View(models.OrderBy(x => x.Flags).ThenByDescending(a => a.Time));
+				return View(models.OrderByDescending(x => x.Time).ThenBy(a => a.Flags));
 			}
 			catch (Exception e)
 			{

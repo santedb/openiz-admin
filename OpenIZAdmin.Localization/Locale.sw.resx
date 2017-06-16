@@ -1854,7 +1854,7 @@ au jina la kikoa</value>
     <value>kijiprogramu imefutwa</value>
   </data>
   <data name="UnableToDeleteApplet" xml:space="preserve">
-    <value>Haikuweza kufuta kijiprogramu</value>
+    <value>Haikuweza kufuta kijiprogramu, hii inaweza kuwa kwa sababu kijiprogramu mwingine inategemea kijiprogramu hii.</value>
   </data>
   <data name="ManualNotFound" xml:space="preserve">
     <value>Mwongozo halikupatikana</value>

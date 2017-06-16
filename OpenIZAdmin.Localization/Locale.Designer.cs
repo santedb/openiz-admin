@@ -5596,7 +5596,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to delete applet.
+        ///   Looks up a localized string similar to Unable to delete applet, this may be because another applet depends on this applet..
         /// </summary>
         public static string UnableToDeleteApplet {
             get {
