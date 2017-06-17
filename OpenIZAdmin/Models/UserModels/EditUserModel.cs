@@ -70,8 +70,8 @@ namespace OpenIZAdmin.Models.UserModels
             this.Id = securityUserInfo.UserId.Value;
             //this.IsLockedOut = securityUserInfo.Lockout.GetValueOrDefault(false);
 		    this.LockoutStatus = securityUserInfo.Lockout.GetValueOrDefault(false).ToLockoutStatus(); //IsLockedOut.ToLockoutStatus();
-            this.IsObsolete = securityUserInfo.User.ObsoletionTime != null;
-            this.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
+			this.IsObsolete = securityUserInfo.User.ObsoletionTime.HasValue && securityUserInfo.User.ObsoletionTime > DateTimeOffset.Now;
+			this.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
             this.Surnames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
             this.Username = securityUserInfo.UserName; 
 			this.UserRoles = securityUserInfo.Roles.Select(r => new RoleViewModel(r)).OrderBy(q => q.Name).ToList();						
