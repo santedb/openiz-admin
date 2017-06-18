@@ -137,7 +137,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				this.AmiClient.DeleteRole(id.ToString());
 
-				TempData["success"] = Locale.RoleDeletedSuccessfully;
+				TempData["success"] = Locale.RoleDeactivatedSuccessfully;
 
 				return RedirectToAction("Index");
 			}

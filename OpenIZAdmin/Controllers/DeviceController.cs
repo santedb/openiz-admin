@@ -159,7 +159,7 @@ namespace OpenIZAdmin.Controllers
 			try
 			{
 				this.AmiClient.DeleteDevice(id.ToString());
-				TempData["success"] = Locale.DeviceDeletedSuccessfully;
+				TempData["success"] = Locale.DeviceDeactivatedSuccessfully;
 
 				return RedirectToAction("Index");
 			}

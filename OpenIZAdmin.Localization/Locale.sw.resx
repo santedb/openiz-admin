@@ -1640,8 +1640,8 @@ au jina la kikoa</value>
   <data name="DeviceCreatedSuccessfully" xml:space="preserve">
     <value>Hila umeundwa</value>
   </data>
-  <data name="DeviceDeletedSuccessfully" xml:space="preserve">
-    <value>Hila imefutwa</value>
+  <data name="DeviceDeactivatedSuccessfully" xml:space="preserve">
+    <value>kifaa kimezimwa kwa mafanikio</value>
   </data>
   <data name="DeviceNotFound" xml:space="preserve">
     <value>Hila halikupatikana</value>
@@ -1885,5 +1885,11 @@ au jina la kikoa</value>
   </data>
   <data name="UsernameLettersNumbersOnly" xml:space="preserve">
     <value>jina la mtumiaji lazima iwe na herufi na nambari</value>
+  </data>
+  <data name="EntityNotFound" xml:space="preserve">
+    <value>Chombo halikupatikana</value>
+  </data>
+  <data name="LanguageCodeNotFound" xml:space="preserve">
+    <value>Lugha Kanuni halikupatikana</value>
   </data>
 </root>

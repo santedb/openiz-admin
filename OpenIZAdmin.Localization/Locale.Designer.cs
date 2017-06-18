@@ -907,11 +907,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Concept deleted successfully.
+        ///   Looks up a localized string similar to Concept deactivated successfully.
         /// </summary>
-        public static string ConceptDeletedSuccessfully {
+        public static string ConceptDeactivatedSuccessfully {
             get {
-                return ResourceManager.GetString("ConceptDeletedSuccessfully", resourceCulture);
+                return ResourceManager.GetString("ConceptDeactivatedSuccessfully", resourceCulture);
             }
         }
         
@@ -1384,11 +1384,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Device deleted successfully.
+        ///   Looks up a localized string similar to Device deactivated successfully.
         /// </summary>
-        public static string DeviceDeletedSuccessfully {
+        public static string DeviceDeactivatedSuccessfully {
             get {
-                return ResourceManager.GetString("DeviceDeletedSuccessfully", resourceCulture);
+                return ResourceManager.GetString("DeviceDeactivatedSuccessfully", resourceCulture);
             }
         }
         
@@ -2725,11 +2725,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Material deleted successfully.
+        ///   Looks up a localized string similar to Material deactivated successfully.
         /// </summary>
-        public static string MaterialDeletedSuccessfully {
+        public static string MaterialDeactivatedSuccessfully {
             get {
-                return ResourceManager.GetString("MaterialDeletedSuccessfully", resourceCulture);
+                return ResourceManager.GetString("MaterialDeactivatedSuccessfully", resourceCulture);
             }
         }
         
@@ -3427,11 +3427,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Organization deleted successfully.
+        ///   Looks up a localized string similar to Organization deactivated successfully.
         /// </summary>
-        public static string OrganizationDeletedSuccessfully {
+        public static string OrganizationDeactivatedSuccessfully {
             get {
-                return ResourceManager.GetString("OrganizationDeletedSuccessfully", resourceCulture);
+                return ResourceManager.GetString("OrganizationDeactivatedSuccessfully", resourceCulture);
             }
         }
         
@@ -4336,11 +4336,11 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Role deleted successfully.
+        ///   Looks up a localized string similar to Role deactivated successfully.
         /// </summary>
-        public static string RoleDeletedSuccessfully {
+        public static string RoleDeactivatedSuccessfully {
             get {
-                return ResourceManager.GetString("RoleDeletedSuccessfully", resourceCulture);
+                return ResourceManager.GetString("RoleDeactivatedSuccessfully", resourceCulture);
             }
         }
         

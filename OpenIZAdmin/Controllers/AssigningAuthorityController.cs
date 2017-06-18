@@ -96,41 +96,6 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-		/// <summary>
-		/// Deletes an assigning authority.
-		/// </summary>
-		/// <param name="id">The id of the assigning authority to delete.</param>
-		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Delete(Guid id)
-		{
-			try
-			{
-				var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == id).CollectionItem.FirstOrDefault();
-
-				if (assigningAuthority == null)
-				{
-					TempData["error"] = Locale.AssigningAuthorityNotFound;
-					return RedirectToAction("Index");
-				}
-
-				this.AmiClient.DeleteAssigningAuthority(id.ToString());
-
-				TempData["success"] = Locale.AssigningAuthorityDeletedSuccessfully;
-
-				return RedirectToAction("Index");
-			}
-			catch (Exception e)
-			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-			}
-
-			TempData["error"] = Locale.UnableToDeleteAssigningAuthority;
-
-			return RedirectToAction("Index");
-		}
-
         /// <summary>
 		///
 		/// </summary>

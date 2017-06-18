@@ -1524,8 +1524,8 @@
   <data name="DeviceCreatedSuccessfully" xml:space="preserve">
     <value>Device created successfully</value>
   </data>
-  <data name="DeviceDeletedSuccessfully" xml:space="preserve">
-    <value>Device deleted successfully</value>
+  <data name="DeviceDeactivatedSuccessfully" xml:space="preserve">
+    <value>Device deactivated successfully</value>
   </data>
   <data name="DeviceNotFound" xml:space="preserve">
     <value>Device not found</value>
@@ -1710,8 +1710,8 @@
   <data name="MaterialNotFound" xml:space="preserve">
     <value>Material not found</value>
   </data>
-  <data name="OrganizationDeletedSuccessfully" xml:space="preserve">
-    <value>Organization deleted successfully</value>
+  <data name="OrganizationDeactivatedSuccessfully" xml:space="preserve">
+    <value>Organization deactivated successfully</value>
   </data>
   <data name="OrganizationNotFound" xml:space="preserve">
     <value>Organization not found</value>
@@ -1761,8 +1761,8 @@
   <data name="RoleCreatedSuccessfully" xml:space="preserve">
     <value>Role created successfully</value>
   </data>
-  <data name="RoleDeletedSuccessfully" xml:space="preserve">
-    <value>Role deleted successfully</value>
+  <data name="RoleDeactivatedSuccessfully" xml:space="preserve">
+    <value>Role deactivated successfully</value>
   </data>
   <data name="RoleNotFound" xml:space="preserve">
     <value>Role not found</value>
@@ -1845,8 +1845,8 @@
   <data name="ConceptCreatedSuccessfully" xml:space="preserve">
     <value>Concept created successfully</value>
   </data>
-  <data name="ConceptDeletedSuccessfully" xml:space="preserve">
-    <value>Concept deleted successfully</value>
+  <data name="ConceptDeactivatedSuccessfully" xml:space="preserve">
+    <value>Concept deactivated successfully</value>
   </data>
   <data name="ConceptReferenceTermDeletedSuccessfully" xml:space="preserve">
     <value>Concept reference term deleted successfully</value>
@@ -1857,8 +1857,8 @@
   <data name="IdentifierCreatedSuccessfully" xml:space="preserve">
     <value>Identifier created successfully</value>
   </data>
-  <data name="MaterialDeletedSuccessfully" xml:space="preserve">
-    <value>Material deleted successfully</value>
+  <data name="MaterialDeactivatedSuccessfully" xml:space="preserve">
+    <value>Material deactivated successfully</value>
   </data>
   <data name="OrganizationActivatedSuccessfully" xml:space="preserve">
     <value>Organization activated successfully</value>

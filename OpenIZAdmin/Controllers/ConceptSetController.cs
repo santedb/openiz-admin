@@ -131,7 +131,7 @@ namespace OpenIZAdmin.Controllers
 
 				var result = this.ImsiClient.Update<ConceptSet>(conceptSet);
 
-				TempData["success"] = Locale.ConceptDeletedSuccessfully;
+				TempData["success"] = Locale.ConceptDeactivatedSuccessfully;
 
 				return RedirectToAction("ViewConceptSet", new { id = result.Key });
 			}

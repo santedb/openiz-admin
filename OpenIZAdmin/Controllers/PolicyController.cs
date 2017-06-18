@@ -105,32 +105,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Deletes a policy.
-		/// </summary>
-		/// <param name="id">The id of the policy to delete.</param>
-		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Delete(Guid id)
-		{
-			try
-			{
-				this.AmiClient.DeletePolicy(id.ToString());
-				TempData["success"] = Locale.PolicyDeletedSuccessfully;
-
-				return RedirectToAction("Index");
-			}
-			catch (Exception e)
-			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-			}
-
-			TempData["error"] = Locale.UnableToDeletePolicy;
-
-			return RedirectToAction("Index");
-		}
-
-		/// <summary>
 		/// Displays the index view.
 		/// </summary>
 		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
