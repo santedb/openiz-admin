@@ -1898,4 +1898,7 @@ au jina la kikoa</value>
   <data name="ConceptNameUpdatedSuccessfully" xml:space="preserve">
     <value>Dhana jina imesasishwa</value>
   </data>
+  <data name="SystemConceptsCannotBeEdited" xml:space="preserve">
+    <value>dhana mfumo haziwezi kuhaririwa</value>
+  </data>
 </root>

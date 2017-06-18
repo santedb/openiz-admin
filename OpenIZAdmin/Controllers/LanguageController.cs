@@ -99,7 +99,7 @@ namespace OpenIZAdmin.Controllers
 				concept.ConceptNames.Add(new ConceptName
 				{
 					Language = model.TwoLetterCountryCode,
-					Name = model.DisplayName,
+					Name = model.DisplayName
 				});
 
 				var result = this.ImsiClient.Update<Concept>(concept);

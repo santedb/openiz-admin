@@ -4687,6 +4687,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to System concepts cannot be edited.
+        /// </summary>
+        public static string SystemConceptsCannotBeEdited {
+            get {
+                return ResourceManager.GetString("SystemConceptsCannotBeEdited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Target population.
         /// </summary>
         public static string TargetPopulation {

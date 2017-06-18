@@ -148,7 +148,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				models.AddRange(this.GetAlerts().Select(a => new AlertViewModel(a)));
+				models.AddRange(this.GetAlerts(true).Select(a => new AlertViewModel(a)));
 
 				return View(models.OrderByDescending(x => x.Time).ThenBy(a => a.Flags));
 			}
@@ -305,17 +305,18 @@ namespace OpenIZAdmin.Controllers
 		/// Gets the alerts.
 		/// </summary>
 		/// <returns>Returns a list of alerts for the current user, including alerts marked for "everyone".</returns>
-		private IEnumerable<AlertMessageInfo> GetAlerts()
+		private IEnumerable<AlertMessageInfo> GetAlerts(bool all = false)
 		{
 			var username = this.User.Identity.GetUserName();
 
-			var alerts = this.AmiClient
-				.GetAlerts(a => a.To.Contains("everyone") && a.ObsoletionTime == null)
-				.CollectionItem.Where(a => a.AlertMessage.ObsoletionTime == null && a.AlertMessage.Flags != AlertMessageFlags.Acknowledged);
+			var alerts = this.AmiClient.GetAlerts(a => a.To.Contains("everyone") && a.ObsoletionTime == null).CollectionItem;
+			var userAlerts = this.AmiClient.GetAlerts(a => a.To == username && a.ObsoletionTime == null).CollectionItem;
 
-			var userAlerts = this.AmiClient
-				.GetAlerts(a => a.To == username && a.ObsoletionTime == null)
-				.CollectionItem.Where(a => a.AlertMessage.ObsoletionTime == null && a.AlertMessage.Flags != AlertMessageFlags.Acknowledged);
+			if (!all)
+			{
+				alerts = alerts.Where(a => a.AlertMessage.ObsoletionTime == null && a.AlertMessage.Flags != AlertMessageFlags.Acknowledged).ToList();
+				userAlerts = userAlerts.Where(a => a.AlertMessage.ObsoletionTime == null && a.AlertMessage.Flags != AlertMessageFlags.Acknowledged).ToList();
+			}
 
 			return alerts.Union(userAlerts);
 		}

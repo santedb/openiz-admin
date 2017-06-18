@@ -66,14 +66,14 @@
 
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
-                    <a href="@Url.Action("ViewPlace", new { id = Model.Id, versionId = Model.VersionKey })">@Locale.Cancel</a>
+                    <a href="@Url.Action("ViewPlace", new { id = Model.Id, versionId = Model.VersionKey })" class="btn btn-danger">@Locale.Cancel</a>
                     @if (Model.IsObsolete)
                     {
-                        <button type="submit" data-locale-text="@Locale.PleaseWait" class="btn btn-primary" disabled="disabled" title="@Locale.ToolTip_Submit">@Locale.CannotUpdateNotActive</button>
+                        <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-primary" disabled="disabled" title="@Locale.ToolTip_Submit">@Locale.CannotUpdateNotActive</button>
 }
                     else
                     {
-                        <button type="submit" data-locale-text="@Locale.PleaseWait" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+                        <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
 }
                 </div>
             </div>
@@ -87,7 +87,7 @@
                     {
                         @Html.AntiForgeryToken()
 
-                        <button type="submit" data-locale-text="@Locale.PleaseWait" class="btn btn-danger">
+                        <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-danger">
                             @Locale.Deactivate
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
@@ -99,7 +99,7 @@
                     {
                         @Html.AntiForgeryToken()
 
-                        <button type="submit" data-locale-text="@Locale.PleaseWait" class="btn btn-success">
+                        <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-success">
                             @Locale.Activate
                             <span class="glyphicon glyphicon-upload"></span>
                         </button>

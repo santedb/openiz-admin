@@ -36,7 +36,7 @@ namespace OpenIZAdmin.Models.UserModels
 	/// Represents an edit user model.
 	/// </summary>
 	public class EditUserModel : UserModel
-    {
+	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditUserModel"/> class.
 		/// </summary>
@@ -51,7 +51,6 @@ namespace OpenIZAdmin.Models.UserModels
 			this.RolesList = new List<SelectListItem>();
 			this.Roles = new List<string>();
 			this.UserRoles = new List<RoleViewModel>();
-		    this.IsLockedOut = false;
 
 		}
 
@@ -66,27 +65,26 @@ namespace OpenIZAdmin.Models.UserModels
 		{
 			this.CreationTime = securityUserInfo.User.CreationTime.DateTime;
 			this.Email = securityUserInfo.User.Email;
-			this.GivenNames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();						
-            this.Id = securityUserInfo.UserId.Value;
-            //this.IsLockedOut = securityUserInfo.Lockout.GetValueOrDefault(false);
-		    this.LockoutStatus = securityUserInfo.Lockout.GetValueOrDefault(false).ToLockoutStatus(); //IsLockedOut.ToLockoutStatus();
+			this.GivenNames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
+			this.Id = securityUserInfo.UserId.Value;
+			this.LockoutStatus = securityUserInfo.Lockout.GetValueOrDefault(false).ToLockoutStatus();
 			this.IsObsolete = securityUserInfo.User.ObsoletionTime.HasValue && securityUserInfo.User.ObsoletionTime > DateTimeOffset.Now;
 			this.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
-            this.Surnames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
-            this.Username = securityUserInfo.UserName; 
-			this.UserRoles = securityUserInfo.Roles.Select(r => new RoleViewModel(r)).OrderBy(q => q.Name).ToList();						
+			this.Surnames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
+			this.Username = securityUserInfo.UserName;
+			this.UserRoles = securityUserInfo.Roles.Select(r => new RoleViewModel(r)).OrderBy(q => q.Name).ToList();
 		}
 
 		/// <summary>
 		/// Gets or sets the creation time of the user account.
 		/// </summary>
 		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
-		public DateTimeOffset CreationTime { get; set; }  
+		public DateTimeOffset CreationTime { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of facilities.
 		/// </summary>
-		public List<SelectListItem> FacilityList { get; set; }		
+		public List<SelectListItem> FacilityList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of given names.
@@ -99,38 +97,33 @@ namespace OpenIZAdmin.Models.UserModels
 		[Required]
 		public Guid Id { get; set; }
 
-        /// <summary>
-		/// Gets or sets the locked out status of the user.
-		/// </summary>		
-        public bool IsLockedOut { get; set; }
-
-        /// <summary>
+		/// <summary>
 		/// Gets or sets the locked out status of the user.
 		/// </summary>
 		[Display(Name = "LockoutStatus", ResourceType = typeof(Locale))]
-        public string LockoutStatus { get; set; }
+		public string LockoutStatus { get; set; }
 
-        /// <summary>
-        /// Gets or sets whether the security entity is obsolete.
-        /// </summary>
-        public bool IsObsolete { get; set; }        
+		/// <summary>
+		/// Gets or sets whether the security entity is obsolete.
+		/// </summary>
+		public bool IsObsolete { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of family names.
 		/// </summary>
-		public List<SelectListItem> SurnameList { get; set; }		
+		public List<SelectListItem> SurnameList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the current roles of the user.
 		/// </summary>
-		public IEnumerable<RoleViewModel> UserRoles { get; set; }     
+		public IEnumerable<RoleViewModel> UserRoles { get; set; }
 
-        /// <summary>
-        /// Converts an <see cref="EditUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
-        /// </summary>
-        /// <param name="userEntity">The <see cref="UserEntity"/> instance.</param>
-        /// <returns>Returns a <see cref="SecurityUserInfo"/> instance.</returns>
-        public SecurityUserInfo ToSecurityUserInfo(UserEntity userEntity)
+		/// <summary>
+		/// Converts an <see cref="EditUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
+		/// </summary>
+		/// <param name="userEntity">The <see cref="UserEntity"/> instance.</param>
+		/// <returns>Returns a <see cref="SecurityUserInfo"/> instance.</returns>
+		public SecurityUserInfo ToSecurityUserInfo(UserEntity userEntity)
 		{
 			var securityUserInfo = new SecurityUserInfo
 			{
@@ -168,34 +161,34 @@ namespace OpenIZAdmin.Models.UserModels
 				userEntity.Names = new List<EntityName> { name };
 			}
 
-            var facilityId = ConvertFacilityToGuid();
+			var facilityId = ConvertFacilityToGuid();
 
-            if (facilityId == null)
-            {
-                userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-            }
-            else if (HasSelectedNewFacility(userEntity, facilityId))
-            {
-                userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-                userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, facilityId));
-            }
+			if (facilityId == null)
+			{
+				userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+			}
+			else if (HasSelectedNewFacility(userEntity, facilityId))
+			{
+				userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, facilityId));
+			}
 
-            if (HasPhoneNumberAndType())
-            {
-                var phoneType = ConvertPhoneTypeToGuid();
-                if (phoneType != null)
-                {
-                    userEntity.Telecoms.Clear();
-                    userEntity.Telecoms.Add(new EntityTelecomAddress((Guid)phoneType, PhoneNumber));
-                }
-                else
-                {
-                    userEntity.Telecoms.RemoveAll(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact);
-                    userEntity.Telecoms.Add(new EntityTelecomAddress(TelecomAddressUseKeys.MobileContact, PhoneNumber));
-                }
-            }
+			if (HasPhoneNumberAndType())
+			{
+				var phoneType = ConvertPhoneTypeToGuid();
+				if (phoneType != null)
+				{
+					userEntity.Telecoms.Clear();
+					userEntity.Telecoms.Add(new EntityTelecomAddress((Guid)phoneType, PhoneNumber));
+				}
+				else
+				{
+					userEntity.Telecoms.RemoveAll(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact);
+					userEntity.Telecoms.Add(new EntityTelecomAddress(TelecomAddressUseKeys.MobileContact, PhoneNumber));
+				}
+			}
 
-            userEntity.CreationTime = DateTimeOffset.Now;
+			userEntity.CreationTime = DateTimeOffset.Now;
 			userEntity.VersionKey = null;
 
 			return userEntity;

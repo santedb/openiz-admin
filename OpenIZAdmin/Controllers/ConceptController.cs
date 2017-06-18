@@ -158,8 +158,15 @@ namespace OpenIZAdmin.Controllers
 
 				if (concept == null)
 				{
-					TempData["error"] = Locale.ConceptNotFound;
+					this.TempData["error"] = Locale.ConceptNotFound;
 					return RedirectToAction("Index");
+				}
+
+				// system concepts cannot be edited
+				if (concept.IsSystemConcept)
+				{
+					this.TempData["error"] = Locale.SystemConceptsCannotBeEdited;
+					return RedirectToAction("ViewConcept", new { id });
 				}
 
 				// force load concept class if the server didn't return it
@@ -193,7 +200,7 @@ namespace OpenIZAdmin.Controllers
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
 
-			return RedirectToAction("Index");
+			return RedirectToAction("ViewConcept", new { id });
 		}
 
 		/// <summary>

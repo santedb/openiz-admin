@@ -15,7 +15,6 @@ $(document).on("invalid-form.validate", "form", function ()
 // on form submit, we want to find the submit button and disable it.
 $(document).on("submit", "form", function (data)
 {
-    console.log(data);
     var button = $(this).find('button[type="submit"]');
 
     if (button[0] !== undefined)
@@ -25,7 +24,7 @@ $(document).on("submit", "form", function (data)
         // this is to prevent ajax form submit buttons from being disabled
         if (disableWait === undefined || disableWait === null || disableWait.value === "false")
         {
-            var content = button[0].attributes["data-locale-text"];
+            var content = button[0].attributes["data-wait-text"];
 
             var message;
 

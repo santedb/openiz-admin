@@ -1,7 +1,6 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="bootstrap.min.js" />
 /// <reference path="bootstrap-datepicker.min.js" />
-/// <reference path="bootstrap-datetimepicker.min.js" />
 /// <reference path="concept-search.js" />
 /// <reference path="datatables.js" />
 /// <reference path="jquery.unobtrusive-ajax.min.js" />

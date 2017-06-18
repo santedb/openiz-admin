@@ -2370,4 +2370,7 @@
   <data name="ConceptNameUpdatedSuccessfully" xml:space="preserve">
     <value>Concept name updated successfully</value>
   </data>
+  <data name="SystemConceptsCannotBeEdited" xml:space="preserve">
+    <value>System concepts cannot be edited</value>
+  </data>
 </root>
