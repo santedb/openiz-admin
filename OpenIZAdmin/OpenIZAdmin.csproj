@@ -423,7 +423,6 @@
     <Content Include="Content\bootstrap-datepicker3.min.css" />
     <Content Include="Content\bootstrap-datepicker3.standalone.css" />
     <Content Include="Content\bootstrap-datepicker3.standalone.min.css" />
-    <Content Include="Content\bootstrap-datetimepicker.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\datatables.css" />
@@ -804,9 +803,7 @@
     <Content Include="Views\Manual\Upload.cshtml" />
     <Content Include="Views\Shared\_ManageAppletsPartial.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Content\bootstrap-datepicker\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

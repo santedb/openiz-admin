@@ -74,7 +74,7 @@ namespace OpenIZAdmin
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
 						"~/Content/bootstrap.min.css",
-                        "~/Content/bootstrap-datepicker.min.css",
+						"~/Content/bootstrap-datepicker.min.css",
                         "~/Content/datatables.css",                        
                         "~/Content/select2.min.css",
 						"~/Content/toastr.min.css",
