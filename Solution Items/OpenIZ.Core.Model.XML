@@ -218,6 +218,12 @@
             Gets the tags
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Acts.Act.Copy">
+            <summary>
+            Copies the entity
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:OpenIZ.Core.Model.Acts.ActParticipation">
             <summary>
             Associates an entity which participates in an act
@@ -787,6 +793,11 @@
         <member name="P:OpenIZ.Core.Model.Attributes.KeyLookupAttribute.UniqueProperty">
             <summary>
             Gets or sets whether the persistence engine should throw an exception when persisting duplicates
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.Attributes.NonCachedAttribute">
+            <summary>
+            Instructs any data caching that the object should not be cached
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Attributes.SerializationReferenceAttribute">
@@ -2097,7 +2108,7 @@
             Status - New
             </summary>
         </member>
-        <member name="F:OpenIZ.Core.Model.Constants.StatusKeys.Nullfied">
+        <member name="F:OpenIZ.Core.Model.Constants.StatusKeys.Nullified">
             <summary>
             Status - Nullified
             </summary>
@@ -3527,6 +3538,12 @@
             <summary>
             Should serialize telecoms
             </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.Entity.Copy">
+            <summary>
+            Copies the entity
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:OpenIZ.Core.Model.Entities.EntityAddress">
             <summary>
