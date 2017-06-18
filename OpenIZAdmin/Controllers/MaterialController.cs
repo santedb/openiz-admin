@@ -410,7 +410,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.ImsiClient.Obsolete<Material>(material);
 
-				TempData["success"] = Locale.MaterialDeletedSuccessfully;
+				this.TempData["success"] = Locale.MaterialDeactivatedSuccessfully;
 
 				return RedirectToAction("Index");
 			}

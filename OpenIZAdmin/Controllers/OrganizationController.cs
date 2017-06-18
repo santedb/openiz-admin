@@ -264,7 +264,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.ImsiClient.Obsolete<Organization>(organization);
 
-				TempData["success"] = Locale.OrganizationDeletedSuccessfully;
+				this.TempData["success"] = Locale.OrganizationDeactivatedSuccessfully;
 
 				return RedirectToAction("Index");
 			}
