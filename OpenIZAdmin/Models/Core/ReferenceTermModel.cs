@@ -55,14 +55,6 @@ namespace OpenIZAdmin.Models.Core
 		public Guid Id { get; set; }
 
 		/// <summary>
-		/// Gets or sets the current language.
-		/// </summary>
-		/// <value>The language.</value>
-		[Display(Name = "Languages", ResourceType = typeof(Locale))]
-		//[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Locale))]
-		public virtual string Language { get; set; }
-
-		/// <summary>
 		/// Gets or sets the mnemonic.
 		/// </summary>
 		/// <value>The mnemonic.</value>

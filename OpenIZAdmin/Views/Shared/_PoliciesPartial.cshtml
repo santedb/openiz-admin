@@ -1,4 +1,4 @@
-﻿@using OpenIZAdmin.Util
+﻿@using OpenIZAdmin.Extensions
 @model IEnumerable<OpenIZAdmin.Models.PolicyModels.PolicyViewModel>
 @{
     ViewBag.Title = Locale.PolicySearchResults;
@@ -33,7 +33,7 @@
                                     {
                                         <tr>
                                             <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-cloud" aria-hidden="true"></span></td>
-                                            <td>@item.CreationTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
+                                            <td>@item.CreationTime.DefaultFormat()</td>
                                             <td>@item.Name</td>
                                             <td>@item.Grant</td>
                                             <td>@item.IsPublic</td>

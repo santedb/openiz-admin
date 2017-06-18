@@ -1,4 +1,4 @@
-﻿@using OpenIZAdmin.Util
+﻿@using OpenIZAdmin.Extensions
 @model IEnumerable<OpenIZAdmin.Models.ApplicationModels.ApplicationViewModel>
 @{
     ViewBag.Title = Locale.Applications;
@@ -30,7 +30,7 @@
                         <tr>
                             <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-star" aria-hidden="true"></span></td>
                             <td>@item.ApplicationName</td>
-                            <td>@item.CreationTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)</td>                                                        
+                            <td>@item.CreationTime.ToLocalTime().DefaultFormat()</td>                                                        
                             <td>@item.HasPolicies.ToYesOrNo()</td>                            
                             <td>@item.IsObsolete.ToObsoleteStatus()</td>
                             <td class="autoFitContents centerContent">

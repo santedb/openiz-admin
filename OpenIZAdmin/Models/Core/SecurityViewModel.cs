@@ -114,7 +114,7 @@ namespace OpenIZAdmin.Models.Core
 		{
 			this.CreationTime = securityEntity.CreationTime.DateTime;
 			this.Id = securityEntity.Key.Value;
-			this.IsObsolete = securityEntity.ObsoletionTime.HasValue && securityEntity.ObsoletionTime > DateTimeOffset.Now;
+			this.IsObsolete = securityEntity.ObsoletionTime.HasValue;
 			this.ObsoletionTime = securityEntity.ObsoletionTime?.DateTime;
 		}
 

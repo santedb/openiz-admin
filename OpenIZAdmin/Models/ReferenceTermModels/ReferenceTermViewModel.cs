@@ -38,8 +38,8 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		/// </summary>
 		public ReferenceTermViewModel()
 		{
-			DisplayNames = new List<ReferenceTermName>();
-			ReferenceTermNamesList = new List<ReferenceTermNameViewModel>();
+			this.DisplayNames = new List<ReferenceTermName>();
+			this.ReferenceTermNamesList = new List<ReferenceTermNameViewModel>();
 		}
 
 		/// <summary>
@@ -48,11 +48,11 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		public ReferenceTermViewModel(ReferenceTerm referenceTerm) : this()
 		{
 			this.CreationTime = referenceTerm.CreationTime.DateTime;
-			DisplayNames = referenceTerm.DisplayNames;
-			Id = referenceTerm.Key.Value;
-			Mnemonic = referenceTerm.Mnemonic;
-			Name = string.Join(" ", referenceTerm.DisplayNames.Select(d => d.Name));
-			ReferenceTermNamesList = referenceTerm.DisplayNames.Select(n => new ReferenceTermNameViewModel(n)).ToList();
+			this.DisplayNames = referenceTerm.DisplayNames;
+			this.Id = referenceTerm.Key.Value;
+			this.Mnemonic = referenceTerm.Mnemonic;
+			this.Name = string.Join(" ", referenceTerm.DisplayNames.Select(d => d.Name));
+			this.ReferenceTermNamesList = referenceTerm.DisplayNames.Select(n => new ReferenceTermNameViewModel(n)).ToList();
 		}
 
 		/// <summary>

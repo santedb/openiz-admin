@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
 using OpenIZAdmin.Util;
@@ -51,7 +52,6 @@ namespace OpenIZAdmin.Models.UserModels
 			this.RolesList = new List<SelectListItem>();
 			this.Roles = new List<string>();
 			this.UserRoles = new List<RoleViewModel>();
-
 		}
 
 		/// <summary>
@@ -68,7 +68,7 @@ namespace OpenIZAdmin.Models.UserModels
 			this.GivenNames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
 			this.Id = securityUserInfo.UserId.Value;
 			this.LockoutStatus = securityUserInfo.Lockout.GetValueOrDefault(false).ToLockoutStatus();
-			this.IsObsolete = securityUserInfo.User.ObsoletionTime.HasValue && securityUserInfo.User.ObsoletionTime > DateTimeOffset.Now;
+			this.IsObsolete = securityUserInfo.User.ObsoletionTime.HasValue;
 			this.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
 			this.Surnames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
 			this.Username = securityUserInfo.UserName;
@@ -161,7 +161,7 @@ namespace OpenIZAdmin.Models.UserModels
 				userEntity.Names = new List<EntityName> { name };
 			}
 
-			var facilityId = ConvertFacilityToGuid();
+			var facilityId = this.Facility.ToGuid();
 
 			if (facilityId == null)
 			{

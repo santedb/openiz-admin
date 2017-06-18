@@ -69,14 +69,16 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
+				if (model.IsSystemAlert)
+				{
+					model.To = Constants.SystemUserId;
+					// HACK
+					model.ToList.Add(new SelectListItem {Selected = true, Text = model.To, Value = model.To });
+					model.Priority = (int)AlertMessageFlags.System;
+				}
+
 				if (ModelState.IsValid)
 				{
-					if (model.IsSystemAlert)
-					{
-						model.To = Constants.SystemUserId;
-						model.Priority = (int)AlertMessageFlags.System;
-					}
-
 					var alertMessageInfo = this.ToAlertMessageInfo(model, User);
 
 					this.AmiClient.CreateAlert(alertMessageInfo);
@@ -90,6 +92,8 @@ namespace OpenIZAdmin.Controllers
 			{
 				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 			}
+
+			model.ToList = new List<SelectListItem>();
 
 			TempData["error"] = Locale.UnableToCreateAlert;
 

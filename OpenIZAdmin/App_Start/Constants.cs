@@ -18,8 +18,6 @@
  */
 
 using System;
-using System.Security.Policy;
-using System.Text.RegularExpressions;
 
 namespace OpenIZAdmin
 {
@@ -29,7 +27,7 @@ namespace OpenIZAdmin
 	public static class Constants
 	{
 		/// <summary>
-		/// The OAuth endpoint name.
+		/// The OAUTH endpoint name.
 		/// </summary>
 		public const string Acs = "ACS";
 
@@ -76,18 +74,7 @@ namespace OpenIZAdmin
 		/// <summary>
 		/// Regular expression string for password validation
 		/// </summary>
-		//public const string RegExPassword = @"^[^ !@%\\/:*;\.\)\(]+$";
 		public const string RegExPassword = @"^[^\s\\/:*;\.\)\(]+$";
-
-		/// <summary>
-		/// Regular expression string for username validation
-		/// </summary>
-		public const string RegExPhoneNumber = @"^(?:\d{8}|00\d{10}|\+\d{2}\d{8})$";
-
-		/// <summary>
-		/// Regular expression string for username validation
-		/// </summary>
-		public const string RegExPhoneNumberAlternate = @"^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$";
 
 		//reference: https://gist.github.com/muya/ce5a18a3f119cc4ac286
 		/// <summary>
@@ -126,11 +113,6 @@ namespace OpenIZAdmin
 		//@"^[^-.][\w+\.?{1}]*(\w+\.)[^-_.]$";
 		//@"^[^-.][(?<=^| )\w+(\.\w+)?(?=$| )]*[^ -_.]$";
 		//public const string RegExOidValidation = @"^[0-9]{1,3}\.([0-9]{1,3})\.[0-9]{1,3}$";
-
-		/// <summary>
-		/// Regular expression string for username validation
-		/// </summary>
-		public const string RegExPopulationYear = @"^(\d{4})$";
 
 		/// <summary>
 		/// Regular expression string for username validation

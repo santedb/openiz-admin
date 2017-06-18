@@ -1,4 +1,4 @@
-﻿@using OpenIZAdmin.Util
+﻿@using OpenIZAdmin.Extensions
 @model IEnumerable<OpenIZAdmin.Models.PlaceModels.PlaceViewModel>
 @{
     ViewBag.Title = Locale.PlaceSearchResults;
@@ -30,7 +30,7 @@
                     {
                         <tr>
                             <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-globe"></span></td>
-                            <td>@item.CreationTime.ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
+                            <td>@item.CreationTime.DefaultFormat()</td>
                             <td>@item.Name</td>
                             <td>@item.Type</td>
                             <td>

@@ -1,4 +1,5 @@
 ﻿
+@using OpenIZAdmin.Extensions
 @model IEnumerable<OpenIZAdmin.Models.ConceptModels.ConceptViewModel>
 @{
     ViewBag.Title = Locale.ConceptSearchResults;
@@ -26,7 +27,7 @@
                     {
                         <tr>
                             <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-compressed" aria-hidden="true"></span></td>
-                            <td class="autoFitContents">@item.CreationTime.ToLocalTime().ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
+                            <td class="autoFitContents">@item.CreationTime.ToLocalTime().DefaultFormat()</td>
                             <td>@item.Mnemonic</td>
                             <td>@item.ConceptNames</td>
                             <td class="autoFitContents centerContent">

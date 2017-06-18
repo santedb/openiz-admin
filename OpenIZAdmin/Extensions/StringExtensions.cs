@@ -85,6 +85,31 @@ namespace OpenIZAdmin.Extensions
 		}
 
 		/// <summary>
+		/// Converts a <see cref="string" /> to a <see cref="Guid" /> instance.
+		/// </summary>
+		/// <param name="source">The source.</param>
+		/// <returns>Returns the parsed <see cref="Guid" /> instance.</returns>
+		public static Guid? ToGuid(this string source)
+		{
+			ThrowIfNullSource(source);
+
+			Guid result;
+
+			if (!Guid.TryParse(source, out result))
+			{
+				return null;
+			}
+
+			// we don't want to parse an empty GUID value
+			if (result == Guid.Empty)
+			{
+				return null;
+			}
+
+			return result;
+		}
+
+		/// <summary>
 		/// Throws an exception if the source string is null.
 		/// </summary>
 		/// <param name="source">The source string.</param>

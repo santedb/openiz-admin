@@ -276,6 +276,8 @@
     <Compile Include="DAL\EntityUnitOfWork.cs" />
     <Compile Include="DAL\IRepository.cs" />
     <Compile Include="DAL\IUnitOfWork.cs" />
+    <Compile Include="Extensions\BooleanExtensions.cs" />
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\ConceptExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
@@ -411,7 +413,6 @@
     <Compile Include="Services\Http\ServiceClientEndpoint.cs" />
     <Compile Include="Services\Http\ServiceClientSecurity.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="Util\Extensions.cs" />
     <Compile Include="Util\LanguageUtil.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -553,6 +554,7 @@
     <Content Include="Scripts\datatables.js" />
     <None Include="Properties\PublishProfiles\MARC_HI_khannan_TImRAdmin_Internal.pubxml" />
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
+    <Content Include="Scripts\datetime-moment.js" />
     <Content Include="Scripts\jquery-2.2.4.js" />
     <Content Include="Scripts\jquery-2.2.4.min.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />

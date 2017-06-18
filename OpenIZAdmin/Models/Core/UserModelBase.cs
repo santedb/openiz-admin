@@ -29,131 +29,116 @@ using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.Core
 {
-    /// <summary>
-    /// Represents a model of a base user profile.
-    /// </summary>
-    public abstract class UserModelBase
-    {
-        /// <summary>
-        /// Gets or sets the email address of the user.
-        /// </summary>		
-        [DataType(DataType.EmailAddress)]
-        [Display(Name = "Email", ResourceType = typeof(Locale))]
-        [EmailAddress(ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(256, ErrorMessageResourceName = "EmailLength256", ErrorMessageResourceType = typeof(Locale))]
-        public string Email { get; set; }
+	/// <summary>
+	/// Represents a model of a base user profile.
+	/// </summary>
+	public abstract class UserModelBase
+	{
+		/// <summary>
+		/// Gets or sets the email address of the user.
+		/// </summary>		
+		[DataType(DataType.EmailAddress)]
+		[Display(Name = "Email", ResourceType = typeof(Locale))]
+		[EmailAddress(ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(256, ErrorMessageResourceName = "EmailLength256", ErrorMessageResourceType = typeof(Locale))]
+		public string Email { get; set; }
 
-        /// <summary>
-        /// Gets or sets the id of the facility of the user.
-        /// </summary>
-        [Display(Name = "Facility", ResourceType = typeof(Locale))]        
-        public string Facility { get; set; }        
+		/// <summary>
+		/// Gets or sets the id of the facility of the user.
+		/// </summary>
+		[Display(Name = "Facility", ResourceType = typeof(Locale))]
+		public string Facility { get; set; }
 
-        /// <summary>
-        /// Gets or sets the givens names of the user.
-        /// </summary>
-        [Display(Name = "GivenName", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "GivenNameRequired", ErrorMessageResourceType = typeof(Locale))]        
-        public List<string> GivenNames { get; set; }        
+		/// <summary>
+		/// Gets or sets the givens names of the user.
+		/// </summary>
+		[Display(Name = "GivenName", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "GivenNameRequired", ErrorMessageResourceType = typeof(Locale))]
+		public List<string> GivenNames { get; set; }
 
-        /// <summary>
-        /// Gets or sets the phone number of the user.
-        /// </summary>
-        [DataType(DataType.PhoneNumber)]
-        [Display(Name = "Phone", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "PhoneNumberRequired", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(25, ErrorMessageResourceName = "PhoneNumberTooLong", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExPhoneNumberTanzania, ErrorMessageResourceName = "InvalidPhoneNumber", ErrorMessageResourceType = typeof(Locale))]
-        public string PhoneNumber { get; set; }
+		/// <summary>
+		/// Gets or sets the phone number of the user.
+		/// </summary>
+		[DataType(DataType.PhoneNumber)]
+		[Display(Name = "Phone", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "PhoneNumberRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(25, ErrorMessageResourceName = "PhoneNumberTooLong", ErrorMessageResourceType = typeof(Locale))]
+		[RegularExpression(Constants.RegExPhoneNumberTanzania, ErrorMessageResourceName = "InvalidPhoneNumber", ErrorMessageResourceType = typeof(Locale))]
+		public string PhoneNumber { get; set; }
 
-        /// <summary>
-        /// Gets or sets the phone type of the user.
-        /// </summary>
-        [Display(Name = "PhoneType", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "PhoneTypeRequired", ErrorMessageResourceType = typeof(Locale))]
-        public string PhoneType { get; set; }
+		/// <summary>
+		/// Gets or sets the phone type of the user.
+		/// </summary>
+		[Display(Name = "PhoneType", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "PhoneTypeRequired", ErrorMessageResourceType = typeof(Locale))]
+		public string PhoneType { get; set; }
 
-	    /// <summary>
-	    /// Gets or sets the username of the user.
-	    /// </summary>
-	    [Display(Name = "Username", ResourceType = typeof(Locale))]
-	    public string Username { get; set; }
+		/// <summary>
+		/// Gets or sets the username of the user.
+		/// </summary>
+		[Display(Name = "Username", ResourceType = typeof(Locale))]
+		public string Username { get; set; }
 
 		/// <summary>
 		/// Gets or sets the types of phones.
 		/// </summary>
 		public List<SelectListItem> PhoneTypeList { get; set; }
 
-        /// <summary>
-        /// Gets or sets the family names of the user.
-        /// </summary>
-        [Display(Name = "Surname", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "SurnameRequired", ErrorMessageResourceType = typeof(Locale))]        
-        public List<string> Surnames { get; set; }
+		/// <summary>
+		/// Gets or sets the family names of the user.
+		/// </summary>
+		[Display(Name = "Surname", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "SurnameRequired", ErrorMessageResourceType = typeof(Locale))]
+		public List<string> Surnames { get; set; }
 
-        /// <summary>
-        /// Converts the phone type entry from string to a guid
-        /// </summary>
-        /// <returns>Returns the phone type guid, null if the operation was unsuccessful</returns>
-        public Guid? ConvertFacilityToGuid()
-        {
-            if (string.IsNullOrWhiteSpace(Facility)) return null;
+		/// <summary>
+		/// Converts the phone type entry from string to a guid
+		/// </summary>
+		/// <returns>Returns the phone type guid, null if the operation was unsuccessful</returns>
+		public Guid? ConvertPhoneTypeToGuid()
+		{
+			if (string.IsNullOrWhiteSpace(PhoneType)) return null;
 
-            Guid facilityId;
+			Guid phoneTypeId;
 
-            if (Guid.TryParse(Facility, out facilityId)) return facilityId;
+			if (Guid.TryParse(PhoneType, out phoneTypeId)) return phoneTypeId;
 
-            return null;
-        }
+			return null;
+		}
 
-        /// <summary>
-        /// Converts the phone type entry from string to a guid
-        /// </summary>
-        /// <returns>Returns the phone type guid, null if the operation was unsuccessful</returns>
-        public Guid? ConvertPhoneTypeToGuid()
-        {
-            if (string.IsNullOrWhiteSpace(PhoneType)) return null;
+		/// <summary>
+		/// Determines whether the name is between 1 and 100 characters.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <returns><c>true</c> if the name is between 1 and 100 characters; otherwise, <c>false</c>.</returns>
+		/// <exception cref="System.ArgumentNullException">name</exception>
+		public bool IsValidNameLength(string name)
+		{
+			if (name == null)
+			{
+				throw new ArgumentNullException(nameof(name), Locale.ValueCannotBeNull);
+			}
 
-            Guid phoneTypeId;
+			return name.Length > 0 && name.Length <= 100;
+		}
 
-            if (Guid.TryParse(PhoneType, out phoneTypeId)) return phoneTypeId;
+		/// <summary>
+		/// Checks if the facility selected is different than the one currently assigned to the user
+		/// </summary>
+		/// <returns>Returns true if a new facility is selected, false if selection hasn't changed</returns>
+		public bool HasSelectedNewFacility(UserEntity userEntity, Guid? facilityId)
+		{
+			return
+				userEntity.Relationships.Find(
+					r =>
+						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation &&
+						r.TargetEntityKey == facilityId) == null;
+		}
 
-            return null;
-        }        
-
-        /// <summary>
-        /// Determines whether the name is between 1 and 100 characters.
-        /// </summary>
-        /// <param name="name">The name.</param>
-        /// <returns><c>true</c> if the name is between 1 and 100 characters; otherwise, <c>false</c>.</returns>
-        /// <exception cref="System.ArgumentNullException">name</exception>
-        public bool IsValidNameLength(string name)
-        {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name), Locale.ValueCannotBeNull);
-            }
-
-            return name.Length > 0 && name.Length <= 100;
-        }
-
-        /// <summary>
-        /// Checks if the facility selected is different than the one currently assigned to the user
-        /// </summary>
-        /// <returns>Returns true if a new facility is selected, false if selection hasn't changed</returns>
-        public bool HasSelectedNewFacility(UserEntity userEntity, Guid? facilityId)
-        {
-            return
-                userEntity.Relationships.Find(
-                    r =>
-                        r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation &&
-                        r.TargetEntityKey == facilityId) == null;
-        }
-
-        /// <summary>
-        /// Checks if the Phone Number and Type input contains an entry
-        /// </summary>
-        /// <returns>Returns true if a number and type exists, false if no phone number or type is assigned</returns>
-        public bool HasPhoneNumberAndType() => !string.IsNullOrWhiteSpace(PhoneNumber) && !string.IsNullOrWhiteSpace(PhoneType);
-    }
+		/// <summary>
+		/// Checks if the Phone Number and Type input contains an entry
+		/// </summary>
+		/// <returns>Returns true if a number and type exists, false if no phone number or type is assigned</returns>
+		public bool HasPhoneNumberAndType() => !string.IsNullOrWhiteSpace(PhoneNumber) && !string.IsNullOrWhiteSpace(PhoneType);
+	}
 }

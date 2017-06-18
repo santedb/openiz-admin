@@ -3,6 +3,7 @@
 /// <reference path="bootstrap-datepicker.min.js" />
 /// <reference path="concept-search.js" />
 /// <reference path="datatables.js" />
+/// <reference path="datetime-moment.js" />
 /// <reference path="jquery.unobtrusive-ajax.min.js" />
 /// <reference path="jquery.validate.min.js" />
 /// <reference path="jquery.validate.unobtrusive.js" />

@@ -25,7 +25,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Messaging.IMSI.Client;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.AccountModels
@@ -58,14 +58,14 @@ namespace OpenIZAdmin.Models.AccountModels
 		{
 			this.Surnames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
 			this.GivenNames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
-			this.Email = userEntity.SecurityUser.Email;			
-			this.Language = userEntity.LanguageCommunication.FirstOrDefault(l => l.IsPreferred)?.LanguageCode;            
+			this.Email = userEntity.SecurityUser.Email;
+			this.Language = userEntity.LanguageCommunication.FirstOrDefault(l => l.IsPreferred)?.LanguageCode;
 		}
-               
-        /// <summary>
-        /// Gets or sets the list of facilities.
-        /// </summary>
-        public List<SelectListItem> FacilityList { get; set; }		
+
+		/// <summary>
+		/// Gets or sets the list of facilities.
+		/// </summary>
+		public List<SelectListItem> FacilityList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of given names of the user.
@@ -82,39 +82,39 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// <summary>
 		/// Gets or sets the list of languages.
 		/// </summary>
-		public List<SelectListItem> LanguageList { get; set; } 
+		public List<SelectListItem> LanguageList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of family names of the user.
 		/// </summary>
 		public List<SelectListItem> SurnamesList { get; set; }
 
-	    /// <summary>
-	    /// Initializes the Language list drop down
-	    /// </summary>
-	    public void CreateLanguageList()
-	    {
-            LanguageList = new List<SelectListItem>
-            {
-                new SelectListItem
-                {
-                    Text = string.Empty,
-                    Value = string.Empty
-                },
-                new SelectListItem
-                {
-                    Selected = this.Language == LocalizationConfig.LanguageCode.English,
-                    Text = Locale.English,
-                    Value = LocalizationConfig.LanguageCode.English
-                },
-                new SelectListItem
-                {
-                    Selected = this.Language == LocalizationConfig.LanguageCode.Swahili,
-                    Text = Locale.Kiswahili,
-                    Value = LocalizationConfig.LanguageCode.Swahili
-                }
-            };
-        }
+		/// <summary>
+		/// Initializes the Language list drop down
+		/// </summary>
+		public void CreateLanguageList()
+		{
+			LanguageList = new List<SelectListItem>
+			{
+				new SelectListItem
+				{
+					Text = string.Empty,
+					Value = string.Empty
+				},
+				new SelectListItem
+				{
+					Selected = this.Language == LocalizationConfig.LanguageCode.English,
+					Text = Locale.English,
+					Value = LocalizationConfig.LanguageCode.English
+				},
+				new SelectListItem
+				{
+					Selected = this.Language == LocalizationConfig.LanguageCode.Swahili,
+					Text = Locale.Kiswahili,
+					Value = LocalizationConfig.LanguageCode.Swahili
+				}
+			};
+		}
 
 		/// <summary>
 		/// Converts an <see cref="UpdateProfileModel"/> instance to a <see cref="UserEntity"/> instance.
@@ -137,22 +137,22 @@ namespace OpenIZAdmin.Models.AccountModels
 				name.Component.AddRange(this.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
 
 				userEntity.Names = new List<EntityName> { name };
-			}            
+			}
 
-            // only update the facility if it actually changes
-            var facilityId = ConvertFacilityToGuid();                        
+			// only update the facility if it actually changes
+			var facilityId = this.Facility.ToGuid();
 
-            if (facilityId == null)
-            {
-                userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-            }
-            else if (HasSelectedNewFacility(userEntity, facilityId))
-            {
-                userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
-                userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, facilityId));
-            }
+			if (facilityId == null)
+			{
+				userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+			}
+			else if (HasSelectedNewFacility(userEntity, facilityId))
+			{
+				userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, facilityId));
+			}
 
-            if (!string.IsNullOrWhiteSpace(Language))
+			if (!string.IsNullOrWhiteSpace(Language))
 			{
 				var currentLanguage = userEntity.LanguageCommunication.Find(l => l.IsPreferred);
 
@@ -162,24 +162,24 @@ namespace OpenIZAdmin.Models.AccountModels
 				}
 
 				userEntity.LanguageCommunication.Add(new PersonLanguageCommunication(this.Language, true));
-			}		
+			}
 
-            if (HasPhoneNumberAndType())
-            {
-                var phoneType = ConvertPhoneTypeToGuid();
-                if (phoneType != null)
-                {
-                    userEntity.Telecoms.Clear();
-                    userEntity.Telecoms.Add(new EntityTelecomAddress((Guid)phoneType, PhoneNumber));
-                }
-                else
-                {
-                    userEntity.Telecoms.RemoveAll(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact);
-                    userEntity.Telecoms.Add(new EntityTelecomAddress(TelecomAddressUseKeys.MobileContact, PhoneNumber));
-                }
-            }
+			if (HasPhoneNumberAndType())
+			{
+				var phoneType = ConvertPhoneTypeToGuid();
+				if (phoneType != null)
+				{
+					userEntity.Telecoms.Clear();
+					userEntity.Telecoms.Add(new EntityTelecomAddress((Guid)phoneType, PhoneNumber));
+				}
+				else
+				{
+					userEntity.Telecoms.RemoveAll(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact);
+					userEntity.Telecoms.Add(new EntityTelecomAddress(TelecomAddressUseKeys.MobileContact, PhoneNumber));
+				}
+			}
 
-            userEntity.CreationTime = DateTimeOffset.Now;
+			userEntity.CreationTime = DateTimeOffset.Now;
 			userEntity.VersionKey = null;
 
 			return userEntity;

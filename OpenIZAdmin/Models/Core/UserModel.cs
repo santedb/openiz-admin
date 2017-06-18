@@ -27,34 +27,21 @@ using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.Core
 {
-    /// <summary>
-    /// Represents a model of a user.
-    /// </summary>
-    public abstract class UserModel : UserModelBase
-    {       
-        /// <summary>
-        /// Gets or sets the list of roles of the user.
-        /// </summary>
-        [Display(Name = "Roles", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Locale))]
-        public List<string> Roles { get; set; }
+	/// <summary>
+	/// Represents a model of a user.
+	/// </summary>
+	public abstract class UserModel : UserModelBase
+	{
+		/// <summary>
+		/// Gets or sets the list of roles of the user.
+		/// </summary>
+		[Display(Name = "Roles", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "RolesRequired", ErrorMessageResourceType = typeof(Locale))]
+		public List<string> Roles { get; set; }
 
-        /// <summary>
-        /// Gets or sets the list of available roles
-        /// </summary>
-        public List<SelectListItem> RolesList { get; set; }      
-
-        /// <summary>
-        /// Checks if any of the Role(s) assigned are an empty selection
-        /// </summary>
-        /// <returns>Returns true if an empty string is contained in the List</returns>
-        public void CheckForEmptyRoleAssigned()
-        {
-            if (Roles != null && Roles.Any())
-            {
-                Roles.RemoveAll(string.IsNullOrWhiteSpace);
-            }            
-        }
-                             
-    }
+		/// <summary>
+		/// Gets or sets the list of available roles
+		/// </summary>
+		public List<SelectListItem> RolesList { get; set; }
+	}
 }

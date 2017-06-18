@@ -28,6 +28,7 @@ using System.Linq;
 using System.Threading;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.UserModels
@@ -89,7 +90,7 @@ namespace OpenIZAdmin.Models.UserModels
 				Lockout = null,
 				Email = this.Email,
 				Password = this.Password,
-				User = new SecurityUser()
+				User = new SecurityUser
 				{
 					InvalidLoginAttempts = 0,
 					PhoneNumber = this.PhoneNumber,
@@ -121,7 +122,8 @@ namespace OpenIZAdmin.Models.UserModels
 				userEntity.Names = new List<EntityName> { name };
 			}
 
-			var facility = ConvertFacilityToGuid();
+			var facility = this.Facility.ToGuid();
+
 			if (facility != null)
 			{
 				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, facility));

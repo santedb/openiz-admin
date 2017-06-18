@@ -17,8 +17,6 @@
  * Date: 2016-9-5
  */
 
-using System;
-
 namespace OpenIZAdmin.Models
 {
 	/// <summary>

@@ -1,4 +1,5 @@
-﻿@model IEnumerable<OpenIZAdmin.Models.ManufacturedMaterialModels.ManufacturedMaterialViewModel>
+﻿@using OpenIZAdmin.Extensions
+@model IEnumerable<OpenIZAdmin.Models.ManufacturedMaterialModels.ManufacturedMaterialViewModel>
 @{
     ViewBag.Title = Locale.ManufacturedMaterials;
 }
@@ -26,7 +27,7 @@
                             {
                                 <tr>                                    
                                     <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-baby-formula" aria-hidden="true"></span></td>
-                                    <td>@item.CreationTime.ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
+                                    <td>@item.CreationTime.DefaultFormat()</td>
                                     <td>@item.Name</td>
                                     <td>@item.LotNumber</td>
                                     <td>@item.Type</td>

@@ -1,4 +1,4 @@
-﻿@using OpenIZAdmin.Util
+﻿@using OpenIZAdmin.Extensions
 @model IEnumerable<OpenIZAdmin.Models.MaterialModels.MaterialViewModel>
 @{
     ViewBag.Title = Locale.Materials;
@@ -8,12 +8,6 @@
         <span class="panel-title">
             @Locale.Materials
         </span>
-        @*<div class="pull-right">
-            <a href="@Url.Action("Create", "Material")">
-                <span class="text-primary h4">@Locale.New</span>
-                <span class="glyphicon glyphicon-plus-sign"></span>
-             </a>
-        </div>*@
     </div>
     <div class="panel panel-body">
         @if (Model.Any())
@@ -34,7 +28,7 @@
                     {
                         <tr>
                             <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-grain" aria-hidden="true"></span></td>
-                            <td>@item.CreationTime.ToString(Constants.DateTimeFormatStringWithTimestamp)</td>
+                            <td>@item.CreationTime.DefaultFormat()</td>
                             <td>@item.Name</td>
                             <td>@item.Type</td>                            
                             <td>@item.IsObsolete.ToObsoleteStatus()</td>
