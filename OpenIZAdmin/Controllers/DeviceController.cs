@@ -214,7 +214,7 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit([Bind(Exclude = "CreationTime")] EditDeviceModel model)
+		public ActionResult Edit([Bind(Exclude = nameof(EditDeviceModel.CreationTime))] EditDeviceModel model)
 		{
 			try
 			{
