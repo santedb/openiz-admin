@@ -925,6 +925,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Concept name updated successfully.
+        /// </summary>
+        public static string ConceptNameUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("ConceptNameUpdatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Warning, this concept is not active.
         /// </summary>
         public static string ConceptNotActive {
@@ -5385,6 +5394,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToActivateUser {
             get {
                 return ResourceManager.GetString("UnableToActivateUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to add concept name.
+        /// </summary>
+        public static string UnableToAddConceptName {
+            get {
+                return ResourceManager.GetString("UnableToAddConceptName", resourceCulture);
             }
         }
         

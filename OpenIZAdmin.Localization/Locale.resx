@@ -2364,4 +2364,10 @@
   <data name="UsernameLettersNumbersOnly" xml:space="preserve">
     <value>The username must consist of only letters and numbers</value>
   </data>
+  <data name="UnableToAddConceptName" xml:space="preserve">
+    <value>Unable to add concept name</value>
+  </data>
+  <data name="ConceptNameUpdatedSuccessfully" xml:space="preserve">
+    <value>Concept name updated successfully</value>
+  </data>
 </root>

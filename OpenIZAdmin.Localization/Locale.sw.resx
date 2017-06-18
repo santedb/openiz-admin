@@ -1892,4 +1892,10 @@ au jina la kikoa</value>
   <data name="LanguageCodeNotFound" xml:space="preserve">
     <value>Lugha Kanuni halikupatikana</value>
   </data>
+  <data name="UnableToAddConceptName" xml:space="preserve">
+    <value>Haikuweza kuongeza dhana jina</value>
+  </data>
+  <data name="ConceptNameUpdatedSuccessfully" xml:space="preserve">
+    <value>Dhana jina imesasishwa</value>
+  </data>
 </root>

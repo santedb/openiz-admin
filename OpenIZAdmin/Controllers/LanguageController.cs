@@ -104,7 +104,7 @@ namespace OpenIZAdmin.Controllers
 
 				var result = this.ImsiClient.Update<Concept>(concept);
 
-				TempData["success"] = Locale.LanguageUpdatedSuccessfully;
+				TempData["success"] = Locale.ConceptNameUpdatedSuccessfully;
 
 				return RedirectToAction("Edit", "Concept", new { id = result.Key, versionId = result.VersionKey });
 			}
@@ -116,7 +116,7 @@ namespace OpenIZAdmin.Controllers
 
 			model.LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList();
 
-			TempData["error"] = Locale.UnableToCreateLanguage;
+			TempData["error"] = Locale.UnableToAddConceptName;
 
 			return RedirectToAction("Index", "Concept");
 		}
