@@ -92,7 +92,10 @@
                 "language":
                 {
                     "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
-                }
+                },
+                "columnDefs": [
+                    { type: "date", targets: [4] }
+                ]
             });
         });
     </script>
