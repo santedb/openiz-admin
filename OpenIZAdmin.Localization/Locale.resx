@@ -2388,4 +2388,7 @@
   <data name="ConceptNameDeletedSuccessfully" xml:space="preserve">
     <value>Concept name deleted successfully</value>
   </data>
+  <data name="RelationshipNotFound" xml:space="preserve">
+    <value>Relationship not found</value>
+  </data>
 </root>

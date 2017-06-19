@@ -1916,4 +1916,7 @@ au jina la kikoa</value>
   <data name="ConceptNameDeletedSuccessfully" xml:space="preserve">
     <value>Dhana jina imefutwa</value>
   </data>
+  <data name="RelationshipNotFound" xml:space="preserve">
+    <value>Uhusiano halikupatikana</value>
+  </data>
 </root>

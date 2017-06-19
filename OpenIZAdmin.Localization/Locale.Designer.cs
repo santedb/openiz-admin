@@ -4201,6 +4201,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Relationship not found.
+        /// </summary>
+        public static string RelationshipNotFound {
+            get {
+                return ResourceManager.GetString("RelationshipNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The relationship is required.
         /// </summary>
         public static string RelationshipRequired {

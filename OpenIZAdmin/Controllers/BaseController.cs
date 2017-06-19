@@ -281,6 +281,20 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Gets the entity relationship.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>Returns the entity relationship which matches the given id.</returns> 
+		protected EntityRelationship GetEntityRelationship(Guid id)
+		{
+			var bundle = this.ImsiClient.Query<EntityRelationship>(r => r.Key == id, 0, null, false);
+
+			bundle.Reconstitute();
+
+			return bundle.Item.OfType<EntityRelationship>().FirstOrDefault(r => r.Key == id && (r.ObsoleteVersionSequenceId == null || r.ObsoleteVersionSequenceId == 0));
+		}
+
+		/// <summary>
 		/// Gets the entity relationships.
 		/// </summary>
 		/// <typeparam name="TTargetType">The type of the t target type.</typeparam>
