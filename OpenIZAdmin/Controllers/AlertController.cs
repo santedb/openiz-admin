@@ -119,6 +119,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
+				alert.AlertMessage.Flags = AlertMessageFlags.Acknowledged;
 				alert.AlertMessage.ObsoletionTime = DateTimeOffset.Now;
 				alert.AlertMessage.ObsoletedBy = new OpenIZ.Core.Model.Security.SecurityUser
 				{
@@ -308,13 +309,14 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Gets the alerts.
 		/// </summary>
+		/// <param name="all">if set to <c>true</c> [all].</param>
 		/// <returns>Returns a list of alerts for the current user, including alerts marked for "everyone".</returns>
 		private IEnumerable<AlertMessageInfo> GetAlerts(bool all = false)
 		{
 			var username = this.User.Identity.GetUserName();
 
-			var alerts = this.AmiClient.GetAlerts(a => a.To.Contains("everyone") && a.ObsoletionTime == null).CollectionItem;
-			var userAlerts = this.AmiClient.GetAlerts(a => a.To == username && a.ObsoletionTime == null).CollectionItem;
+			var alerts = this.AmiClient.GetAlerts(a => a.To.Contains("everyone")).CollectionItem;
+			var userAlerts = this.AmiClient.GetAlerts(a => a.To == username).CollectionItem;
 
 			if (!all)
 			{
@@ -322,7 +324,7 @@ namespace OpenIZAdmin.Controllers
 				userAlerts = userAlerts.Where(a => a.AlertMessage.ObsoletionTime == null && a.AlertMessage.Flags != AlertMessageFlags.Acknowledged).ToList();
 			}
 
-			return alerts.Union(userAlerts);
+			return alerts.Union(userAlerts).Where(a => a.AlertMessage.ObsoletionTime == null).ToList();
 		}
 	}
 }
