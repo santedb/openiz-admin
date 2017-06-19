@@ -430,7 +430,7 @@ namespace OpenIZAdmin.Controllers
 
 						// null out the other properties, since we are only updating the password
 						user.User = null;
-						user.Lockout = null;
+						user.Lockout = false;
 						user.Roles.Clear();
 
 						user.Password = model.Password;

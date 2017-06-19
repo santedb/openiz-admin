@@ -53,9 +53,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			var model = new CreateAlertModel();
-
-			return View(model);
+			return View(new CreateAlertModel());
 		}
 
 		/// <summary>
@@ -72,21 +70,16 @@ namespace OpenIZAdmin.Controllers
 				if (model.IsSystemAlert)
 				{
 					model.To = Constants.SystemUserId;
-					// HACK
-					model.ToList.Add(new SelectListItem {Selected = true, Text = model.To, Value = model.To });
 					model.Priority = (int)AlertMessageFlags.System;
 				}
 
-				if (ModelState.IsValid)
-				{
-					var alertMessageInfo = this.ToAlertMessageInfo(model, User);
+				var alertMessageInfo = this.ToAlertMessageInfo(model, User);
 
-					this.AmiClient.CreateAlert(alertMessageInfo);
+				this.AmiClient.CreateAlert(alertMessageInfo);
 
-					TempData["success"] = Locale.AlertCreatedSuccessfully;
+				this.TempData["success"] = Locale.AlertCreatedSuccessfully;
 
-					return RedirectToAction("Index");
-				}
+				return RedirectToAction("Index");
 			}
 			catch (Exception e)
 			{
@@ -95,7 +88,7 @@ namespace OpenIZAdmin.Controllers
 
 			model.ToList = new List<SelectListItem>();
 
-			TempData["error"] = Locale.UnableToCreateAlert;
+			this.TempData["error"] = Locale.UnableToCreateAlert;
 
 			return View(model);
 		}
