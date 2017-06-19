@@ -20,7 +20,6 @@
 using Elmah;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.LanguageModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
@@ -28,13 +27,14 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using OpenIZAdmin.Extensions;
+using OpenIZAdmin.Models.ConceptNameModels;
 
 namespace OpenIZAdmin.Controllers
 {
 	/// <summary>
 	/// Provides operations for managing languages.
 	/// </summary>
-	public class LanguageController : MetadataController
+	public class ConceptNameController : MetadataController
 	{
 		/// <summary>
 		/// Displays the Create view.
@@ -53,7 +53,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index", "Concept");
 				}
 
-				var model = new LanguageViewModel(concept)
+				var model = new ConceptNameViewModel(concept)
 				{
 					LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList(),
 					TwoLetterCountryCode = Locale.EN
@@ -75,11 +75,11 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Adds the new language.
 		/// </summary>
-		/// <param name="model">The <see cref="LanguageViewModel"/> instance.</param>
+		/// <param name="model">The <see cref="ConceptNameViewModel"/> instance.</param>
 		/// <returns>ActionResult.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create(LanguageViewModel model)
+		public ActionResult Create(ConceptNameViewModel model)
 		{
 			try
 			{
@@ -196,7 +196,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index", "Concept");
 				}
 
-				var model = new LanguageViewModel(langCode, displayName, concept)
+				var model = new ConceptNameViewModel(langCode, displayName, concept)
 				{
 					LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList()
 				};
@@ -221,11 +221,11 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Updates the language associated with the Concept.
 		/// </summary>
-		/// <param name="model">The <see cref="LanguageViewModel"/> instance.</param>
+		/// <param name="model">The <see cref="ConceptNameViewModel"/> instance.</param>
 		/// <returns>ActionResult.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Edit(LanguageViewModel model)
+		public ActionResult Edit(ConceptNameViewModel model)
 		{
 			try
 			{

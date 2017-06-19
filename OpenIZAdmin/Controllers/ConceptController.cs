@@ -18,7 +18,6 @@
  */
 
 using Elmah;
-using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
@@ -31,8 +30,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.Query;
-using OpenIZAdmin.Models.LanguageModels;
+using OpenIZAdmin.Models.ConceptNameModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -259,7 +257,7 @@ namespace OpenIZAdmin.Controllers
 				}
 
 				model.ReferenceTerms = this.GetConceptReferenceTerms(concept.Key.Value, concept.VersionKey).Select(r => new ReferenceTermViewModel(r, concept)).ToList();
-				model.Languages = concept.ConceptNames.Select(k => new LanguageViewModel(k.Language, k.Name, concept)).ToList();
+				model.Languages = concept.ConceptNames.Select(k => new ConceptNameViewModel(k.Language, k.Name, concept)).ToList();
 
 			}
 			catch (Exception e)
@@ -287,6 +285,7 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Displays the search view.
 		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
 		/// <returns>Returns the search view.</returns>
 		[HttpGet]
 		[ValidateInput(false)]
@@ -343,14 +342,16 @@ namespace OpenIZAdmin.Controllers
 		{
 			var viewModels = new List<ReferenceTermViewModel>();
 
-			var query = new List<KeyValuePair<string, object>>();
+			try
+			{
+				var bundle = this.ImsiClient.Query<ReferenceTerm>(r => r.Mnemonic.Contains(searchTerm) && r.ObsoletionTime == null);
 
-			query.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm)));
-			query.AddRange(QueryExpressionBuilder.BuildQuery<ReferenceTerm>(c => c.ObsoletionTime == null));
-
-			var bundle = this.ImsiClient.Query<ReferenceTerm>(QueryExpressionParser.BuildLinqExpression<ReferenceTerm>(new NameValueCollection(query.ToArray())));
-
-			viewModels.AddRange(bundle.Item.OfType<ReferenceTerm>().Select(c => new ReferenceTermViewModel(c)));
+				viewModels.AddRange(bundle.Item.OfType<ReferenceTerm>().Select(c => new ReferenceTermViewModel(c)));
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to search reference terms: {e}");
+			}
 
 			return Json(viewModels.OrderBy(c => c.Mnemonic).ToList(), JsonRequestBehavior.AllowGet);
 		}

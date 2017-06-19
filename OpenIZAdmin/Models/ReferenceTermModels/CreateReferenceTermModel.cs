@@ -13,28 +13,38 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  *
- * User: khannan
- * Date: 2016-11-29
+ * User: Andrew
+ * Date: 2017-4-13
  */
 
-using OpenIZ.Core.Model.DataTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Localization;
 
-namespace OpenIZAdmin.Models.Core
+namespace OpenIZAdmin.Models.ReferenceTermModels
 {
 	/// <summary>
-	/// Represents a reference term model.
+	/// Represents a reference term view model.
 	/// </summary>
-	public abstract class ReferenceTermModel
+	public class CreateReferenceTermModel
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="CreateReferenceTermModel"/> class.
+		/// </summary>
+		public CreateReferenceTermModel()
+		{
+			this.CodeSystemList = new List<SelectListItem>();
+			this.LanguageList = new List<SelectListItem>();
+		}
+
 		/// <summary>
 		/// Gets or sets the Code System
 		/// </summary>
-		public Guid? CodeSystem { get; set; }
+		public string CodeSystem { get; set; }
 
 		/// <summary>
 		/// Gets or sets the code system list.
@@ -44,25 +54,14 @@ namespace OpenIZAdmin.Models.Core
 		public List<SelectListItem> CodeSystemList { get; set; }
 
 		/// <summary>
-		/// Gets or sets the list of reference term names
-		/// </summary>
-		public List<ReferenceTermName> DisplayNames { get; set; }
-
-		/// <summary>
-		/// Gets or sets the identifier.
-		/// </summary>
-		/// <value>The identifier.</value>
-		public Guid Id { get; set; }
-
-		/// <summary>
 		/// Gets or sets the mnemonic.
 		/// </summary>
 		/// <value>The mnemonic.</value>
 		[Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Locale))]
 		[StringLength(50, ErrorMessageResourceName = "MnemonicLength50", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
-        public string Mnemonic { get; set; }
+		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+		public string Mnemonic { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name.
@@ -71,8 +70,8 @@ namespace OpenIZAdmin.Models.Core
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
 		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
-        public string Name { get; set; }
+		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+		public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the two letter language code of the language.
@@ -80,5 +79,40 @@ namespace OpenIZAdmin.Models.Core
 		[Display(Name = "Language", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string TwoLetterCountryCode { get; set; }
+
+		/// <summary>
+		/// Gets or sets the Concept identifier
+		/// </summary>
+		public Guid? ConceptId { get; set; }
+
+		/// <summary>
+		/// Gets or sets the language list.
+		/// </summary>
+		/// <value>The language list.</value>
+		public List<SelectListItem> LanguageList { get; set; }
+
+		/// <summary>
+		/// Converts an <see cref="CreateReferenceTermModel"/> instance to a <see cref="ReferenceTerm"/> instance.
+		/// </summary>
+		/// <returns>Returns a ReferenceTerm instance.</returns>
+		public ReferenceTerm ToReferenceTerm()
+		{
+			return new ReferenceTerm
+			{
+				Key = Guid.NewGuid(),
+				Mnemonic = this.Mnemonic,
+				CodeSystemKey = Guid.Parse(this.CodeSystem),
+				DisplayNames = new List<ReferenceTermName>()
+				{
+					new ReferenceTermName()
+					{
+						Key = Guid.NewGuid(),
+						Language = this.TwoLetterCountryCode,
+						Name = this.Name,
+						PhoneticAlgorithmKey = PhoneticAlgorithmKeys.Soundex
+					}
+				}
+			};
+		}
 	}
 }

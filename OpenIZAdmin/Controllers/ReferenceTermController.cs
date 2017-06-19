@@ -23,6 +23,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using Elmah;
+using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
@@ -45,10 +46,10 @@ namespace OpenIZAdmin.Controllers
         [HttpGet]
 		public ActionResult Create()
 		{		                          
-            var model = new CreateReferenceTermViewModel
+            var model = new CreateReferenceTermModel
 			{
-                CodeSystemList = this.GetCodeSystems().CollectionItem.ToSelectList("Oid", "Key").ToList(),
-                LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList(),
+                CodeSystemList = this.GetCodeSystems().CollectionItem.ToSelectList("Oid", "Key", null, true).ToList(),
+                LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode", null, true).ToList(),
 				TwoLetterCountryCode = Locale.EN
 			};
 
@@ -62,13 +63,13 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>ActionResult.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Create(CreateReferenceTermViewModel model)
+		public ActionResult Create(CreateReferenceTermModel model)
 		{
 			try
 			{
 				if (ModelState.IsValid)
 				{
-                    var codeSystem = this.AmiClient.GetCodeSystem(model.CodeSystem.ToString());
+                    var codeSystem = this.AmiClient.GetCodeSystem(model.CodeSystem);
 
                     if (codeSystem == null)
                     {
@@ -148,7 +149,11 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var referenceTerm = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
+				var bundle = this.ImsiClient.Query<ReferenceTerm>(r => r.Key == id && r.ObsoletionTime == null, 0, null, true);
+
+				bundle.Reconstitute();
+
+				var referenceTerm = bundle.Item.OfType<ReferenceTerm>().FirstOrDefault(r => r.Key == id && r.ObsoletionTime == null);
 
 				if (referenceTerm == null)
 				{
@@ -157,7 +162,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return View(new EditReferenceTermViewModel(referenceTerm));
+				return View(new EditReferenceTermModel(referenceTerm));
 			}
 			catch (Exception e)
 			{
@@ -190,6 +195,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
+				referenceTerm.CreationTime = DateTimeOffset.Now;
 				referenceTerm.Mnemonic = model.Mnemonic;
 
 				var result = this.ImsiClient.Update(referenceTerm);
@@ -233,7 +239,12 @@ namespace OpenIZAdmin.Controllers
 
 			if (this.IsValidId(searchTerm))
 			{				
-				var bundle = searchTerm == "*" ? this.ImsiClient.Query<ReferenceTerm>(c => c.ObsoletionTime == null) : this.ImsiClient.Query<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
+				var bundle = searchTerm == "*" ? this.ImsiClient.Query<ReferenceTerm>(c => c.ObsoletionTime == null, 0, null, new [] { "name" }) : this.ImsiClient.Query<ReferenceTerm>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null, 0, null, new[] { "name" });
+
+				//foreach (var referenceTerm in bundle.Item.OfType<ReferenceTerm>())
+				//{
+				//	referenceTerm.LoadCollection<ReferenceTermName>(nameof(ReferenceTerm.DisplayNames));
+				//}
 
                 results = bundle.Item.OfType<ReferenceTerm>().Select(p => new ReferenceTermViewModel(p)).ToList();
 
@@ -258,7 +269,11 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var referenceTerm = ImsiClient.Get<ReferenceTerm>(id, null) as ReferenceTerm;
+				var bundle = this.ImsiClient.Query<ReferenceTerm>(r => r.Key == id && r.ObsoletionTime == null, 0, null, true);
+
+				bundle.Reconstitute();
+
+				var referenceTerm = bundle.Item.OfType<ReferenceTerm>().FirstOrDefault(r => r.Key == id && r.ObsoletionTime == null);
 
 				if (referenceTerm == null)
 				{

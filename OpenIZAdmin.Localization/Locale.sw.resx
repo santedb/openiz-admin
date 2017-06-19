@@ -1901,4 +1901,13 @@ au jina la kikoa</value>
   <data name="SystemConceptsCannotBeEdited" xml:space="preserve">
     <value>dhana mfumo haziwezi kuhaririwa</value>
   </data>
+  <data name="UnableToRetrieveReferenceTerm" xml:space="preserve">
+    <value>Haikuweza kurejesha kumbukumbu mrefu</value>
+  </data>
+  <data name="CreateConceptName" xml:space="preserve">
+    <value>kujenga Jina dhana</value>
+  </data>
+  <data name="EditConceptName" xml:space="preserve">
+    <value>Badilisha Jina dhana</value>
+  </data>
 </root>

@@ -246,7 +246,7 @@
     <Compile Include="Controllers\EntityRelationshipController.cs" />
     <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\ExtensionTypeController.cs" />
-    <Compile Include="Controllers\LanguageController.cs" />
+    <Compile Include="Controllers\ConceptNameController.cs" />
     <Compile Include="Controllers\ManualController.cs" />
     <Compile Include="Controllers\ManufacturedMaterialController.cs" />
     <Compile Include="Controllers\MaterialController.cs" />
@@ -306,7 +306,6 @@
     <Compile Include="Models\Core\IdentifiedViewModel.cs" />
     <Compile Include="Models\Core\MetadataEditModelBase.cs" />
     <Compile Include="Models\Core\PolicyModel.cs" />
-    <Compile Include="Models\Core\ReferenceTermModel.cs" />
     <Compile Include="Models\Core\ConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\CreateConceptSetModel.cs" />
     <Compile Include="Models\ConceptSetModels\EditConceptSetModel.cs" />
@@ -332,7 +331,7 @@
     <Compile Include="Models\ExtensionTypeModels\ExtensionTypeViewModel.cs" />
     <Compile Include="Models\FacilityModel.cs" />
     <Compile Include="Models\Core\LanguageModel.cs" />
-    <Compile Include="Models\LanguageModels\LanguageViewModel.cs" />
+    <Compile Include="Models\ConceptNameModels\ConceptNameViewModel.cs" />
     <Compile Include="Models\ManualModels\ManualIndexViewModel.cs" />
     <Compile Include="Models\ManualModels\UploadManualModel.cs" />
     <Compile Include="Models\ManufacturedMaterialModels\ManufacturedMaterialViewModel.cs" />
@@ -343,10 +342,10 @@
     <Compile Include="Models\OrganizationModels\CreateOrganizationModel.cs" />
     <Compile Include="Models\OrganizationModels\EditOrganizationModel.cs" />
     <Compile Include="Models\OrganizationModels\OrganizationViewModel.cs" />
-    <Compile Include="Models\ReferenceTermNameModels\CreateReferenceTermNameViewModel.cs" />
-    <Compile Include="Models\ReferenceTermModels\CreateReferenceTermViewModel.cs" />
-    <Compile Include="Models\ReferenceTermModels\EditReferenceTermViewModel.cs" />
-    <Compile Include="Models\ReferenceTermNameModels\EditReferenceTermNameViewModel.cs" />
+    <Compile Include="Models\ReferenceTermNameModels\CreateReferenceTermNameModel.cs" />
+    <Compile Include="Models\ReferenceTermModels\CreateReferenceTermModel.cs" />
+    <Compile Include="Models\ReferenceTermModels\EditReferenceTermModel.cs" />
+    <Compile Include="Models\ReferenceTermNameModels\EditReferenceTermNameModel.cs" />
     <Compile Include="Models\ReferenceTermNameModels\ReferenceTermNameViewModel.cs" />
     <Compile Include="Models\ReferenceTermModels\ReferenceTermViewModel.cs" />
     <Compile Include="Models\ReportModels\ReportViewModel.cs" />
@@ -760,10 +759,10 @@
     <Content Include="Views\ConceptSet\Index.cshtml" />
     <Content Include="Views\Shared\_ConceptSetSearchResultsPartial.cshtml" />
     <Content Include="Views\Shared\_ManageLanguagesPartial.cshtml" />
-    <Content Include="Views\Language\Edit.cshtml" />
+    <Content Include="Views\ConceptName\Edit.cshtml" />
     <Content Include="Views\Shared\_LanguagesPartial.cshtml" />
     <Content Include="Views\Shared\_ReferenceTermsPartial.cshtml" />
-    <Content Include="Views\Language\Create.cshtml" />
+    <Content Include="Views\ConceptName\Create.cshtml" />
     <Content Include="Views\Applet\Update.cshtml" />
     <Content Include="Views\Shared\_ManageConceptsPartial.cshtml" />
     <Content Include="Views\Shared\_ConceptsPartial.cshtml" />

@@ -18,20 +18,19 @@
  */
 
 using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Models.Core;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ReferenceTermNameModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.ReferenceTermModels
 {
 	/// <summary>
 	/// Represents a model to view a reference term.
 	/// </summary>
-	public class ReferenceTermViewModel : ReferenceTermModel
+	public class ReferenceTermViewModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ReferenceTermViewModel"/> class.
@@ -51,7 +50,7 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 			this.DisplayNames = referenceTerm.DisplayNames;
 			this.Id = referenceTerm.Key.Value;
 			this.Mnemonic = referenceTerm.Mnemonic;
-			this.Name = string.Join(" ", referenceTerm.DisplayNames.Select(d => d.Name));
+			this.Names = string.Join(" ", referenceTerm.DisplayNames.Select(d => d.Name));
 			this.ReferenceTermNamesList = referenceTerm.DisplayNames.Select(n => new ReferenceTermNameViewModel(n)).ToList();
 		}
 
@@ -88,6 +87,26 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		/// </summary>
 		[Display(Name = "CreationTime", ResourceType = typeof(Locale))]
 		public DateTime CreationTime { get; set; }
+
+		/// <summary>
+		/// Gets or sets the display names.
+		/// </summary>
+		/// <value>The display names.</value>
+		public List<ReferenceTermName> DisplayNames { get; set; }
+
+		/// <summary>
+		/// Gets or sets the identifier.
+		/// </summary>
+		/// <value>The identifier.</value>
+		[Required]
+		public Guid Id { get; set; }
+
+		/// <summary>
+		/// Gets or sets the mnemonic.
+		/// </summary>
+		/// <value>The mnemonic.</value>
+		[Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
+		public string Mnemonic { get; set; }
 
 		/// <summary>
 		/// Gets or sets the concatenated display names of the Reference Term

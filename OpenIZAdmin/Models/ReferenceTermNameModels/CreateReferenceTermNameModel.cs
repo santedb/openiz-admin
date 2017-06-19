@@ -31,21 +31,21 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
     /// <summary>
 	/// Represents a reference term name model class.
 	/// </summary>
-    public class CreateReferenceTermNameViewModel : ReferenceTermNameModel
+    public class CreateReferenceTermNameModel : ReferenceTermNameModel
     {
         /// <summary>
-		/// Initializes a new instance of the <see cref="CreateReferenceTermNameViewModel"/> class.
+		/// Initializes a new instance of the <see cref="CreateReferenceTermNameModel"/> class.
 		/// </summary>
-		public CreateReferenceTermNameViewModel()
+		public CreateReferenceTermNameModel()
         {
             LanguageList = new List<SelectListItem>();
             ReferenceTermNameList = new List<ReferenceTermNameViewModel>();
         }
 
         /// <summary>
-		/// Initializes a new instance of the <see cref="CreateReferenceTermNameViewModel"/> class.
+		/// Initializes a new instance of the <see cref="CreateReferenceTermNameModel"/> class.
 		/// </summary>
-		public CreateReferenceTermNameViewModel(ReferenceTerm referenceTerm) : this()
+		public CreateReferenceTermNameModel(ReferenceTerm referenceTerm) : this()
         {
             ReferenceTermId = referenceTerm.Key ?? Guid.Empty;
             Mnemonic = referenceTerm.Mnemonic;
@@ -70,7 +70,7 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
         public string TwoLetterCountryCode { get; set; }
 
         /// <summary>
-        /// Converts an <see cref="CreateReferenceTermNameViewModel"/> instance to a <see cref="ReferenceTermName"/> instance.
+        /// Converts an <see cref="CreateReferenceTermNameModel"/> instance to a <see cref="ReferenceTermName"/> instance.
         /// </summary>
         /// <returns>Returns a ReferenceTermName instance.</returns>
         public ReferenceTermName ToReferenceTermName()

@@ -2373,4 +2373,13 @@
   <data name="SystemConceptsCannotBeEdited" xml:space="preserve">
     <value>System concepts cannot be edited</value>
   </data>
+  <data name="UnableToRetrieveReferenceTerm" xml:space="preserve">
+    <value>Unable to retrieve reference term</value>
+  </data>
+  <data name="CreateConceptName" xml:space="preserve">
+    <value>Create Concept Name</value>
+  </data>
+  <data name="EditConceptName" xml:space="preserve">
+    <value>Edit Concept Name</value>
+  </data>
 </root>

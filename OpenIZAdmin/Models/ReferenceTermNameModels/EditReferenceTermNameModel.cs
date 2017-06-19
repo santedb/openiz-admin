@@ -32,21 +32,21 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
     /// <summary>
     /// Represents a reference term view model.
     /// </summary>
-    public class EditReferenceTermNameViewModel : ReferenceTermNameModel
+    public class EditReferenceTermNameModel : ReferenceTermNameModel
     {
         /// <summary>
-		/// Initializes a new instance of the <see cref="EditReferenceTermNameViewModel"/> class.
+		/// Initializes a new instance of the <see cref="EditReferenceTermNameModel"/> class.
 		/// </summary>
-        public EditReferenceTermNameViewModel()
+        public EditReferenceTermNameModel()
         {
             LanguageList = new List<SelectListItem>();
             ReferenceTermNameList = new List<ReferenceTermNameViewModel>();
         }
 
         /// <summary>
-		/// Initializes a new instance of the <see cref="EditReferenceTermNameViewModel"/> class.
+		/// Initializes a new instance of the <see cref="EditReferenceTermNameModel"/> class.
 		/// </summary>
-        public EditReferenceTermNameViewModel(ReferenceTermName termName) : this()
+        public EditReferenceTermNameModel(ReferenceTermName termName) : this()
         {
             Id = termName.Key;
             Name = termName.Name;
@@ -54,9 +54,9 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
         }
 
         /// <summary>
-		/// Initializes a new instance of the <see cref="EditReferenceTermNameViewModel"/> class.
+		/// Initializes a new instance of the <see cref="EditReferenceTermNameModel"/> class.
 		/// </summary>
-        public EditReferenceTermNameViewModel(ReferenceTerm referenceTerm) : this()
+        public EditReferenceTermNameModel(ReferenceTerm referenceTerm) : this()
         {
             ReferenceTermId = referenceTerm.Key;
             Mnemonic = referenceTerm.Mnemonic;
@@ -64,9 +64,9 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
         }
 
         /// <summary>
-		/// Initializes a new instance of the <see cref="EditReferenceTermNameViewModel"/> class.
+		/// Initializes a new instance of the <see cref="EditReferenceTermNameModel"/> class.
 		/// </summary>
-        public EditReferenceTermNameViewModel(ReferenceTerm referenceTerm, ReferenceTermName termName) : this(termName)
+        public EditReferenceTermNameModel(ReferenceTerm referenceTerm, ReferenceTermName termName) : this(termName)
         {
             ReferenceTermId = referenceTerm.Key;
             Mnemonic = referenceTerm.Mnemonic;
@@ -74,9 +74,9 @@ namespace OpenIZAdmin.Models.ReferenceTermNameModels
         }
 
         /// <summary>
-		/// Initializes a new instance of the <see cref="EditReferenceTermNameViewModel"/> class.
+		/// Initializes a new instance of the <see cref="EditReferenceTermNameModel"/> class.
 		/// </summary>
-        public EditReferenceTermNameViewModel(Guid? conceptId, Guid? conceptVersionId) : this()
+        public EditReferenceTermNameModel(Guid? conceptId, Guid? conceptVersionId) : this()
         {
             ConceptId = conceptId;
             ConceptVersionId = conceptVersionId;

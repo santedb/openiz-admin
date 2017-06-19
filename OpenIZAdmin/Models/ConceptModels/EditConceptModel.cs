@@ -18,7 +18,6 @@
  */
 
 using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Models.LanguageModels;
 using OpenIZAdmin.Models.ReferenceTermModels;
 using System;
 using System.Collections.Generic;
@@ -28,6 +27,7 @@ using System.Web.Mvc;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.ConceptNameModels;
 using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ConceptModels
@@ -53,7 +53,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 			};
 
 			ReferenceTerms = new List<ReferenceTermViewModel>();
-			Languages = new List<LanguageViewModel>();
+			Languages = new List<ConceptNameViewModel>();
 			ReferenceTermList = new List<SelectListItem>();
 
 			RelationshipTypeList = new List<SelectListItem>
@@ -78,7 +78,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 			IsSystemConcept = concept.IsSystemConcept;
 			Mnemonic = concept.Mnemonic;
 			Name = string.Join(" ", concept.ConceptNames.Select(c => c.Name));
-			Languages = concept.ConceptNames.Select(k => new LanguageViewModel(k.Language, k.Name, concept)).ToList();
+			Languages = concept.ConceptNames.Select(k => new ConceptNameViewModel(k.Language, k.Name, concept)).ToList();
 			VersionKey = concept.VersionKey;
 		}
 
@@ -113,7 +113,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
 		/// </summary>
 		[Display(Name = "Languages", ResourceType = typeof(Locale))]
-		public List<LanguageViewModel> Languages { get; set; }
+		public List<ConceptNameViewModel> Languages { get; set; }
 
 		/// <summary>
 		/// Gets or sets the concept list from the search parameters from the ajax search method
