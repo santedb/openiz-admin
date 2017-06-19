@@ -68,9 +68,6 @@ namespace OpenIZAdmin.Controllers
 					ReferenceTermNameList = referenceTerm.DisplayNames.Select(n => new ReferenceTermNameViewModel(n)).ToList()
 				};
 
-				// filter the language list to languages which are not associated with the reference term already
-				model.LanguageList.RemoveAll(r => r.Value == model.TwoLetterCountryCode);
-
 				return View(model);
 			}
 			catch (Exception e)
@@ -218,9 +215,6 @@ namespace OpenIZAdmin.Controllers
 					Name = name.Name,
 					TwoLetterCountryCode = name.Language
 				};
-
-				// filter the language list to languages which are not associated with the reference term already
-				model.LanguageList.RemoveAll(r => r.Value == model.TwoLetterCountryCode);
 
 				return View(model);
 			}
