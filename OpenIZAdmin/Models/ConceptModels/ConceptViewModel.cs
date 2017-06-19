@@ -49,18 +49,18 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// <param name="concept">The concept.</param>
 		public ConceptViewModel(Concept concept) : this()
 		{
-			Class = concept.Class?.Name;
-			ConceptSetId = Guid.Empty;
-			CreationTime = concept.CreationTime.DateTime;
-			Id = concept.Key ?? Guid.Empty;
-			IsObsolete = concept.ObsoletionTime != null;
-			IsSystemConcept = concept.IsSystemConcept;
-			Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();
-			Mnemonic = concept.Mnemonic;
-			Names = concept.ConceptNames.Select(c => c.Name).ToList();
-			ConceptNames = (Names.Any()) ? string.Join(", ", Names) : string.Empty;
-			ReferenceTerms = new List<ReferenceTermViewModel>();
-			VersionKey = concept.VersionKey;
+			this.Class = concept.Class?.Name;
+			this.ConceptSetId = Guid.Empty;
+			this.CreationTime = concept.CreationTime.DateTime;
+			this.Id = concept.Key.Value;
+			this.IsObsolete = concept.ObsoletionTime != null;
+			this.IsSystemConcept = concept.IsSystemConcept;
+			this.Languages = concept.ConceptNames.Select(k => new Language(k.Language, k.Name)).ToList();
+			this.Mnemonic = concept.Mnemonic;
+			this.Names = concept.ConceptNames.Select(c => c.Name).ToList();
+			this.ConceptNames = (Names.Any()) ? string.Join(", ", Names) : string.Empty;
+			this.ReferenceTerms = new List<ReferenceTermViewModel>();
+			this.VersionKey = concept.VersionKey;
 		}
 
 		/// <summary>

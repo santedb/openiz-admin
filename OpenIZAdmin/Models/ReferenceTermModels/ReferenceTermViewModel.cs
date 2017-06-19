@@ -50,7 +50,7 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 			this.DisplayNames = referenceTerm.DisplayNames;
 			this.Id = referenceTerm.Key.Value;
 			this.Mnemonic = referenceTerm.Mnemonic;
-			this.Names = string.Join(" ", referenceTerm.DisplayNames.Select(d => d.Name));
+			this.Names = string.Join(", ", referenceTerm.DisplayNames.Select(d => d.Name));
 			this.ReferenceTermNamesList = referenceTerm.DisplayNames.Select(n => new ReferenceTermNameViewModel(n)).ToList();
 		}
 

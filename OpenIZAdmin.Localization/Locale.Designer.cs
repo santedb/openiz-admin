@@ -925,6 +925,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Concept name deleted successfully.
+        /// </summary>
+        public static string ConceptNameDeletedSuccessfully {
+            get {
+                return ResourceManager.GetString("ConceptNameDeletedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Concept Names.
+        /// </summary>
+        public static string ConceptNames {
+            get {
+                return ResourceManager.GetString("ConceptNames", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Concept name updated successfully.
         /// </summary>
         public static string ConceptNameUpdatedSuccessfully {

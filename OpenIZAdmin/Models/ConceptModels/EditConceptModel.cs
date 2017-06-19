@@ -42,21 +42,21 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		public EditConceptModel()
 		{
-			ConceptClassList = new List<SelectListItem>
+			this.ConceptClassList = new List<SelectListItem>
 			{
 				new SelectListItem { Text = string.Empty, Value = string.Empty }
 			};
 
-			LanguageList = new List<SelectListItem>
+			this.LanguageList = new List<SelectListItem>
 			{
 				new SelectListItem { Text = string.Empty, Value = string.Empty }
 			};
 
-			ReferenceTerms = new List<ReferenceTermViewModel>();
-			Languages = new List<ConceptNameViewModel>();
-			ReferenceTermList = new List<SelectListItem>();
+			this.ReferenceTerms = new List<ReferenceTermViewModel>();
+			this.Languages = new List<ConceptNameViewModel>();
+			this.ReferenceTermList = new List<SelectListItem>();
 
-			RelationshipTypeList = new List<SelectListItem>
+			this.RelationshipTypeList = new List<SelectListItem>
 			{
 				new SelectListItem {Text = string.Empty, Value = string.Empty},
 				new SelectListItem {Text = Locale.InverseOf, Value = ConceptRelationshipTypeKeys.InverseOf.ToString()},
@@ -72,20 +72,19 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// <param name="concept">The concept.</param>
 		public EditConceptModel(Concept concept) : this()
 		{
-			CreationTime = concept.CreationTime.DateTime;
-			Id = concept.Key ?? Guid.Empty;
-			IsObsolete = concept.StatusConceptKey == StatusKeys.Obsolete;
-			IsSystemConcept = concept.IsSystemConcept;
-			Mnemonic = concept.Mnemonic;
-			Name = string.Join(" ", concept.ConceptNames.Select(c => c.Name));
-			Languages = concept.ConceptNames.Select(k => new ConceptNameViewModel(k.Language, k.Name, concept)).ToList();
-			VersionKey = concept.VersionKey;
+			this.CreationTime = concept.CreationTime.DateTime;
+			this.Id = concept.Key.Value;
+			this.IsObsolete = concept.StatusConceptKey == StatusKeys.Obsolete;
+			this.IsSystemConcept = concept.IsSystemConcept;
+			this.Mnemonic = concept.Mnemonic;
+			this.Name = string.Join(" ", concept.ConceptNames.Select(c => c.Name));
+			this.Languages = concept.ConceptNames.Select(k => new ConceptNameViewModel(k.Language, k.Name, concept)).ToList();
+			this.VersionKey = concept.VersionKey;
 		}
 
 		/// <summary>
 		/// Gets or sets the reference term to add
 		/// </summary>
-		//[DependentPropertyValidator("RelationshipType", ErrorMessage = "Reference Term and Relationship Type are required to add a Reference Term.")]
 		[Display(Name = "AddReferenceTerms", ResourceType = typeof(Locale))]
 		public string AddReferenceTerm { get; set; }
 
@@ -112,7 +111,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// <summary>
 		/// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
 		/// </summary>
-		[Display(Name = "Languages", ResourceType = typeof(Locale))]
+		[Display(Name = "ConceptNames", ResourceType = typeof(Locale))]
 		public List<ConceptNameViewModel> Languages { get; set; }
 
 		/// <summary>

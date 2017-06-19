@@ -23,7 +23,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.AuthorityScope;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {

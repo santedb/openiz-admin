@@ -28,7 +28,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Models.AuthorityScope;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -157,17 +156,13 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				foreach (var item in assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Where(s => s.Class == null && s.ClassKey.HasValue && s.ClassKey.Value != Guid.Empty))
-				{
-					item.Class = this.ImsiClient.Get<ConceptClass>(item.ClassKey.Value, null) as ConceptClass;
-				}
-
 				var model = new EditAssigningAuthorityModel(assigningAuthorityInfo)
                 {
-                    AuthorityScopeList = assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x, assigningAuthorityInfo.Id)).ToList()
+                    AuthorityScopeList = assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x, assigningAuthorityInfo.Id)
+                    {
+	                    Class = x.Class == null && x.ClassKey.HasValue ? (this.ImsiClient.Get<ConceptClass>(x.ClassKey.Value, null) as ConceptClass)?.Name : x.Class?.Name
+					}).ToList()
                 };
-
-
 
 				return View(model);
 			}
@@ -304,7 +299,15 @@ namespace OpenIZAdmin.Controllers
 					item.Class = this.ImsiClient.Get<ConceptClass>(item.ClassKey.Value, null) as ConceptClass;
 				}
 
-				return View(new AssigningAuthorityViewModel(assigningAuthority));
+				var model = new AssigningAuthorityViewModel(assigningAuthority)
+				{
+					AuthorityScopeList = assigningAuthority.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x, assigningAuthority.Id)
+					{
+						Class = x.Class == null && x.ClassKey.HasValue ? (this.ImsiClient.Get<ConceptClass>(x.ClassKey.Value, null) as ConceptClass)?.Name : x.Class?.Name
+					}).ToList()
+				};
+
+				return View(model);
 			}
 			catch (Exception e)
 			{

@@ -2382,4 +2382,10 @@
   <data name="EditConceptName" xml:space="preserve">
     <value>Edit Concept Name</value>
   </data>
+  <data name="ConceptNames" xml:space="preserve">
+    <value>Concept Names</value>
+  </data>
+  <data name="ConceptNameDeletedSuccessfully" xml:space="preserve">
+    <value>Concept name deleted successfully</value>
+  </data>
 </root>

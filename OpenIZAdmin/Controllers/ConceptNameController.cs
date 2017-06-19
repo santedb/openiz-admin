@@ -125,7 +125,7 @@ namespace OpenIZAdmin.Controllers
 		/// Deletes a language from a Concept.
 		/// </summary>
 		/// <param name="id">The Concept Guid id</param>
-		/// <param name="versionId">The verion identifier of the Concept instance.</param>
+		/// <param name="versionId">The version identifier of the Concept instance.</param>
 		/// <param name="langCode">The language two character code identifier</param>
 		/// <param name="displayName">The text name representation of the Concept</param>
 		/// <returns>Returns the index view.</returns>
@@ -159,7 +159,7 @@ namespace OpenIZAdmin.Controllers
 
 				var result = this.ImsiClient.Update<Concept>(concept);
 
-				TempData["success"] = Locale.LanguageDeletedSuccessfully;
+				TempData["success"] = Locale.ConceptNameDeletedSuccessfully;
 
 				return RedirectToAction("Edit", "Concept", new { id = result.Key, versionId = result.VersionKey });
 			}
@@ -255,7 +255,7 @@ namespace OpenIZAdmin.Controllers
 
 				var result = this.ImsiClient.Update<Concept>(concept);
 
-				TempData["success"] = Locale.ConceptUpdatedSuccessfully;
+				TempData["success"] = Locale.ConceptNameUpdatedSuccessfully;
 
 				return RedirectToAction("Edit", "Concept", new { id = result.Key, versionId = result.VersionKey });
 			}

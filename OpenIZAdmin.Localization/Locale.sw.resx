@@ -1910,4 +1910,10 @@ au jina la kikoa</value>
   <data name="EditConceptName" xml:space="preserve">
     <value>Badilisha Jina dhana</value>
   </data>
+  <data name="ConceptNames" xml:space="preserve">
+    <value>dhana ya Majina</value>
+  </data>
+  <data name="ConceptNameDeletedSuccessfully" xml:space="preserve">
+    <value>Dhana jina imefutwa</value>
+  </data>
 </root>

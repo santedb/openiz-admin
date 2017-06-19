@@ -94,7 +94,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <span class="panel-title">@Locale.Languages</span>        
+        <span class="panel-title">@Locale.ConceptName</span>        
         <div class="pull-right">
             <a href="@Url.Action("Create", "ConceptName", new {id = Model.Id, type = "Language"})">
                 <span class="text-primary h4">@Locale.New</span>
@@ -102,7 +102,7 @@
             </a>
         </div>        
     </div>
-    @Html.Partial("_ManageLanguagesPartial", Model.Languages)
+    @Html.Partial("_ManageConceptNamesPartial", Model.Languages)
 </div>
 
 

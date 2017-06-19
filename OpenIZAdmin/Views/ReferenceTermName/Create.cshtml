@@ -16,27 +16,25 @@
             @Html.HiddenFor(m => m.ReferenceTermId)
 
             <div class="form-group">
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Mnemonic, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", @readonly = "readonly" })
-                    </div>
+                @Html.LabelFor(m => m.Mnemonic, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.Mnemonic, new { @class = "form-control", @readonly = "readonly" })
                 </div>
+            </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-8">
-                        @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_ConceptName })
-                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
-                    </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_ConceptName })
+                    @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                 </div>
+            </div>
 
-                <div class="form-group">
-                    @Html.LabelFor(m => m.TwoLetterCountryCode, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-8">
-                        @Html.DropDownListFor(m => m.TwoLetterCountryCode, Model.LanguageList, new { @class = "form-control", title = Locale.ToolTip_Language })
-                        @Html.ValidationMessageFor(m => m.TwoLetterCountryCode, "", new { @class = "text-danger" })
-                    </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.TwoLetterCountryCode, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.TwoLetterCountryCode, Model.LanguageList, new { @class = "form-control", title = Locale.ToolTip_Language })
+                    @Html.ValidationMessageFor(m => m.TwoLetterCountryCode, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -45,7 +43,8 @@
                     <a href="@Url.Action("Index", "ReferenceTerm")" class="btn btn-danger">@Locale.Cancel</a>
                     <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
                 </div>
-            </div>}
+            </div>
+        }
     </div>
 </div>
 
@@ -55,8 +54,9 @@
 @section scripts
 {
     <script>
-        
-        $(document).ready(function () {
+
+        $(document).ready(function ()
+        {
 
             $('#referenceTermNamesTable').DataTable({
                 "language":
@@ -67,11 +67,11 @@
                 columns: [
                   { "orderable": false },
                   null,
-                  null                  
+                  null
                 ]
             });
 
         });
 
-    </script> 
+    </script>
 }

@@ -1,4 +1,4 @@
-﻿@model IEnumerable<OpenIZAdmin.Models.AuthorityScope.AuthorityScopeViewModel>
+﻿@model IEnumerable<OpenIZAdmin.Models.AssigningAuthorityModels.AuthorityScopeViewModel>
 
 
 <div class="panel panel-body">
@@ -12,7 +12,7 @@
                             <th></th>
                             <th>@Locale.ConceptClass</th>
                             <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
-                            <th>@Html.DisplayNameFor(m => m.Names)</th>
+                            <th>@Html.DisplayNameFor(m => m.Name)</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -23,9 +23,9 @@
                                 <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-compressed" aria-hidden="true"></span></td>
                                 <td>@item.Class</td>
                                 <td>@item.Mnemonic</td>
-                                <td>@item.ConceptNames</td>
+                                <td>@item.Name</td>
                                 <td class="autoFitContents centerContent">
-                                    <a class="btn btn-primary" href="@Url.Action("Edit", "Concept", new {id = item.Id, versionId = item.VersionKey})">
+                                    <a class="btn btn-primary" href="@Url.Action("ViewConcept", "Concept", new {id = item.Id })">
                                         @Locale.View
                                         <span class="glyphicon glyphicon-eye-open"></span>
                                     </a>

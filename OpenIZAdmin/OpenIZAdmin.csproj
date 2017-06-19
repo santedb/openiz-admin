@@ -295,11 +295,10 @@
     <Compile Include="Models\AppletModels\AppletPublisherViewModel.cs" />
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ApplicationViewModel.cs" />
-    <Compile Include="Models\AuthorityScope\AuthorityScopeViewModel.cs" />
+    <Compile Include="Models\AssigningAuthorityModels\AuthorityScopeViewModel.cs" />
     <Compile Include="Models\CodeSystemModels\CodeSystemViewModel.cs" />
     <Compile Include="Models\CodeSystemModels\CreateCodeSystemModel.cs" />
     <Compile Include="Models\CodeSystemModels\EditCodeSystemModel.cs" />
-    <Compile Include="Models\Core\AssigningAuthorityModel.cs" />
     <Compile Include="Models\Core\ConceptModel.cs" />
     <Compile Include="Models\Core\IIdentifiable.cs" />
     <Compile Include="Models\Core\IdentifiedEditModel.cs" />
@@ -758,7 +757,7 @@
     <Content Include="Views\Shared\_ObsoleteWarningPartial.cshtml" />
     <Content Include="Views\ConceptSet\Index.cshtml" />
     <Content Include="Views\Shared\_ConceptSetSearchResultsPartial.cshtml" />
-    <Content Include="Views\Shared\_ManageLanguagesPartial.cshtml" />
+    <Content Include="Views\Shared\_ManageConceptNamesPartial.cshtml" />
     <Content Include="Views\ConceptName\Edit.cshtml" />
     <Content Include="Views\Shared\_LanguagesPartial.cshtml" />
     <Content Include="Views\Shared\_ReferenceTermsPartial.cshtml" />
@@ -804,7 +803,9 @@
     <Content Include="Views\Manual\Upload.cshtml" />
     <Content Include="Views\Shared\_ManageAppletsPartial.cshtml" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Models\AuthorityScope\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
