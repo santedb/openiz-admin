@@ -20,16 +20,15 @@
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using OpenIZAdmin.Extensions;
+using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.Core;
 using OpenIZAdmin.Models.RoleModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Extensions;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.Core;
-using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Models.UserModels
 {
@@ -67,6 +66,7 @@ namespace OpenIZAdmin.Models.UserModels
 			this.Email = securityUserInfo.User.Email;
 			this.GivenNames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
 			this.Id = securityUserInfo.UserId.Value;
+			this.Language = userEntity.LanguageCommunication.FirstOrDefault(l => l.IsPreferred)?.LanguageCode;
 			this.LockoutStatus = securityUserInfo.Lockout.GetValueOrDefault(false).ToLockoutStatus();
 			this.IsObsolete = securityUserInfo.User.ObsoletionTime.HasValue;
 			this.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
@@ -98,15 +98,27 @@ namespace OpenIZAdmin.Models.UserModels
 		public Guid Id { get; set; }
 
 		/// <summary>
+		/// Gets or sets whether the security entity is obsolete.
+		/// </summary>
+		public bool IsObsolete { get; set; }
+
+		/// <summary>
+		/// Gets or sets the default language of the user.
+		/// </summary>
+		[Display(Name = "Language", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Locale))]
+		public string Language { get; set; }
+
+		/// <summary>
+		/// Gets or sets the list of languages.
+		/// </summary>
+		public List<SelectListItem> LanguageList { get; set; }
+
+		/// <summary>
 		/// Gets or sets the locked out status of the user.
 		/// </summary>
 		[Display(Name = "LockoutStatus", ResourceType = typeof(Locale))]
 		public string LockoutStatus { get; set; }
-
-		/// <summary>
-		/// Gets or sets whether the security entity is obsolete.
-		/// </summary>
-		public bool IsObsolete { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of family names.
@@ -117,6 +129,33 @@ namespace OpenIZAdmin.Models.UserModels
 		/// Gets or sets the current roles of the user.
 		/// </summary>
 		public IEnumerable<RoleViewModel> UserRoles { get; set; }
+
+		/// <summary>
+		/// Initializes the Language list drop down
+		/// </summary>
+		public void CreateLanguageList()
+		{
+			LanguageList = new List<SelectListItem>
+			{
+				new SelectListItem
+				{
+					Text = string.Empty,
+					Value = string.Empty
+				},
+				new SelectListItem
+				{
+					Selected = this.Language == LocalizationConfig.LanguageCode.English,
+					Text = Locale.English,
+					Value = LocalizationConfig.LanguageCode.English
+				},
+				new SelectListItem
+				{
+					Selected = this.Language == LocalizationConfig.LanguageCode.Swahili,
+					Text = Locale.Kiswahili,
+					Value = LocalizationConfig.LanguageCode.Swahili
+				}
+			};
+		}
 
 		/// <summary>
 		/// Converts an <see cref="EditUserModel"/> instance to a <see cref="SecurityUserInfo"/> instance.
@@ -171,6 +210,18 @@ namespace OpenIZAdmin.Models.UserModels
 			{
 				userEntity.Relationships.RemoveAll(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, facilityId));
+			}
+
+			if (!string.IsNullOrWhiteSpace(this.Language))
+			{
+				var currentLanguage = userEntity.LanguageCommunication.FirstOrDefault(l => l.IsPreferred);
+
+				if (currentLanguage != null)
+				{
+					userEntity.LanguageCommunication.RemoveAll(l => l.IsPreferred);
+				}
+
+				userEntity.LanguageCommunication.Add(new PersonLanguageCommunication(this.Language, true));
 			}
 
 			if (HasPhoneNumberAndType())

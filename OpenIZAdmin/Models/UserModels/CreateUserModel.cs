@@ -20,16 +20,15 @@
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Threading;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Extensions;
-using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.UserModels
 {
@@ -43,9 +42,31 @@ namespace OpenIZAdmin.Models.UserModels
 		/// </summary>
 		public CreateUserModel()
 		{
-			this.Surnames = new List<string>();
 			this.GivenNames = new List<string>();
+
+			this.LanguageList = new List<SelectListItem>
+			{
+				new SelectListItem
+				{
+					Text = string.Empty,
+					Value = string.Empty
+				},
+				new SelectListItem
+				{
+					Selected = this.Language == LocalizationConfig.LanguageCode.English,
+					Text = Locale.English,
+					Value = LocalizationConfig.LanguageCode.English
+				},
+				new SelectListItem
+				{
+					Selected = this.Language == LocalizationConfig.LanguageCode.Swahili,
+					Text = Locale.Kiswahili,
+					Value = LocalizationConfig.LanguageCode.Swahili
+				}
+			};
+
 			this.PhoneTypeList = new List<SelectListItem>();
+			this.Surnames = new List<string>();
 			this.RolesList = new List<SelectListItem>();
 		}
 
@@ -59,6 +80,18 @@ namespace OpenIZAdmin.Models.UserModels
 		[RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
 		[System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Locale))]
 		public string ConfirmPassword { get; set; }
+
+		/// <summary>
+		/// Gets or sets the default language of the user.
+		/// </summary>
+		[Display(Name = "Language", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Locale))]
+		public string Language { get; set; }
+
+		/// <summary>
+		/// Gets or sets the list of languages.
+		/// </summary>
+		public List<SelectListItem> LanguageList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the password of the user.
@@ -127,6 +160,18 @@ namespace OpenIZAdmin.Models.UserModels
 			if (facility != null)
 			{
 				userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, facility));
+			}
+
+			if (!string.IsNullOrWhiteSpace(this.Language))
+			{
+				var currentLanguage = userEntity.LanguageCommunication.FirstOrDefault(l => l.IsPreferred);
+
+				if (currentLanguage != null)
+				{
+					userEntity.LanguageCommunication.RemoveAll(l => l.IsPreferred);
+				}
+
+				userEntity.LanguageCommunication.Add(new PersonLanguageCommunication(this.Language, true));
 			}
 
 			if (HasPhoneNumberAndType())

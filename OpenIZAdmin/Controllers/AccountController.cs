@@ -23,13 +23,16 @@ using Microsoft.AspNet.Identity.Owin;
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.DAL;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.AccountModels;
 using OpenIZAdmin.Services.Http;
+using OpenIZAdmin.Services.Http.Security;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -37,9 +40,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Extensions;
-using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -334,34 +334,35 @@ namespace OpenIZAdmin.Controllers
 			switch (result)
 			{
 				case SignInStatus.Success:
-                    try
-                    {
+					try
+					{
 						// set the credentials
 						this.ImsiClient.Client.Credentials = new AmiCredentials(this.User, this.SignInManager.AccessToken);
 
-                        var user = this.GetUserEntityBySecurityUserKey(Guid.Parse(SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId()));
+						var user = this.GetUserEntityBySecurityUserKey(Guid.Parse(SignInManager.AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId()));
 
-                        if (user != null)
-                        {
-                            // Default to english
-                            var languageCode = LocalizationConfig.LanguageCode.English;
+						if (user != null)
+						{
+							// Default to english
+							var languageCode = LocalizationConfig.LanguageCode.English;
 
-                            var language = user.LanguageCommunication.FirstOrDefault(u => u.IsPreferred);
-                            if (language != null)
-                            {
-                                languageCode = language.LanguageCode;
-                            }
+							var language = user.LanguageCommunication.FirstOrDefault(u => u.IsPreferred);
+							if (language != null)
+							{
+								languageCode = language.LanguageCode;
+							}
 
-                            Response.Cookies.Add(new HttpCookie(LocalizationConfig.LanguageCookieName, languageCode));
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        Trace.TraceError($"Unable to set the users default language, reverting to english: {e}");
-                    }
+							Response.Cookies.Add(new HttpCookie(LocalizationConfig.LanguageCookieName, languageCode));
+						}
+					}
+					catch (Exception e)
+					{
+						Trace.TraceError($"Unable to set the users default language, reverting to english: {e}");
+					}
 
-                    Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
+					Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
 					return RedirectToLocal(returnUrl);
+
 				default:
 					ModelState.AddModelError("", Locale.IncorrectUsernameOrPassword);
 					return View(model);
@@ -542,6 +543,7 @@ namespace OpenIZAdmin.Controllers
 						case LocalizationConfig.LanguageCode.Swahili:
 							code = LocalizationConfig.LanguageCode.Swahili;
 							break;
+
 						default:
 							break;
 					}
@@ -566,6 +568,31 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.UnableToUpdateProfile;
 
 			return View(model);
+		}
+
+		/// <summary>
+		/// Disposes of any managed resources
+		/// </summary>
+		/// <param name="disposing">Parameter that acts as a logic switch</param>
+		/// <returns>Returns a dispose object result.</returns>
+		protected override void Dispose(bool disposing)
+		{
+			if (disposing)
+			{
+				if (userManager != null)
+				{
+					userManager.Dispose();
+					userManager = null;
+				}
+
+				if (signInManager != null)
+				{
+					signInManager.Dispose();
+					signInManager = null;
+				}
+			}
+
+			base.Dispose(disposing);
 		}
 
 		/// <summary>
@@ -627,31 +654,6 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			return model;
-		}
-
-		/// <summary>
-		/// Disposes of any managed resources
-		/// </summary>
-		/// <param name="disposing">Parameter that acts as a logic switch</param>
-		/// <returns>Returns a dispose object result.</returns>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing)
-			{
-				if (userManager != null)
-				{
-					userManager.Dispose();
-					userManager = null;
-				}
-
-				if (signInManager != null)
-				{
-					signInManager.Dispose();
-					signInManager = null;
-				}
-			}
-
-			base.Dispose(disposing);
 		}
 
 		/// <summary>

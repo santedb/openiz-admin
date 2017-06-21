@@ -67,6 +67,14 @@
                         </div>
                         
                         <div class="form-group">
+                            @Html.LabelFor(m => m.Language, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(m => m.Language, Model.LanguageList, new { @class = "form-control", title = Locale.ToolTip_Language })
+                                @Html.ValidationMessageFor(m => m.Language, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
                             @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
                             <div class="col-md-8">
                                 @Html.ListBoxFor(m => m.Roles, Model.RolesList, new { @class = "dynamic-dropdown form-control", multiple = "multiple", title = Locale.ToolTip_Roles })
