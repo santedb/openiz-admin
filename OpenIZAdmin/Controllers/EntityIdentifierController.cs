@@ -155,8 +155,6 @@ namespace OpenIZAdmin.Controllers
 					}
 
 					entity.Identifiers.Add(new EntityIdentifier(authority, model.Value));
-					entity.CreationTime = DateTimeOffset.Now;
-					entity.VersionKey = null;
 
 					var updatedEntity = this.UpdateEntity(entity, modelType);
 
@@ -302,6 +300,27 @@ namespace OpenIZAdmin.Controllers
 						return Redirect(returnUrl.ToString());
 					}
 
+					Bundle bundle = null;
+					string name = null;
+
+					if (modelType == typeof(Material))
+					{
+						name = Locale.Material;
+						bundle = this.ImsiClient.Query<Material>(e => e.Identifiers.Any(i => i.AuthorityKey == authority.Key && i.Value == model.Value), 0, 0, false);
+					}
+					else if (modelType == typeof(Place))
+					{
+						name = Locale.Place;
+						bundle = this.ImsiClient.Query<Place>(e => e.Identifiers.Any(i => i.AuthorityKey == authority.Key && i.Value == model.Value), 0, 0, false);
+					}
+					else if (modelType == typeof(Organization))
+					{
+						name = Locale.Organization;
+						bundle = this.ImsiClient.Query<Organization>(e => e.Identifiers.Any(i => i.AuthorityKey == authority.Key && i.Value == model.Value), 0, 0, false);
+					}
+
+					bundle?.Reconstitute();
+
 					if (!this.IsValidIdentifier(authority, model.Value))
 					{
 						this.ModelState.AddModelError(nameof(model.Value), Locale.IdentifierFormatInvalid);
@@ -309,6 +328,16 @@ namespace OpenIZAdmin.Controllers
 						model = this.RepopulateModel(model, identifiers);
 
 						this.TempData["error"] = Locale.IdentifierFormatInvalid;
+						return View(model);
+					}
+
+					if (bundle?.TotalResults > 0)
+					{
+						this.ModelState.AddModelError(nameof(model.Value), string.Format(Locale.DuplicateIdentifierValue, name));
+
+						model = this.RepopulateModel(model, identifiers);
+
+						this.TempData["error"] = string.Format(Locale.DuplicateIdentifierValue, name);
 						return View(model);
 					}
 
