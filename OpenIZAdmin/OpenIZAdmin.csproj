@@ -802,7 +802,6 @@
     <Content Include="Views\Manual\Index.cshtml" />
     <Content Include="Views\Manual\Upload.cshtml" />
     <Content Include="Views\Shared\_ManageAppletsPartial.cshtml" />
-    <Content Include="Views\Shared\_RelatedPlacesPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\AuthorityScope\" />
