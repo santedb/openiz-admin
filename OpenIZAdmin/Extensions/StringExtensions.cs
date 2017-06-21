@@ -85,15 +85,19 @@ namespace OpenIZAdmin.Extensions
 		}
 
 		/// <summary>
-		/// Converts a <see cref="string" /> to a <see cref="Guid" /> instance.
+		/// Converts a <see cref="string" /> to a <see cref="Guid" /> instance. This operation is null safe, unless the strict flag is used.
 		/// </summary>
 		/// <param name="source">The source.</param>
+		/// <param name="strict">When set to true, parsing is directly attempted vs using TryParse.</param>
 		/// <returns>Returns the parsed <see cref="Guid" /> instance.</returns>
-		public static Guid? ToGuid(this string source)
+		public static Guid? ToGuid(this string source, bool strict = false)
 		{
-			ThrowIfNullSource(source);
-
 			Guid result;
+
+			if (strict)
+			{
+				return Guid.Parse(source);
+			}
 
 			if (!Guid.TryParse(source, out result))
 			{

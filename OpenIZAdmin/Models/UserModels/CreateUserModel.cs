@@ -176,7 +176,8 @@ namespace OpenIZAdmin.Models.UserModels
 
 			if (HasPhoneNumberAndType())
 			{
-				var phoneType = ConvertPhoneTypeToGuid();
+				var phoneType = this.PhoneType?.ToGuid();
+
 				if (phoneType != null)
 				{
 					userEntity.Telecoms.Clear();

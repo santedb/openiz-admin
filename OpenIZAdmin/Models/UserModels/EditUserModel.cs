@@ -200,7 +200,7 @@ namespace OpenIZAdmin.Models.UserModels
 				userEntity.Names = new List<EntityName> { name };
 			}
 
-			var facilityId = this.Facility.ToGuid();
+			var facilityId = this.Facility?.ToGuid();
 
 			if (facilityId == null)
 			{
@@ -226,7 +226,8 @@ namespace OpenIZAdmin.Models.UserModels
 
 			if (HasPhoneNumberAndType())
 			{
-				var phoneType = ConvertPhoneTypeToGuid();
+				var phoneType = this.PhoneType.ToGuid();
+
 				if (phoneType != null)
 				{
 					userEntity.Telecoms.Clear();

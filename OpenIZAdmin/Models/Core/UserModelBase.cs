@@ -17,15 +17,13 @@
  * Date: 2017-5-10
  */
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Localization;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.Core
 {
@@ -36,7 +34,7 @@ namespace OpenIZAdmin.Models.Core
 	{
 		/// <summary>
 		/// Gets or sets the email address of the user.
-		/// </summary>		
+		/// </summary>
 		[DataType(DataType.EmailAddress)]
 		[Display(Name = "Email", ResourceType = typeof(Locale))]
 		[EmailAddress(ErrorMessageResourceName = "InvalidEmailAddress", ErrorMessageResourceType = typeof(Locale))]
@@ -74,12 +72,6 @@ namespace OpenIZAdmin.Models.Core
 		public string PhoneType { get; set; }
 
 		/// <summary>
-		/// Gets or sets the username of the user.
-		/// </summary>
-		[Display(Name = "Username", ResourceType = typeof(Locale))]
-		public string Username { get; set; }
-
-		/// <summary>
 		/// Gets or sets the types of phones.
 		/// </summary>
 		public List<SelectListItem> PhoneTypeList { get; set; }
@@ -92,18 +84,24 @@ namespace OpenIZAdmin.Models.Core
 		public List<string> Surnames { get; set; }
 
 		/// <summary>
-		/// Converts the phone type entry from string to a guid
+		/// Gets or sets the username of the user.
 		/// </summary>
-		/// <returns>Returns the phone type guid, null if the operation was unsuccessful</returns>
-		public Guid? ConvertPhoneTypeToGuid()
+		[Display(Name = "Username", ResourceType = typeof(Locale))]
+		public string Username { get; set; }
+
+		/// <summary>
+		/// Checks if the Phone Number and Type input contains an entry
+		/// </summary>
+		/// <returns>Returns true if a number and type exists, false if no phone number or type is assigned</returns>
+		public bool HasPhoneNumberAndType() => !string.IsNullOrWhiteSpace(PhoneNumber) && !string.IsNullOrWhiteSpace(PhoneType);
+
+		/// <summary>
+		/// Checks if the facility selected is different than the one currently assigned to the user
+		/// </summary>
+		/// <returns>Returns true if a new facility is selected, false if selection hasn't changed</returns>
+		public bool HasSelectedNewFacility(UserEntity userEntity, Guid? facilityId)
 		{
-			if (string.IsNullOrWhiteSpace(PhoneType)) return null;
-
-			Guid phoneTypeId;
-
-			if (Guid.TryParse(PhoneType, out phoneTypeId)) return phoneTypeId;
-
-			return null;
+			return userEntity.Relationships.Find(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation && r.TargetEntityKey == facilityId) == null;
 		}
 
 		/// <summary>
@@ -121,24 +119,5 @@ namespace OpenIZAdmin.Models.Core
 
 			return name.Length > 0 && name.Length <= 100;
 		}
-
-		/// <summary>
-		/// Checks if the facility selected is different than the one currently assigned to the user
-		/// </summary>
-		/// <returns>Returns true if a new facility is selected, false if selection hasn't changed</returns>
-		public bool HasSelectedNewFacility(UserEntity userEntity, Guid? facilityId)
-		{
-			return
-				userEntity.Relationships.Find(
-					r =>
-						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation &&
-						r.TargetEntityKey == facilityId) == null;
-		}
-
-		/// <summary>
-		/// Checks if the Phone Number and Type input contains an entry
-		/// </summary>
-		/// <returns>Returns true if a number and type exists, false if no phone number or type is assigned</returns>
-		public bool HasPhoneNumberAndType() => !string.IsNullOrWhiteSpace(PhoneNumber) && !string.IsNullOrWhiteSpace(PhoneType);
 	}
 }

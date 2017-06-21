@@ -2394,4 +2394,7 @@
   <data name="DuplicateIdentifierValue" xml:space="preserve">
     <value>The identifier value already exists for the given assigning authority. This identifier value is already associated with another {0}</value>
   </data>
+  <data name="NotApplicable" xml:space="preserve">
+    <value>N/A</value>
+  </data>
 </root>

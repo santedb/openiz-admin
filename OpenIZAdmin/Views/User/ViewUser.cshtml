@@ -17,52 +17,70 @@
     <div class="panel panel-body">
         <div class="row">
             <div class="col-md-12">
-                <div class="form-horizontal">                                       
+                <div class="form-horizontal">
                     <div class="form-group">
                         @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
                         <div class="col-md-6">
                             @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @readonly = "readonly" })
                         </div>
-                    </div>  
+                    </div>
                     <div class="form-group">
                         @Html.LabelFor(m => m.IsLockedOut, new { @class = "col-md-2 control-label" })
                         <div class="col-md-6">
                             @Html.TextBoxFor(m => m.IsLockedOut, new { @class = "form-control", @readonly = "readonly", Value = Model.IsLockedOut.ToLockoutStatus() })
                         </div>
-                    </div>                  
+                    </div>
                     <div class="form-group">
                         @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
                         </div>
-                    </div>                             
+                    </div>
+                    
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Language, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.Language, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+
                     <div class="form-group">
                         @Html.LabelFor(m => m.HealthFacility, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             @Html.TextBoxFor(m => m.HealthFacility, new { @class = "form-control", @readonly = "readonly" })
                         </div>
-                    </div>  
+                    </div>
+                    
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.PhoneType, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-6">
+                            @Html.TextBoxFor(m => m.PhoneType, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    
                     <div class="form-group">
                         @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", @readonly = "readonly" })
                         </div>
-                    </div> 
+                    </div>
+
                     <div class="form-group">
                         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                        <div class="col-md-8">
+                        <div class="col-md-6">
                             @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @readonly = "readonly" })
                         </div>
-                    </div>                                   
+                    </div>
+
                     <div class="form-group">
                         @Html.LabelFor(m => m.LastLoginTime, new { @class = "col-md-2 control-label" })
                         <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.LastLoginTime, Constants.DateTimeFormatViewWithTimestamp, new { @class = "form-control", @readonly = "readonly" })                            
+                            @Html.TextBoxFor(m => m.LastLoginTime, Constants.DateTimeFormatViewWithTimestamp, new { @class = "form-control", @readonly = "readonly" })
                         </div>
-                    </div>                                              
+                    </div>
                 </div>
             </div>
-        </div>        
+        </div>
     </div>
 </div>
 
@@ -71,7 +89,8 @@
 @section scripts
 {
     <script type="text/javascript">
-        $(document).ready(function () {            
+        $(document).ready(function ()
+        {
 
             $('#userRolesTable').DataTable({
                 "language":
@@ -82,7 +101,7 @@
                 columns: [
                   { "orderable": false },
                   null,
-                  null                  
+                  null
                 ]
             });
 

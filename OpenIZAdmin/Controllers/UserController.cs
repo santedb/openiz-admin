@@ -29,6 +29,7 @@ using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.UserModels;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 
@@ -528,13 +529,28 @@ namespace OpenIZAdmin.Controllers
 
 				var viewModel = new UserViewModel(userEntity, userInfo);
 
-				//var given = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
-				//var family = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
+				if (userEntity.Telecoms.Any())
+				{
+					var telecom = userEntity.Telecoms.First();
 
-				//var viewModel = new UserViewModel(userEntity, userInfo)
-				//{
-				//	Name = string.Join(" ", given) + " " + string.Join(" ", family)
-				//};
+					var phoneType = Locale.NotApplicable;
+
+					if (telecom.AddressUse == null && telecom.AddressUseKey != null)
+					{
+						var concept = this.GetConcept(telecom.AddressUseKey.Value);
+
+						if (concept != null)
+						{
+							phoneType = string.Join(" ", concept.ConceptNames.Select(c => c.Name));
+						}
+					}
+					else
+					{
+						phoneType = string.Join(" ", telecom.AddressUse?.ConceptNames.Select(c => c.Name));
+					}
+
+					viewModel.PhoneType = phoneType;
+				}
 
 				var facilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
 

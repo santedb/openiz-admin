@@ -27,6 +27,7 @@ using System.Linq;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Localization;
+using System.Globalization;
 
 namespace OpenIZAdmin.Models.UserModels
 {
@@ -54,45 +55,52 @@ namespace OpenIZAdmin.Models.UserModels
 			this.IsLockedOut = securityUserInfo.Lockout.HasValue && securityUserInfo.Lockout.Value;
 			this.LastLoginTime = securityUserInfo.User.LastLoginTime?.DateTime;
 			this.PhoneNumber = securityUserInfo.User.PhoneNumber;
-            this.Roles = new List<RoleViewModel>();            
-            this.Username = securityUserInfo.UserName;
+			this.Roles = new List<RoleViewModel>();
+			this.Username = securityUserInfo.UserName;
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Initializes a new instance of the <see cref="UserViewModel"/> class
 		/// with a specific <see cref="SecurityUserInfo"/> instance.
 		/// </summary>
 		/// <param name="userEntity">The <see cref="UserEntity"/> instance.</param>
 		/// <param name="securityUserInfo">The <see cref="SecurityUserInfo"/> instance.</param>
 		public UserViewModel(UserEntity userEntity, SecurityUserInfo securityUserInfo) : base(securityUserInfo)
-        {
-            this.Email = securityUserInfo.Email;
-            this.HasRoles = securityUserInfo.Roles?.Any() == true;
-            this.IsLockedOut = securityUserInfo.Lockout.GetValueOrDefault(false);
-            this.LastLoginTime = securityUserInfo.User.LastLoginTime?.DateTime;
-            this.Roles = new List<RoleViewModel>();
-            this.Username = securityUserInfo.UserName;
+		{
+			this.Email = securityUserInfo.Email;
+			this.HasRoles = securityUserInfo.Roles?.Any() == true;
+			this.IsLockedOut = securityUserInfo.Lockout.GetValueOrDefault(false);
+			this.LastLoginTime = securityUserInfo.User.LastLoginTime?.DateTime;
+			this.Roles = new List<RoleViewModel>();
+			this.Username = securityUserInfo.UserName;
 
-            var given = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
-            var family = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
-            Name = string.Join(" ", given) + " " + string.Join(" ", family);
+			var given = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
+			var family = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
+			this.Name = string.Join(" ", given) + " " + string.Join(" ", family);
 
-            if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
-            {
-                this.PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;             
-            }
-            else
-            {
-                this.PhoneNumber = userEntity.Telecoms.FirstOrDefault()?.Value;                
-            }            
+			if (userEntity.LanguageCommunication.Any(l => l.IsPreferred))
+			{
+				var language = userEntity.LanguageCommunication.First(l => l.IsPreferred);
 
-            if (this.HasRoles) this.Roles = securityUserInfo.Roles.Select(r => new RoleViewModel(r));                        
-        }
+				this.Language = CultureInfo.GetCultures(CultureTypes.AllCultures).FirstOrDefault(c => c.TwoLetterISOLanguageName == language.LanguageCode)?.DisplayName ?? language.LanguageCode;
+			}
 
-        /// <summary>
-        /// Gets or sets the email address of the user.
-        /// </summary>
-        [Display(Name = "Email", ResourceType = typeof(Locale))]
+			if (userEntity.Telecoms.Any(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact))
+			{
+				this.PhoneNumber = userEntity.Telecoms.First(t => t.AddressUseKey == TelecomAddressUseKeys.MobileContact).Value;
+			}
+			else
+			{
+				this.PhoneNumber = userEntity.Telecoms.FirstOrDefault()?.Value;
+			}
+
+			if (this.HasRoles) this.Roles = securityUserInfo.Roles.Select(r => new RoleViewModel(r));
+		}
+
+		/// <summary>
+		/// Gets or sets the email address of the user.
+		/// </summary>
+		[Display(Name = "Email", ResourceType = typeof(Locale))]
 		public string Email { get; set; }
 
 		/// <summary>
@@ -106,14 +114,20 @@ namespace OpenIZAdmin.Models.UserModels
 		[Display(Name = "HealthFacility", ResourceType = typeof(Locale))]
 		public string HealthFacility { get; set; }
 
-	    /// <summary>
-	    /// Gets or sets the locked out status of the user.
-	    /// </summary>
-	    [Display(Name = "LockoutStatus", ResourceType = typeof(Locale))]
-	    public bool IsLockedOut { get; set; }
+		/// <summary>
+		/// Gets or sets the locked out status of the user.
+		/// </summary>
+		[Display(Name = "LockoutStatus", ResourceType = typeof(Locale))]
+		public bool IsLockedOut { get; set; }
 
+		/// <summary>
+		/// Gets or sets the language.
+		/// </summary>
+		/// <value>The language.</value>
+		[Display(Name = "Language", ResourceType = typeof(Locale))]
+		public string Language { get; set; }
 
-	    /// <summary>
+		/// <summary>
 		/// Gets or sets the last login time of the user.
 		/// </summary>
 		[Display(Name = "LastLoginTime", ResourceType = typeof(Locale))]
@@ -131,6 +145,13 @@ namespace OpenIZAdmin.Models.UserModels
 		/// </summary>
 		[Display(Name = "Phone", ResourceType = typeof(Locale))]
 		public string PhoneNumber { get; set; }
+
+		/// <summary>
+		/// Gets or sets the type of the phone.
+		/// </summary>
+		/// <value>The type of the phone.</value>
+		[Display(Name = "PhoneType", ResourceType = typeof(Locale))]
+		public string PhoneType { get; set; }
 
 		/// <summary>
 		/// Gets or sets the roles of the user.
