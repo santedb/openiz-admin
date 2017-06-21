@@ -1591,6 +1591,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The identifier value already exists for the given assigning authority. This identifier value is already associated with another {0}.
+        /// </summary>
+        public static string DuplicateIdentifierValue {
+            get {
+                return ResourceManager.GetString("DuplicateIdentifierValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit.
         /// </summary>
         public static string Edit {

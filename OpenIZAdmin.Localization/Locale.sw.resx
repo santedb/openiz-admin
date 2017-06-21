@@ -1919,4 +1919,7 @@ au jina la kikoa</value>
   <data name="RelationshipNotFound" xml:space="preserve">
     <value>Uhusiano halikupatikana</value>
   </data>
+  <data name="DuplicateIdentifierValue" xml:space="preserve">
+    <value>Thamani ya kutambua tayari iko kwa mamlaka ya kupewa. Thamani hii ya kutambua tayari imehusishwa na mwingine {0}</value>
+  </data>
 </root>
