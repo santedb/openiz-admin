@@ -14,6 +14,11 @@
             Gets or sets the current application service context
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.ApplicationServiceContext.HostType">
+            <summary>
+            Type of application hosting this OpenIZ
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Data.Warehouse.DatamartDefinition">
             <summary>
             Represents a datamart definition which contains the definition of fields for a datamart
@@ -1561,6 +1566,26 @@
         <member name="P:OpenIZ.Core.Interop.ServiceResourceOptions.Verbs">
             <summary>
             Gets the verbs supported on the specified resource
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.OpenIZHostType">
+            <summary>
+            OpenIZ Host Type
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.OpenIZHostType.Server">
+            <summary>
+            Environment is a server
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.OpenIZHostType.MobileClient">
+            <summary>
+            Environment is a mobile client
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.OpenIZHostType.OtherClient">
+            <summary>
+            Environment is another client
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Services.Impl.SimplePatchService">
