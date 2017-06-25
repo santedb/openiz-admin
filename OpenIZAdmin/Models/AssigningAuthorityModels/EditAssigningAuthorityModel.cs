@@ -50,6 +50,7 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		public EditAssigningAuthorityModel(AssigningAuthorityInfo assigningAuthorityInfo) : this()
 		{
 			this.Id = assigningAuthorityInfo.Id;
+			this.IsUnique = assigningAuthorityInfo.AssigningAuthority.IsUnique ? Locale.Yes : Locale.No;
 			this.Name = assigningAuthorityInfo.AssigningAuthority.Name;
 			this.Oid = assigningAuthorityInfo.AssigningAuthority.Oid;
 			this.Url = assigningAuthorityInfo.AssigningAuthority.Url;
@@ -57,6 +58,25 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 			this.Description = assigningAuthorityInfo.AssigningAuthority.Description;
 			this.ValidationRegex = assigningAuthorityInfo.AssigningAuthority.ValidationRegex;
 		}
+
+		/// <summary>
+		/// Gets or sets the list of Concepts to add
+		/// </summary>
+		/// <value>The add concepts.</value>
+		[Display(Name = "AddConcepts", ResourceType = typeof(Locale))]
+		public List<string> AddConcepts { get; set; }
+
+		/// <summary>
+		/// Gets or sets the authority scopes.
+		/// </summary>
+		/// <value>The scopes assigned.</value>
+		public List<AuthorityScopeViewModel> AuthorityScopeList { get; set; }
+
+		/// <summary>
+		/// Gets or sets the concept list from the search parameters from the ajax search method
+		/// </summary>
+		/// <value>The concept list.</value>
+		public List<SelectListItem> ConceptList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the description of the assigning authority.
@@ -74,6 +94,19 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		[StringLength(32, ErrorMessageResourceName = "DomainNameLength32", ErrorMessageResourceType = typeof(Locale))]
 		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
 		public string DomainName { get; set; }
+
+		/// <summary>
+		/// Gets or sets the id of the assigning authority.
+		/// </summary>
+		[Required]
+		public Guid Id { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is unique.
+		/// </summary>
+		/// <value><c>true</c> if this instance is unique; otherwise, <c>false</c>.</value>
+		[Display(Name = "IsUnique", ResourceType = typeof(Locale))]
+		public string IsUnique { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the assigning authority.
@@ -110,29 +143,13 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		public string ValidationRegex { get; set; }
 
 		/// <summary>
-		/// Gets or sets the list of Concepts to add
+		/// Checks of the selected concept is already in the authority scope list
 		/// </summary>
-		/// <value>The add concepts.</value>
-		[Display(Name = "AddConcepts", ResourceType = typeof(Locale))]
-		public List<string> AddConcepts { get; set; }
-
-		/// <summary>
-		/// Gets or sets the authority scopes.
-		/// </summary>
-		/// <value>The scopes assigned.</value>		
-		public List<AuthorityScopeViewModel> AuthorityScopeList { get; set; }
-
-		/// <summary>
-		/// Gets or sets the concept list from the search parameters from the ajax search method
-		/// </summary>
-		/// <value>The concept list.</value>
-		public List<SelectListItem> ConceptList { get; set; }
-
-		/// <summary>
-		/// Gets or sets the id of the assigning authority.
-		/// </summary>
-		[Required]
-		public Guid Id { get; set; }
+		/// <returns>Returns true if the selected concept exists, false if not found</returns>
+		public bool HasSelectedAuthorityScope(AssigningAuthority authorityInfo)
+		{
+			return AddConcepts.Any() && authorityInfo.AuthorityScope.Any(scope => scope.Key.ToString().Equals(AddConcepts[0]));
+		}
 
 		/// <summary>
 		/// Converts a <see cref="EditAssigningAuthorityModel"/> instance to an <see cref="AssigningAuthorityInfo"/> instance.
@@ -164,15 +181,6 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 			}
 
 			return authorityInfo;
-		}
-
-		/// <summary>
-		/// Checks of the selected concept is already in the authority scope list
-		/// </summary>
-		/// <returns>Returns true if the selected concept exists, false if not found</returns>
-		public bool HasSelectedAuthorityScope(AssigningAuthority authorityInfo)
-		{
-			return AddConcepts.Any() && authorityInfo.AuthorityScope.Any(scope => scope.Key.ToString().Equals(AddConcepts[0]));
 		}
 	}
 }
