@@ -1925,4 +1925,79 @@ au jina la kikoa</value>
   <data name="NotApplicable" xml:space="preserve">
     <value>N/A</value>
   </data>
+  <data name="HomePageHeaderText" xml:space="preserve">
+    <value>Karibu kwenye Portal ya Utawala wa OpenIZ.</value>
+  </data>
+  <data name="IdentifierCreatedSuccessfully" xml:space="preserve">
+    <value>Kitambulisho kiliundwa kwa ufanisi</value>
+  </data>
+  <data name="LanguageDeletedSuccessfully" xml:space="preserve">
+    <value>Lugha imefutwa kwa mafanikio</value>
+  </data>
+  <data name="LanguageUpdatedSuccessfully" xml:space="preserve">
+    <value>Lugha imesasishwa kwa mafanikio</value>
+  </data>
+  <data name="ManualDeletedSuccessfully" xml:space="preserve">
+    <value>Mwongozo umefutwa kwa ufanisi</value>
+  </data>
+  <data name="MaterialActivatedSuccessfully" xml:space="preserve">
+    <value>Nyenzo imefungwa kwa mafanikio</value>
+  </data>
+  <data name="MaterialCreatedSuccessfully" xml:space="preserve">
+    <value>Nyenzo imeundwa kwa ufanisi</value>
+  </data>
+  <data name="MaterialDeactivatedSuccessfully" xml:space="preserve">
+    <value>Nyenzo imefungwa kwa mafanikio</value>
+  </data>
+  <data name="MaterialNotFound" xml:space="preserve">
+    <value>Nyenzo haipatikani</value>
+  </data>
+  <data name="MaterialUpdatedSuccessfully" xml:space="preserve">
+    <value>Nyenzo zimehifadhiwa kwa mafanikio</value>
+  </data>
+  <data name="NoUsersFound" xml:space="preserve">
+    <value>Hakuna watumiaji waliopatikana</value>
+  </data>
+  <data name="OrganizationActivatedSuccessfully" xml:space="preserve">
+    <value>Shirika limeanzishwa kwa mafanikio</value>
+  </data>
+  <data name="OrganizationCreatedSuccessfully" xml:space="preserve">
+    <value>Shirika limeundwa kwa ufanisi</value>
+  </data>
+  <data name="OrganizationDeactivatedSuccessfully" xml:space="preserve">
+    <value>Shirika imefungwa kwa mafanikio</value>
+  </data>
+  <data name="OrganizationNotFound" xml:space="preserve">
+    <value>Shirika halikupatikana</value>
+  </data>
+  <data name="OrganizationUpdatedSuccessfully" xml:space="preserve">
+    <value>Shirika limewekwa kwa mafanikio</value>
+  </data>
+  <data name="PasswordResetSuccessfully" xml:space="preserve">
+    <value>Neno la upya upya kwa ufanisi</value>
+  </data>
+  <data name="PlaceActivatedSuccessfully" xml:space="preserve">
+    <value>Mahali imeanzishwa kwa mafanikio</value>
+  </data>
+  <data name="PlaceDeactivatedSuccessfully" xml:space="preserve">
+    <value>Mahali imefungwa kwa mafanikio</value>
+  </data>
+  <data name="PlaceNotFound" xml:space="preserve">
+    <value>Mahali haipatikani</value>
+  </data>
+  <data name="PlaceSuccessfullyCreated" xml:space="preserve">
+    <value>Weka kwa ufanisi kuunda</value>
+  </data>
+  <data name="PlaceSuccessfullyUpdated" xml:space="preserve">
+    <value>Weka kwa mafanikio</value>
+  </data>
+  <data name="PolicyCreatedSuccessfully" xml:space="preserve">
+    <value>Sera imeundwa kwa ufanisi</value>
+  </data>
+  <data name="PolicyDeletedSuccessfully" xml:space="preserve">
+    <value>Sera imefutwa kwa mafanikio</value>
+  </data>
+  <data name="PolicyNotFound" xml:space="preserve">
+    <value>Sera haipatikani</value>
+  </data>
 </root>
