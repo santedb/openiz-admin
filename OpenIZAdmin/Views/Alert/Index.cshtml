@@ -1,5 +1,7 @@
 ﻿@using System.ComponentModel
+@using System.Globalization
 @using OpenIZ.Core.Alert.Alerting
+@using OpenIZAdmin.Extensions
 @model IEnumerable<OpenIZAdmin.Models.AlertModels.AlertViewModel>
 @{
     ViewBag.Title = Locale.Alerts;
@@ -52,7 +54,7 @@
                                 @item.Subject
                             </td>
                             <td>
-                                @item.Time
+                                @item.Time.ToString("dd/MM/yyyy hh:mm:ss tt", CultureInfo.InvariantCulture)
                             </td>
                             <td>
                                 <a class="btn btn-primary" href="@Url.Action("ViewAlert", "Alert", new {id = item.Id})">
@@ -88,13 +90,15 @@
     <script>
         $(document).ready(function ()
         {
+            $.fn.dataTable.moment("DD/MM/YYYY h:mm:ss a");
+
             $("#alertsTable").DataTable({
                 "language":
                 {
                     "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
                 },
                 "columnDefs": [
-                    { type: "date", targets: [4] }
+                    { type: "datetime", targets: [4] }
                 ]
             });
         });
