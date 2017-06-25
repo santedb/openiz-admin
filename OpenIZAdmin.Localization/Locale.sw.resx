@@ -2105,4 +2105,28 @@ au jina la kikoa</value>
   <data name="RequiredFileUploadFormat" xml:space="preserve">
     <value>Vitabu tu katika format ya pdf ni kukubalika.</value>
   </data>
+  <data name="UploadApplet_Heading" xml:space="preserve">
+    <value>Weka Vijiprogramu</value>
+  </data>
+  <data name="UnableToUploadApplet" xml:space="preserve">
+    <value>Haiwezi kupakia Vijiprogramu</value>
+  </data>
+  <data name="CreateUser_Heading" xml:space="preserve">
+    <value>Unda Mtumiaji</value>
+  </data>
+  <data name="EditApplication_Heading" xml:space="preserve">
+    <value>Badilisha Maombi</value>
+  </data>
+  <data name="EditAssigningAuthority_Heading" xml:space="preserve">
+    <value>Badilisha Usimamizi wa Mamlaka</value>
+  </data>
+  <data name="EditCodeSystem_Heading" xml:space="preserve">
+    <value>Badilisha Mfumo wa Kanuni</value>
+  </data>
+  <data name="EditConceptSet_Heading" xml:space="preserve">
+    <value>Badilisha dhana kuweka</value>
+  </data>
+  <data name="EditDevice_Heading" xml:space="preserve">
+    <value>Hariri Kifaa</value>
+  </data>
 </root>

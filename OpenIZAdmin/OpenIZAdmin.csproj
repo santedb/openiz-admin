@@ -804,9 +804,7 @@
     <Content Include="Views\Shared\_ManageAppletsPartial.cshtml" />
     <Content Include="Views\Shared\_ConceptSetsPartial.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\AuthorityScope\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>
