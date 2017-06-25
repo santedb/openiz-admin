@@ -367,7 +367,11 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var concept = this.GetConcept(id, versionId);
+				var bundle = this.ImsiClient.Query<Concept>(c => c.Key == id && c.ObsoletionTime == null, 0, null, true);
+
+				bundle.Reconstitute();
+
+				var concept = bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Key == id && c.ObsoletionTime == null);
 
 				if (concept == null)
 				{
@@ -380,6 +384,19 @@ namespace OpenIZAdmin.Controllers
 				if (concept.Class == null && concept.ClassKey.HasValue && concept.ClassKey.Value != Guid.Empty)
 				{
 					concept.Class = this.GetConceptClass(concept.ClassKey.Value);
+				}
+
+				// load the concept sets
+				concept.ConceptSetsXml = this.LoadConceptSets(concept.Key.Value);
+
+				foreach (var conceptSetKey in concept.ConceptSetsXml)
+				{
+					var conceptSet = this.ImsiClient.Get<ConceptSet>(conceptSetKey, null) as ConceptSet;
+
+					if (conceptSet != null)
+					{
+						concept.ConceptSets.Add(conceptSet);
+					}
 				}
 
 				var model = new ConceptViewModel(concept)

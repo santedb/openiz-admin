@@ -802,6 +802,7 @@
     <Content Include="Views\Manual\Index.cshtml" />
     <Content Include="Views\Manual\Upload.cshtml" />
     <Content Include="Views\Shared\_ManageAppletsPartial.cshtml" />
+    <Content Include="Views\Shared\_ConceptSetsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\AuthorityScope\" />
@@ -829,7 +830,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>48917</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

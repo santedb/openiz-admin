@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.ConceptSetModels;
 using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ConceptModels
@@ -38,6 +39,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// </summary>
 		public ConceptViewModel()
 		{
+			this.ConceptSets = new List<ConceptSetViewModel>();
 			this.Names = new List<string>();
 			this.ReferenceTerms = new List<ReferenceTermViewModel>();
 			this.Languages = new List<Language>();
@@ -51,6 +53,7 @@ namespace OpenIZAdmin.Models.ConceptModels
 		{
 			this.Class = concept.Class?.Name;
 			this.ConceptSetId = Guid.Empty;
+			this.ConceptSets = concept.ConceptSets.Select(c => new ConceptSetViewModel(c)).ToList();
 			this.CreationTime = concept.CreationTime.DateTime;
 			this.Id = concept.Key.Value;
 			this.IsObsolete = concept.ObsoletionTime != null;
@@ -83,6 +86,12 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// Gets or sets the Concept Set identifier associated with the Concept instance
 		/// </summary>
 		public Guid? ConceptSetId { get; set; }
+
+		/// <summary>
+		/// Gets or sets the concept sets.
+		/// </summary>
+		/// <value>The concept sets.</value>
+		public List<ConceptSetViewModel> ConceptSets { get; set; }
 
 		/// <summary>
 		/// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
