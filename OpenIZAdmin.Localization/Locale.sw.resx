@@ -2099,4 +2099,7 @@ au jina la kikoa</value>
   <data name="CreateRole_Heading" xml:space="preserve">
     <value>Unda Jukumu</value>
   </data>
+  <data name="RequiredFileFormatUpload" xml:space="preserve">
+    <value>Vitabu tu katika format ya pdf ni kukubalika.</value>
+  </data>
 </root>
