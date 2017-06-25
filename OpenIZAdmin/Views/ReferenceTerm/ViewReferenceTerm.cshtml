@@ -28,7 +28,14 @@
     </div>
 </div>
 
-@Html.Partial("_ReferenceTermNamesPartial", Model.ReferenceTermNamesList)
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.Concepts</span>
+    </div>
+    @Html.Partial("_ConceptsPartial", Model.Concepts)
+</div>
+
+@Html.Partial("_ReferenceTermNamesPartial", Model.ReferenceTermNames)
 
 @section scripts{
 

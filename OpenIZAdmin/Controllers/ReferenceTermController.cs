@@ -29,6 +29,7 @@ using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Util;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.ConceptModels;
 using OpenIZAdmin.Models.ReferenceTermModels;
 
 namespace OpenIZAdmin.Controllers
@@ -282,7 +283,24 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return View(new ReferenceTermViewModel(referenceTerm));
+				var conceptsBundle = this.ImsiClient.Query<Concept>(c => c.ReferenceTerms.Any(r => r.ReferenceTermKey == referenceTerm.Key) && c.ObsoletionTime == null);
+
+				conceptsBundle.Reconstitute();
+
+				var concepts = conceptsBundle.Item.OfType<Concept>().Where(c => c.ReferenceTerms.Any(r => r.ReferenceTermKey == referenceTerm.Key) && c.ObsoletionTime == null);
+
+				foreach (var concept in concepts)
+				{
+					concept.LoadProperty<ConceptClass>(nameof(Concept.Class));
+				}
+
+				var viewModel = new ReferenceTermViewModel(referenceTerm)
+				{
+					Concepts = concepts.Select(c => new ConceptViewModel(c)).ToList()
+				};
+
+
+				return View(viewModel);
 			}
 			catch (Exception e)
 			{

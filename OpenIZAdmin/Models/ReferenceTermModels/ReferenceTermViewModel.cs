@@ -24,6 +24,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZAdmin.Models.ConceptModels;
 
 namespace OpenIZAdmin.Models.ReferenceTermModels
 {
@@ -37,8 +38,9 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		/// </summary>
 		public ReferenceTermViewModel()
 		{
+			this.Concepts = new List<ConceptViewModel>();
 			this.DisplayNames = new List<ReferenceTermName>();
-			this.ReferenceTermNamesList = new List<ReferenceTermNameViewModel>();
+			this.ReferenceTermNames = new List<ReferenceTermNameViewModel>();
 		}
 
 		/// <summary>
@@ -51,7 +53,7 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 			this.Id = referenceTerm.Key.Value;
 			this.Mnemonic = referenceTerm.Mnemonic;
 			this.Names = string.Join(", ", referenceTerm.DisplayNames.Select(d => d.Name));
-			this.ReferenceTermNamesList = referenceTerm.DisplayNames.Select(n => new ReferenceTermNameViewModel(n)).ToList();
+			this.ReferenceTermNames = referenceTerm.DisplayNames.Select(n => new ReferenceTermNameViewModel(n)).ToList();
 		}
 
 		/// <summary>
@@ -81,6 +83,12 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		///  Gets or sets the concept version identifier associated with the reference term
 		/// </summary>
 		public Guid? ConceptVersionKey { get; set; }
+
+		/// <summary>
+		/// Gets or sets the concepts.
+		/// </summary>
+		/// <value>The concepts.</value>
+		public List<ConceptViewModel> Concepts { get; set; }
 
 		/// <summary>
 		/// Gets or sets the creation time of the concept.
@@ -117,6 +125,6 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		/// <summary>
 		/// Gets or sets the list of reference names associated with the reference term
 		/// </summary>
-		public List<ReferenceTermNameViewModel> ReferenceTermNamesList { get; set; }
+		public List<ReferenceTermNameViewModel> ReferenceTermNames { get; set; }
 	}
 }
