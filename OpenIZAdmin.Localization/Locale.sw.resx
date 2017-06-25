@@ -2000,4 +2000,103 @@ au jina la kikoa</value>
   <data name="PolicyNotFound" xml:space="preserve">
     <value>Sera haipatikani</value>
   </data>
+  <data name="AddCodeSystem_Heading" xml:space="preserve">
+    <value>Ongeza Msimbo wa Msimbo</value>
+  </data>
+  <data name="AddLanguages_Heading" xml:space="preserve">
+    <value>Ongeza Lugha</value>
+  </data>
+  <data name="AddNewIdentifier_Heading" xml:space="preserve">
+    <value>Ongeza Kitambulisho kipya</value>
+  </data>
+  <data name="AddNewRelationship_Heading" xml:space="preserve">
+    <value>Ongeza Uhusiano Mpya</value>
+  </data>
+  <data name="AddReferenceTerm_Heading" xml:space="preserve">
+    <value>Ongeza Nambari ya Kumbukumbu</value>
+  </data>
+  <data name="AddReferenceTermName_Heading" xml:space="preserve">
+    <value>Ongeza Jina la Nambari ya Kumbukumbu</value>
+  </data>
+  <data name="AppletNotFound" xml:space="preserve">
+    <value>Applet haipatikani</value>
+  </data>
+  <data name="AppletUploadedSuccessfully" xml:space="preserve">
+    <value>Applet imepakiwa kwa mafanikio</value>
+  </data>
+  <data name="ApplicationActivatedSuccessfully" xml:space="preserve">
+    <value>Maombi imeanzishwa kwa mafanikio</value>
+  </data>
+  <data name="ApplicationDeactivatedSuccessfully" xml:space="preserve">
+    <value>Maombi imefungwa kwa mafanikio</value>
+  </data>
+  <data name="ApplicationNotFound" xml:space="preserve">
+    <value>Maombi haipatikani</value>
+  </data>
+  <data name="ApplicationUpdatedSuccessfully" xml:space="preserve">
+    <value>Maombi yalifanywa kwa mafanikio</value>
+  </data>
+  <data name="AssigningAuthorityCreatedSuccessfully" xml:space="preserve">
+    <value>Mamlaka ya kuagiza imeundwa kwa ufanisi</value>
+  </data>
+  <data name="AssigningAuthorityUpdatedSuccessfully" xml:space="preserve">
+    <value>Mamlaka ya kuagiza imesasishwa kwa mafanikio</value>
+  </data>
+  <data name="CertificateDeletedSuccessfully" xml:space="preserve">
+    <value>Hati ilifutwa kwa mafanikio</value>
+  </data>
+  <data name="CodeSystemCreatedSuccessfully" xml:space="preserve">
+    <value>Mfumo wa Kanuni umba kwa ufanisi</value>
+  </data>
+  <data name="CodeSystemNotFound" xml:space="preserve">
+    <value>Mfumo wa mfumo haupatikani</value>
+  </data>
+  <data name="ConceptCreatedSuccessfully" xml:space="preserve">
+    <value>Dhana imeundwa kwa ufanisi</value>
+  </data>
+  <data name="ConceptDeactivatedSuccessfully" xml:space="preserve">
+    <value>Dhana imefungwa kwa mafanikio</value>
+  </data>
+  <data name="ConceptReferenceTermDeletedSuccessfully" xml:space="preserve">
+    <value>Muda wa kumbukumbu ya dhana ilifutwa kwa mafanikio</value>
+  </data>
+  <data name="ConceptSetCreatedSuccessfully" xml:space="preserve">
+    <value>Dhana imewekwa kwa ufanisi</value>
+  </data>
+  <data name="ConceptSetUpdatedSuccessfully" xml:space="preserve">
+    <value>Dhana imewekwa kwa mafanikio</value>
+  </data>
+  <data name="CreateAlert_Heading" xml:space="preserve">
+    <value>Unda tahadhari</value>
+  </data>
+  <data name="CreateApplication_Heading" xml:space="preserve">
+    <value>Unda Maombi</value>
+  </data>
+  <data name="CreateAssigningAuthority_Heading" xml:space="preserve">
+    <value>Unda Mamlaka ya Kusimamia</value>
+  </data>
+  <data name="CreateConceptSet_Heading" xml:space="preserve">
+    <value>Unda Dhana Kuweka</value>
+  </data>
+  <data name="CreateDevice_Heading" xml:space="preserve">
+    <value>Unda hila</value>
+  </data>
+  <data name="CreateManufacturedMaterial_Heading" xml:space="preserve">
+    <value>Unda Nyenzo zilizofanywa</value>
+  </data>
+  <data name="CreateMaterial_Heading" xml:space="preserve">
+    <value>Unda Nyenzo</value>
+  </data>
+  <data name="CreateOrganization_Heading" xml:space="preserve">
+    <value>Unda Shirika</value>
+  </data>
+  <data name="CreatePlace_Heading" xml:space="preserve">
+    <value>Unda Mahali</value>
+  </data>
+  <data name="CreatePolicy_Heading" xml:space="preserve">
+    <value>Unda Sera</value>
+  </data>
+  <data name="CreateRole_Heading" xml:space="preserve">
+    <value>Unda Jukumu</value>
+  </data>
 </root>
