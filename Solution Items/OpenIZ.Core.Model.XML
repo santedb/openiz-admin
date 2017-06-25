@@ -5330,6 +5330,11 @@
             <returns>The path.</returns>
             <param name="access">Access.</param>
         </member>
+        <member name="M:OpenIZ.Core.Model.Query.QueryExpressionBuilder.HttpQueryExpressionVisitor.BuildGuardExpression(System.Linq.Expressions.BinaryExpression)">
+            <summary>
+            Build a guard expression
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Model.Query.QueryExpressionBuilder.BuildQuery``1(System.Linq.Expressions.Expression{System.Func{``0,System.Boolean}},System.Boolean)">
             <summary>
             Builds the query dictionary .

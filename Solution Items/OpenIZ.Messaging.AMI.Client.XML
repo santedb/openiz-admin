@@ -43,6 +43,11 @@
             </summary>
             <returns>Returns the created applet manifest info.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.Ping">
+            <summary>
+            Perform a ping
+            </summary>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateApplication(OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo)">
             <summary>
             Creates a security application.

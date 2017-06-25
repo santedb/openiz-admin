@@ -110,6 +110,11 @@
             <param name="patch">The patch containing the information to be patched.</param>
             <returns>Returns the updated version GUID.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.IMSI.Client.ImsiServiceClient.Ping">
+            <summary>
+            Perform a ping
+            </summary>
+        </member>
         <member name="M:OpenIZ.Messaging.IMSI.Client.ImsiServiceClient.Options">
             <summary>
             Gets the options for the IMS
