@@ -71,6 +71,9 @@
       <HintPath>..\packages\elmah.io.client.2.0.29\lib\net40\Elmah.Io.Client.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MARC.HI.EHRS.SVC.Auditing.Core">
+      <HintPath>..\Solution Items\MARC.HI.EHRS.SVC.Auditing.Core.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.5\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -234,6 +237,10 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Attributes\TokenAuthorize.cs" />
+    <Compile Include="Audit\AccountControllerAuditHelper.cs" />
+    <Compile Include="Audit\AuditHelperBase.cs" />
+    <Compile Include="Audit\Error.cs" />
+    <Compile Include="Audit\HttpContextAuditHelperBase.cs" />
     <Compile Include="Comparer\EntityRelationshipComparer.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EntityController.cs" />
@@ -296,6 +303,7 @@
     <Compile Include="Models\ApplicationModels\EditApplicationModel.cs" />
     <Compile Include="Models\ApplicationModels\ApplicationViewModel.cs" />
     <Compile Include="Models\AssigningAuthorityModels\AuthorityScopeViewModel.cs" />
+    <Compile Include="Models\Audit\EventTypeCode.cs" />
     <Compile Include="Models\CodeSystemModels\CodeSystemViewModel.cs" />
     <Compile Include="Models\CodeSystemModels\CreateCodeSystemModel.cs" />
     <Compile Include="Models\CodeSystemModels\EditCodeSystemModel.cs" />

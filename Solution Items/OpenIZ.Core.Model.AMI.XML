@@ -77,13 +77,14 @@
         </member>
         <member name="M:OpenIZ.Core.Model.AMI.Security.AuditInfo.#ctor">
             <summary>
-            Audit information
+            Creates a new instance of audit information
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.AMI.Security.AuditInfo.#ctor(MARC.HI.EHRS.SVC.Auditing.Data.AuditData)">
             <summary>
-            Creates a new instance of audit information
+             Audit info with data
             </summary>
+            <param name="data"></param>
         </member>
         <member name="P:OpenIZ.Core.Model.AMI.Security.AuditInfo.ProcessId">
             <summary>

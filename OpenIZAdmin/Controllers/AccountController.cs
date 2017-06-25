@@ -40,6 +40,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using MARC.HI.EHRS.SVC.Auditing.Data;
+using OpenIZ.Core.Model.AMI.Security;
+using OpenIZAdmin.Audit;
+using OpenIZAdmin.Models.Audit;
+using OpenIZAdmin.Security;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -109,6 +114,12 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Gets the audit helper.
+		/// </summary>
+		/// <value>The audit helper.</value>
+		public AccountControllerAuditHelper AuditHelper { get; set; }
+
+		/// <summary>
 		/// Displays the change password view.
 		/// </summary>
 		/// <returns>Returns the change password view.</returns>
@@ -136,7 +147,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to display change password view: {e}");
 			}
 
 			return View(model);
@@ -188,7 +199,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to change password: {e}");
 			}
 
 			TempData["error"] = Locale.UnableToUpdatePassword;
@@ -222,7 +233,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				this.TempData["error"] = Locale.UnableToRetrieveForgotPasswordMechanisms;
 
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to display forgot password view: {e}");
 			}
 
 			return View(model);
@@ -275,7 +286,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to send TFA mechanism: {e}");
 			}
 
@@ -317,6 +327,8 @@ namespace OpenIZAdmin.Controllers
 		{
 			var result = SignInStatus.Failure;
 
+			DeviceIdentity deviceIdentity;
+
 			try
 			{
 				if (!ModelState.IsValid)
@@ -329,6 +341,13 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to login: {e}");
+
+				// login as the device so we can send the audit
+				deviceIdentity = ApplicationSignInManager.LoginAsDevice();
+
+				this.AuditHelper = new AccountControllerAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.HttpContext.ApplicationInstance.Context);
+
+				this.AuditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EventTypeCode.SecurityAttributesChanged, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			switch (result)
@@ -354,16 +373,34 @@ namespace OpenIZAdmin.Controllers
 
 							Response.Cookies.Add(new HttpCookie(LocalizationConfig.LanguageCookieName, languageCode));
 						}
+
+						this.AuditHelper = new AccountControllerAuditHelper(new AmiCredentials(this.User, this.SignInManager.AccessToken), this.HttpContext.ApplicationInstance.Context);
+
+						this.AuditHelper.AuditLogin(model.Username);
 					}
 					catch (Exception e)
 					{
 						Trace.TraceError($"Unable to set the users default language, reverting to english: {e}");
+
+						// login as the device so we can send the audit
+						deviceIdentity = ApplicationSignInManager.LoginAsDevice();
+
+						this.AuditHelper = new AccountControllerAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.HttpContext.ApplicationInstance.Context);
+
+						this.AuditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EventTypeCode.SecurityAttributesChanged, EventIdentifierType.ApplicationActivity, e);
 					}
 
 					Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
 					return RedirectToLocal(returnUrl);
 
 				default:
+					// login as the device so we can send the audit
+					deviceIdentity = ApplicationSignInManager.LoginAsDevice();
+
+					this.AuditHelper = new AccountControllerAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.HttpContext.ApplicationInstance.Context);
+
+					this.AuditHelper.AuditLogin(model.Username, null, false);
+
 					ModelState.AddModelError("", Locale.IncorrectUsernameOrPassword);
 					return View(model);
 			}
@@ -377,10 +414,34 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult LogOff()
 		{
-			this.TempData.Clear();
-			HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-			this.Response.Cookies.Remove("access_token");
-			return RedirectToAction("Index", "Home");
+			try
+			{
+				this.TempData.Clear();
+
+				HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+
+				this.Response.Cookies.Remove("access_token");
+
+				this.AuditHelper.AuditLogOff(this.User);
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to logoff: {e}");
+				this.AuditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EventTypeCode.Logout, EventIdentifierType.UserAuthentication, e);
+			}
+
+			return RedirectToAction("Login", "Account");
+		}
+
+		/// <summary>
+		/// Called when the action is executing.
+		/// </summary>
+		/// <param name="filterContext">The filter context of the action executing.</param>
+		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		{
+			base.OnActionExecuting(filterContext);
+
+			this.AuditHelper = new AccountControllerAuditHelper(new AmiCredentials(this.User, this.HttpContext.Request), this.HttpContext.ApplicationInstance.Context);
 		}
 
 		/// <summary>
@@ -457,7 +518,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to reset password: {e}");
 			}
 
 			this.TempData["error"] = Locale.UnableToResetPassword;
@@ -489,7 +550,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to display update profile view: {e}");
 			}
 
 			TempData["error"] = Locale.UnableToRetrieveProfile;
@@ -563,7 +624,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to update profile: {e}");
 			}
 
 			if (userEntity != null)
