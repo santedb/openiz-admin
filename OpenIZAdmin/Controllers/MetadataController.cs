@@ -114,7 +114,11 @@ namespace OpenIZAdmin.Controllers
 
 				if (referenceTerm == null && conceptReferenceTerm.ReferenceTermKey.HasValue && conceptReferenceTerm.ReferenceTermKey.Value != Guid.Empty)
 				{
-					referenceTerm = this.ImsiClient.Get<ReferenceTerm>(conceptReferenceTerm.ReferenceTermKey.Value, null) as ReferenceTerm;
+					var referenceTermBundle = this.ImsiClient.Query<ReferenceTerm>(c => c.Key == conceptReferenceTerm.ReferenceTermKey && c.ObsoletionTime == null, 0, null, true);
+
+					referenceTermBundle.Reconstitute();
+
+					referenceTerm = referenceTermBundle.Item.OfType<ReferenceTerm>().FirstOrDefault(c => c.Key == conceptReferenceTerm.ReferenceTermKey && c.ObsoletionTime == null);
 				}
 
 				if (referenceTerm != null)
