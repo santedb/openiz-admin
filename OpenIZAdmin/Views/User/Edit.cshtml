@@ -10,21 +10,20 @@
     <div class="panel-heading">
         <span class="panel-title">@Locale.EditUser_Heading</span>
         <div class="pull-right">
-                            
-        
-                @if (!Model.IsObsolete)
-                {                    
-                    <a href="@Url.Action("UnlockAccount", "User", new {id = Model.Id})" class="pad-right">
-                        <span class="text-warning glyphicon glyphicon-ok-sign"></span>
-                        <span class="text-warning h5">@Locale.UnlockAccount</span>
-                    </a>          
 
-                    <a href="@Url.Action("ResetPassword", "User", new {id = Model.Id})">
-                        <span class="text-danger glyphicon glyphicon-warning-sign"></span>
-                        <span class="text-danger h5">@Locale.ResetPassword</span>
-                    </a>
-                }
-            </div>                                
+
+            @if (!Model.IsObsolete)
+            {
+                <a href="@Url.Action("UnlockAccount", "User", new {id = Model.Id})" class="pad-right">
+                    <span class="text-warning glyphicon glyphicon-ok-sign"></span>
+                    <span class="text-warning h5">@Locale.UnlockAccount</span>
+                </a>
+
+                <a href="@Url.Action("ResetPassword", "User", new {id = Model.Id})">
+                    <span class="text-danger glyphicon glyphicon-warning-sign"></span>
+                    <span class="text-danger h5">@Locale.ResetPassword</span>
+                </a>}
+        </div>
     </div>
     <div class="panel panel-body">
         @using (Html.BeginForm("Edit", "User", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
@@ -35,37 +34,37 @@
                         @Html.AntiForgeryToken()
                         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                         @Html.HiddenFor(m => m.Id)
-                        
+
                         <div class="form-group">
                             @Html.LabelFor(m => m.Username, new { @class = "col-md-2 control-label" })
                             <div class="col-md-6">
                                 @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @readonly = "readonly" })
                             </div>
-                        </div>  
-                        
+                        </div>
+
                         <div class="form-group">
                             @Html.LabelFor(m => m.LockoutStatus, new { @class = "col-md-2 control-label" })
                             <div class="col-md-6">
                                 @Html.TextBoxFor(m => m.LockoutStatus, new { @class = "form-control", @readonly = "readonly" })
                             </div>
-                        </div> 
+                        </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(m => m.GivenNames, new { @class = "col-md-2 control-label" })
+                            @Html.LabelFor(m => m.GivenName, new { @class = "col-md-2 control-label" })
                             <div class="col-md-8">
-                                @Html.ListBoxFor(m => m.GivenNames, Model.GivenNamesList, new { @class = "dynamic-dropdown-multiple form-control", multiple = "multiple", title = Locale.ToolTip_GivenNamesListBox })
-                                @Html.ValidationMessageFor(m => m.GivenNames, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(m => m.GivenName, new { @class = "tokenfield form-control", title = Locale.ToolTip_GivenNamesListBox })
+                                @Html.ValidationMessageFor(m => m.GivenName, "", new { @class = "text-danger" })
                             </div>
                         </div>
 
                         <div class="form-group">
-                            @Html.LabelFor(m => m.Surnames, new { @class = "col-md-2 control-label" })
+                            @Html.LabelFor(m => m.Surname, new { @class = "col-md-2 control-label" })
                             <div class="col-md-8">
-                                @Html.ListBoxFor(m => m.Surnames, Model.SurnameList, new { @class = "dynamic-dropdown-multiple form-control", multiple = "multiple", title = Locale.ToolTip_SurnamesListBox })
-                                @Html.ValidationMessageFor(m => m.Surnames, "", new { @class = "text-danger" })
+                                @Html.TextBoxFor(m => m.Surname, new { @class = "tokenfield form-control", multiple = "multiple", title = Locale.ToolTip_SurnamesListBox })
+                                @Html.ValidationMessageFor(m => m.Surname, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             @Html.LabelFor(m => m.Language, new { @class = "col-md-2 control-label" })
                             <div class="col-md-8">
@@ -73,7 +72,7 @@
                                 @Html.ValidationMessageFor(m => m.Language, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
                             <div class="col-md-8">
@@ -88,7 +87,7 @@
                                 @Html.DropDownListFor(m => m.Facility, Model.FacilityList, new { @class = "place-search form-control", multiple = "multiple", title = Locale.ToolTip_Facilities })
                                 @Html.ValidationMessageFor(m => m.Facility, "", new { @class = "text-danger" })
                             </div>
-                        </div>                                             
+                        </div>
 
                         <div class="form-group">
                             @Html.LabelFor(m => m.PhoneType, new { @class = "col-md-2 control-label" })
@@ -105,14 +104,14 @@
                                 @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
                             </div>
                         </div>
-                        
+
                         <div class="form-group">
                             @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
                             <div class="col-md-6">
                                 @Html.TextBoxFor(m => m.Email, new { @class = "form-control", title = Locale.ToolTip_UserEmail })
                                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                             </div>
-                        </div>  
+                        </div>
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-10">
@@ -120,11 +119,11 @@
                                 @if (Model.IsObsolete)
                                 {
                                     <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-primary" disabled="disabled" title="@Locale.ToolTip_Submit">@Locale.CannotUpdateNotActive</button>
-                                }
+}
                                 else
                                 {
                                     <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
-                                }
+}
                             </div>
                         </div>
                     </div>
@@ -144,7 +143,7 @@
                             @Locale.Deactivate
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
-                    }
+}
                 }
                 else
                 {
@@ -156,7 +155,7 @@
                             @Locale.Activate
                             <span class="glyphicon glyphicon-upload"></span>
                         </button>
-                    }
+}
                 }
             </div>
         </div>
@@ -168,42 +167,28 @@
 
 @section scripts
 {
+    @Scripts.Render("~/bundles/bootstrap-tokenfield")
+
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function ()
+        {
+            $(".tokenfield").tokenfield();
+
+            $(".tokenfield").on("tokenfield:createtoken", function(e)
+            {
+                var expression = @Constants.RegExSelect2StringInput;
+                var valid = expression.test(e.attrs.value);
+
+                if (!valid)
+                {
+                    e.preventDefault();
+                }
+            });
+
             $('.dynamic-dropdown').select2({
                 tags: false,
                 tokenSeparators: [','],
                 width: '100%'
-            });
-
-            $('.dynamic-dropdown-multiple').select2({
-
-                createTag: function (params) {
-                    var term = $.trim(params.term);
-
-                    if (!term.match(@Constants.RegExSelect2StringInput)) {
-                        return null;
-                    }
-                    return {
-                        id: term,
-                        text: term,
-                        newTag: true
-                    }
-                },
-
-                "language": {
-                    "noResults": function () {
-                        return "@Locale.Select2SpecialCharErrorMessage";
-                    }
-                },
-                escapeMarkup: function (markup) {
-                    return markup;
-                },
-
-                tags: true,
-                tokenSeparators: [','],
-                width: '100%',
-                maximumInputLength: 100
             });
 
             $('#userRolesTable').DataTable({

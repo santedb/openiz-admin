@@ -42,8 +42,6 @@ namespace OpenIZAdmin.Models.UserModels
 		/// </summary>
 		public CreateUserModel()
 		{
-			this.GivenNames = new List<string>();
-
 			this.LanguageList = new List<SelectListItem>
 			{
 				new SelectListItem
@@ -66,7 +64,6 @@ namespace OpenIZAdmin.Models.UserModels
 			};
 
 			this.PhoneTypeList = new List<SelectListItem>();
-			this.Surnames = new List<string>();
 			this.RolesList = new List<SelectListItem>();
 		}
 
@@ -141,17 +138,25 @@ namespace OpenIZAdmin.Models.UserModels
 		/// <returns>Returns a <see cref="UserEntity"/> instance.</returns>
 		public UserEntity ToUserEntity(UserEntity userEntity)
 		{
-			if (this.Surnames.Any() || this.GivenNames.Any())
+			var name = new EntityName
 			{
-				var name = new EntityName
-				{
-					NameUseKey = NameUseKeys.OfficialRecord,
-					Component = new List<EntityNameComponent>()
-				};
+				NameUseKey = NameUseKeys.OfficialRecord,
+				Component = new List<EntityNameComponent>()
+			};
 
-				name.Component.AddRange(this.Surnames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
-				name.Component.AddRange(this.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
+			if (!string.IsNullOrEmpty(this.GivenName) && !string.IsNullOrWhiteSpace(this.GivenName))
+			{
+				name.Component.AddRange(this.GivenName.Split(',').Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
+			}
 
+			if (!string.IsNullOrEmpty(this.Surname) && !string.IsNullOrWhiteSpace(this.Surname))
+			{
+				name.Component.AddRange(this.Surname.Split(',').Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
+			}
+
+			// add the name if there are any components
+			if (name.Component.Any())
+			{
 				userEntity.Names = new List<EntityName> { name };
 			}
 

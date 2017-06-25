@@ -43,10 +43,6 @@ namespace OpenIZAdmin.Models.UserModels
 		public EditUserModel()
 		{
 			this.FacilityList = new List<SelectListItem>();
-			this.SurnameList = new List<SelectListItem>();
-			this.Surnames = new List<string>();
-			this.GivenNames = new List<string>();
-			this.GivenNamesList = new List<SelectListItem>();
 			this.PhoneTypeList = new List<SelectListItem>();
 			this.RolesList = new List<SelectListItem>();
 			this.Roles = new List<string>();
@@ -64,13 +60,13 @@ namespace OpenIZAdmin.Models.UserModels
 		{
 			this.CreationTime = securityUserInfo.User.CreationTime.DateTime;
 			this.Email = securityUserInfo.User.Email;
-			this.GivenNames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
+			this.GivenName = string.Join(", ", userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList());
 			this.Id = securityUserInfo.UserId.Value;
 			this.Language = userEntity.LanguageCommunication.FirstOrDefault(l => l.IsPreferred)?.LanguageCode;
 			this.LockoutStatus = securityUserInfo.Lockout.GetValueOrDefault(false).ToLockoutStatus();
 			this.IsObsolete = securityUserInfo.User.ObsoletionTime.HasValue;
 			this.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
-			this.Surnames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
+			this.Surname = string.Join(", ", userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList());
 			this.Username = securityUserInfo.UserName;
 			this.UserRoles = securityUserInfo.Roles.Select(r => new RoleViewModel(r)).OrderBy(q => q.Name).ToList();
 		}
@@ -85,11 +81,6 @@ namespace OpenIZAdmin.Models.UserModels
 		/// Gets or sets the list of facilities.
 		/// </summary>
 		public List<SelectListItem> FacilityList { get; set; }
-
-		/// <summary>
-		/// Gets or sets the list of given names.
-		/// </summary>
-		public List<SelectListItem> GivenNamesList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the user id of the user.
@@ -119,11 +110,6 @@ namespace OpenIZAdmin.Models.UserModels
 		/// </summary>
 		[Display(Name = "LockoutStatus", ResourceType = typeof(Locale))]
 		public string LockoutStatus { get; set; }
-
-		/// <summary>
-		/// Gets or sets the list of family names.
-		/// </summary>
-		public List<SelectListItem> SurnameList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the current roles of the user.
@@ -184,19 +170,25 @@ namespace OpenIZAdmin.Models.UserModels
 		/// <returns>Returns a <see cref="UserEntity"/> instance.</returns>
 		public UserEntity ToUserEntity(UserEntity userEntity)
 		{
-			if (this.Surnames.Any() || this.GivenNames.Any())
+			var name = new EntityName
 			{
-				userEntity.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.OfficialRecord);
+				NameUseKey = NameUseKeys.OfficialRecord,
+				Component = new List<EntityNameComponent>()
+			};
 
-				var name = new EntityName
-				{
-					NameUseKey = NameUseKeys.OfficialRecord,
-					Component = new List<EntityNameComponent>()
-				};
+			if (!string.IsNullOrEmpty(this.GivenName) && !string.IsNullOrWhiteSpace(this.GivenName))
+			{
+				name.Component.AddRange(this.GivenName.Split(',').Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
+			}
 
-				name.Component.AddRange(this.Surnames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
-				name.Component.AddRange(this.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
+			if (!string.IsNullOrEmpty(this.Surname) && !string.IsNullOrWhiteSpace(this.Surname))
+			{
+				name.Component.AddRange(this.Surname.Split(',').Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
+			}
 
+			// add the name if there are any components
+			if (name.Component.Any())
+			{
 				userEntity.Names = new List<EntityName> { name };
 			}
 

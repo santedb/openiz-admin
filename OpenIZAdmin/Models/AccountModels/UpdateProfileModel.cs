@@ -41,12 +41,7 @@ namespace OpenIZAdmin.Models.AccountModels
 		public UpdateProfileModel()
 		{
 			this.FacilityList = new List<SelectListItem>();
-			this.GivenNames = new List<string>();
-			this.GivenNamesList = new List<SelectListItem>();
-			this.LanguageList = new List<SelectListItem>();
 			this.PhoneTypeList = new List<SelectListItem>();
-			this.Surnames = new List<string>();
-			this.SurnamesList = new List<SelectListItem>();
 		}
 
 		/// <summary>
@@ -56,8 +51,8 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// <param name="userEntity">The <see cref="UserEntity"/> instance.</param>
 		public UpdateProfileModel(UserEntity userEntity) : this()
 		{
-			this.Surnames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList();
-			this.GivenNames = userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList();
+			this.Surname = string.Join(", ", userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Family).Select(c => c.Value).ToList());
+			this.GivenName = string.Join(", ", userEntity.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Where(c => c.ComponentTypeKey == NameComponentKeys.Given).Select(c => c.Value).ToList());
 			this.Email = userEntity.SecurityUser.Email;
 			this.Language = userEntity.LanguageCommunication.FirstOrDefault(l => l.IsPreferred)?.LanguageCode;
 		}
@@ -66,11 +61,6 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// Gets or sets the list of facilities.
 		/// </summary>
 		public List<SelectListItem> FacilityList { get; set; }
-
-		/// <summary>
-		/// Gets or sets the list of given names of the user.
-		/// </summary>
-		public List<SelectListItem> GivenNamesList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the default language of the user.
@@ -83,11 +73,6 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// Gets or sets the list of languages.
 		/// </summary>
 		public List<SelectListItem> LanguageList { get; set; }
-
-		/// <summary>
-		/// Gets or sets the list of family names of the user.
-		/// </summary>
-		public List<SelectListItem> SurnamesList { get; set; }
 
 		/// <summary>
 		/// Initializes the Language list drop down
@@ -123,19 +108,25 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// <returns>Returns a <see cref="UserEntity"/> instance.</returns>
 		public UserEntity ToUserEntity(UserEntity userEntity)
 		{
-			if (this.Surnames.Any() || this.GivenNames.Any())
+			var name = new EntityName
 			{
-				userEntity.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.OfficialRecord);
+				NameUseKey = NameUseKeys.OfficialRecord,
+				Component = new List<EntityNameComponent>()
+			};
 
-				var name = new EntityName
-				{
-					NameUseKey = NameUseKeys.OfficialRecord,
-					Component = new List<EntityNameComponent>()
-				};
+			if (!string.IsNullOrEmpty(this.GivenName) && !string.IsNullOrWhiteSpace(this.GivenName))
+			{
+				name.Component.AddRange(this.GivenName.Split(',').Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
+			}
 
-				name.Component.AddRange(this.Surnames.Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
-				name.Component.AddRange(this.GivenNames.Select(n => new EntityNameComponent(NameComponentKeys.Given, n)));
+			if (!string.IsNullOrEmpty(this.Surname) && !string.IsNullOrWhiteSpace(this.Surname))
+			{
+				name.Component.AddRange(this.Surname.Split(',').Select(n => new EntityNameComponent(NameComponentKeys.Family, n)));
+			}
 
+			// add the name if there are any components
+			if (name.Component.Any())
+			{
 				userEntity.Names = new List<EntityName> { name };
 			}
 

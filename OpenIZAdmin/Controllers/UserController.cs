@@ -123,9 +123,9 @@ namespace OpenIZAdmin.Controllers
 
 				if (!model.Roles.Any()) ModelState.AddModelError(nameof(CreateUserModel.Roles), Locale.RolesRequired);
 
-				if (model.GivenNames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);
+				if (!model.IsValidNameLength(model.GivenName)) this.ModelState.AddModelError(nameof(model.GivenName), Locale.GivenNameLength100);
 
-				if (model.Surnames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);
+				if (!model.IsValidNameLength(model.Surname)) this.ModelState.AddModelError(nameof(model.Surname), Locale.SurnameLength100);
 
 				if (ModelState.IsValid)
 				{
@@ -263,9 +263,15 @@ namespace OpenIZAdmin.Controllers
 				// remove null or empty strings from the roles list
 				model.Roles.RemoveAll(r => string.IsNullOrEmpty(r) || string.IsNullOrWhiteSpace(r));
 
-				if (model.GivenNames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);
+				if (!model.IsValidNameLength(model.GivenName))
+				{
+					this.ModelState.AddModelError(nameof(model.GivenName), Locale.GivenNameLength100);
+				}
 
-				if (model.Surnames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);
+				if (!model.IsValidNameLength(model.Surname))
+				{
+					this.ModelState.AddModelError(nameof(model.Surname), Locale.SurnameLength100);
+				}
 
 				if (!model.Roles.Any())
 				{
@@ -587,9 +593,6 @@ namespace OpenIZAdmin.Controllers
 		private EditUserModel BuildEditModelMetaData(EditUserModel model, UserEntity userEntity, bool isObsolete)
 		{
 			model.IsObsolete = isObsolete;
-			model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-			model.SurnameList.AddRange(model.Surnames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-
 			model.CreateLanguageList();
 
 			model.RolesList = this.GetAllRoles().ToSelectList("Name", "Id", null, true);
@@ -606,9 +609,9 @@ namespace OpenIZAdmin.Controllers
 			if (place != null)
 			{
 				var facility = new List<FacilityModel>
-					{
-						new FacilityModel(string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value)), place.Key?.ToString())
-					};
+				{
+					new FacilityModel(string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value)), place.Key?.ToString())
+				};
 
 				model.FacilityList.AddRange(facility.Select(f => new SelectListItem { Text = f.Name, Value = f.Id, Selected = f.Id == place.Key?.ToString() }));
 				model.Facility = place.Key?.ToString();

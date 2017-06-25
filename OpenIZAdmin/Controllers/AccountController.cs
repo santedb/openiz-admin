@@ -521,9 +521,15 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index", "Home");
 				}
 
-				if (model.GivenNames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.GivenNames), Locale.GivenNameLength100);
+				if (!model.IsValidNameLength(model.GivenName))
+				{
+					this.ModelState.AddModelError(nameof(model.GivenName), Locale.GivenNameLength100);
+				}
 
-				if (model.Surnames.Any(n => !model.IsValidNameLength(n))) this.ModelState.AddModelError(nameof(model.Surnames), Locale.SurnameLength100);
+				if (!model.IsValidNameLength(model.Surname))
+				{
+					this.ModelState.AddModelError(nameof(model.Surname), Locale.SurnameLength100);
+				}
 
 				if (ModelState.IsValid)
 				{
@@ -603,9 +609,6 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns an <see cref="UpdateProfileModel"/> model instance.</returns>
 		private UpdateProfileModel BuildUpdateModelMetaData(UpdateProfileModel model, UserEntity userEntity)
 		{
-			model.GivenNamesList.AddRange(model.GivenNames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-			model.SurnamesList.AddRange(model.Surnames.Select(f => new SelectListItem { Text = f, Value = f, Selected = true }));
-
 			model.CreateLanguageList();
 
 			var facilityRelationship = userEntity.Relationships.FirstOrDefault(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);

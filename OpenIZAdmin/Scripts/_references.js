@@ -1,6 +1,7 @@
 ﻿/// <autosync enabled="true" />
 /// <reference path="bootstrap.min.js" />
 /// <reference path="bootstrap-datepicker.min.js" />
+/// <reference path="bootstrap-tokenfield.min.js" />
 /// <reference path="concept-search.js" />
 /// <reference path="datatables.js" />
 /// <reference path="datetime-moment.js" />

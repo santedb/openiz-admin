@@ -52,9 +52,9 @@ namespace OpenIZAdmin
 						"~/Scripts/toastr-logic.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/ajax-search").Include(
-                        "~/Scripts/reference-term-search.js",
-                        "~/Scripts/concept-search.js",
-                        "~/Scripts/material-search.js",
+						"~/Scripts/reference-term-search.js",
+						"~/Scripts/concept-search.js",
+						"~/Scripts/material-search.js",
 						"~/Scripts/manufactured-material-search.js",
 						"~/Scripts/place-search.js",
 						"~/Scripts/user-search.js"));
@@ -70,17 +70,21 @@ namespace OpenIZAdmin
 				"~/Scripts/datatables.js",
 				"~/Scripts/datetime-moment.js"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap-datepicker").Include(
-            "~/Scripts/bootstrap-datepicker.min.js"));
+			bundles.Add(new ScriptBundle("~/bundles/bootstrap-datepicker").Include(
+				"~/Scripts/bootstrap-datepicker.min.js"));
 
-            bundles.Add(new StyleBundle("~/Content/css").Include(
+			bundles.Add(new ScriptBundle("~/bundles/bootstrap-tokenfield").Include(
+				"~/Scripts/bootstrap-tokenfield.min.js"));
+
+			bundles.Add(new StyleBundle("~/Content/css").Include(
 						"~/Content/bootstrap.min.css",
 						"~/Content/bootstrap-datepicker.min.css",
-                        "~/Content/datatables.css",                        
-                        "~/Content/select2.min.css",
+						"~/Content/datatables.css",
+						"~/Content/select2.min.css",
 						"~/Content/toastr.min.css",
-						"~/Content/metro-bootstrap.min.css",                        
-                        "~/Content/styles.css"));
+						"~/Content/metro-bootstrap.min.css",
+						"~/Content/bootstrap-tokenfield.min.css",
+						"~/Content/styles.css"));
 
 #if !DEBUG
 			BundleTable.EnableOptimizations = true;

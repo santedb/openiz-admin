@@ -96,6 +96,11 @@ namespace OpenIZAdmin.Services.Http.Security
 			}
 			else
 			{
+				if (httpHeaders.ContainsKey("Authorization"))
+				{
+					this.httpHeaders.Remove("Authorization");
+				}
+
 				this.httpHeaders.Add("Authorization", $"Bearer {this.Request.Cookies.Get("access_token")?.Value}");
 			}
 

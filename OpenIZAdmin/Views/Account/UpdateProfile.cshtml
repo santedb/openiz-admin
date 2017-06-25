@@ -12,20 +12,20 @@
         @using (Html.BeginForm("UpdateProfile", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
-            
+
             <div class="form-group">
-                @Html.LabelFor(m => m.GivenNames, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.GivenName, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.GivenNames, Model.GivenNamesList, new { @class = "dynamic-dropdown-multiple form-control", multiple = "multiple", title = Locale.ToolTip_GivenNamesListBox })
-                    @Html.ValidationMessageFor(m => m.GivenNames, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.GivenName, new { @class = "tokenfield form-control", title = Locale.ToolTip_GivenNamesListBox })
+                    @Html.ValidationMessageFor(m => m.GivenName, "", new { @class = "text-danger" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(m => m.Surnames, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.Surname, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.Surnames, Model.SurnamesList, new { @class = "dynamic-dropdown-multiple form-control", multiple = "multiple", title = Locale.ToolTip_SurnamesListBox })
-                    @Html.ValidationMessageFor(m => m.Surnames, "", new { @class = "text-danger" })
+                    @Html.TextBoxFor(m => m.Surname, new { @class = "tokenfield form-control", multiple = "multiple", title = Locale.ToolTip_SurnamesListBox })
+                    @Html.ValidationMessageFor(m => m.Surname, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -43,7 +43,7 @@
                     @Html.DropDownListFor(m => m.Facility, Model.FacilityList, new { @class = "place-search form-control", multiple = "multiple", title = Locale.ToolTip_Facilities })
                     @Html.ValidationMessageFor(m => m.Facility, "", new { @class = "text-danger" })
                 </div>
-            </div>            
+            </div>
 
             <div class="form-group">
                 @Html.LabelFor(m => m.PhoneType, new { @class = "col-md-2 control-label" })
@@ -80,40 +80,23 @@
 
 @section scripts
 {
+    @Scripts.Render("~/bundles/bootstrap-tokenfield")
+
     <script type="text/javascript">
-        $(document).ready(function () {
+        $(document).ready(function ()
+        {
+            $(".tokenfield").tokenfield();
 
-            $('.dynamic-dropdown-multiple').select2({
+            $(".tokenfield").on("tokenfield:createtoken", function(e)
+            {
+                var expression = @Constants.RegExSelect2StringInput;
+                var valid = expression.test(e.attrs.value);
 
-                createTag: function (params) {
-                    var term = $.trim(params.term);
-
-                    //if (!term.match(/^[\w()+\-\[\]{}]+$/g)) {
-                    if (!term.match(@Constants.RegExSelect2StringInput)) {
-                        return null;
-                    }
-                    return {
-                        id: term,
-                        text: term,
-                        newTag: true
-                    }
-                },
-
-                "language": {
-                    "noResults": function () {
-                        return "@Locale.Select2SpecialCharErrorMessage";
-                    }
-                },
-                escapeMarkup: function (markup) {
-                    return markup;
-                },
-
-                tags: true,
-                tokenSeparators: [','],
-                width: '100%',
-                maximumInputLength: 100
+                if (!valid)
+                {
+                    e.preventDefault();
+                }
             });
-
         });
     </script>
 }

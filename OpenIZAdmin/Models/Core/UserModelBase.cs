@@ -52,7 +52,7 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		[Display(Name = "GivenName", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "GivenNameRequired", ErrorMessageResourceType = typeof(Locale))]
-		public List<string> GivenNames { get; set; }
+		public string GivenName { get; set; }
 
 		/// <summary>
 		/// Gets or sets the phone number of the user.
@@ -81,7 +81,7 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		[Display(Name = "Surname", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "SurnameRequired", ErrorMessageResourceType = typeof(Locale))]
-		public List<string> Surnames { get; set; }
+		public string Surname { get; set; }
 
 		/// <summary>
 		/// Gets or sets the username of the user.
