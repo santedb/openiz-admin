@@ -60,7 +60,7 @@
                         <div class="form-group">
                             @Html.LabelFor(m => m.Surname, new { @class = "col-md-2 control-label" })
                             <div class="col-md-8">
-                                @Html.TextBoxFor(m => m.Surname, new { @class = "tokenfield form-control", multiple = "multiple", title = Locale.ToolTip_SurnamesListBox })
+                                @Html.TextBoxFor(m => m.Surname, new { @class = "tokenfield form-control", title = Locale.ToolTip_SurnamesListBox })
                                 @Html.ValidationMessageFor(m => m.Surname, "", new { @class = "text-danger" })
                             </div>
                         </div>
