@@ -55,9 +55,14 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new ConceptNameViewModel(concept)
 				{
-					LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList(),
-					TwoLetterCountryCode = Locale.EN
+					LanguageList = this.RemoveExistingLanguages(LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList(), concept.ConceptNames)
 				};
+
+				// if the concept has no names which are in english, we want to default the list to english
+				if (concept.ConceptNames.All(c => c.Language != "en"))
+				{
+					model.TwoLetterCountryCode = Locale.EN;
+				}
 
 				return View(model);
 			}
@@ -198,8 +203,14 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new ConceptNameViewModel(langCode, displayName, concept)
 				{
-					LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList()
+					LanguageList = this.RemoveExistingLanguages(LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList(), concept.ConceptNames)
 				};
+
+				// if the concept has no names which are in english, we want to default the list to english
+				if (concept.ConceptNames.All(c => c.Language != "en"))
+				{
+					model.TwoLetterCountryCode = Locale.EN;
+				}
 
 				return View(model);
 			}
@@ -268,6 +279,22 @@ namespace OpenIZAdmin.Controllers
 			TempData["error"] = Locale.UnableToUpdateConcept;
 
 			return RedirectToAction("ViewConcept", "Concept", new { id = model.ConceptId, model.ConceptVersionKey });
+		}
+
+		/// <summary>
+		/// Removes the existing languages.
+		/// </summary>
+		/// <param name="items">The items.</param>
+		/// <param name="conceptNames">The concept names.</param>
+		/// <returns>Returns the updated select list.</returns>
+		private List<SelectListItem> RemoveExistingLanguages(List<SelectListItem> items, IEnumerable<ConceptName> conceptNames)
+		{
+			foreach (var conceptName in conceptNames)
+			{
+				items.RemoveAll(x => x.Value == conceptName.Language?.ToString() && !x.Selected);
+			}
+
+			return items.OrderBy(i => i.Text).ToList();
 		}
 	}
 }
