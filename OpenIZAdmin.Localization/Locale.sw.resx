@@ -2102,4 +2102,7 @@ au jina la kikoa</value>
   <data name="RequiredFileFormatUpload" xml:space="preserve">
     <value>Vitabu tu katika format ya pdf ni kukubalika.</value>
   </data>
+  <data name="RequiredFileUploadFormat" xml:space="preserve">
+    <value>Vitabu tu katika format ya pdf ni kukubalika.</value>
+  </data>
 </root>

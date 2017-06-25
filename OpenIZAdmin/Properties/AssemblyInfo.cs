@@ -24,7 +24,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("OpenIZ Administration Portal")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("OpenIZ Administration Portal Site")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Mohawk College of Applied Arts and Technology")]
 [assembly: AssemblyProduct("Open Immunize (http://openiz.org)")]
@@ -49,5 +49,5 @@ using System.Runtime.InteropServices;
 //
 // You can specify all the values or you can default the Revision and Build Numbers
 // by using the '*' as shown below:
-[assembly: AssemblyVersion("0.9.4.*")]
+[assembly: AssemblyVersion("0.9.7.*")]
 [assembly: AssemblyFileVersion("1.0.0.0")]
