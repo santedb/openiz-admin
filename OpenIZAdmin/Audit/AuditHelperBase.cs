@@ -1,30 +1,22 @@
 ﻿/*
  * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you 
- * may not use this file except in compliance with the License. You may 
- * obtain a copy of the License at 
- * 
- * http://www.apache.org/licenses/LICENSE-2.0 
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the 
- * License for the specific language governing permissions and limitations under 
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * User: khannan
  * Date: 2017-6-25
  */
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Xml;
-using System.Xml.Serialization;
+
 using MARC.HI.EHRS.SVC.Auditing.Data;
 using OpenIZ.Core.Http;
 using OpenIZ.Core.Model.AMI.Security;
@@ -33,7 +25,16 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Audit;
 using OpenIZAdmin.Models.Domain;
 using OpenIZAdmin.Services.Http;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
+using System.Threading;
+using System.Xml;
+using System.Xml.Serialization;
 
 namespace OpenIZAdmin.Audit
 {
@@ -65,6 +66,59 @@ namespace OpenIZAdmin.Audit
 			}
 
 			this.credentials = credentials;
+		}
+
+		/// <summary>
+		/// Audits the generic error.
+		/// </summary>
+		/// <param name="outcomeIndicator">The outcome indicator.</param>
+		/// <param name="eventTypeCode">The event type code.</param>
+		/// <param name="eventIdentifierType">Type of the event identifier.</param>
+		/// <param name="exception">The exception.</param>
+		public abstract void AuditGenericError(OutcomeIndicator outcomeIndicator, AuditCode eventTypeCode, EventIdentifierType eventIdentifierType, Exception exception);
+
+		/// <summary>
+		/// Audits the generic error.
+		/// </summary>
+		/// <param name="outcomeIndicator">The outcome indicator.</param>
+		/// <param name="eventTypeCode">The event type code.</param>
+		/// <param name="eventIdentifierType">Type of the event identifier.</param>
+		/// <param name="exception">The exception.</param>
+		public abstract void AuditGenericError(OutcomeIndicator outcomeIndicator, EventTypeCode eventTypeCode, EventIdentifierType eventIdentifierType, Exception exception);
+
+		/// <summary>
+		/// Creates the audit code.
+		/// </summary>
+		/// <param name="eventTypeCode">The event type code.</param>
+		/// <returns>Returns the created audit code.</returns>
+		protected static AuditCode CreateAuditCode(EventTypeCode eventTypeCode)
+		{
+			var typeCode = typeof(EventTypeCode).GetRuntimeField(eventTypeCode.ToString()).GetCustomAttribute<XmlEnumAttribute>();
+			return new AuditCode(typeCode.Name, SecurityAuditCode);
+		}
+
+		/// <summary>
+		/// Gets the device identifier.
+		/// </summary>
+		/// <returns>Returns the device identifier.</returns>
+		/// <exception cref="System.InvalidOperationException">Unable to locate device identifier</exception>
+		protected static string GetDeviceIdentifier()
+		{
+			var realm = MvcApplication.MemoryCache.Get("Realm") as Realm;
+
+			if (realm == null)
+			{
+				realm = RealmConfig.GetCurrentRealm();
+
+				MvcApplication.MemoryCache.Set("Realm", realm, MvcApplication.CacheItemPolicy);
+			}
+
+			if (string.IsNullOrEmpty(realm.DeviceId) || string.IsNullOrWhiteSpace(realm.DeviceId))
+			{
+				throw new InvalidOperationException("Unable to locate device identifier");
+			}
+
+			return realm.DeviceId;
 		}
 
 		/// <summary>
@@ -124,7 +178,6 @@ namespace OpenIZAdmin.Audit
 			// Audit objects
 			foreach (var obj in objects)
 			{
-
 				if (obj == null)
 				{
 					continue;
@@ -138,7 +191,6 @@ namespace OpenIZAdmin.Audit
 					Type = type,
 					ObjectId = idType == AuditableObjectIdType.Uri ? objectKeyProperty.GetValue(obj).ToString() : $"{objectKeyProperty.GetValue(obj)}^^^{objectKeyClassifier ?? idScope}"
 				};
-
 
 				if (includeDetail)
 				{
@@ -156,35 +208,6 @@ namespace OpenIZAdmin.Audit
 
 				message.AuditableObjects.Add(auditableObject);
 			}
-		}
-
-		/// <summary>
-		/// Audits the generic error.
-		/// </summary>
-		/// <param name="outcomeIndicator">The outcome indicator.</param>
-		/// <param name="eventTypeCode">The event type code.</param>
-		/// <param name="eventIdentifierType">Type of the event identifier.</param>
-		/// <param name="exception">The exception.</param>
-		public abstract void AuditGenericError(OutcomeIndicator outcomeIndicator, AuditCode eventTypeCode, EventIdentifierType eventIdentifierType, Exception exception);
-
-		/// <summary>
-		/// Audits the generic error.
-		/// </summary>
-		/// <param name="outcomeIndicator">The outcome indicator.</param>
-		/// <param name="eventTypeCode">The event type code.</param>
-		/// <param name="eventIdentifierType">Type of the event identifier.</param>
-		/// <param name="exception">The exception.</param>
-		public abstract void AuditGenericError(OutcomeIndicator outcomeIndicator, EventTypeCode eventTypeCode, EventIdentifierType eventIdentifierType, Exception exception);
-
-		/// <summary>
-		/// Creates the audit code.
-		/// </summary>
-		/// <param name="eventTypeCode">The event type code.</param>
-		/// <returns>Returns the created audit code.</returns>
-		protected static AuditCode CreateAuditCode(EventTypeCode eventTypeCode)
-		{
-			var typeCode = typeof(EventTypeCode).GetRuntimeField(eventTypeCode.ToString()).GetCustomAttribute<XmlEnumAttribute>();
-			return new AuditCode(typeCode.Name, SecurityAuditCode);
 		}
 
 		/// <summary>
@@ -306,30 +329,6 @@ namespace OpenIZAdmin.Audit
 			retVal.Key = name ?? enforceType.AssemblyQualifiedName;
 
 			return retVal;
-		}
-
-		/// <summary>
-		/// Gets the device identifier.
-		/// </summary>
-		/// <returns>Returns the device identifier.</returns>
-		/// <exception cref="System.InvalidOperationException">Unable to locate device identifier</exception>
-		protected static string GetDeviceIdentifier()
-		{
-			var realm = MvcApplication.MemoryCache.Get("Realm") as Realm;
-
-			if (realm == null)
-			{
-				realm = RealmConfig.GetCurrentRealm();
-
-				MvcApplication.MemoryCache.Set("Realm", realm, MvcApplication.CacheItemPolicy);
-			}
-
-			if (string.IsNullOrEmpty(realm.DeviceId) || string.IsNullOrWhiteSpace(realm.DeviceId))
-			{
-				throw new InvalidOperationException("Unable to locate device identifier");
-			}
-
-			return realm.DeviceId;
 		}
 
 		/// <summary>

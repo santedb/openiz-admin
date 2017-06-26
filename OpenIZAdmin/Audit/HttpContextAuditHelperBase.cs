@@ -1,21 +1,26 @@
 ﻿/*
  * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you 
- * may not use this file except in compliance with the License. You may 
- * obtain a copy of the License at 
- * 
- * http://www.apache.org/licenses/LICENSE-2.0 
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the 
- * License for the specific language governing permissions and limitations under 
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * User: khannan
  * Date: 2017-6-25
  */
+
+using MARC.HI.EHRS.SVC.Auditing.Data;
+using OpenIZ.Core.Http;
+using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.Audit;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -26,11 +31,6 @@ using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Web;
-using Common.Logging.Configuration;
-using MARC.HI.EHRS.SVC.Auditing.Data;
-using OpenIZ.Core.Http;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.Audit;
 
 namespace OpenIZAdmin.Audit
 {
@@ -57,15 +57,44 @@ namespace OpenIZAdmin.Audit
 		}
 
 		/// <summary>
+		/// True if the HTTP request message is sensitive
+		/// </summary>
+		public bool IsRequestSensitive { get; protected set; }
+
+		/// <summary>
 		/// Gets the context.
 		/// </summary>
 		/// <value>The context.</value>
 		protected HttpContext Context { get; }
 
+		// courtesy of https://stackoverflow.com/questions/6803073/get-local-ip-address
 		/// <summary>
-		/// True if the HTTP request message is sensitive
+		/// Gets the local ip address.
 		/// </summary>
-		public bool IsRequestSensitive { get; protected set; }
+		/// <returns>Returns the IP address as a string instance.</returns>
+		public static string GetLocalIPAddress()
+		{
+			var host = Dns.GetHostEntry(Dns.GetHostName());
+
+			return (from ip in host.AddressList where ip.AddressFamily == AddressFamily.InterNetwork select ip.ToString()).FirstOrDefault();
+		}
+
+		/// <summary>
+		/// Converts an <see cref="object" /> to a <see cref="byte" /> array instance.
+		/// </summary>
+		/// <param name="instance">The instance.</param>
+		/// <returns>Returns the converted <see cref="byte" /> array instance.</returns>
+		public static byte[] ObjectToByteArray(object instance)
+		{
+			var formatter = new BinaryFormatter();
+
+			using (var memoryStream = new MemoryStream())
+			{
+				formatter.Serialize(memoryStream, instance);
+
+				return memoryStream.ToArray();
+			}
+		}
 
 		/// <summary>
 		/// Audits the generic error.
@@ -177,7 +206,7 @@ namespace OpenIZAdmin.Audit
 				},
 				UserIsRequestor = true
 			});
-			
+
 			// add the user if this is an authenticated request
 			if (this.Context.User?.Identity?.IsAuthenticated == true)
 			{
@@ -269,36 +298,6 @@ namespace OpenIZAdmin.Audit
 			}
 
 			return audit;
-		}
-
-
-		// courtesy of https://stackoverflow.com/questions/6803073/get-local-ip-address
-		/// <summary>
-		/// Gets the local ip address.
-		/// </summary>
-		/// <returns>Returns the IP address as a string instance.</returns>
-		public static string GetLocalIPAddress()
-		{
-			var host = Dns.GetHostEntry(Dns.GetHostName());
-
-			return (from ip in host.AddressList where ip.AddressFamily == AddressFamily.InterNetwork select ip.ToString()).FirstOrDefault();
-		}
-
-		/// <summary>
-		/// Converts an <see cref="object" /> to a <see cref="byte" /> array instance.
-		/// </summary>
-		/// <param name="instance">The instance.</param>
-		/// <returns>Returns the converted <see cref="byte" /> array instance.</returns>
-		public static byte[] ObjectToByteArray(object instance)
-		{
-			var formatter = new BinaryFormatter();
-
-			using (var memoryStream = new MemoryStream())
-			{
-				formatter.Serialize(memoryStream, instance);
-
-				return memoryStream.ToArray();
-			}
 		}
 	}
 }
