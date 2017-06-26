@@ -20,7 +20,7 @@
                     @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                     <span class="help-block">@Locale.ToolTip_PlaceName </span>
                 </div>
-            </div>            
+            </div>
 
             <div class="form-group">
                 @Html.LabelFor(m => m.TargetPopulation, new { @class = "col-md-2 control-label" })
@@ -56,7 +56,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.IsServiceDeliveryLocation, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.CheckBoxFor(m => m.IsServiceDeliveryLocation, new {@class = "col-md-offset-2"})
+                    @Html.CheckBoxFor(m => m.IsServiceDeliveryLocation, new { @class = "col-md-offset-2" })
                 </div>
             </div>
 
@@ -70,12 +70,12 @@
 </div>
 
 @section Scripts
-{    
+{
     @Scripts.Render("~/bundles/bootstrap-datepicker")
 
     <script type="text/javascript">
-        
-        $("#targetPopulationYearInputGroup").datepicker({            
+
+        $("#targetPopulationYearInputGroup").datepicker({
             autoclose: true,
             format: " yyyy",
             viewMode: "years",

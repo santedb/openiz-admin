@@ -17,6 +17,7 @@
  * Date: 2016-8-1
  */
 
+using System;
 using System.Collections.Generic;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
@@ -64,6 +65,12 @@ namespace OpenIZAdmin.Models.MaterialModels
 
 			this.QuantityConcept = material.QuantityConcept?.ConceptNames.Any() == true ? string.Join(" ", material.QuantityConcept?.ConceptNames.Select(c => c.Name)) + " " + material.QuantityConcept?.Mnemonic : material.QuantityConcept?.Mnemonic;
 		}
+
+		/// <summary>
+		/// Gets or sets the expiry date of the material.
+		/// </summary>
+		[Display(Name = "ExpiryDate", ResourceType = typeof(Locale))]
+		public DateTime ExpiryDate { get; set; }
 
 		/// <summary>
 		/// Gets or sets the form concept of the material.

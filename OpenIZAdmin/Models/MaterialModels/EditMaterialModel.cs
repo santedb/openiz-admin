@@ -49,6 +49,7 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// <param name="material">The material.</param>
 		public EditMaterialModel(Material material) : base(material)
 		{
+			this.ExpiryDate = material.ExpiryDate ?? DateTime.Now;
 			this.FormConcepts = new List<SelectListItem>();
 			this.QuantityConcepts = new List<SelectListItem>();
 			this.TypeConcepts = new List<SelectListItem>();
@@ -71,6 +72,13 @@ namespace OpenIZAdmin.Models.MaterialModels
 			this.QuantityConcept = material.QuantityConceptKey?.ToString();
 			this.TypeConcept = material.TypeConceptKey?.ToString();
 		}
+
+		/// <summary>
+		/// Gets or sets the expiry date of the material.
+		/// </summary>
+		[Display(Name = "ExpiryDate", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "ExpiryDateRequired", ErrorMessageResourceType = typeof(Locale))]
+		public DateTime ExpiryDate { get; set; }
 
 		/// <summary>
 		/// Gets or sets the form concept of the material.
@@ -124,6 +132,7 @@ namespace OpenIZAdmin.Models.MaterialModels
 		public Material ToMaterial(Material material)
 		{
 			material.CreationTime = DateTimeOffset.Now;
+			material.ExpiryDate = this.ExpiryDate;
 			material.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.Assigned);
 			material.Names.Add(new EntityName(NameUseKeys.Assigned, this.Name));
 

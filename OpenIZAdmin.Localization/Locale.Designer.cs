@@ -1870,6 +1870,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Expiry date.
+        /// </summary>
+        public static string ExpiryDate {
+            get {
+                return ResourceManager.GetString("ExpiryDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter an expiry date.
+        /// </summary>
+        public static string ExpiryDateRequired {
+            get {
+                return ResourceManager.GetString("ExpiryDateRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Extension type not found.
         /// </summary>
         public static string ExtensionTypeNotFound {

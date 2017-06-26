@@ -44,6 +44,13 @@ namespace OpenIZAdmin.Models.MaterialModels
 		}
 
 		/// <summary>
+		/// Gets or sets the expiry date of the material.
+		/// </summary>
+		[Display(Name = "ExpiryDate", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "ExpiryDateRequired", ErrorMessageResourceType = typeof(Locale))]
+		public DateTime ExpiryDate { get; set; }
+
+		/// <summary>
 		/// Gets or sets the form concept for the material.
 		/// </summary>
 		[Display(Name = "FormConcept", ResourceType = typeof(Locale))]
@@ -95,6 +102,7 @@ namespace OpenIZAdmin.Models.MaterialModels
 		{
 			var material = new Material
 			{
+				ExpiryDate = this.ExpiryDate,
 				Key = Guid.NewGuid(),
 				Names = new List<EntityName>
 				{

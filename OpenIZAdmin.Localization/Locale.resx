@@ -2397,4 +2397,10 @@
   <data name="NotApplicable" xml:space="preserve">
     <value>N/A</value>
   </data>
+  <data name="ExpiryDate" xml:space="preserve">
+    <value>Expiry date</value>
+  </data>
+  <data name="ExpiryDateRequired" xml:space="preserve">
+    <value>Please enter an expiry date</value>
+  </data>
 </root>

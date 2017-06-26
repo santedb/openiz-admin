@@ -2129,4 +2129,10 @@ au jina la kikoa</value>
   <data name="EditDevice_Heading" xml:space="preserve">
     <value>Hariri Kifaa</value>
   </data>
+  <data name="ExpiryDate" xml:space="preserve">
+    <value>Tarehe ya mwisho wa matumizi</value>
+  </data>
+  <data name="ExpiryDateRequired" xml:space="preserve">
+    <value>Tafadhali ingiza tarehe ya kumalizika</value>
+  </data>
 </root>
