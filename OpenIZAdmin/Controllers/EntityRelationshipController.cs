@@ -54,22 +54,21 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(Guid id, Guid sourceId, string type)
 		{
-			Guid? versionKey = null;
-
 			try
 			{
-				var modelType = this.GetModelType(type);
-				var entity = this.GetEntity(sourceId, modelType);
-				versionKey = entity.VersionKey;
+				var entityRelationship = this.ImsiClient.Get<EntityRelationship>(id, null) as EntityRelationship;
 
-				// remove the existing relationship
-				entity.Relationships.RemoveAll(r => r.Key == id);
+				if (entityRelationship == null)
+				{
+					this.TempData["error"] = Locale.RelationshipNotFound;
+					return RedirectToAction("Edit", type, new { id = sourceId });
+				}
 
-				var updatedEntity = this.UpdateEntity(entity, modelType);
+				this.ImsiClient.Obsolete(entityRelationship);
 
 				this.TempData["success"] = Locale.RelationshipDeletedSuccessfully;
 
-				return RedirectToAction("Edit", type, new { id = sourceId, versionId = updatedEntity.VersionKey });
+				return RedirectToAction("Edit", type, new { id = sourceId });
 			}
 			catch (Exception e)
 			{
@@ -79,7 +78,7 @@ namespace OpenIZAdmin.Controllers
 
 			this.TempData["error"] = Locale.UnableToDeleteRelationship;
 
-			return RedirectToAction("Edit", type, new { id = sourceId, versionId = versionKey });
+			return RedirectToAction("Edit", type, new { id = sourceId });
 		}
 
         /// <summary>
