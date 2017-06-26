@@ -48,6 +48,7 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// <param name="material">The <see cref="Material"/> instance.</param>
 		public MaterialViewModel(Material material) : base(material)
 		{
+			this.ExpiryDate = material.ExpiryDate ?? DateTime.Now;
 			this.FormConcept = material.FormConcept?.ConceptNames.Any() == true ? string.Join(" ", material.FormConcept?.ConceptNames.Select(c => c.Name)) + " " + material.FormConcept?.Mnemonic : material.FormConcept?.Mnemonic;
 
 			if (material.Names.Any(n => n.NameUseKey == NameUseKeys.Assigned))

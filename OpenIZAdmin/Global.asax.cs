@@ -87,14 +87,20 @@ namespace OpenIZAdmin
 					return;
 				}
 
+				// if the response status code is not a client level error code, we don't want to attempt to audit the access
+				if (this.Response.StatusCode != 401 && this.Response.StatusCode != 403 && this.Response.StatusCode != 404)
+				{
+					return;
+				}
+
 				var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
 
 				var auditHelper = new GlobalAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.Context);
 
-				switch (Response.StatusCode)
+				switch (this.Response.StatusCode)
 				{
 					case 401:
-						if (Request.Headers["Authorization"] != null)
+						if (this.Request.Headers["Authorization"] != null)
 							auditHelper.AuditUnauthorizedAccess();
 						break;
 					case 403:
