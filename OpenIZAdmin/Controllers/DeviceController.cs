@@ -24,11 +24,15 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.DeviceModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using MARC.HI.EHRS.SVC.Auditing.Data;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Audit;
 using OpenIZAdmin.Extensions;
+using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -38,6 +42,11 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public class DeviceController : SecurityBaseController
 	{
+		/// <summary>
+		/// The audit helper.
+		/// </summary>
+		private SecurityDeviceAuditHelper auditHelper;
+
 		/// <summary>
 		/// Activate a device.
 		/// </summary>
@@ -55,6 +64,8 @@ namespace OpenIZAdmin.Controllers
 				{
 					TempData["error"] = Locale.DeviceNotFound;
 
+					this.auditHelper.AuditQuerySecurityDevice(OutcomeIndicator.SeriousFail, null);
+
 					return RedirectToAction("Index");
 				}
 
@@ -62,7 +73,9 @@ namespace OpenIZAdmin.Controllers
 				securityDeviceInfo.Device.ObsoletedBy = null;
 				securityDeviceInfo.Device.ObsoletionTime = null;
 
-				this.AmiClient.UpdateDevice(id.ToString(), securityDeviceInfo);
+				var updated = this.AmiClient.UpdateDevice(id.ToString(), securityDeviceInfo);
+
+				this.auditHelper.AuditUpdateSecurityDevice(OutcomeIndicator.Success, updated.Device);
 
 				TempData["success"] = Locale.DeviceActivatedSuccessfully;
 
@@ -70,7 +83,8 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to activate device: {e}");
+				auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityDeviceAuditHelper.UpdateSecurityDeviceAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.UnableToActivateDevice;
@@ -111,6 +125,7 @@ namespace OpenIZAdmin.Controllers
 
 					var device = this.AmiClient.CreateDevice(model.ToSecurityDeviceInfo());
 
+					this.auditHelper.AuditCreateSecurityDevice(OutcomeIndicator.Success, device.Device);
 
 					var securityUserInfo = new SecurityUserInfo
 					{
@@ -139,7 +154,8 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to create device: {e}");
+				auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityDeviceAuditHelper.CreateSecurityDeviceAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.UnableToCreateDevice;
@@ -158,14 +174,18 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				this.AmiClient.DeleteDevice(id.ToString());
+				var deleted = this.AmiClient.DeleteDevice(id.ToString());
+
+				this.auditHelper.AuditDeleteSecurityDevice(OutcomeIndicator.Success, deleted.Device);
+
 				TempData["success"] = Locale.DeviceDeactivatedSuccessfully;
 
 				return RedirectToAction("Index");
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to delete device: {e}");
+				auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityDeviceAuditHelper.DeleteSecurityDeviceAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.UnableToDeleteDevice;
@@ -189,8 +209,12 @@ namespace OpenIZAdmin.Controllers
 				{
 					TempData["error"] = Locale.DeviceNotFound;
 
+					this.auditHelper.AuditQuerySecurityDevice(OutcomeIndicator.SeriousFail, null);
+
 					return RedirectToAction("Index");
 				}
+
+				this.auditHelper.AuditQuerySecurityDevice(OutcomeIndicator.Success, new List<SecurityDevice> { securityDeviceInfo.Device });
 
 				var model = new EditDeviceModel(securityDeviceInfo);
 
@@ -200,8 +224,9 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
+				Trace.TraceError($"Unable to retrieve device: {e}");
+				auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityDeviceAuditHelper.QuerySecurityDeviceAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			return RedirectToAction("Index");
@@ -226,12 +251,16 @@ namespace OpenIZAdmin.Controllers
 					{
 						TempData["error"] = Locale.DeviceNotFound;
 
+						this.auditHelper.AuditQuerySecurityDevice(OutcomeIndicator.SeriousFail, null);
+
 						return RedirectToAction("Index");
 					}
 
 					var deviceInfo = this.ToSecurityDeviceInfo(model, securityDeviceInfo);
 
-					this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
+					var updated = this.AmiClient.UpdateDevice(model.Id.ToString(), deviceInfo);
+
+					this.auditHelper.AuditUpdateSecurityDevice(OutcomeIndicator.Success, updated.Device);
 
 					TempData["success"] = Locale.DeviceUpdatedSuccessfully;
 
@@ -242,7 +271,8 @@ namespace OpenIZAdmin.Controllers
             }
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to update device: {e}");
+				auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityDeviceAuditHelper.UpdateSecurityDeviceAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.UnableToUpdateDevice;            
@@ -259,6 +289,17 @@ namespace OpenIZAdmin.Controllers
 			TempData["searchType"] = "Device";
             TempData["searchTerm"] = "*";
             return View();
+		}
+
+		/// <summary>
+		/// Called when the action is executing.
+		/// </summary>
+		/// <param name="filterContext">The filter context of the action executing.</param>
+		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		{
+			base.OnActionExecuting(filterContext);
+
+			this.auditHelper = new SecurityDeviceAuditHelper(new AmiCredentials(this.User, this.Request), this.HttpContext.ApplicationInstance.Context);
 		}
 
 		/// <summary>
@@ -282,12 +323,15 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["searchTerm"] = searchTerm;
 
+					this.auditHelper.AuditQuerySecurityDevice(OutcomeIndicator.Success, results.Select(d => d.Device));
+
 					return PartialView("_DevicesPartial", results.Select(d => new DeviceViewModel(d)).OrderBy(a => a.Name));
 				}
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve devices: {e}");
+				auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityDeviceAuditHelper.QuerySecurityDeviceAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.InvalidSearch;
@@ -310,17 +354,21 @@ namespace OpenIZAdmin.Controllers
 
 				if (result == null)
 				{
+					this.auditHelper.AuditQuerySecurityDevice(OutcomeIndicator.SeriousFail, null);
 					TempData["error"] = Locale.DeviceNotFound;
 
 					return RedirectToAction("Index");
 				}
 
+				this.auditHelper.AuditQuerySecurityDevice(OutcomeIndicator.Success, new List<SecurityDevice> { result.Device });
+
 				return View(new DeviceViewModel(result));
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
+				Trace.TraceError($"Unable to retrieve device: {e}");
+				auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityDeviceAuditHelper.QuerySecurityDeviceAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			return RedirectToAction("Index");
