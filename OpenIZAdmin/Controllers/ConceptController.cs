@@ -17,7 +17,7 @@
  * Date: 2016-7-23
  */
 
-using Elmah;
+
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
@@ -86,7 +86,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to create concept: {e}");
 			}
 
@@ -132,7 +132,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to delete reference term from concept: {e}");
 			}
 
@@ -193,7 +193,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to retrieve concept: {e}");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
@@ -262,7 +262,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to update concept: {e}");
 			}
 
@@ -322,7 +322,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to load concepts: {e}");
 			}
 
@@ -408,7 +408,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to load concept: {e}");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}

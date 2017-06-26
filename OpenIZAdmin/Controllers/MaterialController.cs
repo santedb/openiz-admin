@@ -17,7 +17,6 @@
  * Date: 2016-7-23
  */
 
-using Elmah;
 using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
@@ -87,7 +86,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to activate material: { e }");
 			}
 
@@ -137,9 +135,8 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				Trace.TraceError($"Unable to load associate material page: { e }");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
+				Trace.TraceError($"Unable to load associate material page: { e }");
 			}
 
 			return RedirectToAction("Edit", new { id = id });
@@ -195,7 +192,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to create related manufactured material: { e }");
 			}
 
@@ -250,7 +246,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to create material: {e}");
 			}
 
 			var formConcepts = this.GetFormConcepts();
@@ -308,9 +304,8 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
-				Trace.TraceError($"Unable to load create related manufactured material page: { e }");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
+				Trace.TraceError($"Unable to load create related manufactured material page: { e }");
 			}
 
 			return RedirectToAction("Edit", new { id = id });
@@ -376,7 +371,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to create related manufactured material: { e }");
 			}
 
@@ -416,7 +410,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to deactivate material: {e}");
 			}
 
 			TempData["error"] = Locale.UnableToDeleteMaterial;
@@ -472,8 +466,8 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
+				Trace.TraceError($"Unable to retrieve material: {e}");
 			}
 
 			return RedirectToAction("Index");
@@ -514,7 +508,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to retrieve related manufactured material: { e }");
 			}
 
@@ -556,7 +549,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to update related manufactured material: { e }");
 			}
 
@@ -666,7 +658,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to update material: {e}");
 			}
 			finally
 			{
@@ -813,7 +805,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				Trace.TraceError($"Unable to retrieve material: {e}");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}

@@ -17,7 +17,7 @@
  * Date: 2016-7-8
  */
 
-using Elmah;
+
 using OpenIZ.Core.Applets.Model;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
@@ -178,7 +178,7 @@ namespace OpenIZAdmin.Controllers
 							}
 							catch (Exception e)
 							{
-								ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+								Trace.TraceError($"Unable to decode applet: {e}");
 								ModelState.AddModelError(nameof(model.File), Locale.UnableToUploadApplet);
 							}
 
@@ -202,7 +202,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to update applet: {e}");
 			}
 
 			if (model.Id.HasTrailingForwardSlash())
@@ -272,7 +272,7 @@ namespace OpenIZAdmin.Controllers
 							}
 							catch (Exception e)
 							{
-								ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+								Trace.TraceError($"Unable to upload applet: {e}");
 								ModelState.AddModelError(nameof(model.File), Locale.UnableToUploadApplet);
 							}
 
@@ -286,7 +286,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to upload applet: {e}");
 			}
 
 			TempData["error"] = Locale.UnableToUploadApplet;

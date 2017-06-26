@@ -17,7 +17,7 @@
  * Date: 2016-7-30
  */
 
-using Elmah;
+
 using OpenIZ.Core.Model.AMI.DataTypes;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
@@ -87,7 +87,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve assiging authority: {e}");
 			}
 
 			TempData["error"] = Locale.UnableToCreateAssigningAuthority;
@@ -129,7 +129,7 @@ namespace OpenIZAdmin.Controllers
             }
             catch (Exception e)
             {
-                ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+                
                 Trace.TraceError($"Unable to delete concept from assigning authority: {e}");
             }
 
@@ -168,7 +168,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve assigning authority: {e}");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
 
@@ -228,7 +228,7 @@ namespace OpenIZAdmin.Controllers
             }
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to update assigning authority: {e}");
 			}
 
 			TempData["error"] = Locale.UnableToUpdateAssigningAuthority;		    
@@ -311,7 +311,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve assigning authority: {e}");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
 

@@ -17,7 +17,7 @@
  * Date: 2016-11-14
  */
 
-using Elmah;
+
 using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Alert.Alerting;
 using OpenIZ.Core.Model.AMI.Alerting;
@@ -26,6 +26,7 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AlertModels;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Principal;
 using System.Web.Mvc;
@@ -83,7 +84,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to create alert: {e}");
 			}
 
 			model.ToList = new List<SelectListItem>();
@@ -127,7 +128,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to delete alert: {e}");
 			}
 
 			TempData["error"] = Locale.UnableToUpdateAlert;
@@ -152,7 +153,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve alerts: {e}");
 			}
 
 			TempData["error"] = Locale.UnableToRetrieveAlerts;
@@ -177,7 +178,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve alerts: {e}");
 			}
 
 			return Content(count.ToString());
@@ -212,7 +213,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to read alert: {e}");
 			}
 
 			TempData["error"] = Locale.UnableToUpdateAlert;
@@ -291,7 +292,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to view alert: {e}");
 			}
 
 			TempData["error"] = Locale.AlertNotFound;

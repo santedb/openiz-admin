@@ -17,7 +17,6 @@
  * Date: 2016-7-17
  */
 
-using Elmah;
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;

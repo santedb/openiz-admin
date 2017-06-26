@@ -17,7 +17,7 @@
  * Date: 2016-5-31
  */
 
-using Elmah;
+
 using Microsoft.AspNet.Identity;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
@@ -98,7 +98,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to submit bug report: {e}");
 			}
 
 			TempData["error"] = Locale.UserNotFound;
@@ -127,7 +127,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to submit bug report: {e}");
 			}
 
 			return View(model);
@@ -148,7 +148,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve version information: {e}");
 			}
 
 			return View(viewModel);

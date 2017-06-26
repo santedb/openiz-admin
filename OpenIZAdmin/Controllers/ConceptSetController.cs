@@ -17,7 +17,7 @@
  * Date: 2016-7-23
  */
 
-using Elmah;
+
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Query;
 using OpenIZAdmin.Attributes;
@@ -96,7 +96,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to create concept set: {e}");
 			}
 
@@ -137,7 +137,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to delete concept from concept set: {e}");
 			}
 
@@ -183,7 +183,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to retrieve concept set: {e}");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
@@ -240,7 +240,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to update concept set: {e}");
 				this.TempData["error"] = Locale.UnableToUpdateConceptSet;
 			}
@@ -286,7 +286,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to search for concept sets: { e }");
 			}
 
@@ -356,7 +356,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve concept set: {e}");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
 

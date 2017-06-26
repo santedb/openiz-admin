@@ -17,7 +17,7 @@
  * Date: 2016-7-23
  */
 
-using Elmah;
+
 using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
@@ -80,7 +80,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to activate organization: { e }");
 			}
 
@@ -128,7 +128,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to create organization: { e }");
 			}
 
@@ -183,7 +183,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to create related place: { e }");
 			}
 
@@ -225,7 +225,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to create related manufactured material: { e }");
 			}
 
@@ -270,7 +270,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to delete organization: {e}");
 			}
 
 			TempData["error"] = Locale.UnableToDeleteOrganization;
@@ -321,7 +321,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve organization: {e}");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
 
@@ -359,7 +359,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to update organization: {e}");
 			}
 
 			var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
@@ -459,7 +459,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to retrieve organization: { e }");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}

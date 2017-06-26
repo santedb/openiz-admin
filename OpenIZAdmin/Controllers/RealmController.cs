@@ -17,7 +17,7 @@
  * Date: 2016-7-13
  */
 
-using Elmah;
+
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
@@ -344,7 +344,7 @@ namespace OpenIZAdmin.Controllers
 				}
 				catch (Exception e)
 				{
-					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+					Trace.TraceError($"Unable to join realm: {e}");
 
 					var addedRealm = unitOfWork.RealmRepository.Get(r => r.Address == model.Address).Single();
 					unitOfWork.RealmRepository.Delete(addedRealm.Id);
@@ -426,7 +426,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to leave realm: { e }");
 			}
 

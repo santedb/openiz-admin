@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using Elmah;
+
 using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Attributes;
@@ -91,7 +91,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to retrieve entity: { e }");
 			}
 
@@ -131,7 +131,7 @@ namespace OpenIZAdmin.Controllers
             }
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to retrieve entity: { e }");
 			}
 
@@ -167,7 +167,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to retrieve entity: { e }");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
@@ -207,7 +207,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to retrieve entity: { e }");
 			}
 
@@ -304,7 +304,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve reference term: {e}");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
 

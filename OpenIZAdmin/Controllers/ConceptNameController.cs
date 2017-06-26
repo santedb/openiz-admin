@@ -17,7 +17,7 @@
  * Date: 2017-4-19
  */
 
-using Elmah;
+
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Util;
@@ -68,7 +68,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to retrieve entity: { e }");
 			}
 
@@ -115,7 +115,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to retrieve entity: { e }");
 			}
 
@@ -170,7 +170,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to delete concept: {e}");
 			}
 
 			TempData["error"] = Locale.ConceptNotFound;
@@ -216,7 +216,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to update concept name: {e}");
 			}
 
 			TempData["error"] = Locale.UnableToUpdateLanguage;
@@ -272,7 +272,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to retrieve concept: { e }");
 			}
 

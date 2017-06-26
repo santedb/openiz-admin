@@ -17,7 +17,7 @@
  * Date: 2017-4-17
  */
 
-using Elmah;
+
 using OpenIZ.Core.Model.AMI.Security;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Attributes;
@@ -80,7 +80,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to create code system: {e}");
 			}
 
@@ -114,7 +114,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to update code system: {e}");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
@@ -172,7 +172,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to update code system: {e}");
 			}
 
@@ -251,7 +251,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve code system: {e}");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
 

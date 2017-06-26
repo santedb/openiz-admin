@@ -17,7 +17,7 @@
  * Date: 2017-3-20
  */
 
-using Elmah;
+
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
@@ -69,7 +69,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to retrieve entity: { e }");
 			}
 
@@ -165,7 +165,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to create entity identifier: { e }");
 			}
 
@@ -202,7 +202,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to delete entity identifier: { e }");
 			}
 
@@ -255,7 +255,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to retrieve entity identifier: { e }");
 
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
@@ -353,7 +353,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to create entity identifier: { e }");
 			}
 

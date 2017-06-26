@@ -17,7 +17,7 @@
  * Date: 2017-3-27
  */
 
-using Elmah;
+
 using OpenIZAdmin.Localization;
 using System;
 using System.Diagnostics;
@@ -73,7 +73,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to delete entity relationship: { e }");
 			}
 
@@ -118,8 +118,6 @@ namespace OpenIZAdmin.Controllers
 	        }
 	        catch (Exception e)
 	        {
-	            ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context)
-	                .Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
 	            Trace.TraceError($"Unable to delete entity relationship: {e}");
 	        }
 

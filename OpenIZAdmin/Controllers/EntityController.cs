@@ -17,7 +17,7 @@
  * Date: 2017-4-23
  */
 
-using Elmah;
+
 using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Alert.Alerting;
 using OpenIZ.Core.Model.AMI.Alerting;
@@ -79,7 +79,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to verify data: {e}");
 				this.TempData["error"] = Locale.UnableToVerifyData;
 			}

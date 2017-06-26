@@ -22,7 +22,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Net.Mime;
 using System.Web.Mvc;
-using Elmah;
 using OpenIZ.Messaging.RISI.Client;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ReportModels;
@@ -73,9 +72,8 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
-				Trace.TraceError($"Unable to download report: {e}");
 				this.TempData["error"] = Locale.UnableToDownloadReport;
+				Trace.TraceError($"Unable to download report: {e}");
 			}
 
 			return RedirectToAction("Index");
@@ -96,9 +94,8 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(this.HttpContext.ApplicationInstance.Context).Log(new Error(e, this.HttpContext.ApplicationInstance.Context));
-				Trace.TraceError($"Unable to download report: {e}");
 				this.TempData["error"] = Locale.UnableToLoadReports;
+				Trace.TraceError($"Unable to download report: {e}");
 			}
 
 			return View(reports);

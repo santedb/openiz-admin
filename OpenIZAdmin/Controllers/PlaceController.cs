@@ -17,7 +17,7 @@
  * Date: 2016-7-23
  */
 
-using Elmah;
+
 using OpenIZ.Core.Extensions;
 using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.Constants;
@@ -94,7 +94,7 @@ namespace OpenIZAdmin.Controllers
             }
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to activate place: { e }");
 			}
 
@@ -168,7 +168,7 @@ namespace OpenIZAdmin.Controllers
 				}
 				catch (Exception e)
 				{
-					ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+					
 					Trace.TraceError($"Unable to create place: { e }");
 				}
 			}
@@ -225,7 +225,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to create related place: { e }");
 			}
 
@@ -267,7 +267,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to create related place: { e }");
 			}
 
@@ -317,7 +317,7 @@ namespace OpenIZAdmin.Controllers
             }
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to delete place: {e}");
 			}
 
 			TempData["error"] = Locale.UnableToDeactivatePlace;
@@ -368,7 +368,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to retrieve place: { e }");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
@@ -447,7 +447,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to update place: {e}");
 			}
 
@@ -483,7 +483,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to edit related place: { e }");
 			}
 
@@ -522,7 +522,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to edit related place: { e }");
 			}
 
@@ -650,7 +650,7 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				
 				Trace.TraceError($"Unable to retrieve place: { e }");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}

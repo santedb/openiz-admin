@@ -24,7 +24,6 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Elmah;
 using Microsoft.AspNet.Identity;
 
 namespace OpenIZAdmin.Attributes
@@ -72,7 +71,7 @@ namespace OpenIZAdmin.Attributes
 				catch (Exception e)
 				{
 					isAuthorized = false;
-					ErrorLog.GetDefault(httpContext.ApplicationInstance.Context).Log(new Error(e, httpContext.ApplicationInstance.Context));
+					Trace.TraceError($"Unable to decode token: {e}");
 				}
 			}
 
