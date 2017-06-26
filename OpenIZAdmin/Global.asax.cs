@@ -17,18 +17,18 @@
  * Date: 2016-5-31
  */
 
-using Elmah;
+using MARC.HI.EHRS.SVC.Auditing.Data;
+using OpenIZAdmin.Audit;
+using OpenIZAdmin.DAL;
+using OpenIZAdmin.Models.Audit;
+using OpenIZAdmin.Services.Http.Security;
 using System;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.Caching;
-using System.Web;
-using System.Web.Caching;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using CacheItemPriority = System.Runtime.Caching.CacheItemPriority;
 
 namespace OpenIZAdmin
 {
@@ -38,14 +38,78 @@ namespace OpenIZAdmin
 	public class MvcApplication : System.Web.HttpApplication
 	{
 		/// <summary>
+		/// The cache item policy.
+		/// </summary>
+		public static readonly CacheItemPolicy CacheItemPolicy = new CacheItemPolicy { SlidingExpiration = new TimeSpan(0, 0, 10, 0), Priority = CacheItemPriority.Default };
+
+		/// <summary>
 		/// The memory cache for the application.
 		/// </summary>
 		public static readonly MemoryCache MemoryCache = MemoryCache.Default;
 
 		/// <summary>
-		/// The cache item policy.
+		/// Handles the End event of the Application control.
 		/// </summary>
-		public static readonly CacheItemPolicy CacheItemPolicy = new CacheItemPolicy { SlidingExpiration = new TimeSpan(0, 0, 10, 0), Priority = CacheItemPriority.Default, RemovedCallback = CacheItemRemoved };
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+		protected void Application_End(object sender, EventArgs e)
+		{
+			try
+			{
+				if (RealmConfig.IsJoinedToRealm())
+				{
+					var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
+
+					var auditHelper = new GlobalAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.Context);
+
+					auditHelper.AuditApplicationStop(OutcomeIndicator.Success);
+				}
+			}
+			catch (Exception exception)
+			{
+				Trace.TraceError($"Unable to audit application stop: {exception}");
+			}
+
+			Trace.TraceInformation("Application stopped");
+		}
+
+		/// <summary>
+		/// Handles the EndRequest event of the Application control.
+		/// </summary>
+		/// <param name="sender">The source of the event.</param>
+		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+		protected void Application_EndRequest(object sender, EventArgs e)
+		{
+			try
+			{
+				if (!RealmConfig.IsJoinedToRealm())
+				{
+					return;
+				}
+
+				var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
+
+				var auditHelper = new GlobalAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.Context);
+
+				switch (Response.StatusCode)
+				{
+					case 401:
+						if (Request.Headers["Authorization"] != null)
+							auditHelper.AuditUnauthorizedAccess();
+						break;
+					case 403:
+						auditHelper.AuditForbiddenAccess();
+						break;
+					case 404:
+						auditHelper.AuditResourceNotFoundAccess();
+						break;
+				}
+			}
+			catch (Exception exception)
+			{
+				Trace.TraceError($"Unable to audit application end request: {exception}");
+			}
+		}
 
 		/// <summary>
 		/// Called when the application encounters an unexpected error.
@@ -55,6 +119,24 @@ namespace OpenIZAdmin
 		protected void Application_Error(object sender, EventArgs e)
 		{
 			Trace.TraceError($"Unexpected application error: {Server.GetLastError()}");
+
+			try
+			{
+				if (!RealmConfig.IsJoinedToRealm())
+				{
+					return;
+				}
+
+				var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
+
+				var auditHelper = new GlobalAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.Context);
+
+				auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EventTypeCode.ApplicationActivity, EventIdentifierType.ApplicationActivity, this.Server.GetLastError());
+			}
+			catch (Exception exception)
+			{
+				Trace.TraceError($"Unable to audit application generic error: {exception}");
+			}
 		}
 
 		/// <summary>
@@ -78,16 +160,16 @@ namespace OpenIZAdmin
 				Directory.CreateDirectory(this.Server.MapPath("~/Manuals"));
 			}
 
-			Trace.TraceInformation("Application started");
-		}
+			if (RealmConfig.IsJoinedToRealm())
+			{
+				var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
 
-		/// <summary>
-		/// Caches the item removed.
-		/// </summary>
-		/// <param name="arguments">The arguments.</param>
-		private static void CacheItemRemoved(CacheEntryRemovedArguments arguments)
-		{
-			Trace.TraceInformation($"Cache item removed key: { arguments.CacheItem.Key } value: { arguments.CacheItem.Value }");
+				var auditHelper = new GlobalAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.Context);
+
+				auditHelper.AuditApplicationStart(OutcomeIndicator.Success);
+			}
+
+			Trace.TraceInformation("Application started");
 		}
 	}
 }

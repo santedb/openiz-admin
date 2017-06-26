@@ -240,7 +240,11 @@
     <Compile Include="Audit\AccountControllerAuditHelper.cs" />
     <Compile Include="Audit\AuditHelperBase.cs" />
     <Compile Include="Audit\Error.cs" />
+    <Compile Include="Audit\GlobalAuditHelper.cs" />
     <Compile Include="Audit\HttpContextAuditHelperBase.cs" />
+    <Compile Include="Audit\SecurityDeviceAuditHelper.cs" />
+    <Compile Include="Audit\SecurityApplicationAuditHelper.cs" />
+    <Compile Include="Audit\SecurityEntityAuditHelper.cs" />
     <Compile Include="Comparer\EntityRelationshipComparer.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EntityController.cs" />

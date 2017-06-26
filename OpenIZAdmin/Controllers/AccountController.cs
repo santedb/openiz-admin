@@ -17,7 +17,7 @@
  * Date: 2016-5-31
  */
 
-using Elmah;
+using MARC.HI.EHRS.SVC.Auditing.Data;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using OpenIZ.Core.Model.AMI.Auth;
@@ -26,11 +26,14 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Audit;
 using OpenIZAdmin.DAL;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.AccountModels;
+using OpenIZAdmin.Models.Audit;
+using OpenIZAdmin.Security;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
 using System;
@@ -40,11 +43,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using MARC.HI.EHRS.SVC.Auditing.Data;
-using OpenIZ.Core.Model.AMI.Security;
-using OpenIZAdmin.Audit;
-using OpenIZAdmin.Models.Audit;
-using OpenIZAdmin.Security;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -84,6 +82,12 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Gets the audit helper.
+		/// </summary>
+		/// <value>The audit helper.</value>
+		public AccountControllerAuditHelper AuditHelper { get; set; }
+
+		/// <summary>
 		/// Gets the sign in manager.
 		/// </summary>
 		public ApplicationSignInManager SignInManager
@@ -112,12 +116,6 @@ namespace OpenIZAdmin.Controllers
 				userManager = value;
 			}
 		}
-
-		/// <summary>
-		/// Gets the audit helper.
-		/// </summary>
-		/// <value>The audit helper.</value>
-		public AccountControllerAuditHelper AuditHelper { get; set; }
 
 		/// <summary>
 		/// Displays the change password view.
@@ -434,17 +432,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Called when the action is executing.
-		/// </summary>
-		/// <param name="filterContext">The filter context of the action executing.</param>
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			base.OnActionExecuting(filterContext);
-
-			this.AuditHelper = new AccountControllerAuditHelper(new AmiCredentials(this.User, this.HttpContext.Request), this.HttpContext.ApplicationInstance.Context);
-		}
-
-		/// <summary>
 		/// Resets the password.
 		/// </summary>
 		/// <returns>ActionResult.</returns>
@@ -660,6 +647,17 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			base.Dispose(disposing);
+		}
+
+		/// <summary>
+		/// Called when the action is executing.
+		/// </summary>
+		/// <param name="filterContext">The filter context of the action executing.</param>
+		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		{
+			base.OnActionExecuting(filterContext);
+
+			this.AuditHelper = new AccountControllerAuditHelper(new AmiCredentials(this.User, this.HttpContext.Request), this.HttpContext.ApplicationInstance.Context);
 		}
 
 		/// <summary>

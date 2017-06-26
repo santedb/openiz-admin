@@ -52,7 +52,7 @@ namespace OpenIZAdmin.Audit
 		/// <param name="successfulLogin">if set to <c>true</c> [successful login].</param>
 		public void AuditLogin(string identityName, string[] roles = null, bool successfulLogin = true)
 		{
-			var audit = CreateBaseAudit(ActionType.Execute, EventTypeCode.Login, EventIdentifierType.UserAuthentication, successfulLogin ? OutcomeIndicator.Success : OutcomeIndicator.EpicFail);
+			var audit = CreateBaseAudit(ActionType.Execute, CreateAuditCode(EventTypeCode.Login), EventIdentifierType.UserAuthentication, successfulLogin ? OutcomeIndicator.Success : OutcomeIndicator.EpicFail);
 
 			audit.Actors.Add(new AuditActorData
 			{
@@ -78,7 +78,7 @@ namespace OpenIZAdmin.Audit
 				throw new ArgumentNullException(nameof(principal), Locale.ValueCannotBeNull);
 			}
 
-			var audit = CreateBaseAudit(ActionType.Execute, EventTypeCode.Logout, EventIdentifierType.UserAuthentication, OutcomeIndicator.Success);
+			var audit = this.CreateBaseAudit(ActionType.Execute, EventTypeCode.Logout, EventIdentifierType.UserAuthentication, OutcomeIndicator.Success);
 
 			audit.Actors.Add(new AuditActorData
 			{

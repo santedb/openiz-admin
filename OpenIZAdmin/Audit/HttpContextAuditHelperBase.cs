@@ -18,9 +18,15 @@
  */
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Web;
+using Common.Logging.Configuration;
 using MARC.HI.EHRS.SVC.Auditing.Data;
 using OpenIZ.Core.Http;
 using OpenIZAdmin.Localization;
@@ -57,13 +63,18 @@ namespace OpenIZAdmin.Audit
 		protected HttpContext Context { get; }
 
 		/// <summary>
+		/// True if the HTTP request message is sensitive
+		/// </summary>
+		public bool IsRequestSensitive { get; protected set; }
+
+		/// <summary>
 		/// Audits the generic error.
 		/// </summary>
 		/// <param name="outcomeIndicator">The outcome indicator.</param>
 		/// <param name="eventTypeCode">The event type code.</param>
 		/// <param name="eventIdentifierType">Type of the event identifier.</param>
 		/// <param name="exception">The exception.</param>
-		public override void AuditGenericError(OutcomeIndicator outcomeIndicator, EventTypeCode eventTypeCode, EventIdentifierType eventIdentifierType, Exception exception)
+		public override void AuditGenericError(OutcomeIndicator outcomeIndicator, AuditCode eventTypeCode, EventIdentifierType eventIdentifierType, Exception exception)
 		{
 			var audit = this.CreateBaseAudit(ActionType.Execute, eventTypeCode, eventIdentifierType, outcomeIndicator);
 
@@ -94,6 +105,18 @@ namespace OpenIZAdmin.Audit
 		}
 
 		/// <summary>
+		/// Audits the generic error.
+		/// </summary>
+		/// <param name="outcomeIndicator">The outcome indicator.</param>
+		/// <param name="eventTypeCode">The event type code.</param>
+		/// <param name="eventIdentifierType">Type of the event identifier.</param>
+		/// <param name="exception">The exception.</param>
+		public override void AuditGenericError(OutcomeIndicator outcomeIndicator, EventTypeCode eventTypeCode, EventIdentifierType eventIdentifierType, Exception exception)
+		{
+			this.AuditGenericError(outcomeIndicator, CreateAuditCode(eventTypeCode), eventIdentifierType, exception);
+		}
+
+		/// <summary>
 		/// Creates the base audit.
 		/// </summary>
 		/// <param name="actionType">Type of the action.</param>
@@ -101,12 +124,48 @@ namespace OpenIZAdmin.Audit
 		/// <param name="eventIdentifierType">Type of the event identifier.</param>
 		/// <param name="outcomeIndicator">The outcome indicator.</param>
 		/// <returns>Returns the created base audit data.</returns>
-		protected override AuditData CreateBaseAudit(ActionType actionType, EventTypeCode eventTypeCode, EventIdentifierType eventIdentifierType, OutcomeIndicator outcomeIndicator)
+		protected override AuditData CreateBaseAudit(ActionType actionType, AuditCode eventTypeCode, EventIdentifierType eventIdentifierType, OutcomeIndicator outcomeIndicator)
 		{
 			var audit = base.CreateBaseAudit(actionType, eventTypeCode, eventIdentifierType, outcomeIndicator);
 
-			var remoteIp = this.Context.Request.ServerVariables["REMOTE_ADDR"];
+			var remoteIp = GetLocalIPAddress();
 
+			try
+			{
+				// attempt to get the remote IP address
+				remoteIp = this.Context.Request.ServerVariables["REMOTE_ADDR"];
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to retrieve remote IP address for auditing purposes: {e}");
+			}
+
+			var userIdentifier = string.Empty;
+
+			try
+			{
+				userIdentifier = this.Context.Request.Url.Host;
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to retrieve request host URL for auditing purposes: {e}");
+			}
+
+			// add the receiver
+			audit.Actors.Add(new AuditActorData
+			{
+				UserName = Environment.UserName,
+				UserIdentifier = userIdentifier,
+				NetworkAccessPointId = Dns.GetHostName(),
+				NetworkAccessPointType = NetworkAccessPointType.MachineName,
+				AlternativeUserId = Process.GetCurrentProcess().Id.ToString(),
+				ActorRoleCode = new List<AuditCode>
+				{
+					new AuditCode("110152", "DCM")
+				}
+			});
+
+			// add the sender
 			audit.Actors.Add(new AuditActorData
 			{
 				UserIdentifier = remoteIp,
@@ -118,7 +177,8 @@ namespace OpenIZAdmin.Audit
 				},
 				UserIsRequestor = true
 			});
-
+			
+			// add the user if this is an authenticated request
 			if (this.Context.User?.Identity?.IsAuthenticated == true)
 			{
 				audit.Actors.Add(new AuditActorData
@@ -135,6 +195,7 @@ namespace OpenIZAdmin.Audit
 			}
 			else
 			{
+				// add the anonymous actor if the request isn't authenticated
 				audit.Actors.Add(new AuditActorData
 				{
 					UserIdentifier = "Anonymous",
@@ -148,7 +209,79 @@ namespace OpenIZAdmin.Audit
 				});
 			}
 
+			try
+			{
+				if (outcomeIndicator != OutcomeIndicator.Success)
+				{
+					// add the object detail
+					using (var memoryStream = new MemoryStream())
+					{
+						var detail = new ObjectDataExtension
+						{
+							Key = "HTTPMessage"
+						};
+
+						using (var streamWriter = new StreamWriter(memoryStream, Encoding.UTF8))
+						{
+							streamWriter.WriteLine("<?xml version=\"1.0\"?><Request><![CDATA[");
+
+							streamWriter.WriteLine("{0} {1} HTTP/1.1", this.Context.Request.HttpMethod, this.Context.Request.Url);
+
+							for (var i = 0; i < this.Context.Request.Headers.Keys.Count; i++)
+							{
+								streamWriter.WriteLine("{0} : {1}", this.Context.Request.Headers.Keys[i], this.Context.Request.Headers[i]);
+							}
+
+							// Only output if request is not sensitive
+							if (!this.IsRequestSensitive)
+							{
+								using (var sr = new StreamReader(this.Context.Request.InputStream))
+								{
+									streamWriter.WriteLine("\r\n{0}", sr.ReadToEnd());
+								}
+							}
+							else
+								streamWriter.WriteLine("*********** SENSITIVE REQUEST REDACTED ***********");
+
+							streamWriter.WriteLine("]]></Request>");
+							streamWriter.Flush();
+
+							detail.Value = memoryStream.GetBuffer().Take((int)memoryStream.Length).ToArray();
+						}
+
+						var auditableObject = new AuditableObject
+						{
+							IDTypeCode = AuditableObjectIdType.Uri,
+							ObjectId = this.Context.Request.Url.ToString(),
+							Role = AuditableObjectRole.Query,
+							Type = AuditableObjectType.SystemObject
+						};
+
+						auditableObject.ObjectData.Add(detail);
+
+						audit.AuditableObjects.Add(auditableObject);
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to add object detail to audit message: {e}");
+			}
+
 			return audit;
+		}
+
+
+		// courtesy of https://stackoverflow.com/questions/6803073/get-local-ip-address
+		/// <summary>
+		/// Gets the local ip address.
+		/// </summary>
+		/// <returns>Returns the IP address as a string instance.</returns>
+		public static string GetLocalIPAddress()
+		{
+			var host = Dns.GetHostEntry(Dns.GetHostName());
+
+			return (from ip in host.AddressList where ip.AddressFamily == AddressFamily.InterNetwork select ip.ToString()).FirstOrDefault();
 		}
 
 		/// <summary>

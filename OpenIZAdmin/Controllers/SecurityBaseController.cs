@@ -19,9 +19,11 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web.Mvc;
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Audit;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ApplicationModels;
 using OpenIZAdmin.Models.DeviceModels;
@@ -94,7 +96,7 @@ namespace OpenIZAdmin.Controllers
             return Guid.TryParse(id, out validId);
         }
 
-        /// <summary>
+		/// <summary>
         /// Converts a <see cref="EditApplicationModel"/> to a <see cref="SecurityApplicationInfo"/>
         /// </summary>
         /// <param name="model">The edit device model to convert.</param>
