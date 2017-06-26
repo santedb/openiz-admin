@@ -2135,4 +2135,10 @@ au jina la kikoa</value>
   <data name="ExpiryDateRequired" xml:space="preserve">
     <value>Tafadhali ingiza tarehe ya kumalizika</value>
   </data>
+  <data name="UpdateApplet_Heading" xml:space="preserve">
+    <value>Sasisha Kijiprogramu</value>
+  </data>
+  <data name="ViewApplet_Heading" xml:space="preserve">
+    <value>Tazama Kijiprogramu</value>
+  </data>
 </root>

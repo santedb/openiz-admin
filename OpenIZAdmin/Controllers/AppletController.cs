@@ -62,11 +62,11 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				Trace.TraceError($"Unable to download applet: {e}");
+				Trace.TraceError($"Unable to delete applet: {e}");
 				this.TempData["error"] = Locale.UnableToDeleteApplet;
 			}
 
-			return this.RedirectToRequestOrHome();
+			return RedirectToAction("Index");
 		}
 
 		/// <summary>
