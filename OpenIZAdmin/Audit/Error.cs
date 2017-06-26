@@ -26,6 +26,7 @@ namespace OpenIZAdmin.Audit
 	/// <summary>
 	/// Represents an error.
 	/// </summary>
+	[Serializable]
 	[XmlRoot(nameof(Error), Namespace = "http://openiz.org/admin/error")]
 	[XmlType(nameof(Error), Namespace = "http://openiz.org/admin/error")]
 	public class Error

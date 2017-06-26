@@ -59,20 +59,20 @@ namespace OpenIZAdmin.Audit
 		/// <summary>
 		/// True if the HTTP request message is sensitive
 		/// </summary>
-		public bool IsRequestSensitive { get; protected set; }
+		protected bool IsRequestSensitive { get; set; }
 
 		/// <summary>
 		/// Gets the context.
 		/// </summary>
 		/// <value>The context.</value>
-		protected HttpContext Context { get; }
+		private HttpContext Context { get; }
 
 		// courtesy of https://stackoverflow.com/questions/6803073/get-local-ip-address
 		/// <summary>
 		/// Gets the local ip address.
 		/// </summary>
 		/// <returns>Returns the IP address as a string instance.</returns>
-		public static string GetLocalIPAddress()
+		private static string GetLocalIPAddress()
 		{
 			var host = Dns.GetHostEntry(Dns.GetHostName());
 
@@ -84,7 +84,7 @@ namespace OpenIZAdmin.Audit
 		/// </summary>
 		/// <param name="instance">The instance.</param>
 		/// <returns>Returns the converted <see cref="byte" /> array instance.</returns>
-		public static byte[] ObjectToByteArray(object instance)
+		private static byte[] ObjectToByteArray(object instance)
 		{
 			var formatter = new BinaryFormatter();
 

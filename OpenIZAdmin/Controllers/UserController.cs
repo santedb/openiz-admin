@@ -29,9 +29,14 @@ using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.UserModels;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
+using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using MARC.HI.EHRS.SVC.Auditing.Data;
+using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Audit;
+using OpenIZAdmin.Models.Audit;
+using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -42,11 +47,9 @@ namespace OpenIZAdmin.Controllers
 	public class UserController : BaseController
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="UserController"/> class.
+		/// The audit helper.
 		/// </summary>
-		public UserController()
-		{
-		}
+		private SecurityUserAuditHelper auditHelper;
 
 		/// <summary>
 		/// Activates a user.
@@ -64,6 +67,7 @@ namespace OpenIZAdmin.Controllers
 				if (user == null)
 				{
 					TempData["error"] = Locale.UserNotFound;
+					this.auditHelper.AuditQuerySecurityUser(OutcomeIndicator.SeriousFail, null);
 
 					return RedirectToAction("Index");
 				}
@@ -71,7 +75,14 @@ namespace OpenIZAdmin.Controllers
 				user.UserId = id;
 				user.Lockout = false;
 
-				this.AmiClient.UpdateUser(id, user);
+				var updated = this.AmiClient.UpdateUser(id, user);
+
+				if (updated.User == null)
+				{
+					updated.User = this.AmiClient.GetUser(id.ToString())?.User;
+				}
+
+				this.auditHelper.AuditUpdateSecurityUser(OutcomeIndicator.Success, updated.User);
 
 				TempData.Clear();
 				TempData["success"] = Locale.UserActivatedSuccessfully;
@@ -80,7 +91,8 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to activate user: {e}");
+				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityUserAuditHelper.UpdateSecurityUserAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.UnableToActivateUser;
@@ -131,23 +143,18 @@ namespace OpenIZAdmin.Controllers
 				{
 					var user = this.AmiClient.CreateUser(model.ToSecurityUserInfo());
 
-					var userEntity = this.GetUserEntityBySecurityUserKey(user.UserId.Value);
+					this.auditHelper.AuditCreateSecurityUser(OutcomeIndicator.Success, user.User);
 
-					if (userEntity == null)
-					{
-						TempData["error"] = Locale.UnableToRetrieveNewUser;
-						return RedirectToAction("Index");
-					}
+					var userEntity = this.GetUserEntityBySecurityUserKey(user.UserId.Value);
 
 					if (model.Roles.Contains(Constants.ClinicalStaff))
 					{
 						var provider = this.ImsiClient.Create<Provider>(new Provider { Key = Guid.NewGuid() });
 
-						userEntity.Relationships.Add(
-							new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, provider)
-							{
-								SourceEntityKey = userEntity.Key.Value
-							});
+						userEntity.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.AssignedEntity, provider)
+						{
+							SourceEntityKey = userEntity.Key.Value
+						});
 					}
 
 					this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
@@ -159,8 +166,9 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				TempData["error"] = Locale.UnableToCreateUser;
+				Trace.TraceError($"Unable to create user: {e}");
+				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityUserAuditHelper.CreateSecurityUserAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			model.RolesList = this.GetAllRoles().ToSelectList("Name", "Name", null, true);
@@ -185,7 +193,9 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				this.AmiClient.DeleteUser(id.ToString());
+				var deleted = this.AmiClient.DeleteUser(id.ToString());
+
+				this.auditHelper.AuditDeleteSecurityUser(OutcomeIndicator.Success, deleted.User);
 
 				TempData["success"] = Locale.UserDeactivatedSuccessfully;
 
@@ -193,7 +203,8 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to delete user: {e}");
+				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityUserAuditHelper.DeleteSecurityUserAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.UnableToDeactivateUser;
@@ -225,6 +236,17 @@ namespace OpenIZAdmin.Controllers
 
 				var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUserKey.ToString());
 
+				if (securityUserInfo == null)
+				{
+					this.TempData["error"] = Locale.UserNotFound;
+
+					this.auditHelper.AuditQuerySecurityUser(OutcomeIndicator.SeriousFail, null);
+
+					return RedirectToAction("Index");
+				}
+
+				this.auditHelper.AuditQuerySecurityUser(OutcomeIndicator.Success, new List<SecurityUser> { securityUserInfo.User });
+
 				var model = new EditUserModel(userEntity, securityUserInfo);
 
 				model = BuildEditModelMetaData(model, userEntity, model.IsObsolete);
@@ -233,8 +255,9 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
+				Trace.TraceError($"Unable to retrieve user: {e}");
+				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityUserAuditHelper.QuerySecurityUserAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			return RedirectToAction("Index");
@@ -297,7 +320,14 @@ namespace OpenIZAdmin.Controllers
 						securityInfo.Roles.AddRange(model.Roles.Select(this.AmiClient.GetRole).Where(r => r.Role != null));
 					}
 
-					this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, securityInfo);
+					var updated = this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, securityInfo);
+
+					if (updated.User == null)
+					{
+						updated.User = this.AmiClient.GetUser(model.Id.ToString())?.User;
+					}
+
+					this.auditHelper.AuditUpdateSecurityUser(OutcomeIndicator.Success, updated.User);
 
 					TempData["success"] = Locale.UserUpdatedSuccessfully;
 
@@ -306,7 +336,8 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to update user: {e}");
+				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityUserAuditHelper.UpdateSecurityUserAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			if (userEntity != null)
@@ -332,8 +363,20 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Called when the action is executing.
+		/// </summary>
+		/// <param name="filterContext">The filter context of the action executing.</param>
+		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		{
+			base.OnActionExecuting(filterContext);
+
+			this.auditHelper = new SecurityUserAuditHelper(new AmiCredentials(this.User, this.Request), this.HttpContext.ApplicationInstance.Context);
+		}
+
+		/// <summary>
 		/// Displays the reset password view.
 		/// </summary>
+		/// <param name="id">The identifier.</param>
 		/// <returns>Returns the reset password view.</returns>
 		[HttpGet]
 		public ActionResult ResetPassword(Guid id)
@@ -345,6 +388,9 @@ namespace OpenIZAdmin.Controllers
 				if (user == null)
 				{
 					TempData["error"] = Locale.UserNotFound;
+
+					this.auditHelper.AuditQuerySecurityUser(OutcomeIndicator.SeriousFail, null);
+
 					return Redirect(Request.UrlReferrer?.ToString());
 				}
 
@@ -357,7 +403,8 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve user: {e}");
+				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityUserAuditHelper.UpdateSecurityUserAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.UserNotFound;
@@ -391,7 +438,14 @@ namespace OpenIZAdmin.Controllers
 					user.Lockout = false;
 					user.Password = model.Password;
 
-					this.AmiClient.UpdateUser(model.Id, user);
+					var updated = this.AmiClient.UpdateUser(model.Id, user);
+
+					if (updated.User == null)
+					{
+						updated.User = this.AmiClient.GetUser(model.Id.ToString())?.User;
+					}
+
+					this.auditHelper.AuditUpdateSecurityUser(OutcomeIndicator.Success, updated.User);
 
 					TempData["success"] = Locale.PasswordResetSuccessfully;
 
@@ -400,7 +454,8 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to reset password: {e}");
+				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EventTypeCode.UserSecurityChanged, EventIdentifierType.SecurityAlert, e);
 			}
 
 			TempData["error"] = Locale.UnableToResetPassword;
@@ -429,12 +484,15 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["searchTerm"] = searchTerm;
 
+					this.auditHelper.AuditQuerySecurityUser(OutcomeIndicator.Success, results.Select(u => u.User));
+
 					return PartialView("_UsersPartial", results.Select(u => new UserViewModel(u)).OrderBy(a => a.Username));
 				}
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to retrieve users: {e}");
+				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityUserAuditHelper.QuerySecurityUserAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.UserNotFound;
@@ -453,11 +511,21 @@ namespace OpenIZAdmin.Controllers
 		{
 			var userList = new List<UserViewModel>();
 
-			if (this.IsValidId(searchTerm))
+			try
 			{
-				var users = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
+				if (this.IsValidId(searchTerm))
+				{
+					var users = this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser);
 
-				userList = users.CollectionItem.Select(u => new UserViewModel(u)).ToList();
+					this.auditHelper.AuditQuerySecurityUser(OutcomeIndicator.Success, users.CollectionItem.OfType<SecurityUserInfo>().Select(r => r.User));
+
+					userList = users.CollectionItem.Select(u => new UserViewModel(u)).ToList();
+				}
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to retrieve users: {e}");
+				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityUserAuditHelper.QuerySecurityUserAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			return Json(userList, JsonRequestBehavior.AllowGet);
@@ -479,6 +547,8 @@ namespace OpenIZAdmin.Controllers
 				{
 					TempData["error"] = Locale.UserNotFound;
 
+					this.auditHelper.AuditQuerySecurityUser(OutcomeIndicator.SeriousFail, null);
+
 					return RedirectToAction("Index");
 				}
 
@@ -488,6 +558,13 @@ namespace OpenIZAdmin.Controllers
 
 				var result = this.AmiClient.UpdateUser(id, user);
 
+				if (result.User == null)
+				{
+					result.User = this.AmiClient.GetUser(id.ToString())?.User;
+				}
+
+				this.auditHelper.AuditUpdateSecurityUser(OutcomeIndicator.Success, result.User);
+
 				TempData.Clear();
 				TempData["success"] = Locale.UserUnlockedSuccessfully;
 
@@ -495,7 +572,8 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
+				Trace.TraceError($"Unable to update user: {e}");
+				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EventTypeCode.UserSecurityChanged, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.UnableToUnlockUser;
@@ -518,6 +596,9 @@ namespace OpenIZAdmin.Controllers
 				if (userInfo == null)
 				{
 					TempData["error"] = Locale.UserNotFound;
+
+					this.auditHelper.AuditQuerySecurityUser(OutcomeIndicator.SeriousFail, null);
+
 					return RedirectToAction("Index");
 				}
 
@@ -572,12 +653,15 @@ namespace OpenIZAdmin.Controllers
 					viewModel.HealthFacility = string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value));
 				}
 
+				this.auditHelper.AuditQuerySecurityUser(OutcomeIndicator.Success, new List<SecurityUser> { userInfo.User });
+
 				return View(viewModel);
 			}
 			catch (Exception e)
 			{
-				ErrorLog.GetDefault(HttpContext.ApplicationInstance.Context).Log(new Error(e, HttpContext.ApplicationInstance.Context));
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
+				Trace.TraceError($"Unable to retrieve user: {e}");
+				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityUserAuditHelper.QuerySecurityUserAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			return RedirectToAction("Index");

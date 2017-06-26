@@ -46,13 +46,6 @@ namespace OpenIZAdmin.Controllers
 		private SecurityApplicationAuditHelper auditHelper;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ApplicationController"/> class.
-		/// </summary>
-		public ApplicationController()
-		{
-		}
-
-		/// <summary>
 		/// Activates an application.
 		/// </summary>
 		/// <param name="id">The id of the application to be activated.</param>

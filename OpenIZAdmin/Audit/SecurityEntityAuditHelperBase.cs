@@ -27,7 +27,7 @@ namespace OpenIZAdmin.Audit
 	/// <summary>
 	/// Represents a security entity audit helper.
 	/// </summary>
-	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="T">The type of security entity.</typeparam>
 	/// <seealso cref="OpenIZAdmin.Audit.HttpContextAuditHelperBase" />
 	public abstract class SecurityEntityAuditHelperBase<T> : HttpContextAuditHelperBase where T : SecurityEntity
 	{
@@ -51,7 +51,18 @@ namespace OpenIZAdmin.Audit
 		{
 			var audit = this.CreateBaseAudit(ActionType.Create, eventTypeCode, EventIdentifierType.ApplicationActivity, outcomeIndicator);
 
-			audit.AuditableObjects.Add(this.CreateBaseAuditableObject(AuditableObjectIdType.UserIdentifier, AuditableObjectLifecycle.Creation, securityEntity.Key.ToString(), AuditableObjectRole.SecurityResource, AuditableObjectType.Other));
+			if (typeof(T) == typeof(SecurityUser))
+			{
+				audit.AuditableObjects.Add(this.CreateBaseAuditableObject(AuditableObjectIdType.UserIdentifier, AuditableObjectLifecycle.Creation, securityEntity.Key.ToString(), AuditableObjectRole.SecurityUser, AuditableObjectType.Person));
+			}
+			else if (typeof(T) == typeof(SecurityRole))
+			{
+				audit.AuditableObjects.Add(this.CreateBaseAuditableObject(AuditableObjectIdType.UserIdentifier, AuditableObjectLifecycle.Creation, securityEntity.Key.ToString(), AuditableObjectRole.SecurityGroup, AuditableObjectType.Other));
+			}
+			else
+			{
+				audit.AuditableObjects.Add(this.CreateBaseAuditableObject(AuditableObjectIdType.UserIdentifier, AuditableObjectLifecycle.Creation, securityEntity.Key.ToString(), AuditableObjectRole.SecurityResource, AuditableObjectType.Other));
+			}
 
 			return audit;
 		}
@@ -67,7 +78,18 @@ namespace OpenIZAdmin.Audit
 		{
 			var audit = this.CreateBaseAudit(ActionType.Delete, eventTypeCode, EventIdentifierType.ApplicationActivity, outcomeIndicator);
 
-			audit.AuditableObjects.Add(this.CreateBaseAuditableObject(AuditableObjectIdType.UserIdentifier, AuditableObjectLifecycle.LogicalDeletion, securityEntity.Key.ToString(), AuditableObjectRole.SecurityResource, AuditableObjectType.Other));
+			if (typeof(T) == typeof(SecurityUser))
+			{
+				audit.AuditableObjects.Add(this.CreateBaseAuditableObject(AuditableObjectIdType.UserIdentifier, AuditableObjectLifecycle.LogicalDeletion, securityEntity.Key.ToString(), AuditableObjectRole.SecurityUser, AuditableObjectType.Person));
+			}
+			else if (typeof(T) == typeof(SecurityRole))
+			{
+				audit.AuditableObjects.Add(this.CreateBaseAuditableObject(AuditableObjectIdType.UserIdentifier, AuditableObjectLifecycle.LogicalDeletion, securityEntity.Key.ToString(), AuditableObjectRole.SecurityGroup, AuditableObjectType.Other));
+			}
+			else
+			{
+				audit.AuditableObjects.Add(this.CreateBaseAuditableObject(AuditableObjectIdType.UserIdentifier, AuditableObjectLifecycle.LogicalDeletion, securityEntity.Key.ToString(), AuditableObjectRole.SecurityResource, AuditableObjectType.Other));
+			}
 
 			return audit;
 		}
@@ -94,7 +116,18 @@ namespace OpenIZAdmin.Audit
 		{
 			var audit = this.CreateBaseAudit(ActionType.Delete, eventTypeCode, EventIdentifierType.ApplicationActivity, outcomeIndicator);
 
-			audit.AuditableObjects.Add(this.CreateBaseAuditableObject(AuditableObjectIdType.UserIdentifier, AuditableObjectLifecycle.Creation, securityEntity.Key.ToString(), AuditableObjectRole.SecurityResource, AuditableObjectType.Other));
+			if (typeof(T) == typeof(SecurityUser))
+			{
+				audit.AuditableObjects.Add(this.CreateBaseAuditableObject(AuditableObjectIdType.UserIdentifier, AuditableObjectLifecycle.Creation, securityEntity.Key.ToString(), AuditableObjectRole.SecurityUser, AuditableObjectType.Person));
+			}
+			else if (typeof(T) == typeof(SecurityRole))
+			{
+				audit.AuditableObjects.Add(this.CreateBaseAuditableObject(AuditableObjectIdType.UserIdentifier, AuditableObjectLifecycle.Creation, securityEntity.Key.ToString(), AuditableObjectRole.SecurityGroup, AuditableObjectType.Other));
+			}
+			else
+			{
+				audit.AuditableObjects.Add(this.CreateBaseAuditableObject(AuditableObjectIdType.UserIdentifier, AuditableObjectLifecycle.Creation, securityEntity.Key.ToString(), AuditableObjectRole.SecurityResource, AuditableObjectType.Other));
+			}
 
 			return audit;
 		}

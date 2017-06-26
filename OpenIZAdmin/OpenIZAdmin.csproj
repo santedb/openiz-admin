@@ -242,6 +242,8 @@
     <Compile Include="Audit\Error.cs" />
     <Compile Include="Audit\GlobalAuditHelper.cs" />
     <Compile Include="Audit\HttpContextAuditHelperBase.cs" />
+    <Compile Include="Audit\SecurityUserAuditHelper.cs" />
+    <Compile Include="Audit\SecurityRoleAuditHelper.cs" />
     <Compile Include="Audit\SecurityDeviceAuditHelper.cs" />
     <Compile Include="Audit\SecurityApplicationAuditHelper.cs" />
     <Compile Include="Audit\SecurityEntityAuditHelperBase.cs" />
