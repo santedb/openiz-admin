@@ -32,24 +32,24 @@ namespace OpenIZAdmin.Audit
 	public class SecurityDeviceAuditHelper : SecurityEntityAuditHelperBase<SecurityDevice>
 	{
 		/// <summary>
-		/// The create security application audit code.
+		/// The create security device audit code.
 		/// </summary>
-		private static readonly AuditCode CreateSecurityDeviceAuditCode = new AuditCode("SecurityDeviceCreated", "OpenIZAdminOperations") { DisplayName = "Create" };
+		public static readonly AuditCode CreateSecurityDeviceAuditCode = new AuditCode("SecurityDeviceCreated", "OpenIZAdminOperations") { DisplayName = "Create" };
 
 		/// <summary>
-		/// The delete security application audit code.
+		/// The delete security device audit code.
 		/// </summary>
-		private static readonly AuditCode DeleteSecurityDeviceAuditCode = new AuditCode("SecurityDeviceDeleted", "OpenIZAdminOperations") { DisplayName = "Delete" };
+		public static readonly AuditCode DeleteSecurityDeviceAuditCode = new AuditCode("SecurityDeviceDeleted", "OpenIZAdminOperations") { DisplayName = "Delete" };
 
 		/// <summary>
-		/// The query security application audit code.
+		/// The query security device audit code.
 		/// </summary>
-		private static readonly AuditCode QuerySecurityDeviceAuditCode = new AuditCode("SecurityDeviceQueried", "OpenIZAdminOperations") { DisplayName = "Query" };
+		public static readonly AuditCode QuerySecurityDeviceAuditCode = new AuditCode("SecurityDeviceQueried", "OpenIZAdminOperations") { DisplayName = "Query" };
 
 		/// <summary>
-		/// The update security application audit code.
+		/// The update security device audit code.
 		/// </summary>
-		private static readonly AuditCode UpdateSecurityDeviceAuditCode = new AuditCode("SecurityDeviceUpdated", "OpenIZAdminOperations") { DisplayName = "Update" };
+		public static readonly AuditCode UpdateSecurityDeviceAuditCode = new AuditCode("SecurityDeviceUpdated", "OpenIZAdminOperations") { DisplayName = "Update" };
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SecurityDeviceAuditHelper" /> class.
