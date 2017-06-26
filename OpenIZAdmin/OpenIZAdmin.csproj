@@ -547,6 +547,7 @@
     <None Include="job_scheduling_data_2_0.xsd">
       <SubType>Designer</SubType>
     </None>
+    <Content Include="LICENSE.md" />
     <None Include="Properties\PublishProfiles\MARC_HI_khannan_TImRAdmin.pubxml" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
