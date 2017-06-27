@@ -38,6 +38,7 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		public EntityRelationshipModel()
 		{
 			this.ExistingRelationships = new List<EntityRelationshipViewModel>();
+			this.TargetList = new List<SelectListItem>();
 			this.RelationshipTypes = new List<SelectListItem>();
 		}
 
@@ -62,7 +63,7 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		{
 			this.Id = id;
 			this.SourceId = sourceId;
-			this.TargetId = targetId;
+			this.TargetId = targetId.ToString();
 		}
 
 		/// <summary>
@@ -146,7 +147,13 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		/// <value>The target identifier.</value>
 		[Display(Name = "Related", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "RelationRequired", ErrorMessageResourceType = typeof(Locale))]
-		public Guid TargetId { get; set; }
+		public string TargetId { get; set; }
+
+		/// <summary>
+		/// Gets or sets the target list.
+		/// </summary>
+		/// <value>The target list.</value>
+		public List<SelectListItem> TargetList { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the target.

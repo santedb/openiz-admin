@@ -19,7 +19,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.TargetId, new { @class = "col-md-2 control-label" })
                 <div class="col-md-6">
-                    @Html.DropDownListFor(m => m.TargetId, new List<SelectListItem>(), new { @class = "material-search form-control", multiple = "multiple", title = Locale.ToolTip_Facilities })
+                    @Html.DropDownListFor(m => m.TargetId, Model.TargetList, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.TargetId, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -57,6 +57,18 @@
     <script type="text/javascript">
         $(document).ready(function ()
         {
+            $("#@Html.IdFor(m => m.TargetId)").on("select2:selecting", function(e)
+            {
+                console.log(e);
+
+                if (e.currentTarget.value === "@Model.SourceId")
+                {
+                    console.log("selecting");
+                }
+
+                e.preventDefault();
+            });
+
             $('#relationshipsTable').DataTable({
                 "language":
                 {

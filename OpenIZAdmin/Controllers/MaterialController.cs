@@ -50,6 +50,11 @@ namespace OpenIZAdmin.Controllers
 		private const string MaterialTypesMnemonic = "MaterialTypes";
 
 		/// <summary>
+		/// The materials cache key.
+		/// </summary>
+		private const string MaterialsCacheKey = "Materials";
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="MaterialController"/> class.
 		/// </summary>
 		public MaterialController()
@@ -95,6 +100,65 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Builds the material select list.
+		/// </summary>
+		/// <param name="material">The material.</param>
+		/// <returns>Returns a select list of material values to use to associate materials to each other.</returns>
+		private List<SelectListItem> BuildMaterialSelectList(Material material)
+		{
+			var selectList = new List<SelectListItem>
+			{
+				new SelectListItem
+				{
+					Text = string.Empty,
+					Value = string.Empty
+				}
+			};
+
+			var filterIds = new List<Guid>
+			{
+				material.Key.Value
+			};
+
+			filterIds.AddRange(material.Relationships.Select(r => r.TargetEntityKey.Value).ToArray());
+
+			var materials = this.GetMaterials(filterIds.ToArray());
+
+			foreach (var item in materials)
+			{
+				var selectListItem = new SelectListItem
+				{
+					Value = item.Key.ToString()
+				};
+
+				Guid? nameUseKey = null;
+
+				if (item.Names?.Any(n => n.NameUseKey == NameUseKeys.Assigned) == true)
+				{
+					nameUseKey = NameUseKeys.Assigned;
+				}
+				else if (item.Names?.Any(n => n.NameUseKey == NameUseKeys.OfficialRecord) == true)
+				{
+					nameUseKey = NameUseKeys.OfficialRecord;
+				}
+				else
+				{
+					// get the first name component value
+					selectListItem.Text = item.Names?.FirstOrDefault()?.Component?.FirstOrDefault()?.Value;
+				}
+
+				if (nameUseKey != null)
+				{
+					selectListItem.Text = item.Names.First(n => n.NameUseKey == nameUseKey).Component.FirstOrDefault()?.Value;
+				}
+
+				selectList.Add(selectListItem);
+			}
+
+			return selectList.OrderBy(t => t.Text).ToList();
+		}
+
+		/// <summary>
 		/// Associates a material to another material.
 		/// </summary>
 		/// <param name="id">The identifier.</param>
@@ -121,7 +185,8 @@ namespace OpenIZAdmin.Controllers
 				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
 				{
 					RelationshipType = EntityRelationshipTypeKeys.UsedEntity.ToString(),
-					ExistingRelationships = material.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
+					ExistingRelationships = material.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList(),
+					TargetList = this.BuildMaterialSelectList(material)
 				};
 
 				var concepts = new List<Concept>
@@ -152,6 +217,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult AssociateMaterial(EntityRelationshipModel model)
 		{
 			var concepts = new List<Concept>();
+			Material material = null;
 
 			try
 			{
@@ -172,7 +238,7 @@ namespace OpenIZAdmin.Controllers
 						return View(model);
 					}
 
-					var material = this.GetEntity<Material>(model.SourceId);
+					material = this.GetEntity<Material>(model.SourceId);
 
 					if (material == null)
 					{
@@ -180,8 +246,8 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Edit", new { id = model.SourceId });
 					}
 
-					material.Relationships.RemoveAll(r => r.TargetEntityKey == model.TargetId && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
-					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { EffectiveVersionSequenceId = material.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity.Value, SourceEntityKey = model.SourceId });
+					material.Relationships.RemoveAll(r => r.TargetEntityKey == Guid.Parse(model.TargetId) && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
+					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), Guid.Parse(model.TargetId)) { EffectiveVersionSequenceId = material.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity.Value, SourceEntityKey = model.SourceId });
 
 					this.ImsiClient.Update(material);
 
@@ -196,6 +262,8 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			this.TempData["error"] = Locale.UnableToRelateMaterial;
+
+			model.TargetList = this.BuildMaterialSelectList(material);
 
 			concepts.Add(this.GetConcept(EntityRelationshipTypeKeys.UsedEntity));
 			model.RelationshipTypes.AddRange(concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.UsedEntity));
@@ -359,8 +427,8 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Edit", new { id = model.SourceId });
 					}
 
-					material.Relationships.RemoveAll(r => r.TargetEntityKey == model.TargetId && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
-					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
+					material.Relationships.RemoveAll(r => r.TargetEntityKey == Guid.Parse(model.TargetId) && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
+					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), Guid.Parse(model.TargetId)) { Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
 
 					var updatedMaterial = this.UpdateEntity<Material>(material);
 
@@ -538,7 +606,7 @@ namespace OpenIZAdmin.Controllers
 					}
 
 					material.Relationships.RemoveAll(r => r.Key == model.Id);
-					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId));
+					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), Guid.Parse(model.TargetId)));
 
 					this.UpdateEntity<Material>(material);
 
@@ -577,6 +645,34 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			return concepts as IEnumerable<Concept>;
+		}
+
+		/// <summary>
+		/// Gets the materials.
+		/// </summary>
+		/// <param name="filterIds">The filter ids.</param>
+		/// <returns>Returns a list of materials.</returns>
+		private IEnumerable<Material> GetMaterials(params Guid[] filterIds)
+		{
+			var materials = MvcApplication.MemoryCache.Get(MaterialsCacheKey) as IEnumerable<Material>;
+
+			if (materials == null)
+			{
+				var bundle = this.ImsiClient.Query<Material>(r => r.ClassConceptKey == EntityClassKeys.Material && r.StatusConceptKey == StatusKeys.Active && r.ObsoletionTime == null);
+
+				bundle.Reconstitute();
+
+				materials = ListExtensions.LatestVersionOnly(bundle.Item.OfType<Material>().Where(r => r.ClassConceptKey == EntityClassKeys.Material && r.StatusConceptKey == StatusKeys.Active && r.ObsoletionTime == null).ToList());
+
+				MvcApplication.MemoryCache.Set(MaterialsCacheKey, materials, MvcApplication.CacheItemPolicy);
+			}
+
+			if (filterIds.Any())
+			{
+				materials = materials.Where(m => !filterIds.Any(f => f == m.Key));
+			}
+
+			return materials;
 		}
 
 		/// <summary>

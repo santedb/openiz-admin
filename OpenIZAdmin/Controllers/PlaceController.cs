@@ -255,8 +255,8 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Edit", new { id = model.SourceId });
 					}
 
-					place.Relationships.RemoveAll(r => r.TargetEntityKey == model.TargetId && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
-					place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId) { EffectiveVersionSequenceId = place.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
+					place.Relationships.RemoveAll(r => r.TargetEntityKey == Guid.Parse(model.TargetId) && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
+					place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), Guid.Parse(model.TargetId)) { EffectiveVersionSequenceId = place.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
 
 					this.ImsiClient.Update(place);
 
@@ -513,7 +513,7 @@ namespace OpenIZAdmin.Controllers
 					}
 
 					place.Relationships.RemoveAll(r => r.Key == model.Id);
-					place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.TargetId));
+					place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), Guid.Parse(model.TargetId)));
 
 					var updatedPlace = this.ImsiClient.Update<Place>(place);
 
