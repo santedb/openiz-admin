@@ -24,6 +24,7 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Models.Core;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ManufacturedMaterialModels;
 
@@ -48,7 +49,7 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// <param name="material">The <see cref="Material"/> instance.</param>
 		public MaterialViewModel(Material material) : base(material)
 		{
-			this.ExpiryDate = material.ExpiryDate ?? DateTime.Now;
+			this.ExpiryDate = (material.ExpiryDate ?? DateTime.Now).DefaultFormat();
 			this.FormConcept = material.FormConcept?.ConceptNames.Any() == true ? string.Join(" ", material.FormConcept?.ConceptNames.Select(c => c.Name)) + " " + material.FormConcept?.Mnemonic : material.FormConcept?.Mnemonic;
 
 			if (material.Names.Any(n => n.NameUseKey == NameUseKeys.Assigned))
@@ -71,7 +72,7 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// Gets or sets the expiry date of the material.
 		/// </summary>
 		[Display(Name = "ExpiryDate", ResourceType = typeof(Locale))]
-		public DateTime ExpiryDate { get; set; }
+		public string ExpiryDate { get; set; }
 
 		/// <summary>
 		/// Gets or sets the form concept of the material.
