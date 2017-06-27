@@ -4498,7 +4498,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SameAs.
+        ///   Looks up a localized string similar to Same As.
         /// </summary>
         public static string SameAs {
             get {

@@ -2099,9 +2099,6 @@ au jina la kikoa</value>
   <data name="CreateRole_Heading" xml:space="preserve">
     <value>Unda Jukumu</value>
   </data>
-  <data name="RequiredFileFormatUpload" xml:space="preserve">
-    <value>Vitabu tu katika format ya pdf ni kukubalika.</value>
-  </data>
   <data name="RequiredFileUploadFormat" xml:space="preserve">
     <value>Vitabu tu katika format ya pdf ni kukubalika.</value>
   </data>
@@ -2140,5 +2137,299 @@ au jina la kikoa</value>
   </data>
   <data name="ViewApplet_Heading" xml:space="preserve">
     <value>Tazama Kijiprogramu</value>
+  </data>
+  <data name="ViewMaterial_Heading" xml:space="preserve">
+    <value>Tazama Nyenzo</value>
+  </data>
+  <data name="ViewOrganization_Heading" xml:space="preserve">
+    <value>Tazama Shirika</value>
+  </data>
+  <data name="ViewPlace_Heading" xml:space="preserve">
+    <value>Tazama mahali</value>
+  </data>
+  <data name="ViewPolicy_Heading" xml:space="preserve">
+    <value>Angalia Sera</value>
+  </data>
+  <data name="ViewReferenceTerm_Heading" xml:space="preserve">
+    <value>Mtazamo Kumbukumbu Muda</value>
+  </data>
+  <data name="ViewConceptSet_Heading" xml:space="preserve">
+    <value>Tazama Kuweka Dhana</value>
+  </data>
+  <data name="ViewDevice_Heading" xml:space="preserve">
+    <value>Angalia Kifaa</value>
+  </data>
+  <data name="ViewApplication_Heading" xml:space="preserve">
+    <value>Tazama Maombi</value>
+  </data>
+  <data name="ViewAssigningAuthority_Heading" xml:space="preserve">
+    <value>Tazama Mamlaka ya Kuagiza</value>
+  </data>
+  <data name="ViewCodeSystem_Heading" xml:space="preserve">
+    <value>Tazama Mfumo wa Kanuni</value>
+  </data>
+  <data name="UnableToUpdateMaterial" xml:space="preserve">
+    <value>Haiwezi kuhifadhi nyenzo</value>
+  </data>
+  <data name="UnableToUpdateOrganization" xml:space="preserve">
+    <value>Haiwezi kusasisha shirika</value>
+  </data>
+  <data name="UnableToUpdatePassword" xml:space="preserve">
+    <value>Haiwezi kuhifadhi nenosiri</value>
+  </data>
+  <data name="UnableToUpdatePlace" xml:space="preserve">
+    <value>Haiwezi kusasisha mahali</value>
+  </data>
+  <data name="UnableToUpdateProfile" xml:space="preserve">
+    <value>Haiwezi kusasisha wasifu</value>
+  </data>
+  <data name="UnableToUpdateReferenceTerm" xml:space="preserve">
+    <value>Imeshindwa kurekebisha muda wa kumbukumbu</value>
+  </data>
+  <data name="UnableToUpdateRelatedManufacturedMaterial" xml:space="preserve">
+    <value>Haiwezi kurekebisha nyenzo zinazohusiana na viwandani</value>
+  </data>
+  <data name="UnableToUpdateRole" xml:space="preserve">
+    <value>Haiwezi kuboresha jukumu</value>
+  </data>
+  <data name="UnableToUpdateUser" xml:space="preserve">
+    <value>Haiwezi kurekebisha mtumiaji</value>
+  </data>
+  <data name="UserUpdatedSuccessfully" xml:space="preserve">
+    <value>Mtumiaji alisasishwa kwa mafanikio</value>
+  </data>
+  <data name="VersionInformation_Heading" xml:space="preserve">
+    <value>Maelezo ya Toleo</value>
+  </data>
+  <data name="ViewAlert_Heading" xml:space="preserve">
+    <value>Angalia tahadhari</value>
+  </data>
+  <data name="EditIdentifier_Heading" xml:space="preserve">
+    <value>Badilisha Kitambulisho</value>
+  </data>
+  <data name="EditLanguages_Heading" xml:space="preserve">
+    <value>Hariri Lugha</value>
+  </data>
+  <data name="EditMaterial_Heading" xml:space="preserve">
+    <value>Badilisha Nyenzo</value>
+  </data>
+  <data name="EditOrganization_Heading" xml:space="preserve">
+    <value>Hariri Shirika</value>
+  </data>
+  <data name="EditPlace_Heading" xml:space="preserve">
+    <value>Badilisha Mahali</value>
+  </data>
+  <data name="EditReferenceTermName_Heading" xml:space="preserve">
+    <value>Hariri Jina la Jina la Kumbukumbu</value>
+  </data>
+  <data name="EditReferenceTerm_Heading" xml:space="preserve">
+    <value>Badilisha Nambari ya Kumbukumbu</value>
+  </data>
+  <data name="EditRelationship_Heading" xml:space="preserve">
+    <value>Hariri Uhusiano</value>
+  </data>
+  <data name="EditRole_Heading" xml:space="preserve">
+    <value>Badilisha Wajibu</value>
+  </data>
+  <data name="EditUser_Heading" xml:space="preserve">
+    <value>Badilisha Mtumiaji</value>
+  </data>
+  <data name="Filename" xml:space="preserve">
+    <value>Jina la faili</value>
+  </data>
+  <data name="RealmJoinedSuccessfully" xml:space="preserve">
+    <value>Nchi ilijiunga na mafanikio</value>
+  </data>
+  <data name="RealmLeftSuccessfully" xml:space="preserve">
+    <value>Eneo lililoachwa kwa ufanisi</value>
+  </data>
+  <data name="RealmNotFound" xml:space="preserve">
+    <value>Eneo haipatikani</value>
+  </data>
+  <data name="ReferenceTermCreatedSuccessfully" xml:space="preserve">
+    <value>Neno la kumbukumbu limeundwa kwa ufanisi</value>
+  </data>
+  <data name="ReferenceTermDeactivatedSuccessfully" xml:space="preserve">
+    <value>Neno la kumbukumbu limezimwa kwa ufanisi</value>
+  </data>
+  <data name="ReferenceTermNameCreatedSuccessfully" xml:space="preserve">
+    <value>Jina la jina la kumbukumbu limeundwa kwa ufanisi</value>
+  </data>
+  <data name="ReferenceTermNameDeletedSuccessfully" xml:space="preserve">
+    <value>Jina la jina la kutafakari limefutwa kwa ufanisi</value>
+  </data>
+  <data name="ReferenceTermNameNotFound" xml:space="preserve">
+    <value>Jina la jina la kumbukumbu haipatikani</value>
+  </data>
+  <data name="ReferenceTermNameUpdatedSuccessfully" xml:space="preserve">
+    <value>Jina la jina la kumbukumbu lilisasishwa kwa mafanikio</value>
+  </data>
+  <data name="ReferenceTermNotFound" xml:space="preserve">
+    <value>Maneno ya kumbukumbu hayapatikani</value>
+  </data>
+  <data name="ReferenceTermUpdatedSuccessfully" xml:space="preserve">
+    <value>Neno la kumbukumbu limefanyiwa mafanikio</value>
+  </data>
+  <data name="RelatedManufacturedMaterialCreatedSuccessfully" xml:space="preserve">
+    <value>Vifaa vilivyounganishwa vimeundwa kwa ufanisi</value>
+  </data>
+  <data name="RelatedPlaceCreatedSuccessfully" xml:space="preserve">
+    <value>Eneo lililohusiana limeundwa kwa ufanisi</value>
+  </data>
+  <data name="RelationshipDeletedSuccessfully" xml:space="preserve">
+    <value>Uhusiano ulifutwa kwa mafanikio</value>
+  </data>
+  <data name="ResetPassword_Heading" xml:space="preserve">
+    <value>Weka upya nenosiri</value>
+  </data>
+  <data name="RoleActivatedSuccessfully" xml:space="preserve">
+    <value>Jukumu limeanzishwa kwa mafanikio</value>
+  </data>
+  <data name="RoleCreatedSuccessfully" xml:space="preserve">
+    <value>Jukumu limeundwa kwa ufanisi</value>
+  </data>
+  <data name="RoleDeactivatedSuccessfully" xml:space="preserve">
+    <value>Jukumu limezimwa kwa ufanisi</value>
+  </data>
+  <data name="RoleNotFound" xml:space="preserve">
+    <value>Jukumu halikupatikani</value>
+  </data>
+  <data name="RoleUpdatedSuccessfully" xml:space="preserve">
+    <value>Jukumu linasasishwa kwa mafanikio</value>
+  </data>
+  <data name="UnableToActivateApplication" xml:space="preserve">
+    <value>Haiwezi kuamsha programu</value>
+  </data>
+  <data name="UnableToActivateDevice" xml:space="preserve">
+    <value>Haiwezi kuamsha kifaa</value>
+  </data>
+  <data name="UnableToActivateMaterial" xml:space="preserve">
+    <value>Haiwezi kuamsha vifaa</value>
+  </data>
+  <data name="UnableToActivateOrganization" xml:space="preserve">
+    <value>Haiwezi kuamsha shirika</value>
+  </data>
+  <data name="UnableToActivatePlace" xml:space="preserve">
+    <value>Haiwezi kuamsha mahali</value>
+  </data>
+  <data name="UnableToActivateRole" xml:space="preserve">
+    <value>Haiwezi kuamsha jukumu</value>
+  </data>
+  <data name="UnableToActivateUser" xml:space="preserve">
+    <value>Haiwezi kuamsha mtumiaji</value>
+  </data>
+  <data name="UnableToCreateAlert" xml:space="preserve">
+    <value>Haiwezi kuunda tahadhari</value>
+  </data>
+  <data name="UnableToCreateApplication" xml:space="preserve">
+    <value>Haiwezi kuunda programu</value>
+  </data>
+  <data name="UnableToCreateConcept" xml:space="preserve">
+    <value>Haiwezi kuunda dhana</value>
+  </data>
+  <data name="UnableToCreateDevice" xml:space="preserve">
+    <value>Haiwezi kuunda kifaa</value>
+  </data>
+  <data name="UnableToCreateIdentifier" xml:space="preserve">
+    <value>Haiwezi kuunda kitambulisho</value>
+  </data>
+  <data name="UnableToCreateMaterial" xml:space="preserve">
+    <value>Haiwezi kuunda nyenzo</value>
+  </data>
+  <data name="UnableToCreateOrganization" xml:space="preserve">
+    <value>Haiwezi kuunda shirika</value>
+  </data>
+  <data name="UnableToCreatePlace" xml:space="preserve">
+    <value>Haiwezi kuunda mahali</value>
+  </data>
+  <data name="UnableToCreateReferenceTerm" xml:space="preserve">
+    <value>Haiwezi kuunda muda wa kumbukumbu</value>
+  </data>
+  <data name="UnableToCreateReferenceTermName" xml:space="preserve">
+    <value>Haiwezi kuunda jina la jina la kumbukumbu</value>
+  </data>
+  <data name="UnableToCreateRelatedManufacturedMaterial" xml:space="preserve">
+    <value>Haiwezi kujenga vifaa vilivyohusiana na viwandani</value>
+  </data>
+  <data name="UnableToCreateRelatedPlace" xml:space="preserve">
+    <value>Haiwezi kuunda mahali husika</value>
+  </data>
+  <data name="UnableToCreateRole" xml:space="preserve">
+    <value>Haiwezi kuunda jukumu</value>
+  </data>
+  <data name="UnableToCreateUser" xml:space="preserve">
+    <value>Haiwezi kuunda mtumiaji</value>
+  </data>
+  <data name="UnableToDeactivatePlace" xml:space="preserve">
+    <value>Imeshindwa kufuta mahali</value>
+  </data>
+  <data name="UnableToDeactivateUser" xml:space="preserve">
+    <value>Haiwezi kuzima mtumiaji</value>
+  </data>
+  <data name="UnableToDeleteApplication" xml:space="preserve">
+    <value>Haiwezi kufuta programu</value>
+  </data>
+  <data name="UnableToDeleteAssigningAuthority" xml:space="preserve">
+    <value>Haiwezi kufuta mamlaka ya kuwasilisha</value>
+  </data>
+  <data name="UnableToDeleteCertificate" xml:space="preserve">
+    <value>Haiwezi kufuta cheti</value>
+  </data>
+  <data name="UnableToDeleteDevice" xml:space="preserve">
+    <value>Haiwezi kufuta kifaa</value>
+  </data>
+  <data name="UnableToDeleteMaterial" xml:space="preserve">
+    <value>Haiwezi kufuta nyenzo</value>
+  </data>
+  <data name="UnableToDeleteOrganization" xml:space="preserve">
+    <value>Haiwezi kufuta shirika</value>
+  </data>
+  <data name="UnableToDeletePolicy" xml:space="preserve">
+    <value>Haiwezi kufuta sera</value>
+  </data>
+  <data name="UnableToDeleteReferenceTerm" xml:space="preserve">
+    <value>Haiwezi kufuta muda wa kumbukumbu</value>
+  </data>
+  <data name="UnableToDeleteRelationship" xml:space="preserve">
+    <value>Haiwezi kufuta uhusiano</value>
+  </data>
+  <data name="UnableToDeleteRole" xml:space="preserve">
+    <value>Haiwezi kufuta jukumu</value>
+  </data>
+  <data name="UnableToRetrieveAlerts" xml:space="preserve">
+    <value>Haiwezi kupata Tahadhari</value>
+  </data>
+  <data name="UnableToRetrieveMaterial" xml:space="preserve">
+    <value>Haiwezi kurejesha nyenzo</value>
+  </data>
+  <data name="UnableToRetrieveOrganization" xml:space="preserve">
+    <value>Haiwezi kupata shirika</value>
+  </data>
+  <data name="UnableToRetrievePlace" xml:space="preserve">
+    <value>Imeshindwa kurejesha mahali</value>
+  </data>
+  <data name="UnableToRetrieveProfile" xml:space="preserve">
+    <value>Imeshindwa kurejesha wasifu</value>
+  </data>
+  <data name="UnableToUpdateAlert" xml:space="preserve">
+    <value>Haiwezi kuboresha tahadhari</value>
+  </data>
+  <data name="UnableToUpdateApplication" xml:space="preserve">
+    <value>Haiwezi kusasisha programu</value>
+  </data>
+  <data name="UnableToUpdateConcept" xml:space="preserve">
+    <value>Haiwezi kuhifadhi dhana</value>
+  </data>
+  <data name="UnableToUpdateDevice" xml:space="preserve">
+    <value>Haiwezi kusasisha kifaa</value>
+  </data>
+  <data name="UserActivatedSuccessfully" xml:space="preserve">
+    <value>Mtumiaji alifanya kazi kwa mafanikio</value>
+  </data>
+  <data name="UserCreatedSuccessfully" xml:space="preserve">
+    <value>Mtumiaji aliundwa kwa ufanisi</value>
+  </data>
+  <data name="UserDeactivatedSuccessfully" xml:space="preserve">
+    <value>Mtumiaji amefungwa kwa mafanikio</value>
   </data>
 </root>

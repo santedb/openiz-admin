@@ -1351,7 +1351,7 @@
     <value>NegationOf</value>
   </data>
   <data name="SameAs" xml:space="preserve">
-    <value>SameAs</value>
+    <value>Same As</value>
   </data>
   <data name="IsServiceDeliveryLocation" xml:space="preserve">
     <value>Is this a service delivery location? (That being, does this place provide a service, such as care?)</value>
