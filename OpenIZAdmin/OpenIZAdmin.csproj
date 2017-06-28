@@ -641,6 +641,9 @@
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\manufactured-material-search.js" />
     <Content Include="Scripts\reference-term-search.js" />
+    <Content Include="Scripts\select2-config.js" />
+    <Content Include="Scripts\select2-i18n\en-ca.js" />
+    <Content Include="Scripts\select2-i18n\sw.js" />
     <Content Include="Scripts\ui-customizations.js" />
     <Content Include="Scripts\user-search.js" />
     <Content Include="Scripts\place-search.js" />

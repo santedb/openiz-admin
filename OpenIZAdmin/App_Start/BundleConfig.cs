@@ -45,7 +45,10 @@ namespace OpenIZAdmin
 						"~/Scripts/moment.min.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/select2").Include(
-						"~/Scripts/select2.min.js"));
+						"~/Scripts/select2.min.js",
+                        "~/Scripts/select2-i18n/en-ca.js",
+                        "~/Scripts/select2-i18n/sw.js",
+                        "~/Scripts/select2-config.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/toastr").Include(
 						"~/Scripts/toastr.min.js",
