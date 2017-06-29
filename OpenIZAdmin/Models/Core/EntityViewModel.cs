@@ -76,6 +76,8 @@ namespace OpenIZAdmin.Models.Core
 				this.Type = Constants.NotApplicable;
 			}
 
+			this.UpdatedTime = entity.CreationTime.DateTime;
+
 			this.VersionKey = entity.VersionKey;
 			this.VersionSequence = entity.VersionSequence;
 		}
@@ -120,6 +122,20 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		[Display(Name = "Type", ResourceType = typeof(Locale))]
 		public string Type { get; set; }
+
+		/// <summary>
+		/// Gets or sets the updated by.
+		/// </summary>
+		/// <value>The updated by.</value>
+		[Display(Name = "UpdatedBy", ResourceType = typeof(Locale))]
+		public string UpdatedBy { get; set; }
+
+		/// <summary>
+		/// Gets or sets the updated time.
+		/// </summary>
+		/// <value>The updated time.</value>
+		[Display(Name = "UpdatedTime", ResourceType = typeof(Locale))]
+		public DateTime UpdatedTime { get; set; }
 
 		/// <summary>
 		/// Gets or sets the version sequence.

@@ -31,6 +31,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.Caching;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Comparer;
@@ -307,7 +308,11 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var material = this.ImsiClient.Create(model.ToMaterial());
+					var materialToCreate = model.ToMaterial();
+
+					materialToCreate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
+
+					var material = this.ImsiClient.Create(materialToCreate);
 
 					TempData["success"] = Locale.MaterialCreatedSuccessfully;
 
@@ -531,7 +536,8 @@ namespace OpenIZAdmin.Controllers
 				{
 					FormConcepts = formConcepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == material.FormConceptKey).ToList(),
 					QuantityConcepts = quantityConcepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == material.QuantityConceptKey).ToList(),
-					TypeConcepts = typeConcepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == material.TypeConceptKey).ToList()
+					TypeConcepts = typeConcepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == material.TypeConceptKey).ToList(),
+					UpdatedBy = this.GetUserEntityBySecurityUserKey(material.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
 				};
 
 				return View(model);
@@ -749,7 +755,11 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
-					var updatedEntity = this.UpdateEntity<Material>(model.ToMaterial(material));
+					var materialToUpdate = model.ToMaterial(material);
+
+					materialToUpdate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
+
+					var updatedEntity = this.UpdateEntity<Material>(materialToUpdate);
 
 					TempData["success"] = Locale.MaterialUpdatedSuccessfully;
 
@@ -901,7 +911,12 @@ namespace OpenIZAdmin.Controllers
 
 				material.Relationships = relationships.Intersect(material.Relationships, new EntityRelationshipComparer()).ToList();
 
-				return View(new MaterialViewModel(material));
+				var viewModel = new MaterialViewModel(material)
+				{
+					UpdatedBy = this.GetUserEntityBySecurityUserKey(material.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
+				};
+
+				return View(viewModel);
 			}
 			catch (Exception e)
 			{

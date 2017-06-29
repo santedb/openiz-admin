@@ -2403,4 +2403,10 @@
   <data name="ExpiryDateRequired" xml:space="preserve">
     <value>Please enter an expiry date</value>
   </data>
+  <data name="UpdatedBy" xml:space="preserve">
+    <value>Updated By</value>
+  </data>
+  <data name="UpdatedTime" xml:space="preserve">
+    <value>Updated Time</value>
+  </data>
 </root>

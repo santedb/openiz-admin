@@ -6325,6 +6325,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Updated By.
+        /// </summary>
+        public static string UpdatedBy {
+            get {
+                return ResourceManager.GetString("UpdatedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updated Time.
+        /// </summary>
+        public static string UpdatedTime {
+            get {
+                return ResourceManager.GetString("UpdatedTime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update profile.
         /// </summary>
         public static string UpdateProfile {

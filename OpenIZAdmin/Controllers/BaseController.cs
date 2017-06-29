@@ -37,6 +37,7 @@ using System.Web.Mvc;
 using OpenIZ.Core.Model.Collection;
 using OpenIZAdmin.Audit;
 using OpenIZAdmin.Extensions;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.RoleModels;
 
 namespace OpenIZAdmin.Controllers
@@ -394,6 +395,17 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns the user entity instance.</returns>
 		protected UserEntity GetUserEntityBySecurityUserKey(Guid securityUserId)
 		{
+			if (securityUserId == Guid.Parse(Constants.SystemUserId))
+			{
+				return new UserEntity
+				{
+					Names = new List<EntityName>
+					{
+						new EntityName(NameUseKeys.OfficialRecord, Locale.System)
+					}
+				};
+			}
+
 			var bundle = this.ImsiClient.Query<UserEntity>(u => u.SecurityUserKey == securityUserId && u.ObsoletionTime == null, 0, null, true);
 
 			bundle.Reconstitute();

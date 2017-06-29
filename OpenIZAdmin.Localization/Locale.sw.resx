@@ -2432,4 +2432,10 @@ au jina la kikoa</value>
   <data name="UserDeactivatedSuccessfully" xml:space="preserve">
     <value>Mtumiaji amefungwa kwa mafanikio</value>
   </data>
+  <data name="UpdatedBy" xml:space="preserve">
+    <value>Imeongezwa</value>
+  </data>
+  <data name="UpdatedTime" xml:space="preserve">
+    <value>Muda uliowekwa</value>
+  </data>
 </root>

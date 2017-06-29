@@ -283,6 +283,7 @@
     <Compile Include="Extensions\ListExtensions.cs" />
     <Compile Include="Extensions\ConceptExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\EntityExtensions.cs" />
     <Compile Include="Filters\LanguageActionFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

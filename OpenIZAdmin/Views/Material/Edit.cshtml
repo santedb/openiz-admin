@@ -67,6 +67,20 @@
                                 @Html.ValidationMessageFor(m => m.ExpiryDate, "", new { @class = "text-danger" })
                             </div>
                         </div>
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.UpdatedBy, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.UpdatedBy, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                    
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.UpdatedTime, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.UpdatedTime, new { @class = "form-control", @readonly = "readonly", disabled = "disabled", value = Model.UpdatedTime.DefaultFormat() })
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-md-offset-2 col-md-8">

@@ -1,4 +1,5 @@
-﻿@using OpenIZAdmin.Models
+﻿@using OpenIZAdmin.Extensions
+@using OpenIZAdmin.Models
 @model OpenIZAdmin.Models.PlaceModels.EditPlaceModel
 @{
     ViewBag.Title = Locale.EditPlace_Heading;
@@ -61,6 +62,20 @@
                 @Html.LabelFor(m => m.IsServiceDeliveryLocation, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
                     @Html.CheckBoxFor(m => m.IsServiceDeliveryLocation, new { @class = "col-md-offset-2" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.UpdatedBy, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.UpdatedBy, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            </div>
+                    
+            <div class="form-group">
+                @Html.LabelFor(m => m.UpdatedTime, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.TextBoxFor(m => m.UpdatedTime, new { @class = "form-control", @readonly = "readonly", value = Model.UpdatedTime.DefaultFormat() })
                 </div>
             </div>
 

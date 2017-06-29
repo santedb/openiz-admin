@@ -24,6 +24,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.Constants;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.EntityIdentifierModels;
 using OpenIZAdmin.Models.EntityRelationshipModels;
 
@@ -64,6 +65,7 @@ namespace OpenIZAdmin.Models.Core
 			this.IsObsolete = entity.StatusConceptKey == StatusKeys.Obsolete;
 			this.Relationships = entity.Relationships.Select(r => new EntityRelationshipModel(r, entity.Type) { Quantity = r.Quantity }).ToList();
 			this.Types = entity.Identifiers.Select(i => new SelectListItem { Text = i.Authority.Name, Value = i.AuthorityKey?.ToString() }).ToList();
+			this.UpdatedTime = entity.CreationTime.DateTime;
 			this.VersionKey = entity.VersionKey;
 		}
 
@@ -90,6 +92,20 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		/// <value>The type list.</value>
 		public List<SelectListItem> Types { get; set; }
+
+		/// <summary>
+		/// Gets or sets the updated by.
+		/// </summary>
+		/// <value>The updated by.</value>
+		[Display(Name = "UpdatedBy", ResourceType = typeof(Locale))]
+		public string UpdatedBy { get; set; }
+
+		/// <summary>
+		/// Gets or sets the updated time.
+		/// </summary>
+		/// <value>The updated time.</value>
+		[Display(Name = "UpdatedTime", ResourceType = typeof(Locale))]
+		public DateTime UpdatedTime { get; set; }
 
 		/// <summary>
 		/// Gets or sets the version key.

@@ -38,6 +38,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -159,6 +160,8 @@ namespace OpenIZAdmin.Controllers
 
 						placeToCreate.Extensions.Add(entityExtension);
 					}
+
+					placeToCreate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
 
 					var createdPlace = this.ImsiClient.Create<Place>(placeToCreate);
 
@@ -361,8 +364,10 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditPlaceModel(place)
 				{
-					TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), t => t.Key == place.TypeConceptKey).ToList()
+					TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), t => t.Key == place.TypeConceptKey).ToList(),
+					UpdatedBy = this.GetUserEntityBySecurityUserKey(place.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
 				};
+
 
 				return View(model);
 			}
@@ -437,6 +442,8 @@ namespace OpenIZAdmin.Controllers
 
 						placeToUpdate.Extensions.Add(entityExtension);
 					}
+
+					placeToUpdate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
 
 					var updatedPlace = this.UpdateEntity<Place>(placeToUpdate);
 
@@ -646,7 +653,12 @@ namespace OpenIZAdmin.Controllers
 
 				place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
 
-				return View(new PlaceViewModel(place));
+				var viewModel = new PlaceViewModel(place)
+				{
+					UpdatedBy = this.GetUserEntityBySecurityUserKey(place.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
+				};
+
+				return View(viewModel);
 			}
 			catch (Exception e)
 			{

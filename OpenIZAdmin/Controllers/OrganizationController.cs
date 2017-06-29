@@ -34,6 +34,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -119,7 +120,11 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var organization = this.ImsiClient.Create(model.ToOrganization());
+					var organizationToCreate = model.ToOrganization();
+
+					organizationToCreate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
+
+					var organization = this.ImsiClient.Create(organizationToCreate);
 
 					TempData["success"] = Locale.OrganizationCreatedSuccessfully;
 
@@ -314,7 +319,8 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditOrganizationModel(organization)
 				{
-					IndustryConcepts = industryConceptSet?.Concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList()
+					IndustryConcepts = industryConceptSet?.Concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList(),
+					UpdatedBy = this.GetUserEntityBySecurityUserKey(organization.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
 				};
 
 				return View(model);
@@ -350,7 +356,11 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Index");
 					}
 
-					var updatedOrganization = this.ImsiClient.Update<Organization>(model.ToOrganization(organization));
+					var organizationToUpdate = model.ToOrganization(organization);
+
+					organizationToUpdate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
+
+					var updatedOrganization = this.ImsiClient.Update<Organization>(organizationToUpdate);
 
 					TempData["success"] = Locale.OrganizationUpdatedSuccessfully;
 
@@ -455,7 +465,12 @@ namespace OpenIZAdmin.Controllers
 
 				organization.Relationships = relationships.Intersect(organization.Relationships, new EntityRelationshipComparer()).ToList();
 
-				return View(new OrganizationViewModel(organization));
+				var viewModel = new OrganizationViewModel(organization)
+				{
+					UpdatedBy = this.GetUserEntityBySecurityUserKey(organization.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
+				};
+
+				return View(viewModel);
 			}
 			catch (Exception e)
 			{
