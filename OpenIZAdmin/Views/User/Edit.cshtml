@@ -172,7 +172,10 @@
     <script type="text/javascript">
         $(document).ready(function ()
         {
-            $(".tokenfield").tokenfield();
+            $(".tokenfield").tokenfield(
+            {
+                delimiter: [",", " "]
+            });
 
             $(".tokenfield").on("tokenfield:createtoken", function(e)
             {

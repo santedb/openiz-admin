@@ -27,6 +27,7 @@ using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Models.EntityRelationshipModels;
+using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -104,7 +105,7 @@ namespace OpenIZAdmin.Controllers
                     //ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
                 };
 
-                model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.OwnedEntity).ToList());
+                model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.OwnedEntity).ToList());
 
                 //entity.Relationships.RemoveAll(r => r.Key == id);
 

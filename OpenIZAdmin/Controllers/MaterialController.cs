@@ -194,7 +194,7 @@ namespace OpenIZAdmin.Controllers
 					this.GetConcept(EntityRelationshipTypeKeys.UsedEntity)
 				};
 
-				model.RelationshipTypes.AddRange(concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.UsedEntity));
+				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.UsedEntity));
 
 				return View(model);
 			}
@@ -233,7 +233,7 @@ namespace OpenIZAdmin.Controllers
 
 						concepts.Add(this.GetConcept(EntityRelationshipTypeKeys.UsedEntity));
 
-						model.RelationshipTypes.AddRange(concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.UsedEntity));
+						model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.UsedEntity));
 
 						return View(model);
 					}
@@ -266,7 +266,7 @@ namespace OpenIZAdmin.Controllers
 			model.TargetList = this.BuildMaterialSelectList(material);
 
 			concepts.Add(this.GetConcept(EntityRelationshipTypeKeys.UsedEntity));
-			model.RelationshipTypes.AddRange(concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.UsedEntity));
+			model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.UsedEntity));
 
 			return View(model);
 		}
@@ -282,11 +282,13 @@ namespace OpenIZAdmin.Controllers
 			var quantityConcepts = this.GetQuantityConcepts();
 			var typeConcepts = this.GetMaterialTypeConcepts();
 
+			var language = this.HttpContext.GetCurrentLanguage();
+
 			var model = new CreateMaterialModel
 			{
-				FormConcepts = formConcepts.ToSelectList().ToList(),
-				QuantityConcepts = quantityConcepts.ToSelectList().ToList(),
-				TypeConcepts = typeConcepts.ToSelectList().ToList()
+				FormConcepts = formConcepts.ToSelectList(language).ToList(),
+				QuantityConcepts = quantityConcepts.ToSelectList(language).ToList(),
+				TypeConcepts = typeConcepts.ToSelectList(language).ToList()
 			};
 
 			return View(model);
@@ -321,9 +323,11 @@ namespace OpenIZAdmin.Controllers
 			var quantityConcepts = this.GetQuantityConcepts();
 			var typeConcepts = this.GetMaterialTypeConcepts();
 
-			model.FormConcepts = formConcepts.ToSelectList().ToList();
-			model.QuantityConcepts = quantityConcepts.ToSelectList().ToList();
-			model.TypeConcepts = typeConcepts.ToSelectList().ToList();
+			var language = this.HttpContext.GetCurrentLanguage();
+
+			model.FormConcepts = formConcepts.ToSelectList(language).ToList();
+			model.QuantityConcepts = quantityConcepts.ToSelectList(language).ToList();
+			model.TypeConcepts = typeConcepts.ToSelectList(language).ToList();
 
 			TempData["error"] = Locale.UnableToCreateMaterial;
 
@@ -366,7 +370,7 @@ namespace OpenIZAdmin.Controllers
 					this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct)
 				};
 
-				model.RelationshipTypes.AddRange(concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct));
+				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct));
 
 				return View(model);
 			}
@@ -414,7 +418,7 @@ namespace OpenIZAdmin.Controllers
 						existingMaterial.Relationships = relationships.Intersect(existingMaterial.Relationships, new EntityRelationshipComparer()).ToList();
 
 						model.ExistingRelationships = existingMaterial.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList();
-						model.RelationshipTypes.AddRange(concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct));
+						model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct));
 
 						return View(model);
 					}
@@ -445,7 +449,7 @@ namespace OpenIZAdmin.Controllers
 			this.TempData["error"] = Locale.UnableToCreateRelatedManufacturedMaterial;
 
 			concepts.Add(this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct));
-			model.RelationshipTypes.AddRange(concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct));
+			model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct));
 
 			return View(model);
 		}
@@ -525,9 +529,9 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditMaterialModel(material)
 				{
-					FormConcepts = formConcepts.ToSelectList(c => c.Key == material.FormConceptKey).ToList(),
-					QuantityConcepts = quantityConcepts.ToSelectList(c => c.Key == material.QuantityConceptKey).ToList(),
-					TypeConcepts = typeConcepts.ToSelectList(c => c.Key == material.TypeConceptKey).ToList()
+					FormConcepts = formConcepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == material.FormConceptKey).ToList(),
+					QuantityConcepts = quantityConcepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == material.QuantityConceptKey).ToList(),
+					TypeConcepts = typeConcepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == material.TypeConceptKey).ToList()
 				};
 
 				return View(model);
@@ -570,7 +574,7 @@ namespace OpenIZAdmin.Controllers
 					ExistingRelationships = material.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
 				};
 
-				model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList(c => c.Key == EntityRelationshipTypeKeys.OwnedEntity).ToList());
+				model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.OwnedEntity).ToList());
 
 				return View(model);
 			}

@@ -23,6 +23,7 @@ using System.Linq;
 using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Filters
 {
@@ -54,7 +55,7 @@ namespace OpenIZAdmin.Filters
 		/// <param name="filterContext">The filter context for the request.</param>
 		public void OnActionExecuting(ActionExecutingContext filterContext)
 		{
-			var cultureInfo = new CultureInfo(this.GetLanguage(filterContext.HttpContext));
+			var cultureInfo = new CultureInfo(GetLanguage(filterContext.HttpContext));
 
 			Thread.CurrentThread.CurrentUICulture = cultureInfo;
 		}
@@ -64,18 +65,9 @@ namespace OpenIZAdmin.Filters
 		/// </summary>
 		/// <param name="context">The HTTP context.</param>
 		/// <returns>Returns the users preferred language.</returns>
-		private string GetLanguage(HttpContextBase context)
+		private static string GetLanguage(HttpContextBase context)
 		{
-			var cookie = context.Request.Cookies[LocalizationConfig.LanguageCookieName];
-
-			if (cookie == null)
-			{
-				return LocalizationConfig.DefaultLanguage;
-			}
-			else
-			{
-				return cookie.Value;
-			}
+			return context.GetCurrentLanguage();
 		}
 	}
 }

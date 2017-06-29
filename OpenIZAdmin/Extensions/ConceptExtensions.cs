@@ -33,29 +33,14 @@ namespace OpenIZAdmin.Extensions
 	public static class ConceptExtensions
 	{
 		/// <summary>
-		/// Converts a <see cref="ConceptSet" /> to a <see cref="IEnumerable{T}" /> of <see cref="SelectListItem" />.
-		/// </summary>
-		/// <param name="source">The concept set to convert.</param>
-		/// <returns>Returns a <see cref="IEnumerable{T}" /> of <see cref="SelectListItem" />.</returns>
-		/// <exception cref="System.ArgumentNullException">If the source is null.</exception>
-		public static IEnumerable<SelectListItem> ToSelectList(this ConceptSet source)
-		{
-			if (source == null)
-			{
-				throw new ArgumentNullException(nameof(source), Locale.ValueCannotBeNull);
-			}
-
-			return source.Concepts.ToSelectList();
-		}
-
-		/// <summary>
 		/// Converts a <see cref="IEnumerable{T}" /> of <see cref="Concept" /> to a <see cref="IEnumerable{T}" /> of <see cref="SelectListItem" />.
 		/// </summary>
 		/// <param name="source">The list of concepts to convert.</param>
 		/// <param name="selectedExpression">An expression which evaluates to set selected items.</param>
+		/// <param name="languageCode">The language code.</param>
 		/// <returns>Returns a <see cref="IEnumerable{T}" /> of <see cref="SelectListItem" />.</returns>
 		/// <exception cref="System.ArgumentNullException">If the source is null.</exception>
-		public static IEnumerable<SelectListItem> ToSelectList(this IEnumerable<Concept> source, Expression<Func<Concept, bool>> selectedExpression = null)
+		public static IEnumerable<SelectListItem> ToSelectList(this IEnumerable<Concept> source, string languageCode = "en", Expression<Func<Concept, bool>> selectedExpression = null)
 		{
 			if (source == null)
 			{
@@ -67,17 +52,23 @@ namespace OpenIZAdmin.Extensions
 				new SelectListItem { Text = string.Empty, Value = string.Empty }
 			};
 
+			// force set the language code if null
+			if (languageCode == null)
+			{
+				languageCode = "en";
+			}
+
 			selectList.AddRange(
 				selectedExpression != null ?
 				source.Select(c => new SelectListItem
 				{
 					Selected = Convert.ToBoolean(selectedExpression.Compile().DynamicInvoke(c)),
-					Text = c.ConceptNames?.Any() == true ? string.Join(" ", c.ConceptNames.Select(n => n.Name)) : c.Mnemonic,
+					Text = c.ConceptNames?.Any(cn => cn.Language == languageCode) == true ? string.Join(" ", c.ConceptNames.Where(cn => cn.Language == languageCode).Select(n => n.Name)) : c.Mnemonic,
 					Value = c.Key.ToString()
 				}) :
 				source.Select(c => new SelectListItem
 				{
-					Text = c.ConceptNames?.Any() == true ? string.Join(" ", c.ConceptNames.Select(n => n.Name)) : c.Mnemonic,
+					Text = c.ConceptNames?.Any(cn => cn.Language == languageCode) == true ? string.Join(" ", c.ConceptNames.Where(cn => cn.Language == languageCode).Select(n => n.Name)) : c.Mnemonic,
 					Value = c.Key.ToString()
 				}));
 

@@ -109,7 +109,7 @@ namespace OpenIZAdmin.Controllers
 			var model = new CreateUserModel
 			{
 				RolesList = this.GetAllRoles().ToSelectList("Name", "Name", null, true),
-				PhoneTypeList = this.GetPhoneTypeConceptSet().Concepts.ToSelectList().ToList(),
+				PhoneTypeList = this.GetPhoneTypeConceptSet().Concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList(),
 				PhoneType = TelecomAddressUseKeys.MobileContact.ToString()
 			};
 
@@ -171,7 +171,7 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			model.RolesList = this.GetAllRoles().ToSelectList("Name", "Name", null, true);
-			model.PhoneTypeList = this.GetPhoneTypeConceptSet().Concepts.ToSelectList().ToList();
+			model.PhoneTypeList = this.GetPhoneTypeConceptSet().Concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
 
 			if (!TempData.ContainsKey("error") || TempData["error"] == null)
 			{
@@ -703,7 +703,7 @@ namespace OpenIZAdmin.Controllers
 			var phoneTypes = this.GetPhoneTypeConceptSet().Concepts.ToList();
 
 			Guid phoneType;
-			model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList().ToList();
+			model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(this.HttpContext.GetCurrentLanguage(), p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList().ToList();
 
 			if (userEntity.Telecoms.Any())
 			{

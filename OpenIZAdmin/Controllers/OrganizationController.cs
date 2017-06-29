@@ -100,7 +100,7 @@ namespace OpenIZAdmin.Controllers
 
 			var model = new CreateOrganizationModel
 			{
-				IndustryConcepts = industryConceptSet.ToSelectList().ToList()
+				IndustryConcepts = industryConceptSet.Concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList()
 			};
 
 			return View(model);
@@ -134,7 +134,7 @@ namespace OpenIZAdmin.Controllers
 
 			var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
 
-			model.IndustryConcepts = industryConceptSet.Concepts.ToSelectList(c => c.Key == Guid.Parse(model.IndustryConcept)).ToList();
+			model.IndustryConcepts = industryConceptSet.Concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == Guid.Parse(model.IndustryConcept)).ToList();
 
 			TempData["error"] = Locale.UnableToCreateOrganization;
 
@@ -177,7 +177,7 @@ namespace OpenIZAdmin.Controllers
 					this.GetConcept(EntityRelationshipTypeKeys.WarrantedProduct)
 				};
 
-				model.RelationshipTypes.AddRange(concepts.ToSelectList());
+				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()));
 
 				return View(model);
 			}
@@ -235,7 +235,7 @@ namespace OpenIZAdmin.Controllers
 				this.GetConcept(EntityRelationshipTypeKeys.WarrantedProduct)
 			};
 
-			model.RelationshipTypes.AddRange(concepts.ToSelectList());
+			model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()));
 
 			this.TempData["error"] = Locale.UnableToCreateRelatedManufacturedMaterial;
 
@@ -314,7 +314,7 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditOrganizationModel(organization)
 				{
-					IndustryConcepts = industryConceptSet?.Concepts.ToSelectList().ToList()
+					IndustryConcepts = industryConceptSet?.Concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList()
 				};
 
 				return View(model);
@@ -364,7 +364,7 @@ namespace OpenIZAdmin.Controllers
 
 			var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
 
-			model.IndustryConcepts = industryConceptSet?.Concepts.ToSelectList().ToList();
+			model.IndustryConcepts = industryConceptSet?.Concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
 
 			TempData["error"] = Locale.UnableToUpdateOrganization;
 

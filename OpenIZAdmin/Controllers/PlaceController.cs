@@ -113,7 +113,7 @@ namespace OpenIZAdmin.Controllers
 			var model = new CreatePlaceModel
 			{
 				IsServiceDeliveryLocation = true,
-				TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList().ToList()
+				TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList()
 			};
 
 			return View(model);
@@ -173,7 +173,7 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			model.TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList().ToList();
+			model.TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
 
 			this.TempData["error"] = Locale.UnableToCreatePlace;
 
@@ -219,7 +219,7 @@ namespace OpenIZAdmin.Controllers
 					this.GetConcept(EntityRelationshipTypeKeys.Parent)
 				};
 
-				model.RelationshipTypes.AddRange(concepts.ToSelectList());
+				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()));
 
 				return View(model);
 			}
@@ -281,7 +281,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (Guid.TryParse(model.RelationshipType, out relationshipType))
 			{
-				model.RelationshipTypes.AddRange(concepts.ToSelectList(c => c.Key == relationshipType));
+				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == relationshipType));
 			}
 
 			this.TempData["error"] = Locale.UnableToCreateRelatedPlace;
@@ -361,7 +361,7 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditPlaceModel(place)
 				{
-					TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(t => t.Key == place.TypeConceptKey).ToList()
+					TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), t => t.Key == place.TypeConceptKey).ToList()
 				};
 
 				return View(model);
@@ -418,7 +418,7 @@ namespace OpenIZAdmin.Controllers
 					model.Identifiers = place.Identifiers.Select(i => new EntityIdentifierModel(i.Key.Value, place.Key.Value)).ToList();
 					model.Relationships = place.Relationships.Select(r => new EntityRelationshipModel(r)).ToList();
 
-					model.TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(t => t.Key == place.TypeConceptKey).ToList();
+					model.TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), t => t.Key == place.TypeConceptKey).ToList();
 
 					var placeToUpdate = model.ToPlace(place);
 
