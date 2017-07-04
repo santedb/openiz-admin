@@ -738,6 +738,11 @@
             Represents a credential provider which does basic http
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Http.HttpBasicCredentials.#ctor(System.String,System.String)">
+            <summary>
+            Creates the basic credential 
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Http.HttpBasicCredentials.#ctor(System.Security.Principal.IPrincipal,System.String)">
             <summary>
             Creates the basic credential 
@@ -1805,6 +1810,14 @@
             <param name="key">The key.</param>
             <returns>Returns the act.</returns>
         </member>
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Nullify``1(``0)">
+            <summary>
+            Nullifies a specific act.
+            </summary>
+            <typeparam name="TAct">The type of the act.</typeparam>
+            <param name="key">The key.</param>
+            <returns>Returns the act.</returns>
+        </member>
         <member name="M:OpenIZ.Core.Services.IActRepositoryService.Save``1(``0)">
             <summary>
             Inserts or updates the specific act.
@@ -2133,6 +2146,14 @@
             </summary>
             <param name="code">The code of the reference term.</param>
             <param name="codeSystemOid">The code system OID of the reference term.</param>
+            <returns>Returns a list of concepts.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptsByReferenceTerm(System.String,System.String)">
+            <summary>
+            Finds a concept by reference term.
+            </summary>
+            <param name="code">The code of the reference term.</param>
+            <param name="codeSystemDomain">The code system OID of the reference term.</param>
             <returns>Returns a list of concepts.</returns>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConceptSets(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.ConceptSet,System.Boolean}})">
@@ -3705,6 +3726,16 @@
             Creates a normal thread which is not in the pool
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Protocol.ProtocolComparer">
+            <summary>
+            Protocol comparer
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Protocol.ProtocolComparer.Equals(OpenIZ.Core.Model.Acts.ActProtocol,OpenIZ.Core.Model.Acts.ActProtocol)">
+            <summary>
+            Two protocols equal each other
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Protocol.IClinicalProtocol">
             <summary>
             Represents a clinical protocol
@@ -3750,6 +3781,11 @@
             <summary>
             Represents a care plan service that can bundle protocol acts together 
             based on their start/stop times
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Protocol.SimpleCarePlanService.IgnoreViewModelInitializer">
+            <summary>
+            True if the view model initializer for the care plans should be ignored
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Protocol.SimpleCarePlanService.ParameterDictionary`2">

@@ -25,6 +25,7 @@ using System.Web;
 using System.Web.Mvc;
 using OpenIZ.Core.Extensions;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZ.Core.Model.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
 
@@ -86,6 +87,7 @@ namespace OpenIZAdmin.Models.ExtensionTypeModels
 		{
 			this.HandlerClasses.Add(new SelectListItem { Text = string.Empty, Value = string.Empty });
 			this.HandlerClasses.Add(new SelectListItem { Text = typeof(BooleanExtensionHandler).Name, Value = typeof(BooleanExtensionHandler).AssemblyQualifiedName });
+			this.HandlerClasses.Add(new SelectListItem { Text = typeof(DateExtensionHandler).Name, Value = typeof(DateExtensionHandler).AssemblyQualifiedName });
 			this.HandlerClasses.Add(new SelectListItem { Text = typeof(DecimalExtensionHandler).Name, Value = typeof(DecimalExtensionHandler).AssemblyQualifiedName });
 			this.HandlerClasses.Add(new SelectListItem { Text = typeof(DictionaryExtensionHandler).Name, Value = typeof(DictionaryExtensionHandler).AssemblyQualifiedName });
 			this.HandlerClasses.Add(new SelectListItem { Text = typeof(StringExtensionHandler).Name, Value = typeof(StringExtensionHandler).AssemblyQualifiedName });

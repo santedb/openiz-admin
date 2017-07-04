@@ -722,6 +722,13 @@
             Gets or sets the applet strings
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Applets.Model.AppletManifest.Equals(OpenIZ.Core.Applets.Model.AppletManifest)">
+            <summary>
+            Indicates whether the current object is equal to another object of the same type.
+            </summary>
+            <param name="other">An object to compare with this object.</param>
+            <returns>true if the current object is equal to the <paramref name="other" /> parameter; otherwise, false.</returns>
+        </member>
         <member name="T:OpenIZ.Core.Applets.Model.AppletPackage">
             <summary>
             Applet package used for installations only
@@ -1035,6 +1042,11 @@
             Gets the reference to use
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Applets.ViewModel.Description.PropertyContainerDescription.FindProperty(System.String)">
+            <summary>
+            Find property
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Applets.ViewModel.Description.PropertyModelDescription">
             <summary>
             Property model description
@@ -1108,6 +1120,11 @@
         <member name="M:OpenIZ.Core.Applets.ViewModel.Description.ViewModelDescription.FindDescription(System.Type)">
             <summary>
             Find description
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Applets.ViewModel.Description.ViewModelDescription.GetTypeName(System.Type)">
+            <summary>
+            Get type name
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Applets.ViewModel.Description.ViewModelDescription.FindDescription(System.String,OpenIZ.Core.Applets.ViewModel.Description.PropertyContainerDescription)">

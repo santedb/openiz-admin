@@ -2704,6 +2704,11 @@
             Creates an entity extension
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.EntityExtension.#ctor(System.Guid,System.Type,System.Object)">
+            <summary>
+            Creates an entity extension
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.DataTypes.ActExtension">
             <summary>
             Act extension
@@ -2715,6 +2720,11 @@
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.DataTypes.ActExtension.#ctor(System.Guid,System.Byte[])">
+            <summary>
+            Creates an entity extension
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.ActExtension.#ctor(System.Guid,System.Type,System.Object)">
             <summary>
             Creates an entity extension
             </summary>
@@ -3681,6 +3691,11 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityName.ToString">
+            <summary>
+            Represent the name as a string
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Entities.EntityNameComponent">
             <summary>
             Represents a name component which is bound to a name
@@ -4298,6 +4313,31 @@
         <member name="M:OpenIZ.Core.Model.EntityLoader.IEntitySourceProvider.GetRelations``1(System.Nullable{System.Guid})">
             <summary>
             Get relationships
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.Extensions.DateExtensionHandler">
+            <summary>
+            Date extension handler
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Extensions.DateExtensionHandler.Name">
+            <summary>
+            Gets the name of the handler
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Extensions.DateExtensionHandler.DeSerialize(System.Byte[])">
+            <summary>
+            Serialize to bytes
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Extensions.DateExtensionHandler.GetDisplay(System.Object)">
+            <summary>
+            Get the display value
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Extensions.DateExtensionHandler.Serialize(System.Object)">
+            <summary>
+            Serialize
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.LoadState">
