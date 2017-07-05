@@ -271,17 +271,32 @@ namespace OpenIZAdmin.Controllers
 		{
 			var results = new List<ConceptSetViewModel>();
 
+			
 			try
 			{
-				if (this.IsValidId(searchTerm))
-				{					
-					var bundle = searchTerm == "*" ? this.ImsiClient.Query<ConceptSet>(c => c.ObsoletionTime == null) : this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
+				Guid conceptSetId;
 
-                    results = bundle.Item.OfType<ConceptSet>().Select(p => new ConceptSetViewModel(p)).ToList();
+				if (!Guid.TryParse(searchTerm, out conceptSetId))
+				{
+					if (this.IsValidId(searchTerm))
+					{
+						var bundle = searchTerm == "*" ? this.ImsiClient.Query<ConceptSet>(c => c.ObsoletionTime == null) : this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic.Contains(searchTerm) && c.ObsoletionTime == null);
 
-                    TempData["searchTerm"] = searchTerm;
+						results = bundle.Item.OfType<ConceptSet>().Select(p => new ConceptSetViewModel(p)).ToList();
 
-					return PartialView("_ConceptSetSearchResultsPartial", results.OrderBy(c => c.Mnemonic));
+						TempData["searchTerm"] = searchTerm;
+
+						return PartialView("_ConceptSetSearchResultsPartial", results.OrderBy(c => c.Mnemonic));
+					}
+				}
+				else
+				{
+					var conceptSet = this.ImsiClient.Get<ConceptSet>(conceptSetId, null) as ConceptSet;
+
+					if (conceptSet != null)
+					{
+						results.Add(new ConceptSetViewModel(conceptSet));
+					}
 				}
 			}
 			catch (Exception e)
