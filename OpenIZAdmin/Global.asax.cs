@@ -67,7 +67,9 @@ namespace OpenIZAdmin
 			}
 			catch (Exception exception)
 			{
-				Trace.TraceError($"Unable to audit application stop: {exception}");
+				Trace.TraceError("****************************************************");
+				Trace.TraceError($"Unable to send application stop audit: {exception}");
+				Trace.TraceError("****************************************************");
 			}
 
 			Trace.TraceInformation("Application stopped");
@@ -168,11 +170,20 @@ namespace OpenIZAdmin
 
 			if (RealmConfig.IsJoinedToRealm())
 			{
-				var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
+				try
+				{
+					var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
 
-				var auditHelper = new GlobalAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.Context);
+					var auditHelper = new GlobalAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.Context);
 
-				auditHelper.AuditApplicationStart(OutcomeIndicator.Success);
+					auditHelper.AuditApplicationStart(OutcomeIndicator.Success);
+				}
+				catch (Exception exception)
+				{
+					Trace.TraceError("****************************************************");
+					Trace.TraceError($"Unable to send application start audit: {exception}");
+					Trace.TraceError("****************************************************");
+				}
 			}
 
 			Trace.TraceInformation("Application started");
