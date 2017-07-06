@@ -603,7 +603,7 @@ namespace OpenIZAdmin.Controllers
 
 				var userEntity = this.GetUserEntityBySecurityUserKey(id);
 
-				// used as a check for users, incase an imported user doesn't have a user entity
+				// used as a check for users, in-case an imported user doesn't have a user entity
 				if (userEntity == null)
 				{
 					userEntity = this.ImsiClient.Create<UserEntity>(new UserEntity
@@ -612,6 +612,8 @@ namespace OpenIZAdmin.Controllers
 						SecurityUserKey = id
 					});
 				}
+
+				var currentLanguageCode = this.HttpContext.GetCurrentLanguage() ?? "en";
 
 				var viewModel = new UserViewModel(userEntity, userInfo);
 
@@ -627,12 +629,17 @@ namespace OpenIZAdmin.Controllers
 
 						if (concept != null)
 						{
-							phoneType = string.Join(" ", concept.ConceptNames.Select(c => c.Name));
+							phoneType = concept.ConceptNames?.Any(cn => cn.Language == currentLanguageCode) == true ? string.Join(" ", concept.ConceptNames.Where(cn => cn.Language == currentLanguageCode).Select(n => n.Name)) : concept.Mnemonic;
 						}
 					}
 					else
 					{
-						phoneType = string.Join(" ", telecom.AddressUse?.ConceptNames.Select(c => c.Name));
+						if (telecom.AddressUse == null)
+						{
+							telecom.AddressUse = this.GetConcept(telecom.AddressUseKey.Value);
+						}
+
+						phoneType = telecom.AddressUse.ConceptNames?.Any(cn => cn.Language == currentLanguageCode) == true ? string.Join(" ", telecom.AddressUse.ConceptNames.Where(cn => cn.Language == currentLanguageCode).Select(n => n.Name)) : telecom.AddressUse.Mnemonic;
 					}
 
 					viewModel.PhoneType = phoneType;
