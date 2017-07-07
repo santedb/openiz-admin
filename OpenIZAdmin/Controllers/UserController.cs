@@ -710,7 +710,7 @@ namespace OpenIZAdmin.Controllers
 			var phoneTypes = this.GetPhoneTypeConceptSet().Concepts.ToList();
 
 			Guid phoneType;
-			model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(this.HttpContext.GetCurrentLanguage(), p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList().ToList();
+			model.PhoneTypeList = this.IsValidId(model.PhoneType) && Guid.TryParse(model.PhoneType, out phoneType) ? phoneTypes.ToSelectList(this.HttpContext.GetCurrentLanguage(), p => p.Key == phoneType).ToList() : phoneTypes.ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
 
 			if (userEntity.Telecoms.Any())
 			{
