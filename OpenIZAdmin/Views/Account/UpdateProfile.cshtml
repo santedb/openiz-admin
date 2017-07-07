@@ -87,7 +87,8 @@
         {
             $(".tokenfield").tokenfield(
             {
-                delimiter: [",", " "]
+                delimiter: [",", " "],
+                createTokensOnBlur: true
             });
 
             $(".tokenfield").on("tokenfield:createtoken", function(e)
