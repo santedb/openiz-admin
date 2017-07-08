@@ -493,6 +493,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Assembly Information.
+        /// </summary>
+        public static string AssemblyInformation {
+            get {
+                return ResourceManager.GetString("AssemblyInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assets.
         /// </summary>
         public static string Assets {
@@ -642,6 +651,15 @@ namespace OpenIZAdmin.Localization {
         public static string BugSubmittedSuccessfully {
             get {
                 return ResourceManager.GetString("BugSubmittedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Build Date Time.
+        /// </summary>
+        public static string BuildDateTime {
+            get {
+                return ResourceManager.GetString("BuildDateTime", resourceCulture);
             }
         }
         
@@ -5925,6 +5943,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToRetrieveAlerts {
             get {
                 return ResourceManager.GetString("UnableToRetrieveAlerts", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to retrieve build date time.
+        /// </summary>
+        public static string UnableToRetrieveBuildDateTime {
+            get {
+                return ResourceManager.GetString("UnableToRetrieveBuildDateTime", resourceCulture);
             }
         }
         

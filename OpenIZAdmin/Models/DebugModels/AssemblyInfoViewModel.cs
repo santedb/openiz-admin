@@ -17,7 +17,10 @@
  * Date: 2016-11-21
  */
 
+using System;
 using System.Reflection;
+using OpenIZAdmin.Extensions;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.DebugModels
 {
@@ -40,10 +43,23 @@ namespace OpenIZAdmin.Models.DebugModels
 		/// <param name="assembly">The assembly to load.</param>
 		public AssemblyInfoViewModel(Assembly assembly)
 		{
+			this.AssemblyInformation = assembly.ToString();
+			this.BuildDateTime = assembly.GetBuildDateTime(TimeZoneInfo.Local)?.ToString() ?? Locale.UnableToRetrieveBuildDateTime;
 			this.Description = assembly.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
 			this.Title = assembly.GetCustomAttribute<AssemblyTitleAttribute>()?.Title;
-			this.Version = assembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version;
 		}
+
+		/// <summary>
+		/// Gets or sets the assembly information.
+		/// </summary>
+		/// <value>The assembly information.</value>
+		public string AssemblyInformation { get; set; }
+
+		/// <summary>
+		/// Gets or sets the build date time.
+		/// </summary>
+		/// <value>The build date time.</value>
+		public string BuildDateTime { get; set; }
 
 		/// <summary>
 		/// Get or sets the description of the assembly version.
@@ -54,10 +70,5 @@ namespace OpenIZAdmin.Models.DebugModels
 		/// Gets of sets the title of the assembly version.
 		/// </summary>
 		public string Title { get; set; }
-
-		/// <summary>
-		/// Gets or sets the version of the assembly version.
-		/// </summary>
-		public string Version { get; set; }
 	}
 }

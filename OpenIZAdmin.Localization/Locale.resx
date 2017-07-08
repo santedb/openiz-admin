@@ -2409,4 +2409,13 @@
   <data name="UpdatedTime" xml:space="preserve">
     <value>Updated Time</value>
   </data>
+  <data name="BuildDateTime" xml:space="preserve">
+    <value>Build Date Time</value>
+  </data>
+  <data name="UnableToRetrieveBuildDateTime" xml:space="preserve">
+    <value>Unable to retrieve build date time</value>
+  </data>
+  <data name="AssemblyInformation" xml:space="preserve">
+    <value>Assembly Information</value>
+  </data>
 </root>

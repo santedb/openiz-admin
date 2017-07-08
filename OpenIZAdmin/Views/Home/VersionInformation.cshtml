@@ -26,7 +26,7 @@
                 <h4>@Model.Copyright</h4>
                 <h5>@Model.Version</h5>
             </div>
-        </div>  
+        </div>
     </div>
 </div>
 
@@ -39,20 +39,19 @@
         <table class="table table-striped" id="versionInformationTable">
             <thead>
                 <tr>
-                    <th>@Locale.Name</th>
+                    <th>@Locale.AssemblyInformation</th>
                     <th>@Locale.Description</th>
-                    <th>@Locale.Version</th>
+                    <th>@Locale.BuildDateTime</th>
                 </tr>
             </thead>
             <tbody id="alert-results">
                 @foreach (var item in Model.Assemblies)
                 {
                     <tr>
-                        <td>@item.Title</td>
+                        <td class="autoFitContents">@item.AssemblyInformation</td>
                         <td>@item.Description</td>
-                        <td>@item.Version</td>
-                    </tr>
-                }
+                        <td class="autoFitContents">@item.BuildDateTime</td>
+                    </tr>}
             </tbody>
         </table>
 
@@ -61,7 +60,8 @@
 
 @section scripts{
     <script>
-        $(document).ready(function () {
+        $(document).ready(function ()
+        {
             $("#versionInformationTable").DataTable({
                 "language":
                 {
@@ -70,5 +70,5 @@
             });
         });
     </script>
-    
-    }
+
+}

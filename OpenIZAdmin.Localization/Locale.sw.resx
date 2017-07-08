@@ -2438,4 +2438,13 @@ au jina la kikoa</value>
   <data name="UpdatedTime" xml:space="preserve">
     <value>Muda uliowekwa</value>
   </data>
+  <data name="BuildDateTime" xml:space="preserve">
+    <value>Weka Tarehe Muda</value>
+  </data>
+  <data name="UnableToRetrieveBuildDateTime" xml:space="preserve">
+    <value>Imeshindwa kurejesha muda wa tarehe ya kujenga</value>
+  </data>
+  <data name="AssemblyInformation" xml:space="preserve">
+    <value>Maelezo ya Mkutano</value>
+  </data>
 </root>
