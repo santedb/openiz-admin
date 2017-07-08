@@ -17,17 +17,16 @@
  * Date: 2017-2-19
  */
 
+using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.EntityIdentifierModels;
+using OpenIZAdmin.Models.EntityRelationshipModels;
+using OpenIZAdmin.Models.EntityTagModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using OpenIZ.Core.Model.Constants;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Models.EntityRelationshipModels;
-using OpenIZAdmin.Models.EntityTagModels;
 
 namespace OpenIZAdmin.Models.Core
 {
@@ -41,7 +40,6 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		protected EntityViewModel()
 		{
-			
 		}
 
 		/// <summary>
@@ -96,8 +94,8 @@ namespace OpenIZAdmin.Models.Core
 		/// Gets or sets the name of the entity.
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
-        [StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Locale))]
-        public string Name { get; set; }
+		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Locale))]
+		public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the obsoletion time of the entity.
@@ -138,15 +136,15 @@ namespace OpenIZAdmin.Models.Core
 		public DateTime UpdatedTime { get; set; }
 
 		/// <summary>
-		/// Gets or sets the version sequence.
-		/// </summary>
-		/// <value>The version sequence.</value>
-		public decimal? VersionSequence { get; set; }
-
-		/// <summary>
 		/// Gets or sets the version key.
 		/// </summary>
 		/// <value>The version key.</value>
 		public Guid? VersionKey { get; set; }
+
+		/// <summary>
+		/// Gets or sets the version sequence.
+		/// </summary>
+		/// <value>The version sequence.</value>
+		public decimal? VersionSequence { get; set; }
 	}
 }

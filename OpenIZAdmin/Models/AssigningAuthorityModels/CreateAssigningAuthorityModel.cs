@@ -21,7 +21,6 @@ using OpenIZ.Core.Model.AMI.DataTypes;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Localization;
 using System.ComponentModel.DataAnnotations;
-using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {
@@ -53,6 +52,13 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		[StringLength(32, ErrorMessageResourceName = "DomainNameLength32", ErrorMessageResourceType = typeof(Locale))]
 		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
 		public string DomainName { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is unique.
+		/// </summary>
+		/// <value><c>true</c> if this instance is unique; otherwise, <c>false</c>.</value>
+		[Display(Name = "IsUnique", ResourceType = typeof(Locale))]
+		public bool IsUnique { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the assigning authority.
@@ -87,13 +93,6 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		[Display(Name = "ValidationRegex", ResourceType = typeof(Locale))]
 		[StringLength(64, ErrorMessageResourceName = "RegexLength64", ErrorMessageResourceType = typeof(Locale))]
 		public string ValidationRegex { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether this instance is unique.
-		/// </summary>
-		/// <value><c>true</c> if this instance is unique; otherwise, <c>false</c>.</value>
-		[Display(Name = "IsUnique", ResourceType = typeof(Locale))]
-		public bool IsUnique { get; set; }
 
 		/// <summary>
 		/// Converts a <see cref="CreateAssigningAuthorityModel"/> instance to an <see cref="AssigningAuthorityInfo"/> instance.

@@ -19,13 +19,11 @@
 
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using OpenIZAdmin.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using System.Web.Mvc.Routing.Constraints;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
@@ -56,30 +54,23 @@ namespace OpenIZAdmin.Models.PlaceModels
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
 		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
-        public string Name { get; set; }
+		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+		public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the target population.
 		/// </summary>
 		/// <value>The target population.</value>
-		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]		
+		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
 		[Range(1, ulong.MaxValue, ErrorMessageResourceName = "TargetPopulationMustBePositive", ErrorMessageResourceType = typeof(Locale))]
 		public ulong? TargetPopulation { get; set; }
 
 		/// <summary>
-		/// Gets or sets the year.
+		/// Gets or sets the type concept.
 		/// </summary>
-		/// <value>The year.</value>
-		[Display(Name = "PopulationYear", ResourceType = typeof(Locale))]		         
-        public string Year { get; set; }
-
-        /// <summary>
-        /// Gets or sets the type concept.
-        /// </summary>
-        /// <value>The type concept.</value>
-        [Required(ErrorMessageResourceName = "TypeConceptRequired", ErrorMessageResourceType = typeof(Locale))]
-        [Display(Name = "TypeConcept", ResourceType = typeof(Locale))]
+		/// <value>The type concept.</value>
+		[Required(ErrorMessageResourceName = "TypeConceptRequired", ErrorMessageResourceType = typeof(Locale))]
+		[Display(Name = "TypeConcept", ResourceType = typeof(Locale))]
 		public string TypeConcept { get; set; }
 
 		/// <summary>
@@ -88,35 +79,64 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <value>The type concepts.</value>
 		public List<SelectListItem> TypeConcepts { get; set; }
 
-        /// <summary>
-	    /// Converts the string year to an int
-	    /// </summary>
-	    /// <returns>Returns the year as an int or 0 if unsuccessful.</returns>
-	    public ulong ConvertPopulationToULong()
-        {            
-            if (TargetPopulation == null) return 0;
+		/// <summary>
+		/// Gets or sets the year.
+		/// </summary>
+		/// <value>The year.</value>
+		[Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
+		public string Year { get; set; }
 
-            return (ulong) TargetPopulation;
-        }
+		/// <summary>
+		/// Converts the string year to an int
+		/// </summary>
+		/// <returns>Returns the year as an int or 0 if unsuccessful.</returns>
+		public ulong ConvertPopulationToULong()
+		{
+			if (TargetPopulation == null) return 0;
 
-        /// <summary>
-        /// Converts the string year to an int
-        /// </summary>
-        /// <returns>Returns the year as an int or 0 if unsuccessful.</returns>
-        public int ConvertToPopulationYear()
-	    {	        
-	        int year;
-	        
-	        if (int.TryParse(Year, out year) && (year >= 1900 && year <= 2100)) return year;
+			return (ulong)TargetPopulation;
+		}
 
-	        return 0;
-	    }
+		/// <summary>
+		/// Converts the string year to an int
+		/// </summary>
+		/// <returns>Returns the year as an int or 0 if unsuccessful.</returns>
+		public int ConvertToPopulationYear()
+		{
+			int year;
 
-	    /// <summary>
-        /// Converts a <see cref="CreatePlaceModel"/> instance to a <see cref="Place"/> instance.
-        /// </summary>
-        /// <returns>Returns the converted place instance.</returns>
-        public Place ToPlace()
+			if (int.TryParse(Year, out year) && (year >= 1900 && year <= 2100)) return year;
+
+			return 0;
+		}
+
+		/// <summary>
+		/// Checks if year and population are entered
+		/// </summary>
+		/// <returns>Returns true if both contain entries or both are empty.</returns>
+		public bool HasOnlyYearOrPopulation()
+		{
+			if (string.IsNullOrWhiteSpace(Year) && TargetPopulation != null) return true;
+
+			return !string.IsNullOrWhiteSpace(Year) && TargetPopulation == null;
+		}
+
+		/// <summary>
+		/// Checks if year and population are entered
+		/// </summary>
+		/// <returns>Returns true if both contain entries.</returns>
+		public bool SubmitYearAndPopulation()
+		{
+			if (TargetPopulation == null) return false;
+
+			return !string.IsNullOrWhiteSpace(Year) && TargetPopulation > 0;
+		}
+
+		/// <summary>
+		/// Converts a <see cref="CreatePlaceModel"/> instance to a <see cref="Place"/> instance.
+		/// </summary>
+		/// <returns>Returns the converted place instance.</returns>
+		public Place ToPlace()
 		{
 			var place = new Place
 			{
@@ -138,27 +158,5 @@ namespace OpenIZAdmin.Models.PlaceModels
 
 			return place;
 		}
-
-        /// <summary>
-        /// Checks if year and population are entered
-        /// </summary>
-        /// <returns>Returns true if both contain entries or both are empty.</returns>
-        public bool HasOnlyYearOrPopulation()
-        {
-            if (string.IsNullOrWhiteSpace(Year) && TargetPopulation != null) return true;
-
-            return !string.IsNullOrWhiteSpace(Year) && TargetPopulation == null ;
-        }
-
-        /// <summary>
-        /// Checks if year and population are entered
-        /// </summary>
-        /// <returns>Returns true if both contain entries.</returns>
-        public bool SubmitYearAndPopulation()
-        {
-            if (TargetPopulation == null) return false;
-
-            return !string.IsNullOrWhiteSpace(Year) && TargetPopulation > 0;            
-        }
-    }
+	}
 }

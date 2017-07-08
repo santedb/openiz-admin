@@ -19,10 +19,8 @@
 
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Localization;
-using System;
-using System.ComponentModel.DataAnnotations;
 using OpenIZAdmin.Models.Core;
+using System;
 
 namespace OpenIZAdmin.Models.PolicyModels
 {
@@ -63,13 +61,13 @@ namespace OpenIZAdmin.Models.PolicyModels
 		{
 			this.CreationTime = securityPolicyInfo.Policy.CreationTime.DateTime;
 			this.CanOverride = securityPolicyInfo.Policy.CanOverride;
-            this.Grant = Enum.GetName(typeof(PolicyGrantType), securityPolicyInfo.Grant);
-            this.IsPublic = securityPolicyInfo.Policy.IsPublic;
-		    this.Id = securityPolicyInfo.Policy.Key ?? Guid.Empty;
+			this.Grant = Enum.GetName(typeof(PolicyGrantType), securityPolicyInfo.Grant);
+			this.IsPublic = securityPolicyInfo.Policy.IsPublic;
+			this.Id = securityPolicyInfo.Policy.Key ?? Guid.Empty;
 			this.Name = securityPolicyInfo.Policy.Name;
 			this.Oid = securityPolicyInfo.Policy.Oid;
-			this.IsObsolete = securityPolicyInfo.Policy.ObsoletionTime != null;            
-        }
+			this.IsObsolete = securityPolicyInfo.Policy.ObsoletionTime != null;
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="PolicyViewModel"/> class
@@ -80,6 +78,5 @@ namespace OpenIZAdmin.Models.PolicyModels
 		{
 			this.Grant = Enum.GetName(typeof(PolicyGrantType), securityPolicyInstance.GrantType);
 		}
-		
 	}
 }

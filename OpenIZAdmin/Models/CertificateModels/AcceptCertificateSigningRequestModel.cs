@@ -21,15 +21,15 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.CertificateModels
 {
-    /// <summary>
+	/// <summary>
 	/// Represents a AcceptCertificateSigningRequestModel model.
 	/// </summary>
 	public class AcceptCertificateSigningRequestModel
 	{
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AcceptCertificateSigningRequestModel"/> class.
-        /// </summary>
-        public AcceptCertificateSigningRequestModel()
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AcceptCertificateSigningRequestModel"/> class.
+		/// </summary>
+		public AcceptCertificateSigningRequestModel()
 		{
 		}
 

@@ -20,12 +20,12 @@
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ConceptModels;
+using OpenIZAdmin.Models.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
 {
@@ -77,36 +77,45 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 		/// Gets or sets the mnemonic of the concept.
 		/// </summary>
 		[Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(64, ErrorMessageResourceName = "MnemonicLength64", ErrorMessageResourceType = typeof(Locale))]
-        public override string Mnemonic { get; set; }
+		[Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(64, ErrorMessageResourceName = "MnemonicLength64", ErrorMessageResourceType = typeof(Locale))]
+		public override string Mnemonic { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the concept set.
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(64, ErrorMessageResourceName = "NameLength50", ErrorMessageResourceType = typeof(Locale))]
-        public override string Name { get; set; }
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(64, ErrorMessageResourceName = "NameLength50", ErrorMessageResourceType = typeof(Locale))]
+		public override string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the oid.
 		/// </summary>
 		/// <value>The oid.</value>
 		[Display(Name = "Oid", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExOidValidation, ErrorMessageResourceName = "OidValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
-        public override string Oid { get; set; }
+		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Locale))]
+		[RegularExpression(Constants.RegExOidValidation, ErrorMessageResourceName = "OidValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
+		public override string Oid { get; set; }
 
 		/// <summary>
 		/// Gets or sets the URL.
 		/// </summary>
 		/// <value>The URL.</value>
 		[Display(Name = "Url", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "UrlRequired", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(64, ErrorMessageResourceName = "UrlLength256", ErrorMessageResourceType = typeof(Locale))]
-        public override string Url { get; set; }
+		[Required(ErrorMessageResourceName = "UrlRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(64, ErrorMessageResourceName = "UrlLength256", ErrorMessageResourceType = typeof(Locale))]
+		public override string Url { get; set; }
+
+		/// <summary>
+		/// Checks of the selected concept is already in the concept set list
+		/// </summary>
+		/// <returns>Returns true if the selected concept exists, false if not found</returns>
+		public bool HasSelectedConcept(ConceptSet conceptSet)
+		{
+			return AddConcepts.Any() && conceptSet.Concepts.Any(c => c.Key.ToString().Equals(AddConcepts[0]));
+		}
 
 		/// <summary>
 		/// Converts an <see cref="EditConceptSetModel" /> instance to a <see cref="ConceptSet" /> instance.
@@ -133,14 +142,5 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 
 			return conceptSet;
 		}
-
-        /// <summary>
-        /// Checks of the selected concept is already in the concept set list
-        /// </summary>
-        /// <returns>Returns true if the selected concept exists, false if not found</returns>
-        public bool HasSelectedConcept(ConceptSet conceptSet)
-        {
-            return AddConcepts.Any() && conceptSet.Concepts.Any(c => c.Key.ToString().Equals(AddConcepts[0]));
-        }
-    }
+	}
 }

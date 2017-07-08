@@ -17,9 +17,9 @@
  * Date: 2016-7-10
  */
 
+using OpenIZ.Core.Model.AMI.Security;
 using System;
 using System.Security.Cryptography.X509Certificates;
-using OpenIZ.Core.Model.AMI.Security;
 
 namespace OpenIZAdmin.Models.CertificateModels
 {

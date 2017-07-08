@@ -18,9 +18,9 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
 using System.ComponentModel.DataAnnotations;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.ApplicationModels
 {

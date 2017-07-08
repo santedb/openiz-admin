@@ -17,12 +17,9 @@
  * Date: 2017-2-19
  */
 
-using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
-using OpenIZAdmin.Models.ManufacturedMaterialModels;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
@@ -38,9 +35,7 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		/// </summary>
 		public OrganizationViewModel()
 		{
-			
 		}
-
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OrganizationViewModel" /> class

@@ -17,21 +17,19 @@
  * Date: 2016-7-23
  */
 
-using System;
+using Newtonsoft.Json;
+using OpenIZ.Core.Extensions;
 using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
-using System.Collections.Generic;
+using OpenIZAdmin.Models.Core.Serialization;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using OpenIZ.Core.Extensions;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.Core.Serialization;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
@@ -45,7 +43,6 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// </summary>
 		public PlaceViewModel()
 		{
-			
 		}
 
 		/// <summary>
@@ -56,7 +53,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		{
 			this.IsServiceDeliveryLocation = place.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation ? Locale.Yes : Locale.No;
 
-			if (place.Extensions.Any(e => e.ExtensionTypeKey  == Constants.TargetPopulationExtensionTypeKey))
+			if (place.Extensions.Any(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey))
 			{
 				try
 				{
@@ -86,17 +83,17 @@ namespace OpenIZAdmin.Models.PlaceModels
 		public string IsServiceDeliveryLocation { get; set; }
 
 		/// <summary>
-		/// Gets or sets the target population year.
-		/// </summary>
-		/// <value>The target population year.</value>
-		[Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
-		public int TargetPopulationYear { get; set; }
-
-		/// <summary>
 		/// Gets or sets the target population.
 		/// </summary>
 		/// <value>The target population.</value>
 		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
 		public ulong TargetPopulation { get; set; }
+
+		/// <summary>
+		/// Gets or sets the target population year.
+		/// </summary>
+		/// <value>The target population year.</value>
+		[Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
+		public int TargetPopulationYear { get; set; }
 	}
 }

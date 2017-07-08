@@ -64,9 +64,9 @@ namespace OpenIZAdmin.Models.AlertModels
 		/// </summary>
 		[Display(Name = "Message", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "MessageRequired", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(4000, ErrorMessageResourceName = "MessageLength4000", ErrorMessageResourceType = typeof(Locale))]
-        [AllowHtml]
-        public string Message { get; set; }
+		[StringLength(4000, ErrorMessageResourceName = "MessageLength4000", ErrorMessageResourceType = typeof(Locale))]
+		[AllowHtml]
+		public string Message { get; set; }
 
 		/// <summary>
 		/// Gets or sets the priority of the alert.
@@ -85,9 +85,9 @@ namespace OpenIZAdmin.Models.AlertModels
 		/// </summary>
 		[Display(Name = "Subject", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "SubjectRequired", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(256, ErrorMessageResourceName = "SubjectLength256", ErrorMessageResourceType = typeof(Locale))]
-        [AllowHtml]
-        public string Subject { get; set; }
+		[StringLength(256, ErrorMessageResourceName = "SubjectLength256", ErrorMessageResourceType = typeof(Locale))]
+		[AllowHtml]
+		public string Subject { get; set; }
 
 		/// <summary>
 		/// Gets or sets the recipient of the alert.

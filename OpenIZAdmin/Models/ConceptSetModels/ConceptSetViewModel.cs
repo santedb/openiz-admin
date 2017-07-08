@@ -19,10 +19,10 @@
 
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Models.ConceptModels;
+using OpenIZAdmin.Models.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ConceptSetModels
 {
@@ -39,14 +39,14 @@ namespace OpenIZAdmin.Models.ConceptSetModels
 			this.Concepts = new List<ConceptViewModel>();
 		}
 
-	    /// <summary>
-	    /// Initializes a new instance of the <see cref="ConceptSetViewModel"/> class.
-	    /// </summary>
-	    /// <param name="conceptSet"></param>
-	    /// <param name="loadConcepts">State that determines if Concepts associated with a Concept Set are loaded</param>
-	    public ConceptSetViewModel(ConceptSet conceptSet, bool loadConcepts = false) : this()
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ConceptSetViewModel"/> class.
+		/// </summary>
+		/// <param name="conceptSet"></param>
+		/// <param name="loadConcepts">State that determines if Concepts associated with a Concept Set are loaded</param>
+		public ConceptSetViewModel(ConceptSet conceptSet, bool loadConcepts = false) : this()
 		{
-			if(loadConcepts) Concepts = conceptSet.Concepts.Select(c => new ConceptViewModel(c)).ToList();
+			if (loadConcepts) Concepts = conceptSet.Concepts.Select(c => new ConceptViewModel(c)).ToList();
 			CreationTime = conceptSet.CreationTime.DateTime;
 			Id = conceptSet.Key ?? Guid.Empty;
 			Mnemonic = conceptSet.Mnemonic;

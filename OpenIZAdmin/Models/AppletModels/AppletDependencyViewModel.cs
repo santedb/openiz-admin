@@ -18,9 +18,8 @@
  */
 
 using OpenIZ.Core.Applets.Model;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using OpenIZAdmin.Localization;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.AppletModels
 {

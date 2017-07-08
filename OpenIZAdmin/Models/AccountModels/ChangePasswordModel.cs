@@ -17,8 +17,8 @@
  * Date: 2016-8-27
  */
 
-using System.ComponentModel.DataAnnotations;
 using OpenIZAdmin.Localization;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.AccountModels
 {
@@ -41,8 +41,8 @@ namespace OpenIZAdmin.Models.AccountModels
 		[Display(Name = "ConfirmPassword", ResourceType = typeof(Locale))]
 		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "ConfirmPasswordRequired", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
-        [Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Locale))]
+		[RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
+		[Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Locale))]
 		public string ConfirmPassword { get; set; }
 
 		/// <summary>
@@ -50,10 +50,10 @@ namespace OpenIZAdmin.Models.AccountModels
 		/// </summary>
 		[DataType(DataType.Password)]
 		[Display(Name = "CurrentPassword", ResourceType = typeof(Locale))]
-        [StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "CurrentPasswordRequired", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
-        public string CurrentPassword { get; set; }
+		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "CurrentPasswordRequired", ErrorMessageResourceType = typeof(Locale))]
+		[RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
+		public string CurrentPassword { get; set; }
 
 		/// <summary>
 		/// Gets or sets the password of the model.
@@ -62,8 +62,8 @@ namespace OpenIZAdmin.Models.AccountModels
 		[Display(Name = "Password", ResourceType = typeof(Locale))]
 		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
-        public string Password { get; set; }
+		[RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
+		public string Password { get; set; }
 
 		/// <summary>
 		/// Gets or sets the username.

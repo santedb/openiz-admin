@@ -45,8 +45,8 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		[Display(Name = "ApplicationName", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
 		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
-        public string ApplicationName { get; set; }
+		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+		public string ApplicationName { get; set; }
 
 		/// <summary>
 		/// Gets or sets the application policies.

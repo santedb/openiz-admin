@@ -17,56 +17,52 @@
  * Date: 2017-4-13
  */
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.ReferenceTermNameModels;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.Core
 {
-    /// <summary>
+	/// <summary>
 	/// Represents a reference term name model.
 	/// </summary>
-    public abstract class ReferenceTermNameModel
-    {        
-        /// <summary>
-        /// Gets or sets the identifier of the reference term name
-        /// </summary>
-        public Guid? Id { get; set; }
+	public abstract class ReferenceTermNameModel
+	{
+		/// <summary>
+		/// Gets or sets the identifier of the reference term name
+		/// </summary>
+		public Guid? Id { get; set; }
 
-        /// <summary>
-        /// Gets or sets the current language.
-        /// </summary>
-        /// <value>The language.</value>        
-        [Display(Name = "Languages", ResourceType = typeof(Locale))]
-        public string Language { get; set; }
+		/// <summary>
+		/// Gets or sets the current language.
+		/// </summary>
+		/// <value>The language.</value>
+		[Display(Name = "Languages", ResourceType = typeof(Locale))]
+		public string Language { get; set; }
 
-        /// <summary>
-        /// Gets or sets the reference term name.
-        /// </summary>
-        /// <value>The name.</value>                
-        [Display(Name = "Name", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
-        public string Name { get; set; }
+		/// <summary>
+		/// Gets or sets the current reference term name.
+		/// </summary>
+		/// <value>The name.</value>
+		[Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
+		[StringLength(50, ErrorMessageResourceName = "MnemonicLength50", ErrorMessageResourceType = typeof(Locale))]
+		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+		public string Mnemonic { get; set; }
 
-        /// <summary>
-        /// Gets or sets the current reference term name.
-        /// </summary>
-        /// <value>The name.</value>                
-        [Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
-        [StringLength(50, ErrorMessageResourceName = "MnemonicLength50", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
-        public string Mnemonic { get; set; }
+		/// <summary>
+		/// Gets or sets the reference term name.
+		/// </summary>
+		/// <value>The name.</value>
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Locale))]
+		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+		public string Name { get; set; }
 
-        /// <summary>
-        /// Gets or sets the identifier of the reference term.
-        /// </summary>
-        /// <value>The identifier.</value>
-        public Guid? ReferenceTermId { get; set; }        
-    }
+		/// <summary>
+		/// Gets or sets the identifier of the reference term.
+		/// </summary>
+		/// <value>The identifier.</value>
+		public Guid? ReferenceTermId { get; set; }
+	}
 }

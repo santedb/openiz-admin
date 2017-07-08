@@ -41,25 +41,25 @@ namespace OpenIZAdmin.Models
 		{
 			this.DisplayName = displayName;
 			this.TwoLetterCountryCode = code;
-		}	    
+		}
 
-        /// <summary>
-        /// Gets or sets the display name of the language.
-        /// </summary>
-        public virtual string DisplayName { get; }
+		/// <summary>
+		/// Gets or sets the display name of the language.
+		/// </summary>
+		public virtual string DisplayName { get; }
 
 		/// <summary>
 		/// Gets or sets the two letter language code of the language.
 		/// </summary>
-		public virtual string TwoLetterCountryCode { get; }        
+		public virtual string TwoLetterCountryCode { get; }
 
-        /// <summary>
-        /// Compares if two languages are not equal.
-        /// </summary>
-        /// <param name="left">The first language to compare.</param>
-        /// <param name="right">The second language to compare.</param>
-        /// <returns>Returns true if the languages are not equal.</returns>
-        public static bool operator !=(Language left, Language right)
+		/// <summary>
+		/// Compares if two languages are not equal.
+		/// </summary>
+		/// <param name="left">The first language to compare.</param>
+		/// <param name="right">The second language to compare.</param>
+		/// <returns>Returns true if the languages are not equal.</returns>
+		public static bool operator !=(Language left, Language right)
 		{
 			return !(left == right);
 		}

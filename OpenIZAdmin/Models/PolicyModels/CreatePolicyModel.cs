@@ -18,44 +18,42 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Web.Mvc;
 using OpenIZAdmin.Models.Core;
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.PolicyModels
 {
-    /// <summary>
+	/// <summary>
 	/// Represents a policy view model class.
 	/// </summary>
 	public class CreatePolicyModel : PolicyModel
 	{
-        /// <summary>
+		/// <summary>
 		/// Initializes a new instance of the <see cref="CreatePolicyModel"/> class.
 		/// </summary>
 		public CreatePolicyModel()
 		{
 			this.GrantsList = new List<SelectListItem>();
-		}		
+		}
 
-        /// <summary>
-        /// Gets or sets the list of Grants
-        /// </summary>
-		public List<SelectListItem> GrantsList { get; set; }        
+		/// <summary>
+		/// Gets or sets the list of Grants
+		/// </summary>
+		public List<SelectListItem> GrantsList { get; set; }
 
-        /// <summary>
-        /// Creates a SecurityPolicyInfo instance
-        /// </summary>
-        /// <returns>A SecurityPolicyInfo instance with the metadata assocaited with the Policy</returns>
-        public SecurityPolicyInfo ToSecurityPolicyInfo()
+		/// <summary>
+		/// Creates a SecurityPolicyInfo instance
+		/// </summary>
+		/// <returns>A SecurityPolicyInfo instance with the metadata assocaited with the Policy</returns>
+		public SecurityPolicyInfo ToSecurityPolicyInfo()
 		{
 			return new SecurityPolicyInfo
 			{
 				CanOverride = this.CanOverride,
 				Name = this.Name,
-				Oid = this.Oid,                
+				Oid = this.Oid,
 			};
 		}
-        
-    }
+	}
 }

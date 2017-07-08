@@ -17,13 +17,13 @@
  * Date: 2017-4-13
  */
 
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.Constants;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.ReferenceTermModels
 {
@@ -54,6 +54,17 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		public List<SelectListItem> CodeSystemList { get; set; }
 
 		/// <summary>
+		/// Gets or sets the Concept identifier
+		/// </summary>
+		public Guid? ConceptId { get; set; }
+
+		/// <summary>
+		/// Gets or sets the language list.
+		/// </summary>
+		/// <value>The language list.</value>
+		public List<SelectListItem> LanguageList { get; set; }
+
+		/// <summary>
 		/// Gets or sets the mnemonic.
 		/// </summary>
 		/// <value>The mnemonic.</value>
@@ -79,17 +90,6 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		[Display(Name = "Language", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string TwoLetterCountryCode { get; set; }
-
-		/// <summary>
-		/// Gets or sets the Concept identifier
-		/// </summary>
-		public Guid? ConceptId { get; set; }
-
-		/// <summary>
-		/// Gets or sets the language list.
-		/// </summary>
-		/// <value>The language list.</value>
-		public List<SelectListItem> LanguageList { get; set; }
 
 		/// <summary>
 		/// Converts an <see cref="CreateReferenceTermModel"/> instance to a <see cref="ReferenceTerm"/> instance.

@@ -17,97 +17,96 @@
  * Date: 2017-4-17
  */
 
+using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ReferenceTermNameModels
 {
-    /// <summary>
-    /// Represents a reference term view model.
-    /// </summary>
-    public class EditReferenceTermNameModel : ReferenceTermNameModel
-    {
-        /// <summary>
+	/// <summary>
+	/// Represents a reference term view model.
+	/// </summary>
+	public class EditReferenceTermNameModel : ReferenceTermNameModel
+	{
+		/// <summary>
 		/// Initializes a new instance of the <see cref="EditReferenceTermNameModel"/> class.
 		/// </summary>
-        public EditReferenceTermNameModel()
-        {
-            LanguageList = new List<SelectListItem>();
-            ReferenceTermNameList = new List<ReferenceTermNameViewModel>();
-        }
+		public EditReferenceTermNameModel()
+		{
+			LanguageList = new List<SelectListItem>();
+			ReferenceTermNameList = new List<ReferenceTermNameViewModel>();
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Initializes a new instance of the <see cref="EditReferenceTermNameModel"/> class.
 		/// </summary>
-        public EditReferenceTermNameModel(ReferenceTermName termName) : this()
-        {
-            Id = termName.Key;
-            Name = termName.Name;
-            Language = termName.Language;
-        }
+		public EditReferenceTermNameModel(ReferenceTermName termName) : this()
+		{
+			Id = termName.Key;
+			Name = termName.Name;
+			Language = termName.Language;
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Initializes a new instance of the <see cref="EditReferenceTermNameModel"/> class.
 		/// </summary>
-        public EditReferenceTermNameModel(ReferenceTerm referenceTerm) : this()
-        {
-            ReferenceTermId = referenceTerm.Key;
-            Mnemonic = referenceTerm.Mnemonic;
-            ReferenceTermNameList = referenceTerm.DisplayNames.Select(n => new ReferenceTermNameViewModel(n)).ToList();
-        }
+		public EditReferenceTermNameModel(ReferenceTerm referenceTerm) : this()
+		{
+			ReferenceTermId = referenceTerm.Key;
+			Mnemonic = referenceTerm.Mnemonic;
+			ReferenceTermNameList = referenceTerm.DisplayNames.Select(n => new ReferenceTermNameViewModel(n)).ToList();
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Initializes a new instance of the <see cref="EditReferenceTermNameModel"/> class.
 		/// </summary>
-        public EditReferenceTermNameModel(ReferenceTerm referenceTerm, ReferenceTermName termName) : this(termName)
-        {
-            ReferenceTermId = referenceTerm.Key;
-            Mnemonic = referenceTerm.Mnemonic;
-            ReferenceTermNameList = referenceTerm.DisplayNames.Select(n => new ReferenceTermNameViewModel(n)).ToList();
-        }
+		public EditReferenceTermNameModel(ReferenceTerm referenceTerm, ReferenceTermName termName) : this(termName)
+		{
+			ReferenceTermId = referenceTerm.Key;
+			Mnemonic = referenceTerm.Mnemonic;
+			ReferenceTermNameList = referenceTerm.DisplayNames.Select(n => new ReferenceTermNameViewModel(n)).ToList();
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Initializes a new instance of the <see cref="EditReferenceTermNameModel"/> class.
 		/// </summary>
-        public EditReferenceTermNameModel(Guid? conceptId, Guid? conceptVersionId) : this()
-        {
-            ConceptId = conceptId;
-            ConceptVersionId = conceptVersionId;
-        }
+		public EditReferenceTermNameModel(Guid? conceptId, Guid? conceptVersionId) : this()
+		{
+			ConceptId = conceptId;
+			ConceptVersionId = conceptVersionId;
+		}
 
-        /// <summary>
-        /// Gets or sets the Concept identifier
-        /// </summary>
-        public Guid? ConceptId { get; set; }
+		/// <summary>
+		/// Gets or sets the Concept identifier
+		/// </summary>
+		public Guid? ConceptId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the Concept version identifier
-        /// </summary>
-        public Guid? ConceptVersionId { get; set; }
+		/// <summary>
+		/// Gets or sets the Concept version identifier
+		/// </summary>
+		public Guid? ConceptVersionId { get; set; }
 
-        /// <summary>
-        /// Gets or sets the language list.
-        /// </summary>
-        /// <value>The language list.</value>
-        public List<SelectListItem> LanguageList { get; set; }
+		/// <summary>
+		/// Gets or sets the language list.
+		/// </summary>
+		/// <value>The language list.</value>
+		public List<SelectListItem> LanguageList { get; set; }
 
-        /// <summary>
-        /// Gets or sets the reference term name list
-        /// </summary>
-        public List<ReferenceTermNameViewModel> ReferenceTermNameList { get; set; }
+		/// <summary>
+		/// Gets or sets the reference term name list
+		/// </summary>
+		public List<ReferenceTermNameViewModel> ReferenceTermNameList { get; set; }
 
-        /// <summary>
-        /// Gets or sets the two letter language code of the language.
-        /// </summary>
-        [Display(Name = "Language", ResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Locale))]
-        public string TwoLetterCountryCode { get; set; }
-    }
+		/// <summary>
+		/// Gets or sets the two letter language code of the language.
+		/// </summary>
+		[Display(Name = "Language", ResourceType = typeof(Locale))]
+		[Required(ErrorMessageResourceName = "LanguageRequired", ErrorMessageResourceType = typeof(Locale))]
+		public string TwoLetterCountryCode { get; set; }
+	}
 }

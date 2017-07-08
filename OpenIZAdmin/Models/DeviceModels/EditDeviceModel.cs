@@ -54,7 +54,7 @@ namespace OpenIZAdmin.Models.DeviceModels
 			this.Device = securityDeviceInfo.Device;
 			this.CreationTime = securityDeviceInfo.Device.CreationTime.DateTime;
 			this.Id = securityDeviceInfo.Device.Key.Value;
-			this.IsObsolete = securityDeviceInfo.Device.ObsoletionTime != null;			
+			this.IsObsolete = securityDeviceInfo.Device.ObsoletionTime != null;
 			this.Name = securityDeviceInfo.Name;
 			this.DevicePolicies = securityDeviceInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList();
 			this.Policies = this.DevicePolicies.Select(p => p.Id.ToString()).ToList();
@@ -74,7 +74,7 @@ namespace OpenIZAdmin.Models.DeviceModels
 		/// <summary>
 		/// Gets or sets the list of policies associated with the device.
 		/// </summary>
-		public IEnumerable<PolicyViewModel> DevicePolicies { get; set; }  
+		public IEnumerable<PolicyViewModel> DevicePolicies { get; set; }
 
 		/// <summary>
 		/// Gets or sets the id of the device.

@@ -17,18 +17,18 @@
  * Date: 2016-11-15
  */
 
+using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZ.Messaging.IMSI.Client;
+using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.ConceptNameModels;
+using OpenIZAdmin.Models.Core;
 using OpenIZAdmin.Models.ReferenceTermModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.Constants;
-using OpenIZ.Messaging.IMSI.Client;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.ConceptNameModels;
-using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {
@@ -101,7 +101,6 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// <value>The concept class list.</value>
 		public List<SelectListItem> ConceptClassList { get; set; }
 
-
 		/// <summary>
 		/// Gets or sets the language list.
 		/// </summary>
@@ -122,15 +121,26 @@ namespace OpenIZAdmin.Models.ConceptModels
 		/// <summary>
 		/// Gets or sets the relationship.
 		/// </summary>
-		/// <value>The relationship.</value>        
-		[Display(Name = "Relationship", ResourceType = typeof(Locale))]        
-        public string RelationshipType { get; set; }
+		/// <value>The relationship.</value>
+		[Display(Name = "Relationship", ResourceType = typeof(Locale))]
+		public string RelationshipType { get; set; }
 
 		/// <summary>
 		/// Gets or sets the concept relationship list.
 		/// </summary>
 		/// <value>The concept relationship list.</value>
 		public List<SelectListItem> RelationshipTypeList { get; set; }
+
+		/// <summary>
+		/// Checks if a reference term and relationship have been selected
+		/// </summary>
+		/// <returns>Returns true if a reference term is to be added, false to ignore the action.</returns>
+		public bool HasAddReferenceTerm()
+		{
+			if (string.IsNullOrWhiteSpace(AddReferenceTerm) && string.IsNullOrWhiteSpace(RelationshipType)) return false;
+
+			return !string.IsNullOrWhiteSpace(AddReferenceTerm) || !string.IsNullOrWhiteSpace(RelationshipType);
+		}
 
 		/// <summary>
 		/// Converts an <see cref="EditConceptModel"/> instance to a <see cref="Concept"/> instance.
@@ -165,16 +175,5 @@ namespace OpenIZAdmin.Models.ConceptModels
 
 			return concept;
 		}
-
-        /// <summary>
-		/// Checks if a reference term and relationship have been selected
-		/// </summary>		
-		/// <returns>Returns true if a reference term is to be added, false to ignore the action.</returns>
-	    public bool HasAddReferenceTerm()
-	    {
-            if (string.IsNullOrWhiteSpace(AddReferenceTerm) && string.IsNullOrWhiteSpace(RelationshipType)) return false;            
-
-            return !string.IsNullOrWhiteSpace(AddReferenceTerm) || !string.IsNullOrWhiteSpace(RelationshipType);
-	    }
 	}
 }

@@ -24,14 +24,14 @@ namespace OpenIZAdmin.Models
 	/// </summary>
 	public class FacilityModel
 	{
-        /// <summary>
+		/// <summary>
 		/// Initializes a new instance of the <see cref="FacilityModel"/> class.
 		/// </summary>
 		public FacilityModel()
 		{
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Initializes a new instance of the <see cref="FacilityModel"/> class.
 		/// </summary>
 		public FacilityModel(string name, string id)
@@ -44,6 +44,7 @@ namespace OpenIZAdmin.Models
 		/// Gets or sets the identifier
 		/// </summary>
 		public string Id { get; set; }
+
 		/// <summary>
 		/// Gets or sets the string representation of the name
 		/// </summary>

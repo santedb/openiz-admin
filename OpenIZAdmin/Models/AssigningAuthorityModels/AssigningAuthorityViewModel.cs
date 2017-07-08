@@ -18,11 +18,11 @@
  */
 
 using OpenIZ.Core.Model.AMI.DataTypes;
+using OpenIZAdmin.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {
@@ -36,8 +36,8 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// </summary>
 		public AssigningAuthorityViewModel()
 		{
-            AuthorityScopeList = new List<AuthorityScopeViewModel>();
-        }
+			AuthorityScopeList = new List<AuthorityScopeViewModel>();
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AssigningAuthorityViewModel"/> class.
@@ -45,8 +45,8 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// <param name="assigningAuthority">The assigning authority.</param>
 		public AssigningAuthorityViewModel(AssigningAuthorityInfo assigningAuthority)
 		{
-            AuthorityScopeList = assigningAuthority.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x)).ToList();
-            this.Id = assigningAuthority.Id;
+			AuthorityScopeList = assigningAuthority.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x)).ToList();
+			this.Id = assigningAuthority.Id;
 			this.Name = assigningAuthority.AssigningAuthority.Name;
 			this.Oid = assigningAuthority.AssigningAuthority.Oid;
 			this.Url = assigningAuthority.AssigningAuthority.Url;
@@ -56,17 +56,17 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 			this.IsUnique = assigningAuthority.AssigningAuthority.IsUnique ? Locale.Yes : Locale.No;
 		}
 
-        /// <summary>
-        /// Gets or sets the authority scopes.
-        /// </summary>
-        /// <value>The scopes assigned.</value>		
-        public List<AuthorityScopeViewModel> AuthorityScopeList { get; set; }
+		/// <summary>
+		/// Gets or sets the authority scopes.
+		/// </summary>
+		/// <value>The scopes assigned.</value>
+		public List<AuthorityScopeViewModel> AuthorityScopeList { get; set; }
 
-        /// <summary>
-        /// Gets or sets the description.
-        /// </summary>
-        /// <value>The description.</value>
-        [Display(Name = "Description", ResourceType = typeof(Locale))]
+		/// <summary>
+		/// Gets or sets the description.
+		/// </summary>
+		/// <value>The description.</value>
+		[Display(Name = "Description", ResourceType = typeof(Locale))]
 		public string Description { get; set; }
 
 		/// <summary>
@@ -102,12 +102,6 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// <value>The oid.</value>
 		[Display(Name = "Oid", ResourceType = typeof(Locale))]
 		public string Oid { get; set; }
-		/// <summary>
-		/// Gets or sets the regex.
-		/// </summary>
-		/// <value>The regex.</value>
-		[Display(Name = "ValidationRegex", ResourceType = typeof(Locale))]
-		public string ValidationRegex { get; set; }
 
 		/// <summary>
 		/// Gets or sets the URL.
@@ -115,5 +109,12 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// <value>The URL.</value>
 		[Display(Name = "Url", ResourceType = typeof(Locale))]
 		public string Url { get; set; }
+
+		/// <summary>
+		/// Gets or sets the regex.
+		/// </summary>
+		/// <value>The regex.</value>
+		[Display(Name = "ValidationRegex", ResourceType = typeof(Locale))]
+		public string ValidationRegex { get; set; }
 	}
 }

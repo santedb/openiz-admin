@@ -18,8 +18,8 @@
  */
 
 using OpenIZ.Core.Model.DataTypes;
-using System.ComponentModel.DataAnnotations;
 using OpenIZAdmin.Localization;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.CodeSystemModels
 {
@@ -64,8 +64,8 @@ namespace OpenIZAdmin.Models.CodeSystemModels
 		[Display(Name = "Oid", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "OidRequired", ErrorMessageResourceType = typeof(Locale))]
 		[StringLength(64, ErrorMessageResourceName = "OidLength64", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExOidValidation, ErrorMessageResourceName = "OidValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
-        public string Oid { get; set; }
+		[RegularExpression(Constants.RegExOidValidation, ErrorMessageResourceName = "OidValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
+		public string Oid { get; set; }
 
 		/// <summary>
 		/// Gets or sets the Url

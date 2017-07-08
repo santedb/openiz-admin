@@ -17,16 +17,14 @@
  * Date: 2017-4-13
  */
 
+using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.ReferenceTermNameModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.Core;
-using OpenIZAdmin.Models.ReferenceTermNameModels;
 
 namespace OpenIZAdmin.Models.ReferenceTermModels
 {
@@ -56,23 +54,17 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		}
 
 		/// <summary>
+		/// Gets or sets the display names.
+		/// </summary>
+		/// <value>The display names.</value>
+		public List<ReferenceTermName> DisplayNames { get; set; }
+
+		/// <summary>
 		/// Gets or sets the identifier.
 		/// </summary>
 		/// <value>The identifier.</value>
 		[Required]
 		public Guid Id { get; set; }
-
-		/// <summary>
-		/// Gets or sets the mnemonic.
-		/// </summary>
-		/// <value>The mnemonic.</value>
-		public string Mnemonic { get; set; }
-
-		/// <summary>
-		/// Gets or sets the display names.
-		/// </summary>
-		/// <value>The display names.</value>
-		public List<ReferenceTermName> DisplayNames { get; set; }
 
 		/// <summary>
 		/// Gets or sets the language list.
@@ -81,8 +73,14 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		public List<SelectListItem> LanguageList { get; set; }
 
 		/// <summary>
+		/// Gets or sets the mnemonic.
+		/// </summary>
+		/// <value>The mnemonic.</value>
+		public string Mnemonic { get; set; }
+
+		/// <summary>
 		/// Gets or sets the Language list for the Language ISO 2 digit code and the associated display name of the Concept.
-		/// </summary>		
+		/// </summary>
 		[Display(Name = "Languages", ResourceType = typeof(Locale))]
 		public List<ReferenceTermNameViewModel> TermNamesList { get; set; }
 	}

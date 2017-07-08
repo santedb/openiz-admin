@@ -17,16 +17,14 @@
  * Date: 2016-8-1
  */
 
-using System;
-using System.Collections.Generic;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
-using OpenIZAdmin.Models.Core;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.ManufacturedMaterialModels;
+using OpenIZAdmin.Models.Core;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace OpenIZAdmin.Models.MaterialModels
 {

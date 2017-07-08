@@ -17,16 +17,16 @@
  * Date: 2017-2-20
  */
 
+using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.EntityIdentifierModels;
+using OpenIZAdmin.Models.EntityRelationshipModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.Constants;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.EntityIdentifierModels;
-using OpenIZAdmin.Models.EntityRelationshipModels;
 
 namespace OpenIZAdmin.Models.Core
 {
@@ -40,7 +40,6 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		protected EditEntityModel()
 		{
-			
 		}
 
 		/// <summary>

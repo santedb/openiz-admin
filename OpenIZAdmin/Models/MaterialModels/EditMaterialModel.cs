@@ -19,14 +19,13 @@
 
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Security.Principal;
 using System.Web.Mvc;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.MaterialModels
 {
@@ -40,7 +39,6 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// </summary>
 		public EditMaterialModel()
 		{
-			
 		}
 
 		/// <summary>
@@ -97,8 +95,8 @@ namespace OpenIZAdmin.Models.MaterialModels
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
 		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
-        public string Name { get; set; }
+		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+		public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the quantity concept of the material.

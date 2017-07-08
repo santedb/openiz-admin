@@ -18,9 +18,9 @@
  */
 
 using OpenIZ.Core.Model.AMI.Security;
+using OpenIZAdmin.Localization;
 using System;
 using System.ComponentModel.DataAnnotations;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.CertificateModels
 {

@@ -19,12 +19,12 @@
 
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.ConceptModels;
 using OpenIZAdmin.Models.ReferenceTermNameModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using OpenIZAdmin.Models.ConceptModels;
 
 namespace OpenIZAdmin.Models.ReferenceTermModels
 {
@@ -80,15 +80,15 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		public Guid? ConceptId { get; set; }
 
 		/// <summary>
-		///  Gets or sets the concept version identifier associated with the reference term
-		/// </summary>
-		public Guid? ConceptVersionKey { get; set; }
-
-		/// <summary>
 		/// Gets or sets the concepts.
 		/// </summary>
 		/// <value>The concepts.</value>
 		public List<ConceptViewModel> Concepts { get; set; }
+
+		/// <summary>
+		///  Gets or sets the concept version identifier associated with the reference term
+		/// </summary>
+		public Guid? ConceptVersionKey { get; set; }
 
 		/// <summary>
 		/// Gets or sets the creation time of the concept.

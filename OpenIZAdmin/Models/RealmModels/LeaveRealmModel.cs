@@ -22,19 +22,19 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.RealmModels
 {
-    /// <summary>
+	/// <summary>
 	/// Represents a leave realm model.
 	/// </summary>
 	public class LeaveRealmModel
 	{
-        /// <summary>
+		/// <summary>
 		/// Initializes a new instance of the <see cref="LeaveRealmModel"/> class.
 		/// </summary>
 		public LeaveRealmModel()
 		{
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Initializes a new instance of the <see cref="LeaveRealmModel"/> class.
 		/// </summary>
 		public LeaveRealmModel(Realm realm)

@@ -18,16 +18,16 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.Entities;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
 using OpenIZAdmin.Models.RoleModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using OpenIZ.Core.Model.Constants;
-using OpenIZ.Core.Model.Entities;
-using OpenIZAdmin.Localization;
 using System.Globalization;
+using System.Linq;
 
 namespace OpenIZAdmin.Models.UserModels
 {

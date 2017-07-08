@@ -17,14 +17,12 @@
  * Date: 2017-5-16
  */
 
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ConceptModels;
-using OpenIZAdmin.Models.ReferenceTermModels;
+using System;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace OpenIZAdmin.Models.AssigningAuthorityModels
 {
@@ -64,6 +62,11 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		}
 
 		/// <summary>
+		/// Gets or sets the Concept Set identifier associated with the Concept instance
+		/// </summary>
+		public Guid? AssigingAuthorityId { get; set; }
+
+		/// <summary>
 		/// Gets or sets the class of the concept.
 		/// </summary>
 		[Display(Name = "ConceptClass", ResourceType = typeof(Locale))]
@@ -79,7 +82,7 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// Gets or sets the mnemonic.
 		/// </summary>
 		/// <value>The mnemonic.</value>
-		[Display(Name = "Mnemonic", ResourceType =  typeof(Locale))]
+		[Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
 		public string Mnemonic { get; set; }
 
 		/// <summary>
@@ -88,10 +91,5 @@ namespace OpenIZAdmin.Models.AssigningAuthorityModels
 		/// <value>The names.</value>
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		public string Name { get; set; }
-
-		/// <summary>
-		/// Gets or sets the Concept Set identifier associated with the Concept instance
-		/// </summary>
-		public Guid? AssigingAuthorityId { get; set; }
 	}
 }

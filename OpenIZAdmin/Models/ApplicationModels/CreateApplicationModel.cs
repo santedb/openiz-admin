@@ -19,11 +19,11 @@
 
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Localization;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.ApplicationModels
 {
@@ -47,17 +47,17 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		[Display(Name = "ApplicationName", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
 		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
-        public string ApplicationName { get; set; }
+		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+		public string ApplicationName { get; set; }
 
 		/// <summary>
 		/// Gets or sets the secret of the application.
 		/// </summary>
 		[Required]
 		[Display(Name = "ApplicationSecret", ResourceType = typeof(Locale))]
-        [StringLength(64, ErrorMessageResourceName = "SecretLength64", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
-        public string ApplicationSecret { get; set; }
+		[StringLength(64, ErrorMessageResourceName = "SecretLength64", ErrorMessageResourceType = typeof(Locale))]
+		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+		public string ApplicationSecret { get; set; }
 
 		/// <summary>
 		/// Gets or sets a list of policies associated with the application.
@@ -68,7 +68,6 @@ namespace OpenIZAdmin.Models.ApplicationModels
 		/// Gets or sets a list of policies associated with the application.
 		/// </summary>
 		public List<SelectListItem> PolicyList { get; set; }
-
 
 		/// <summary>
 		/// Converts a <see cref="CreateApplicationModel"/> instance to a <see cref="SecurityApplicationInfo"/> instance.

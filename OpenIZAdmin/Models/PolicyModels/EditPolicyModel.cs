@@ -20,20 +20,19 @@
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.Core;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
-using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.PolicyModels
 {
-    /// <summary>
+	/// <summary>
 	/// Represents a policy view model class.
 	/// </summary>
 	public class EditPolicyModel : PolicyModel
 	{
-        /// <summary>
+		/// <summary>
 		/// Initializes a new instance of the <see cref="EditPolicyModel"/> class.
 		/// </summary>
 		public EditPolicyModel()
@@ -41,7 +40,7 @@ namespace OpenIZAdmin.Models.PolicyModels
 			this.GrantsList = new List<SelectListItem>();
 		}
 
-        /// <summary>
+		/// <summary>
 		/// Initializes a new instance of the <see cref="EditPolicyModel"/> class.
 		/// </summary>
 		public EditPolicyModel(SecurityPolicyInfo securityPolicyInfo) : this()
@@ -49,25 +48,25 @@ namespace OpenIZAdmin.Models.PolicyModels
 			this.CanOverride = securityPolicyInfo.CanOverride;
 			this.GrantId = (int)securityPolicyInfo.Grant;
 			this.IsPublic = securityPolicyInfo.Policy.IsPublic;
-		    this.Id = securityPolicyInfo.Policy.Key ?? Guid.Empty;
+			this.Id = securityPolicyInfo.Policy.Key ?? Guid.Empty;
 			this.Name = securityPolicyInfo.Name;
 			this.Oid = securityPolicyInfo.Oid;
 			this.GrantsList.Add(new SelectListItem { Text = Locale.Select, Value = "" });
 			this.GrantsList.Add(new SelectListItem { Text = Locale.Deny, Value = "0" });
 			this.GrantsList.Add(new SelectListItem { Text = Locale.Elevate, Value = "1" });
 			this.GrantsList.Add(new SelectListItem { Text = Locale.Grant, Value = "2" });
-		}        
+		}
 
-        /// <summary>
-        /// Gets or sets the list of Grants
-        /// </summary>
-        public List<SelectListItem> GrantsList { get; set; }
-        
-        /// <summary>
-        /// Creates a SecurityPolicyInfo instance
-        /// </summary>
-        /// <returns>A SecurityPolicyInfo instance with the metadata assocaited with the Policy</returns>
-        public SecurityPolicyInfo ToSecurityPolicyInfo(SecurityPolicyInfo securityPolicyInfo)
+		/// <summary>
+		/// Gets or sets the list of Grants
+		/// </summary>
+		public List<SelectListItem> GrantsList { get; set; }
+
+		/// <summary>
+		/// Creates a SecurityPolicyInfo instance
+		/// </summary>
+		/// <returns>A SecurityPolicyInfo instance with the metadata assocaited with the Policy</returns>
+		public SecurityPolicyInfo ToSecurityPolicyInfo(SecurityPolicyInfo securityPolicyInfo)
 		{
 			return new SecurityPolicyInfo(new SecurityPolicyInstance(securityPolicyInfo.Policy, (PolicyGrantType)this.GrantId))
 			{

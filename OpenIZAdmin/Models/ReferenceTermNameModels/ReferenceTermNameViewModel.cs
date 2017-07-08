@@ -17,36 +17,36 @@
  * Date: 2017-4-13
  */
 
-using System;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Models.Core;
+using System;
 
 namespace OpenIZAdmin.Models.ReferenceTermNameModels
 {
-    /// <summary>
+	/// <summary>
 	/// Represents a reference term view model.
 	/// </summary>
-    public class ReferenceTermNameViewModel : ReferenceTermNameModel
-    {
-        /// <summary>
+	public class ReferenceTermNameViewModel : ReferenceTermNameModel
+	{
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ReferenceTermNameViewModel"/> class.
 		/// </summary>
-        public ReferenceTermNameViewModel(ReferenceTermName referenceTermName)
-        {
-            Id = referenceTermName.Key ?? Guid.Empty;
-            Language = referenceTermName.Language;
-            Name = referenceTermName.Name;
-        }
+		public ReferenceTermNameViewModel(ReferenceTermName referenceTermName)
+		{
+			Id = referenceTermName.Key ?? Guid.Empty;
+			Language = referenceTermName.Language;
+			Name = referenceTermName.Name;
+		}
 
-        /// <summary>
+		/// <summary>
 		/// Initializes a new instance of the <see cref="ReferenceTermNameViewModel"/> class.
 		/// </summary>
-        public ReferenceTermNameViewModel(Guid? id, string langCode, string name, ReferenceTerm referenceTerm)
-        {
-            Id = id;
-            Language = langCode;                        
-            Name = name;
-            ReferenceTermId = referenceTerm.Key;
-        }
-    }
+		public ReferenceTermNameViewModel(Guid? id, string langCode, string name, ReferenceTerm referenceTerm)
+		{
+			Id = id;
+			Language = langCode;
+			Name = name;
+			ReferenceTermId = referenceTerm.Key;
+		}
+	}
 }

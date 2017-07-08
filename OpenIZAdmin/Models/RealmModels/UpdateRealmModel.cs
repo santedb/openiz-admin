@@ -19,7 +19,7 @@
 
 namespace OpenIZAdmin.Models.RealmModels
 {
-    /// <summary>
+	/// <summary>
 	/// Represents an update realm model.
 	/// </summary>
 	public class UpdateRealmModel

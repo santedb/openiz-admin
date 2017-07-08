@@ -18,10 +18,10 @@
  */
 
 using OpenIZ.Core.Model.AMI.Applet;
+using OpenIZAdmin.Localization;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.AppletModels
 {
@@ -43,13 +43,13 @@ namespace OpenIZAdmin.Models.AppletModels
 		/// </summary>
 		/// <param name="appletManifestInfo">The applet manifest information.</param>
 		public AppletViewModel(AppletManifestInfo appletManifestInfo) : this()
-		{		    
-		    this.Author = appletManifestInfo.AppletInfo.Author;
-            this.Group = appletManifestInfo.AppletInfo.GetGroupName("en");
-            this.Id = appletManifestInfo.AppletInfo.Id;
-            this.PublicKeyToken = appletManifestInfo.AppletInfo.PublicKeyToken;
-            this.Version = appletManifestInfo.AppletInfo.Version;
-            this.Name = string.Join(", ", appletManifestInfo.AppletInfo.Names.Select(l => l.Value));
+		{
+			this.Author = appletManifestInfo.AppletInfo.Author;
+			this.Group = appletManifestInfo.AppletInfo.GetGroupName("en");
+			this.Id = appletManifestInfo.AppletInfo.Id;
+			this.PublicKeyToken = appletManifestInfo.AppletInfo.PublicKeyToken;
+			this.Version = appletManifestInfo.AppletInfo.Version;
+			this.Name = string.Join(", ", appletManifestInfo.AppletInfo.Names.Select(l => l.Value));
 
 			if (appletManifestInfo.AppletInfo.Dependencies?.Any() == true)
 			{
@@ -60,7 +60,7 @@ namespace OpenIZAdmin.Models.AppletModels
 			{
 				this.PublisherViewModel = new AppletPublisherViewModel(appletManifestInfo.PublisherData);
 			}
-        }
+		}
 
 		/// <summary>
 		/// Gets or sets the author of the applet.

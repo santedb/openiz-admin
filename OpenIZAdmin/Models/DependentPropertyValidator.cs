@@ -18,59 +18,52 @@
  */
 
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models
 {
-    /// <summary>
+	/// <summary>
 	/// Custom validation for two properties.
 	/// </summary>
-    public class DependentPropertyValidator : ValidationAttribute//, IClientValidatable
-    { 
-        /// <summary>
+	public class DependentPropertyValidator : ValidationAttribute//, IClientValidatable
+	{
+		private readonly string _comparisonProperty;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="DependentPropertyValidator"/> class.
 		/// </summary>
-        public DependentPropertyValidator(string prop1)
-        {
-            this._comparisonProperty = prop1;            
-        }
+		public DependentPropertyValidator(string prop1)
+		{
+			this._comparisonProperty = prop1;
+		}
 
-        private readonly string _comparisonProperty;
+		/// <inheritdoc />
+		protected override ValidationResult IsValid(object value, ValidationContext validationContext)
+		{
+			//AddReferenceTerm
+			var currentValue = value?.ToString();
+			var property = validationContext.ObjectType.GetProperty(_comparisonProperty);
 
-        /// <inheritdoc />
-        protected override ValidationResult IsValid(object value, ValidationContext validationContext)
-        {            
-            //AddReferenceTerm   
-            var currentValue = value?.ToString();
-            var property = validationContext.ObjectType.GetProperty(_comparisonProperty);
+			if (property == null)
+				throw new ArgumentException("Property with this name not found");
 
-            if (property == null)
-                throw new ArgumentException("Property with this name not found");
+			//RelationshipType
+			var comparisonValue = property.GetValue(validationContext.ObjectInstance)?.ToString();
 
-            //RelationshipType
-            var comparisonValue = property.GetValue(validationContext.ObjectInstance)?.ToString();
+			if (string.IsNullOrWhiteSpace(currentValue) && string.IsNullOrWhiteSpace(comparisonValue)) return ValidationResult.Success;
 
-            if (string.IsNullOrWhiteSpace(currentValue) && string.IsNullOrWhiteSpace(comparisonValue)) return ValidationResult.Success;
+			if (!string.IsNullOrWhiteSpace(currentValue) && !string.IsNullOrWhiteSpace(comparisonValue)) return ValidationResult.Success;
 
-            if (!string.IsNullOrWhiteSpace(currentValue) && !string.IsNullOrWhiteSpace(comparisonValue)) return ValidationResult.Success;            
+			return new ValidationResult(FormatErrorMessage((validationContext.DisplayName)));
+		}
 
-            return new ValidationResult(FormatErrorMessage((validationContext.DisplayName)));
-        }
-
-        ////new method
-        //public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
-        //{
-        //    var rule = new ModelClientValidationRule {ErrorMessage = FormatErrorMessage(metadata.GetDisplayName())};
-        //    rule.ValidationParameters.Add("comparisonproperty", _comparisonProperty);
-        //    rule.ValidationType = "compare";
-        //    yield return rule;
-        //}
-
-
-
-    }
+		////new method
+		//public IEnumerable<ModelClientValidationRule> GetClientValidationRules(ModelMetadata metadata, ControllerContext context)
+		//{
+		//    var rule = new ModelClientValidationRule {ErrorMessage = FormatErrorMessage(metadata.GetDisplayName())};
+		//    rule.ValidationParameters.Add("comparisonproperty", _comparisonProperty);
+		//    rule.ValidationType = "compare";
+		//    yield return rule;
+		//}
+	}
 }

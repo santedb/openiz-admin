@@ -18,14 +18,14 @@
  */
 
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.ConceptSetModels;
+using OpenIZAdmin.Models.Core;
 using OpenIZAdmin.Models.ReferenceTermModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.ConceptSetModels;
-using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Models.ConceptModels
 {

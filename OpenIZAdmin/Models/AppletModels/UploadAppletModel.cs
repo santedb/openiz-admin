@@ -36,10 +36,10 @@ namespace OpenIZAdmin.Models.AppletModels
 		}
 
 		/// <summary>
-		/// Gets or sets the identifier.
+		/// Gets or sets the applet view model.
 		/// </summary>
-		/// <value>The identifier.</value>
-		public string Id { get; set; }
+		/// <value>The applet view model.</value>
+		public AppletViewModel AppletViewModel { get; set; }
 
 		/// <summary>
 		/// Gets or sets the applet content.
@@ -49,10 +49,9 @@ namespace OpenIZAdmin.Models.AppletModels
 		public HttpPostedFileBase File { get; set; }
 
 		/// <summary>
-		/// Gets or sets the applet view model.
+		/// Gets or sets the identifier.
 		/// </summary>
-		/// <value>The applet view model.</value>
-		public AppletViewModel AppletViewModel { get; set; }
-
+		/// <value>The identifier.</value>
+		public string Id { get; set; }
 	}
 }

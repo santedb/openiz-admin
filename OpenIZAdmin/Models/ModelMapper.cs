@@ -96,10 +96,10 @@ namespace OpenIZAdmin.Models
 	[AttributeUsage(AttributeTargets.Property)]
 	public class MappingIgnore : Attribute
 	{
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MappingIgnore"/> class.
-        /// </summary>
-        public MappingIgnore()
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MappingIgnore"/> class.
+		/// </summary>
+		public MappingIgnore()
 		{
 		}
 	}

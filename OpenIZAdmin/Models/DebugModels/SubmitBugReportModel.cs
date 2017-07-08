@@ -1,9 +1,9 @@
 ﻿using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.AMI.Diagnostics;
 using OpenIZ.Core.Model.Entities;
+using OpenIZAdmin.Localization;
 using System;
 using System.ComponentModel.DataAnnotations;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Models.DebugModels
 {
@@ -43,9 +43,9 @@ namespace OpenIZAdmin.Models.DebugModels
 		/// </summary>
 		[Display(Name = "StepsToReproduce", ResourceType = typeof(Locale))]
 		[StringLength(4000, ErrorMessageResourceName = "StepsToReproduceTooLong", ErrorMessageResourceType = typeof(Locale))]
-        [Required(ErrorMessageResourceName = "StepsToReproduceRequired", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
-        public string BugDetails { get; set; }
+		[Required(ErrorMessageResourceName = "StepsToReproduceRequired", ErrorMessageResourceType = typeof(Locale))]
+		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+		public string BugDetails { get; set; }
 
 		/// <summary>
 		/// Gets or sets the identifier.
@@ -54,12 +54,12 @@ namespace OpenIZAdmin.Models.DebugModels
 		[Required]
 		public Guid Id { get; set; }
 
-        /// <summary>
-        /// Gets or sets the reporter.
-        /// </summary>
-        /// <value>The reporter.</value>       
-        [Display(Name = "Reporter", ResourceType = typeof(Locale))] 
-        public string Reporter { get; set; }
+		/// <summary>
+		/// Gets or sets the reporter.
+		/// </summary>
+		/// <value>The reporter.</value>
+		[Display(Name = "Reporter", ResourceType = typeof(Locale))]
+		public string Reporter { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this <see cref="SubmitBugReportModel"/> is success.
@@ -67,12 +67,12 @@ namespace OpenIZAdmin.Models.DebugModels
 		/// <value><c>true</c> if success; otherwise, <c>false</c>.</value>
 		public bool Success { get; set; }
 
-        /// <summary>
-        /// Gets or sets the transaction message.
-        /// </summary>
-        /// <value>The transaction message.</value>
-        //[StringLength(256, ErrorMessageResourceName = "TransactionLength256", ErrorMessageResourceType = typeof(Locale))]
-        public string TransactionMessage { get; set; }
+		/// <summary>
+		/// Gets or sets the transaction message.
+		/// </summary>
+		/// <value>The transaction message.</value>
+		//[StringLength(256, ErrorMessageResourceName = "TransactionLength256", ErrorMessageResourceType = typeof(Locale))]
+		public string TransactionMessage { get; set; }
 
 		/// <summary>
 		/// Converts a <see cref="SubmitBugReportModel"/> instance to a <see cref="DiagnosticReport"/> instance.

@@ -17,14 +17,14 @@
  * Date: 2016-9-5
  */
 
-using System;
+using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.PolicyModels;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.AMI.Auth;
 
 namespace OpenIZAdmin.Models.RoleModels
 {
@@ -62,15 +62,14 @@ namespace OpenIZAdmin.Models.RoleModels
 		/// </summary>
 		[Display(Name = "Description", ResourceType = typeof(Locale))]
 		[StringLength(256, ErrorMessageResourceName = "DescriptionLength256", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
-        public string Description { get; set; }
+		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+		public string Description { get; set; }
 
 		/// <summary>
 		/// Gets or sets the id of the role.
 		/// </summary>
 		[Required]
 		public Guid Id { get; set; }
-
 
 		/// <summary>
 		/// Gets or sets whether the security entity is obsolete.
@@ -82,9 +81,9 @@ namespace OpenIZAdmin.Models.RoleModels
 		/// </summary>
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(50, ErrorMessageResourceName = "NameLength50", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
-        public string Name { get; set; }
+		[StringLength(50, ErrorMessageResourceName = "NameLength50", ErrorMessageResourceType = typeof(Locale))]
+		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+		public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets the list of policies associated with the role.
@@ -100,6 +99,6 @@ namespace OpenIZAdmin.Models.RoleModels
 		/// <summary>
 		/// Gets or sets the policies associated with the role.
 		/// </summary>
-		public IEnumerable<PolicyViewModel> RolePolicies { get; set; }       
-    }
+		public IEnumerable<PolicyViewModel> RolePolicies { get; set; }
+	}
 }

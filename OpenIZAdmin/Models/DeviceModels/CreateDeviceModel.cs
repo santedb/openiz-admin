@@ -19,8 +19,8 @@
 
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
-using System.ComponentModel.DataAnnotations;
 using OpenIZAdmin.Localization;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.DeviceModels
 {
@@ -52,11 +52,11 @@ namespace OpenIZAdmin.Models.DeviceModels
 		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
-        /// <summary>
-        /// Gets the SecurityDeviceInfo
-        /// </summary>
-        /// <returns>A SecurityDeviceInfo object populated with metadata</returns>
-        public SecurityDeviceInfo ToSecurityDeviceInfo()
+		/// <summary>
+		/// Gets the SecurityDeviceInfo
+		/// </summary>
+		/// <returns>A SecurityDeviceInfo object populated with metadata</returns>
+		public SecurityDeviceInfo ToSecurityDeviceInfo()
 		{
 			return new SecurityDeviceInfo
 			{

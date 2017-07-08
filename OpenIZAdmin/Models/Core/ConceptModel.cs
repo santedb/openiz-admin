@@ -17,11 +17,11 @@
  * Date: 2017-4-12
  */
 
+using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.ReferenceTermModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.ReferenceTermModels;
 
 namespace OpenIZAdmin.Models.Core
 {
@@ -61,7 +61,7 @@ namespace OpenIZAdmin.Models.Core
 		/// Gets or sets the language.
 		/// </summary>
 		/// <value>The language.</value>
-		[Display(Name = "Language", ResourceType = typeof(Locale))]		
+		[Display(Name = "Language", ResourceType = typeof(Locale))]
 		[StringLength(2, ErrorMessageResourceName = "LanguagCodeTooLong", ErrorMessageResourceType = typeof(Locale))]
 		public string Language { get; set; }
 
@@ -70,18 +70,18 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		[Display(Name = "Mnemonic", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "MnemonicRequired", ErrorMessageResourceType = typeof(Locale))]
-        [StringLength(64, ErrorMessageResourceName = "MnemonicLength64", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
-        public string Mnemonic { get; set; }
+		[StringLength(64, ErrorMessageResourceName = "MnemonicLength64", ErrorMessageResourceType = typeof(Locale))]
+		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+		public string Mnemonic { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name.
 		/// </summary>
 		/// <value>The name.</value>
-		[Display(Name = "Name", ResourceType = typeof(Locale))]		
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
-        public string Name { get; set; }
+		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+		public string Name { get; set; }
 
 		/// <summary>
 		/// Gets or sets a list of names associated with the concept.

@@ -17,8 +17,8 @@
  * Date: 2016-7-13
  */
 
-using System.ComponentModel.DataAnnotations;
 using OpenIZAdmin.Localization;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.RealmModels
 {

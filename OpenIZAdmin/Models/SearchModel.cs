@@ -17,8 +17,8 @@
  * Date: 2016-7-10
  */
 
-using System.ComponentModel.DataAnnotations;
 using OpenIZAdmin.Localization;
+using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models
 {
@@ -50,7 +50,7 @@ namespace OpenIZAdmin.Models
 		[Display(Name = "Name", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
 		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Locale))]
-        [RegularExpression(Constants.RegExBasicHtmlString, ErrorMessageResourceName = "InvalidSearchEntry", ErrorMessageResourceType = typeof(Locale))]
-        public string SearchTerm { get; set; }
+		[RegularExpression(Constants.RegExBasicHtmlString, ErrorMessageResourceName = "InvalidSearchEntry", ErrorMessageResourceType = typeof(Locale))]
+		public string SearchTerm { get; set; }
 	}
 }
