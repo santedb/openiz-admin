@@ -45,33 +45,32 @@ namespace OpenIZAdmin.Models.Domain
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Manual"/> class.
+		/// Initializes a new instance of the <see cref="Manual" /> class.
 		/// </summary>
 		/// <param name="name">The name.</param>
-		/// <param name="fileSystemPath">The file system path.</param>
-		public Manual(string name, string fileSystemPath) : this(Guid.NewGuid(), name, fileSystemPath)
+		/// <param name="content">The content.</param>
+		public Manual(string name, string content) : this(Guid.NewGuid(), name, content)
 		{
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="Manual"/> class.
+		/// Initializes a new instance of the <see cref="Manual" /> class.
 		/// </summary>
 		/// <param name="id">The identifier.</param>
 		/// <param name="name">The name.</param>
-		/// <param name="fileSystemPath">The file system path.</param>
-		public Manual(Guid id, string name, string fileSystemPath) : this(id)
+		/// <param name="content">The content.</param>
+		public Manual(Guid id, string name, string content) : this(id)
 		{
-			this.FileSystemPath = fileSystemPath;
 			this.Name = name;
+			this.Content = content;
 		}
 
 		/// <summary>
-		/// Gets or sets the file system path.
+		/// Gets or sets the content.
 		/// </summary>
-		/// <value>The file system path.</value>
+		/// <value>The content.</value>
 		[Required]
-		[StringLength(255)]
-		public string FileSystemPath { get; set; }
+		public string Content { get; set; }
 
 		/// <summary>
 		/// Gets or sets the identifier.

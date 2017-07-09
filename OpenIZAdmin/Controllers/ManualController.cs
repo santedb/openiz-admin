@@ -77,11 +77,6 @@ namespace OpenIZAdmin.Controllers
 				this.unitOfWork.ManualRepository.Delete(manual);
 				this.unitOfWork.Save();
 
-				//var file = Directory.GetFiles(this.Server.MapPath("~/Manuals"), "*.pdf", SearchOption.TopDirectoryOnly).Select(f => new FileInfo(f)).FirstOrDefault(f => Path.GetFileNameWithoutExtension(f.FullName) == manual.Name);
-
-				// delete the file from the file system
-				System.IO.File.Delete(manual.FileSystemPath);
-
                 this.TempData["success"] = Locale.ManualDeletedSuccessfully;
             }
 			catch (Exception e)
@@ -112,15 +107,9 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				var file = Directory.GetFiles(this.Server.MapPath("~/Manuals"), "*.pdf", SearchOption.TopDirectoryOnly).Select(f => new FileInfo(f)).FirstOrDefault(f => Path.GetFileNameWithoutExtension(f.FullName) == manual.Name);
+				var content = Convert.FromBase64String(manual.Content);
 
-				if (file == null)
-				{
-					this.TempData["error"] = Locale.ManualNotFound;
-					return RedirectToAction("Index");
-				}
-
-				return File(System.IO.File.ReadAllBytes(file.FullName), "application/pdf", file.Name);
+				return new FileContentResult(content, "application/pdf");
 
 			}
 			catch (Exception e)
@@ -142,22 +131,12 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				var manuals = unitOfWork.ManualRepository.AsQueryable();
-
-				foreach (var manual in manuals)
+				foreach (var manual in unitOfWork.ManualRepository.AsQueryable())
 				{
-					var file = Directory.GetFiles(this.Server.MapPath("~/Manuals")).Select(f => new FileInfo(f)).FirstOrDefault(f => Path.GetFileNameWithoutExtension(f.FullName) == manual.Name);
-
-					// skip files which are on the file system, but not tracked in the database
-					if (file == null)
-					{
-						continue;
-					}
-
 					model.Add(new ManualIndexViewModel(manual)
 					{
 						// HACK
-						DownloadLink = this.Request.Url.GetLeftPart(UriPartial.Authority) + this.Request.RawUrl.Replace("Index", "Download/") + manual.Id
+						DownloadLink = this.Request?.Url?.GetLeftPart(UriPartial.Authority) + this.Request?.RawUrl?.Replace("Index", "Download/") + manual.Id
 					});
 				}
 			}
@@ -232,23 +211,13 @@ namespace OpenIZAdmin.Controllers
 
 				if (this.ModelState.IsValid && this.IsValidPdf(model.File.InputStream))
 				{
-					var fileName = Path.GetFileNameWithoutExtension(model.File.FileName);
-
-					var existing = unitOfWork.ManualRepository.Get(c => c.Name == fileName).FirstOrDefault();
-
 					var path = Path.Combine(this.Server.MapPath("~/Manuals"), Path.GetFileName(model.File.FileName));
-
-					// delete the file from the file system and the db if the file being uploaded already exists.
-					if (existing != null)
-					{
-						System.IO.File.Delete(path);
-						this.unitOfWork.ManualRepository.Delete(existing);
-						this.unitOfWork.Save();
-					}
 
 					model.File.SaveAs(path);
 
-					this.unitOfWork.ManualRepository.Add(new Manual(id, Path.GetFileNameWithoutExtension(model.File.FileName), path));
+					var manualContent = Convert.ToBase64String(System.IO.File.ReadAllBytes(path));
+
+					this.unitOfWork.ManualRepository.Add(new Manual(id, Path.GetFileNameWithoutExtension(model.File.FileName), manualContent));
 					this.unitOfWork.Save();
 
 					this.TempData["success"] = Locale.ManualUploadedSuccessfully;
@@ -259,7 +228,6 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to upload manual: {e}");
-				
 			}
 
 			this.TempData["error"] = Locale.UnableToUploadManual;
