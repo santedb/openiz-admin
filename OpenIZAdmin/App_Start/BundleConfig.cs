@@ -87,7 +87,8 @@ namespace OpenIZAdmin
 						"~/Content/toastr.min.css",
 						"~/Content/metro-bootstrap.min.css",
 						"~/Content/bootstrap-tokenfield.min.css",
-						"~/Content/styles.css"));
+						"~/Content/styles.css",
+						"~/Content/fonts/open-sans.css"));
 
 #if !DEBUG
 			BundleTable.EnableOptimizations = true;
