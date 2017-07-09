@@ -43,11 +43,6 @@
             </summary>
             <returns>Returns the created applet manifest info.</returns>
         </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.Ping">
-            <summary>
-            Perform a ping
-            </summary>
-        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.CreateApplication(OpenIZ.Core.Model.AMI.Auth.SecurityApplicationInfo)">
             <summary>
             Creates a security application.
@@ -179,17 +174,6 @@
             </summary>
             <param name="id">The id of the user to be deleted.</param>
             <returns>Returns the deleted user.</returns>
-        </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.Dispose">
-            <summary>
-            Dispose of any resources.
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.Dispose(System.Boolean)">
-            <summary>
-            Dispose of any managed resources.
-            </summary>
-            <param name="disposing">Whether the current invocation is disposing.</param>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.DownloadApplet(System.String)">
             <summary>
@@ -370,6 +354,22 @@
             </summary>
             <returns>Return the service options for the AMI.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.Ping">
+            <summary>
+            Perform a ping
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.Dispose">
+            <summary>
+            Dispose of any resources.
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.Dispose(System.Boolean)">
+            <summary>
+            Dispose of any managed resources.
+            </summary>
+            <param name="disposing">Whether the current invocation is disposing.</param>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.SendTfaSecret(OpenIZ.Core.Model.AMI.Auth.TfaRequestInfo)">
             <summary>
             Create security password reset request.
@@ -383,6 +383,13 @@
             <param name="packageId">The package identifier.</param>
             <returns>Returns the applet info.</returns>
         </member>
+        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.SubmitAudit(OpenIZ.Core.Model.AMI.Security.AuditInfo)">
+            <summary>
+            Submits a diagnostic report.
+            </summary>
+            <param name="report">The diagnostic report.</param>
+            <returns>Returns the submitted diagnostic report.</returns>
+        </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.SubmitCertificateSigningRequest(OpenIZ.Core.Model.AMI.Security.SubmissionRequest)">
             <summary>
             Submits a certificate signing request to the AMI.
@@ -391,13 +398,6 @@
             <returns>Returns the submission result.</returns>
         </member>
         <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.SubmitDiagnosticReport(OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticReport)">
-            <summary>
-            Submits a diagnostic report.
-            </summary>
-            <param name="report">The diagnostic report.</param>
-            <returns>Returns the submitted diagnostic report.</returns>
-        </member>
-        <member name="M:OpenIZ.Messaging.AMI.Client.AmiServiceClient.SubmitAudit(OpenIZ.Core.Model.AMI.Security.AuditInfo)">
             <summary>
             Submits a diagnostic report.
             </summary>

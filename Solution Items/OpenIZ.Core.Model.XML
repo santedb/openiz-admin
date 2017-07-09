@@ -1382,6 +1382,11 @@
             Indicates that the source act transforms the target act
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Model.Constants.ObservationTypeKeys">
+            <summary>
+            Represents act type keys
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Constants.AddressComponentKeys">
             <summary>
             Represents address component types
@@ -1390,6 +1395,81 @@
         <member name="T:OpenIZ.Core.Model.Constants.AddressUseKeys">
             <summary>
             Address use keys
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.Alphabetic">
+            <summary>
+            Represents an alphabetic address.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.BadAddress">
+            <summary>
+            Represents a bad address, i.e. an address which is old or invalid.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.Direct">
+            <summary>
+            Represents a workplace address that reaches the person directly without intermediaries.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.HomeAddress">
+            <summary>
+            The home address
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.Ideographic">
+            <summary>
+            The ideographic
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.Phonetic">
+            <summary>
+            The phonetic
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.PhysicalVisit">
+            <summary>
+            The physical visit
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.PostalAddress">
+            <summary>
+            The postal address
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.PrimaryHome">
+            <summary>
+            Represents a primary address to reach a contact after business hours.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.Public">
+            <summary>
+            Represents an address that is a standard address that may be subject to a switchboard or operator prior to reaching the intended entity.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.Soundex">
+            <summary>
+            Represents an address used for soundex matching purposes.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.Syllabic">
+            <summary>
+            Represents a syllabic address.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.TemporaryAddress">
+            <summary>
+            Represents a temporary address that may be good for visiting or mailing.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.VacationHome">
+            <summary>
+            Represents a vacation home to reach a person while on vacation.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.WorkPlace">
+            <summary>
+            Represents an office address, should be used for business communications
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.CodeSystemKeys">
@@ -1655,6 +1735,31 @@
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.TelecomAddressUse">
             <summary>
             Telecom address use
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.VaccineTypeCodes">
+            <summary>
+            Vaccine type codes
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.VitalSigns">
+            <summary>
+            Vital signs
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.ProblemObservations">
+            <summary>
+            Problem observations
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.AdverseEventActs">
+            <summary>
+            Acts which represent adverse events such as diagnosis of intolerances, etc.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.AllergyIntoleranceTypes">
+            <summary>
+            Allergy and intolerance types
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.ContainerCapKeys">
@@ -1961,6 +2066,16 @@
         <member name="T:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys">
             <summary>
             Base entity relationship type keys
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.Constants.ExtensionTypeKeys">
+            <summary>
+            Represents extension type keys for ONLY CORE EXTENSIONS. Third party extensions should never be placed in core
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ExtensionTypeKeys.JpegPhotoExtension">
+            <summary>
+            An extension which can hold a JPG photo of an entity
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.NameComponentKeys">
@@ -2677,6 +2792,26 @@
         <member name="P:OpenIZ.Core.Model.DataTypes.Extension`1.ExtensionType">
             <summary>
             Gets or sets the extension type
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.DataTypes.Extension`1.OpenIZ#Core#Model#Interfaces#IModelExtension#ExtensionTypeKey">
+            <summary>
+            Get the type key
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.DataTypes.Extension`1.OpenIZ#Core#Model#Interfaces#IModelExtension#Data">
+            <summary>
+            Gets the data
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.DataTypes.Extension`1.OpenIZ#Core#Model#Interfaces#IModelExtension#Display">
+            <summary>
+            Get the display
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.DataTypes.Extension`1.OpenIZ#Core#Model#Interfaces#IModelExtension#Value">
+            <summary>
+            Get the value of the extension
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.DataTypes.Extension`1.Refresh">
@@ -4315,27 +4450,27 @@
             Get relationships
             </summary>
         </member>
-        <member name="T:OpenIZ.Core.Model.Extensions.DateExtensionHandler">
+        <member name="T:OpenIZ.Core.Model.Extensions.BinaryExtensionHandler">
             <summary>
-            Date extension handler
+            Binary extension handler
             </summary>
         </member>
-        <member name="P:OpenIZ.Core.Model.Extensions.DateExtensionHandler.Name">
+        <member name="P:OpenIZ.Core.Model.Extensions.BinaryExtensionHandler.Name">
             <summary>
             Gets the name of the handler
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.Extensions.DateExtensionHandler.DeSerialize(System.Byte[])">
+        <member name="M:OpenIZ.Core.Model.Extensions.BinaryExtensionHandler.DeSerialize(System.Byte[])">
             <summary>
-            Serialize to bytes
+            Deserialize data
+            </summary> 
+        </member>
+        <member name="M:OpenIZ.Core.Model.Extensions.BinaryExtensionHandler.GetDisplay(System.Object)">
+            <summary>
+            Get display 
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.Extensions.DateExtensionHandler.GetDisplay(System.Object)">
-            <summary>
-            Get the display value
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.Extensions.DateExtensionHandler.Serialize(System.Object)">
+        <member name="M:OpenIZ.Core.Model.Extensions.BinaryExtensionHandler.Serialize(System.Object)">
             <summary>
             Serialize
             </summary>
@@ -4470,6 +4605,16 @@
             Gets or sets the time with the data was obsoleted.
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Model.Interfaces.IExtendable">
+            <summary>
+            Represents a object that can be extended with IModelExtensions
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Interfaces.IExtendable.Extensions">
+            <summary>
+            Gets the list of extensions
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Interfaces.IIdentifiedEntity">
             <summary>
             Identified entity
@@ -4483,6 +4628,31 @@
         <member name="P:OpenIZ.Core.Model.Interfaces.IIdentifiedEntity.Key">
             <summary>
             Gets the identifier for the entity
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Model.Interfaces.IModelExtension">
+            <summary>
+            Model extension
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Interfaces.IModelExtension.ExtensionTypeKey">
+            <summary>
+            Gets the extension type key
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Interfaces.IModelExtension.Data">
+            <summary>
+            Gets the data for the extension
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Interfaces.IModelExtension.Display">
+            <summary>
+            Gets the display value
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Interfaces.IModelExtension.Value">
+            <summary>
+            Gets the value of the extension
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Interfaces.ISimpleAssociation">
@@ -4500,9 +4670,9 @@
             Represents a data model class which can be used as a securable
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Model.Interfaces.ISecurable.Mask">
+        <member name="P:OpenIZ.Core.Model.Interfaces.ISecurable.Policies">
             <summary>
-            True if the object is masked
+            Policies
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Interfaces.ITaggable">
@@ -6050,6 +6220,31 @@
         <member name="M:OpenIZ.Core.Extensions.BooleanExtensionHandler.Serialize(System.Object)">
             <summary>
             Serialize the data into byte array
+            </summary>
+        </member>
+        <member name="T:OpenIZ.Core.Extensions.DateExtensionHandler">
+            <summary>
+            Date extension handler
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Extensions.DateExtensionHandler.Name">
+            <summary>
+            Gets the name of the handler
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Extensions.DateExtensionHandler.DeSerialize(System.Byte[])">
+            <summary>
+            Serialize to bytes
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Extensions.DateExtensionHandler.GetDisplay(System.Object)">
+            <summary>
+            Get the display value
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Extensions.DateExtensionHandler.Serialize(System.Object)">
+            <summary>
+            Serialize
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Extensions.DecimalExtensionHandler">
