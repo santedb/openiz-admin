@@ -26,6 +26,7 @@ using OpenIZAdmin.Models.EntityTagModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.Linq;
 
 namespace OpenIZAdmin.Models.Core
@@ -74,7 +75,7 @@ namespace OpenIZAdmin.Models.Core
 				this.Type = Constants.NotApplicable;
 			}
 
-			this.UpdatedTime = entity.CreationTime.DateTime;
+			this.UpdatedTime = entity.CreationTime.DateTime.ToString(CultureInfo.InvariantCulture);
 
 			this.VersionKey = entity.VersionKey;
 			this.VersionSequence = entity.VersionSequence;
@@ -133,7 +134,7 @@ namespace OpenIZAdmin.Models.Core
 		/// </summary>
 		/// <value>The updated time.</value>
 		[Display(Name = "UpdatedTime", ResourceType = typeof(Locale))]
-		public DateTime UpdatedTime { get; set; }
+		public string UpdatedTime { get; set; }
 
 		/// <summary>
 		/// Gets or sets the version key.
