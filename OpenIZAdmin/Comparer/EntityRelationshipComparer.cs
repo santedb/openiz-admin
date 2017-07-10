@@ -36,7 +36,6 @@ namespace OpenIZAdmin.Comparer
 		/// <param name="x">The first object of type to compare.</param>
 		/// <param name="y">The second object of type to compare.</param>
 		/// <returns>true if the specified objects are equal; otherwise, false.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
 		public bool Equals(EntityRelationship x, EntityRelationship y)
 		{
 			return x?.Key == y?.Key;

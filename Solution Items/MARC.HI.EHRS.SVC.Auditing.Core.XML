@@ -1,0 +1,488 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MARC.HI.EHRS.SVC.Auditing.Core</name>
+    </assembly>
+    <members>
+        <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.ActionType">
+            <summary>
+            Represents types of actions
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.ActionType.Create">
+            <summary>
+            Data was created in the system
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.ActionType.Read">
+            <summary>
+            Data was viewed, printed, displayed, etc...
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.ActionType.Update">
+            <summary>
+            Data was revised in the system
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.ActionType.Delete">
+            <summary>
+            Data was removed from the system
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.ActionType.Execute">
+            <summary>
+            A system, or application function was performed
+            </summary>
+        </member>
+        <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectType">
+            <summary>
+            Identifies the type of auditable objects in the system
+            </summary>
+        </member>
+        <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject">
+            <summary>
+            Identifies an object that adds context to the audit
+            </summary>
+        </member>
+        <member name="M:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject.#ctor">
+            <summary>
+            New object data
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject.CustomIdTypeCode">
+            <summary>
+            Custom id type code
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject.IDTypeCode">
+            <summary>
+            Gets or sets the id type code
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject.IDTypeCodeXml">
+            <summary>
+            Identifies the type of identifier supplied
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject.IDTypeCodeXmlSpecified">
+            <summary>
+            Gets whether ID type code is specified
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject.LifecycleType">
+            <summary>
+            Lifecycle type
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject.LifecycleTypeXml">
+            <summary>
+            Identifies where in the lifecycle of the object this object is currently within
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject.LifecycleTypeXmlSpecified">
+            <summary>
+            Gets whether ID type code is specified
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject.NameData">
+            <summary>
+            Data associated with the object
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject.ObjectData">
+            <summary>
+            Additional object data
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject.ObjectId">
+            <summary>
+            Identifies the object in the event
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject.QueryData">
+            <summary>
+            Data associated with the object
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject.Role">
+            <summary>
+            Identifies the role type of the object
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject.RoleXml">
+            <summary>
+            Identifies the role type of the object
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject.RoleXmlSpecified">
+            <summary>
+            Gets whether ID type code is specified
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject.Type">
+            <summary>
+            Identifies the type of object being expressed
+            </summary>
+        </member>
+        <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.ObjectDataExtension">
+            <summary>
+            Represents object data extension
+            </summary>
+        </member>
+        <member name="M:MARC.HI.EHRS.SVC.Auditing.Data.ObjectDataExtension.#ctor(System.String,System.Byte[])">
+            <summary>
+            Object data extension
+            </summary>
+            <param name="key"></param>
+            <param name="value"></param>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.ObjectDataExtension.Key">
+            <summary>
+            Key of the extension
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.ObjectDataExtension.Value">
+            <summary>
+            Value of the extension
+            </summary>
+        </member>
+        <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectIdType">
+            <summary>
+            Classifies the type of identifier that a auditable object may have
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectIdType.MedicalRecord">
+            <remarks>Use with object type code Person</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectIdType.PatientNumber">
+            <remarks>Use with object type code Person</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectIdType.EncounterNumber">
+            <remarks>Use with object type code Person</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectIdType.EnrolleeNumber">
+            <remarks>Use with object type code Person</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectIdType.SocialSecurityNumber">
+            <remarks>Use with object type code Person</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectIdType.AccountNumber">
+            <remarks>Use with object type code Person</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectIdType.GuarantorNumber">
+            <remarks>Use with object type code Person or Organization</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectIdType.ReportName">
+            <remarks>Use with object type code SystemObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectIdType.ReportNumber">
+            <remarks>Use with object type code SystemObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectIdType.SearchCritereon">
+            <remarks>Use with object type code SystemObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectIdType.UserIdentifier">
+            <remarks>Use with object type code Person or SystemObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectIdType.Uri">
+            <remarks>Use with object type code SystemObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectIdType.Custom">
+            <summary>
+            Custom code
+            </summary>
+        </member>
+        <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectLifecycle">
+            <summary>
+            Auditable object lifecycle
+            </summary>
+        </member>
+        <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole">
+            <summary>
+            Identifies roles of objects in the audit event
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.Patient">
+            <remarks>Use with object type Person</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.Location">
+            <remarks>Use with object type Organization</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.Report">
+            <remarks>Use with object type SysObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.Resource">
+            <remarks>Use with object type Person or Organization</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.MasterFile">
+            <remarks>Use with object type SysObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.User">
+            <remarks>Use with object type Person, SysObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.List">
+            <remarks>Use with object type SysObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.Doctor">
+            <remarks>Use with object type Person</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.Subscriber">
+            <remarks>Use with object type Organization</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.Guarantor">
+            <remarks>Use with object type Person, Organization</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.SecurityUser">
+            <remarks>Use with object type SyOBject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.SecurityGroup">
+            <remarks>Use with object type SysObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.SecurityResource">
+            <remarks>Use with object type SysObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.SecurityGranularityDefinition">
+            <remarks>Use with object type SysObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.Provider">
+            <remarks>Use with object type Person or Organization</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.DataDestination">
+            <remarks>Use with object type SysObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.DataRepository">
+            <remarks>Use with object type SysObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.Schedule">
+            <remarks>Use with object type SysObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.Customer">
+            <remarks>Use with object type Person</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.Job">
+            <remarks>Use with object type SysObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.JobStream">
+            <remarks>Use with object type SysObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.Table">
+            <remarks>Use with object type SysObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.RoutingCriteria">
+            <remarks>Use with object type SysObject</remarks>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectRole.Query">
+            <remarks>Use with object type SysObject</remarks>
+        </member>
+        <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.AuditActorData">
+            <summary>
+            Data related to actors that participate in the event
+            </summary>
+        </member>
+        <member name="M:MARC.HI.EHRS.SVC.Auditing.Data.AuditActorData.#ctor">
+            <summary>
+            Default ctor
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditActorData.ActorRoleCode">
+            <summary>
+            Identifies the role(s) that the actor has played
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditActorData.AlternativeUserId">
+            <summary>
+            Alternative user identifier
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditActorData.NetworkAccessPointId">
+            <summary>
+            Identifies the network access point from which the user accessed the system
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditActorData.NetworkAccessPointType">
+            <summary>
+            Identifies the type of network access point
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditActorData.NetworkAccessPointTypeSpecified">
+            <summary>
+            Network access point type
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditActorData.UserIdentifier">
+            <summary>
+            The unique identifier for the user in the system
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditActorData.UserIsRequestor">
+            <summary>
+            True if the user is the primary requestor
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditActorData.UserName">
+            <summary>
+            The name of the user in the system
+            </summary>
+        </member>
+        <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode">
+            <summary>
+            Represents an audit
+            </summary>
+        </member>
+        <member name="M:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode.#ctor">
+            <summary>
+            Serialization ctor
+            </summary>
+        </member>
+        <member name="M:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode.#ctor(System.String,System.String)">
+            <summary>
+            Construct a new code
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode.Code">
+            <summary>
+            Gets or sets the code of the code value
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode.CodeSystem">
+            <summary>
+            Gets or sets the system in which the code value is drawn
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode.CodeSystemName">
+            <summary>
+            Gets or sets the human readable name of the code sytsem
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode.CodeSystemVersion">
+            <summary>
+            Gets or sets the version of the code system
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode.DisplayName">
+            <summary>
+            Gets or sets the display name
+            </summary>
+        </member>
+        <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType">
+            <summary>
+            Event Identifier
+            </summary>
+        </member>
+        <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.AuditData">
+            <summary>
+            Represents data related to an audit event
+            </summary>
+        </member>
+        <member name="M:MARC.HI.EHRS.SVC.Auditing.Data.AuditData.#ctor">
+            <summary>
+            Default CTOR
+            </summary>
+        </member>
+        <member name="M:MARC.HI.EHRS.SVC.Auditing.Data.AuditData.#ctor(System.DateTime,MARC.HI.EHRS.SVC.Auditing.Data.ActionType,MARC.HI.EHRS.SVC.Auditing.Data.OutcomeIndicator,MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType,MARC.HI.EHRS.SVC.Auditing.Data.AuditCode)">
+            <summary>
+            Create a new instance of the AuditData class
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditData.ActionCode">
+            <summary>
+            Identifies the action code
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditData.Actors">
+            <summary>
+            Represents the actors within the audit event
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditData.AuditableObjects">
+            <summary>
+            Represents other objects of interest
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditData.CorrelationToken">
+            <summary>
+            Gets or sets a correlation token to be used when shipping this audit
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditData.EventIdentifier">
+            <summary>
+            Identifies the event
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditData.EventTypeCode">
+            <summary>
+            Identifies the type of event
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditData.Outcome">
+            <summary>
+            Identifies the outcome of the event
+            </summary>
+        </member>
+        <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditData.Timestamp">
+            <summary>
+            Event timestamp
+            </summary>
+        </member>
+        <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.AuditSourceType">
+            <summary>
+            Audit source type
+            </summary>
+        </member>
+        <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.NetworkAccessPointType">
+            <summary>
+            Represents the type of network access point
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.NetworkAccessPointType.MachineName">
+            <summary>
+            The identifier is a machine name
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.NetworkAccessPointType.IPAddress">
+            <summary>
+            Identifier is an IP address
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.NetworkAccessPointType.TelephoneNumber">
+            <summary>
+            Identifier is a telephone number
+            </summary>
+        </member>
+        <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.OutcomeIndicator">
+            <summary>
+            Represents potential outcomes
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.OutcomeIndicator.Success">
+            <summary>
+            Successful operation
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.OutcomeIndicator.MinorFail">
+            <summary>
+            Minor failure, action should be restarted
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.OutcomeIndicator.SeriousFail">
+            <summary>
+            Action was terminated
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.OutcomeIndicator.EpicFail">
+            <summary>
+            Major failure, action is made unavailable
+            </summary>
+        </member>
+        <member name="T:MARC.HI.EHRS.SVC.Auditing.Services.IAuditorService">
+            <summary>
+            This interface defines a framework for implementing a auditing service
+            </summary>
+        </member>
+        <member name="M:MARC.HI.EHRS.SVC.Auditing.Services.IAuditorService.SendAudit(MARC.HI.EHRS.SVC.Auditing.Data.AuditData)">
+            <summary>
+            Send an audit
+            </summary>
+        </member>
+    </members>
+</doc>
