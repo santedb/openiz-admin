@@ -23,11 +23,15 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using MARC.HI.EHRS.SVC.Auditing.Data;
 using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Messaging.IMSI.Client;
+using OpenIZAdmin.Core.Auditing.Core;
+using OpenIZAdmin.Core.Auditing.Entities;
 using OpenIZAdmin.Services.Entities;
+using OpenIZAdmin.Services.Metadata;
 
 namespace OpenIZAdmin.Services.Core
 {
@@ -40,11 +44,32 @@ namespace OpenIZAdmin.Services.Core
 	public abstract class EntityServiceBase<T> : ImsiServiceBase, IEntityService<T> where T : Entity
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="EntityServiceBase{T}"/> class.
+		/// The concept service.
+		/// </summary>
+		private readonly IConceptService conceptService;
+
+		/// <summary>
+		/// The core audit service.
+		/// </summary>
+		private readonly ICoreAuditService coreAuditService;
+
+		/// <summary>
+		/// The entity audit service
+		/// </summary>
+		private readonly IEntityAuditService entityAuditService;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EntityServiceBase{T}" /> class.
 		/// </summary>
 		/// <param name="client">The client.</param>
-		protected EntityServiceBase(ImsiServiceClient client) : base(client)
+		/// <param name="conceptService">The concept service.</param>
+		/// <param name="coreAuditService">The core audit service.</param>
+		/// <param name="entityAuditService">The entity audit service.</param>
+		protected EntityServiceBase(ImsiServiceClient client, IConceptService conceptService, ICoreAuditService coreAuditService, IEntityAuditService entityAuditService) : base(client)
 		{
+			this.conceptService = conceptService;
+			this.coreAuditService = coreAuditService;
+			this.entityAuditService = entityAuditService;
 		}
 
 		/// <summary>
@@ -58,7 +83,21 @@ namespace OpenIZAdmin.Services.Core
 			entity.StatusConceptKey = StatusKeys.Active;
 			entity.VersionKey = null;
 
-			return this.Update(entity);
+			T updated;
+
+			try
+			{
+				updated = this.Update(entity);
+
+				this.entityAuditService.AuditUpdateEntity(OutcomeIndicator.Success, updated);
+			}
+			catch (Exception e)
+			{
+				this.coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, entityAuditService.UpdateEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
+				throw;
+			}
+
+			return updated;
 		}
 
 		/// <summary>
@@ -77,9 +116,23 @@ namespace OpenIZAdmin.Services.Core
 			// null out the version key
 			entity.VersionKey = null;
 
-			var createMethod = this.Client.GetType().GetRuntimeMethod("Create", new Type[] { typeof(T) }).MakeGenericMethod(typeof(T));
+			T created;
 
-			return createMethod.Invoke(this.Client, new object[] { entity }) as T;
+			try
+			{
+				var createMethod = this.Client.GetType().GetRuntimeMethod("Create", new Type[] { typeof(T) }).MakeGenericMethod(typeof(T));
+
+				created = createMethod.Invoke(this.Client, new object[] { entity }) as T;
+
+				this.entityAuditService.AuditCreateEntity(OutcomeIndicator.Success, created);
+			}
+			catch (Exception e)
+			{
+				this.coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, entityAuditService.CreateEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
+				throw;
+			}
+
+			return created;
 		}
 
 		/// <summary>
@@ -99,9 +152,29 @@ namespace OpenIZAdmin.Services.Core
 		/// <returns>Returns the entity for the given key.</returns>
 		public virtual T Get(Guid key)
 		{
-			var getMethod = this.Client.GetType().GetRuntimeMethod("Get", new Type[] { typeof(Guid), typeof(Guid?) }).MakeGenericMethod(typeof(T));
+			T entity;
 
-			return getMethod.Invoke(this.Client, new object[] { key, null }) as T;
+			try
+			{
+				var getMethod = this.Client.GetType().GetRuntimeMethod("Get", new Type[] { typeof(Guid), typeof(Guid?) }).MakeGenericMethod(typeof(T));
+
+				entity = getMethod.Invoke(this.Client, new object[] { key, null }) as T;
+
+				if (entity == null)
+				{
+					this.entityAuditService.AuditQueryEntity(OutcomeIndicator.SeriousFail, null);
+					return null;
+				}
+
+				this.entityAuditService.AuditQueryEntity(OutcomeIndicator.Success, new List<T> { entity });
+			}
+			catch (Exception e)
+			{
+				this.coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, entityAuditService.QueryEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
+				throw;
+			}
+
+			return entity;
 		}
 
 		/// <summary>
@@ -132,13 +205,16 @@ namespace OpenIZAdmin.Services.Core
 
 			if (entity == null)
 			{
+				this.entityAuditService.AuditQueryEntity(OutcomeIndicator.SeriousFail, null);
 				return null;
 			}
 
-			//if (entity.TypeConceptKey.HasValue && entity.TypeConceptKey != Guid.Empty)
-			//{
-			//	entity.TypeConcept = this.GetConcept(entity.TypeConceptKey.Value);
-			//}
+			if (entity.TypeConceptKey.HasValue && entity.TypeConceptKey != Guid.Empty)
+			{
+				entity.TypeConcept = this.conceptService.GetConcept(entity.TypeConceptKey.Value);
+			}
+
+			this.entityAuditService.AuditQueryEntity(OutcomeIndicator.Success, new List<T> { entity });
 
 			return entity;
 		}
@@ -177,13 +253,7 @@ namespace OpenIZAdmin.Services.Core
 		/// <returns>Returns the obsoleted entity.</returns>
 		public virtual T Obsolete(Guid key)
 		{
-			var getMethod = this.Client.GetType().GetRuntimeMethod("Get", new Type[] { typeof(Guid), typeof(Guid?) }).MakeGenericMethod(typeof(T));
-
-			var entity = getMethod.Invoke(this.Client, new object[] { key, null }) as T;
-
-			var obsoleteMethod = this.Client.GetType().GetRuntimeMethod("Obsolete", new Type[] { typeof(T) }).MakeGenericMethod(typeof(T));
-
-			return obsoleteMethod.Invoke(this.Client, new object[] { entity }) as T;
+			return this.Obsolete(this.Get(key));
 		}
 
 		/// <summary>
@@ -193,9 +263,23 @@ namespace OpenIZAdmin.Services.Core
 		/// <returns>Returns the obsoleted entity.</returns>
 		public virtual T Obsolete(T entity)
 		{
-			var obsoleteMethod = this.Client.GetType().GetRuntimeMethod("Obsolete", new Type[] { typeof(T) }).MakeGenericMethod(typeof(T));
+			T obsoleted;
 
-			return obsoleteMethod.Invoke(this.Client, new object[] { entity }) as T;
+			try
+			{
+				var obsoleteMethod = this.Client.GetType().GetRuntimeMethod("Obsolete", new Type[] { typeof(T) }).MakeGenericMethod(typeof(T));
+
+				obsoleted = obsoleteMethod.Invoke(this.Client, new object[] { entity }) as T;
+
+				this.entityAuditService.AuditDeleteEntity(OutcomeIndicator.Success, obsoleted);
+			}
+			catch (Exception e)
+			{
+				this.coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, entityAuditService.DeleteEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
+				throw;
+			}
+
+			return obsoleted;
 		}
 
 		/// <summary>
@@ -214,9 +298,25 @@ namespace OpenIZAdmin.Services.Core
 			// null out the version key
 			entity.VersionKey = null;
 
-			var updateMethod = this.Client.GetType().GetRuntimeMethods().First(m => m.Name == "Update" && m.IsGenericMethod).MakeGenericMethod(typeof(T));
 
-			return updateMethod.Invoke(this.Client, new object[] { entity }) as T;
+
+			T updated;
+
+			try
+			{
+				var updateMethod = this.Client.GetType().GetRuntimeMethods().First(m => m.Name == "Update" && m.IsGenericMethod).MakeGenericMethod(typeof(T));
+
+				updated = updateMethod.Invoke(this.Client, new object[] { entity }) as T;
+
+				this.entityAuditService.AuditUpdateEntity(OutcomeIndicator.Success, updated);
+			}
+			catch (Exception e)
+			{
+				this.coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, entityAuditService.DeleteEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
+				throw;
+			}
+
+			return updated;
 		}
 	}
 }

@@ -38,9 +38,28 @@
       <HintPath>..\packages\Autofac.Mvc5.4.0.2\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="MARC.HI.EHRS.SVC.Auditing.Core">
+      <HintPath>..\Solution Items\MARC.HI.EHRS.SVC.Auditing.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.1\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
       <Private>True</Private>
+    </Reference>
+    <Reference Include="OpenIZ.Core.Model">
+      <HintPath>..\Solution Items\OpenIZ.Core.Model.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenIZ.Core.Model.AMI">
+      <HintPath>..\Solution Items\OpenIZ.Core.Model.AMI.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenIZ.Core.PCL">
+      <HintPath>..\Solution Items\OpenIZ.Core.PCL.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenIZ.Messaging.AMI.Client">
+      <HintPath>..\Solution Items\OpenIZ.Messaging.AMI.Client.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -78,6 +97,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auditing\Controllers\AuthenticationAuditService.cs" />
+    <Compile Include="Auditing\Controllers\IAuthenticationAuditService.cs" />
+    <Compile Include="Auditing\Core\CoreAuditServiceBase.cs" />
+    <Compile Include="Auditing\Core\ICoreAuditService.cs" />
+    <Compile Include="Auditing\Entities\EntityAuditService.cs" />
+    <Compile Include="Auditing\Entities\IEntityAuditService.cs" />
+    <Compile Include="Auditing\Model\Error.cs" />
+    <Compile Include="Auditing\Core\GlobalAuditHelper.cs" />
+    <Compile Include="Auditing\Core\HttpContextAuditHelperBase.cs" />
+    <Compile Include="Auditing\Model\EventTypeCode.cs" />
+    <Compile Include="Auditing\SecurityEntities\ISecurityEntityAuditService.cs" />
+    <Compile Include="Auditing\SecurityEntities\SecurityApplicationAuditService.cs" />
+    <Compile Include="Auditing\SecurityEntities\SecurityDeviceAuditService.cs" />
+    <Compile Include="Auditing\SecurityEntities\SecurityEntityAuditSerivceBase.cs" />
+    <Compile Include="Auditing\SecurityEntities\SecurityRoleAuditSerivce.cs" />
+    <Compile Include="Auditing\SecurityEntities\SecurityUserAuditService.cs" />
+    <Compile Include="Auditing\Services\IAuditService.cs" />
     <Compile Include="Caching\ICacheService.cs" />
     <Compile Include="Caching\IMemoryCacheService.cs" />
     <Compile Include="Caching\MemoryCacheService.cs" />
@@ -86,6 +122,7 @@
     <Compile Include="Engine\IOpenIZAdminEngine.cs" />
     <Compile Include="Engine\OpenIZAdminEngine.cs" />
     <Compile Include="Engine\OpenIZAdminEngineContext.cs" />
+    <Compile Include="Extensions\EntityExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Singleton.cs" />
   </ItemGroup>
@@ -94,6 +131,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\OpenIZAdmin.Localization\OpenIZAdmin.Localization.csproj">
+      <Project>{1d9b8eca-559d-449d-8611-a5dbd36028e3}</Project>
+      <Name>OpenIZAdmin.Localization</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

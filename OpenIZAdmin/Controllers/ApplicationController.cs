@@ -28,7 +28,6 @@ using System.Linq;
 using System.Web.Mvc;
 using MARC.HI.EHRS.SVC.Auditing.Data;
 using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Audit;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Services.Http.Security;
 
@@ -40,11 +39,6 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public class ApplicationController : SecurityBaseController
 	{
-		/// <summary>
-		/// The audit helper.
-		/// </summary>
-		private SecurityApplicationAuditHelper auditHelper;
-
 		/// <summary>
 		/// Activates an application.
 		/// </summary>
@@ -60,22 +54,17 @@ namespace OpenIZAdmin.Controllers
 
 				if (securityApplicationInfo == null)
 				{
-					this.auditHelper.AuditQuerySecurityApplication(OutcomeIndicator.SeriousFail,  null);
 					TempData["error"] = Locale.ApplicationNotFound;
 
 					return RedirectToAction("Index");
 				}
-
-				this.auditHelper.AuditQuerySecurityApplication(OutcomeIndicator.Success, new List<SecurityApplication> { securityApplicationInfo.Application });
 
 				securityApplicationInfo.Id = id;
 				securityApplicationInfo.Application.ObsoletedBy = null;
 				securityApplicationInfo.Application.ObsoletionTime = null;
 				securityApplicationInfo.Application.ObsoletionTimeXml = null;
 
-				var updated = this.AmiClient.UpdateApplication(id.ToString(), securityApplicationInfo);
-
-				this.auditHelper.AuditUpdateSecurityApplication(OutcomeIndicator.Success, updated.Application);
+				this.AmiClient.UpdateApplication(id.ToString(), securityApplicationInfo);
 
 				TempData["success"] = Locale.ApplicationActivatedSuccessfully;
 
@@ -84,7 +73,6 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to activate security application: {e}");
-				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityApplicationAuditHelper.UpdateSecurityApplicationAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.UnableToActivateApplication;
@@ -120,8 +108,6 @@ namespace OpenIZAdmin.Controllers
 				{
 					var application = this.AmiClient.CreateApplication(model.ToSecurityApplication());
 
-					this.auditHelper.AuditCreateSecurityApplication(OutcomeIndicator.Success, application.Application);
-
 					TempData["success"] = Locale.ApplicationCreatedSuccessfully;
 
 					return RedirectToAction("ViewApplication", new { id = application.Id.ToString() });
@@ -130,7 +116,6 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to create security application: {e}");
-				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityApplicationAuditHelper.CreateSecurityApplicationAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.UnableToCreateApplication;
@@ -149,9 +134,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var deleted = this.AmiClient.DeleteApplication(id.ToString());
-
-				this.auditHelper.AuditDeleteSecurityApplication(OutcomeIndicator.Success, deleted.Application);
+				this.AmiClient.DeleteApplication(id.ToString());
 
 				TempData["success"] = Locale.ApplicationDeactivatedSuccessfully;
 
@@ -160,7 +143,6 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to delete security application: {e}");
-				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityApplicationAuditHelper.DeleteSecurityApplicationAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.UnableToDeleteApplication;
@@ -182,13 +164,10 @@ namespace OpenIZAdmin.Controllers
 
 				if (securityApplicationInfo == null)
 				{
-					this.auditHelper.AuditQuerySecurityApplication(OutcomeIndicator.SeriousFail, null);
 					TempData["error"] = Locale.ApplicationNotFound;
 
 					return RedirectToAction("Index");
 				}
-
-				this.auditHelper.AuditQuerySecurityApplication(OutcomeIndicator.Success, new List<SecurityApplication> { securityApplicationInfo.Application });
 
 				var model = new EditApplicationModel(securityApplicationInfo);
 
@@ -200,8 +179,6 @@ namespace OpenIZAdmin.Controllers
 			{
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 				Trace.TraceError($"Unable to retrieve security application: {e}");
-
-				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityApplicationAuditHelper.QuerySecurityApplicationAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			return RedirectToAction("Index");
@@ -226,18 +203,12 @@ namespace OpenIZAdmin.Controllers
 					{
 						TempData["error"] = Locale.ApplicationNotFound;
 
-						this.auditHelper.AuditQuerySecurityApplication(OutcomeIndicator.SeriousFail, null);
-
 						return RedirectToAction("Index");
 					}
 
-					this.auditHelper.AuditQuerySecurityApplication(OutcomeIndicator.Success, new List<SecurityApplication> { appEntity.Application });
-
 					var appInfo = this.ToSecurityApplicationInfo(model, appEntity);
 
-					var updated = this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
-
-					this.auditHelper.AuditUpdateSecurityApplication(OutcomeIndicator.Success, updated.Application);
+					this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
 
 					TempData["success"] = Locale.ApplicationUpdatedSuccessfully;
 
@@ -247,8 +218,6 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to update security application: {e}");
-
-				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityApplicationAuditHelper.UpdateSecurityApplicationAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.UnableToUpdateApplication;
@@ -266,17 +235,6 @@ namespace OpenIZAdmin.Controllers
 			TempData["searchType"] = "Application";
             TempData["searchTerm"] = "*";
             return View();
-		}
-
-		/// <summary>
-		/// Called when the action is executing.
-		/// </summary>
-		/// <param name="filterContext">The filter context of the action executing.</param>
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			base.OnActionExecuting(filterContext);
-
-			this.auditHelper = new SecurityApplicationAuditHelper(new AmiCredentials(this.User, this.Request), this.HttpContext.ApplicationInstance.Context);
 		}
 
 		/// <summary>
@@ -300,15 +258,12 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["searchTerm"] = searchTerm;
 
-					this.auditHelper.AuditQuerySecurityApplication(OutcomeIndicator.Success, results.Select(r => r.Application));
-
 					return PartialView("_ApplicationsPartial", results.Select(a => new ApplicationViewModel(a)).OrderBy(a => a.ApplicationName));
 				}
 			}
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to query for security applications: {e}");
-				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityApplicationAuditHelper.QuerySecurityApplicationAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.InvalidSearch;
@@ -333,12 +288,8 @@ namespace OpenIZAdmin.Controllers
 				{
 					TempData["error"] = Locale.ApplicationNotFound;
 
-					this.auditHelper.AuditQuerySecurityApplication(OutcomeIndicator.SeriousFail, null);
-
 					return RedirectToAction("Index");
 				}
-
-				this.auditHelper.AuditQuerySecurityApplication(OutcomeIndicator.Success, new List<SecurityApplication> { result.Application });
 
 				return View(new ApplicationViewModel(result));
 			}
@@ -347,8 +298,6 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to retrieve security application: {e}");
 
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
-
-				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityApplicationAuditHelper.QuerySecurityApplicationAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			return RedirectToAction("Index");

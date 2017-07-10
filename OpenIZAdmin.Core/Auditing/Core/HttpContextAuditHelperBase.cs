@@ -13,14 +13,13 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  *
- * User: khannan
- * Date: 2017-6-25
+ * User: Nityan
+ * Date: 2017-7-10
  */
 
 using MARC.HI.EHRS.SVC.Auditing.Data;
-using OpenIZ.Core.Http;
+using OpenIZAdmin.Core.Auditing.Model;
 using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.Audit;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -32,69 +31,18 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Web;
 
-namespace OpenIZAdmin.Audit
+namespace OpenIZAdmin.Core.Auditing.Core
 {
 	/// <summary>
 	/// Represents an HTTP context audit helper.
 	/// </summary>
-	/// <seealso cref="OpenIZAdmin.Audit.AuditHelperBase" />
-	public abstract class HttpContextAuditHelperBase : AuditHelperBase
+	/// <seealso cref="CoreAuditServiceBase" />
+	public abstract class HttpContextAuditHelperBase : CoreAuditServiceBase
 	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="HttpContextAuditHelperBase" /> class.
-		/// </summary>
-		/// <param name="credentials">The credentials.</param>
-		/// <param name="context">The context.</param>
-		/// <exception cref="System.ArgumentNullException">context</exception>
-		protected HttpContextAuditHelperBase(Credentials credentials, HttpContext context) : base(credentials)
-		{
-			if (context == null)
-			{
-				throw new ArgumentNullException(nameof(context), Locale.ValueCannotBeNull);
-			}
-
-			this.Context = context;
-		}
-
 		/// <summary>
 		/// True if the HTTP request message is sensitive
 		/// </summary>
 		protected bool IsRequestSensitive { get; set; }
-
-		/// <summary>
-		/// Gets the context.
-		/// </summary>
-		/// <value>The context.</value>
-		private HttpContext Context { get; }
-
-		// courtesy of https://stackoverflow.com/questions/6803073/get-local-ip-address
-		/// <summary>
-		/// Gets the local ip address.
-		/// </summary>
-		/// <returns>Returns the IP address as a string instance.</returns>
-		private static string GetLocalIPAddress()
-		{
-			var host = Dns.GetHostEntry(Dns.GetHostName());
-
-			return (from ip in host.AddressList where ip.AddressFamily == AddressFamily.InterNetwork select ip.ToString()).FirstOrDefault();
-		}
-
-		/// <summary>
-		/// Converts an <see cref="object" /> to a <see cref="byte" /> array instance.
-		/// </summary>
-		/// <param name="instance">The instance.</param>
-		/// <returns>Returns the converted <see cref="byte" /> array instance.</returns>
-		private static byte[] ObjectToByteArray(object instance)
-		{
-			var formatter = new BinaryFormatter();
-
-			using (var memoryStream = new MemoryStream())
-			{
-				formatter.Serialize(memoryStream, instance);
-
-				return memoryStream.ToArray();
-			}
-		}
 
 		/// <summary>
 		/// Audits the generic error.
@@ -130,7 +78,7 @@ namespace OpenIZAdmin.Audit
 				audit.AuditableObjects.Add(auditableObject);
 			}
 
-			this.SendAudit(audit);
+			AuditService.SendAudit(audit);
 		}
 
 		/// <summary>
@@ -298,6 +246,35 @@ namespace OpenIZAdmin.Audit
 			}
 
 			return audit;
+		}
+
+		// courtesy of https://stackoverflow.com/questions/6803073/get-local-ip-address
+		/// <summary>
+		/// Gets the local ip address.
+		/// </summary>
+		/// <returns>Returns the IP address as a string instance.</returns>
+		private static string GetLocalIPAddress()
+		{
+			var host = Dns.GetHostEntry(Dns.GetHostName());
+
+			return (from ip in host.AddressList where ip.AddressFamily == AddressFamily.InterNetwork select ip.ToString()).FirstOrDefault();
+		}
+
+		/// <summary>
+		/// Converts an <see cref="object" /> to a <see cref="byte" /> array instance.
+		/// </summary>
+		/// <param name="instance">The instance.</param>
+		/// <returns>Returns the converted <see cref="byte" /> array instance.</returns>
+		private static byte[] ObjectToByteArray(object instance)
+		{
+			var formatter = new BinaryFormatter();
+
+			using (var memoryStream = new MemoryStream())
+			{
+				formatter.Serialize(memoryStream, instance);
+
+				return memoryStream.ToArray();
+			}
 		}
 	}
 }

@@ -24,7 +24,8 @@ using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
-using OpenIZAdmin.Audit;
+using OpenIZAdmin.Core.Auditing.Core;
+using OpenIZAdmin.Core.Auditing.Entities;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Services.Http.Security;
 
@@ -38,9 +39,12 @@ namespace OpenIZAdmin.Controllers
 	public abstract class EntityBaseController : BaseController
 	{
 		/// <summary>
-		/// The entity audit helper.
+		/// Initializes a new instance of the <see cref="EntityBaseController"/> class.
 		/// </summary>
-		protected EntityAuditHelper AuditHelper { get; private set; }
+		protected EntityBaseController()
+		{
+
+		}
 
 		/// <summary>
 		/// Gets the entity.
@@ -125,17 +129,6 @@ namespace OpenIZAdmin.Controllers
 			MvcApplication.MemoryCache.Set(updatedEntity.Key.ToString(), updatedEntity, MvcApplication.CacheItemPolicy);
 
 			return updatedEntity;
-		}
-
-		/// <summary>
-		/// Called when the action is executing.
-		/// </summary>
-		/// <param name="filterContext">The filter context of the action executing.</param>
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			base.OnActionExecuting(filterContext);
-
-			this.AuditHelper = new EntityAuditHelper(new AmiCredentials(this.User, this.Request), this.HttpContext.ApplicationInstance.Context);
 		}
 	}
 }

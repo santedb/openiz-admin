@@ -19,6 +19,7 @@
 
 using OpenIZ.Core.Model.DataTypes;
 using System;
+using System.Collections.Generic;
 
 namespace OpenIZAdmin.Services.Metadata
 {
@@ -49,10 +50,25 @@ namespace OpenIZAdmin.Services.Metadata
 		ConceptSet GetConceptSet(Guid key);
 
 		/// <summary>
+		/// Gets the concept reference terms.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <param name="versionId">The version identifier.</param>
+		/// <returns>Returns a list of reference terms for a given concept.</returns>
+		IEnumerable<ReferenceTerm> GetConceptReferenceTerms(Guid id, Guid? versionId);
+
+		/// <summary>
 		/// Gets the concept set.
 		/// </summary>
 		/// <param name="mnemonic">The mnemonic.</param>
 		/// <returns>Returns the concept set for the given mnemonic.</returns>
 		ConceptSet GetConceptSet(string mnemonic);
+
+		/// <summary>
+		/// Gets a list of concept for a given concept set.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Returns a list of <see cref="Guid"/> values which represents concept keys.</returns>
+		IEnumerable<Guid> GetConceptSets(Guid key);
 	}
 }

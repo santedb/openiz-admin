@@ -35,8 +35,8 @@ using MARC.HI.EHRS.SVC.Auditing.Data;
 using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Audit;
 using OpenIZAdmin.Comparer;
+using OpenIZAdmin.Core.Auditing.Entities;
 using OpenIZAdmin.Models.EntityRelationshipModels;
 using OpenIZAdmin.Services.Entities;
 
@@ -48,11 +48,6 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize]
 	public class MaterialController : EntityBaseController
 	{
-		/// <summary>
-		/// The material types mnemonic.
-		/// </summary>
-		private const string MaterialTypesMnemonic = "MaterialTypes";
-
 		/// <summary>
 		/// The materials cache key.
 		/// </summary>
@@ -99,8 +94,6 @@ namespace OpenIZAdmin.Controllers
 
 				var updatedMaterial = materialEntityService.Activate(material);
 
-				this.AuditHelper.AuditUpdateEntity(OutcomeIndicator.Success, updatedMaterial);
-
 				this.TempData["success"] = Locale.MaterialActivatedSuccessfully;
 
 				return RedirectToAction("Edit", new { id = id, versionId = updatedMaterial.VersionKey });
@@ -108,7 +101,6 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to activate material: { e }");
-				this.AuditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EntityAuditHelper.UpdateEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			this.TempData["error"] = Locale.UnableToActivateMaterial;
@@ -188,13 +180,10 @@ namespace OpenIZAdmin.Controllers
 
 				if (material == null)
 				{
-					this.AuditHelper.AuditQueryEntity(OutcomeIndicator.SeriousFail, null);
 					this.TempData["error"] = Locale.MaterialNotFound;
 
 					return RedirectToAction("Edit", new { id = id });
 				}
-
-				this.AuditHelper.AuditQueryEntity(OutcomeIndicator.Success, new List<Entity> { material });
 
 				var relationships = new List<EntityRelationship>();
 
@@ -222,7 +211,6 @@ namespace OpenIZAdmin.Controllers
 			{
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 				Trace.TraceError($"Unable to load associate material page: { e }");
-				this.AuditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EntityAuditHelper.QueryEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			return RedirectToAction("Edit", new { id = id });
@@ -263,19 +251,14 @@ namespace OpenIZAdmin.Controllers
 
 					if (material == null)
 					{
-						this.AuditHelper.AuditQueryEntity(OutcomeIndicator.SeriousFail, null);
 						this.TempData["error"] = Locale.MaterialNotFound;
 						return RedirectToAction("Edit", new { id = model.SourceId });
 					}
 
-					this.AuditHelper.AuditQueryEntity(OutcomeIndicator.Success, new List<Entity> { material });
-
 					material.Relationships.RemoveAll(r => r.TargetEntityKey == Guid.Parse(model.TargetId) && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
 					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), Guid.Parse(model.TargetId)) { EffectiveVersionSequenceId = material.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity.Value, SourceEntityKey = model.SourceId });
 
-					var updated = this.ImsiClient.Update(material);
-
-					this.AuditHelper.AuditUpdateEntity(OutcomeIndicator.Success, updated);
+					this.ImsiClient.Update(material);
 
 					this.TempData["success"] = Locale.MaterialRelatedSuccessfully;
 
@@ -285,7 +268,6 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to create related manufactured material: { e }");
-				this.AuditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EntityAuditHelper.UpdateEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			this.TempData["error"] = Locale.UnableToRelateMaterial;

@@ -1,37 +1,41 @@
 ﻿/*
  * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you 
- * may not use this file except in compliance with the License. You may 
- * obtain a copy of the License at 
- * 
- * http://www.apache.org/licenses/LICENSE-2.0 
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the 
- * License for the specific language governing permissions and limitations under 
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * User: Nityan
  * Date: 2017-7-9
  */
-using Autofac.Integration.Mvc;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
 using Autofac;
+using Autofac.Integration.Mvc;
 using OpenIZ.Core.Model.Entities;
+using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZ.Messaging.RISI.Client;
+using OpenIZAdmin.Core.Auditing.Controllers;
+using OpenIZAdmin.Core.Auditing.SecurityEntities;
+using OpenIZAdmin.Core.Auditing.Services;
 using OpenIZAdmin.Core.Caching;
 using OpenIZAdmin.Core.Engine;
 using OpenIZAdmin.DAL;
+using OpenIZAdmin.Services.Auditing;
 using OpenIZAdmin.Services.Entities;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Metadata;
+using OpenIZAdmin.Services.Security;
+using System.Web;
 
 namespace OpenIZAdmin.Dependency
 {
@@ -71,6 +75,19 @@ namespace OpenIZAdmin.Dependency
 
 			// register the database context
 			builder.RegisterType<ApplicationDbContext>().InstancePerLifetimeScope();
+
+			// register the audit service
+			builder.RegisterType<AuditService>().As<IAuditService>().InstancePerLifetimeScope();
+
+			// register additional auditing services
+			builder.RegisterType<AuthenticationAuditService>().As<IAuthenticationAuditService>().InstancePerLifetimeScope();
+			builder.RegisterType<SecurityApplicationAuditService>().As<ISecurityEntityAuditService<SecurityApplication>>().InstancePerLifetimeScope();
+			builder.RegisterType<SecurityDeviceAuditService>().As<ISecurityEntityAuditService<SecurityDevice>>().InstancePerLifetimeScope();
+			builder.RegisterType<SecurityRoleAuditSerivce>().As<ISecurityEntityAuditService<SecurityRole>>().InstancePerLifetimeScope();
+			builder.RegisterType<SecurityUserAuditService>().As<ISecurityEntityAuditService<SecurityUser>>().InstancePerLifetimeScope();
+
+			// register security entity services
+			builder.RegisterType<SecurityUserService>().As<ISecurityUserService>().InstancePerLifetimeScope();
 
 			// register cache service
 			builder.RegisterType<MemoryCacheService>().As<ICacheService>().InstancePerLifetimeScope();

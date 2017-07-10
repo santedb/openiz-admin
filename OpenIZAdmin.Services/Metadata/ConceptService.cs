@@ -23,6 +23,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Messaging.IMSI.Client;
+using OpenIZAdmin.Core.Extensions;
 using OpenIZAdmin.Services.Core;
 
 namespace OpenIZAdmin.Services.Metadata
@@ -79,6 +80,36 @@ namespace OpenIZAdmin.Services.Metadata
 			return this.Client.Get<ConceptSet>(key, null) as ConceptSet;
 		}
 
+		public IEnumerable<ReferenceTerm> GetConceptReferenceTerms(Guid id, Guid? versionId)
+		{
+			var referenceTerms = new List<ReferenceTerm>();
+
+			var bundle = this.Client.Query<Concept>(c => c.Key == id && c.VersionKey == versionId && c.ObsoletionTime == null);
+
+			bundle.Reconstitute();
+
+			foreach (var conceptReferenceTerm in bundle.Item.OfType<Concept>().LatestVersionOnly().Where(c => c.Key == id && c.VersionKey == versionId && c.ObsoletionTime == null).SelectMany(c => c.ReferenceTerms))
+			{
+				var referenceTerm = conceptReferenceTerm.ReferenceTerm;
+
+				if (referenceTerm == null && conceptReferenceTerm.ReferenceTermKey.HasValue && conceptReferenceTerm.ReferenceTermKey.Value != Guid.Empty)
+				{
+					var referenceTermBundle = this.Client.Query<ReferenceTerm>(c => c.Key == conceptReferenceTerm.ReferenceTermKey && c.ObsoletionTime == null, 0, null, true);
+
+					referenceTermBundle.Reconstitute();
+
+					referenceTerm = referenceTermBundle.Item.OfType<ReferenceTerm>().FirstOrDefault(c => c.Key == conceptReferenceTerm.ReferenceTermKey && c.ObsoletionTime == null);
+				}
+
+				if (referenceTerm != null)
+				{
+					referenceTerms.Add(referenceTerm);
+				}
+			}
+
+			return referenceTerms;
+		}
+
 		/// <summary>
 		/// Gets the concept set.
 		/// </summary>
@@ -92,6 +123,22 @@ namespace OpenIZAdmin.Services.Metadata
 			bundle.Reconstitute();
 
 			return bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
+		}
+
+		/// <summary>
+		/// Gets a list of concept for a given concept set.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Returns a list of <see cref="Guid" /> values which represents concept keys.</returns>
+		public IEnumerable<Guid> GetConceptSets(Guid key)
+		{
+			// ensure existing concept sets are sent up otherwise
+			// the IMS will remove this concept from any associated concept set
+			var bundle = this.Client.Query<ConceptSet>(cs => cs.ConceptsXml.Any(c => c == key) && cs.ObsoletionTime == null, 0, null, true);
+
+			bundle.Reconstitute();
+
+			return bundle.Item.OfType<ConceptSet>().Where(cs => cs.ConceptsXml.Any(c => c == key) && cs.Key.HasValue && cs.ObsoletionTime == null).Select(c => c.Key.Value).ToList();
 		}
 	}
 }

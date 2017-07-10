@@ -18,7 +18,6 @@
  */
 
 using MARC.HI.EHRS.SVC.Auditing.Data;
-using OpenIZAdmin.Audit;
 using OpenIZAdmin.DAL;
 using OpenIZAdmin.Models.Audit;
 using OpenIZAdmin.Services.Http.Security;
@@ -29,6 +28,8 @@ using System.Runtime.Caching;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using OpenIZAdmin.Core.Auditing.Core;
+using OpenIZAdmin.Core.Auditing.Model;
 using OpenIZAdmin.Core.Engine;
 
 namespace OpenIZAdmin
@@ -59,11 +60,11 @@ namespace OpenIZAdmin
 			{
 				if (RealmConfig.IsJoinedToRealm())
 				{
-					var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
+					//var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
 
-					var auditHelper = new GlobalAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.Context);
+					//var auditHelper = new GlobalAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.Context);
 
-					auditHelper.AuditApplicationStop(OutcomeIndicator.Success);
+					//auditHelper.AuditApplicationStop(OutcomeIndicator.Success);
 				}
 			}
 			catch (Exception exception)
@@ -98,21 +99,21 @@ namespace OpenIZAdmin
 
 				var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
 
-				var auditHelper = new GlobalAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.Context);
+				//var auditHelper = new GlobalAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.Context);
 
-				switch (this.Response.StatusCode)
-				{
-					case 401:
-						if (this.Request.Headers["Authorization"] != null)
-							auditHelper.AuditUnauthorizedAccess();
-						break;
-					case 403:
-						auditHelper.AuditForbiddenAccess();
-						break;
-					case 404:
-						auditHelper.AuditResourceNotFoundAccess();
-						break;
-				}
+				//switch (this.Response.StatusCode)
+				//{
+				//	case 401:
+				//		if (this.Request.Headers["Authorization"] != null)
+				//			auditHelper.AuditUnauthorizedAccess();
+				//		break;
+				//	case 403:
+				//		auditHelper.AuditForbiddenAccess();
+				//		break;
+				//	case 404:
+				//		auditHelper.AuditResourceNotFoundAccess();
+				//		break;
+				//}
 			}
 			catch (Exception exception)
 			{
@@ -129,23 +130,23 @@ namespace OpenIZAdmin
 		{
 			Trace.TraceError($"Unexpected application error: {Server.GetLastError()}");
 
-			try
-			{
-				if (!RealmConfig.IsJoinedToRealm())
-				{
-					return;
-				}
+			//try
+			//{
+			//	if (!RealmConfig.IsJoinedToRealm())
+			//	{
+			//		return;
+			//	}
 
-				var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
+			//	var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
 
-				var auditHelper = new GlobalAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.Context);
+			//	var auditHelper = new GlobalAuditHelper(this.Context);
 
-				auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EventTypeCode.ApplicationActivity, EventIdentifierType.ApplicationActivity, this.Server.GetLastError());
-			}
-			catch (Exception exception)
-			{
-				Trace.TraceError($"Unable to audit application generic error: {exception}");
-			}
+			//	auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EventTypeCode.ApplicationActivity, EventIdentifierType.ApplicationActivity, this.Server.GetLastError());
+			//}
+			//catch (Exception exception)
+			//{
+			//	Trace.TraceError($"Unable to audit application generic error: {exception}");
+			//}
 		}
 
 		/// <summary>
@@ -175,11 +176,11 @@ namespace OpenIZAdmin
 			{
 				try
 				{
-					var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
+					//var deviceIdentity = ApplicationSignInManager.LoginAsDevice();
 
-					var auditHelper = new GlobalAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.Context);
+					//var auditHelper = new GlobalAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.Context);
 
-					auditHelper.AuditApplicationStart(OutcomeIndicator.Success);
+					//auditHelper.AuditApplicationStart(OutcomeIndicator.Success);
 				}
 				catch (Exception exception)
 				{

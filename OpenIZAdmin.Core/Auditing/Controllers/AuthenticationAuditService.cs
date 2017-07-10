@@ -13,66 +13,58 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  *
- * User: khannan
- * Date: 2017-6-25
+ * User: Nityan
+ * Date: 2017-7-10
  */
 
 using MARC.HI.EHRS.SVC.Auditing.Data;
 using Microsoft.AspNet.Identity;
-using OpenIZ.Core.Http;
+using OpenIZAdmin.Core.Auditing.Core;
+using OpenIZAdmin.Core.Auditing.Model;
 using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.Audit;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Principal;
 using System.Web;
 
-namespace OpenIZAdmin.Audit
+namespace OpenIZAdmin.Core.Auditing.Controllers
 {
 	/// <summary>
 	/// Represents an account controller audit helper.
 	/// </summary>
-	/// <seealso cref="OpenIZAdmin.Audit.HttpContextAuditHelperBase" />
-	public class AccountControllerAuditHelper : HttpContextAuditHelperBase
+	/// <seealso cref="HttpContextAuditHelperBase" />
+	public class AuthenticationAuditService : HttpContextAuditHelperBase, IAuthenticationAuditService
 	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="AccountControllerAuditHelper"/> class.
-		/// </summary>
-		/// <param name="credentials">The credentials.</param>
-		/// <param name="context">The context.</param>
-		public AccountControllerAuditHelper(Credentials credentials, HttpContext context) : base(credentials, context)
-		{
-		}
-
 		/// <summary>
 		/// Audits the login.
 		/// </summary>
 		/// <param name="identityName">Name of the identity.</param>
 		/// <param name="roles">The roles.</param>
 		/// <param name="successfulLogin">if set to <c>true</c> [successful login].</param>
-		public void AuditLogin(string identityName, string[] roles = null, bool successfulLogin = true)
+		public void AuditLogin(string identityName, string deviceId, string[] roles = null, bool successfulLogin = true)
 		{
 			var audit = CreateBaseAudit(ActionType.Execute, CreateAuditCode(EventTypeCode.Login), EventIdentifierType.UserAuthentication, successfulLogin ? OutcomeIndicator.Success : OutcomeIndicator.EpicFail);
 
 			audit.Actors.Add(new AuditActorData
 			{
 				ActorRoleCode = roles?.Any() == true ? roles.Select(o => new AuditCode(o, null)).ToList() : new List<AuditCode>(),
-				NetworkAccessPointId = GetDeviceIdentifier(),
+				NetworkAccessPointId = deviceId,
 				NetworkAccessPointType = NetworkAccessPointType.MachineName,
 				UserIsRequestor = true,
 				UserName = identityName
 			});
 
-			this.SendAudit(audit);
+			AuditService.SendAudit(audit);
 		}
 
 		/// <summary>
 		/// Audits the log off.
 		/// </summary>
 		/// <param name="principal">The principal.</param>
+		/// <param name="deviceId">The device identifier.</param>
 		/// <exception cref="System.ArgumentNullException">principal</exception>
-		public void AuditLogOff(IPrincipal principal)
+		public void AuditLogOff(IPrincipal principal, string deviceId)
 		{
 			if (principal == null)
 			{
@@ -83,13 +75,13 @@ namespace OpenIZAdmin.Audit
 
 			audit.Actors.Add(new AuditActorData
 			{
-				NetworkAccessPointId = GetDeviceIdentifier(),
+				NetworkAccessPointId = deviceId,
 				NetworkAccessPointType = NetworkAccessPointType.MachineName,
 				UserIsRequestor = true,
 				UserName = principal.Identity.GetUserName()
 			});
 
-			this.SendAudit(audit);
+			AuditService.SendAudit(audit);
 		}
 	}
 }

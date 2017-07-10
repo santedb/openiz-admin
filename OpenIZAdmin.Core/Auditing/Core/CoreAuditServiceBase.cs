@@ -13,35 +13,30 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  *
- * User: khannan
- * Date: 2017-6-25
+ * User: Nityan
+ * Date: 2017-7-10
  */
 
 using MARC.HI.EHRS.SVC.Auditing.Data;
-using OpenIZ.Core.Http;
-using OpenIZ.Core.Model.AMI.Security;
-using OpenIZ.Messaging.AMI.Client;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.Audit;
-using OpenIZAdmin.Models.Domain;
-using OpenIZAdmin.Services.Http;
+using OpenIZAdmin.Core.Auditing.Model;
+using OpenIZAdmin.Core.Auditing.Services;
+using OpenIZAdmin.Core.Engine;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-using System.Threading;
+using System.Web;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace OpenIZAdmin.Audit
+namespace OpenIZAdmin.Core.Auditing.Core
 {
 	/// <summary>
 	/// Represents an audit helper.
 	/// </summary>
-	public abstract class AuditHelperBase
+	public abstract class CoreAuditServiceBase : ICoreAuditService
 	{
 		/// <summary>
 		/// The security audit code constant.
@@ -49,24 +44,16 @@ namespace OpenIZAdmin.Audit
 		private const string SecurityAuditCode = "SecurityAuditCode";
 
 		/// <summary>
-		/// The credentials.
+		/// Gets the audit service.
 		/// </summary>
-		private readonly Credentials credentials;
+		/// <value>The audit service.</value>
+		protected static IAuditService AuditService => OpenIZAdminEngineContext.Current.Resolve<IAuditService>();
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="AuditHelperBase" /> class.
+		/// Gets the context.
 		/// </summary>
-		/// <param name="credentials">The credentials.</param>
-		/// <exception cref="System.ArgumentNullException">credentials</exception>
-		protected AuditHelperBase(Credentials credentials)
-		{
-			if (credentials == null)
-			{
-				throw new ArgumentNullException(nameof(credentials), Locale.ValueCannotBeNull);
-			}
-
-			this.credentials = credentials;
-		}
+		/// <value>The context.</value>
+		public HttpContext Context { get; set; }
 
 		/// <summary>
 		/// Audits the generic error.
@@ -74,6 +61,7 @@ namespace OpenIZAdmin.Audit
 		/// <param name="outcomeIndicator">The outcome indicator.</param>
 		/// <param name="eventTypeCode">The event type code.</param>
 		/// <param name="eventIdentifierType">Type of the event identifier.</param>
+		/// <param name="context">The context.</param>
 		/// <param name="exception">The exception.</param>
 		public abstract void AuditGenericError(OutcomeIndicator outcomeIndicator, AuditCode eventTypeCode, EventIdentifierType eventIdentifierType, Exception exception);
 
@@ -83,6 +71,7 @@ namespace OpenIZAdmin.Audit
 		/// <param name="outcomeIndicator">The outcome indicator.</param>
 		/// <param name="eventTypeCode">The event type code.</param>
 		/// <param name="eventIdentifierType">Type of the event identifier.</param>
+		/// <param name="context">The context.</param>
 		/// <param name="exception">The exception.</param>
 		public abstract void AuditGenericError(OutcomeIndicator outcomeIndicator, EventTypeCode eventTypeCode, EventIdentifierType eventIdentifierType, Exception exception);
 
@@ -95,30 +84,6 @@ namespace OpenIZAdmin.Audit
 		{
 			var typeCode = typeof(EventTypeCode).GetRuntimeField(eventTypeCode.ToString()).GetCustomAttribute<XmlEnumAttribute>();
 			return new AuditCode(typeCode.Name, SecurityAuditCode);
-		}
-
-		/// <summary>
-		/// Gets the device identifier.
-		/// </summary>
-		/// <returns>Returns the device identifier.</returns>
-		/// <exception cref="System.InvalidOperationException">Unable to locate device identifier</exception>
-		protected static string GetDeviceIdentifier()
-		{
-			var realm = MvcApplication.MemoryCache.Get("Realm") as Realm;
-
-			if (realm == null)
-			{
-				realm = RealmConfig.GetCurrentRealm();
-
-				MvcApplication.MemoryCache.Set("Realm", realm, MvcApplication.CacheItemPolicy);
-			}
-
-			if (string.IsNullOrEmpty(realm.DeviceId) || string.IsNullOrWhiteSpace(realm.DeviceId))
-			{
-				throw new InvalidOperationException("Unable to locate device identifier");
-			}
-
-			return realm.DeviceId;
 		}
 
 		/// <summary>
@@ -329,45 +294,6 @@ namespace OpenIZAdmin.Audit
 			retVal.Key = name ?? enforceType.AssemblyQualifiedName;
 
 			return retVal;
-		}
-
-		/// <summary>
-		/// Sends the audit.
-		/// </summary>
-		/// <param name="audit">The audit.</param>
-		protected void SendAudit(AuditData audit)
-		{
-			this.SendAudit(new List<AuditData> { audit });
-		}
-
-		/// <summary>
-		/// Sends the audit.
-		/// </summary>
-		/// <param name="audits">The audits.</param>
-		private void SendAudit(List<AuditData> audits)
-		{
-			try
-			{
-				ThreadPool.QueueUserWorkItem(o =>
-				{
-					using (var client = new AmiServiceClient(new RestClientService(Constants.Ami)))
-					{
-						client.Client.Credentials = this.credentials;
-
-						var auditInfo = new AuditInfo
-						{
-							ProcessId = Process.GetCurrentProcess().Id,
-							Audit = audits
-						};
-
-						client.SubmitAudit(auditInfo);
-					}
-				});
-			}
-			catch (Exception e)
-			{
-				Trace.TraceError($"Error contacting AMI: {e}");
-			}
 		}
 
 		/// <summary>

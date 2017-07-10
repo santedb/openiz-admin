@@ -28,7 +28,8 @@ using System.Linq;
 using System.Web.Mvc;
 using MARC.HI.EHRS.SVC.Auditing.Data;
 using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Audit;
+using OpenIZAdmin.Core.Auditing.Core;
+using OpenIZAdmin.Core.Auditing.SecurityEntities;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Models.PolicyModels;
 using OpenIZAdmin.Services.Http.Security;
@@ -40,12 +41,7 @@ namespace OpenIZAdmin.Controllers
     /// </summary>
     [TokenAuthorize]
 	public class RoleController : SecurityBaseController
-	{
-		/// <summary>
-		/// The audit helper.
-		/// </summary>
-		private SecurityRoleAuditHelper auditHelper;
-
+    {
 		/// <summary>
 		/// Activates the specified Role.
 		/// </summary>
@@ -61,8 +57,6 @@ namespace OpenIZAdmin.Controllers
 				{
 					TempData["error"] = Locale.RoleNotFound;
 
-					this.auditHelper.AuditQuerySecurityRole(OutcomeIndicator.SeriousFail, null);
-
 					return RedirectToAction("Index");
 				}
 
@@ -72,8 +66,6 @@ namespace OpenIZAdmin.Controllers
 
 				var result = this.AmiClient.UpdateRole(id.ToString(), securityRoleInfo);
 
-				this.auditHelper.AuditUpdateSecurityRole(OutcomeIndicator.Success, result.Role);
-
 				TempData["success"] = Locale.RoleActivatedSuccessfully;
 
 				return RedirectToAction("ViewRole", new { id = result.Id });
@@ -81,7 +73,6 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to activate role: { e }");
-				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityRoleAuditHelper.UpdateSecurityRoleAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.UnableToActivateRole;
@@ -114,8 +105,6 @@ namespace OpenIZAdmin.Controllers
 				{
 					var role = this.AmiClient.CreateRole(model.ToSecurityRoleInfo());
 
-					this.auditHelper.AuditCreateSecurityRole(OutcomeIndicator.Success, role.Role);
-
 					TempData["success"] = Locale.RoleCreatedSuccessfully;
 
 					return RedirectToAction("ViewRole", new {id = role.Id.ToString()});
@@ -124,7 +113,6 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to create role: {e}");
-				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityRoleAuditHelper.CreateSecurityRoleAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.UnableToCreateRole;
@@ -143,9 +131,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var deleted = this.AmiClient.DeleteRole(id.ToString());
-
-				this.auditHelper.AuditDeleteSecurityRole(OutcomeIndicator.Success, deleted.Role);
+				this.AmiClient.DeleteRole(id.ToString());
 
 				TempData["success"] = Locale.RoleDeactivatedSuccessfully;
 
@@ -154,7 +140,6 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to delete role: {e}");
-				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityRoleAuditHelper.DeleteSecurityRoleAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.UnableToDeleteRole;
@@ -178,12 +163,8 @@ namespace OpenIZAdmin.Controllers
 				{
 					TempData["error"] = Locale.RoleNotFound;
 
-					this.auditHelper.AuditQuerySecurityRole(OutcomeIndicator.SeriousFail, null);
-
 					return RedirectToAction("Index");
 				}
-
-				this.auditHelper.AuditQuerySecurityRole(OutcomeIndicator.Success, new List<SecurityRole> { securityRoleInfo.Role });
 
 				var model = new EditRoleModel(securityRoleInfo)
 				{
@@ -198,7 +179,6 @@ namespace OpenIZAdmin.Controllers
 			{
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 				Trace.TraceError($"Unable to retrieve role: {e}");
-				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityRoleAuditHelper.QuerySecurityRoleAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			return RedirectToAction("Index");
@@ -225,14 +205,10 @@ namespace OpenIZAdmin.Controllers
 					{
 						TempData["error"] = Locale.RoleNotFound;
 
-						this.auditHelper.AuditQuerySecurityRole(OutcomeIndicator.SeriousFail, null);
-
 						return RedirectToAction("Index");
 					}
 
-					var updated = this.AmiClient.UpdateRole(roleInfo.Id.ToString(), this.ToSecurityRoleInfo(model, roleInfo));
-
-					this.auditHelper.AuditUpdateSecurityRole(OutcomeIndicator.Success, updated.Role);
+					this.AmiClient.UpdateRole(roleInfo.Id.ToString(), this.ToSecurityRoleInfo(model, roleInfo));
 
 					TempData["success"] = Locale.RoleUpdatedSuccessfully;
 
@@ -241,7 +217,6 @@ namespace OpenIZAdmin.Controllers
 				catch (Exception e)
 				{
 					Trace.TraceError($"Unable to update role: {e}");
-					this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityRoleAuditHelper.UpdateSecurityRoleAuditCode, EventIdentifierType.ApplicationActivity, e);
 				}
 			}
 
@@ -272,17 +247,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Called when the action is executing.
-		/// </summary>
-		/// <param name="filterContext">The filter context of the action executing.</param>
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			base.OnActionExecuting(filterContext);
-
-			this.auditHelper = new SecurityRoleAuditHelper(new AmiCredentials(this.User, this.Request), this.HttpContext.ApplicationInstance.Context);
-		}
-
-		/// <summary>
 		/// Searches for a role.
 		/// </summary>
 		/// <param name="searchTerm">The search term.</param>
@@ -303,15 +267,12 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["searchTerm"] = searchTerm;
 
-					this.auditHelper.AuditQuerySecurityRole(OutcomeIndicator.Success, results.Select(r => r.Role));
-
 					return PartialView("_RolesPartial", results.Select(r => new RoleViewModel(r)).OrderBy(a => a.Name));
 				}
 			}
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to retrieve roles: {e}");
-				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityRoleAuditHelper.QuerySecurityRoleAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			TempData["error"] = Locale.InvalidSearch;
@@ -336,12 +297,8 @@ namespace OpenIZAdmin.Controllers
 				{
 					TempData["error"] = Locale.RoleNotFound;
 
-					this.auditHelper.AuditQuerySecurityRole(OutcomeIndicator.SeriousFail, null);
-
 					return RedirectToAction("Index");
 				}
-
-				this.auditHelper.AuditQuerySecurityRole(OutcomeIndicator.Success, new List<SecurityRole> { securityRoleInfo.Role });
 
 				return View(new RoleViewModel(securityRoleInfo));
 			}
@@ -349,7 +306,6 @@ namespace OpenIZAdmin.Controllers
 			{
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 				Trace.TraceError($"Unable to retrieve role: {e}");
-				this.auditHelper.AuditGenericError(OutcomeIndicator.EpicFail, SecurityRoleAuditHelper.QuerySecurityRoleAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			return RedirectToAction("Index");

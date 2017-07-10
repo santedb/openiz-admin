@@ -13,32 +13,22 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  *
- * User: khannan
- * Date: 2017-6-25
+ * User: Nityan
+ * Date: 2017-7-10
  */
 
 using MARC.HI.EHRS.SVC.Auditing.Data;
-using OpenIZ.Core.Http;
-using OpenIZAdmin.Models.Audit;
+using OpenIZAdmin.Core.Auditing.Model;
 using System.Web;
 
-namespace OpenIZAdmin.Audit
+namespace OpenIZAdmin.Core.Auditing.Core
 {
 	/// <summary>
 	/// Represents a global audit helper.
 	/// </summary>
-	/// <seealso cref="OpenIZAdmin.Audit.HttpContextAuditHelperBase" />
+	/// <seealso cref="HttpContextAuditHelperBase" />
 	public class GlobalAuditHelper : HttpContextAuditHelperBase
 	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="GlobalAuditHelper"/> class.
-		/// </summary>
-		/// <param name="credentials">The credentials.</param>
-		/// <param name="context">The context.</param>
-		public GlobalAuditHelper(Credentials credentials, HttpContext context) : base(credentials, context)
-		{
-		}
-
 		/// <summary>
 		/// Audits the application start.
 		/// </summary>
@@ -47,7 +37,7 @@ namespace OpenIZAdmin.Audit
 		{
 			var audit = this.CreateBaseAudit(ActionType.Execute, EventTypeCode.ApplicationStart, EventIdentifierType.ApplicationActivity, outcomeIndicator);
 
-			this.SendAudit(audit);
+			AuditService.SendAudit(audit);
 		}
 
 		/// <summary>
@@ -58,7 +48,7 @@ namespace OpenIZAdmin.Audit
 		{
 			var audit = this.CreateBaseAudit(ActionType.Execute, EventTypeCode.ApplicationStart, EventIdentifierType.ApplicationActivity, outcomeIndicator);
 
-			this.SendAudit(audit);
+			AuditService.SendAudit(audit);
 		}
 
 		/// <summary>
@@ -68,7 +58,7 @@ namespace OpenIZAdmin.Audit
 		{
 			var audit = this.CreateBaseAudit(ActionType.Execute, EventTypeCode.ApplicationActivity, EventIdentifierType.UseOfRestrictedFunction, OutcomeIndicator.EpicFail);
 
-			this.SendAudit(audit);
+			AuditService.SendAudit(audit);
 		}
 
 		/// <summary>
@@ -78,7 +68,7 @@ namespace OpenIZAdmin.Audit
 		{
 			var audit = this.CreateBaseAudit(ActionType.Execute, CreateAuditCode(EventTypeCode.ApplicationActivity), EventIdentifierType.SecurityAlert, OutcomeIndicator.EpicFail);
 
-			this.SendAudit(audit);
+			AuditService.SendAudit(audit);
 		}
 
 		/// <summary>
@@ -88,7 +78,7 @@ namespace OpenIZAdmin.Audit
 		{
 			var audit = this.CreateBaseAudit(ActionType.Execute, CreateAuditCode(EventTypeCode.ApplicationActivity), EventIdentifierType.UserAuthentication, OutcomeIndicator.EpicFail);
 
-			this.SendAudit(audit);
+			AuditService.SendAudit(audit);
 		}
 	}
 }

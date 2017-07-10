@@ -13,33 +13,24 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  *
- * User: khannan
- * Date: 2017-6-25
+ * User: Nityan
+ * Date: 2017-7-10
  */
 
 using MARC.HI.EHRS.SVC.Auditing.Data;
-using OpenIZ.Core.Http;
 using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Core.Auditing.Core;
 using System.Web;
 
-namespace OpenIZAdmin.Audit
+namespace OpenIZAdmin.Core.Auditing.SecurityEntities
 {
 	/// <summary>
 	/// Represents a security entity audit helper.
 	/// </summary>
 	/// <typeparam name="T">The type of security entity.</typeparam>
-	/// <seealso cref="OpenIZAdmin.Audit.HttpContextAuditHelperBase" />
-	public abstract class SecurityEntityAuditHelperBase<T> : HttpContextAuditHelperBase where T : SecurityEntity
+	/// <seealso cref="HttpContextAuditHelperBase" />
+	public abstract class SecurityEntityAuditServiceBase<T> : HttpContextAuditHelperBase where T : SecurityEntity
 	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="SecurityEntityAuditHelperBase{T}" /> class.
-		/// </summary>
-		/// <param name="credentials">The credentials.</param>
-		/// <param name="context">The context.</param>
-		protected SecurityEntityAuditHelperBase(Credentials credentials, HttpContext context) : base(credentials, context)
-		{
-		}
-
 		/// <summary>
 		/// Creates the security resource create audit.
 		/// </summary>

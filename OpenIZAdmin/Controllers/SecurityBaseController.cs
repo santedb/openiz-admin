@@ -23,7 +23,7 @@ using System.Web.Mvc;
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Attributes;
-using OpenIZAdmin.Audit;
+using OpenIZAdmin.Core.Auditing.SecurityEntities;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ApplicationModels;
 using OpenIZAdmin.Models.DeviceModels;

@@ -30,7 +30,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MARC.HI.EHRS.SVC.Auditing.Core">
+    <Reference Include="MARC.HI.EHRS.SVC.Auditing.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Solution Items\MARC.HI.EHRS.SVC.Auditing.Core.dll</HintPath>
     </Reference>
     <Reference Include="OpenIZ.Core.Alert">
@@ -70,6 +71,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Auditing\AuditService.cs" />
     <Compile Include="Core\EntityServiceBase.cs" />
     <Compile Include="Core\ImsiServiceBase.cs" />
     <Compile Include="Core\AmiServiceBase.cs" />
@@ -80,6 +82,8 @@
     <Compile Include="Metadata\ConceptService.cs" />
     <Compile Include="Metadata\IConceptService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Security\ISecurityUserService.cs" />
+    <Compile Include="Security\SecurityUserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="OpenIZAdmin.licenseheader" />

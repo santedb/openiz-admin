@@ -35,7 +35,6 @@ using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.Collection;
-using OpenIZAdmin.Audit;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.RoleModels;

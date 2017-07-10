@@ -26,7 +26,6 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
-using OpenIZAdmin.Audit;
 using OpenIZAdmin.DAL;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
@@ -43,6 +42,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using OpenIZAdmin.Core.Auditing.Controllers;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -63,10 +63,24 @@ namespace OpenIZAdmin.Controllers
 		private ApplicationUserManager userManager;
 
 		/// <summary>
+		/// The audit service.
+		/// </summary>
+		private readonly IAuthenticationAuditService auditService;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="AccountController"/> class.
 		/// </summary>
 		public AccountController()
 		{
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AccountController" /> class.
+		/// </summary>
+		/// <param name="auditService">The audit service.</param>
+		public AccountController(IAuthenticationAuditService auditService)
+		{
+			this.auditService = auditService;
 		}
 
 		/// <summary>
@@ -80,12 +94,6 @@ namespace OpenIZAdmin.Controllers
 			UserManager = userManager;
 			SignInManager = signInManager;
 		}
-
-		/// <summary>
-		/// Gets the audit helper.
-		/// </summary>
-		/// <value>The audit helper.</value>
-		public AccountControllerAuditHelper AuditHelper { get; set; }
 
 		/// <summary>
 		/// Gets the sign in manager.
@@ -325,8 +333,6 @@ namespace OpenIZAdmin.Controllers
 		{
 			var result = SignInStatus.Failure;
 
-			DeviceIdentity deviceIdentity;
-
 			try
 			{
 				if (!ModelState.IsValid)
@@ -339,13 +345,6 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to login: {e}");
-
-				// login as the device so we can send the audit
-				deviceIdentity = ApplicationSignInManager.LoginAsDevice();
-
-				this.AuditHelper = new AccountControllerAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.HttpContext.ApplicationInstance.Context);
-
-				this.AuditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EventTypeCode.SecurityAttributesChanged, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			switch (result)
@@ -372,33 +371,17 @@ namespace OpenIZAdmin.Controllers
 							Response.Cookies.Add(new HttpCookie(LocalizationConfig.LanguageCookieName, languageCode));
 						}
 
-						this.AuditHelper = new AccountControllerAuditHelper(new AmiCredentials(this.User, this.SignInManager.AccessToken), this.HttpContext.ApplicationInstance.Context);
-
-						this.AuditHelper.AuditLogin(model.Username);
+						this.auditService.AuditLogin(model.Username, RealmConfig.GetCurrentRealm().DeviceId);
 					}
 					catch (Exception e)
 					{
 						Trace.TraceError($"Unable to set the users default language, reverting to english: {e}");
-
-						// login as the device so we can send the audit
-						deviceIdentity = ApplicationSignInManager.LoginAsDevice();
-
-						this.AuditHelper = new AccountControllerAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.HttpContext.ApplicationInstance.Context);
-
-						this.AuditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EventTypeCode.SecurityAttributesChanged, EventIdentifierType.ApplicationActivity, e);
 					}
 
 					Response.Cookies.Add(new HttpCookie("access_token", SignInManager.AccessToken));
 					return RedirectToLocal(returnUrl);
 
 				default:
-					// login as the device so we can send the audit
-					deviceIdentity = ApplicationSignInManager.LoginAsDevice();
-
-					this.AuditHelper = new AccountControllerAuditHelper(new AmiCredentials(this.User, deviceIdentity.AccessToken), this.HttpContext.ApplicationInstance.Context);
-
-					this.AuditHelper.AuditLogin(model.Username, null, false);
-
 					ModelState.AddModelError("", Locale.IncorrectUsernameOrPassword);
 					return View(model);
 			}
@@ -420,12 +403,11 @@ namespace OpenIZAdmin.Controllers
 
 				this.Response.Cookies.Remove("access_token");
 
-				this.AuditHelper.AuditLogOff(this.User);
+				this.auditService.AuditLogOff(this.User, RealmConfig.GetCurrentRealm().DeviceId);
 			}
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to logoff: {e}");
-				this.AuditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EventTypeCode.Logout, EventIdentifierType.UserAuthentication, e);
 			}
 
 			return RedirectToAction("Login", "Account");
@@ -647,17 +629,6 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			base.Dispose(disposing);
-		}
-
-		/// <summary>
-		/// Called when the action is executing.
-		/// </summary>
-		/// <param name="filterContext">The filter context of the action executing.</param>
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			base.OnActionExecuting(filterContext);
-
-			this.AuditHelper = new AccountControllerAuditHelper(new AmiCredentials(this.User, this.HttpContext.Request), this.HttpContext.ApplicationInstance.Context);
 		}
 
 		/// <summary>
