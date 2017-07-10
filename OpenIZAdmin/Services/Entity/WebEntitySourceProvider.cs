@@ -21,19 +21,16 @@ using OpenIZ.Core.Http;
 using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.DataTypes;
-using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.EntityLoader;
 using OpenIZ.Core.Model.Interfaces;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Services.Http;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Xml.Serialization;
 using System.Reflection;
-using System.Runtime.Caching;
+using System.Xml.Serialization;
 
 namespace OpenIZAdmin.Services.Entity
 {

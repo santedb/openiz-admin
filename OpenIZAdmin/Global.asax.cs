@@ -29,6 +29,7 @@ using System.Runtime.Caching;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using OpenIZAdmin.Core.Engine;
 
 namespace OpenIZAdmin
 {
@@ -154,6 +155,8 @@ namespace OpenIZAdmin
 		/// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
 		protected void Application_Start(object sender, EventArgs e)
 		{
+			OpenIZAdminEngineContext.Initialize();
+
 			AreaRegistration.RegisterAllAreas();
 
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);

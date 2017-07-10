@@ -101,6 +101,7 @@ namespace OpenIZAdmin.Models.MaterialModels
 		{
 			var material = new Material
 			{
+				CreationTime = DateTimeOffset.Now,
 				ExpiryDate = this.ExpiryDate,
 				Key = Guid.NewGuid(),
 				Names = new List<EntityName>

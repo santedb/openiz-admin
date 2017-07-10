@@ -39,6 +39,26 @@
             Identifies the type of auditable objects in the system
             </summary>
         </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectType.Person">
+            <summary>
+            Represents a person.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectType.SystemObject">
+            <summary>
+            Represents a system object.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectType.Organization">
+            <summary>
+            Represents an organization.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObjectType.Other">
+            <summary>
+            Represents an other object type.
+            </summary>
+        </member>
         <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.AuditableObject">
             <summary>
             Identifies an object that adds context to the audit
@@ -326,47 +346,144 @@
         </member>
         <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode">
             <summary>
-            Represents an audit
+            Represents an audit code.
             </summary>
         </member>
         <member name="M:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode.#ctor">
             <summary>
-            Serialization ctor
+            Initializes a new instance of the <see cref="T:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode"/> class.
             </summary>
         </member>
         <member name="M:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode.#ctor(System.String,System.String)">
             <summary>
-            Construct a new code
+            Initializes a new instance of the <see cref="T:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode"/> class.
             </summary>
+            <param name="code">The code.</param>
+            <param name="codeSystem">The code system.</param>
         </member>
         <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode.Code">
             <summary>
-            Gets or sets the code of the code value
+            Gets or sets the code of the code value.
             </summary>
         </member>
         <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode.CodeSystem">
             <summary>
-            Gets or sets the system in which the code value is drawn
+            Gets or sets the system in which the code value is drawn.
             </summary>
         </member>
         <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode.CodeSystemName">
             <summary>
-            Gets or sets the human readable name of the code sytsem
+            Gets or sets the human readable name of the code system.
             </summary>
         </member>
         <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode.CodeSystemVersion">
             <summary>
-            Gets or sets the version of the code system
+            Gets or sets the version of the code system.
             </summary>
         </member>
         <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditCode.DisplayName">
             <summary>
-            Gets or sets the display name
+            Gets or sets the display name.
             </summary>
         </member>
         <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType">
             <summary>
-            Event Identifier
+            Represents an event identifier type.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.ProvisioningEvent">
+            <summary>
+            Represents a provisioning event.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.MedicationEvent">
+            <summary>
+            Represents a medication event.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.ResourceAssignment">
+            <summary>
+            Represents a resource assignment.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.CareEpisode">
+            <summary>
+            Represents a care episode.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.CareProtocol">
+            <summary>
+            Represents a care protocol.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.ProcedureRecord">
+            <summary>
+            Represents a procedure record.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.Query">
+            <summary>
+            Represents a query.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.PatientRecord">
+            <summary>
+            Represents a patient record.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.OrderRecord">
+            <summary>
+            Represents an order record.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.NetowrkEntry">
+            <summary>
+            Represents a network entry.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.Import">
+            <summary>
+            Represents an import.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.Export">
+            <summary>
+            Represents an export.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.ApplicationActivity">
+            <summary>
+            Represents application activity.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.SecurityAlert">
+            <summary>
+            Represents a security alert.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.UserAuthentication">
+            <summary>
+            Represents user authentication.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.EmergencyOverrideStarted">
+            <summary>
+            Represents that an emergency override started.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.UseOfRestrictedFunction">
+            <summary>
+            Represents the use of a restricted function.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.Login">
+            <summary>
+            Represents a login.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType.Logout">
+            <summary>
+            Represents a logout.
             </summary>
         </member>
         <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.AuditData">
@@ -376,13 +493,18 @@
         </member>
         <member name="M:MARC.HI.EHRS.SVC.Auditing.Data.AuditData.#ctor">
             <summary>
-            Default CTOR
+            Initializes a new instance of the <see cref="T:MARC.HI.EHRS.SVC.Auditing.Data.AuditData"/> class.
             </summary>
         </member>
         <member name="M:MARC.HI.EHRS.SVC.Auditing.Data.AuditData.#ctor(System.DateTime,MARC.HI.EHRS.SVC.Auditing.Data.ActionType,MARC.HI.EHRS.SVC.Auditing.Data.OutcomeIndicator,MARC.HI.EHRS.SVC.Auditing.Data.EventIdentifierType,MARC.HI.EHRS.SVC.Auditing.Data.AuditCode)">
             <summary>
-            Create a new instance of the AuditData class
+            Initializes a new instance of the <see cref="T:MARC.HI.EHRS.SVC.Auditing.Data.AuditData"/> class.
             </summary>
+            <param name="timeStamp">The time stamp.</param>
+            <param name="actionCode">The action code.</param>
+            <param name="outcome">The outcome.</param>
+            <param name="eventIdentifier">The event identifier.</param>
+            <param name="eventTypeCode">The event type code.</param>
         </member>
         <member name="P:MARC.HI.EHRS.SVC.Auditing.Data.AuditData.ActionCode">
             <summary>
@@ -429,49 +551,94 @@
             Audit source type
             </summary>
         </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditSourceType.EndUserInterface">
+            <summary>
+            Represents the end user interface.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditSourceType.DeviceOrInstrument">
+            <summary>
+            Represents a device or instrument.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditSourceType.WebServerProcess">
+            <summary>
+            Represents a web server process.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditSourceType.ApplicationServerProcess">
+            <summary>
+            Represents an application server process.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditSourceType.DatabaseServerProcess">
+            <summary>
+            Represents a database server process.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditSourceType.SecurityServerProcess">
+            <summary>
+            Represents a security server process.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditSourceType.ISOLevel1or3Component">
+            <summary>
+            Represents an ISO level 1 or level 3 component.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditSourceType.ISOLevel4or6Software">
+            <summary>
+            Represents an ISO level 4 or 6 software.
+            </summary>
+        </member>
+        <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.AuditSourceType.Other">
+            <summary>
+            Represents an other audit source type.
+            </summary>
+        </member>
         <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.NetworkAccessPointType">
             <summary>
-            Represents the type of network access point
+            Represents the type of network access point.
             </summary>
         </member>
         <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.NetworkAccessPointType.MachineName">
             <summary>
-            The identifier is a machine name
+            Represents an identifier which is a machine name.
             </summary>
         </member>
         <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.NetworkAccessPointType.IPAddress">
             <summary>
-            Identifier is an IP address
+            Represents an identifier which is an IP address.
             </summary>
         </member>
         <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.NetworkAccessPointType.TelephoneNumber">
             <summary>
-            Identifier is a telephone number
+            Represents an identifier which is a telephone number.
             </summary>
         </member>
         <member name="T:MARC.HI.EHRS.SVC.Auditing.Data.OutcomeIndicator">
             <summary>
-            Represents potential outcomes
+            Represents potential outcomes.
             </summary>
         </member>
         <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.OutcomeIndicator.Success">
             <summary>
-            Successful operation
+            Successful operation.
             </summary>
         </member>
         <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.OutcomeIndicator.MinorFail">
             <summary>
-            Minor failure, action should be restarted
+            Minor failure, action should be restarted.
             </summary>
         </member>
         <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.OutcomeIndicator.SeriousFail">
             <summary>
-            Action was terminated
+            Action was terminated.
             </summary>
         </member>
         <member name="F:MARC.HI.EHRS.SVC.Auditing.Data.OutcomeIndicator.EpicFail">
             <summary>
-            Major failure, action is made unavailable
+            Major failure, action is made unavailable.
             </summary>
         </member>
         <member name="T:MARC.HI.EHRS.SVC.Auditing.Services.IAuditorService">

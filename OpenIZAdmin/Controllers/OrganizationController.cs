@@ -42,7 +42,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing organizations.
 	/// </summary>
 	[TokenAuthorize]
-	public class OrganizationController : AssociationController
+	public class OrganizationController : EntityBaseController
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OrganizationController"/> class.

@@ -46,7 +46,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing places.
 	/// </summary>
 	[TokenAuthorize]
-	public class PlaceController : AssociationController
+	public class PlaceController : EntityBaseController
 	{
 		/// <summary>
 		/// The health facility mnemonic.

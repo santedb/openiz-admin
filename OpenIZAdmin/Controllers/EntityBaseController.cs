@@ -22,8 +22,11 @@ using OpenIZAdmin.Attributes;
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Web.Mvc;
 using Microsoft.Ajax.Utilities;
+using OpenIZAdmin.Audit;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -32,14 +35,19 @@ namespace OpenIZAdmin.Controllers
 	/// </summary>
 	/// <seealso cref="OpenIZAdmin.Controllers.BaseController" />
 	[TokenAuthorize]
-	public abstract class AssociationController : BaseController
+	public abstract class EntityBaseController : BaseController
 	{
+		/// <summary>
+		/// The entity audit helper.
+		/// </summary>
+		protected EntityAuditHelper AuditHelper { get; private set; }
+
 		/// <summary>
 		/// Gets the entity.
 		/// </summary>
 		/// <param name="id">The identifier.</param>
 		/// <param name="modelType">Type of the model.</param>
-		/// <returns>Entity.</returns>
+		/// <returns>Returns the entity instance.</returns>
 		protected virtual Entity GetEntity(Guid id, Type modelType)
 		{
 			var getMethod = this.ImsiClient.GetType().GetRuntimeMethod("Get", new Type[] { typeof(Guid), typeof(Guid?) }).MakeGenericMethod(modelType);
@@ -117,6 +125,17 @@ namespace OpenIZAdmin.Controllers
 			MvcApplication.MemoryCache.Set(updatedEntity.Key.ToString(), updatedEntity, MvcApplication.CacheItemPolicy);
 
 			return updatedEntity;
+		}
+
+		/// <summary>
+		/// Called when the action is executing.
+		/// </summary>
+		/// <param name="filterContext">The filter context of the action executing.</param>
+		protected override void OnActionExecuting(ActionExecutingContext filterContext)
+		{
+			base.OnActionExecuting(filterContext);
+
+			this.AuditHelper = new EntityAuditHelper(new AmiCredentials(this.User, this.Request), this.HttpContext.ApplicationInstance.Context);
 		}
 	}
 }

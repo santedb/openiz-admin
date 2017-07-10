@@ -31,11 +31,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.Caching;
 using System.Web.Mvc;
+using MARC.HI.EHRS.SVC.Auditing.Data;
 using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Audit;
 using OpenIZAdmin.Comparer;
 using OpenIZAdmin.Models.EntityRelationshipModels;
+using OpenIZAdmin.Services.Entities;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -43,7 +46,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing materials.
 	/// </summary>
 	[TokenAuthorize]
-	public class MaterialController : AssociationController
+	public class MaterialController : EntityBaseController
 	{
 		/// <summary>
 		/// The material types mnemonic.
@@ -56,10 +59,24 @@ namespace OpenIZAdmin.Controllers
 		private const string MaterialsCacheKey = "Materials";
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="MaterialController"/> class.
+		/// The material service.
 		/// </summary>
-		public MaterialController()
+		private readonly IEntityService<Material> materialEntityService;
+
+		/// <summary>
+		/// The material service.
+		/// </summary>
+		private readonly IMaterialService materialService;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MaterialController" /> class.
+		/// </summary>
+		/// <param name="materialEntityService">The material entity service.</param>
+		/// <param name="materialService">The material service.</param>
+		public MaterialController(IEntityService<Material> materialEntityService, IMaterialService materialService)
 		{
+			this.materialEntityService = materialEntityService;
+			this.materialService = materialService;
 		}
 
 		/// <summary>
@@ -80,11 +97,9 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Edit", new { id = id, versionId = versionId });
 				}
 
-				material.CreationTime = DateTimeOffset.Now;
-				material.StatusConceptKey = StatusKeys.Active;
-				material.VersionKey = null;
+				var updatedMaterial = materialEntityService.Activate(material);
 
-				var updatedMaterial = this.ImsiClient.Update(material);
+				this.AuditHelper.AuditUpdateEntity(OutcomeIndicator.Success, updatedMaterial);
 
 				this.TempData["success"] = Locale.MaterialActivatedSuccessfully;
 
@@ -93,6 +108,7 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to activate material: { e }");
+				this.AuditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EntityAuditHelper.UpdateEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			this.TempData["error"] = Locale.UnableToActivateMaterial;
@@ -172,10 +188,13 @@ namespace OpenIZAdmin.Controllers
 
 				if (material == null)
 				{
+					this.AuditHelper.AuditQueryEntity(OutcomeIndicator.SeriousFail, null);
 					this.TempData["error"] = Locale.MaterialNotFound;
 
 					return RedirectToAction("Edit", new { id = id });
 				}
+
+				this.AuditHelper.AuditQueryEntity(OutcomeIndicator.Success, new List<Entity> { material });
 
 				var relationships = new List<EntityRelationship>();
 
@@ -203,6 +222,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 				Trace.TraceError($"Unable to load associate material page: { e }");
+				this.AuditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EntityAuditHelper.QueryEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			return RedirectToAction("Edit", new { id = id });
@@ -243,14 +263,19 @@ namespace OpenIZAdmin.Controllers
 
 					if (material == null)
 					{
+						this.AuditHelper.AuditQueryEntity(OutcomeIndicator.SeriousFail, null);
 						this.TempData["error"] = Locale.MaterialNotFound;
 						return RedirectToAction("Edit", new { id = model.SourceId });
 					}
 
+					this.AuditHelper.AuditQueryEntity(OutcomeIndicator.Success, new List<Entity> { material });
+
 					material.Relationships.RemoveAll(r => r.TargetEntityKey == Guid.Parse(model.TargetId) && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
 					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), Guid.Parse(model.TargetId)) { EffectiveVersionSequenceId = material.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity.Value, SourceEntityKey = model.SourceId });
 
-					this.ImsiClient.Update(material);
+					var updated = this.ImsiClient.Update(material);
+
+					this.AuditHelper.AuditUpdateEntity(OutcomeIndicator.Success, updated);
 
 					this.TempData["success"] = Locale.MaterialRelatedSuccessfully;
 
@@ -260,6 +285,7 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to create related manufactured material: { e }");
+				this.AuditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EntityAuditHelper.UpdateEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			this.TempData["error"] = Locale.UnableToRelateMaterial;
@@ -279,9 +305,9 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			var formConcepts = this.GetFormConcepts();
-			var quantityConcepts = this.GetQuantityConcepts();
-			var typeConcepts = this.GetMaterialTypeConcepts();
+			var formConcepts = this.materialService.GetFormConcepts();
+			var quantityConcepts = this.materialService.GetQuantityConcepts();
+			var typeConcepts = this.materialService.GetMaterialTypeConcepts();
 
 			var language = this.HttpContext.GetCurrentLanguage();
 
@@ -324,9 +350,9 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to create material: {e}");
 			}
 
-			var formConcepts = this.GetFormConcepts();
-			var quantityConcepts = this.GetQuantityConcepts();
-			var typeConcepts = this.GetMaterialTypeConcepts();
+			var formConcepts = this.materialService.GetFormConcepts();
+			var quantityConcepts = this.materialService.GetQuantityConcepts();
+			var typeConcepts = this.materialService.GetMaterialTypeConcepts();
 
 			var language = this.HttpContext.GetCurrentLanguage();
 
@@ -479,7 +505,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				this.ImsiClient.Obsolete<Material>(material);
+				this.materialEntityService.Deactivate(material);
 
 				this.TempData["success"] = Locale.MaterialDeactivatedSuccessfully;
 
@@ -521,9 +547,9 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("ViewMaterial", new { id, versionId });
 				}
 
-				var formConcepts = this.GetFormConcepts();
-				var quantityConcepts = this.GetQuantityConcepts();
-				var typeConcepts = this.GetMaterialTypeConcepts();
+				var formConcepts = this.materialService.GetFormConcepts();
+				var quantityConcepts = this.materialService.GetQuantityConcepts();
+				var typeConcepts = this.materialService.GetMaterialTypeConcepts();
 
 				var relationships = new List<EntityRelationship>();
 
@@ -636,28 +662,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Gets the form concepts.
-		/// </summary>
-		/// <returns>Returns a list of material form concepts.</returns>
-		private IEnumerable<Concept> GetFormConcepts()
-		{
-			var concepts = MvcApplication.MemoryCache.Get(ConceptClassKeys.Form.ToString());
-
-			if (concepts == null)
-			{
-				var bundle = this.ImsiClient.Query<Concept>(c => c.ClassKey == ConceptClassKeys.Form && c.ObsoletionTime == null);
-
-				bundle.Reconstitute();
-
-				concepts = bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.Form && c.ObsoletionTime == null);
-
-				MvcApplication.MemoryCache.Set(new CacheItem(ConceptClassKeys.Form.ToString(), concepts), MvcApplication.CacheItemPolicy);
-			}
-
-			return concepts as IEnumerable<Concept>;
-		}
-
-		/// <summary>
 		/// Gets the materials.
 		/// </summary>
 		/// <param name="filterIds">The filter ids.</param>
@@ -686,54 +690,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Gets the material type concepts.
-		/// </summary>
-		/// <returns>Returns a list of material type concepts.</returns>
-		private IEnumerable<Concept> GetMaterialTypeConcepts()
-		{
-			var concepts = MvcApplication.MemoryCache.Get(MaterialTypesMnemonic) as IEnumerable<Concept>;
-
-			if (concepts == null)
-			{
-				var bundle = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == MaterialTypesMnemonic && c.ObsoletionTime == null, 0, null, new[] { "concept" });
-
-				bundle.Reconstitute();
-
-				var conceptSet = bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Mnemonic == MaterialTypesMnemonic && c.ObsoletionTime == null);
-
-				if (conceptSet != null)
-				{
-					concepts = conceptSet.ConceptsXml.Select(c => this.GetConcept(c)).ToList();
-					MvcApplication.MemoryCache.Set(new CacheItem(MaterialTypesMnemonic, concepts), MvcApplication.CacheItemPolicy);
-				}
-			}
-
-			return concepts;
-		}
-
-		/// <summary>
-		/// Gets the quantity concepts.
-		/// </summary>
-		/// <returns>Returns a list of material quantity concepts.</returns>
-		private IEnumerable<Concept> GetQuantityConcepts()
-		{
-			var concepts = MvcApplication.MemoryCache.Get(ConceptClassKeys.UnitOfMeasure.ToString());
-
-			if (concepts == null)
-			{
-				var bundle = this.ImsiClient.Query<Concept>(c => c.ClassKey == ConceptClassKeys.UnitOfMeasure && c.ObsoletionTime == null);
-
-				bundle.Reconstitute();
-
-				concepts = bundle.Item.OfType<Concept>().Where(c => c.ClassKey == ConceptClassKeys.UnitOfMeasure && c.ObsoletionTime == null);
-
-				MvcApplication.MemoryCache.Set(new CacheItem(ConceptClassKeys.UnitOfMeasure.ToString(), concepts), MvcApplication.CacheItemPolicy);
-			}
-
-			return concepts as IEnumerable<Concept>;
-		}
-
-		/// <summary>
 		/// Edit for material.
 		/// </summary>
 		/// <param name="model">The model containing the information of the edit material.</param>
@@ -746,7 +702,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var material = this.GetEntity<Material>(model.Id, model.VersionKey, m => m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null);
+					var material = this.materialEntityService.Get(model.Id, model.VersionKey, m => m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null);
 
 					if (material == null)
 					{
@@ -759,7 +715,7 @@ namespace OpenIZAdmin.Controllers
 
 					materialToUpdate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
 
-					var updatedEntity = this.UpdateEntity<Material>(materialToUpdate);
+					var updatedEntity = this.materialEntityService.Update(materialToUpdate);
 
 					TempData["success"] = Locale.MaterialUpdatedSuccessfully;
 

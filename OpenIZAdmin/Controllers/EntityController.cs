@@ -31,9 +31,11 @@ using System.Linq;
 using System.Reflection;
 using System.Security.Principal;
 using System.Web.Mvc;
+using MARC.HI.EHRS.SVC.Auditing.Data;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Audit;
 using OpenIZAdmin.Models.Core;
 
 namespace OpenIZAdmin.Controllers
@@ -42,7 +44,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing alerts.
 	/// </summary>
 	[TokenAuthorize]
-	public class EntityController : AssociationController
+	public class EntityController : EntityBaseController
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EntityController"/> class.
@@ -74,14 +76,17 @@ namespace OpenIZAdmin.Controllers
 
 					entity = this.UpdateEntity(entity, modelType);
 
+					this.AuditHelper.AuditUpdateEntity(OutcomeIndicator.Success, entity);
+
 					this.TempData["success"] = Locale.DataVerifiedSuccessfully;
 				}
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to verify data: {e}");
 				this.TempData["error"] = Locale.UnableToVerifyData;
+
+				this.AuditHelper.AuditGenericError(OutcomeIndicator.EpicFail, EntityAuditHelper.UpdateEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
 			}
 
 			if (entity == null)

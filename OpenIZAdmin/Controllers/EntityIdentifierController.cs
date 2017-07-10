@@ -38,7 +38,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing entity identifiers.
 	/// </summary>
 	[TokenAuthorize]
-	public class EntityIdentifierController : AssociationController
+	public class EntityIdentifierController : EntityBaseController
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EntityIdentifierController"/> class.

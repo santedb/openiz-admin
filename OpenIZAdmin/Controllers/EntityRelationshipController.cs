@@ -35,7 +35,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing entity relationships.
 	/// </summary>
 	/// <seealso cref="OpenIZAdmin.Controllers.BaseController" />
-	public class EntityRelationshipController : AssociationController
+	public class EntityRelationshipController : EntityBaseController
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EntityRelationshipController"/> class.

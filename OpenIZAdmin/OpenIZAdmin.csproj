@@ -51,6 +51,14 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Autofac, Version=4.6.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.4.6.0\lib\net45\Autofac.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <HintPath>..\packages\Autofac.Mvc5.4.0.2\lib\net45\Autofac.Integration.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Common.Logging, Version=3.3.1.0, Culture=neutral, PublicKeyToken=af08829b84f0328e, processorArchitecture=MSIL">
       <HintPath>..\packages\Common.Logging.3.3.1\lib\net40\Common.Logging.dll</HintPath>
       <Private>True</Private>
@@ -227,6 +235,7 @@
     <Compile Include="Attributes\TokenAuthorize.cs" />
     <Compile Include="Audit\AccountControllerAuditHelper.cs" />
     <Compile Include="Audit\AuditHelperBase.cs" />
+    <Compile Include="Audit\EntityAuditHelper.cs" />
     <Compile Include="Audit\Error.cs" />
     <Compile Include="Audit\GlobalAuditHelper.cs" />
     <Compile Include="Audit\HttpContextAuditHelperBase.cs" />
@@ -238,7 +247,7 @@
     <Compile Include="Comparer\EntityRelationshipComparer.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\EntityController.cs" />
-    <Compile Include="Controllers\AssociationController.cs" />
+    <Compile Include="Controllers\EntityBaseController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\AlertController.cs" />
     <Compile Include="Controllers\ApplicationController.cs" />
@@ -277,6 +286,7 @@
     <Compile Include="DAL\EntityUnitOfWork.cs" />
     <Compile Include="DAL\IRepository.cs" />
     <Compile Include="DAL\IUnitOfWork.cs" />
+    <Compile Include="Dependency\DependencyConfig.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
     <Compile Include="Extensions\BooleanExtensions.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
@@ -820,11 +830,20 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OpenIZAdmin.Core\OpenIZAdmin.Core.csproj">
+      <Project>{4f1897fe-b18c-499e-8ce0-677fbe95d3b7}</Project>
+      <Name>OpenIZAdmin.Core</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OpenIZAdmin.Localization\OpenIZAdmin.Localization.csproj">
       <Project>{1d9b8eca-559d-449d-8611-a5dbd36028e3}</Project>
       <Name>OpenIZAdmin.Localization</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OpenIZAdmin.Services\OpenIZAdmin.Services.csproj">
+      <Project>{26f74fbd-c47f-4f0e-93ef-fd8a97665030}</Project>
+      <Name>OpenIZAdmin.Services</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
