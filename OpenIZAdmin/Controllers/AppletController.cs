@@ -31,6 +31,7 @@ using System.Linq;
 using System.Web.Mvc;
 using System.Xml.Serialization;
 using OpenIZ.Core.Model.AMI.Applet;
+using OpenIZAdmin.Core.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {

@@ -37,8 +37,13 @@ using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Comparer;
 using OpenIZAdmin.Core.Auditing.Entities;
+using OpenIZAdmin.Core.Extensions;
 using OpenIZAdmin.Models.EntityRelationshipModels;
+using OpenIZAdmin.Services.Core;
 using OpenIZAdmin.Services.Entities;
+using OpenIZAdmin.Services.Entities.Materials;
+using OpenIZAdmin.Services.Security;
+using OpenIZAdmin.Services.Metadata;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -46,7 +51,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing materials.
 	/// </summary>
 	[TokenAuthorize]
-	public class MaterialController : EntityBaseController
+	public class MaterialController : Controller
 	{
 		/// <summary>
 		/// The materials cache key.
@@ -54,24 +59,46 @@ namespace OpenIZAdmin.Controllers
 		private const string MaterialsCacheKey = "Materials";
 
 		/// <summary>
-		/// The material service.
+		/// The concept service
 		/// </summary>
-		private readonly IEntityService<Material> materialEntityService;
+		private readonly IConceptService conceptService;
 
 		/// <summary>
 		/// The material service.
 		/// </summary>
-		private readonly IMaterialService materialService;
+		private readonly IEntityService entityService;
+
+		/// <summary>
+		/// The material concept service.
+		/// </summary>
+		private readonly IMaterialConceptService materialConceptService;
+
+		/// <summary>
+		/// The user service.
+		/// </summary>
+		private readonly IUserService userService;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="MaterialController"/> class.
+		/// </summary>
+		public MaterialController()
+		{
+			
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="MaterialController" /> class.
 		/// </summary>
-		/// <param name="materialEntityService">The material entity service.</param>
-		/// <param name="materialService">The material service.</param>
-		public MaterialController(IEntityService<Material> materialEntityService, IMaterialService materialService)
+		/// <param name="conceptService">The concept service.</param>
+		/// <param name="entityService">The entity service.</param>
+		/// <param name="materialConceptService">The material concept service.</param>
+		/// <param name="userService">The user service.</param>
+		public MaterialController(IConceptService conceptService, IEntityService entityService, IMaterialConceptService materialConceptService, IUserService userService)
 		{
-			this.materialEntityService = materialEntityService;
-			this.materialService = materialService;
+			this.conceptService = conceptService;
+			this.entityService = entityService;
+			this.materialConceptService = materialConceptService;
+			this.userService = userService;
 		}
 
 		/// <summary>
@@ -84,7 +111,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var material = this.GetEntity<Material>(id, versionId);
+				var material = this.entityService.Get<Material>(id, versionId);
 
 				if (material == null)
 				{
@@ -92,7 +119,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Edit", new { id = id, versionId = versionId });
 				}
 
-				var updatedMaterial = materialEntityService.Activate(material);
+				var updatedMaterial = entityService.Activate(material);
 
 				this.TempData["success"] = Locale.MaterialActivatedSuccessfully;
 
@@ -176,7 +203,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var material = this.GetEntity<Material>(id);
+				var material = this.entityService.Get<Material>(id);
 
 				if (material == null)
 				{
@@ -187,7 +214,7 @@ namespace OpenIZAdmin.Controllers
 
 				var relationships = new List<EntityRelationship>();
 
-				relationships.AddRange(this.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity && r.ObsoleteVersionSequenceId == null).ToList());
+				relationships.AddRange(this.entityService.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity && r.ObsoleteVersionSequenceId == null).ToList());
 
 				material.Relationships = relationships.Intersect(material.Relationships, new EntityRelationshipComparer()).ToList();
 
@@ -200,7 +227,7 @@ namespace OpenIZAdmin.Controllers
 
 				var concepts = new List<Concept>
 				{
-					this.GetConcept(EntityRelationshipTypeKeys.UsedEntity)
+					this.conceptService.GetConcept(EntityRelationshipTypeKeys.UsedEntity)
 				};
 
 				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.UsedEntity));
@@ -240,14 +267,14 @@ namespace OpenIZAdmin.Controllers
 						this.ModelState.AddModelError(nameof(model.Quantity), Locale.QuantityRequired);
 						this.TempData["error"] = Locale.QuantityRequired;
 
-						concepts.Add(this.GetConcept(EntityRelationshipTypeKeys.UsedEntity));
+						concepts.Add(this.conceptService.GetConcept(EntityRelationshipTypeKeys.UsedEntity));
 
 						model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.UsedEntity));
 
 						return View(model);
 					}
 
-					material = this.GetEntity<Material>(model.SourceId);
+					material = this.entityService.Get<Material>(model.SourceId);
 
 					if (material == null)
 					{
@@ -258,7 +285,7 @@ namespace OpenIZAdmin.Controllers
 					material.Relationships.RemoveAll(r => r.TargetEntityKey == Guid.Parse(model.TargetId) && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
 					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), Guid.Parse(model.TargetId)) { EffectiveVersionSequenceId = material.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity.Value, SourceEntityKey = model.SourceId });
 
-					this.ImsiClient.Update(material);
+					this.entityService.Update(material);
 
 					this.TempData["success"] = Locale.MaterialRelatedSuccessfully;
 
@@ -274,7 +301,7 @@ namespace OpenIZAdmin.Controllers
 
 			model.TargetList = this.BuildMaterialSelectList(material);
 
-			concepts.Add(this.GetConcept(EntityRelationshipTypeKeys.UsedEntity));
+			concepts.Add(this.conceptService.GetConcept(EntityRelationshipTypeKeys.UsedEntity));
 			model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.UsedEntity));
 
 			return View(model);
@@ -287,9 +314,9 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			var formConcepts = this.materialService.GetFormConcepts();
-			var quantityConcepts = this.materialService.GetQuantityConcepts();
-			var typeConcepts = this.materialService.GetMaterialTypeConcepts();
+			var formConcepts = this.materialConceptService.GetFormConcepts();
+			var quantityConcepts = this.materialConceptService.GetQuantityConcepts();
+			var typeConcepts = this.materialConceptService.GetMaterialTypeConcepts();
 
 			var language = this.HttpContext.GetCurrentLanguage();
 
@@ -320,7 +347,7 @@ namespace OpenIZAdmin.Controllers
 
 					materialToCreate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
 
-					var material = this.ImsiClient.Create(materialToCreate);
+					var material = entityService.Create(materialToCreate);
 
 					TempData["success"] = Locale.MaterialCreatedSuccessfully;
 
@@ -332,9 +359,9 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to create material: {e}");
 			}
 
-			var formConcepts = this.materialService.GetFormConcepts();
-			var quantityConcepts = this.materialService.GetQuantityConcepts();
-			var typeConcepts = this.materialService.GetMaterialTypeConcepts();
+			var formConcepts = this.materialConceptService.GetFormConcepts();
+			var quantityConcepts = this.materialConceptService.GetQuantityConcepts();
+			var typeConcepts = this.materialConceptService.GetMaterialTypeConcepts();
 
 			var language = this.HttpContext.GetCurrentLanguage();
 
@@ -357,7 +384,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var material = this.GetEntity<Material>(id);
+				var material = this.entityService.Get<Material>(id);
 
 				if (material == null)
 				{
@@ -368,7 +395,7 @@ namespace OpenIZAdmin.Controllers
 
 				var relationships = new List<EntityRelationship>();
 
-				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
+				relationships.AddRange(this.entityService.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
 
 				material.Relationships = relationships.Intersect(material.Relationships, new EntityRelationshipComparer()).ToList();
 
@@ -380,7 +407,7 @@ namespace OpenIZAdmin.Controllers
 
 				var concepts = new List<Concept>
 				{
-					this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct)
+					this.conceptService.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct)
 				};
 
 				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct));
@@ -419,14 +446,14 @@ namespace OpenIZAdmin.Controllers
 						this.ModelState.AddModelError(nameof(model.Quantity), Locale.QuantityRequired);
 						this.TempData["error"] = Locale.QuantityRequired;
 
-						concepts.Add(this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct));
+						concepts.Add(this.conceptService.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct));
 
 						// re-populate the model
-						var existingMaterial = this.GetEntity<Material>(model.SourceId);
+						var existingMaterial = this.entityService.Get<Material>(model.SourceId);
 
 						var relationships = new List<EntityRelationship>();
 
-						relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(existingMaterial.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
+						relationships.AddRange(this.entityService.GetEntityRelationships<ManufacturedMaterial>(existingMaterial.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
 
 						existingMaterial.Relationships = relationships.Intersect(existingMaterial.Relationships, new EntityRelationshipComparer()).ToList();
 
@@ -436,7 +463,7 @@ namespace OpenIZAdmin.Controllers
 						return View(model);
 					}
 
-					var material = this.GetEntity<Material>(model.SourceId);
+					var material = this.entityService.Get<Material>(model.SourceId);
 
 					if (material == null)
 					{
@@ -447,7 +474,7 @@ namespace OpenIZAdmin.Controllers
 					material.Relationships.RemoveAll(r => r.TargetEntityKey == Guid.Parse(model.TargetId) && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
 					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), Guid.Parse(model.TargetId)) { Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
 
-					var updatedMaterial = this.UpdateEntity<Material>(material);
+					var updatedMaterial = this.entityService.Update(material);
 
 					this.TempData["success"] = Locale.RelatedManufacturedMaterialCreatedSuccessfully;
 
@@ -461,7 +488,7 @@ namespace OpenIZAdmin.Controllers
 
 			this.TempData["error"] = Locale.UnableToCreateRelatedManufacturedMaterial;
 
-			concepts.Add(this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct));
+			concepts.Add(this.conceptService.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct));
 			model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct));
 
 			return View(model);
@@ -478,7 +505,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var material = this.GetEntity<Material>(id);
+				var material = this.entityService.Get<Material>(id);
 
 				if (material == null)
 				{
@@ -487,7 +514,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				this.materialEntityService.Deactivate(material);
+				this.entityService.Deactivate(material);
 
 				this.TempData["success"] = Locale.MaterialDeactivatedSuccessfully;
 
@@ -514,7 +541,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var material = this.GetEntity<Material>(id);
+				var material = entityService.Get<Material>(id, null, a => a.ClassConceptKey == EntityClassKeys.Material);
 
 				if (material == null)
 				{
@@ -529,14 +556,14 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("ViewMaterial", new { id, versionId });
 				}
 
-				var formConcepts = this.materialService.GetFormConcepts();
-				var quantityConcepts = this.materialService.GetQuantityConcepts();
-				var typeConcepts = this.materialService.GetMaterialTypeConcepts();
+				var formConcepts = this.materialConceptService.GetFormConcepts();
+				var quantityConcepts = this.materialConceptService.GetQuantityConcepts();
+				var typeConcepts = this.materialConceptService.GetMaterialTypeConcepts();
 
 				var relationships = new List<EntityRelationship>();
 
-				relationships.AddRange(this.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity && r.ObsoleteVersionSequenceId == null).ToList());
-				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
+				relationships.AddRange(this.entityService.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity && r.ObsoleteVersionSequenceId == null).ToList());
+				relationships.AddRange(this.entityService.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
 
 				material.Relationships = relationships.Intersect(material.Relationships, new EntityRelationshipComparer()).ToList();
 
@@ -545,7 +572,7 @@ namespace OpenIZAdmin.Controllers
 					FormConcepts = formConcepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == material.FormConceptKey).ToList(),
 					QuantityConcepts = quantityConcepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == material.QuantityConceptKey).ToList(),
 					TypeConcepts = typeConcepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == material.TypeConceptKey).ToList(),
-					UpdatedBy = this.GetUserEntityBySecurityUserKey(material.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
+					UpdatedBy = this.userService.GetUserEntityBySecurityUserKey(material.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
 				};
 
 				return View(model);
@@ -569,7 +596,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var material = this.GetEntity<Material>(id);
+				var material = this.entityService.Get<Material>(id);
 
 				if (material == null)
 				{
@@ -580,7 +607,7 @@ namespace OpenIZAdmin.Controllers
 
 				for (var i = 0; i < material.Relationships.Count(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.TargetEntity == null && r.TargetEntityKey.HasValue); i++)
 				{
-					material.Relationships[i].TargetEntity = this.ImsiClient.Get<ManufacturedMaterial>(material.Relationships[i].TargetEntityKey.Value, null) as ManufacturedMaterial;
+					material.Relationships[i].TargetEntity = this.entityService.Get<ManufacturedMaterial>(material.Relationships[i].TargetEntityKey.Value, null) as ManufacturedMaterial;
 				}
 
 				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
@@ -588,7 +615,7 @@ namespace OpenIZAdmin.Controllers
 					ExistingRelationships = material.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
 				};
 
-				model.RelationshipTypes.AddRange(this.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.OwnedEntity).ToList());
+				model.RelationshipTypes.AddRange(this.conceptService.GetConceptSet(ConceptSetKeys.EntityRelationshipType).Concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.OwnedEntity).ToList());
 
 				return View(model);
 			}
@@ -615,7 +642,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (this.ModelState.IsValid)
 				{
-					var material = this.GetEntity<Material>(model.SourceId);
+					var material = this.entityService.Get<Material>(model.SourceId);
 
 					if (material == null)
 					{
@@ -626,7 +653,7 @@ namespace OpenIZAdmin.Controllers
 					material.Relationships.RemoveAll(r => r.Key == model.Id);
 					material.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), Guid.Parse(model.TargetId)));
 
-					this.UpdateEntity<Material>(material);
+					this.entityService.Update(material);
 
 					this.TempData["success"] = Locale.RelatedManufacturedMaterialCreatedSuccessfully;
 
@@ -654,11 +681,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (materials == null)
 			{
-				var bundle = this.ImsiClient.Query<Material>(r => r.ClassConceptKey == EntityClassKeys.Material && r.StatusConceptKey == StatusKeys.Active && r.ObsoletionTime == null);
-
-				bundle.Reconstitute();
-
-				materials = ListExtensions.LatestVersionOnly(bundle.Item.OfType<Material>().Where(r => r.ClassConceptKey == EntityClassKeys.Material && r.StatusConceptKey == StatusKeys.Active && r.ObsoletionTime == null).ToList());
+				materials = this.entityService.Query<Material>(r => r.ClassConceptKey == EntityClassKeys.Material && r.StatusConceptKey == StatusKeys.Active && r.ObsoletionTime == null);
 
 				MvcApplication.MemoryCache.Set(MaterialsCacheKey, materials, MvcApplication.CacheItemPolicy);
 			}
@@ -684,7 +707,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var material = this.materialEntityService.Get(model.Id, model.VersionKey, m => m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null);
+					var material = this.entityService.Get<Material>(model.Id, model.VersionKey, m => m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null);
 
 					if (material == null)
 					{
@@ -697,7 +720,7 @@ namespace OpenIZAdmin.Controllers
 
 					materialToUpdate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
 
-					var updatedEntity = this.materialEntityService.Update(materialToUpdate);
+					var updatedEntity = this.entityService.Update(materialToUpdate);
 
 					TempData["success"] = Locale.MaterialUpdatedSuccessfully;
 
@@ -745,46 +768,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 				{
-					Bundle bundle;
-
-					Expression<Func<Material, bool>> nameExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)));
-
-					if (searchTerm == "*")
-					{
-						bundle = this.ImsiClient.Query<Material>(p => p.ClassConceptKey == EntityClassKeys.Material, 0, null, false);
-
-						foreach (var material in ListExtensions.LatestVersionOnly(bundle.Item.OfType<Material>()).Where(p => p.ClassConceptKey == EntityClassKeys.Material))
-						{
-							material.TypeConcept = this.GetTypeConcept(material);
-						}
-
-						results = ListExtensions.LatestVersionOnly(bundle.Item.OfType<Material>()).Where(p => p.ClassConceptKey == EntityClassKeys.Material).Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
-					}
-					else
-					{
-						Guid materialId;
-
-						if (!Guid.TryParse(searchTerm, out materialId))
-						{
-							bundle = this.ImsiClient.Query<Material>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material, 0, null, false);
-
-							foreach (var material in ListExtensions.LatestVersionOnly(bundle.Item.OfType<Material>()).Where(p => p.ClassConceptKey == EntityClassKeys.Material))
-							{
-								material.TypeConcept = this.GetTypeConcept(material);
-							}
-
-							results = ListExtensions.LatestVersionOnly(bundle.Item.OfType<Material>().Where(nameExpression.Compile())).Where(p => p.ClassConceptKey == EntityClassKeys.Material).Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
-						}
-						else
-						{
-							var material = this.GetEntity<Material>(materialId);
-
-							if (material != null)
-							{
-								results.Add(new MaterialViewModel(material));
-							}
-						}
-					}
+					results = entityService.Search<Material>(searchTerm).Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
 				}
 
 			}
@@ -810,9 +794,9 @@ namespace OpenIZAdmin.Controllers
 
 			if (ModelState.IsValid)
 			{
-				var materials = this.ImsiClient.Query<Material>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.StatusConceptKey == StatusKeys.Active && p.ClassConceptKey == EntityClassKeys.Material, 0, null, false);
-
-				viewModels = materials.Item.OfType<Material>().Where(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))) && p.StatusConceptKey == StatusKeys.Active && p.ClassConceptKey == EntityClassKeys.Material).Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+				var materials = this.entityService.Query<Material>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.StatusConceptKey == StatusKeys.Active && p.ClassConceptKey == EntityClassKeys.Material, 0, null, false);
+				
+				viewModels.AddRange(materials.Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name));
 			}
 
 			return Json(viewModels, JsonRequestBehavior.AllowGet);
@@ -829,7 +813,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var material = this.GetEntity<Material>(id);
+				var material = this.entityService.Get<Material>(id);
 
 				if (material == null)
 				{
@@ -838,20 +822,20 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				material.FormConcept = this.GetConcept(material.FormConceptKey);
-				material.QuantityConcept = this.GetConcept(material.QuantityConceptKey);
-				material.TypeConcept = this.GetConcept(material.TypeConceptKey);
+				material.FormConcept = this.conceptService.GetConcept(material.FormConceptKey);
+				material.QuantityConcept = this.conceptService.GetConcept(material.QuantityConceptKey);
+				material.TypeConcept = this.conceptService.GetConcept(material.TypeConceptKey);
 
 				var relationships = new List<EntityRelationship>();
 
-				relationships.AddRange(this.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity && r.ObsoleteVersionSequenceId == null).ToList());
-				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
+				relationships.AddRange(this.entityService.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity && r.ObsoleteVersionSequenceId == null).ToList());
+				relationships.AddRange(this.entityService.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
 
 				material.Relationships = relationships.Intersect(material.Relationships, new EntityRelationshipComparer()).ToList();
 
 				var viewModel = new MaterialViewModel(material)
 				{
-					UpdatedBy = this.GetUserEntityBySecurityUserKey(material.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
+					UpdatedBy = this.userService.GetUserEntityBySecurityUserKey(material.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
 				};
 
 				return View(viewModel);

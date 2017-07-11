@@ -72,18 +72,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Auditing\AuditService.cs" />
-    <Compile Include="Core\EntityServiceBase.cs" />
+    <Compile Include="Core\EntityService.cs" />
     <Compile Include="Core\ImsiServiceBase.cs" />
     <Compile Include="Core\AmiServiceBase.cs" />
     <Compile Include="Core\RisiServiceBase.cs" />
-    <Compile Include="Entities\IMaterialService.cs" />
-    <Compile Include="Entities\MaterialService.cs" />
-    <Compile Include="Entities\IEntityService.cs" />
+    <Compile Include="Entities\Materials\IMaterialConceptService.cs" />
+    <Compile Include="Entities\Materials\MaterialConceptService.cs" />
+    <Compile Include="Core\IEntityService.cs" />
     <Compile Include="Metadata\ConceptService.cs" />
     <Compile Include="Metadata\IConceptService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ISecurityUserService.cs" />
+    <Compile Include="Security\IUserService.cs" />
     <Compile Include="Security\SecurityUserService.cs" />
+    <Compile Include="Security\UserService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="OpenIZAdmin.licenseheader" />

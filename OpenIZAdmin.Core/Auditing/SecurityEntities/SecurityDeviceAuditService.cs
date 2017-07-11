@@ -31,6 +31,14 @@ namespace OpenIZAdmin.Core.Auditing.SecurityEntities
 	public class SecurityDeviceAuditService : SecurityEntityAuditServiceBase<SecurityDevice>, ISecurityEntityAuditService<SecurityDevice>
 	{
 		/// <summary>
+		/// Initializes a new instance of the <see cref="SecurityDeviceAuditService"/> class.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		public SecurityDeviceAuditService(HttpContext context) : base(context)
+		{
+		}
+
+		/// <summary>
 		/// Gets the create security entity audit code.
 		/// </summary>
 		/// <value>The create security entity audit code.</value>

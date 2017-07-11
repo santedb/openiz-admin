@@ -37,8 +37,23 @@ namespace OpenIZAdmin.Core.Auditing.Core
 	/// Represents an HTTP context audit helper.
 	/// </summary>
 	/// <seealso cref="CoreAuditServiceBase" />
-	public abstract class HttpContextAuditHelperBase : CoreAuditServiceBase
+	public class HttpContextAuditService : CoreAuditServiceBase
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="HttpContextAuditService" /> class.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		/// <exception cref="System.ArgumentNullException">context</exception>
+		public HttpContextAuditService(HttpContext context)
+		{
+			if (context == null)
+			{
+				throw new ArgumentNullException(nameof(context), Locale.ValueCannotBeNull);
+			}
+
+			this.Context = context;
+		}
+
 		/// <summary>
 		/// True if the HTTP request message is sensitive
 		/// </summary>

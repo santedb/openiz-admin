@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under 
  * the License.
  * 
- * User: Nityan
+ * User: khannan
  * Date: 2017-7-10
  */
 using System;
@@ -21,34 +21,41 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using MARC.HI.EHRS.SVC.Auditing.Data;
-using OpenIZ.Core.Model.Interfaces;
 using OpenIZAdmin.Core.Auditing.Model;
 
 namespace OpenIZAdmin.Core.Auditing.Core
 {
 	/// <summary>
-	/// Represents a core audit service.
+	/// Represents a global audit service.
 	/// </summary>
-	public interface ICoreAuditService
+	public interface IGlobalAuditService
 	{
 		/// <summary>
-		/// Audits the generic error.
+		/// Audits the application start.
 		/// </summary>
 		/// <param name="outcomeIndicator">The outcome indicator.</param>
-		/// <param name="eventTypeCode">The event type code.</param>
-		/// <param name="eventIdentifierType">Type of the event identifier.</param>
-		/// <param name="exception">The exception.</param>
-		void AuditGenericError(OutcomeIndicator outcomeIndicator, AuditCode eventTypeCode, EventIdentifierType eventIdentifierType, Exception exception);
+		void AuditApplicationStart(OutcomeIndicator outcomeIndicator);
 
 		/// <summary>
-		/// Audits the generic error.
+		/// Audits the application stop.
 		/// </summary>
 		/// <param name="outcomeIndicator">The outcome indicator.</param>
-		/// <param name="eventTypeCode">The event type code.</param>
-		/// <param name="eventIdentifierType">Type of the event identifier.</param>
-		/// <param name="exception">The exception.</param>
-		void AuditGenericError(OutcomeIndicator outcomeIndicator, EventTypeCode eventTypeCode, EventIdentifierType eventIdentifierType, Exception exception);
+		void AuditApplicationStop(OutcomeIndicator outcomeIndicator);
+
+		/// <summary>
+		/// Audits the forbidden access.
+		/// </summary>
+		void AuditForbiddenAccess();
+
+		/// <summary>
+		/// Audits the resource not found access.
+		/// </summary>
+		void AuditResourceNotFoundAccess();
+
+		/// <summary>
+		/// Audits the unauthorized access.
+		/// </summary>
+		void AuditUnauthorizedAccess();
 	}
 }

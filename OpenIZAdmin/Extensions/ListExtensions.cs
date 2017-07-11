@@ -113,32 +113,5 @@ namespace OpenIZAdmin.Extensions
 
 			return latestVersions;
 		}
-
-		/// <summary>
-		/// Gets the latest version of the versioned entity data instance from a given list.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="source">The source.</param>
-		/// <returns>Returns the latest version only of the versioned entity data.</returns>
-		public static IEnumerable<T> LatestVersionOnly<T>(this IEnumerable<T> source) where T : VersionedEntityData<Entity>
-		{
-			var latestVersions = new List<T>();
-
-			var keys = source.Select(e => e.Key.Value).Distinct();
-
-			foreach (var key in keys)
-			{
-				var maxVersionSequence = source.Select(e => source.Where(a => a.Key == key).Max<T>(a => a.VersionSequence)).FirstOrDefault();
-
-				var latestVersion = source.FirstOrDefault(a => a.Key == key && a.VersionSequence == maxVersionSequence);
-
-				if (latestVersion != null)
-				{
-					latestVersions.Add(latestVersion);
-				}
-			}
-
-			return latestVersions;
-		}
 	}
 }

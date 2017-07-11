@@ -36,6 +36,10 @@ using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Metadata;
 using OpenIZAdmin.Services.Security;
 using System.Web;
+using OpenIZAdmin.Core.Auditing.Core;
+using OpenIZAdmin.Core.Auditing.Entities;
+using OpenIZAdmin.Services.Core;
+using OpenIZAdmin.Services.Entities.Materials;
 
 namespace OpenIZAdmin.Dependency
 {
@@ -80,11 +84,14 @@ namespace OpenIZAdmin.Dependency
 			builder.RegisterType<AuditService>().As<IAuditService>().InstancePerLifetimeScope();
 
 			// register additional auditing services
-			builder.RegisterType<AuthenticationAuditService>().As<IAuthenticationAuditService>().InstancePerLifetimeScope();
-			builder.RegisterType<SecurityApplicationAuditService>().As<ISecurityEntityAuditService<SecurityApplication>>().InstancePerLifetimeScope();
-			builder.RegisterType<SecurityDeviceAuditService>().As<ISecurityEntityAuditService<SecurityDevice>>().InstancePerLifetimeScope();
-			builder.RegisterType<SecurityRoleAuditSerivce>().As<ISecurityEntityAuditService<SecurityRole>>().InstancePerLifetimeScope();
-			builder.RegisterType<SecurityUserAuditService>().As<ISecurityEntityAuditService<SecurityUser>>().InstancePerLifetimeScope();
+			builder.RegisterType<HttpContextAuditService>().As<ICoreAuditService>().WithParameter("context", HttpContext.Current).InstancePerLifetimeScope();
+			builder.RegisterType<AuthenticationAuditService>().As<IAuthenticationAuditService>().WithParameter("context", HttpContext.Current).InstancePerLifetimeScope();
+			builder.RegisterType<GlobalAuditService>().As<IGlobalAuditService>().WithParameter("context", HttpContext.Current).InstancePerLifetimeScope();
+			builder.RegisterType<SecurityApplicationAuditService>().As<ISecurityEntityAuditService<SecurityApplication>>().WithParameter("context", HttpContext.Current).InstancePerLifetimeScope();
+			builder.RegisterType<SecurityDeviceAuditService>().As<ISecurityEntityAuditService<SecurityDevice>>().WithParameter("context", HttpContext.Current).InstancePerLifetimeScope();
+			builder.RegisterType<SecurityRoleAuditSerivce>().As<ISecurityEntityAuditService<SecurityRole>>().WithParameter("context", HttpContext.Current).InstancePerLifetimeScope();
+			builder.RegisterType<SecurityUserAuditService>().As<ISecurityEntityAuditService<SecurityUser>>().WithParameter("context", HttpContext.Current).InstancePerLifetimeScope();
+			builder.RegisterType<EntityAuditService>().As<IEntityAuditService>().WithParameter("context", HttpContext.Current).InstancePerLifetimeScope();
 
 			// register security entity services
 			builder.RegisterType<SecurityUserService>().As<ISecurityUserService>().InstancePerLifetimeScope();
@@ -95,9 +102,14 @@ namespace OpenIZAdmin.Dependency
 			// register the concept service
 			builder.RegisterType<ConceptService>().As<IConceptService>().InstancePerLifetimeScope();
 
-			// register material service
-			builder.RegisterType<MaterialService>().As<IEntityService<Material>>().InstancePerLifetimeScope();
-			builder.RegisterType<MaterialService>().As<IMaterialService>().InstancePerLifetimeScope();
+			// register material concept services
+			builder.RegisterType<MaterialConceptService>().As<IMaterialConceptService>().InstancePerLifetimeScope();
+
+			// register user services
+			builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
+
+			// register entity services
+			builder.RegisterType<EntityService>().As<IEntityService>().InstancePerLifetimeScope();
 		}
 	}
 }

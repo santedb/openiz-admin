@@ -26,9 +26,17 @@ namespace OpenIZAdmin.Core.Auditing.Core
 	/// <summary>
 	/// Represents a global audit helper.
 	/// </summary>
-	/// <seealso cref="HttpContextAuditHelperBase" />
-	public class GlobalAuditHelper : HttpContextAuditHelperBase
+	/// <seealso cref="HttpContextAuditService" />
+	public class GlobalAuditService : HttpContextAuditService, IGlobalAuditService
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="GlobalAuditService"/> class.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		public GlobalAuditService(HttpContext context) : base(context)
+		{
+		}
+
 		/// <summary>
 		/// Audits the application start.
 		/// </summary>

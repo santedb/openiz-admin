@@ -34,7 +34,7 @@ namespace OpenIZAdmin.Services.Core
 		/// Initializes a new instance of the <see cref="ImsiServiceBase"/> class.
 		/// </summary>
 		/// <param name="client">The client.</param>
-		public RisiServiceBase(RisiServiceClient client)
+		protected RisiServiceBase(RisiServiceClient client)
 		{
 			this.Client = client;
 		}

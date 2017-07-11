@@ -38,6 +38,7 @@ using OpenIZ.Core.Model.Collection;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.RoleModels;
+using OpenIZAdmin.Core.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -50,7 +51,7 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BaseController"/> class.
 		/// </summary>
-		protected BaseController()
+		public BaseController()
 		{
 			TempData.Clear();
 		}

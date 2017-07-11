@@ -30,9 +30,18 @@ namespace OpenIZAdmin.Core.Auditing.Entities
 	/// <summary>
 	/// Represents an entity audit helper.
 	/// </summary>
-	/// <seealso cref="CoreAuditServiceBase" />
-	public class EntityAuditService : HttpContextAuditHelperBase, IEntityAuditService
+	/// <seealso cref="OpenIZAdmin.Core.Auditing.Core.HttpContextAuditService" />
+	/// <seealso cref="OpenIZAdmin.Core.Auditing.Entities.IEntityAuditService" />
+	public class EntityAuditService : HttpContextAuditService, IEntityAuditService
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EntityAuditService"/> class.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		public EntityAuditService(HttpContext context) : base(context)
+		{
+		}
+
 		/// <summary>
 		/// The create entity audit code.
 		/// </summary>

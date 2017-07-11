@@ -13,38 +13,28 @@
  * License for the specific language governing permissions and limitations under 
  * the License.
  * 
- * User: Nityan
- * Date: 2017-7-9
+ * User: khannan
+ * Date: 2017-7-10
  */
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OpenIZ.Core.Http;
-using OpenIZ.Messaging.IMSI.Client;
+using OpenIZ.Core.Model.Entities;
 
-namespace OpenIZAdmin.Services.Core
+namespace OpenIZAdmin.Services.Security
 {
 	/// <summary>
-	/// Represents an IMSI service base.
+	/// Represents a user service.
 	/// </summary>
-	/// <seealso cref="OpenIZAdmin.Services.Core.AmiServiceBase" />
-	public abstract class ImsiServiceBase
+	public interface IUserService
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ImsiServiceBase"/> class.
+		/// Gets the user entity by security user key.
 		/// </summary>
-		/// <param name="client">The client.</param>
-		protected ImsiServiceBase(ImsiServiceClient client)
-		{
-			this.Client = client;
-		}
-
-		/// <summary>
-		/// Gets the client.
-		/// </summary>
-		/// <value>The client.</value>
-		protected ImsiServiceClient Client { get; }
+		/// <param name="securityUserId">The security user identifier.</param>
+		/// <returns>Returns the user entity for the given security user key.</returns>
+		UserEntity GetUserEntityBySecurityUserKey(Guid securityUserId);
 	}
 }

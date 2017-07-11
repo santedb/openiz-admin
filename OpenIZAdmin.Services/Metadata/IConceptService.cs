@@ -18,6 +18,7 @@
  */
 
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZ.Core.Model.Entities;
 using System;
 using System.Collections.Generic;
 
@@ -33,7 +34,7 @@ namespace OpenIZAdmin.Services.Metadata
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <returns>Returns the concept for the given key.</returns>
-		Concept GetConcept(Guid key);
+		Concept GetConcept(Guid? key);
 
 		/// <summary>
 		/// Gets the concept.
@@ -43,19 +44,19 @@ namespace OpenIZAdmin.Services.Metadata
 		Concept GetConcept(string mnemonic);
 
 		/// <summary>
-		/// Gets the concept set.
-		/// </summary>
-		/// <param name="key">The key.</param>
-		/// <returns>Returns the concept set for the given key.</returns>
-		ConceptSet GetConceptSet(Guid key);
-
-		/// <summary>
 		/// Gets the concept reference terms.
 		/// </summary>
 		/// <param name="id">The identifier.</param>
 		/// <param name="versionId">The version identifier.</param>
 		/// <returns>Returns a list of reference terms for a given concept.</returns>
 		IEnumerable<ReferenceTerm> GetConceptReferenceTerms(Guid id, Guid? versionId);
+
+		/// <summary>
+		/// Gets the concept set.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Returns the concept set for the given key.</returns>
+		ConceptSet GetConceptSet(Guid? key);
 
 		/// <summary>
 		/// Gets the concept set.
@@ -69,6 +70,14 @@ namespace OpenIZAdmin.Services.Metadata
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <returns>Returns a list of <see cref="Guid"/> values which represents concept keys.</returns>
-		IEnumerable<Guid> GetConceptSets(Guid key);
+		IEnumerable<Guid> GetConceptSets(Guid? key);
+
+		/// <summary>
+		/// Gets the type concept for a given entity.
+		/// </summary>
+		/// <typeparam name="T">The type of entity.</typeparam>
+		/// <param name="entity">The entity.</param>
+		/// <returns>Returns the type concept for the given entity.</returns>
+		Concept GetTypeConcept<T>(T entity) where T : Entity;
 	}
 }

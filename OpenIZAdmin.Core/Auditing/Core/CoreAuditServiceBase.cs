@@ -53,7 +53,7 @@ namespace OpenIZAdmin.Core.Auditing.Core
 		/// Gets the context.
 		/// </summary>
 		/// <value>The context.</value>
-		public HttpContext Context { get; set; }
+		protected HttpContext Context { get; set; }
 
 		/// <summary>
 		/// Audits the generic error.
@@ -61,7 +61,6 @@ namespace OpenIZAdmin.Core.Auditing.Core
 		/// <param name="outcomeIndicator">The outcome indicator.</param>
 		/// <param name="eventTypeCode">The event type code.</param>
 		/// <param name="eventIdentifierType">Type of the event identifier.</param>
-		/// <param name="context">The context.</param>
 		/// <param name="exception">The exception.</param>
 		public abstract void AuditGenericError(OutcomeIndicator outcomeIndicator, AuditCode eventTypeCode, EventIdentifierType eventIdentifierType, Exception exception);
 
@@ -71,7 +70,6 @@ namespace OpenIZAdmin.Core.Auditing.Core
 		/// <param name="outcomeIndicator">The outcome indicator.</param>
 		/// <param name="eventTypeCode">The event type code.</param>
 		/// <param name="eventIdentifierType">Type of the event identifier.</param>
-		/// <param name="context">The context.</param>
 		/// <param name="exception">The exception.</param>
 		public abstract void AuditGenericError(OutcomeIndicator outcomeIndicator, EventTypeCode eventTypeCode, EventIdentifierType eventIdentifierType, Exception exception);
 

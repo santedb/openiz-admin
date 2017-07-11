@@ -1,30 +1,31 @@
 ﻿/*
  * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you 
- * may not use this file except in compliance with the License. You may 
- * obtain a copy of the License at 
- * 
- * http://www.apache.org/licenses/LICENSE-2.0 
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the 
- * License for the specific language governing permissions and limitations under 
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * User: Nityan
  * Date: 2017-7-10
  */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Core.Extensions;
 using OpenIZAdmin.Services.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using OpenIZ.Core.Model.Entities;
+using OpenIZAdmin.Core.Caching;
 
 namespace OpenIZAdmin.Services.Metadata
 {
@@ -36,11 +37,18 @@ namespace OpenIZAdmin.Services.Metadata
 	public class ConceptService : ImsiServiceBase, IConceptService
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ConceptService"/> class.
+		/// The cache service.
+		/// </summary>
+		private readonly ICacheService cacheService;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ConceptService" /> class.
 		/// </summary>
 		/// <param name="client">The client.</param>
-		public ConceptService(ImsiServiceClient client) : base(client)
+		/// <param name="cacheService">The cache service.</param>
+		public ConceptService(ImsiServiceClient client, ICacheService cacheService) : base(client)
 		{
+			this.cacheService = cacheService;
 		}
 
 		/// <summary>
@@ -48,10 +56,9 @@ namespace OpenIZAdmin.Services.Metadata
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <returns>Returns the concept for the given key.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public Concept GetConcept(Guid key)
+		public Concept GetConcept(Guid? key)
 		{
-			return this.Client.Get<Concept>(key, null) as Concept;
+			return key.HasValue && key.Value != Guid.Empty ? this.Client.Get<Concept>(key.Value, null) as Concept : null;
 		}
 
 		/// <summary>
@@ -59,7 +66,6 @@ namespace OpenIZAdmin.Services.Metadata
 		/// </summary>
 		/// <param name="mnemonic">The mnemonic.</param>
 		/// <returns>Returns the concept for the given mnemonic.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
 		public Concept GetConcept(string mnemonic)
 		{
 			var bundle = this.Client.Query<Concept>(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null, 0, 1, true);
@@ -70,16 +76,11 @@ namespace OpenIZAdmin.Services.Metadata
 		}
 
 		/// <summary>
-		/// Gets the concept set.
+		/// Gets the concept reference terms.
 		/// </summary>
-		/// <param name="key">The key.</param>
-		/// <returns>Returns the concept set for the given key.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public ConceptSet GetConceptSet(Guid key)
-		{
-			return this.Client.Get<ConceptSet>(key, null) as ConceptSet;
-		}
-
+		/// <param name="id">The identifier.</param>
+		/// <param name="versionId">The version identifier.</param>
+		/// <returns>Returns a list of reference terms for a given concept.</returns>
 		public IEnumerable<ReferenceTerm> GetConceptReferenceTerms(Guid id, Guid? versionId)
 		{
 			var referenceTerms = new List<ReferenceTerm>();
@@ -113,6 +114,16 @@ namespace OpenIZAdmin.Services.Metadata
 		/// <summary>
 		/// Gets the concept set.
 		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Returns the concept set for the given key.</returns>
+		public ConceptSet GetConceptSet(Guid? key)
+		{
+			return key.HasValue && key.Value != Guid.Empty ? this.Client.Get<ConceptSet>(key.Value, null) as ConceptSet : null;
+		}
+
+		/// <summary>
+		/// Gets the concept set.
+		/// </summary>
 		/// <param name="mnemonic">The mnemonic.</param>
 		/// <returns>Returns the concept set for the given mnemonic.</returns>
 		/// <exception cref="System.NotImplementedException"></exception>
@@ -130,7 +141,7 @@ namespace OpenIZAdmin.Services.Metadata
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <returns>Returns a list of <see cref="Guid" /> values which represents concept keys.</returns>
-		public IEnumerable<Guid> GetConceptSets(Guid key)
+		public IEnumerable<Guid> GetConceptSets(Guid? key)
 		{
 			// ensure existing concept sets are sent up otherwise
 			// the IMS will remove this concept from any associated concept set
@@ -139,6 +150,24 @@ namespace OpenIZAdmin.Services.Metadata
 			bundle.Reconstitute();
 
 			return bundle.Item.OfType<ConceptSet>().Where(cs => cs.ConceptsXml.Any(c => c == key) && cs.Key.HasValue && cs.ObsoletionTime == null).Select(c => c.Key.Value).ToList();
+		}
+
+		/// <summary>
+		/// Gets the type concept for a given entity.
+		/// </summary>
+		/// <typeparam name="T">The type of entity.</typeparam>
+		/// <param name="entity">The entity.</param>
+		/// <returns>Returns the type concept for the given entity.</returns>
+		public Concept GetTypeConcept<T>(T entity) where T : Entity
+		{
+			Concept typeConcept = null;
+
+			if (entity.TypeConcept == null && entity.TypeConceptKey.HasValue && entity.TypeConceptKey.Value != Guid.Empty)
+			{
+				typeConcept = this.cacheService.Get<Concept>(entity.TypeConceptKey.ToString(), () => this.GetConcept(entity.TypeConceptKey.Value));
+			}
+
+			return typeConcept;
 		}
 	}
 }

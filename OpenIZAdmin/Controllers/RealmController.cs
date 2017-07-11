@@ -45,6 +45,7 @@ using System.Runtime.Caching;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using OpenIZAdmin.Core.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {

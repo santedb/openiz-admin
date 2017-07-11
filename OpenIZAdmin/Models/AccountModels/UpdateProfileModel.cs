@@ -27,6 +27,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Core.Extensions;
 
 namespace OpenIZAdmin.Models.AccountModels
 {

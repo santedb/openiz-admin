@@ -41,7 +41,7 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EntityBaseController"/> class.
 		/// </summary>
-		protected EntityBaseController()
+		public EntityBaseController() : base()
 		{
 
 		}

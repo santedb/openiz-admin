@@ -16,19 +16,16 @@
  * User: Nityan
  * Date: 2017-7-9
  */
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenIZ.Core.Model.DataTypes;
 
-namespace OpenIZAdmin.Services.Entities
+namespace OpenIZAdmin.Services.Entities.Materials
 {
 	/// <summary>
-	/// Represents a material service.
+	/// Represents a material concept service.
 	/// </summary>
-	public interface IMaterialService
+	public interface IMaterialConceptService
 	{
 		/// <summary>
 		/// Gets the form concepts.

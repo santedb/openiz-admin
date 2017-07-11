@@ -101,11 +101,12 @@
     <Compile Include="Auditing\Controllers\IAuthenticationAuditService.cs" />
     <Compile Include="Auditing\Core\CoreAuditServiceBase.cs" />
     <Compile Include="Auditing\Core\ICoreAuditService.cs" />
+    <Compile Include="Auditing\Core\IGlobalAuditService.cs" />
     <Compile Include="Auditing\Entities\EntityAuditService.cs" />
     <Compile Include="Auditing\Entities\IEntityAuditService.cs" />
     <Compile Include="Auditing\Model\Error.cs" />
-    <Compile Include="Auditing\Core\GlobalAuditHelper.cs" />
-    <Compile Include="Auditing\Core\HttpContextAuditHelperBase.cs" />
+    <Compile Include="Auditing\Core\GlobalAuditService.cs" />
+    <Compile Include="Auditing\Core\HttpContextAuditServiceBase.cs" />
     <Compile Include="Auditing\Model\EventTypeCode.cs" />
     <Compile Include="Auditing\SecurityEntities\ISecurityEntityAuditService.cs" />
     <Compile Include="Auditing\SecurityEntities\SecurityApplicationAuditService.cs" />
@@ -117,12 +118,14 @@
     <Compile Include="Caching\ICacheService.cs" />
     <Compile Include="Caching\IMemoryCacheService.cs" />
     <Compile Include="Caching\MemoryCacheService.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Engine\EngineContainer.cs" />
     <Compile Include="Engine\IDependencyRegistrar.cs" />
     <Compile Include="Engine\IOpenIZAdminEngine.cs" />
     <Compile Include="Engine\OpenIZAdminEngine.cs" />
     <Compile Include="Engine\OpenIZAdminEngineContext.cs" />
     <Compile Include="Extensions\EntityExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Singleton.cs" />
   </ItemGroup>

@@ -33,9 +33,17 @@ namespace OpenIZAdmin.Core.Auditing.Controllers
 	/// <summary>
 	/// Represents an account controller audit helper.
 	/// </summary>
-	/// <seealso cref="HttpContextAuditHelperBase" />
-	public class AuthenticationAuditService : HttpContextAuditHelperBase, IAuthenticationAuditService
+	/// <seealso cref="HttpContextAuditService" />
+	public class AuthenticationAuditService : HttpContextAuditService, IAuthenticationAuditService
 	{
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AuthenticationAuditService"/> class.
+		/// </summary>
+		/// <param name="context">The context.</param>
+		public AuthenticationAuditService(HttpContext context) : base(context)
+		{
+		}
+
 		/// <summary>
 		/// Audits the login.
 		/// </summary>
