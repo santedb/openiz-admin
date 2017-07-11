@@ -203,7 +203,7 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new ConceptNameViewModel(langCode, displayName, concept)
 				{
-					LanguageList = this.RemoveExistingLanguages(LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList(), concept.ConceptNames)
+					LanguageList = this.RemoveExistingLanguages(LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode", c => c.TwoLetterCountryCode == langCode, true).ToList(), concept.ConceptNames)
 				};
 
 				// if the concept has no names which are in english, we want to default the list to english
