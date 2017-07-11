@@ -24,6 +24,7 @@ using OpenIZAdmin.Services.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Core.Caching;
 

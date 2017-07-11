@@ -39,6 +39,7 @@ using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.RoleModels;
 using OpenIZAdmin.Core.Extensions;
+using OpenIZ.Core.Model;
 
 namespace OpenIZAdmin.Controllers
 {

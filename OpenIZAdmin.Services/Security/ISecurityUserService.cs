@@ -41,11 +41,25 @@ namespace OpenIZAdmin.Services.Security
 		SecurityUserInfo ActivateSecurityUser(Guid key);
 
 		/// <summary>
+		/// Changes the password of a user.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="newPassword">The new password.</param>
+		void ChangePassword(Guid key, string newPassword);
+
+		/// <summary>
 		/// Creates the security user.
 		/// </summary>
 		/// <param name="userInfo">The user information.</param>
 		/// <returns>Returns the created security user info.</returns>
 		SecurityUserInfo CreateSecurityUser(SecurityUserInfo userInfo);
+
+		/// <summary>
+		/// Deactivates the security user.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Returns the deactivated security user.</returns>
+		SecurityUserInfo DeactivateSecurityUser(Guid key);
 
 		/// <summary>
 		/// Gets the security user.

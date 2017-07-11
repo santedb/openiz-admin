@@ -236,7 +236,7 @@
         </member>
         <member name="M:OpenIZ.Core.Model.Acts.ActParticipation.#ctor(System.Nullable{System.Guid},OpenIZ.Core.Model.Entities.Entity)">
             <summary>
-            Act participation relationship between <paramref name="source" /> and <paramref name="player" />
+            Act participation relationship between <paramref name="roleType" /> and <paramref name="player" />
             </summary>
             <param name="roleType">Type of the role.</param>
             <param name="player">The player.</param>
@@ -1182,29 +1182,284 @@
             Represents the participation concepts which an entity can participate in an act
             </summary>
         </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Admitter">
+            <summary>
+            The admitter.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Attender">
+            <summary>
+            The attender.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Authenticator">
+            <summary>
+            The authenticator.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Authororiginator">
+            <summary>
+            The authororiginator.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Baby">
+            <summary>
+            The baby.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Beneficiary">
+            <summary>
+            The beneficiary.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.CallbackContact">
+            <summary>
+            The callback contact.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.CausativeAgent">
+            <summary>
+            The causative agent.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Consultant">
+            <summary>
+            The consultant.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Consumable">
+            <summary>
+            The consumable.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.CoverageTarget">
+            <summary>
+            The coverage target.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Custodian">
+            <summary>
+            The custodian.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.DataEnterer">
+            <summary>
+            The data enterer.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Destination">
+            <summary>
+            The destination.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Device">
+            <summary>
+            The device.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.DirectTarget">
+            <summary>
+            The direct target.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Discharger">
+            <summary>
+            The discharger.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Distributor">
+            <summary>
+            The distributor.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Donor">
+            <summary>
+            The donor.
+            </summary>
+        </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.EntryLocation">
             <summary>
-            The location where the act was entered
+            The location where the act was entered.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Escort">
+            <summary>
+            The escort.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Exposure">
+            <summary>
+            The exposure
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.ExposureAgent">
+            <summary>
+            The exposure agent.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.ExposureSource">
+            <summary>
+            The exposure source.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.ExposureTarget">
+            <summary>
+            The exposure target.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.GuarantorParty">
+            <summary>
+            The guarantor party.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Holder">
+            <summary>
+            The holder.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.IndirectTarget">
             <summary>
-            The entity not directly present in the act but which will be the focust of th act
+            The entity not directly present in the act but which will be the focust of th act.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Informant">
+            <summary>
+            The informant.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.InformationRecipient">
+            <summary>
+            The information recipient.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.LegalAuthenticator">
+            <summary>
+            The legal authenticator.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Location">
             <summary>
-            The location where the service was performed
+            The location where the service was performed.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.NonreuseableDevice">
+            <summary>
+            The nonreuseable device.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Origin">
+            <summary>
+            The origin.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Participation">
+            <summary>
+            The participation.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Performer">
+            <summary>
+            The performer.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.PrimaryInformationRecipient">
+            <summary>
+            The primary information recipient.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.PrimaryPerformer">
+            <summary>
+            The primary performer.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Product">
+            <summary>
+            The product.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Receiver">
+            <summary>
+            The receiver.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.RecordTarget">
+            <summary>
+            The record target.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.ReferredBy">
+            <summary>
+            The referred by.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.ReferredTo">
+            <summary>
+            The referred to.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Referrer">
+            <summary>
+            The referrer.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Remote">
+            <summary>
+            The remote.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.ResponsibleParty">
+            <summary>
+            The responsible party.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.ReusableDevice">
+            <summary>
+            The reusable device.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.SecondaryPerformer">
             <summary>
-            The secondary performing person (support clinician)
+            The secondary performing person (support clinician).
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Specimen">
+            <summary>
+            The specimen.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Subject">
+            <summary>
+            The subject.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Tracker">
+            <summary>
+            The tracker.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Transcriber">
             <summary>
-            The person who transcribed data from the original act
+            The person who transcribed data from the original act.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.UgentNotificationContact">
+            <summary>
+            The ugent notification contact.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Verifier">
+            <summary>
+            The verifier.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Via">
+            <summary>
+            The via.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Witness">
+            <summary>
+            The witness.
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.ActReasonKeys">
@@ -1387,9 +1642,204 @@
             Represents act type keys
             </summary>
         </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.Condition">
+            <summary>
+            The condition.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.Symptom">
+            <summary>
+            The symptom.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.Finding">
+            <summary>
+            The finding.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.Complaint">
+            <summary>
+            The complaint.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.Functionallimitation">
+            <summary>
+            The functionallimitation.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.Problem">
+            <summary>
+            The problem.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.Diagnosis">
+            <summary>
+            The diagnosis.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.Severity">
+            <summary>
+            The severity.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.CauseOfDeath">
+            <summary>
+            The cause of death.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.ClinicalState">
+            <summary>
+            The clinical state.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.FindingSite">
+            <summary>
+            The finding site.
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Constants.AddressComponentKeys">
             <summary>
             Represents address component types
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.AdditionalLocator">
+            <summary>
+            The additional locator.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.AddressLine">
+            <summary>
+            The address line.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.BuildingNumber">
+            <summary>
+            The building number.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.BuildingNumberNumeric">
+            <summary>
+            The building number numeric.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.BuildingNumberSuffix">
+            <summary>
+            The building number suffix.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.CareOf">
+            <summary>
+            The care of.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.CensusTract">
+            <summary>
+            The census tract.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.City">
+            <summary>
+            The city.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.Country">
+            <summary>
+            The country.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.County">
+            <summary>
+            The county.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.Delimiter">
+            <summary>
+            The delimiter.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.DeliveryAddressLine">
+            <summary>
+            The delivery address line.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.DeliveryInstallationArea">
+            <summary>
+            The delivery installation area.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.DeliveryInstallationQualifier">
+            <summary>
+            The delivery installation qualifier.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.DeliveryInstallationType">
+            <summary>
+            The delivery installation type.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.DeliveryMode">
+            <summary>
+            The delivery mode.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.DeliveryModeIdentifier">
+            <summary>
+            The delivery mode identifier.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.Direction">
+            <summary>
+            The direction.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.PostalCode">
+            <summary>
+            The postal code.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.PostBox">
+            <summary>
+            The post box.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.Precinct">
+            <summary>
+            The precinct.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.State">
+            <summary>
+            The state.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.StreetAddressLine">
+            <summary>
+            The street address line.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.StreetName">
+            <summary>
+            The street name.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.StreetNameBase">
+            <summary>
+            The street name base.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.StreetType">
+            <summary>
+            The street type.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.UnitDesignator">
+            <summary>
+            The unit designator.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.UnitIdentifier">
+            <summary>
+            The unit identifier.
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.AddressUseKeys">
@@ -2068,6 +2518,771 @@
             Base entity relationship type keys
             </summary>
         </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Access">
+            <summary>
+            The access
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.ActiveMoiety">
+            <summary>
+            The active moiety
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.AdministerableMaterial">
+            <summary>
+            The administerable material
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.AdoptedChild">
+            <summary>
+            The adopted child
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.AdoptedDaughter">
+            <summary>
+            The adopted daughter
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.AdoptedSon">
+            <summary>
+            The adopted son
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Affiliate">
+            <summary>
+            The affiliate
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Agent">
+            <summary>
+            The agent
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Aliquot">
+            <summary>
+            The aliquot
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Assigned">
+            <summary>
+            The assigned
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.AssignedEntity">
+            <summary>
+            The assigned entity
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Aunt">
+            <summary>
+            The aunt
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Birthplace">
+            <summary>
+            The birthplace
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Brother">
+            <summary>
+            The brother
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Brotherinlaw">
+            <summary>
+            The brotherinlaw
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Caregiver">
+            <summary>
+            The caregiver
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.CaseSubject">
+            <summary>
+            The case subject
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Child">
+            <summary>
+            The child
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.ChildInlaw">
+            <summary>
+            The child inlaw
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Citizen">
+            <summary>
+            The citizen
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Claimant">
+            <summary>
+            The claimant
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.ClinicalResearchInvestigator">
+            <summary>
+            The clinical research investigator
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.ClinicalResearchSponsor">
+            <summary>
+            The clinical research sponsor
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.CommissioningParty">
+            <summary>
+            The commissioning party
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Contact">
+            <summary>
+            The contact
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Cousin">
+            <summary>
+            The cousin
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.CoverageSponsor">
+            <summary>
+            The coverage sponsor
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.CoveredParty">
+            <summary>
+            The covered party
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Daughter">
+            <summary>
+            The daughter
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.DaughterInlaw">
+            <summary>
+            The daughter inlaw
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation">
+            <summary>
+            The dedicated service delivery location
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Dependent">
+            <summary>
+            The dependent
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.DistributedMaterial">
+            <summary>
+            The distributed material
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.DomesticPartner">
+            <summary>
+            The domestic partner
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.EmergencyContact">
+            <summary>
+            The emergency contact
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Employee">
+            <summary>
+            The employee
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.ExposedEntity">
+            <summary>
+            The exposed entity
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.FamilyMember">
+            <summary>
+            The family member
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Father">
+            <summary>
+            The father
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Fatherinlaw">
+            <summary>
+            The fatherinlaw
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.FosterChild">
+            <summary>
+            The foster child
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.FosterDaughter">
+            <summary>
+            The foster daughter
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.FosterSon">
+            <summary>
+            The foster son
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Grandchild">
+            <summary>
+            The grandchild
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Granddaughter">
+            <summary>
+            The granddaughter
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Grandfather">
+            <summary>
+            The grandfather
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Grandmother">
+            <summary>
+            The grandmother
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Grandparent">
+            <summary>
+            The grandparent
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Grandson">
+            <summary>
+            The grandson
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.GreatGrandfather">
+            <summary>
+            The great grandfather
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.GreatGrandmother">
+            <summary>
+            The great grandmother
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.GreatGrandparent">
+            <summary>
+            The great grandparent
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Guarantor">
+            <summary>
+            The guarantor
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.GUARD">
+            <summary>
+            The guard
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Guardian">
+            <summary>
+            The guardian
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Halfbrother">
+            <summary>
+            The halfbrother
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Halfsibling">
+            <summary>
+            The halfsibling
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Halfsister">
+            <summary>
+            The halfsister
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.HealthcareProvider">
+            <summary>
+            The healthcare provider
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.HealthChart">
+            <summary>
+            The health chart
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.HeldEntity">
+            <summary>
+            The held entity
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Husband">
+            <summary>
+            The husband
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.IdentifiedEntity">
+            <summary>
+            The identified entity
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.IncidentalServiceDeliveryLocation">
+            <summary>
+            The incidental service delivery location
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Individual">
+            <summary>
+            The individual
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.InvestigationSubject">
+            <summary>
+            The investigation subject
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.InvoicePayor">
+            <summary>
+            The invoice payor
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Isolate">
+            <summary>
+            The isolate
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.LicensedEntity">
+            <summary>
+            The licensed entity
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.MaintainedEntity">
+            <summary>
+            The maintained entity
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.ManufacturedProduct">
+            <summary>
+            The manufactured product
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.MaternalAunt">
+            <summary>
+            The maternal aunt
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.MaternalCousin">
+            <summary>
+            The maternal cousin
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.MaternalGrandfather">
+            <summary>
+            The maternal grandfather
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.MaternalGrandmother">
+            <summary>
+            The maternal grandmother
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.MaternalGrandparent">
+            <summary>
+            The maternal grandparent
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.MaternalGreatgrandfather">
+            <summary>
+            The maternal greatgrandfather
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.MaternalGreatgrandmother">
+            <summary>
+            The maternal greatgrandmother
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.MaternalGreatgrandparent">
+            <summary>
+            The maternal greatgrandparent
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.MaternalUncle">
+            <summary>
+            The maternal uncle
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.MilitaryPerson">
+            <summary>
+            The military person
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Mother">
+            <summary>
+            The mother
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Motherinlaw">
+            <summary>
+            The motherinlaw
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.NamedInsured">
+            <summary>
+            The named insured
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.NaturalBrother">
+            <summary>
+            The natural brother
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.NaturalChild">
+            <summary>
+            The natural child
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.NaturalDaughter">
+            <summary>
+            The natural daughter
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.NaturalFather">
+            <summary>
+            The natural father
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.NaturalFatherOfFetus">
+            <summary>
+            The natural father of fetus
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.NaturalMother">
+            <summary>
+            The natural mother
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.NaturalParent">
+            <summary>
+            The natural parent
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.NaturalSibling">
+            <summary>
+            The natural sibling
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.NaturalSister">
+            <summary>
+            The natural sister
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.NaturalSon">
+            <summary>
+            The natural son
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Nephew">
+            <summary>
+            The nephew
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.NextOfKin">
+            <summary>
+            The next of kin
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Niece">
+            <summary>
+            The niece
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.NieceNephew">
+            <summary>
+            The niece nephew
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.NotaryPublic">
+            <summary>
+            The notary public
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.OwnedEntity">
+            <summary>
+            The owned entity
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Parent">
+            <summary>
+            The parent
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.ParentInlaw">
+            <summary>
+            The parent inlaw
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Part">
+            <summary>
+            The part
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.PaternalAunt">
+            <summary>
+            The paternal aunt
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.PaternalCousin">
+            <summary>
+            The paternal cousin
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.PaternalGrandfather">
+            <summary>
+            The paternal grandfather
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.PaternalGrandmother">
+            <summary>
+            The paternal grandmother
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.PaternalGrandparent">
+            <summary>
+            The paternal grandparent
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.PaternalGreatgrandfather">
+            <summary>
+            The paternal greatgrandfather
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.PaternalGreatgrandmother">
+            <summary>
+            The paternal greatgrandmother
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.PaternalGreatgrandparent">
+            <summary>
+            The paternal greatgrandparent
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.PaternalUncle">
+            <summary>
+            The paternal uncle
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Patient">
+            <summary>
+            The patient
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Payee">
+            <summary>
+            The payee
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.PersonalRelationship">
+            <summary>
+            The personal relationship
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.PlaceOfDeath">
+            <summary>
+            The place of death
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.PolicyHolder">
+            <summary>
+            The policy holder
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.ProgramEligible">
+            <summary>
+            The program eligible
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.QualifiedEntity">
+            <summary>
+            The qualified entity
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.RegulatedProduct">
+            <summary>
+            The regulated product
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.ResearchSubject">
+            <summary>
+            The research subject
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.RetailedMaterial">
+            <summary>
+            The retailed material
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Roomate">
+            <summary>
+            The roomate
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.ServiceDeliveryLocation">
+            <summary>
+            The service delivery location
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Sibling">
+            <summary>
+            The sibling
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.SiblingInlaw">
+            <summary>
+            The sibling inlaw
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.SignificantOther">
+            <summary>
+            The significant other
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.SigningAuthorityOrOfficer">
+            <summary>
+            The signing authority or officer
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Sister">
+            <summary>
+            The sister
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Sisterinlaw">
+            <summary>
+            The sisterinlaw
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Son">
+            <summary>
+            The son
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.SonInlaw">
+            <summary>
+            The son inlaw
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Specimen">
+            <summary>
+            The specimen
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Spouse">
+            <summary>
+            The spouse
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Stepbrother">
+            <summary>
+            The stepbrother
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.StepChild">
+            <summary>
+            The step child
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Stepdaughter">
+            <summary>
+            The stepdaughter
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Stepfather">
+            <summary>
+            The stepfather
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Stepmother">
+            <summary>
+            The stepmother
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.StepParent">
+            <summary>
+            The step parent
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.StepSibling">
+            <summary>
+            The step sibling
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Stepsister">
+            <summary>
+            The stepsister
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Stepson">
+            <summary>
+            The stepson
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Student">
+            <summary>
+            The student
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Subscriber">
+            <summary>
+            The subscriber
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.TerritoryOfAuthority">
+            <summary>
+            The territory of authority
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.TherapeuticAgent">
+            <summary>
+            The therapeutic agent
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Uncle">
+            <summary>
+            The uncle
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Underwriter">
+            <summary>
+            The underwriter
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.UsedEntity">
+            <summary>
+            The used entity
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.WarrantedProduct">
+            <summary>
+            The warranted product
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Wife">
+            <summary>
+            The wife
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Replaces">
+            <summary>
+            The replaces
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Constants.ExtensionTypeKeys">
             <summary>
             Represents extension type keys for ONLY CORE EXTENSIONS. Third party extensions should never be placed in core
@@ -2193,14 +3408,109 @@
             The name represents the computed soundex code of a name
             </summary>
         </member>
+        <member name="F:OpenIZ.Core.Model.Constants.NameUseKeys.Syllabic">
+            <summary>
+            The name represents a syllabic name.
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Constants.NullReasonKeys">
             <summary>
-            Null reason keys
+            Represents a collection of null reason keys.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.Unavailable">
+            <summary>
+            Represents a null reason of unavailable.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.NotApplicable">
+            <summary>
+            Represents a null reason of not applicable.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.Derived">
+            <summary>
+            Represents a null reason of derived.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.Other">
+            <summary>
+            Represents a null reason of other.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.AskedUnknown">
+            <summary>
+            Represents a null reason of asked but unknown.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.Invalid">
+            <summary>
+            Represents a null reason of invalid.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.Trace">
+            <summary>
+            Represents a null reason of trace.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.NegativeInfinity">
+            <summary>
+            Represents a null reason of negative infinity.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.SufficientQuantity">
+            <summary>
+            Represents a null reason of sufficient quantity.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.UnEncoded">
+            <summary>
+            Represents a null reason of un-encoded.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.NotAsked">
+            <summary>
+            Represents a null reason of not asked.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.Unknown">
+            <summary>
+            Represents a null reason of unknown.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.PositiveInfinity">
+            <summary>
+            Represents a null reason of positive infinity.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.NoInformation">
+            <summary>
+            Represents a null reason of no information.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.Masked">
+            <summary>
+            Represents a null reason of masked.
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.PhoneticAlgorithmKeys">
             <summary>
             Phonetic algorithm keys
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.PhoneticAlgorithmKeys.Metaphone">
+            <summary>
+            "METAPHONE"
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.PhoneticAlgorithmKeys.None">
+            <summary>
+            "NONE"
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.PhoneticAlgorithmKeys.Soundex">
+            <summary>
+            "SOUNDEX"
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.StatusKeys">
@@ -5273,9 +6583,34 @@
             Represents sort order
             </summary>
         </member>
+        <member name="F:OpenIZ.Core.Model.Map.SortOrderType.OrderBy">
+            <summary>
+            Order by ascending.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Map.SortOrderType.OrderByDescending">
+            <summary>
+            Order by descending.
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Map.ResultDetailType">
             <summary>
             Result detail types
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Map.ResultDetailType.Error">
+            <summary>
+            Represents an error.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Map.ResultDetailType.Warning">
+            <summary>
+            Represents a warning.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Map.ResultDetailType.Information">
+            <summary>
+            Represents information.
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Map.ValidationResultDetail">
@@ -5481,10 +6816,9 @@
         </member>
         <member name="M:OpenIZ.Core.Model.Query.QueryExpressionBuilder.HttpQueryExpressionVisitor.#ctor(System.Collections.Generic.List{System.Collections.Generic.KeyValuePair{System.String,System.Object}})">
             <summary>
-            Initializes a new instance of the
-            <see cref="!:OpenIZ.Mobile.Core.Interop.Util.HttpQueryExpressionBuilder+HttpQueryExpressionVisitor"/> class.
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Model.Query.QueryExpressionBuilder.HttpQueryExpressionVisitor"/> class.
             </summary>
-            <param name="workingDictionary">Working dictionary.</param>
+            <param name="workingDictionary">The working dictionary.</param>
         </member>
         <member name="M:OpenIZ.Core.Model.Query.QueryExpressionBuilder.HttpQueryExpressionVisitor.AddCondition(System.String,System.Object)">
             <summary>
@@ -5572,6 +6906,16 @@
             Build a LINQ expression
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Query.QueryExpressionParser.BuildLinqExpression``1(OpenIZ.Core.Model.Query.NameValueCollection,System.Collections.Generic.Dictionary{System.String,System.Delegate},System.Boolean)">
+            <summary>
+            Builds the linq expression.
+            </summary>
+            <typeparam name="TModelType">The type of the t model type.</typeparam>
+            <param name="httpQueryParameters">The HTTP query parameters.</param>
+            <param name="variables">The variables.</param>
+            <param name="safeNullable">if set to <c>true</c> [safe nullable].</param>
+            <returns>Expression&lt;Func&lt;TModelType, System.Boolean&gt;&gt;.</returns>
+        </member>
         <member name="M:OpenIZ.Core.Model.Query.QueryExpressionParser.BuildLinqExpression``1(OpenIZ.Core.Model.Query.NameValueCollection,System.String,System.Collections.Generic.Dictionary{System.String,System.Delegate},System.Boolean)">
             <summary>
             Build LINQ expression
@@ -5639,6 +6983,15 @@
             <exception cref="T:System.ArgumentNullException">source - Value cannot be null</exception>
             <exception cref="T:System.ArgumentException">Value cannot be null or empty - propertyName</exception>
         </member>
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.GetFullName(OpenIZ.Core.Model.Entities.UserEntity,System.Guid)">
+            <summary>
+            Gets the full name of the user entity.
+            </summary>
+            <param name="entity">The user entity.</param>
+            <param name="nameUseKey">The name use key.</param>
+            <returns>Returns the full name of the user entity.</returns>
+            <exception cref="T:System.ArgumentNullException">If the entity is null.</exception>
+        </member>
         <member name="M:OpenIZ.Core.Model.ExtensionMethods.IsActive(System.Linq.Expressions.Expression,System.Object)">
             <summary>
             Create a version filter
@@ -5660,7 +7013,7 @@
             </summary>
             <typeparam name="T"></typeparam>
             <param name="source">The source.</param>
-            <returns>Returns a list of the versioned entity data which contains only the latest version of the entity.</returns>
+            <returns>Returns the latest version only of the versioned entity data.</returns>
         </member>
         <member name="M:OpenIZ.Core.Model.ExtensionMethods.SemanticEquals``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEnumerable{``0})">
             <summary>
@@ -5823,6 +7176,21 @@
         <member name="T:OpenIZ.Core.Model.Security.PolicyGrantType">
             <summary>
             Policy grant type
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Security.PolicyGrantType.Deny">
+            <summary>
+            Represents a policy grant type of deny.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Security.PolicyGrantType.Elevate">
+            <summary>
+            Represnts a policy grant type of elevate.
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Security.PolicyGrantType.Grant">
+            <summary>
+            Represents a policy grant type of grant.
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Security.SecurityPolicy">

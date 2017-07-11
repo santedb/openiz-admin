@@ -45,9 +45,32 @@ namespace OpenIZAdmin.Core.Auditing.Controllers
 		}
 
 		/// <summary>
+		/// Audits the change password.
+		/// </summary>
+		/// <param name="outcomeIndicator">The outcome indicator.</param>
+		/// <param name="identityName">Name of the identity.</param>
+		/// <param name="deviceId">The device identifier.</param>
+		/// <exception cref="System.NotImplementedException"></exception>
+		public void AuditChangePassword(OutcomeIndicator outcomeIndicator, string identityName, string deviceId)
+		{
+			var audit = CreateBaseAudit(ActionType.Execute, CreateAuditCode(EventTypeCode.UserSecurityChanged), EventIdentifierType.UserAuthentication, outcomeIndicator);
+
+			audit.Actors.Add(new AuditActorData
+			{
+				NetworkAccessPointId = deviceId,
+				NetworkAccessPointType = NetworkAccessPointType.MachineName,
+				UserIsRequestor = true,
+				UserName = identityName
+			});
+
+			AuditService.SendAudit(audit);
+		}
+
+		/// <summary>
 		/// Audits the login.
 		/// </summary>
 		/// <param name="identityName">Name of the identity.</param>
+		/// <param name="deviceId">The device identifier.</param>
 		/// <param name="roles">The roles.</param>
 		/// <param name="successfulLogin">if set to <c>true</c> [successful login].</param>
 		public void AuditLogin(string identityName, string deviceId, string[] roles = null, bool successfulLogin = true)
@@ -87,6 +110,28 @@ namespace OpenIZAdmin.Core.Auditing.Controllers
 				NetworkAccessPointType = NetworkAccessPointType.MachineName,
 				UserIsRequestor = true,
 				UserName = principal.Identity.GetUserName()
+			});
+
+			AuditService.SendAudit(audit);
+		}
+
+		/// <summary>
+		/// Audits the reset password.
+		/// </summary>
+		/// <param name="outcomeIndicator">The outcome indicator.</param>
+		/// <param name="identityName">Name of the identity.</param>
+		/// <param name="deviceId">The device identifier.</param>
+		/// <exception cref="System.NotImplementedException"></exception>
+		public void AuditResetPassword(OutcomeIndicator outcomeIndicator, string identityName, string deviceId)
+		{
+			var audit = CreateBaseAudit(ActionType.Execute, CreateAuditCode(EventTypeCode.UserSecurityChanged), EventIdentifierType.UserAuthentication, outcomeIndicator);
+
+			audit.Actors.Add(new AuditActorData
+			{
+				NetworkAccessPointId = deviceId,
+				NetworkAccessPointType = NetworkAccessPointType.MachineName,
+				UserIsRequestor = true,
+				UserName = identityName
 			});
 
 			AuditService.SendAudit(audit);

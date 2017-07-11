@@ -353,7 +353,7 @@ namespace OpenIZAdmin.Services.Core
 
 				bundle.Reconstitute();
 
-				entities.AddRange(EntityExtensions.LatestVersionOnly(bundle.Item.OfType<T>().Where(expression.Compile())));
+				entities.AddRange(bundle.Item.OfType<T>().LatestVersionOnly().Where(expression.Compile()));
 
 				this.entityAuditService.AuditQueryEntity(OutcomeIndicator.Success, entities);
 			}
@@ -468,12 +468,12 @@ namespace OpenIZAdmin.Services.Core
 				{
 					bundle = this.Client.Query<T>(p => p.ClassConceptKey == classConceptKey, 0, null, false);
 
-					foreach (var material in EntityExtensions.LatestVersionOnly(bundle.Item.OfType<T>()).Where(p => p.ClassConceptKey == classConceptKey))
+					foreach (var material in bundle.Item.OfType<T>().LatestVersionOnly().Where(p => p.ClassConceptKey == classConceptKey))
 					{
 						material.TypeConcept = this.conceptService.GetTypeConcept(material);
 					}
 
-					results = EntityExtensions.LatestVersionOnly(bundle.Item.OfType<T>()).Where(p => p.ClassConceptKey == classConceptKey).ToList();
+					results = bundle.Item.OfType<T>().LatestVersionOnly().Where(p => p.ClassConceptKey == classConceptKey).ToList();
 				}
 				else
 				{
@@ -483,12 +483,12 @@ namespace OpenIZAdmin.Services.Core
 					{
 						bundle = this.Client.Query<T>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == classConceptKey, 0, null, false);
 
-						foreach (var material in EntityExtensions.LatestVersionOnly(bundle.Item.OfType<T>()).Where(p => p.ClassConceptKey == classConceptKey))
+						foreach (var material in bundle.Item.OfType<T>().LatestVersionOnly().Where(p => p.ClassConceptKey == classConceptKey))
 						{
 							material.TypeConcept = this.conceptService.GetTypeConcept(material);
 						}
 
-						results = EntityExtensions.LatestVersionOnly(bundle.Item.OfType<T>().Where(nameExpression.Compile())).Where(p => p.ClassConceptKey == classConceptKey).ToList();
+						results = bundle.Item.OfType<T>().Where(nameExpression.Compile()).LatestVersionOnly().Where(p => p.ClassConceptKey == classConceptKey).ToList();
 					}
 					else
 					{

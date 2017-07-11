@@ -18,14 +18,23 @@
  */
 
 using System.Security.Principal;
+using MARC.HI.EHRS.SVC.Auditing.Data;
 
 namespace OpenIZAdmin.Core.Auditing.Controllers
 {
 	/// <summary>
-	/// Represents an account controller audit service.
+	/// Represents an authentication audit service.
 	/// </summary>
 	public interface IAuthenticationAuditService
 	{
+		/// <summary>
+		/// Audits the change password.
+		/// </summary>
+		/// <param name="outcomeIndicator">The outcome indicator.</param>
+		/// <param name="identityName">Name of the identity.</param>
+		/// <param name="deviceId">The device identifier.</param>
+		void AuditChangePassword(OutcomeIndicator outcomeIndicator, string identityName, string deviceId);
+
 		/// <summary>
 		/// Audits the login.
 		/// </summary>
@@ -42,5 +51,13 @@ namespace OpenIZAdmin.Core.Auditing.Controllers
 		/// <param name="deviceId">The device identifier.</param>
 		/// <exception cref="System.ArgumentNullException">principal</exception>
 		void AuditLogOff(IPrincipal principal, string deviceId);
+
+		/// <summary>
+		/// Audits the reset password.
+		/// </summary>
+		/// <param name="outcomeIndicator">The outcome indicator.</param>
+		/// <param name="identityName">Name of the identity.</param>
+		/// <param name="deviceId">The device identifier.</param>
+		void AuditResetPassword(OutcomeIndicator outcomeIndicator, string identityName, string deviceId);
 	}
 }

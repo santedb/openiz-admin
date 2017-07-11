@@ -36,5 +36,12 @@ namespace OpenIZAdmin.Services.Security
 		/// <param name="securityUserId">The security user identifier.</param>
 		/// <returns>Returns the user entity for the given security user key.</returns>
 		UserEntity GetUserEntityBySecurityUserKey(Guid securityUserId);
+
+		/// <summary>
+		/// Updates the user entity.
+		/// </summary>
+		/// <param name="userEntity">The user entity.</param>
+		/// <returns>Returns the updated user entity.</returns>
+		UserEntity UpdateUserEntity(UserEntity userEntity);
 	}
 }

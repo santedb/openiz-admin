@@ -40,6 +40,7 @@ using System.Linq.Expressions;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using OpenIZAdmin.Core.Extensions;
+using OpenIZ.Core.Model;
 
 namespace OpenIZAdmin.Controllers
 {
