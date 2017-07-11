@@ -106,7 +106,7 @@
     <Compile Include="Auditing\Entities\IEntityAuditService.cs" />
     <Compile Include="Auditing\Model\Error.cs" />
     <Compile Include="Auditing\Core\GlobalAuditService.cs" />
-    <Compile Include="Auditing\Core\HttpContextAuditServiceBase.cs" />
+    <Compile Include="Auditing\Core\HttpContextAuditService.cs" />
     <Compile Include="Auditing\Model\EventTypeCode.cs" />
     <Compile Include="Auditing\SecurityEntities\ISecurityEntityAuditService.cs" />
     <Compile Include="Auditing\SecurityEntities\SecurityApplicationAuditService.cs" />
