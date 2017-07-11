@@ -119,17 +119,17 @@ namespace OpenIZAdmin.Controllers
 					if (modelType == typeof(Material))
 					{
 						name = Locale.Material;
-						bundle = this.ImsiClient.Query<Material>(e => e.Identifiers.Any(i => i.AuthorityKey == authority.Key && i.Value == model.Value), 0, 0, false);
+						bundle = this.ImsiClient.Query<Material>(e => e.Identifiers.Any(i => i.AuthorityKey == authority.Key && i.Value == model.Value && i.ObsoleteVersionSequenceId == null), 0, 0, false);
 					}
 					else if (modelType == typeof(Place))
 					{
 						name = Locale.Place;
-						bundle = this.ImsiClient.Query<Place>(e => e.Identifiers.Any(i => i.AuthorityKey == authority.Key && i.Value == model.Value), 0, 0, false);
+						bundle = this.ImsiClient.Query<Place>(e => e.Identifiers.Any(i => i.AuthorityKey == authority.Key && i.Value == model.Value && i.ObsoleteVersionSequenceId == null), 0, 0, false);
 					}
 					else if (modelType == typeof(Organization))
 					{
 						name = Locale.Organization;
-						bundle = this.ImsiClient.Query<Organization>(e => e.Identifiers.Any(i => i.AuthorityKey == authority.Key && i.Value == model.Value), 0, 0, false);
+						bundle = this.ImsiClient.Query<Organization>(e => e.Identifiers.Any(i => i.AuthorityKey == authority.Key && i.Value == model.Value && i.ObsoleteVersionSequenceId == null), 0, 0, false);
 					}
 
 					bundle?.Reconstitute();
