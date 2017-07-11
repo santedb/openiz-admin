@@ -1,32 +1,28 @@
 ﻿/*
  * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you 
- * may not use this file except in compliance with the License. You may 
- * obtain a copy of the License at 
- * 
- * http://www.apache.org/licenses/LICENSE-2.0 
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the 
- * License for the specific language governing permissions and limitations under 
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * User: khannan
  * Date: 2016-12-12
  */
+
+using OpenIZAdmin.Localization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Web;
 using System.Web.Mvc;
-using OpenIZ.Core.Model;
-using OpenIZ.Core.Model.Acts;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZ.Core.Model.Entities;
-using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Extensions
 {
@@ -72,12 +68,12 @@ namespace OpenIZAdmin.Extensions
 				throw new ArgumentNullException(nameof(valuePropertyName), Locale.ValueCannotBeNull);
 			}
 
-			selectList.AddRange(selectedExpression == null ? 
+			selectList.AddRange(selectedExpression == null ?
 				clonedList.Select(x => new SelectListItem
 				{
 					Text = x.GetType().GetProperty(textPropertyName).GetValue(x)?.ToString(),
 					Value = x.GetType().GetProperty(valuePropertyName).GetValue(x).ToString()
-				}) : 
+				}) :
 				clonedList.Select(x => new SelectListItem
 				{
 					Selected = Convert.ToBoolean(selectedExpression.Compile().DynamicInvoke(x)),
@@ -86,32 +82,6 @@ namespace OpenIZAdmin.Extensions
 				}));
 
 			return selectList.OrderBy(x => x.Text).ToList();
-		}
-
-		/// <summary>
-		/// Gets the latest version of the concept.
-		/// </summary>
-		/// <param name="source">The source.</param>
-		/// <returns>Returns the list of concept which are the latest version.</returns>
-		public static IEnumerable<Concept> LatestVersionOnly(this IEnumerable<Concept> source)
-		{
-			var latestVersions = new List<Concept>();
-
-			var keys = source.Select(e => e.Key.Value).Distinct();
-
-			foreach (var key in keys)
-			{
-				var maxVersionSequence = source.Select(e => source.Where(a => a.Key == key).Max<Concept>(a => a.VersionSequence)).FirstOrDefault();
-
-				var latestVersion = source.FirstOrDefault(a => a.Key == key && a.VersionSequence == maxVersionSequence);
-
-				if (latestVersion != null)
-				{
-					latestVersions.Add(latestVersion);
-				}
-			}
-
-			return latestVersions;
 		}
 	}
 }
