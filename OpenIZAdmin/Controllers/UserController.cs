@@ -148,7 +148,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.UserCreatedSuccessfully;
 
-					return RedirectToAction("Edit", new { id = user.UserId.ToString() });
+					return RedirectToAction("ViewUser", new { id = user.UserId.ToString() });
 				}
 			}
 			catch (Exception e)
