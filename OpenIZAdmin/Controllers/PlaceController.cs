@@ -83,7 +83,10 @@ namespace OpenIZAdmin.Controllers
                 base.ImsiClient = value;
                 value.Client.Requesting += (o, e) =>
                 {
-                    e.Query.Add("_expand", new List<String>() { "typeConcept", "address.use" });
+                    if (!e.Query.ContainsKey("_expand"))
+                        e.Query.Add("_expand", new List<String>() { "typeConcept", "address.use" });
+                    else
+                        e.Query["_expand"].AddRange(new String[] { "typeConcept", "address.use" });
                 };
             }
         }

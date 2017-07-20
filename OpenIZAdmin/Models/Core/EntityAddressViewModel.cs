@@ -22,12 +22,12 @@ namespace OpenIZAdmin.Models.Core
         /// </summary>
         public EntityAddressViewModel(EntityAddress address)
         {
-            this.Country = address.Component?.Find(o => o.ComponentTypeKey == AddressComponentKeys.Country)?.Value;
-            this.City = address.Component?.Find(o => o.ComponentTypeKey == AddressComponentKeys.City)?.Value;
-            this.County= address.Component?.Find(o => o.ComponentTypeKey == AddressComponentKeys.County)?.Value;
-            this.State = address.Component?.Find(o => o.ComponentTypeKey == AddressComponentKeys.State)?.Value;
-            this.StreetAddress = address.Component?.Find(o => o.ComponentTypeKey == AddressComponentKeys.StreetAddressLine)?.Value;
-            this.Precinct = address.Component?.Find(o => o.ComponentTypeKey == AddressComponentKeys.Precinct)?.Value;
+            this.Country = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.Country)?.Value;
+            this.City = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.City)?.Value;
+            this.County= address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.County)?.Value;
+            this.State = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.State)?.Value;
+            this.StreetAddress = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.StreetAddressLine)?.Value;
+            this.Precinct = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.Precinct)?.Value;
         }
 
         /// <summary>

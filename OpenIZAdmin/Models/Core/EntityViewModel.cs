@@ -67,7 +67,7 @@ namespace OpenIZAdmin.Models.Core
 			this.ObsoletionTime = entity.ObsoletionTime?.DateTime;
 			this.Relationships = entity.Relationships.Select(r => new EntityRelationshipViewModel(r)).OrderBy(r => r.TargetName).ToList();
 			this.Tags = entity.Tags.Select(t => new EntityTagViewModel(t)).ToList();
-            this.Address = entity.Addresses?.Select(o => new EntityAddressViewModel(o)).ToList();
+            this.Address = entity.Addresses?.Select(o => new EntityAddressViewModel(o))?.ToList();
 
 			if (entity.LoadProperty<Concept>("TypeConcept") != null)
 			{
