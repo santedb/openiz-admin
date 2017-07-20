@@ -241,7 +241,7 @@ namespace OpenIZAdmin.DAL
 			var securityToken = new JwtSecurityToken(accessToken);
 
 			// if the user is not a part of the administrators group, we don't allow them to login
-			if (securityToken.Claims.Any(o=>o.Type == Constants.OpenIzGrantedPolicyClaim && o.Value == Constants.Login))
+			if (!securityToken.Claims.Any(o=>o.Type == Constants.OpenIzGrantedPolicyClaim && o.Value == Constants.Login))
 			{
 				return SignInStatus.Failure;
 			}
