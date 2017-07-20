@@ -20,6 +20,7 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Security.Claims;
@@ -38,6 +39,7 @@ namespace OpenIZAdmin.Models.Domain
 		public ApplicationUser()
 		{
 			this.Language = "en";
+
 		}
 
 		/// <summary>
@@ -70,5 +72,6 @@ namespace OpenIZAdmin.Models.Domain
 			// Add custom user claims here
 			return userIdentity;
 		}
+        
 	}
 }

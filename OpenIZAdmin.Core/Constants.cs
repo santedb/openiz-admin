@@ -33,5 +33,11 @@ namespace OpenIZAdmin.Core
 		/// The system user identifier.
 		/// </summary>
 		public const string SystemUserId = "fadca076-3690-4a6e-af9e-f1cd68e8c7e8";
-	}
+
+        /// <summary>
+        /// Granted policy claim
+        /// </summary>
+        public const string OpenIzGrantedPolicyClaim = "http://openiz.org/claims/grant";
+
+    }
 }
