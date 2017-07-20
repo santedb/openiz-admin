@@ -69,29 +69,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
         /// <summary>
-        /// Add expansion properties
-        /// </summary>
-        protected override ImsiServiceClient ImsiClient
-        {
-            get
-            {
-                return base.ImsiClient;
-            }
-
-            set
-            {
-                base.ImsiClient = value;
-                value.Client.Requesting += (o, e) =>
-                {
-                    if (!e.Query.ContainsKey("_expand"))
-                        e.Query.Add("_expand", new List<String>() { "typeConcept", "address.use" });
-                    else
-                        e.Query["_expand"].AddRange(new String[] { "typeConcept", "address.use" });
-                };
-            }
-        }
-
-        /// <summary>
         /// Activates the specified identifier.
         /// </summary>
         /// <param name="id">The identifier.</param>
@@ -242,10 +219,12 @@ namespace OpenIZAdmin.Controllers
 					ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
 				};
 
+                // JF - THIS NEEDS TO BE CHANGED TO USE A CONCEPT SET
 				var concepts = new List<Concept>
 				{
 					this.GetConcept(EntityRelationshipTypeKeys.Child),
-					this.GetConcept(EntityRelationshipTypeKeys.Parent)
+					this.GetConcept(EntityRelationshipTypeKeys.Parent),
+                    this.GetConcept(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation)
 				};
 
 				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()));
@@ -276,7 +255,11 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (this.ModelState.IsValid)
 				{
-					var place = this.GetEntity<Place>(model.SourceId);
+                    Place place = null;
+                    if(model.Inverse)
+                        this.GetEntity<Place>(Guid.Parse(model.TargetId));
+                    else
+                        this.GetEntity<Place>(model.SourceId);
 
 					if (place == null)
 					{
@@ -284,8 +267,11 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Edit", new { id = model.SourceId });
 					}
 
-					place.Relationships.RemoveAll(r => r.TargetEntityKey == Guid.Parse(model.TargetId) && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
-					place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), Guid.Parse(model.TargetId)) { EffectiveVersionSequenceId = place.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
+                
+                    if(Guid.Parse(model.RelationshipType) == EntityRelationshipTypeKeys.Parent)
+					    place.Relationships.RemoveAll(r => r.TargetEntityKey == Guid.Parse(model.TargetId) && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
+
+                    place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.Inverse ? model.SourceId : Guid.Parse(model.TargetId)) { EffectiveVersionSequenceId = place.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
 
 					this.ImsiClient.Update(place);
 
@@ -644,7 +630,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (!ModelState.IsValid) return Json(viewModels, JsonRequestBehavior.AllowGet);
 
-			var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation);
+			var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation, 0, 15, new string[]{ "typeConcept", "address.use" });
 
 			viewModels = places.Item.OfType<Place>().LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 

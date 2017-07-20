@@ -2428,6 +2428,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invert Relationship.
+        /// </summary>
+        public static string InverseRelationship {
+            get {
+                return ResourceManager.GetString("InverseRelationship", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Is Public.
         /// </summary>
         public static string IsPublic {

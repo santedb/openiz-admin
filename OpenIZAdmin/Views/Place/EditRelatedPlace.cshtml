@@ -32,6 +32,13 @@
             </div>
 
             <div class="form-group">
+                @Html.LabelFor(m => m.Inverse, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.CheckBoxFor(m=>m.Inverse)
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
                     <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>

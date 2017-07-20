@@ -108,6 +108,12 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		[Display(Name = "Quantity", ResourceType = typeof(Locale))]
 		public int? Quantity { get; set; }
 
+        /// <summary>
+        /// True if the relationship is inverted
+        /// </summary>
+        [Display(Name = "InverseRelationship", ResourceType = typeof(Locale))]
+        public bool Inverse { get; set; }
+
 		/// <summary>
 		/// Gets or sets the type of the relationship.
 		/// </summary>
