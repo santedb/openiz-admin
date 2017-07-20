@@ -125,7 +125,7 @@ namespace OpenIZAdmin.Core.Auditing.SecurityEntities
 			}
 			else
 			{
-				audit.AuditableObjects.Add(this.CreateBaseAuditableObject(AuditableObjectIdType.UserIdentifier, AuditableObjectLifecycle.Creation, securityEntity.Key.ToString(), AuditableObjectRole.SecurityResource, AuditableObjectType.Other));
+				audit.AuditableObjects.Add(this.CreateBaseAuditableObject(AuditableObjectIdType.Custom, AuditableObjectLifecycle.Creation, securityEntity.Key.ToString(), AuditableObjectRole.SecurityResource, AuditableObjectType.Other));
 			}
 
 			return audit;
