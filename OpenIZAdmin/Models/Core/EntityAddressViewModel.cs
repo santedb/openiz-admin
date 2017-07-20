@@ -1,5 +1,7 @@
 ﻿using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenIZAdmin.Models.Core
 {
@@ -59,5 +61,21 @@ namespace OpenIZAdmin.Models.Core
         /// Gets or sets the precinct
         /// </summary>
         public string Precinct { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            var addressParts = new List<string> {
+                this.StreetAddress,
+                this.City,
+                this.County,
+                this.State
+            };
+
+            return string.Join(", ", addressParts.Where(x => x != null));
+        }
     }
 }

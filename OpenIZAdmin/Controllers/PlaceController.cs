@@ -577,7 +577,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (searchTerm == "*")
 				{
-					bundle = this.ImsiClient.Query<Place>(p => p.ObsoletionTime == null, 0, null, new[] { "typeConcept" });
+					bundle = this.ImsiClient.Query<Place>(p => p.ObsoletionTime == null, 0, null, new[] { "typeConcept", "address" });
 
 					foreach (var place in bundle.Item.OfType<Place>().LatestVersionOnly())
 					{
