@@ -17,7 +17,9 @@
  * Date: 2017-2-19
  */
 
+using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.EntityIdentifierModels;
@@ -65,8 +67,9 @@ namespace OpenIZAdmin.Models.Core
 			this.ObsoletionTime = entity.ObsoletionTime?.DateTime;
 			this.Relationships = entity.Relationships.Select(r => new EntityRelationshipViewModel(r)).OrderBy(r => r.TargetName).ToList();
 			this.Tags = entity.Tags.Select(t => new EntityTagViewModel(t)).ToList();
+            this.Address = entity.Addresses?.Select(o => new EntityAddressViewModel(o)).ToList();
 
-			if (entity.TypeConcept != null)
+			if (entity.LoadProperty<Concept>("TypeConcept") != null)
 			{
 				this.Type = entity.TypeConcept.ConceptNames?.Any() == true ? string.Join(" ", entity.TypeConcept.ConceptNames.Select(c => c.Name)) : entity.TypeConcept.Mnemonic;
 			}
@@ -104,11 +107,16 @@ namespace OpenIZAdmin.Models.Core
 		[Display(Name = "ObsoletionTime", ResourceType = typeof(Locale))]
 		public DateTime? ObsoletionTime { get; set; }
 
-		/// <summary>
-		/// Gets or sets the relationships.
-		/// </summary>
-		/// <value>The relationships.</value>
-		public List<EntityRelationshipViewModel> Relationships { get; set; }
+        /// <summary>
+        /// Entity address view model
+        /// </summary>
+        public List<EntityAddressViewModel> Address { get; set; }
+
+        /// <summary>
+        /// Gets or sets the relationships.
+        /// </summary>
+        /// <value>The relationships.</value>
+        public List<EntityRelationshipViewModel> Relationships { get; set; }
 
 		/// <summary>
 		/// Gets or sets the tags.

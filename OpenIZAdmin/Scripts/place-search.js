@@ -19,7 +19,7 @@
                 return {
                     results: $.map(data, function (o)
                     {
-                        return { id: o.Id, text: o.Name };
+                        return { id: o.Id, text: o.Name, data: o };
                     }),
                     pagination: {
                         more: (params.page * 30) < data.length
@@ -34,7 +34,38 @@
         minimumInputLength: 4,
         templateResult: function (data)
         {
-            return "<span class='glyphicon glyphicon-map-marker'> " + data.text + "</span>";
+            var retVal = "";
+            if (data.data) {
+
+                if (data.data.Type)
+                    retVal += "<span class='label label-info'>" + data.data.Type + "</span> ";
+                retVal += data.text;
+
+                // Address?
+                if (data.data.Address && data.data.Address[0]) {
+
+                    var addrString = "";
+                    if (data.data.Address[0].AdditionalLocator)
+                        addrString += data.data.Address[0].AdditionalLocator + ", ";
+                    if (data.data.Address[0].StreetAddress)
+                        addrString += data.data.Address[0].StreetAddress + ", ";
+                    if (data.data.Address[0].Precinct)
+                        addrString += data.data.Address[0].Precinct + ", ";
+                    if (data.data.Address[0].City)
+                        addrString += data.data.Address[0].City + ", ";
+                    if (data.data.Address[0].County != null)
+                        addrString += data.data.Address[0].County + ", ";
+                    if (data.data.Address[0].State != null)
+                        addrString += data.data.Address[0].State + ", ";
+                    if (data.data.Address[0].Country != null)
+                        addrString += data.data.Address[0].Country + ", ";
+
+                    retVal += "<small>(<span class='glyphicon glyphicon-map-marker'></span>" + addrString + ")</small>";
+                }
+            }
+            else
+                retVal += "<span class='glyphicon glyphicon-map-marker'></span> "  + data.text;
+            return retVal;
         },
         templateSelection: function (data)
         {

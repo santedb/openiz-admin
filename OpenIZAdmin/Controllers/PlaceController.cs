@@ -41,6 +41,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using OpenIZAdmin.Core.Extensions;
 using OpenIZ.Core.Model;
+using OpenIZ.Messaging.IMSI.Client;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -67,13 +68,33 @@ namespace OpenIZAdmin.Controllers
 		{
 		}
 
-		/// <summary>
-		/// Activates the specified identifier.
-		/// </summary>
-		/// <param name="id">The identifier.</param>
-		/// <param name="versionId">The version identifier.</param>
-		/// <returns>ActionResult.</returns>
-		public ActionResult Activate(Guid id, Guid? versionId)
+        /// <summary>
+        /// Add expansion properties
+        /// </summary>
+        protected override ImsiServiceClient ImsiClient
+        {
+            get
+            {
+                return base.ImsiClient;
+            }
+
+            set
+            {
+                base.ImsiClient = value;
+                value.Client.Requesting += (o, e) =>
+                {
+                    e.Query.Add("_expand", new List<String>() { "typeConcept", "address.use" });
+                };
+            }
+        }
+
+        /// <summary>
+        /// Activates the specified identifier.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="versionId">The version identifier.</param>
+        /// <returns>ActionResult.</returns>
+        public ActionResult Activate(Guid id, Guid? versionId)
 		{
 			try
 			{

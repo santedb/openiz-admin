@@ -65,7 +65,7 @@ namespace OpenIZAdmin.Controllers
 		/// <summary>
 		/// Gets the <see cref="ImsiServiceClient"/> instance.
 		/// </summary>
-		protected ImsiServiceClient ImsiClient { get; private set; }
+		protected virtual ImsiServiceClient ImsiClient { get; set; }
 
 		/// <summary>
 		/// Redirects the response the URL referrer or to the root of the site if no URL referrer is found.
@@ -446,7 +446,7 @@ namespace OpenIZAdmin.Controllers
 
 			this.ImsiClient = new ImsiServiceClient(imsiRestClient);
 
-			base.OnActionExecuting(filterContext);
+            base.OnActionExecuting(filterContext);
 		}
 	}
 }
