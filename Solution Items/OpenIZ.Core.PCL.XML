@@ -379,6 +379,13 @@
             Because we're using PCL we have to wrap the TraceWriter interface
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Diagnostics.TraceWriter.#ctor(System.Diagnostics.Tracing.EventLevel,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:OpenIZ.Core.Diagnostics.TraceWriter"/> class.
+            </summary>
+            <param name="filter">The filter.</param>
+            <param name="initializationData">The initialization data.</param>
+        </member>
         <member name="M:OpenIZ.Core.Diagnostics.TraceWriter.TraceInfo(System.String,System.String,System.Object[])">
             <summary>
             Trace information
@@ -572,8 +579,10 @@
             <summary>
             Gets the body serializer based on the content type
             </summary>
-            <returns>The serializer.</returns>
             <param name="contentType">Content type.</param>
+            <param name="typeHint">The type hint.</param>
+            <returns>The serializer.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">contentType - Not supported</exception>
         </member>
         <member name="T:OpenIZ.Core.Http.Description.IRestClientCertificateDescription">
             <summary>
@@ -634,8 +643,7 @@
         </member>
         <member name="P:OpenIZ.Core.Http.Description.IRestClientBindingDescription.Optimize">
             <summary>
-            Gets or sets a value indicating whether this <see cref="!:OpenIZ.Mobile.Core.Configuration.ServiceClientBinding"/>
-            is optimized
+            Gets a value indicating whether this <see cref="T:OpenIZ.Core.Http.Description.IRestClientBindingDescription"/> is optimize.
             </summary>
             <value><c>true</c> if optimize; otherwise, <c>false</c>.</value>
         </member>
@@ -1347,6 +1355,16 @@
             Fired when security attributes related to an object change
             </summary>
         </member>
+        <member name="E:OpenIZ.Core.Interfaces.ISecurityAuditEventSource.SecurityResourceCreated">
+            <summary>
+            Fired when security attributes related to an object change
+            </summary>
+        </member>
+        <member name="E:OpenIZ.Core.Interfaces.ISecurityAuditEventSource.SecurityResourceDeleted">
+            <summary>
+            Fired when security attributes related to an object change
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Interfaces.AuditDataEventArgs">
             <summary>
             Event arguments for data disclosure
@@ -1810,6 +1828,14 @@
             <param name="key">The key.</param>
             <returns>Returns the act.</returns>
         </member>
+        <member name="M:OpenIZ.Core.Services.IActRepositoryService.Cancel``1(``0)">
+            <summary>
+            Cancels a specific act.
+            </summary>
+            <typeparam name="TAct">The type of the act.</typeparam>
+            <param name="key">The key.</param>
+            <returns>Returns the act.</returns>
+        </member>
         <member name="M:OpenIZ.Core.Services.IActRepositoryService.Nullify``1(``0)">
             <summary>
             Nullifies a specific act.
@@ -2121,6 +2147,11 @@
             </summary>
             <param name="query">The query to use for searching for the concept.</param>
             <returns>Returns a list of concepts who match the specified query.</returns>
+        </member>
+        <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindCodeSystems(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.CodeSystem,System.Boolean}})">
+            <summary>
+            Find code systems
+            </summary>
         </member>
         <member name="M:OpenIZ.Core.Services.IConceptRepositoryService.FindConcepts(System.Linq.Expressions.Expression{System.Func{OpenIZ.Core.Model.DataTypes.Concept,System.Boolean}},System.Int32,System.Nullable{System.Int32},System.Int32@)">
             <summary>

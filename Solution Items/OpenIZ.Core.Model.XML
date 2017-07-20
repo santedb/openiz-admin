@@ -8,6 +8,30 @@
             <summary>
             Represents the base class for an act
             </summary>
+            <remarks>
+            <para>
+            An Act, in the context of the reference information model (RIM) represents something that is done to a patient. More precisely, an Act
+            is anything that occurs involving entities in which the entity's state is changed or is documented.
+            </para>
+            <para>
+            Examples of Acts Include:
+            </para>
+            <list type="bullet">
+                <item><see cref="T:OpenIZ.Core.Model.Acts.SubstanceAdministration"/> - The administration of a substance to a patient</item>
+                <item><see cref="T:OpenIZ.Core.Model.Acts.Observation"/> - The observing of a value for the patient</item>
+                <item><see cref="T:OpenIZ.Core.Model.Acts.PatientEncounter"/> - An encounter or visit that occurs where the patient receives one or more services</item>
+                <item><see cref="T:OpenIZ.Core.Model.Acts.Act"/> - Any other action such as supply request, or problem recordation</item>
+            </list>
+            <para>
+            The property which classifies what specific type of action an act represents is its <see cref="P:OpenIZ.Core.Model.Acts.Act.ClassConceptKey"/>, which dictates
+            what type an act is. Class concept keys can be found in here <see cref="T:OpenIZ.Core.Model.Constants.ActClassKeys"/>.
+            </para>
+            <para>
+            This structure is used to represent events, proposals, and requests. That is to say, the Act structure can represent the request to 
+            do an act, the intent to perform an act, or the actual act being performed itself. This classification of mode happens based on the 
+            <see cref="P:OpenIZ.Core.Model.Acts.Act.MoodConceptKey"/> mood concept. Mood concept keys can be found on the <see cref="T:OpenIZ.Core.Model.Constants.ActMoodKeys"/> structure.
+            </para>
+            </remarks>
         </member>
         <member name="M:OpenIZ.Core.Model.Acts.Act.#ctor">
             <summary>
@@ -16,18 +40,28 @@
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.IsNegated">
             <summary>
-            Gets or sets an indicator which identifies whether the object is negated
+            Gets or sets an indicator which identifies whether the act actually occurred, or
+            specifically did not occur
             </summary>
+            <remarks>
+            The isNegated flag is important when the OpenIZ system needs to keep track that an event
+            specifically DID NOT OCCUR, or SHOULD NOT OCCUR. Typically this is paired with a reason concept (<see cref="P:OpenIZ.Core.Model.Acts.Act.ReasonConceptKey"/>)
+            which describes why  the act did not or should not occur.
+            </remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.ActTime">
             <summary>
-            Gets or sets the stop time of the act
+            Gets or sets the instant in time when the act occurred (if applicable)
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.TemplateKey">
             <summary>
             Gets the template key
             </summary>
+            <remarks>
+            Templates are used to classify the specific rules and input forms used to create the act. It further
+            classifies the type of act in a manner which allows a consumer to render the data or to validate the data.
+            </remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.Template">
             <summary>
@@ -41,7 +75,7 @@
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.StartTime">
             <summary>
-            Gets or sets the start time of the act
+            Gets or sets the time when the act should or did start ocurring
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.StartTimeXml">
@@ -51,7 +85,7 @@
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.StopTime">
             <summary>
-            Gets or sets the stop time of the act
+            Gets or sets the time when the act did or should stop occurring
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.StopTimeXml">
@@ -61,48 +95,83 @@
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.ClassConceptKey">
             <summary>
-            Class concept
+            Gets or sets the key of the concept which classifies the act.
             </summary>
+            <see cref="P:OpenIZ.Core.Model.Acts.Act.ClassConcept"/>
+            <see cref="T:OpenIZ.Core.Model.Constants.ActClassKeys"/>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.MoodConceptKey">
             <summary>
-            Mood concept
+            Gets or sets the key of the concept which specifies the mood of the act.
             </summary>
+            <see cref="P:OpenIZ.Core.Model.Acts.Act.MoodConcept"/>
+            <see cref="T:OpenIZ.Core.Model.Constants.ActMoodKeys"/>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.ReasonConceptKey">
             <summary>
-            Reason concept
+            Gets or sets the key of the concept which defines the reason why the act is or didn't occur
             </summary>
+            <see cref="P:OpenIZ.Core.Model.Acts.Act.ReasonConcept"/>
+            <see cref="T:OpenIZ.Core.Model.Constants.ActReasonKeys"/>
+            <see cref="T:OpenIZ.Core.Model.Constants.NullReasonKeys"/>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.StatusConceptKey">
             <summary>
-            Status concept id
+            Gets or sets the key of the concept which describes the current status of the act
             </summary>
+            <see cref="P:OpenIZ.Core.Model.Acts.Act.StatusConcept"/>
+            <see cref="T:OpenIZ.Core.Model.Constants.StatusKeys"/>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.TypeConceptKey">
             <summary>
-            Type concept identifier
+            Gets or sets the key of the conccept which further classifies the type of act occurring
             </summary>
+            <see cref="P:OpenIZ.Core.Model.Acts.Act.TypeConcept"/>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.ClassConcept">
             <summary>
-            Class concept datal load property
+            Gets or sets the concept which classifies the type of act
             </summary>
+            <remarks>
+            The class concept is used to classify the overall type of the act. This code will specify whether the 
+            act is a substance administration, financial transaction, observation, etc.
+            </remarks>
+            <see cref="T:OpenIZ.Core.Model.Constants.ActClassKeys"/>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.MoodConcept">
             <summary>
-            Mood concept data load property
+            Gets or sets the concept which specifies the mood of the act
             </summary>
+            <remarks>
+            Here the mood of the act is used to describe the mode of the act or specifically to classify 
+            whether the act did occur (event ocurrence), should occur (propose), will occur (intent), or being requested to occur (request).
+            </remarks>
+            <see cref="T:OpenIZ.Core.Model.Constants.ActMoodKeys"/>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.ReasonConcept">
             <summary>
-            Mood concept data load property
+            Gets or sets the concept which indicates the reason of the act
             </summary>
+            <remarks>
+            This concept is used to dictate why the act did occur (or if the negation indicator or mood concept indicate, why it didn't or shouldn't occur). Examples
+            of reason codes may be "patient was too old", "out of stock", "patient has allergy", etc.
+            </remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.StatusConcept">
             <summary>
-            Status concept id
+            Gets or sets the current status concept of the act
             </summary>
+            <remarks>
+            The status of the act will dictate which part of the lifecycle an act is 
+            currently operating in.
+            <list type="bullet">
+                <item>New - The Act is brand new and has yet to start ocurring</item>
+                <item>Active - The Act is still occurring</item>
+                <item>Completed - The Act has completed or is in the past</item>
+                <item>Obsolete - The Act did occur, however it is no longer accurate</item>
+                <item>Nullified - The Act never occurred, this record was created in error</item>
+            </list>
+            </remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.TypeConcept">
             <summary>
@@ -111,43 +180,90 @@
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.Identifiers">
             <summary>
-            Gets the identifiers associated with this act
+            Gets or sets the identifiers by which this act is known as in other systems
             </summary>
+            <remarks>
+            The identifiers field is used to assign alternate identifiers to the act itself. These identifiers can 
+            be used internally for tracking the act, or can be used to correlate an act in a way that an external system
+            will know it.
+            </remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.Relationships">
             <summary>
             Gets a list of all associated acts for this act
             </summary>
+            <remarks>
+            The relationships of an act are used to relate one or more acts together either 
+            directly as in an encounter with component acts, or between care episodes for chronic
+            care.
+            </remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.Policies">
             <summary>
-            Gets or sets the policy instances
+            Gets or sets the security policy instances associated with the act
             </summary>
+            <remarks>
+            This property allows authors to tag an act with a particular security policy. Here the 
+            security policies may be something akin to "Taboo information" or "Research Only". From there
+            the OpenIZ policy decision point will determine whether or not the particular piece of
+            data should be exposed or masked based on user credentials.
+            </remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.Extensions">
             <summary>
             Gets a list of all extensions associated with the act
             </summary>
+            <remarks>
+            An extension allows developers to store additional data about a particular act in a manner
+            which the original OpenIZ authors did not intend. This can be things such as equipment 
+            used to record an observation, etc. 
+            <para>
+            The key difference beetween an extension and a tag is that extensions are versioned whereas tags
+            are not
+            </para>
+            </remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.Notes">
             <summary>
             Gets a list of all notes associated with the act
             </summary>
+            <remarks>Allows one or more notes to be taken about an act by a clinician</remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.Tags">
             <summary>
             Gets a list of all tags associated with the act
             </summary>
+            <remarks>
+            A tag is a simple piece of data which is appended to an act which allows developers to 
+            extend the underlying application in ways not imagined by the original OpenIZ team. Tags differ
+            from extensions in that they can only carry simple values (strings) and they are not versioned. 
+            </remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.Protocols">
             <summary>
             Identifies protocols attached to the act
             </summary>
+            <remarks>
+            The protocols element is used to track which clinical protocols where linked with 
+            the act.
+            </remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Act.Participations">
             <summary>
-            Participations
+            Gets or sets the entities and participations they play in the act
             </summary>
+            <remarks>
+            In an Act, one or more entities participate in the carrying out of the act. This property is used to 
+            track that information. Examples of participations include:
+            <list type="bullet">
+                <item>Consumable - An entity that was consumed in the process of carrying out the act</item>
+                <item>Product - A product that was administered or used to perform the act</item>
+                <item>Author - The person who recorded the information related to the act</item>
+                <item>Performer - The person(s) who performed the act</item>
+                <item>Location - Where the act took place</item>
+            </list>
+            </remarks>
+            <see cref="T:OpenIZ.Core.Model.Constants.ActParticipationKey"/>
         </member>
         <member name="M:OpenIZ.Core.Model.Acts.Act.Refresh">
             <summary>
@@ -169,6 +285,7 @@
             <summary>
             Semantic equality function
             </summary>
+            <see cref="M:OpenIZ.Core.Model.IdentifiedData.SemanticEquals(System.Object)"/>
         </member>
         <member name="M:OpenIZ.Core.Model.Acts.Act.ShouldSerializeRelationships">
             <summary>
@@ -228,6 +345,16 @@
             <summary>
             Associates an entity which participates in an act
             </summary>
+            <remarks>
+            <para>
+            An act participation instance is used to link an <see cref="T:OpenIZ.Core.Model.Entities.Entity"/> entity instance to an <see cref="P:OpenIZ.Core.Model.Acts.ActParticipation.Act"/> act instance. It is said that the
+            player (<see cref="P:OpenIZ.Core.Model.Acts.ActParticipation.PlayerEntityKey"/>) participates in the act (<see cref="P:OpenIZ.Core.Model.Acts.ActParticipation.ActKey"/>) in a particular role (<see cref="P:OpenIZ.Core.Model.Acts.ActParticipation.ParticipationRoleKey"/>).
+            </para>
+            <para>
+            Act participations can also be quantified. For example, if 100 doses of a particlar material (<see cref="T:OpenIZ.Core.Model.Entities.ManufacturedMaterial"/>) were consumed
+            as part of an act, then the quantity would be 100.
+            </para>
+            </remarks>
         </member>
         <member name="M:OpenIZ.Core.Model.Acts.ActParticipation.#ctor">
             <summary>
@@ -329,6 +456,10 @@
             <summary>
             Represents information related to the clinical protocol to which an act is a member of
             </summary>
+            <remarks>
+            The <see cref="T:OpenIZ.Core.Model.Acts.ActProtocol"/> class is used to link an act instance (<see cref="T:OpenIZ.Core.Model.Acts.Act"/>) with the clinical 
+            protocol (<see cref="P:OpenIZ.Core.Model.Acts.ActProtocol.Protocol"/>) to which the act belongs.
+            </remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.ActProtocol.ProtocolKey">
             <summary>
@@ -364,8 +495,15 @@
         </member>
         <member name="T:OpenIZ.Core.Model.Acts.ActRelationship">
             <summary>
-            Act relationships
+            Used to link two or more acts together
             </summary>
+            <remarks>
+            <para>
+            An act relationship is used to link a source act with a target act (<see cref="P:OpenIZ.Core.Model.Acts.ActRelationship.TargetActKey"/>) in a particular type of 
+            relationship (<see cref="P:OpenIZ.Core.Model.Acts.ActRelationship.RelationshipTypeKey"/>). This structure is often used to link together sub-components of an 
+            encounter with the encounter, but can also be used to link together chronic care episodes.
+            </para>
+            </remarks>
         </member>
         <member name="M:OpenIZ.Core.Model.Acts.ActRelationship.#ctor">
             <summary>
@@ -431,6 +569,10 @@
             <summary>
             Represents a care plan
             </summary>
+            <remarks>
+            The care plan object is used to represent a collection of clinical protocols which the care planning
+            engine proposes should be done as part of the patient's course of care.
+            </remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.CarePlan.Target">
             <summary>
@@ -469,8 +611,24 @@
         </member>
         <member name="T:OpenIZ.Core.Model.Acts.Observation">
             <summary>
-            Represents a class which is an observation
+            Represents a act (<see cref="T:OpenIZ.Core.Model.Acts.Act"/>) which is an observation
             </summary>
+            <remarks>
+            <para>
+            The observation class itself is an abstract class which is generically used to represent something that is observed about a patient.
+            </para>
+            <para>
+            It is not recommended to use this class directly, rather one of its sub classes based on the type of observation being made such as:
+            </para>
+            <list type="bullet">
+                <item>Coded observation (<see cref="T:OpenIZ.Core.Model.Acts.CodedObservation"/>) for observations whose values are codified (example: blood type, presentation, etc.), </item>
+                <item>Quantity observations (<see cref="T:OpenIZ.Core.Model.Acts.QuantityObservation"/>) for observations whose values are quantified values (example: weight, height, etc.), </item>
+                <item>Text observations (<see cref="T:OpenIZ.Core.Model.Acts.TextObservation"/>) for observations whose values are textual in nature.</item>
+            </list>
+            <para>
+            No matter what type of value an observation carries (coded, quantity, text) it is always classified by the type concept (<see cref="P:OpenIZ.Core.Model.Acts.Act.TypeConceptKey"/>).
+            </para>
+            </remarks>
         </member>
         <member name="M:OpenIZ.Core.Model.Acts.Observation.#ctor">
             <summary>
@@ -511,6 +669,10 @@
             <summary>
             Represents an observation that contains a quantity
             </summary>
+            <remarks>
+            The quantity observation class should be used whenever you wish to store an observation which carries a numerical value 
+            and an optional unit of measure (example: length = 3.2 ft, weight = 1.2 kg, etc.)
+            </remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.QuantityObservation.Value">
             <summary>
@@ -546,6 +708,11 @@
             <summary>
             Represents an observation with a text value
             </summary>
+            <remarks>
+            The text observation type represents an observation made with a textual value. This is done whenever an observation type 
+            cannot be quantified or classified using either a coded or observed value. Please note that this type should not be used
+            for taking notes, rather it is a specific type of thing observed about a patient. For example: Interpretation of patient's mood
+            </remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.TextObservation.ValueType">
             <summary>
@@ -566,6 +733,10 @@
             <summary>
             Represents an observation with a concept value
             </summary>
+            <remarks>
+            A coded observation represents an observation whose value is classified using a coded concept. For example: fetal presentation, 
+            stage of pregnancy, etc.
+            </remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.CodedObservation.ValueType">
             <summary>
@@ -593,9 +764,14 @@
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Acts.PatientEncounter">
-            <summary>
-            Represents an encounter a patient has with the health system
-            </summary>
+             <summary>
+             Represents an encounter a patient has with the health system
+             </summary>
+            <remarks>
+            <para>An encounter is a special type of act which represents an episode of care which a patient experiences with the health system. 
+            An encounter is used to document things like hospital visits, inpatient care encounters, or any longer running series of actions which 
+            are linked by the admit -&gt; discharge workflow.</para>
+             </remarks>
         </member>
         <member name="M:OpenIZ.Core.Model.Acts.PatientEncounter.#ctor">
             <summary>
@@ -624,8 +800,16 @@
         </member>
         <member name="T:OpenIZ.Core.Model.Acts.Protocol">
             <summary>
-            Represents the model of a protocol
+            Represents the model of a clinical protocol
             </summary>
+            <remarks>
+            <para>The protocol type is used to store and retrieve the particular definition of a clinical protocol. In 
+            OpenIZ, a clinical protocol represents a series of steps that *should* be taken by a clinician when caring for 
+            a patient.</para>
+            <para>
+            A series of proposed steps generated by these protocol definitions are used to represent a care plan (<see cref="T:OpenIZ.Core.Model.Acts.CarePlan"/>).
+            </para>
+            </remarks>
         </member>
         <member name="P:OpenIZ.Core.Model.Acts.Protocol.Name">
             <summary>
@@ -661,6 +845,16 @@
             <summary>
             Represents an act whereby a substance is administered to the patient
             </summary>
+            <remarks>
+            <para>The substance administration act is used whenever a clinician administers, plans to administer or should administer to a patient, a substance. 
+            The substance that is administered is open but should be represented as either a Consumable (something that was consumed in the act of administration 
+            like a manufactured material (<see cref="T:OpenIZ.Core.Model.Entities.ManufacturedMaterial"/>) or a product (if proposing or planning)).</para>
+            <para>
+            The type of administration (immunization, drug therapy, treatment, etc.) is classified by the substance administration's type concept (<see cref="P:OpenIZ.Core.Model.Acts.Act.TypeConceptKey"/>). In some cases
+            the dose quantity or dose measure are not required (when giving just "a dose") however it is recommended that implementations accurately track
+            how much of the substance was administered.
+            </para>
+            </remarks>
         </member>
         <member name="M:OpenIZ.Core.Model.Acts.SubstanceAdministration.#ctor">
             <summary>
@@ -841,6 +1035,11 @@
             <summary>
             Represents the root of all model classes in the OpenIZ Core
             </summary>
+            <remarks>
+            This abstract class is used to encapsulate the key properties of base data elements in the OpenIZ
+            model, namely it keeps track of which entities created and obsoleted a particular resource and when those
+            events occurred.
+            </remarks>
         </member>
         <member name="M:OpenIZ.Core.Model.BaseEntityData.#ctor">
             <summary>
@@ -849,7 +1048,7 @@
         </member>
         <member name="P:OpenIZ.Core.Model.BaseEntityData.CreationTime">
             <summary>
-            Creation Time
+            Gets or sets the time at which the data was created
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.BaseEntityData.CreationTimeXml">
@@ -859,7 +1058,7 @@
         </member>
         <member name="P:OpenIZ.Core.Model.BaseEntityData.ObsoletionTime">
             <summary>
-            Obsoletion time
+            Gets or sets the time when the data is or will become invalid
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.BaseEntityData.ObsoletionTimeXml">
@@ -874,7 +1073,7 @@
         </member>
         <member name="P:OpenIZ.Core.Model.BaseEntityData.ModifiedOn">
             <summary>
-            Get the modified on time
+            Gets the time that the object was last modified (from base data, default to CreationTime)
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.BaseEntityData.ShouldSerializeCreatedByKey">
@@ -896,12 +1095,12 @@
         </member>
         <member name="P:OpenIZ.Core.Model.BaseEntityData.CreatedByKey">
             <summary>
-            Gets or sets the created by identifier
+            Gets or sets the identifier of the user which created the data
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.BaseEntityData.ObsoletedByKey">
             <summary>
-            Gets or sets the obsoleted by identifier
+            Gets or sets the identifier of the user which obsoleted the data
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.BaseEntityData.ToString">
@@ -1059,47 +1258,47 @@
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActClassKeys.AccountManagement">
             <summary>
-            The act represents generic account management
+            The act represents generic account management such as adjudications, financial adjustments, stock counting, etc.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActClassKeys.Act">
             <summary>
-            Generic act.
+            The act represents a generic act which has no special classification
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActClassKeys.Battery">
             <summary>
-            The act represents a simple battery of procedures/administrations/etc.
+            The act represents a simple battery of procedures/administrations/tests/etc.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActClassKeys.CareProvision">
             <summary>
-            The act represents some provision of care.
+            The act represents some provision of care such as the seeking out services.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActClassKeys.Condition">
             <summary>
-            The act represents a condition.
+            The act represents a problem or condition which the patient is suffering from.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActClassKeys.ControlAct">
             <summary>
-            Control act event.
+            The control act event key is used to describe an infrastructural act which has no clinical meaning but can be used to wrap technical details.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActClassKeys.Encounter">
             <summary>
-            The act represents an encounter.
+            The act represents an encounter such as the patient presenting for care and receiving services during a visit.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActClassKeys.Inform">
             <summary>
-            The act represents an informational act.
+            The act represents an attempt to provide additional clinical information.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActClassKeys.Observation">
             <summary>
-            The act represents a procedure.
+            The act represents an observation that is made about a patient such as a vital sign, an allergy, cause of death, etc..
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActClassKeys.Procedure">
@@ -1109,17 +1308,17 @@
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActClassKeys.Registration">
             <summary>
-            The act represents a registration.
+            The act represents a registration event such as the registration of a patient.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActClassKeys.SubstanceAdministration">
             <summary>
-            The act represents a substance administration.
+            The act represents that a substance (medication, or otherwise) was, should, or will be administered to the patient.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActClassKeys.Supply">
             <summary>
-            The act represents a supply of some material.
+            The act represents a supply of some material or financial instrument between entities.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActClassKeys.Transport">
@@ -1184,97 +1383,97 @@
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Admitter">
             <summary>
-            The admitter.
+            The player entity was the person who was responsible for admitting the patient into a facility or care scenario.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Attender">
             <summary>
-            The attender.
+            The player entity represents the attending physician for the patient
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Authenticator">
             <summary>
-            The authenticator.
+            The player entity represents an entity which authenticates the provision of care
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Authororiginator">
             <summary>
-            The authororiginator.
+            The player entity is responsible for the creation of data described in the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Baby">
             <summary>
-            The baby.
+            The player is a resultant person in that it was the baby 
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Beneficiary">
             <summary>
-            The beneficiary.
+            The player is a beneficiary of the act such a receiver of a financial instrument, or other good
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.CallbackContact">
             <summary>
-            The callback contact.
+            The player entity represents something that should be contacted upon completion of the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.CausativeAgent">
             <summary>
-            The causative agent.
+            The player entity is an agent which caused the act to occur
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Consultant">
             <summary>
-            The consultant.
+            The player entity is acting as a consult to the carrying out of the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Consumable">
             <summary>
-            The consumable.
+            The player entity was or is to be consumed during the process of carrying out the act.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.CoverageTarget">
             <summary>
-            The coverage target.
+            The player entity represents the target coverage entity of the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Custodian">
             <summary>
-            The custodian.
+            The player entity is the data custodian of the act (is responsible for storing and securing the act)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.DataEnterer">
             <summary>
-            The data enterer.
+            The player entity represents the person or device which phisically entered the data at the terminal
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Destination">
             <summary>
-            The destination.
+            The player etity represents the ultimate destination of the goods/materials/services described in the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Device">
             <summary>
-            The device.
+            The player entity represents the device on which the act or data from the act was acquired or recorded
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.DirectTarget">
             <summary>
-            The direct target.
+            The player entity represents the directed target of care provided in the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Discharger">
             <summary>
-            The discharger.
+            The player entity represents the person who is responsible for the discharging of the patient from an encounter
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Distributor">
             <summary>
-            The distributor.
+            The player entity is the source distribution point for the financial or material instruments contained in the message
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Donor">
             <summary>
-            The donor.
+            The player entity represents the donor of tissue or materials used in the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.EntryLocation">
@@ -1284,37 +1483,37 @@
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Escort">
             <summary>
-            The escort.
+            The player entity was responsible for escorting the patient during the course of the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Exposure">
             <summary>
-            The exposure
+            The player entity something to which the patient was exposed
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.ExposureAgent">
             <summary>
-            The exposure agent.
+            The player entity represents the agent (material) to which the patient was exposed
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.ExposureSource">
             <summary>
-            The exposure source.
+            The player entity describes the source of the material to which the patient was exposed
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.ExposureTarget">
             <summary>
-            The exposure target.
+            The player entity describes the target to which the agent was exposed
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.GuarantorParty">
             <summary>
-            The guarantor party.
+            The player represents a party which is used as a financial guarantor for payment in the carrying out of the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Holder">
             <summary>
-            The holder.
+            The player is responsible for holding the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.IndirectTarget">
@@ -1324,17 +1523,17 @@
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Informant">
             <summary>
-            The informant.
+            The player was a person or device which informed data presented in the act. (Example: A mother telling a nurse that their child had a reaction)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.InformationRecipient">
             <summary>
-            The information recipient.
+            The player entity represents something that should be cc'ed on the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.LegalAuthenticator">
             <summary>
-            The legal authenticator.
+            The player entity is responsible for legally authenticating the content of the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Location">
@@ -1344,77 +1543,77 @@
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.NonreuseableDevice">
             <summary>
-            The nonreuseable device.
+            The player represents a consumable that can no longer be used
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Origin">
             <summary>
-            The origin.
+            The player represents the origin of the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Participation">
             <summary>
-            The participation.
+            The player entity participates in the act in no particular classification
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Performer">
             <summary>
-            The performer.
+            The player entity is responsible for performing the clinical steps documented in the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.PrimaryInformationRecipient">
             <summary>
-            The primary information recipient.
+            The player entity represents a high priority contact which should be informed or cc'ed on the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.PrimaryPerformer">
             <summary>
-            The primary performer.
+            The player entity was the primary performer of the act. This is used in procedures where more than one performer is present
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Product">
             <summary>
-            The product.
+            The player represents a product that is not necessarily consumed but informs the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Receiver">
             <summary>
-            The receiver.
+            The player represents the entity which is the intended receiver of the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.RecordTarget">
             <summary>
-            The record target.
+            The player represents the entity to which the act is recorded against
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.ReferredBy">
             <summary>
-            The referred by.
+            The player represents the entity which referred the act or caused the act to be undertaken
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.ReferredTo">
             <summary>
-            The referred to.
+            The player entity represents the entity which was referred to
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Referrer">
             <summary>
-            The referrer.
+            The player entity represents the person who was originally the referrer.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Remote">
             <summary>
-            The remote.
+            The player entity represents a remote portion of the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.ResponsibleParty">
             <summary>
-            The responsible party.
+            The player entity is ultimately responsible for the carrying out of the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.ReusableDevice">
             <summary>
-            The reusable device.
+            The player entity represents a device which can be reused in future acts
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.SecondaryPerformer">
@@ -1424,17 +1623,17 @@
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Specimen">
             <summary>
-            The specimen.
+            The player entity represents a specimen collected for the purpose of testing and diagnosis
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Subject">
             <summary>
-            The subject.
+            The player entity is the subject of an act, but not necessarily the record target (meaning the act is about a particular entity but not to be attached to their record)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Tracker">
             <summary>
-            The tracker.
+            The player entity is responsible for tracking the progress of the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Transcriber">
@@ -1444,22 +1643,22 @@
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.UgentNotificationContact">
             <summary>
-            The ugent notification contact.
+            The player entity represents a contact entity in case of an emergency occurs during the act.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Verifier">
             <summary>
-            The verifier.
+            The player entity was responsible for verifying the accuracy of the data in the act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Via">
             <summary>
-            The via.
+            The player entity represents an entity where the act occurred "via" this entity (i.e. in transport)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ActParticipationKey.Witness">
             <summary>
-            The witness.
+            The player entity represents a legal witness to the act occurring.
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.ActReasonKeys">
@@ -1639,62 +1838,62 @@
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.ObservationTypeKeys">
             <summary>
-            Represents act type keys
+            Represents act type keys related to types of observations that can be made about a patient
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.Condition">
             <summary>
-            The condition.
+            The observation is a condition which the patient has
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.Symptom">
             <summary>
-            The symptom.
+            The observation is a symptom which the patient is presenting
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.Finding">
             <summary>
-            The finding.
+            The observtion represents a concrete clinical finding (after performing tests for example)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.Complaint">
             <summary>
-            The complaint.
+            The observation represents a complaint that the patient has (example: back pain)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.Functionallimitation">
             <summary>
-            The functionallimitation.
+            The observation represents a functional limitation of the patient (example: paraplegia)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.Problem">
             <summary>
-            The problem.
+            The observation represents a known problem that the patient has reported
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.Diagnosis">
             <summary>
-            The diagnosis.
+            The observation represents a concrete clinical diagnosis of the patient
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.Severity">
             <summary>
-            The severity.
+            The observation represents a severity 
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.CauseOfDeath">
             <summary>
-            The cause of death.
+            The observation represents a cause of death
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.ClinicalState">
             <summary>
-            The clinical state.
+            The observation represents the current clinical state about an entity (example: Clinical State is the patient is Dead)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ObservationTypeKeys.FindingSite">
             <summary>
-            The finding site.
+            The observation represents a finding site where a problem or other observtion was made
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.AddressComponentKeys">
@@ -1704,67 +1903,67 @@
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.AdditionalLocator">
             <summary>
-            The additional locator.
+            An additional locator (example: Beside the red barn).
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.AddressLine">
             <summary>
-            The address line.
+            An address line as would appear on an address (example: 123 Main Street West)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.BuildingNumber">
             <summary>
-            The building number.
+            Identifies a particular building on a street (example: A23 Building)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.BuildingNumberNumeric">
             <summary>
-            The building number numeric.
+            Identifies a numeric identifier for a building (example: 123)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.BuildingNumberSuffix">
             <summary>
-            The building number suffix.
+            Identifies a suffix to the building number (example: 123 *SECTOR 7*)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.CareOf">
             <summary>
-            The care of.
+            Identifies the person where deliveries should be care-of (example: c/o Bob Smith)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.CensusTract">
             <summary>
-            The census tract.
+            The census tract which is used for political counting of the census
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.City">
             <summary>
-            The city.
+            The town or city (example: Toronto)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.Country">
             <summary>
-            The country.
+            The country in which the address resides (example: Canada)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.County">
             <summary>
-            The county.
+            The county or sub-division of a sub-national unit (example: Clark County)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.Delimiter">
             <summary>
-            The delimiter.
+            Represents a meaningless delimiter such as dash, or newline
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.DeliveryAddressLine">
             <summary>
-            The delivery address line.
+            Represents an address line to be used for delivery rather than physical location (example: Loading Dock #4)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.DeliveryInstallationArea">
             <summary>
-            The delivery installation area.
+            Represents the area where the delivery should take place
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.DeliveryInstallationQualifier">
@@ -1789,57 +1988,57 @@
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.Direction">
             <summary>
-            The direction.
+            Represents a directory such as north, south, east, or west
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.PostalCode">
             <summary>
-            The postal code.
+            A codified adminsitrative unit used to locate the address (zip code or postal code)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.PostBox">
             <summary>
-            The post box.
+            Represents a PO box where delivery of mail should take place
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.Precinct">
             <summary>
-            The precinct.
+            Represents a precinct or sub-division of a city such as a burrogh
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.State">
             <summary>
-            The state.
+            Represents a state or province, or a sub-division of a national boundary
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.StreetAddressLine">
             <summary>
-            The street address line.
+            Represents a physical street delivery line (example: 123 Main Street West)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.StreetName">
             <summary>
-            The street name.
+            Represents the name portion of a street address (example: Main St.)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.StreetNameBase">
             <summary>
-            The street name base.
+            The street name base portion of a street address (Example: Main)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.StreetType">
             <summary>
-            The street type.
+            The street type (example: Street, Road, Hwy)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.UnitDesignator">
             <summary>
-            The unit designator.
+            Identifies the type of unit (example: Suite, Apartment, Unit)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressComponentKeys.UnitIdentifier">
             <summary>
-            The unit identifier.
+            The identifier of the unit (example: 820)
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.AddressUseKeys">
@@ -1849,7 +2048,7 @@
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.Alphabetic">
             <summary>
-            Represents an alphabetic address.
+            Represents an alphabetic address used for matching 
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.BadAddress">
@@ -1869,22 +2068,22 @@
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.Ideographic">
             <summary>
-            The ideographic
+            Represents an address expressed in an ideographic manner (example: Kanji)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.Phonetic">
             <summary>
-            The phonetic
+            Represents an address expressed as a phonetic spelling of an ideographic address
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.PhysicalVisit">
             <summary>
-            The physical visit
+            The address is a physical place where visits should occur
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.PostalAddress">
             <summary>
-            The postal address
+            The address is a postal address used for the delivery of mail and materials
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.AddressUseKeys.PrimaryHome">
@@ -1929,47 +2128,47 @@
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.CodeSystemKeys.CVX">
             <summary>
-            Parse CVX
+            Commonn Vaccination Codes (CDC)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.CodeSystemKeys.ICD10">
             <summary>
-            ICD10
+            International Classification of Diseases Version 10
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.CodeSystemKeys.ICD10CM">
             <summary>
-            ICD-10 CM
+            International Classification of Diseases Version 10 - Clinical Management 
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.CodeSystemKeys.ICD9">
             <summary>
-            ICD9
+            International Classification of Diseases Version 9
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.CodeSystemKeys.ISO6391">
             <summary>
-            ISO-639-1
+            ISO-639-1 (Language Codes)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.CodeSystemKeys.ISO6392">
             <summary>
-            ISO639-2
+            ISO639-2 (3 letter Language Codes)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.CodeSystemKeys.LOINC">
             <summary>
-            LOINC
+            Logical Observations Identifiers Names and Codes (maintained by Regenstrief Institute)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.CodeSystemKeys.SNOMEDCT">
             <summary>
-            SNOMED-CT
+            Systematized Nomenclature of Medicine-Clinical Terms (maintained by IHTSDO)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.CodeSystemKeys.UCUM">
             <summary>
-            UCUM
+            Universal Codes for the Unit Of Measure
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.CodeSystemKeys.PostalAddressUse">
@@ -1989,47 +2188,47 @@
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.ConceptClassKeys">
             <summary>
-            Concept classification identifiers
+            Concept classification identifiers for built-in concept classes
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptClassKeys.ClassCode">
             <summary>
-            Class code identifier
+            Classification codes
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptClassKeys.Diagnosis">
             <summary>
-            Diagnosis class code identifier
+            Diagnosis codes
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptClassKeys.Finding">
             <summary>
-            Finding class identifier
+            Clinical findings
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptClassKeys.Form">
             <summary>
-            Represents a form code
+            Form codes (shape, texture, etc.)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptClassKeys.Material">
             <summary>
-            Material class identifier
+            Material classifications
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptClassKeys.Mood">
             <summary>
-            Mood class identifier
+            Mood classifications
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptClassKeys.Other">
             <summary>
-            Other class identifier
+            Other classifications
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptClassKeys.Problem">
             <summary>
-            Problem class identifier
+            Problems or condition codes
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptClassKeys.Relationship">
@@ -2039,22 +2238,22 @@
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptClassKeys.Route">
             <summary>
-            Route class identifier
+            Routes of adminstration class identifier
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptClassKeys.Status">
             <summary>
-            Status class identifier
+            Status codes 
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptClassKeys.Stock">
             <summary>
-            Stock class identifier
+            Stock classification codes
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptClassKeys.UnitOfMeasure">
             <summary>
-            Unit of measure identifier
+            Unit of measure classification
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.ConceptRelationshipTypeKeys">
@@ -2064,72 +2263,72 @@
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptRelationshipTypeKeys.InverseOf">
             <summary>
-            Inverse of
+            The source concept has the inverse meaning of the target concept
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptRelationshipTypeKeys.MemberOf">
             <summary>
-            Member of
+            The source concept is a member of the target concept
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptRelationshipTypeKeys.NegationOf">
             <summary>
-            Negation of
+            The source concept is a negation of the target concept
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptRelationshipTypeKeys.SameAs">
             <summary>
-            Same as relationship
+            The source concept has the same meaning as the target concept
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.ConceptSetKeys">
             <summary>
-            Represents concept set identifiers
+            Represents identifiers for the built-in concept sets for OpenIZ
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.ActClass">
             <summary>
-            Act Classiciation
+            Represents codes which are used to classify acts
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.ActInterpretation">
             <summary>
-            Act interpretation
+            Represents codes which are used to represent clinical interpretations 
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.ActMood">
             <summary>
-            Act mood
+            Represents codes which are used to dictate the mood (mode) of an act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.ActRelationshipType">
             <summary>
-            Act relationship type
+            Represents codes which are used to relate two acts together
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.ActStatus">
             <summary>
-            Act status
+            Represents codes which are used to dictate the status of an act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.AddressComponentType">
             <summary>
-            Address component type
+            Represents codes which are used qualify the components of an address
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.AddressUse">
             <summary>
-            Address use id
+            Represents codes which are used to dictate the intentded use of an address
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.AdministrativeGenderCode">
             <summary>
-            Administrative gender code
+            Represents codes which are used to classify the gender of an entity
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.ConceptStatus">
             <summary>
-            Concept status
+            Represents codes which are used to classify the current state of a concept
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.ContainerCap">
@@ -2144,62 +2343,62 @@
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.EntityClass">
             <summary>
-            Entity classifications
+            Represents concepts which are used to classify entities
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.EntityRelationshipType">
             <summary>
-            Entity relationships
+            Represents concepts which are used to classify the manner in which entities are related to ne another.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.EntityStatus">
             <summary>
-            Entity status identifiers
+            Represents concepts which are used to classify the current status of an entity
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.FamilyMember">
             <summary>
-            Family members
+            Represents concepts which are entity relationships used by family members of entities
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.IndustryCode">
             <summary>
-            Entity industry codes
+            Represents concepts which dictate a partcular industry in which an oganization operates
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.NameUse">
             <summary>
-            Entity user identifiers
+            Represents concepts which classify the intended use of a name
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.ServiceCode">
             <summary>
-            Entity service codes
+            Represents concepts which define services provided by organizations
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.TelecomAddressType">
             <summary>
-            Telecom address type
+            Represents concepts which identify the type of telecommunications equipment used
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.TelecomAddressUse">
             <summary>
-            Telecom address use
+            Represents concept which classify the intended use of a telecommunications address
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.VaccineTypeCodes">
             <summary>
-            Vaccine type codes
+            Represents concepts which classify vaccination types
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.VitalSigns">
             <summary>
-            Vital signs
+            Represents concepts which distinguish observations as vital signs measurements
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.ProblemObservations">
             <summary>
-            Problem observations
+            Reprsents concept which distinguish observations of problems or conditions
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.AdverseEventActs">
@@ -2285,22 +2484,22 @@
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.DeterminerKeys">
             <summary>
-            Determiner codes
+            Determiner codes classify an entity into one of three categories. 
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.DeterminerKeys.Described">
             <summary>
-            Described
+            Indicates the entity is not a particular instance of a thing, rather a type of thing
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.DeterminerKeys.DescribedQualified">
             <summary>
-            QUALIFIEDKIND
+            Indicates the entity is a type of thing that has been qualified further
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.DeterminerKeys.Specific">
             <summary>
-            instance
+            Indicates the entity is a specific instance of a thing
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.EntityClassKeyStrings">
@@ -3415,132 +3614,137 @@
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.NullReasonKeys">
             <summary>
-            Represents a collection of null reason keys.
+            In OpenIZ, any concept can be replaced with a null reason. A null reason indicates why a particular field is not present rather than being null
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.Unavailable">
             <summary>
-            Represents a null reason of unavailable.
+            The reason that the requested value was not provided is that it is not available
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.NotApplicable">
             <summary>
-            Represents a null reason of not applicable.
+            The reason that the requested value was not provided is that it is not applicable (for example last menstrual period of a male)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.Derived">
             <summary>
-            Represents a null reason of derived.
+            The reason that the value is not provided is that it can be derived from other information
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.Other">
             <summary>
-            Represents a null reason of other.
+            The value was not provided because it does not fall within the acceptable values 
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.AskedUnknown">
             <summary>
-            Represents a null reason of asked but unknown.
+            The value was asked for but the target did not know that answer
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.Invalid">
             <summary>
-            Represents a null reason of invalid.
+            The value was entered but it is invalid according to business rules
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.Trace">
             <summary>
-            Represents a null reason of trace.
+            There is a value present, but the quantity of the value is so small that it cannot be registered
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.NegativeInfinity">
             <summary>
-            Represents a null reason of negative infinity.
+            The value is not prvovided because it is negative infinity
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.SufficientQuantity">
             <summary>
-            Represents a null reason of sufficient quantity.
+            The exact value is not known, but there is sufficient quantity to perform an act
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.UnEncoded">
             <summary>
-            Represents a null reason of un-encoded.
+            The value is available however it cannot be encoded in the desired format
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.NotAsked">
             <summary>
-            Represents a null reason of not asked.
+            The value is unavailable because it was not asked for
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.Unknown">
             <summary>
-            Represents a null reason of unknown.
+            The value may have been asked for and was not known or is unknown (this differes from AskedUnknown)
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.PositiveInfinity">
             <summary>
-            Represents a null reason of positive infinity.
+            The value is not provided because it is positive infinity
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.NoInformation">
             <summary>
-            Represents a null reason of no information.
+            The value is not provided because there is no available information
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.NullReasonKeys.Masked">
             <summary>
-            Represents a null reason of masked.
+            The value is available however it has been masked due to privacy concerns
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.PhoneticAlgorithmKeys">
             <summary>
-            Phonetic algorithm keys
+            Phonetic algorithm keys for built in phonetic algorithms in OpenIZ
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.PhoneticAlgorithmKeys.Metaphone">
             <summary>
-            "METAPHONE"
+            Represents the metaphone phonetic algorithm
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.PhoneticAlgorithmKeys.None">
             <summary>
-            "NONE"
+            Represents the null phonetic algorithm
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.PhoneticAlgorithmKeys.Soundex">
             <summary>
-            "SOUNDEX"
+            Represents the soundex algorithm
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.StatusKeys">
             <summary>
-            Concept identifiers
+            Status concepts represent the current status of entities, acts, and concepts.
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.StatusKeys.Active">
             <summary>
-            Status - Active
+            When an entity or act is active, it means the information or entity is currently correct and ongoing
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.StatusKeys.Completed">
             <summary>
-            Completed status
+            Indicates that an act has been completed and now represents an act in the past
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.StatusKeys.New">
             <summary>
-            Status - New
+            Indicates that the data is new, and may require additional verification or actions
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.StatusKeys.Nullified">
             <summary>
-            Status - Nullified
+            Indicates that the entity or act never existed, and was entered in error
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.StatusKeys.Cancelled">
+            <summary>
+            Indicates that the act was cancelled before being completed
             </summary>
         </member>
         <member name="F:OpenIZ.Core.Model.Constants.StatusKeys.Obsolete">
             <summary>
-            Status - Obsolete
+            Indicates that the entity or act did exist at one point, however it no longer exists
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.TelecomAddressUseKeys">
@@ -5885,10 +6089,17 @@
         </member>
         <member name="M:OpenIZ.Core.Model.IdentifiedData.SemanticEquals(System.Object)">
             <summary>
-            
+            Determines the semantic equality of this object an <paramref name="obj"/>
             </summary>
-            <param name="obj"></param>
-            <returns></returns>
+            <param name="obj">The object to which the semantic equality should be evaluated</param>
+            <returns>True if this object is semantically the same as <paramref name="obj"/></returns>
+            <remarks>
+            In OpenIZ's data model, an object is semantically equal when the two objects clinically mean the
+            same thing. This differs from reference equality (when two objects are the same instance) and value equality 
+            (when two objects carry all the same values). For example, two <see cref="T:OpenIZ.Core.Model.Acts.ActParticipation"/> instances may
+            be semantically equal when they both represent the same entity playing the same role in the same act as one another, 
+            even though their keys and effective / obsolete version properties may be different.
+            </remarks>
         </member>
         <member name="T:OpenIZ.Core.Model.Interfaces.IBaseEntityData">
             <summary>
