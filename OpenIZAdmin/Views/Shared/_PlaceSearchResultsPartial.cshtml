@@ -20,6 +20,7 @@
                         <th>@Html.DisplayNameFor(m => m.CreationTime)</th>
                         <th>@Html.DisplayNameFor(m => m.Name)</th>
                         <th>@Html.DisplayNameFor(m => m.Type)</th>
+                        <th>@Html.DisplayNameFor(m => m.Address)</th>
                         <th>@Locale.NewHealthFacilityRegistryRecord</th>
                         <th>@Locale.Status</th>
                         <th></th>
@@ -33,6 +34,19 @@
                             <td>@item.CreationTime.DefaultFormat()</td>
                             <td>@item.Name</td>
                             <td>@item.Type</td>
+                            <td>
+                                @if (item.Address.Count > 0)
+                                {
+                                    foreach (var address in item.Address)
+                                    {
+                                        <div>@address.ToString()</div>
+                                    }
+                                }
+                                else
+                                {
+                                    @Locale.NotApplicable
+                                }
+                            </td>
                             <td>
                                 @if (item.Tags.Any(t => t.TagKey == Constants.ImportedDataTag && t.TagValue == "true"))
                                 {

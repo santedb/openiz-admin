@@ -227,19 +227,6 @@ namespace OpenIZAdmin.Core.Auditing.Core
 		/// </summary>
 		/// <param name="idType">Type of the identifier.</param>
 		/// <param name="lifecycleType">Type of the lifecycle.</param>
-		/// <param name="role">The role.</param>
-		/// <param name="type">The type.</param>
-		/// <returns>AuditableObject.</returns>
-		protected AuditableObject CreateBaseAuditableObject(AuditableObjectIdType idType, AuditableObjectLifecycle lifecycleType, AuditableObjectRole role, AuditableObjectType type)
-		{
-			return this.CreateBaseAuditableObject(idType, lifecycleType, null, role, type);
-		}
-
-		/// <summary>
-		/// Creates the base auditable object.
-		/// </summary>
-		/// <param name="idType">Type of the identifier.</param>
-		/// <param name="lifecycleType">Type of the lifecycle.</param>
 		/// <param name="objectId">The object identifier.</param>
 		/// <param name="role">The role.</param>
 		/// <param name="type">The type.</param>

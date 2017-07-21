@@ -76,7 +76,7 @@ namespace OpenIZAdmin.Services.Security
         {
             try
             {
-                new PolicyPermission(PermissionState.Unrestricted, policyId, principal);
+                new PolicyPermission(PermissionState.Unrestricted, policyId, principal).Demand();
                 return true;
             }
             catch

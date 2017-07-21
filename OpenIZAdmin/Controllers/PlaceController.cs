@@ -588,9 +588,9 @@ namespace OpenIZAdmin.Controllers
                     var type = Guid.Empty;
 
                     if (String.IsNullOrEmpty(searchType) || !Guid.TryParse(searchType, out type))
-                        bundle = this.ImsiClient.Query<Place>(p => p.ObsoletionTime == null, 0, null, new[] { "typeConcept" });
+                        bundle = this.ImsiClient.Query<Place>(p => p.ObsoletionTime == null, 0, null, new[] { "typeConcept", "address" });
                     else
-                        bundle = this.ImsiClient.Query<Place>(p => p.TypeConceptKey == type && p.ObsoletionTime == null, 0, null, new[] { "typeConcept" });
+                        bundle = this.ImsiClient.Query<Place>(p => p.TypeConceptKey == type && p.ObsoletionTime == null, 0, null, new[] { "typeConcept", "address" });
 
 
                     foreach (var place in bundle.Item.OfType<Place>().LatestVersionOnly())
@@ -608,9 +608,9 @@ namespace OpenIZAdmin.Controllers
                     if (!Guid.TryParse(searchTerm, out placeId))
                     {
                         if (String.IsNullOrEmpty(searchType) || !Guid.TryParse(searchType, out type))
-                            bundle = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))), 0, null, new[] { "typeConcept" });
+                            bundle = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))), 0, null, new[] { "typeConcept", "address" });
                         else
-                            bundle = this.ImsiClient.Query<Place>(p => p.TypeConceptKey == type && p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))), 0, null, new[] { "typeConcept" });
+                            bundle = this.ImsiClient.Query<Place>(p => p.TypeConceptKey == type && p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))), 0, null, new[] { "typeConcept", "address" });
 
                         foreach (var place in bundle.Item.OfType<Place>().LatestVersionOnly())
                         {
