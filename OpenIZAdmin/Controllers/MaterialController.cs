@@ -395,22 +395,22 @@ namespace OpenIZAdmin.Controllers
 
 				var relationships = new List<EntityRelationship>();
 
-				relationships.AddRange(this.entityService.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
+				relationships.AddRange(this.entityService.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Instance && r.ObsoleteVersionSequenceId == null).ToList());
 
 				material.Relationships = relationships.Intersect(material.Relationships, new EntityRelationshipComparer()).ToList();
 
 				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
 				{
-					RelationshipType = EntityRelationshipTypeKeys.ManufacturedProduct.ToString(),
+					RelationshipType = EntityRelationshipTypeKeys.Instance.ToString(),
 					ExistingRelationships = material.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
 				};
 
 				var concepts = new List<Concept>
 				{
-					this.conceptService.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct)
+					this.conceptService.GetConcept(EntityRelationshipTypeKeys.Instance)
 				};
 
-				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct));
+				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.Instance));
 
 				return View(model);
 			}
@@ -446,19 +446,19 @@ namespace OpenIZAdmin.Controllers
 						this.ModelState.AddModelError(nameof(model.Quantity), Locale.QuantityRequired);
 						this.TempData["error"] = Locale.QuantityRequired;
 
-						concepts.Add(this.conceptService.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct));
+						concepts.Add(this.conceptService.GetConcept(EntityRelationshipTypeKeys.Instance));
 
 						// re-populate the model
 						var existingMaterial = this.entityService.Get<Material>(model.SourceId);
 
 						var relationships = new List<EntityRelationship>();
 
-						relationships.AddRange(this.entityService.GetEntityRelationships<ManufacturedMaterial>(existingMaterial.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
+						relationships.AddRange(this.entityService.GetEntityRelationships<ManufacturedMaterial>(existingMaterial.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Instance && r.ObsoleteVersionSequenceId == null).ToList());
 
 						existingMaterial.Relationships = relationships.Intersect(existingMaterial.Relationships, new EntityRelationshipComparer()).ToList();
 
 						model.ExistingRelationships = existingMaterial.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList();
-						model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct));
+						model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.Instance));
 
 						return View(model);
 					}
@@ -488,8 +488,8 @@ namespace OpenIZAdmin.Controllers
 
 			this.TempData["error"] = Locale.UnableToCreateRelatedManufacturedMaterial;
 
-			concepts.Add(this.conceptService.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct));
-			model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.ManufacturedProduct));
+			concepts.Add(this.conceptService.GetConcept(EntityRelationshipTypeKeys.Instance));
+			model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.Instance));
 
 			return View(model);
 		}
@@ -563,7 +563,7 @@ namespace OpenIZAdmin.Controllers
 				var relationships = new List<EntityRelationship>();
 
 				relationships.AddRange(this.entityService.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity && r.ObsoleteVersionSequenceId == null).ToList());
-				relationships.AddRange(this.entityService.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
+				relationships.AddRange(this.entityService.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Instance && r.ObsoleteVersionSequenceId == null).ToList());
 
 				material.Relationships = relationships.Intersect(material.Relationships, new EntityRelationshipComparer()).ToList();
 
@@ -605,7 +605,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Edit", new { id = id });
 				}
 
-				for (var i = 0; i < material.Relationships.Count(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.TargetEntity == null && r.TargetEntityKey.HasValue); i++)
+				for (var i = 0; i < material.Relationships.Count(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Instance && r.TargetEntity == null && r.TargetEntityKey.HasValue); i++)
 				{
 					material.Relationships[i].TargetEntity = this.entityService.Get<ManufacturedMaterial>(material.Relationships[i].TargetEntityKey.Value, null) as ManufacturedMaterial;
 				}
@@ -829,7 +829,7 @@ namespace OpenIZAdmin.Controllers
 				var relationships = new List<EntityRelationship>();
 
 				relationships.AddRange(this.entityService.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity && r.ObsoleteVersionSequenceId == null).ToList());
-				relationships.AddRange(this.entityService.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct && r.ObsoleteVersionSequenceId == null).ToList());
+				relationships.AddRange(this.entityService.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Instance && r.ObsoleteVersionSequenceId == null).ToList());
 
 				material.Relationships = relationships.Intersect(material.Relationships, new EntityRelationshipComparer()).ToList();
 

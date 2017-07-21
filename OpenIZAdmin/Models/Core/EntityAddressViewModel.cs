@@ -88,7 +88,8 @@ namespace OpenIZAdmin.Models.Core
             if (!string.IsNullOrEmpty(this.PostalCode))
                 sb.AppendFormat("{0}, ", this.PostalCode);
 
-            sb.Remove(sb.Length - 2, 2);
+            if(sb.Length > 2)
+                sb.Remove(sb.Length - 2, 2);
             return sb.ToString();
         }
     }

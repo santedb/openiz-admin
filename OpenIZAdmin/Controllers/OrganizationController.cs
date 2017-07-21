@@ -169,7 +169,7 @@ namespace OpenIZAdmin.Controllers
 
 				var relationships = new List<EntityRelationship>();
 
-				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => (r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct) && r.ObsoleteVersionSequenceId == null).ToList());
+				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => (r.RelationshipTypeKey == EntityRelationshipTypeKeys.Instance || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct) && r.ObsoleteVersionSequenceId == null).ToList());
 
 				organization.Relationships = relationships.Intersect(organization.Relationships, new EntityRelationshipComparer()).ToList();
 
@@ -180,8 +180,8 @@ namespace OpenIZAdmin.Controllers
 
 				var concepts = new List<Concept>
 				{
-					this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct),
-					this.GetConcept(EntityRelationshipTypeKeys.WarrantedProduct)
+					this.GetConcept(EntityRelationshipTypeKeys.Instance),
+					this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct)
 				};
 
 				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()));
@@ -238,8 +238,8 @@ namespace OpenIZAdmin.Controllers
 
 			var concepts = new List<Concept>
 			{
-				this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct),
-				this.GetConcept(EntityRelationshipTypeKeys.WarrantedProduct)
+				this.GetConcept(EntityRelationshipTypeKeys.Instance),
+				this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct)
 			};
 
 			model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()));
@@ -313,7 +313,7 @@ namespace OpenIZAdmin.Controllers
 
 				var relationships = new List<EntityRelationship>();
 
-				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => (r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct) && r.ObsoleteVersionSequenceId == null).ToList());
+				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => (r.RelationshipTypeKey == EntityRelationshipTypeKeys.Instance || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct) && r.ObsoleteVersionSequenceId == null).ToList());
 
 				organization.Relationships = relationships.Intersect(organization.Relationships, new EntityRelationshipComparer()).ToList();
 
@@ -463,7 +463,7 @@ namespace OpenIZAdmin.Controllers
 
 				var relationships = new List<EntityRelationship>();
 
-				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => (r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct || r.RelationshipTypeKey == EntityRelationshipTypeKeys.WarrantedProduct) && r.ObsoleteVersionSequenceId == null).ToList());
+				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => (r.RelationshipTypeKey == EntityRelationshipTypeKeys.Instance || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct) && r.ObsoleteVersionSequenceId == null).ToList());
 
 				organization.Relationships = relationships.Intersect(organization.Relationships, new EntityRelationshipComparer()).ToList();
 
