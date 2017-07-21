@@ -199,6 +199,7 @@ namespace OpenIZAdmin.DAL
 				content.Headers.Remove("Content-Type");
 				content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
 
+                Trace.TraceInformation("Begin authentication for {0}", userName);
 				var result = await client.PostAsync($"{currentRealm.Address}/auth/oauth2_token", content);
 
 				if (result.IsSuccessStatusCode)
@@ -207,6 +208,7 @@ namespace OpenIZAdmin.DAL
 				}
 				else
 				{
+                    Trace.TraceWarning("Cannot login: {0}", await result.Content.ReadAsStringAsync());
 					return SignInStatus.Failure;
 				}
 			}
@@ -241,10 +243,12 @@ namespace OpenIZAdmin.DAL
 			var securityToken = new JwtSecurityToken(accessToken);
 
 			// if the user is not a part of the administrators group, we don't allow them to login
-			if (securityToken.Claims.Any(o=>o.Type == Constants.OpenIzGrantedPolicyClaim && o.Value == Constants.Login))
-			{
-				return SignInStatus.Failure;
-			}
+            // Actually if we got a token they have login permission
+			//if (securityToken.Claims.Any(o=>o.Type == Constants.OpenIzGrantedPolicyClaim && o.Value == Constants.Login))
+			//{
+   //             Trace.TraceWarning("User {0} lacks login security permission", username);
+			//	return SignInStatus.Failure;
+			//}
 
 			var user = await this.UserManager.FindByIdAsync(securityToken.Claims.First(c => c.Type == "sub").Value);
 
@@ -277,6 +281,7 @@ namespace OpenIZAdmin.DAL
 
 				if (!identityResult.Succeeded)
 				{
+                    Trace.TraceWarning("Could not create identity");
 					return SignInStatus.Failure;
 				}
 

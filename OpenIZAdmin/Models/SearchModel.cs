@@ -18,7 +18,9 @@
  */
 
 using OpenIZAdmin.Localization;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models
 {
@@ -52,5 +54,17 @@ namespace OpenIZAdmin.Models
 		[StringLength(256, ErrorMessageResourceName = "NameLength256", ErrorMessageResourceType = typeof(Locale))]
 		[RegularExpression(Constants.RegExBasicHtmlString, ErrorMessageResourceName = "InvalidSearchEntry", ErrorMessageResourceType = typeof(Locale))]
 		public string SearchTerm { get; set; }
-	}
+
+        /// <summary>
+        /// Show type of search
+        /// </summary>
+        public bool SearchTypeEnabled { get; set; }
+
+        /// <summary>
+        /// Type of search
+        /// </summary>
+		[Display(Name = "Type", ResourceType = typeof(Locale))]
+        public string SearchType { get; set; }
+
+    }
 }

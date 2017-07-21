@@ -2421,4 +2421,7 @@
   <data name="InverseRelationship" xml:space="preserve">
     <value>Invert Relationship</value>
   </data>
+  <data name="ToolTop_InverseRelationship" xml:space="preserve">
+    <value>Inverts the relationship. Use this option if you're attempting to assign a Dedicated Service Delivery location to a facility rather than a village</value>
+  </data>
 </root>

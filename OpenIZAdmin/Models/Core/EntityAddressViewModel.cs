@@ -1,5 +1,6 @@
 ﻿using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using System.Text;
 
 namespace OpenIZAdmin.Models.Core
 {
@@ -28,6 +29,7 @@ namespace OpenIZAdmin.Models.Core
             this.State = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.State)?.Value;
             this.StreetAddress = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.StreetAddressLine)?.Value;
             this.Precinct = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.Precinct)?.Value;
+            this.PostalCode = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.PostalCode)?.Value;
         }
 
         /// <summary>
@@ -59,5 +61,35 @@ namespace OpenIZAdmin.Models.Core
         /// Gets or sets the precinct
         /// </summary>
         public string Precinct { get; set; }
+
+        /// <summary>
+        /// Postal code
+        /// </summary>
+        public string PostalCode { get; set; }
+
+        /// <summary>
+        /// Represent as a string
+        /// </summary>
+        public override string ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+            if (!string.IsNullOrEmpty(this.StreetAddress))
+                sb.AppendFormat("{0}, ", this.StreetAddress);
+            if (!string.IsNullOrEmpty(this.Precinct))
+                sb.AppendFormat("{0}, ", this.Precinct);
+            if (!string.IsNullOrEmpty(this.City))
+                sb.AppendFormat("{0}, ", this.City);
+            if (!string.IsNullOrEmpty(this.County))
+                sb.AppendFormat("{0}, ", this.County);
+            if (!string.IsNullOrEmpty(this.State))
+                sb.AppendFormat("{0}, ", this.State);
+            if (!string.IsNullOrEmpty(this.Country))
+                sb.AppendFormat("{0}, ", this.Country);
+            if (!string.IsNullOrEmpty(this.PostalCode))
+                sb.AppendFormat("{0}, ", this.PostalCode);
+
+            sb.Remove(sb.Length - 2, 2);
+            return sb.ToString();
+        }
     }
 }

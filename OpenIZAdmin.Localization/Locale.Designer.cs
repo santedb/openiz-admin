@@ -5398,6 +5398,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Inverts the relationship. Use this option if you&apos;re attempting to assign a Dedicated Service Delivery location to a facility rather than a village.
+        /// </summary>
+        public static string ToolTop_InverseRelationship {
+            get {
+                return ResourceManager.GetString("ToolTop_InverseRelationship", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select a recipient or user not found.
         /// </summary>
         public static string ToRequired {

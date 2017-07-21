@@ -83,9 +83,10 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		/// </summary>
 		/// <param name="entityRelationship">The entity relationship.</param>
 		/// <param name="sourceType">Type of the source.</param>
-		public EntityRelationshipModel(EntityRelationship entityRelationship, string sourceType) : this(entityRelationship)
+		public EntityRelationshipModel(EntityRelationship entityRelationship, string sourceType, String sourceClass) : this(entityRelationship)
 		{
 			this.SourceType = sourceType;
+            this.SourceClass = sourceClass;
 		}
 
 		/// <summary>
@@ -147,11 +148,17 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		/// <value>The type of the source.</value>
 		public string SourceType { get; set; }
 
-		/// <summary>
-		/// Gets or sets the target identifier.
-		/// </summary>
-		/// <value>The target identifier.</value>
-		[Display(Name = "Related", ResourceType = typeof(Locale))]
+        /// <summary>
+        /// Gets or sets the type of the source.
+        /// </summary>
+        /// <value>The type of the source.</value>
+        public String SourceClass { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target identifier.
+        /// </summary>
+        /// <value>The target identifier.</value>
+        [Display(Name = "Related", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "RelationRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string TargetId { get; set; }
 

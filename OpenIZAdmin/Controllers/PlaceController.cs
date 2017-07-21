@@ -45,28 +45,28 @@ using OpenIZ.Messaging.IMSI.Client;
 
 namespace OpenIZAdmin.Controllers
 {
-	/// <summary>
-	/// Provides operations for managing places.
-	/// </summary>
-	[TokenAuthorize]
-	public class PlaceController : EntityBaseController
-	{
-		/// <summary>
-		/// The health facility mnemonic.
-		/// </summary>
-		private readonly string healthFacilityMnemonic = ConfigurationManager.AppSettings["HealthFacilityTypeConceptMnemonic"];
+    /// <summary>
+    /// Provides operations for managing places.
+    /// </summary>
+    [TokenAuthorize]
+    public class PlaceController : EntityBaseController
+    {
+        /// <summary>
+        /// The health facility mnemonic.
+        /// </summary>
+        private readonly string healthFacilityMnemonic = ConfigurationManager.AppSettings["HealthFacilityTypeConceptMnemonic"];
 
-		/// <summary>
-		/// The place type mnemonic.
-		/// </summary>
-		private readonly string placeTypeMnemonic = ConfigurationManager.AppSettings["PlaceTypeConceptMnemonic"];
+        /// <summary>
+        /// The place type mnemonic.
+        /// </summary>
+        private readonly string placeTypeMnemonic = ConfigurationManager.AppSettings["PlaceTypeConceptMnemonic"];
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="PlaceController"/> class.
-		/// </summary>
-		public PlaceController()
-		{
-		}
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PlaceController"/> class.
+        /// </summary>
+        public PlaceController()
+        {
+        }
 
         /// <summary>
         /// Activates the specified identifier.
@@ -75,637 +75,656 @@ namespace OpenIZAdmin.Controllers
         /// <param name="versionId">The version identifier.</param>
         /// <returns>ActionResult.</returns>
         public ActionResult Activate(Guid id, Guid? versionId)
-		{
-			try
-			{
-				var place = this.GetEntity<Place>(id, null);
+        {
+            try
+            {
+                var place = this.GetEntity<Place>(id, null);
 
-				if (place == null)
-				{
-					this.TempData["error"] = Locale.UnableToRetrievePlace;
-					return RedirectToAction("Edit", new { id = id, versionId = versionId });
-				}
+                if (place == null)
+                {
+                    this.TempData["error"] = Locale.UnableToRetrievePlace;
+                    return RedirectToAction("Edit", new { id = id, versionId = versionId });
+                }
 
-				place.CreationTime = DateTimeOffset.Now;
-				place.VersionKey = null;
-				place.StatusConceptKey = StatusKeys.Active;
+                place.CreationTime = DateTimeOffset.Now;
+                place.VersionKey = null;
+                place.StatusConceptKey = StatusKeys.Active;
 
-				var updatedPlace = this.ImsiClient.Update(place);
+                var updatedPlace = this.ImsiClient.Update(place);
 
-				this.TempData["success"] = Locale.PlaceActivatedSuccessfully;
-				
+                this.TempData["success"] = Locale.PlaceActivatedSuccessfully;
+
                 return RedirectToAction("ViewPlace", new { id = updatedPlace.Key, versionId = updatedPlace.VersionKey });
             }
-			catch (Exception e)
-			{
-				
-				Trace.TraceError($"Unable to activate place: { e }");
-			}
+            catch (Exception e)
+            {
 
-			this.TempData["error"] = Locale.UnableToActivatePlace;
+                Trace.TraceError($"Unable to activate place: { e }");
+            }
 
-			return RedirectToAction("Edit", new { id = id, versionId = versionId });
-		}
+            this.TempData["error"] = Locale.UnableToActivatePlace;
 
-		/// <summary>
-		/// Displays the create place view.
-		/// </summary>
-		/// <returns>Returns the create place view.</returns>
-		[HttpGet]
-		public ActionResult Create()
-		{
-			var model = new CreatePlaceModel
-			{
-				IsServiceDeliveryLocation = true,
-				TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList()
-			};
+            return RedirectToAction("Edit", new { id = id, versionId = versionId });
+        }
 
-			return View(model);
-		}
+        /// <summary>
+        /// Displays the create place view.
+        /// </summary>
+        /// <returns>Returns the create place view.</returns>
+        [HttpGet]
+        public ActionResult Create()
+        {
+            var model = new CreatePlaceModel
+            {
+                IsServiceDeliveryLocation = true,
+                TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList()
+            };
 
-		/// <summary>
-		/// Creates a place.
-		/// </summary>
-		/// <param name="model">The model containing the information about the place.</param>
-		/// <returns>Returns the index view.</returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Create(CreatePlaceModel model)
-		{
-			if (model.HasOnlyYearOrPopulation())
-			{
-				if (string.IsNullOrWhiteSpace(model.Year)) ModelState.AddModelError("Year", Locale.TargetYearRequired);
+            return View(model);
+        }
 
-				if (model.TargetPopulation == null) ModelState.AddModelError("TargetPopulation", Locale.TargetPopulationRequired);
-			}
+        /// <summary>
+        /// Creates a place.
+        /// </summary>
+        /// <param name="model">The model containing the information about the place.</param>
+        /// <returns>Returns the index view.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Create(CreatePlaceModel model)
+        {
+            if (model.HasOnlyYearOrPopulation())
+            {
+                if (string.IsNullOrWhiteSpace(model.Year)) ModelState.AddModelError("Year", Locale.TargetYearRequired);
 
-			if (!string.IsNullOrWhiteSpace(model.Year))
-			{
-				if (model.ConvertToPopulationYear() == 0) ModelState.AddModelError("Year", Locale.PopulationYearInvalidFormat);
-			}
+                if (model.TargetPopulation == null) ModelState.AddModelError("TargetPopulation", Locale.TargetPopulationRequired);
+            }
 
-			if (ModelState.IsValid)
-			{
-				try
-				{
-					var placeToCreate = model.ToPlace();
+            if (!string.IsNullOrWhiteSpace(model.Year))
+            {
+                if (model.ConvertToPopulationYear() == 0) ModelState.AddModelError("Year", Locale.PopulationYearInvalidFormat);
+            }
 
-					if (model.SubmitYearAndPopulation())
-					{
-						var entityExtension = new EntityExtension
-						{
-							ExtensionType = new ExtensionType(Constants.TargetPopulationUrl, typeof(DictionaryExtensionHandler))
-							{
-								Key = Constants.TargetPopulationExtensionTypeKey
-							},
-							ExtensionValue = new TargetPopulation(model.ConvertPopulationToULong(), model.ConvertToPopulationYear())
-						};
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var placeToCreate = model.ToPlace();
 
-						placeToCreate.Extensions.Add(entityExtension);
-					}
+                    if (model.SubmitYearAndPopulation())
+                    {
+                        var entityExtension = new EntityExtension
+                        {
+                            ExtensionType = new ExtensionType(Constants.TargetPopulationUrl, typeof(DictionaryExtensionHandler))
+                            {
+                                Key = Constants.TargetPopulationExtensionTypeKey
+                            },
+                            ExtensionValue = new TargetPopulation(model.ConvertPopulationToULong(), model.ConvertToPopulationYear())
+                        };
 
-					placeToCreate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
+                        placeToCreate.Extensions.Add(entityExtension);
+                    }
 
-					var createdPlace = this.ImsiClient.Create<Place>(placeToCreate);
+                    placeToCreate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
 
-					TempData["success"] = Locale.PlaceSuccessfullyCreated;
+                    var createdPlace = this.ImsiClient.Create<Place>(placeToCreate);
 
-					return RedirectToAction("ViewPlace", new { id = createdPlace.Key, versionId = createdPlace.VersionKey });
-				}
-				catch (Exception e)
-				{
-					
-					Trace.TraceError($"Unable to create place: { e }");
-				}
-			}
+                    TempData["success"] = Locale.PlaceSuccessfullyCreated;
 
-			model.TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
+                    return RedirectToAction("ViewPlace", new { id = createdPlace.Key, versionId = createdPlace.VersionKey });
+                }
+                catch (Exception e)
+                {
 
-			this.TempData["error"] = Locale.UnableToCreatePlace;
+                    Trace.TraceError($"Unable to create place: { e }");
+                }
+            }
 
-			return View(model);
-		}
+            model.TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
 
-		/// <summary>
-		/// Creates the related place.
-		/// </summary>
-		/// <param name="id">The identifier.</param>
-		/// <returns>ActionResult.</returns>
-		[HttpGet]
-		public ActionResult CreateRelatedPlace(Guid id)
-		{
-			try
-			{
-				var place = this.GetEntity<Place>(id);
+            this.TempData["error"] = Locale.UnableToCreatePlace;
 
-				if (place == null)
-				{
-					this.TempData["error"] = Locale.PlaceNotFound;
+            return View(model);
+        }
 
-					return RedirectToAction("Edit", new { id = id });
-				}
+        /// <summary>
+        /// Creates the related place.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <returns>ActionResult.</returns>
+        [HttpGet]
+        public ActionResult CreateRelatedPlace(Guid id)
+        {
+            try
+            {
+                var place = this.GetEntity<Place>(id);
 
-				var relationships = new List<EntityRelationship>();
+                if (place == null)
+                {
+                    this.TempData["error"] = Locale.PlaceNotFound;
 
-				relationships.AddRange(this.GetEntityRelationships<Place>(place.Key.Value,
-					r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
-						r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
-						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
+                    return RedirectToAction("Edit", new { id = id });
+                }
 
-				place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
+                var relationships = new List<EntityRelationship>();
 
-				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
-				{
-					ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
-				};
+                relationships.AddRange(this.GetEntityRelationships<Place>(place.Key.Value,
+                    r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
+                        r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
+                        r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
+
+                place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
+
+                var model = new EntityRelationshipModel(Guid.NewGuid(), id)
+                {
+                    ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList(),
+                    SourceClass = place.ClassConceptKey?.ToString()
+                };
 
                 // JF - THIS NEEDS TO BE CHANGED TO USE A CONCEPT SET
-				var concepts = new List<Concept>
-				{
-					this.GetConcept(EntityRelationshipTypeKeys.Child),
-					this.GetConcept(EntityRelationshipTypeKeys.Parent),
+                var concepts = new List<Concept>
+                {
+                    this.GetConcept(EntityRelationshipTypeKeys.Child),
+                    this.GetConcept(EntityRelationshipTypeKeys.Parent),
                     this.GetConcept(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation)
-				};
+                };
 
-				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()));
+                model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()));
 
-				return View(model);
-			}
-			catch (Exception e)
-			{
-				
-				Trace.TraceError($"Unable to create related place: { e }");
-			}
+                return View(model);
+            }
+            catch (Exception e)
+            {
 
-			this.TempData["error"] = Locale.PlaceNotFound;
+                Trace.TraceError($"Unable to create related place: { e }");
+            }
 
-			return RedirectToAction("Edit", new { id = id });
-		}
+            this.TempData["error"] = Locale.PlaceNotFound;
 
-		/// <summary>
-		/// Creates the related place.
-		/// </summary>
-		/// <param name="model">The model.</param>
-		/// <returns>ActionResult.</returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult CreateRelatedPlace(EntityRelationshipModel model)
-		{
-			try
-			{
-				if (this.ModelState.IsValid)
-				{
+            return RedirectToAction("Edit", new { id = id });
+        }
+
+        /// <summary>
+        /// Creates the related place.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>ActionResult.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateRelatedPlace(EntityRelationshipModel model)
+        {
+            try
+            {
+                if (this.ModelState.IsValid)
+                {
                     Place place = null;
-                    if(model.Inverse)
-                        this.GetEntity<Place>(Guid.Parse(model.TargetId));
+                    if (model.Inverse)
+                        place = this.GetEntity<Place>(Guid.Parse(model.TargetId));
                     else
-                        this.GetEntity<Place>(model.SourceId);
+                        place = this.GetEntity<Place>(model.SourceId);
 
-					if (place == null)
-					{
-						this.TempData["error"] = Locale.UnableToCreateRelatedPlace;
-						return RedirectToAction("Edit", new { id = model.SourceId });
-					}
+                    if (place == null)
+                    {
+                        Trace.TraceWarning("Could not locate entity {0}", model.SourceId);
+                        this.TempData["error"] = Locale.UnableToCreateRelatedPlace;
+                        return RedirectToAction("Edit", new { id = model.SourceId });
+                    }
 
-                
-                    if(Guid.Parse(model.RelationshipType) == EntityRelationshipTypeKeys.Parent)
-					    place.Relationships.RemoveAll(r => r.TargetEntityKey == Guid.Parse(model.TargetId) && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
+
+                    if (Guid.Parse(model.RelationshipType) == EntityRelationshipTypeKeys.Parent)
+                        place.Relationships.RemoveAll(r => r.TargetEntityKey == Guid.Parse(model.TargetId) && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
 
                     place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.Inverse ? model.SourceId : Guid.Parse(model.TargetId)) { EffectiveVersionSequenceId = place.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
 
-					this.ImsiClient.Update(place);
+                    this.ImsiClient.Update(place);
 
-					this.TempData["success"] = Locale.RelatedPlaceCreatedSuccessfully;
+                    this.TempData["success"] = Locale.RelatedPlaceCreatedSuccessfully;
 
-					return RedirectToAction("Edit", new { id = place.Key.Value });
-				}
-			}
-			catch (Exception e)
-			{
-				
-				Trace.TraceError($"Unable to create related place: { e }");
-			}
+                    return RedirectToAction("Edit", new { id = place.Key.Value });
+                }
+            }
+            catch (Exception e)
+            {
 
-			var concepts = new List<Concept>
-			{
-				this.GetConcept(EntityRelationshipTypeKeys.Child),
-				this.GetConcept(EntityRelationshipTypeKeys.Parent)
-			};
+                Trace.TraceError($"Unable to create related place: { e }");
+            }
 
-			Guid relationshipType;
+            var concepts = new List<Concept>
+            {
+                this.GetConcept(EntityRelationshipTypeKeys.Child),
+                this.GetConcept(EntityRelationshipTypeKeys.Parent)
+            };
 
-			if (Guid.TryParse(model.RelationshipType, out relationshipType))
-			{
-				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == relationshipType));
-			}
+            Guid relationshipType;
 
-			this.TempData["error"] = Locale.UnableToCreateRelatedPlace;
+            if (Guid.TryParse(model.RelationshipType, out relationshipType))
+            {
+                model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == relationshipType));
+            }
 
-			return View(model);
-		}
+            this.TempData["error"] = Locale.UnableToCreateRelatedPlace;
 
-		/// <summary>
-		/// Displays the create place view.
-		/// </summary>
-		/// <param name="id">The id of the place to delete.</param>
-		/// <returns>Returns the create place view.</returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Delete(Guid id)
-		{
-			try
-			{
-				var place = this.GetEntity<Place>(id);
+            return View(model);
+        }
 
-				if (place == null)
-				{
-					TempData["error"] = Locale.PlaceNotFound;
+        /// <summary>
+        /// Displays the create place view.
+        /// </summary>
+        /// <param name="id">The id of the place to delete.</param>
+        /// <returns>Returns the create place view.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(Guid id)
+        {
+            try
+            {
+                var place = this.GetEntity<Place>(id);
 
-					return RedirectToAction("Index");
-				}
+                if (place == null)
+                {
+                    TempData["error"] = Locale.PlaceNotFound;
 
-				this.TempData["success"] = Locale.PlaceDeactivatedSuccessfully;
+                    return RedirectToAction("Index");
+                }
 
-				var result = this.ImsiClient.Obsolete<Place>(place);
+                this.TempData["success"] = Locale.PlaceDeactivatedSuccessfully;
+
+                var result = this.ImsiClient.Obsolete<Place>(place);
 
                 return RedirectToAction("ViewPlace", new { id = result.Key, versionId = result.VersionKey });
             }
-			catch (Exception e)
-			{
-				Trace.TraceError($"Unable to delete place: {e}");
-			}
-
-			TempData["error"] = Locale.UnableToDeactivatePlace;
-
-			return RedirectToAction("Index");
-		}
-
-		/// <summary>
-		/// Gets a place by id.
-		/// </summary>
-		/// <param name="id">The id of the place to retrieve.</param>
-		/// <param name="versionId">The version identifier.</param>
-		/// <returns>Returns the place edit view.</returns>
-		[HttpGet]
-		public ActionResult Edit(Guid id, Guid? versionId)
-		{
-			try
-			{
-				var place = this.GetEntity<Place>(id);
-
-				if (place == null)
-				{
-					TempData["error"] = Locale.PlaceNotFound;
-					return RedirectToAction("Index");
-				}
-
-				if (place.Tags.Any(t => t.TagKey == Constants.ImportedDataTag && t.Value?.ToLower() == "true"))
-				{
-					this.TempData["warning"] = Locale.RecordMustBeVerifiedBeforeEditing;
-					return RedirectToAction("ViewPlace", new { id, versionId });
-				}
-
-				var relationships = new List<EntityRelationship>();
-
-				relationships.AddRange(this.GetEntityRelationships<Place>(place.Key.Value,
-					r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
-						r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
-						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
-
-				place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
-
-				var model = new EditPlaceModel(place)
-				{
-					TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), t => t.Key == place.TypeConceptKey).ToList(),
-					UpdatedBy = this.GetUserEntityBySecurityUserKey(place.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
-				};
-
-
-				return View(model);
-			}
-			catch (Exception e)
-			{
-				
-				Trace.TraceError($"Unable to retrieve place: { e }");
-				this.TempData["error"] = Locale.UnexpectedErrorMessage;
-			}
-
-			return RedirectToAction("Index");
-		}
-
-		/// <summary>
-		/// Updates a place.
-		/// </summary>
-		/// <param name="model">The model containing the place information.</param>
-		/// <returns>Returns the index view.</returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Edit(EditPlaceModel model)
-		{
-			try
-			{
-				if (model.HasOnlyYearOrPopulation())
-				{
-					if (string.IsNullOrWhiteSpace(model.Year)) ModelState.AddModelError("Year", Locale.TargetYearRequired);
-
-					if (model.TargetPopulation == null) ModelState.AddModelError("TargetPopulation", Locale.TargetPopulationRequired);
-				}
-
-				if (!string.IsNullOrWhiteSpace(model.Year))
-				{
-					if (model.ConvertToPopulationYear() == 0) ModelState.AddModelError("Year", Locale.PopulationYearInvalidFormat);
-				}
-
-				if (ModelState.IsValid)
-				{
-					var bundle = this.ImsiClient.Query<Place>(p => p.Key == model.Id && p.ObsoletionTime == null, 0, null, true);
-
-					bundle.Reconstitute();
-
-					var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == model.Id && p.ObsoletionTime == null);
-
-					if (place == null)
-					{
-						TempData["error"] = Locale.PlaceNotFound;
-
-						return RedirectToAction("Index");
-					}
-
-					// repopulate incase the update fails
-					model.Identifiers = place.Identifiers.Select(i => new EntityIdentifierModel(i.Key.Value, place.Key.Value)).ToList();
-					model.Relationships = place.Relationships.Select(r => new EntityRelationshipModel(r)).ToList();
-
-					model.TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), t => t.Key == place.TypeConceptKey).ToList();
-
-					var placeToUpdate = model.ToPlace(place);
-
-					if (model.SubmitYearAndPopulation())
-					{
-						placeToUpdate.Extensions.RemoveAll(e => e.ExtensionType.Name == Constants.TargetPopulationUrl);
-
-						var entityExtension = new EntityExtension
-						{
-							ExtensionType = new ExtensionType(Constants.TargetPopulationUrl, typeof(DictionaryExtensionHandler))
-							{
-								Key = Constants.TargetPopulationExtensionTypeKey
-							},
-							ExtensionValue = new TargetPopulation(model.ConvertPopulationToULong(), model.ConvertToPopulationYear())
-						};
-
-						placeToUpdate.Extensions.Add(entityExtension);
-					}
-
-					placeToUpdate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
-
-					var updatedPlace = this.UpdateEntity<Place>(placeToUpdate);
-
-					TempData["success"] = Locale.PlaceSuccessfullyUpdated;
-
-					return RedirectToAction("ViewPlace", new { id = updatedPlace.Key, versionId = updatedPlace.VersionKey });
-				}
-			}
-			catch (Exception e)
-			{
-				
-				Trace.TraceError($"Unable to update place: {e}");
-			}
-
-			this.TempData["error"] = Locale.UnableToUpdatePlace;
-
-			return View(model);
-		}
-
-		/// <summary>
-		/// Edits the related place.
-		/// </summary>
-		/// <param name="id">The identifier.</param>
-		/// <param name="entityRelationshipId">The entity relationship identifier.</param>
-		/// <returns>ActionResult.</returns>
-		[HttpGet]
-		public ActionResult EditRelatedPlace(Guid id, Guid entityRelationshipId)
-		{
-			try
-			{
-				var place = this.ImsiClient.Get<Place>(id, null) as Place;
-
-				if (place == null)
-				{
-					this.TempData["error"] = Locale.PlaceNotFound;
-					return RedirectToAction("Edit", new { id = id });
-				}
-
-				var entityRelationship = place.Relationships.Find(r => r.Key == entityRelationshipId);
-
-				var model = new EntityRelationshipModel(entityRelationship, place.Type);
-
-				return View(model);
-			}
-			catch (Exception e)
-			{
-				
-				Trace.TraceError($"Unable to edit related place: { e }");
-			}
-
-			this.TempData["error"] = Locale.PlaceNotFound;
-			return RedirectToAction("Edit", new { id = id });
-		}
-
-		/// <summary>
-		/// Edits the related place.
-		/// </summary>
-		/// <param name="model">The model.</param>
-		/// <returns>ActionResult.</returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult EditRelatedPlace(EntityRelationshipModel model)
-		{
-			try
-			{
-				if (this.ModelState.IsValid)
-				{
-					var place = this.ImsiClient.Get<Place>(model.SourceId, null) as Place;
-
-					if (place == null)
-					{
-						this.TempData["error"] = Locale.UnableToUpdatePlace;
-						return RedirectToAction("Edit", new { id = model.SourceId });
-					}
-
-					place.Relationships.RemoveAll(r => r.Key == model.Id);
-					place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), Guid.Parse(model.TargetId)));
-
-					var updatedPlace = this.ImsiClient.Update<Place>(place);
-
-					return RedirectToAction("Edit", new { id = updatedPlace.Key.Value });
-				}
-			}
-			catch (Exception e)
-			{
-				
-				Trace.TraceError($"Unable to edit related place: { e }");
-			}
-
-			return View(model);
-		}
-
-		/// <summary>
-		/// Displays the index view.
-		/// </summary>
-		/// <returns>ActionResult.</returns>
-		public ActionResult Index()
-		{
-			TempData["searchType"] = "Place";
-			TempData["searchTerm"] = "*";
-			return View();
-		}
-
-		/// <summary>
-		/// Searches for a place.
-		/// </summary>
-		/// <param name="searchTerm">The search term.</param>
-		/// <returns>Returns a list of places which match the search term.</returns>
-		[HttpGet]
-		public ActionResult Search(string searchTerm)
-		{
-			var results = new List<PlaceViewModel>();
-
-			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
-			{
-				Bundle bundle;
-
-				Expression<Func<Place, bool>> nameExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)));
-
-				if (searchTerm == "*")
-				{
-					bundle = this.ImsiClient.Query<Place>(p => p.ObsoletionTime == null, 0, null, new[] { "typeConcept" });
-
-					foreach (var place in bundle.Item.OfType<Place>().LatestVersionOnly())
-					{
-						place.TypeConcept = this.GetTypeConcept(place);
-					}
-
-					results = bundle.Item.OfType<Place>().LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
-				}
-				else
-				{
-					Guid placeId;
-
-					if (!Guid.TryParse(searchTerm, out placeId))
-					{
-						bundle = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))), 0, null, new[] { "typeConcept" });
-
-						foreach (var place in bundle.Item.OfType<Place>().LatestVersionOnly())
-						{
-							place.TypeConcept = this.GetTypeConcept(place);
-						}
-
-						results = bundle.Item.OfType<Place>().Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
-					}
-					else
-					{
-						var place = this.GetEntity<Place>(placeId);
-
-						if (place != null)
-						{
-							results.Add(new PlaceViewModel(place));
-						}
-					}
-				}
-			}
-
-			TempData["searchTerm"] = searchTerm;
-
-			return PartialView("_PlaceSearchResultsPartial", results);
-		}
-
-		/// <summary>
-		/// Searches for a place.
-		/// </summary>
-		/// <param name="searchTerm">The search term.</param>
-		/// <returns>Returns a list of places which match the search term.</returns>
-		[HttpGet]
-		public ActionResult SearchAjax(string searchTerm)
-		{
-			var viewModels = new List<PlaceViewModel>();
-
-			if (!ModelState.IsValid) return Json(viewModels, JsonRequestBehavior.AllowGet);
-
-			var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation, 0, 15, new string[]{ "typeConcept", "address.use" });
-
-			viewModels = places.Item.OfType<Place>().LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
-
-			return Json(viewModels, JsonRequestBehavior.AllowGet);
-		}
-
-		/// <summary>
-		/// Searches for a place to view details.
-		/// </summary>
-		/// <param name="id">The place identifier search string.</param>
-		/// <param name="versionId">The version identifier.</param>
-		/// <returns>Returns a place view that matches the search term.</returns>
-		[HttpGet]
-		public ActionResult ViewPlace(Guid id, Guid? versionId)
-		{
-			try
-			{
-				var place = this.GetEntity<Place>(id);
-
-				if (place == null)
-				{
-					TempData["error"] = Locale.PlaceNotFound;
-					return RedirectToAction("Index");
-				}
-
-				var relationships = new List<EntityRelationship>();
-
-				relationships.AddRange(this.GetEntityRelationships<Place>(place.Key.Value,
-						r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
-						r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
-						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
-
-				place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
-
-				var viewModel = new PlaceViewModel(place)
-				{
-					UpdatedBy = this.GetUserEntityBySecurityUserKey(place.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
-				};
-
-				return View(viewModel);
-			}
-			catch (Exception e)
-			{
-				
-				Trace.TraceError($"Unable to retrieve place: { e }");
-				this.TempData["error"] = Locale.UnexpectedErrorMessage;
-			}
-
-			return RedirectToAction("Index");
-		}
-
-		/// <summary>
-		/// Gets the place type concepts.
-		/// </summary>
-		/// <returns>IEnumerable&lt;Concept&gt;.</returns>
-		private IEnumerable<Concept> GetPlaceTypeConcepts()
-		{
-			var typeConcepts = new List<Concept>();
-
-			if (!string.IsNullOrEmpty(this.healthFacilityMnemonic) && !string.IsNullOrWhiteSpace(this.healthFacilityMnemonic))
-			{
-				typeConcepts.AddRange(this.GetConceptSet(this.healthFacilityMnemonic).Concepts);
-			}
-
-			if (!string.IsNullOrEmpty(this.placeTypeMnemonic) && !string.IsNullOrWhiteSpace(this.placeTypeMnemonic))
-			{
-				typeConcepts.AddRange(this.GetConceptSet(this.placeTypeMnemonic).Concepts);
-			}
-
-			if (!typeConcepts.Any())
-			{
-				typeConcepts.AddRange(this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null));
-			}
-
-			return typeConcepts;
-		}
-	}
+            catch (Exception e)
+            {
+                Trace.TraceError($"Unable to delete place: {e}");
+            }
+
+            TempData["error"] = Locale.UnableToDeactivatePlace;
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Gets a place by id.
+        /// </summary>
+        /// <param name="id">The id of the place to retrieve.</param>
+        /// <param name="versionId">The version identifier.</param>
+        /// <returns>Returns the place edit view.</returns>
+        [HttpGet]
+        public ActionResult Edit(Guid id, Guid? versionId)
+        {
+            try
+            {
+                var place = this.GetEntity<Place>(id);
+
+                if (place == null)
+                {
+                    TempData["error"] = Locale.PlaceNotFound;
+                    return RedirectToAction("Index");
+                }
+
+                if (place.Tags.Any(t => t.TagKey == Constants.ImportedDataTag && t.Value?.ToLower() == "true"))
+                {
+                    this.TempData["warning"] = Locale.RecordMustBeVerifiedBeforeEditing;
+                    return RedirectToAction("ViewPlace", new { id, versionId });
+                }
+
+                var relationships = new List<EntityRelationship>();
+
+                relationships.AddRange(this.GetEntityRelationships<Place>(place.Key.Value,
+                    r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
+                        r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
+                        r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
+
+                place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
+
+                var model = new EditPlaceModel(place)
+                {
+                    TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), t => t.Key == place.TypeConceptKey).ToList(),
+                    UpdatedBy = this.GetUserEntityBySecurityUserKey(place.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
+                };
+
+
+                return View(model);
+            }
+            catch (Exception e)
+            {
+
+                Trace.TraceError($"Unable to retrieve place: { e }");
+                this.TempData["error"] = Locale.UnexpectedErrorMessage;
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Updates a place.
+        /// </summary>
+        /// <param name="model">The model containing the place information.</param>
+        /// <returns>Returns the index view.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Edit(EditPlaceModel model)
+        {
+            try
+            {
+                if (model.HasOnlyYearOrPopulation())
+                {
+                    if (string.IsNullOrWhiteSpace(model.Year)) ModelState.AddModelError("Year", Locale.TargetYearRequired);
+
+                    if (model.TargetPopulation == null) ModelState.AddModelError("TargetPopulation", Locale.TargetPopulationRequired);
+                }
+
+                if (!string.IsNullOrWhiteSpace(model.Year))
+                {
+                    if (model.ConvertToPopulationYear() == 0) ModelState.AddModelError("Year", Locale.PopulationYearInvalidFormat);
+                }
+
+                if (ModelState.IsValid)
+                {
+                    var bundle = this.ImsiClient.Query<Place>(p => p.Key == model.Id && p.ObsoletionTime == null, 0, null, true);
+
+                    bundle.Reconstitute();
+
+                    var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == model.Id && p.ObsoletionTime == null);
+
+                    if (place == null)
+                    {
+                        TempData["error"] = Locale.PlaceNotFound;
+
+                        return RedirectToAction("Index");
+                    }
+
+                    // repopulate incase the update fails
+                    model.Identifiers = place.Identifiers.Select(i => new EntityIdentifierModel(i.Key.Value, place.Key.Value)).ToList();
+                    model.Relationships = place.Relationships.Select(r => new EntityRelationshipModel(r)).ToList();
+
+                    model.TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), t => t.Key == place.TypeConceptKey).ToList();
+
+                    var placeToUpdate = model.ToPlace(place);
+
+                    if (model.SubmitYearAndPopulation())
+                    {
+                        placeToUpdate.Extensions.RemoveAll(e => e.ExtensionType.Name == Constants.TargetPopulationUrl);
+
+                        var entityExtension = new EntityExtension
+                        {
+                            ExtensionType = new ExtensionType(Constants.TargetPopulationUrl, typeof(DictionaryExtensionHandler))
+                            {
+                                Key = Constants.TargetPopulationExtensionTypeKey
+                            },
+                            ExtensionValue = new TargetPopulation(model.ConvertPopulationToULong(), model.ConvertToPopulationYear())
+                        };
+
+                        placeToUpdate.Extensions.Add(entityExtension);
+                    }
+
+                    placeToUpdate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
+
+                    var updatedPlace = this.UpdateEntity<Place>(placeToUpdate);
+
+                    TempData["success"] = Locale.PlaceSuccessfullyUpdated;
+
+                    return RedirectToAction("ViewPlace", new { id = updatedPlace.Key, versionId = updatedPlace.VersionKey });
+                }
+            }
+            catch (Exception e)
+            {
+
+                Trace.TraceError($"Unable to update place: {e}");
+            }
+
+            this.TempData["error"] = Locale.UnableToUpdatePlace;
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Edits the related place.
+        /// </summary>
+        /// <param name="id">The identifier.</param>
+        /// <param name="entityRelationshipId">The entity relationship identifier.</param>
+        /// <returns>ActionResult.</returns>
+        [HttpGet]
+        public ActionResult EditRelatedPlace(Guid id, Guid entityRelationshipId)
+        {
+            try
+            {
+                var place = this.ImsiClient.Get<Place>(id, null) as Place;
+
+                if (place == null)
+                {
+                    this.TempData["error"] = Locale.PlaceNotFound;
+                    return RedirectToAction("Edit", new { id = id });
+                }
+                
+                var entityRelationship = place.Relationships.Find(r => r.Key == entityRelationshipId);
+
+                var model = new EntityRelationshipModel(entityRelationship, place.Type, place.ClassConceptKey?.ToString());
+
+                return View(model);
+            }
+            catch (Exception e)
+            {
+
+                Trace.TraceError($"Unable to edit related place: { e }");
+            }
+
+            this.TempData["error"] = Locale.PlaceNotFound;
+            return RedirectToAction("Edit", new { id = id });
+        }
+
+        /// <summary>
+        /// Edits the related place.
+        /// </summary>
+        /// <param name="model">The model.</param>
+        /// <returns>ActionResult.</returns>
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditRelatedPlace(EntityRelationshipModel model)
+        {
+            try
+            {
+                if (this.ModelState.IsValid)
+                {
+                    var place = this.ImsiClient.Get<Place>(model.SourceId, null) as Place;
+
+                    if (place == null)
+                    {
+                        this.TempData["error"] = Locale.UnableToUpdatePlace;
+                        return RedirectToAction("Edit", new { id = model.SourceId });
+                    }
+
+                    place.Relationships.RemoveAll(r => r.Key == model.Id);
+                    place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), Guid.Parse(model.TargetId)));
+
+                    var updatedPlace = this.ImsiClient.Update<Place>(place);
+
+                    return RedirectToAction("Edit", new { id = updatedPlace.Key.Value });
+                }
+            }
+            catch (Exception e)
+            {
+
+                Trace.TraceError($"Unable to edit related place: { e }");
+            }
+
+            return View(model);
+        }
+
+        /// <summary>
+        /// Displays the index view.
+        /// </summary>
+        /// <returns>ActionResult.</returns>
+        public ActionResult Index()
+        {
+            TempData["searchType"] = "Place";
+            TempData["searchTerm"] = "*";
+            TempData["typeFilter"] = new SelectListItem[] { new SelectListItem() { Value = null, Text = Locale.NotApplicable } }.Union(this.ImsiClient.Query<Concept>(o => o.ConceptSets.Any(c => c.Mnemonic == "PlaceTypeConcept")).Item.OfType<Concept>().Select(o => new SelectListItem()
+            {
+                Text = o.LoadCollection<ConceptName>("ConceptNames")?.FirstOrDefault()?.Name,
+                Value = o.Key.ToString()
+            }));
+            return View();
+        }
+
+        /// <summary>
+        /// Searches for a place.
+        /// </summary>
+        /// <param name="searchTerm">The search term.</param>
+        /// <returns>Returns a list of places which match the search term.</returns>
+        [HttpGet]
+        public ActionResult Search(string searchTerm, string searchType)
+        {
+            var results = new List<PlaceViewModel>();
+
+            if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+            {
+                Bundle bundle;
+
+                Expression<Func<Place, bool>> nameExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)));
+
+                if (searchTerm == "*")
+                {
+
+                    var type = Guid.Empty;
+
+                    if (String.IsNullOrEmpty(searchType) || !Guid.TryParse(searchType, out type))
+                        bundle = this.ImsiClient.Query<Place>(p => p.ObsoletionTime == null, 0, null, new[] { "typeConcept" });
+                    else
+                        bundle = this.ImsiClient.Query<Place>(p => p.TypeConceptKey == type && p.ObsoletionTime == null, 0, null, new[] { "typeConcept" });
+
+
+                    foreach (var place in bundle.Item.OfType<Place>().LatestVersionOnly())
+                    {
+                        place.TypeConcept = this.GetTypeConcept(place);
+                    }
+
+                    results = bundle.Item.OfType<Place>().LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+                }
+                else
+                {
+                    Guid placeId;
+                    var type = Guid.Empty;
+
+                    if (!Guid.TryParse(searchTerm, out placeId))
+                    {
+                        if (String.IsNullOrEmpty(searchType) || !Guid.TryParse(searchType, out type))
+                            bundle = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))), 0, null, new[] { "typeConcept" });
+                        else
+                            bundle = this.ImsiClient.Query<Place>(p => p.TypeConceptKey == type && p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))), 0, null, new[] { "typeConcept" });
+
+                        foreach (var place in bundle.Item.OfType<Place>().LatestVersionOnly())
+                        {
+                            place.TypeConcept = this.GetTypeConcept(place);
+                        }
+
+                        results = bundle.Item.OfType<Place>().Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+                    }
+                    else
+                    {
+                        var place = this.GetEntity<Place>(placeId);
+
+                        if (place != null)
+                        {
+                            results.Add(new PlaceViewModel(place));
+                        }
+                    }
+                }
+            }
+
+            TempData["searchTerm"] = searchTerm;
+
+            return PartialView("_PlaceSearchResultsPartial", results);
+        }
+
+        /// <summary>
+        /// Searches for a place.
+        /// </summary>
+        /// <param name="searchTerm">The search term.</param>
+        /// <returns>Returns a list of places which match the search term.</returns>
+        [HttpGet]
+        public ActionResult SearchAjax(string searchTerm)
+        {
+            var viewModels = new List<PlaceViewModel>();
+
+            if (!ModelState.IsValid) return Json(viewModels, JsonRequestBehavior.AllowGet);
+
+            var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation, 0, 15, new string[] { "typeConcept", "address.use" });
+
+            viewModels = places.Item.OfType<Place>().LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+
+            return Json(viewModels, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// Searches for a place to view details.
+        /// </summary>
+        /// <param name="id">The place identifier search string.</param>
+        /// <param name="versionId">The version identifier.</param>
+        /// <returns>Returns a place view that matches the search term.</returns>
+        [HttpGet]
+        public ActionResult ViewPlace(Guid id, Guid? versionId)
+        {
+            try
+            {
+                var place = this.GetEntity<Place>(id);
+
+                if (place == null)
+                {
+                    TempData["error"] = Locale.PlaceNotFound;
+                    return RedirectToAction("Index");
+                }
+
+                var relationships = new List<EntityRelationship>();
+
+                relationships.AddRange(this.GetEntityRelationships<Place>(place.Key.Value,
+                        r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
+                        r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
+                        r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
+
+                place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
+
+                var viewModel = new PlaceViewModel(place)
+                {
+                    UpdatedBy = this.GetUserEntityBySecurityUserKey(place.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
+                };
+
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+
+                Trace.TraceError($"Unable to retrieve place: { e }");
+                this.TempData["error"] = Locale.UnexpectedErrorMessage;
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Gets the place type concepts.
+        /// </summary>
+        /// <returns>IEnumerable&lt;Concept&gt;.</returns>
+        private IEnumerable<Concept> GetPlaceTypeConcepts()
+        {
+            var typeConcepts = new List<Concept>();
+
+            if (!string.IsNullOrEmpty(this.healthFacilityMnemonic) && !string.IsNullOrWhiteSpace(this.healthFacilityMnemonic))
+            {
+                typeConcepts.AddRange(this.GetConceptSet(this.healthFacilityMnemonic).Concepts);
+            }
+
+            if (!string.IsNullOrEmpty(this.placeTypeMnemonic) && !string.IsNullOrWhiteSpace(this.placeTypeMnemonic))
+            {
+                typeConcepts.AddRange(this.GetConceptSet(this.placeTypeMnemonic).Concepts);
+            }
+
+            if (!typeConcepts.Any())
+            {
+                typeConcepts.AddRange(this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null));
+            }
+
+            return typeConcepts;
+        }
+
+    }
 }

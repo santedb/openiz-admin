@@ -40,6 +40,7 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.RoleModels;
 using OpenIZAdmin.Core.Extensions;
 using OpenIZ.Core.Model;
+using System.Diagnostics;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -266,7 +267,7 @@ namespace OpenIZAdmin.Controllers
 
 			var bundle = this.ImsiClient.Query<T>(query, 0, null, true);
 
-			bundle.Reconstitute();
+            bundle.Reconstitute();
 
 			entity = bundle.Item.OfType<T>().Where(query.Compile()).LatestVersionOnly().FirstOrDefault(query.Compile().Invoke);
 
@@ -448,5 +449,13 @@ namespace OpenIZAdmin.Controllers
 
             base.OnActionExecuting(filterContext);
 		}
-	}
+
+        /// <summary>
+        /// An exception occurs
+        /// </summary>
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            Trace.TraceError(filterContext.Exception.ToString());
+        }
+    }
 }

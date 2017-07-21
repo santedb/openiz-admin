@@ -3,7 +3,7 @@
     ViewBag.Title = Locale.Places;
 }
 <div id="search-partial">
-    @Html.Partial("_SearchPartial", new OpenIZAdmin.Models.SearchModel())
+    @Html.Partial("_SearchPartial", new OpenIZAdmin.Models.SearchModel() { SearchTypeEnabled = true })
 </div>
 @section scripts{
     <script>

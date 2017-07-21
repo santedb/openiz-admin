@@ -45,7 +45,15 @@
                     @Html.ValidationMessageFor(m => m.SearchTerm, "", new { @class = "text-danger" })
                 </div>
             </div>
-
+            if (Model.SearchTypeEnabled)
+            {
+            <div class="form-group">
+                @Html.LabelFor(m => m.SearchType, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.SearchType, TempData["typeFilter"] as IEnumerable<SelectListItem>, new { @class = "form-control" })
+                </div>
+            </div>
+            }
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
                         <button type="reset" class="btn btn-warning" id="reset">
