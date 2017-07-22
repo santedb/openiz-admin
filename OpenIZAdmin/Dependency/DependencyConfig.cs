@@ -110,6 +110,9 @@ namespace OpenIZAdmin.Dependency
 
 			// register entity services
 			builder.RegisterType<EntityService>().As<IEntityService>().InstancePerLifetimeScope();
+
+			// register extension type services
+			builder.RegisterType<ExtensionTypeService>().As<IExtensionTypeService>().InstancePerLifetimeScope();
 		}
 	}
 }

@@ -1,49 +1,52 @@
 ﻿/*
  * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you 
- * may not use this file except in compliance with the License. You may 
- * obtain a copy of the License at 
- * 
- * http://www.apache.org/licenses/LICENSE-2.0 
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the 
- * License for the specific language governing permissions and limitations under 
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * User: khannan
  * Date: 2017-5-19
  */
+
+using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.ExtensionTypeModels;
+using OpenIZAdmin.Services.Metadata;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.AMI.DataTypes;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Attributes;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.AssigningAuthorityModels;
-using OpenIZAdmin.Models.ExtensionTypeModels;
 
 namespace OpenIZAdmin.Controllers
 {
 	/// <summary>
 	/// Provides operations for managing extension types.
 	/// </summary>
-	/// <seealso cref="OpenIZAdmin.Controllers.MetadataController" />
 	[TokenAuthorize]
-	public class ExtensionTypeController : MetadataController
+	public class ExtensionTypeController : Controller
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ExtensionTypeController"/> class.
+		/// The extension type service.
 		/// </summary>
-		public ExtensionTypeController()
+		private readonly IExtensionTypeService extensionTypeService;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ExtensionTypeController" /> class.
+		/// </summary>
+		/// <param name="extensionTypeService">The extension type service.</param>
+		public ExtensionTypeController(IExtensionTypeService extensionTypeService)
 		{
-			
+			this.extensionTypeService = extensionTypeService;
 		}
 
 		/// <summary>
@@ -69,7 +72,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (this.ModelState.IsValid)
 				{
-					var created = this.AmiClient.CreateExtensionType(model.ToExtensionType());
+					var created = this.extensionTypeService.Create(model.ToExtensionType());
 
 					return RedirectToAction("ViewExtensionType", new { id = created.Key.Value });
 				}
@@ -107,31 +110,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 			{
-				var results = new List<ExtensionType>();
-
-				if (searchTerm == "*")
-				{
-					results.AddRange(this.AmiClient.GetExtensionTypes(a => a.Key != null).CollectionItem);
-				}
-				else
-				{
-					Guid extensionTypeId;
-
-					if (!Guid.TryParse(searchTerm, out extensionTypeId))
-					{
-						results.AddRange(this.AmiClient.GetExtensionTypes(a => a.Name.Contains(searchTerm)).CollectionItem);
-					}
-					else
-					{
-						var extensionType = this.AmiClient.GetExtensionType(extensionTypeId.ToString());
-
-						if (extensionType != null)
-						{
-							results.Add(extensionType);
-						}
-					}
-
-				}
+				var results = this.extensionTypeService.Search(searchTerm);
 
 				TempData["searchTerm"] = searchTerm;
 
@@ -153,7 +132,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var extensionType = this.AmiClient.GetExtensionType(id.ToString());
+				var extensionType = this.extensionTypeService.Get(id);
 
 				if (extensionType == null)
 				{

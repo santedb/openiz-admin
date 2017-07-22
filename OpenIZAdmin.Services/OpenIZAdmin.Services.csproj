@@ -80,7 +80,9 @@
     <Compile Include="Entities\Materials\MaterialConceptService.cs" />
     <Compile Include="Core\IEntityService.cs" />
     <Compile Include="Metadata\ConceptService.cs" />
+    <Compile Include="Metadata\ExtensionTypeService.cs" />
     <Compile Include="Metadata\IConceptService.cs" />
+    <Compile Include="Metadata\IExtensionTypeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Security\ISecurityUserService.cs" />
     <Compile Include="Security\IUserService.cs" />

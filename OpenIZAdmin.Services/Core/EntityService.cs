@@ -225,7 +225,7 @@ namespace OpenIZAdmin.Services.Core
 
 				bundle.Reconstitute();
 
-				entity = ExtensionMethods.LatestVersionOnly(bundle.Item.OfType<T>().Where(query.Compile())).FirstOrDefault(query.Compile().Invoke);
+				entity = bundle.Item.OfType<T>().Where(query.Compile()).LatestVersionOnly().FirstOrDefault(query.Compile().Invoke);
 
 				if (entity == null)
 				{
@@ -283,7 +283,7 @@ namespace OpenIZAdmin.Services.Core
 				// only load the relationship type concept if the IMS didn't return the relationship type concept of the relationship
 				if (entityRelationship.RelationshipType == null && entityRelationship.RelationshipTypeKey.HasValue && entityRelationship.RelationshipTypeKey.Value != Guid.Empty)
 				{
-					entityRelationship.RelationshipType = this.Client.Get<Concept>(entityRelationship.RelationshipTypeKey.Value, null) as Concept;
+					entityRelationship.RelationshipType = this.conceptService.GetConcept(entityRelationship.RelationshipTypeKey.Value);
 				}
 
 				// only load the target entity if the IMS didn't return the target entity by default
@@ -295,7 +295,7 @@ namespace OpenIZAdmin.Services.Core
 				// only load the type concept of the target entity if the IMS didn't return the type concept of the target entity
 				if (entityRelationship.TargetEntity?.TypeConcept == null && entityRelationship.TargetEntity?.TypeConceptKey.HasValue == true && entityRelationship.TargetEntity?.TypeConceptKey != Guid.Empty)
 				{
-					entityRelationship.TargetEntity.TypeConcept = this.Client.Get<Concept>(entityRelationship.TargetEntity.TypeConceptKey.Value, null) as Concept;
+					entityRelationship.TargetEntity.TypeConcept = this.conceptService.GetConcept(entityRelationship.TargetEntity.TypeConceptKey.Value);
 				}
 			}
 
