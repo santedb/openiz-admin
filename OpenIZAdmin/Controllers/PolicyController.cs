@@ -17,7 +17,6 @@
  * Date: 2016-7-30
  */
 
-
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
@@ -27,14 +26,13 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Controllers
 {
-    /// <summary>
-    /// Provides operations for administering policies.
-    /// </summary>
-    [TokenAuthorize]
+	/// <summary>
+	/// Provides operations for administering policies.
+	/// </summary>
+	[TokenAuthorize]
 	public class PolicyController : BaseController
 	{
 		/// <summary>
@@ -74,9 +72,9 @@ namespace OpenIZAdmin.Controllers
 			{
 				var exists = this.AmiClient.GetPolicies(c => c.Oid == model.Oid).CollectionItem.Any();
 
-                if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+				if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
 
-                if (this.ModelState.IsValid)
+				if (this.ModelState.IsValid)
 				{
 					var policy = this.AmiClient.CreatePolicy(model.ToSecurityPolicyInfo());
 
@@ -97,7 +95,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (!string.IsNullOrEmpty(model.Grant) && !string.IsNullOrWhiteSpace(model.Grant))
 			{
-				model.GrantsList = model.GrantsList.Select(g => new SelectListItem { Selected = model.Grant == g.Value, Text = g.Text, Value = g.Value}).ToList();
+				model.GrantsList = model.GrantsList.Select(g => new SelectListItem { Selected = model.Grant == g.Value, Text = g.Text, Value = g.Value }).ToList();
 			}
 
 			TempData["error"] = Locale.UnableToCreatePolicy;
@@ -113,8 +111,8 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Policy";
-            TempData["searchTerm"] = "*";
-            return View();
+			TempData["searchTerm"] = "*";
+			return View();
 		}
 
 		/// <summary>
@@ -143,7 +141,6 @@ namespace OpenIZAdmin.Controllers
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to retrieve policies: {e}");
-
 			}
 
 			TempData["error"] = Locale.InvalidSearch;
@@ -169,9 +166,9 @@ namespace OpenIZAdmin.Controllers
 					TempData["error"] = Locale.PolicyNotFound;
 
 					return RedirectToAction("Index");
-				}			    
+				}
 
-                return View(new PolicyViewModel(result.CollectionItem.First()));
+				return View(new PolicyViewModel(result.CollectionItem.First()));
 			}
 			catch (Exception e)
 			{

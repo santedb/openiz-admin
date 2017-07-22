@@ -5,23 +5,24 @@ using System.Text;
 namespace OpenIZAdmin.Models.Core
 {
     /// <summary>
-    /// Entity address view model
+    /// Represents an entity address view model.
     /// </summary>
     public class EntityAddressViewModel
     {
 
-        /// <summary>
-        /// Default ctor
-        /// </summary>
-        public EntityAddressViewModel()
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EntityAddressViewModel"/> class.
+		/// </summary>
+		public EntityAddressViewModel()
         {
 
         }
 
-        /// <summary>
-        /// Creates entity address view model
-        /// </summary>
-        public EntityAddressViewModel(EntityAddress address)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EntityAddressViewModel"/> class.
+		/// </summary>
+		/// <param name="address">The address.</param>
+		public EntityAddressViewModel(EntityAddress address)
         {
             this.Country = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.Country)?.Value;
             this.City = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.City)?.Value;
@@ -32,45 +33,53 @@ namespace OpenIZAdmin.Models.Core
             this.PostalCode = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.PostalCode)?.Value;
         }
 
-        /// <summary>
-        /// Gets or sets the country
-        /// </summary>
-        public string Country { get; set; }
+		/// <summary>
+		/// Gets or sets the country
+		/// </summary>
+		/// <value>The country.</value>
+		public string Country { get; set; }
 
-        /// <summary>
-        /// Gets or sets the county
-        /// </summary>
-        public string County { get; set; }
+		/// <summary>
+		/// Gets or sets the county
+		/// </summary>
+		/// <value>The county.</value>
+		public string County { get; set; }
 
-        /// <summary>
-        /// Gets or set sthe city
-        /// </summary>
-        public string City { get; set; }
+		/// <summary>
+		/// Gets or set the city
+		/// </summary>
+		/// <value>The city.</value>
+		public string City { get; set; }
 
-        /// <summary>
-        /// Gets or sets the state
-        /// </summary>
-        public string State { get; set; }
+		/// <summary>
+		/// Gets or sets the state
+		/// </summary>
+		/// <value>The state.</value>
+		public string State { get; set; }
 
-        /// <summary>
-        /// Gets or sets the street address
-        /// </summary>
-        public string StreetAddress { get; set; }
+		/// <summary>
+		/// Gets or sets the street address
+		/// </summary>
+		/// <value>The street address.</value>
+		public string StreetAddress { get; set; }
 
-        /// <summary>
-        /// Gets or sets the precinct
-        /// </summary>
-        public string Precinct { get; set; }
+		/// <summary>
+		/// Gets or sets the precinct
+		/// </summary>
+		/// <value>The precinct.</value>
+		public string Precinct { get; set; }
 
-        /// <summary>
-        /// Postal code
-        /// </summary>
-        public string PostalCode { get; set; }
+		/// <summary>
+		/// Gets or sets the postal code
+		/// </summary>
+		/// <value>The postal code.</value>
+		public string PostalCode { get; set; }
 
-        /// <summary>
-        /// Represent as a string
-        /// </summary>
-        public override string ToString()
+		/// <summary>
+		/// Represent the address as a string instance.
+		/// </summary>
+		/// <returns>A <see cref="System.String" /> that represents this instance.</returns>
+		public override string ToString()
         {
             StringBuilder sb = new StringBuilder();
             if (!string.IsNullOrEmpty(this.StreetAddress))
