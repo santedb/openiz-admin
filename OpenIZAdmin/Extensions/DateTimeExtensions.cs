@@ -39,7 +39,16 @@ namespace OpenIZAdmin.Extensions
 		/// <returns>Returns the formatted date time as a string.</returns>
 		public static string DefaultFormat(this DateTime dateTime)
 		{
-			return DefaultFormat(new DateTimeOffset(dateTime));
+			var now = DateTime.Now;
+
+			try
+			{
+				return DefaultFormat(new DateTimeOffset(dateTime));
+			}
+			catch (Exception e)
+			{
+				return DefaultFormat(new DateTimeOffset(now));
+			}
 		}
 
 		/// <summary>
