@@ -860,6 +860,7 @@
     <Content Include="Views\Manual\Upload.cshtml" />
     <Content Include="Views\Shared\_ManageAppletsPartial.cshtml" />
     <Content Include="Views\Shared\_ConceptSetsPartial.cshtml" />
+    <Content Include="Views\Shared\_EditEntityAddressPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

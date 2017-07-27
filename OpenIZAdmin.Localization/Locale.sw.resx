@@ -2447,4 +2447,43 @@ au jina la kikoa</value>
   <data name="AssemblyInformation" xml:space="preserve">
     <value>Maelezo ya Mkutano</value>
   </data>
+  <data name="AddressCity" xml:space="preserve">
+    <value>Jiji</value>
+  </data>
+  <data name="AddressCountry" xml:space="preserve">
+    <value>Taifa</value>
+  </data>
+  <data name="AddressCounty" xml:space="preserve">
+    <value>Kata</value>
+  </data>
+  <data name="AddressPostalCode" xml:space="preserve">
+    <value>Posta</value>
+  </data>
+  <data name="AddressPrecinct" xml:space="preserve">
+    <value>Precinct</value>
+  </data>
+  <data name="AddressState" xml:space="preserve">
+    <value>Nchi</value>
+  </data>
+  <data name="AddressStreetAddress" xml:space="preserve">
+    <value>Anuani ya mtaa</value>
+  </data>
+  <data name="ToolTip_PlaceCity" xml:space="preserve">
+    <value>Mji wa mahali hapa</value>
+  </data>
+  <data name="ToolTip_PlaceCountry" xml:space="preserve">
+    <value>Nchi ya mahali hapa</value>
+  </data>
+  <data name="ToolTip_PlaceCounty" xml:space="preserve">
+    <value>Kata ya mahali hapa</value>
+  </data>
+  <data name="ToolTip_PlacePrecinct" xml:space="preserve">
+    <value>Hifadhi ya mahali hapa</value>
+  </data>
+  <data name="ToolTip_PlaceState" xml:space="preserve">
+    <value>Hali ya mahali hapa</value>
+  </data>
+  <data name="ToolTip_PlaceStreetAddress" xml:space="preserve">
+    <value>Anwani ya mitaani ya mahali hapa</value>
+  </data>
 </root>

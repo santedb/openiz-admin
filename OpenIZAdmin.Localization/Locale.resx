@@ -2424,4 +2424,43 @@
   <data name="ToolTop_InverseRelationship" xml:space="preserve">
     <value>Inverts the relationship. Use this option if you're attempting to assign a Dedicated Service Delivery location to a facility rather than a village</value>
   </data>
+  <data name="AddressCity" xml:space="preserve">
+    <value>City</value>
+  </data>
+  <data name="AddressCountry" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="AddressCounty" xml:space="preserve">
+    <value>County</value>
+  </data>
+  <data name="AddressPostalCode" xml:space="preserve">
+    <value>Postal Code</value>
+  </data>
+  <data name="AddressPrecinct" xml:space="preserve">
+    <value>Precinct</value>
+  </data>
+  <data name="AddressState" xml:space="preserve">
+    <value>State</value>
+  </data>
+  <data name="AddressStreetAddress" xml:space="preserve">
+    <value>Street Address</value>
+  </data>
+  <data name="ToolTip_PlaceCity" xml:space="preserve">
+    <value>The city of this place</value>
+  </data>
+  <data name="ToolTip_PlaceCountry" xml:space="preserve">
+    <value>The country of this place</value>
+  </data>
+  <data name="ToolTip_PlaceCounty" xml:space="preserve">
+    <value>The county of this place</value>
+  </data>
+  <data name="ToolTip_PlacePrecinct" xml:space="preserve">
+    <value>The precinct of this place</value>
+  </data>
+  <data name="ToolTip_PlaceState" xml:space="preserve">
+    <value>The state of this place</value>
+  </data>
+  <data name="ToolTip_PlaceStreetAddress" xml:space="preserve">
+    <value>The street address of this place</value>
+  </data>
 </root>
