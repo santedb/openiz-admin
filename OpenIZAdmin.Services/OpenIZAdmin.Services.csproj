@@ -79,6 +79,8 @@
     <Compile Include="Entities\Materials\IMaterialConceptService.cs" />
     <Compile Include="Entities\Materials\MaterialConceptService.cs" />
     <Compile Include="Core\IEntityService.cs" />
+    <Compile Include="Entities\Places\IPlaceConceptService.cs" />
+    <Compile Include="Entities\Places\PlaceConceptService.cs" />
     <Compile Include="Metadata\ConceptService.cs" />
     <Compile Include="Metadata\ExtensionTypeService.cs" />
     <Compile Include="Metadata\IConceptService.cs" />

@@ -17,17 +17,16 @@
  * Date: 2017-7-10
  */
 
+using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Core;
-using OpenIZAdmin.Core.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Services.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenIZ.Core.Model;
 
 namespace OpenIZAdmin.Services.Security
 {
@@ -79,7 +78,10 @@ namespace OpenIZAdmin.Services.Security
 		/// <exception cref="System.NotImplementedException"></exception>
 		public UserEntity UpdateUserEntity(UserEntity userEntity)
 		{
-			throw new NotImplementedException();
+			userEntity.CreationTime = DateTimeOffset.Now;
+			userEntity.VersionKey = null;
+
+			return this.Client.Update(userEntity);
 		}
 	}
 }
