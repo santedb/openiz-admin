@@ -2434,7 +2434,7 @@
     <value>County</value>
   </data>
   <data name="AddressPostalCode" xml:space="preserve">
-    <value>Postal Code</value>
+    <value>PostalCode</value>
   </data>
   <data name="AddressPrecinct" xml:space="preserve">
     <value>Precinct</value>

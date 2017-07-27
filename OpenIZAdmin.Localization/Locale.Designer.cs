@@ -250,7 +250,7 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Postal Code.
+        ///   Looks up a localized string similar to PostalCode.
         /// </summary>
         public static string AddressPostalCode {
             get {
