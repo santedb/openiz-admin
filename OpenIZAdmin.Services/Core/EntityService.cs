@@ -121,7 +121,7 @@ namespace OpenIZAdmin.Services.Core
 
 			try
 			{
-				var createMethod = this.Client.GetType().GetRuntimeMethods().First(m => m.Name == "Create" && m.ContainsGenericParameters == true && m.GetParameters().Count() == 1).MakeGenericMethod(entity.GetType());
+				var createMethod = this.Client.GetType().GetRuntimeMethods().First(m => m.Name == "Create" && m.ContainsGenericParameters && m.GetParameters().Count() == 1).MakeGenericMethod(entity.GetType());
 
                 created = createMethod.Invoke(this.Client, new object[] { entity }) as Entity;
 
@@ -169,7 +169,7 @@ namespace OpenIZAdmin.Services.Core
 
 			try
 			{
-				var getMethod = this.Client.GetType().GetRuntimeMethod("Get", new Type[] { typeof(Guid), typeof(Guid?) }).MakeGenericMethod(typeof(T));
+				var getMethod = this.Client.GetType().GetRuntimeMethods().First(m => m.Name == "Get" && m.GetParameters().Count() == 2).MakeGenericMethod(typeof(T));
 
 				if (versionKey.HasValue && versionKey.Value != Guid.Empty)
 				{
@@ -323,7 +323,7 @@ namespace OpenIZAdmin.Services.Core
 
 			try
 			{
-				var obsoleteMethod = this.Client.GetType().GetRuntimeMethod("Obsolete", new Type[] { entity.GetType() }).MakeGenericMethod(entity.GetType());
+				var obsoleteMethod = this.Client.GetType().GetRuntimeMethods().First(m => m.Name == "Obsolete" && m.ContainsGenericParameters && m.GetParameters().Count() == 1).MakeGenericMethod(entity.GetType());
 
 				obsoleted = obsoleteMethod.Invoke(this.Client, new object[] { entity }) as Entity;
 
