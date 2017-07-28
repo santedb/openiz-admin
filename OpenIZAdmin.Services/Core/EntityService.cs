@@ -121,9 +121,9 @@ namespace OpenIZAdmin.Services.Core
 
 			try
 			{
-				var createMethod = this.Client.GetType().GetRuntimeMethod("Create", new Type[] { entity.GetType() }).MakeGenericMethod(entity.GetType());
+				var createMethod = this.Client.GetType().GetRuntimeMethods().First(m => m.Name == "Create" && m.ContainsGenericParameters == true && m.GetParameters().Count() == 1).MakeGenericMethod(entity.GetType());
 
-				created = createMethod.Invoke(this.Client, new object[] { entity }) as Entity;
+                created = createMethod.Invoke(this.Client, new object[] { entity }) as Entity;
 
 				this.entityAuditService.AuditCreateEntity(OutcomeIndicator.Success, created);
 			}
