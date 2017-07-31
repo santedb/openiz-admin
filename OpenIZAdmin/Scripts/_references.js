@@ -1,4 +1,5 @@
 ﻿/// <autosync enabled="true" />
+/// <reference path="address-search.js" />
 /// <reference path="bootstrap.min.js" />
 /// <reference path="bootstrap-datepicker.min.js" />
 /// <reference path="bootstrap-tokenfield.min.js" />

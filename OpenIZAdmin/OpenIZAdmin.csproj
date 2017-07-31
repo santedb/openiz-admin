@@ -348,6 +348,7 @@
     <Compile Include="Models\CodeSystemModels\CreateCodeSystemModel.cs" />
     <Compile Include="Models\CodeSystemModels\EditCodeSystemModel.cs" />
     <Compile Include="Models\Core\ConceptModel.cs" />
+    <Compile Include="Models\Core\EditEntityAddressViewModel.cs" />
     <Compile Include="Models\Core\EntityAddressViewModel.cs" />
     <Compile Include="Models\Core\IIdentifiable.cs" />
     <Compile Include="Models\Core\IdentifiedEditModel.cs" />
@@ -597,6 +598,7 @@
     </None>
     <None Include="Properties\PublishProfiles\Disk.pubxml" />
     <None Include="Properties\PublishProfiles\MARC_HI_khannan_TImRAdmin.pubxml" />
+    <Content Include="Scripts\address-search.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
     <Content Include="Scripts\bootstrap-tokenfield.min.js" />

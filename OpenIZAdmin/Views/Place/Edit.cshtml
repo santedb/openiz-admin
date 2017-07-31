@@ -87,11 +87,11 @@
                     @if (Model.IsObsolete)
                     {
                         <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-primary" disabled="disabled" title="@Locale.ToolTip_Submit">@Locale.CannotUpdateNotActive</button>
-}
+                    }
                     else
                     {
                         <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
-}
+                    }
                 </div>
             </div>
         }
@@ -108,7 +108,7 @@
                             @Locale.Deactivate
                             <span class="glyphicon glyphicon-remove"></span>
                         </button>
-}
+                    }
                 }
                 else
                 {
@@ -120,7 +120,7 @@
                             @Locale.Activate
                             <span class="glyphicon glyphicon-upload"></span>
                         </button>
-}
+                    }
                 }
             </div>
         </div>

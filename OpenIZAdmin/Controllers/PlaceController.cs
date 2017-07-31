@@ -669,6 +669,32 @@ namespace OpenIZAdmin.Controllers
         }
 
         /// <summary>
+        /// Searches for an address component.
+        /// </summary>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="classConcept">The class concept.</param>
+        /// <returns>Returns a list of address components which match the search term.</returns>
+        [HttpGet]
+        public ActionResult SearchAddressAjax(string searchTerm, string classConcept)
+        {
+            var viewModels = new List<PlaceViewModel>();
+
+            if (!ModelState.IsValid) return Json(viewModels, JsonRequestBehavior.AllowGet);
+
+            Bundle places;
+            Guid classConceptKey;
+
+            if (Guid.TryParse(classConcept, out classConceptKey))
+            {
+                places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == classConceptKey, 0, 15, new string[] { "typeConcept", "address.use" });
+
+                viewModels = places.Item.OfType<Place>().LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+            }
+
+            return Json(viewModels, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
         /// Searches for a place to view details.
         /// </summary>
         /// <param name="id">The place identifier search string.</param>

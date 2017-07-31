@@ -1,6 +1,7 @@
 ﻿using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Localization;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
@@ -12,23 +13,23 @@ namespace OpenIZAdmin.Models.Core
     public class EntityAddressViewModel
     {
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="EntityAddressViewModel"/> class.
-		/// </summary>
-		public EntityAddressViewModel()
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EntityAddressViewModel"/> class.
+        /// </summary>
+        public EntityAddressViewModel()
         {
 
         }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="EntityAddressViewModel"/> class.
-		/// </summary>
-		/// <param name="address">The address.</param>
-		public EntityAddressViewModel(EntityAddress address)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="EntityAddressViewModel"/> class.
+        /// </summary>
+        /// <param name="address">The address.</param>
+        public EntityAddressViewModel(EntityAddress address)
         {
             this.Country = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.Country)?.Value;
             this.City = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.City)?.Value;
-            this.County= address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.County)?.Value;
+            this.County = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.County)?.Value;
             this.State = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.State)?.Value;
             this.StreetAddress = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.StreetAddressLine)?.Value;
             this.Precinct = address?.Component?.Find(o => o?.ComponentTypeKey == AddressComponentKeys.Precinct)?.Value;
@@ -90,7 +91,7 @@ namespace OpenIZAdmin.Models.Core
 		/// <returns>Returns a <see cref="EntityAddress"/> instance.</returns>
         public EntityAddress ToEntityAddress()
         {
-            return new EntityAddress(AddressUseKeys.Public, StreetAddress, Precinct, City, County, State, Country, PostalCode);
+            return new EntityAddress(AddressUseKeys.Direct, this.StreetAddress, this.Precinct, this.City, this.County, this.State, this.Country, this.PostalCode);
         }
 
         /// <summary>
@@ -115,7 +116,7 @@ namespace OpenIZAdmin.Models.Core
             if (!string.IsNullOrEmpty(this.PostalCode))
                 sb.AppendFormat("{0}, ", this.PostalCode);
 
-            if(sb.Length > 2)
+            if (sb.Length > 2)
                 sb.Remove(sb.Length - 2, 2);
             return sb.ToString();
         }
