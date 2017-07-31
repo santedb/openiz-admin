@@ -20,6 +20,7 @@
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -38,7 +39,8 @@ namespace OpenIZAdmin.Models.PlaceModels
 		public CreatePlaceModel()
 		{
 			this.TypeConcepts = new List<SelectListItem>();
-		}
+            this.Address = new EditEntityAddressViewModel();
+        }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this instance is service delivery location.
@@ -57,11 +59,16 @@ namespace OpenIZAdmin.Models.PlaceModels
 		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
-		/// <summary>
-		/// Gets or sets the target population.
-		/// </summary>
-		/// <value>The target population.</value>
-		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
+        /// <summary>
+        /// Gets or sets the address of the place
+        /// </summary>
+        public EditEntityAddressViewModel Address { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target population.
+        /// </summary>
+        /// <value>The target population.</value>
+        [Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
 		[Range(1, ulong.MaxValue, ErrorMessageResourceName = "TargetPopulationMustBePositive", ErrorMessageResourceType = typeof(Locale))]
 		public ulong? TargetPopulation { get; set; }
 
@@ -146,8 +153,9 @@ namespace OpenIZAdmin.Models.PlaceModels
 				{
 					new EntityName(NameUseKeys.OfficialRecord, this.Name)
 				},
-				StatusConceptKey = StatusKeys.Active
-			};
+				StatusConceptKey = StatusKeys.Active,
+                Addresses = new List<EntityAddress>() { Address.Address.ToEntityAddress() }
+        };
 
 			Guid typeConceptKey;
 
