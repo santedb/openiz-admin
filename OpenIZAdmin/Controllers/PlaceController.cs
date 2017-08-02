@@ -47,11 +47,11 @@ using OpenIZAdmin.Services.Entities.Places;
 
 namespace OpenIZAdmin.Controllers
 {
-    /// <summary>
-    /// Provides operations for managing places.
-    /// </summary>
-    [TokenAuthorize]
-    public class PlaceController : EntityBaseController
+	/// <summary>
+	/// Provides operations for managing places.
+	/// </summary>
+	[TokenAuthorize(Constants.UnrestrictedMetadata)]
+	public class PlaceController : EntityBaseController
     {
         /// <summary>
         /// The health facility mnemonic.

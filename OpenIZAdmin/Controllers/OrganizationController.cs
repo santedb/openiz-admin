@@ -43,7 +43,7 @@ namespace OpenIZAdmin.Controllers
 	/// <summary>
 	/// Provides operations for managing organizations.
 	/// </summary>
-	[TokenAuthorize]
+	[TokenAuthorize(Constants.UnrestrictedMetadata)]
 	public class OrganizationController : EntityBaseController
 	{
 		/// <summary>

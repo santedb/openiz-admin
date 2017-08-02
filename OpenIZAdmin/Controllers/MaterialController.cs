@@ -50,7 +50,7 @@ namespace OpenIZAdmin.Controllers
 	/// <summary>
 	/// Provides operations for managing materials.
 	/// </summary>
-	[TokenAuthorize]
+	[TokenAuthorize(Constants.UnrestrictedMetadata)]
 	public class MaterialController : Controller
 	{
 		/// <summary>

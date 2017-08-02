@@ -35,7 +35,7 @@ namespace OpenIZAdmin.Controllers
 	/// <summary>
 	/// Provides operations for managing code systems.
 	/// </summary>
-	[TokenAuthorize]
+	[TokenAuthorize(Constants.AdministerConceptDictionary)]
 	public class CodeSystemController : MetadataController
 	{
 		/// <summary>

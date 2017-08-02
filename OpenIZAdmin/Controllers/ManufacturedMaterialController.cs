@@ -32,7 +32,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing manufactured materials.
 	/// </summary>
 	/// <seealso cref="OpenIZAdmin.Controllers.BaseController" />
-	[TokenAuthorize]
+	[TokenAuthorize(Constants.UnrestrictedMetadata)]
 	public class ManufacturedMaterialController : BaseController
 	{
 		/// <summary>

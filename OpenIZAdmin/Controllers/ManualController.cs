@@ -36,7 +36,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing user manuals.
 	/// </summary>
 	/// <seealso cref="OpenIZAdmin.Controllers.BaseController" />
-	[TokenAuthorize]
+	[TokenAuthorize(Constants.UnrestrictedMetadata)]
 	public class ManualController : BaseController
 	{
 		/// <summary>

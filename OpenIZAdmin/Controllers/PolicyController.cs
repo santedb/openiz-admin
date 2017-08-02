@@ -32,7 +32,7 @@ namespace OpenIZAdmin.Controllers
 	/// <summary>
 	/// Provides operations for administering policies.
 	/// </summary>
-	[TokenAuthorize]
+	[TokenAuthorize(Constants.UnrestrictedAdministration)]
 	public class PolicyController : BaseController
 	{
 		/// <summary>

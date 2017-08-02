@@ -73,6 +73,11 @@ namespace OpenIZAdmin
 		public const string NotApplicable = "N/A";
 
 		/// <summary>
+		/// The OpenIZ grant type claim type.
+		/// </summary>
+		public const string OpenIZGrantTypeClaimType = "http://openiz.org/claims/grant";
+
+		/// <summary>
 		/// Regular expression string for password validation
 		/// </summary>
 		public const string RegExPassword = @"^[^\s\\/:*;\.\)\(]+$";

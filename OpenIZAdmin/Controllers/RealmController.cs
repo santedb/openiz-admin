@@ -52,7 +52,7 @@ namespace OpenIZAdmin.Controllers
 	/// <summary>
 	/// Provides operations for managing realms.
 	/// </summary>
-	[TokenAuthorize]
+	[TokenAuthorize(Constants.UnrestrictedAdministration)]
 	public class RealmController : Controller
 	{
 		/// <summary>

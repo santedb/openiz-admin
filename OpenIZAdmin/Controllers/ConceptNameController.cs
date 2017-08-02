@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Models.ConceptNameModels;
 
@@ -34,6 +35,7 @@ namespace OpenIZAdmin.Controllers
 	/// <summary>
 	/// Provides operations for managing languages.
 	/// </summary>
+	[TokenAuthorize(Constants.AdministerConceptDictionary)]
 	public class ConceptNameController : MetadataController
 	{
 		/// <summary>

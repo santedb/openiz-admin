@@ -36,7 +36,7 @@ namespace OpenIZAdmin.Controllers
 	/// <summary>
 	/// Provides operations for managing concepts.
 	/// </summary>
-	[TokenAuthorize]
+	[TokenAuthorize(Constants.AdministerConceptDictionary)]
 	public class ConceptSetController : MetadataController
 	{
 		/// <summary>

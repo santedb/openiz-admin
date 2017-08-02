@@ -41,7 +41,7 @@ namespace OpenIZAdmin.Controllers
 	/// <summary>
 	/// Provides operations for administering users.
 	/// </summary>
-	[TokenAuthorize]
+	[TokenAuthorize(Constants.AlterIdentity)]
 	public class UserController : BaseController
 	{
 		/// <summary>
