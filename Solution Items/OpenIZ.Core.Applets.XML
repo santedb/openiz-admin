@@ -660,7 +660,7 @@
             Initialize the applet manifest
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Applets.Model.AppletManifest.CreatePackage">
+        <member name="M:OpenIZ.Core.Applets.Model.AppletManifest.CreatePackage(System.String)">
             <summary>
             Create an unsigned package
             </summary>
@@ -734,6 +734,11 @@
             Applet package used for installations only
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Applets.Model.AppletPackage.#ctor">
+            <summary>
+            Applet package
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Applets.Model.AppletPackage.Load(System.Byte[])">
             <summary>
             Load the specified manifest name
@@ -754,6 +759,16 @@
             Gets or ses the manifest to be installed
             </summary>
             <value>The manifest.</value>
+        </member>
+        <member name="P:OpenIZ.Core.Applets.Model.AppletPackage.Version">
+            <summary>
+            The pak version
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Applets.Model.AppletPackage.Compression">
+            <summary>
+            Compression algorithm
+            </summary>
         </member>
         <member name="P:OpenIZ.Core.Applets.Model.AppletPackage.PublicKey">
             <summary>

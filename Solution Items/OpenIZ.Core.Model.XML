@@ -324,6 +324,12 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:OpenIZ.Core.Model.Acts.Act.ShouldSerializeTemplateKey">
+            <summary>
+            Should serialize template key
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:OpenIZ.Core.Model.Acts.Act.ShouldSerializePolicies">
             <summary>
             Should serialize policies
@@ -1836,6 +1842,26 @@
             Indicates that the source act transforms the target act
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Model.Constants.IndustryTypeKeys">
+            <summary>
+            Industry type keys for built-in OpenIZ industry types
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.IndustryTypeKeys.Manufacturing">
+            <summary>
+            Manufacturing industry
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.IndustryTypeKeys.OtherIndustry">
+            <summary>
+            Other industry
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.IndustryTypeKeys.HealthDelivery">
+            <summary>
+            Health delivery industry
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Constants.ObservationTypeKeys">
             <summary>
             Represents act type keys related to types of observations that can be made about a patient
@@ -2409,6 +2435,16 @@
         <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.AllergyIntoleranceTypes">
             <summary>
             Allergy and intolerance types
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.PlaceTypes">
+            <summary>
+            Orgnaiztaion types
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.ConceptSetKeys.OrganizationTypes">
+            <summary>
+            Orgnaiztaion types
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Constants.ContainerCapKeys">
@@ -3482,6 +3518,16 @@
             The replaces
             </summary>
         </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.Instance">
+            <summary>
+            The target entity represents an instance of the scoper entity
+            </summary>
+        </member>
+        <member name="F:OpenIZ.Core.Model.Constants.EntityRelationshipTypeKeys.LocatedEntity">
+            <summary>
+            Relates the target entity to a source location
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.Constants.ExtensionTypeKeys">
             <summary>
             Represents extension type keys for ONLY CORE EXTENSIONS. Third party extensions should never be placed in core
@@ -3867,6 +3913,11 @@
             True if the assigning authority values should be unique
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.AssigningAuthority.ShouldSerializeIsUnique">
+            <summary>
+            Should serialize IsUnique
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.DataTypes.AssigningAuthority.AssigningDevice">
             <summary>
             Gets or sets the assigning device
@@ -4026,6 +4077,11 @@
         <member name="M:OpenIZ.Core.Model.DataTypes.Concept.SemanticEquals(System.Object)">
             <summary>
             Determine equality
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.Concept.ToDisplay">
+            <summary>
+            Represent as a display string
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.DataTypes.ConceptClass">
@@ -4292,6 +4348,12 @@
             <summary>
             Gets or sets the ignore value
             </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.DataTypes.Extension`1.GetValue">
+            <summary>
+            Get the value of the extension
+            </summary>
+            <returns></returns>
         </member>
         <member name="P:OpenIZ.Core.Model.DataTypes.Extension`1.ExtensionDisplay">
             <summary>
@@ -5204,12 +5266,23 @@
             </summary>
             <returns></returns>
         </member>
+        <member name="M:OpenIZ.Core.Model.Entities.Entity.ShouldSerializeTemplateKey">
+            <summary>
+            Should serialize template key
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:OpenIZ.Core.Model.Entities.EntityAddress">
             <summary>
             Entity address
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.Entities.EntityAddress.#ctor(System.Guid,System.String,System.String,System.String,System.String,System.String)">
+            <summary>
+            Create the address from components
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityAddress.#ctor(System.Guid,System.String,System.String,System.String,System.String,System.String,System.String,System.String)">
             <summary>
             Create the address from components
             </summary>
@@ -5234,6 +5307,11 @@
             Gets or sets the component types
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityAddress.GetComponent(System.Guid)">
+            <summary>
+            Get components
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Model.Entities.EntityAddress.Clean">
             <summary>
             Remove empty components
@@ -5255,6 +5333,11 @@
             Never need to serialize the entity source key
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityAddress.ToDisplay">
+            <summary>
+            Represent as display
+            </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Entities.EntityAddressComponent">
             <summary>
@@ -5343,6 +5426,11 @@
         <member name="M:OpenIZ.Core.Model.Entities.EntityName.ToString">
             <summary>
             Represent the name as a string
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.EntityName.ToDisplay">
+            <summary>
+            Represent the entity name as a display string
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Entities.EntityNameComponent">
@@ -5713,6 +5801,21 @@
             <summary>
             Gets or sets the industry in which the organization operates
             </summary>
+            <remarks>
+            The industry concept is used to classify the industrial sector to which an organization belongs. For example,
+            an organization may be of type NGO, but the industry in which that organization operates is Healthcare
+            </remarks>
+            <see cref="P:OpenIZ.Core.Model.Entities.Organization.IndustryConceptKey"/>
+        </member>
+        <member name="P:OpenIZ.Core.Model.Entities.Organization.IndustryConceptKey">
+            <summary>
+            Gets or sets the concept key which classifies the industry in which the organization operates
+            </summary>
+            <remarks>
+            The industry concept is used to classify the industrial sector to which an organization belongs. For example,
+            an organization may be of type NGO, but the industry in which that organization operates is Healthcare
+            </remarks>
+            <see cref="P:OpenIZ.Core.Model.Entities.Organization.IndustryConcept"/>
         </member>
         <member name="M:OpenIZ.Core.Model.Entities.Organization.Refresh">
             <summary>
@@ -5828,6 +5931,24 @@
             <summary>
             Gets or sets the longitude
             </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.Place.ShouldSerializeIsMobile">
+            <summary>
+            Should serialize mobile
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.Place.ShouldSerializeLat">
+            <summary>
+            Should serialize latitude
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Entities.Place.ShouldSerializeLng">
+            <summary>
+            Should serialize longitude
+            </summary>
+            <returns></returns>
         </member>
         <member name="P:OpenIZ.Core.Model.Entities.Place.Services">
             <summary>
@@ -6100,6 +6221,11 @@
             be semantically equal when they both represent the same entity playing the same role in the same act as one another, 
             even though their keys and effective / obsolete version properties may be different.
             </remarks>
+        </member>
+        <member name="M:OpenIZ.Core.Model.IdentifiedData.ToDisplay">
+            <summary>
+            To display value
+            </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Interfaces.IBaseEntityData">
             <summary>
@@ -6859,6 +6985,11 @@
             Patch
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.Patch.Patch.Version">
+            <summary>
+            Gets or sets the version of the patch file
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.Patch.Patch.AppliesTo">
             <summary>
             Application version
@@ -7137,6 +7268,11 @@
             Reflection tools
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Model.ExtensionMethods.Value(OpenIZ.Core.Model.Entities.EntityAddress,System.Guid)">
+            <summary>
+            Get postal code
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Model.ExtensionMethods.LoadProperty``1(OpenIZ.Core.Model.IdentifiedData,System.String)">
             <summary>
             Delay load property
@@ -7298,6 +7434,12 @@
             <summary>
             Should serialize deceased date?
             </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Roles.Patient.ShouldSerializeDeceasedDatePrecision">
+            <summary>
+            Should serialize deceasd date
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:OpenIZ.Core.Model.Roles.Patient.ShouldSerializeMultipleBirthOrder">
             <summary>
@@ -7663,6 +7805,11 @@
         <member name="P:OpenIZ.Core.Model.VersionedAssociation`1.ObsoleteVersionSequenceId">
             <summary>
             Gets or sets the obsoleted version identifier
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.VersionedAssociation`1.VersionSeqeuncesSpecified">
+            <summary>
+            When true, instructs that the sequences be serialized
             </summary>
         </member>
         <member name="M:OpenIZ.Core.Model.VersionedAssociation`1.ShouldSerializeObsoleteVersionSequenceId">
