@@ -17,13 +17,13 @@
  * Date: 2017-7-10
  */
 
-using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Security;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Security;
 
-namespace OpenIZAdmin.Services.Security
+namespace OpenIZAdmin.Services.Security.Users
 {
 	/// <summary>
 	/// Represents an security user service.

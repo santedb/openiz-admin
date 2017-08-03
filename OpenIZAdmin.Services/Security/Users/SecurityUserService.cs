@@ -17,21 +17,21 @@
  * Date: 2017-7-10
  */
 
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Services.Core;
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
 
-namespace OpenIZAdmin.Services.Security
+namespace OpenIZAdmin.Services.Security.Users
 {
 	/// <summary>
 	/// Represents a security user service.
 	/// </summary>
 	/// <seealso cref="OpenIZAdmin.Services.Core.AmiServiceBase" />
-	/// <seealso cref="OpenIZAdmin.Services.Security.ISecurityUserService" />
+	/// <seealso cref="ISecurityUserService" />
 	public class SecurityUserService : AmiServiceBase, ISecurityUserService
 
 	{

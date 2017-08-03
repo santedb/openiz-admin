@@ -17,10 +17,10 @@
  * Date: 2017-7-10
  */
 
-using OpenIZ.Core.Model.Entities;
 using System;
+using OpenIZ.Core.Model.Entities;
 
-namespace OpenIZAdmin.Services.Security
+namespace OpenIZAdmin.Services.Security.Users
 {
 	/// <summary>
 	/// Represents a user service.
