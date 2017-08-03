@@ -34,6 +34,7 @@ using System.Reflection;
 using OpenIZ.Core.Model.Collection;
 using OpenIZAdmin.Core.Extensions;
 using OpenIZAdmin.Services.Metadata;
+using System.Diagnostics;
 
 namespace OpenIZAdmin.Services.Core
 {
@@ -323,7 +324,7 @@ namespace OpenIZAdmin.Services.Core
 
 			try
 			{
-				var obsoleteMethod = this.Client.GetType().GetRuntimeMethod("Obsolete", new Type[] { entity.GetType() }).MakeGenericMethod(entity.GetType());
+				var obsoleteMethod = this.Client.GetType().GetGenericMethod("Obsolete", new Type[] { entity.GetType() }, new Type[] { entity.GetType() });
 
 				obsoleted = obsoleteMethod.Invoke(this.Client, new object[] { entity }) as Entity;
 
@@ -331,6 +332,7 @@ namespace OpenIZAdmin.Services.Core
 			}
 			catch (Exception e)
 			{
+                Trace.TraceError(e.ToString());
 				this.coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, entityAuditService.DeleteEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
 				throw;
 			}

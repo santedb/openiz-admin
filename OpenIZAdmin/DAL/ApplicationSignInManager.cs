@@ -281,7 +281,7 @@ namespace OpenIZAdmin.DAL
 
 				if (!identityResult.Succeeded)
 				{
-                    Trace.TraceWarning("Could not create identity - {}");
+                    Trace.TraceWarning("Could not create identity - {0}", String.Join(",",identityResult.Errors));
 					return SignInStatus.Failure;
 				}
 

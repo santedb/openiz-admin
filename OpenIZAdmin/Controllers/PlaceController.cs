@@ -42,6 +42,8 @@ using Microsoft.AspNet.Identity;
 using OpenIZAdmin.Core.Extensions;
 using OpenIZ.Core.Model;
 using OpenIZ.Messaging.IMSI.Client;
+using OpenIZ.Core.Http;
+using OpenIZAdmin.Services.Http;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -558,7 +560,7 @@ namespace OpenIZAdmin.Controllers
         {
             TempData["searchType"] = "Place";
             TempData["searchTerm"] = "*";
-            TempData["typeFilter"] = new SelectListItem[] { new SelectListItem() { Value = null, Text = Locale.NotApplicable } }.Union(this.ImsiClient.Query<Concept>(o => o.ConceptSets.Any(c => c.Mnemonic == "PlaceTypeConcept")).Item.OfType<Concept>().Select(o => new SelectListItem()
+            TempData["typeFilter"] = new SelectListItem[] { new SelectListItem() { Value = null, Text = Locale.NotApplicable } }.Union(this.ImsiClient.Query<Concept>(o => o.ConceptSets.Any(c => c.Mnemonic == "PlaceTypeConcept")).GetResultItems().OfType<Concept>().Select(o => new SelectListItem()
             {
                 Text = o.LoadCollection<ConceptName>("ConceptNames")?.FirstOrDefault()?.Name,
                 Value = o.Key.ToString()
@@ -648,7 +650,7 @@ namespace OpenIZAdmin.Controllers
 
             if (!ModelState.IsValid) return Json(viewModels, JsonRequestBehavior.AllowGet);
 
-            var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation, 0, 15, new string[] { "typeConcept", "address.use" });
+            var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation, 0, 25, new string[] { "typeConcept", "address.use" });
 
             viewModels = places.Item.OfType<Place>().LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 
