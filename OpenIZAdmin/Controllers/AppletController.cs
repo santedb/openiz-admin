@@ -38,7 +38,7 @@ namespace OpenIZAdmin.Controllers
     /// <summary>
     /// Provides operations for managing applets.
     /// </summary>
-    [TokenAuthorize]
+    [TokenAuthorize(Constants.UnrestrictedMetadata)]
 	public class AppletController : BaseController
 	{
 		/// <summary>

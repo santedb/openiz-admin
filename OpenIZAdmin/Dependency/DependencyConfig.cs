@@ -38,8 +38,13 @@ using OpenIZAdmin.Services.Security;
 using System.Web;
 using OpenIZAdmin.Core.Auditing.Core;
 using OpenIZAdmin.Core.Auditing.Entities;
+using OpenIZAdmin.Services.Applets;
 using OpenIZAdmin.Services.Core;
 using OpenIZAdmin.Services.Entities.Materials;
+using OpenIZAdmin.Services.Entities.Places;
+using OpenIZAdmin.Services.Security.Devices;
+using OpenIZAdmin.Services.Security.Roles;
+using OpenIZAdmin.Services.Security.Users;
 
 namespace OpenIZAdmin.Dependency
 {
@@ -102,8 +107,9 @@ namespace OpenIZAdmin.Dependency
 			// register the concept service
 			builder.RegisterType<ConceptService>().As<IConceptService>().InstancePerLifetimeScope();
 
-			// register material concept services
+			// register entity concept services
 			builder.RegisterType<MaterialConceptService>().As<IMaterialConceptService>().InstancePerLifetimeScope();
+			builder.RegisterType<PlaceConceptService>().As<IPlaceConceptService>().InstancePerLifetimeScope();
 
 			// register user services
 			builder.RegisterType<UserService>().As<IUserService>().InstancePerLifetimeScope();
@@ -113,6 +119,15 @@ namespace OpenIZAdmin.Dependency
 
 			// register extension type services
 			builder.RegisterType<ExtensionTypeService>().As<IExtensionTypeService>().InstancePerLifetimeScope();
+
+			// register applet services
+			builder.RegisterType<AppletService>().As<IAppletService>().InstancePerLifetimeScope();
+
+			// register device services
+			builder.RegisterType<SecurityDeviceService>().As<ISecurityDeviceService>().InstancePerLifetimeScope();
+
+			// register role services
+			builder.RegisterType<SecurityRoleService>().As<ISecurityRoleService>().InstancePerLifetimeScope();
 		}
 	}
 }

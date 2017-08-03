@@ -214,6 +214,33 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to City.
+        /// </summary>
+        public static string AddressCity {
+            get {
+                return ResourceManager.GetString("AddressCity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Country.
+        /// </summary>
+        public static string AddressCountry {
+            get {
+                return ResourceManager.GetString("AddressCountry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to County.
+        /// </summary>
+        public static string AddressCounty {
+            get {
+                return ResourceManager.GetString("AddressCounty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Address field cannot exceed 255 characters.
         /// </summary>
         public static string AddressLength255 {
@@ -223,11 +250,47 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PostalCode.
+        /// </summary>
+        public static string AddressPostalCode {
+            get {
+                return ResourceManager.GetString("AddressPostalCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Precinct.
+        /// </summary>
+        public static string AddressPrecinct {
+            get {
+                return ResourceManager.GetString("AddressPrecinct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Address field is required.
         /// </summary>
         public static string AddressRequired {
             get {
                 return ResourceManager.GetString("AddressRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to State.
+        /// </summary>
+        public static string AddressState {
+            get {
+                return ResourceManager.GetString("AddressState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Street Address.
+        /// </summary>
+        public static string AddressStreetAddress {
+            get {
+                return ResourceManager.GetString("AddressStreetAddress", resourceCulture);
             }
         }
         
@@ -5209,6 +5272,33 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The city of this place.
+        /// </summary>
+        public static string ToolTip_PlaceCity {
+            get {
+                return ResourceManager.GetString("ToolTip_PlaceCity", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The country of this place.
+        /// </summary>
+        public static string ToolTip_PlaceCountry {
+            get {
+                return ResourceManager.GetString("ToolTip_PlaceCountry", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The county of this place.
+        /// </summary>
+        public static string ToolTip_PlaceCounty {
+            get {
+                return ResourceManager.GetString("ToolTip_PlaceCounty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The angle (ranging from 0 to 90 degrees) running North to South.
         /// </summary>
         public static string ToolTip_PlaceLatitude {
@@ -5232,6 +5322,33 @@ namespace OpenIZAdmin.Localization {
         public static string ToolTip_PlaceName {
             get {
                 return ResourceManager.GetString("ToolTip_PlaceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The precinct of this place.
+        /// </summary>
+        public static string ToolTip_PlacePrecinct {
+            get {
+                return ResourceManager.GetString("ToolTip_PlacePrecinct", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The state of this place.
+        /// </summary>
+        public static string ToolTip_PlaceState {
+            get {
+                return ResourceManager.GetString("ToolTip_PlaceState", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The street address of this place.
+        /// </summary>
+        public static string ToolTip_PlaceStreetAddress {
+            get {
+                return ResourceManager.GetString("ToolTip_PlaceStreetAddress", resourceCulture);
             }
         }
         

@@ -1,0 +1,53 @@
+﻿@using OpenIZ.Core.Model.Constants
+@model OpenIZAdmin.Models.Core.EditEntityAddressViewModel
+@{
+    ViewBag.Title = Locale.Applets;
+}
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Address.Country, new { @class = "col-md-2 control-label" })
+    <div class="col-md-8">
+        @Html.DropDownListFor(m => m.Address.Country, Model.CountryList, new { @class = "address-search form-control", multiple = "multiple", title = Locale.ToolTip_PlaceCountry, data_classconcept = EntityClassKeys.Country })
+        @Html.ValidationMessageFor(m => m.Address.Country, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Address.State, new { @class = "col-md-2 control-label" })
+    <div class="col-md-8">
+        @Html.DropDownListFor(m => m.Address.State, Model.StateList, new { @class = "address-search form-control", multiple = "multiple", title = Locale.ToolTip_PlaceState, data_classconcept = EntityClassKeys.State })
+        @Html.ValidationMessageFor(m => m.Address.State, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Address.County, new { @class = "col-md-2 control-label" })
+    <div class="col-md-8">
+        @Html.DropDownListFor(m => m.Address.County, Model.CountyList, new { @class = "address-search form-control", multiple = "multiple", title = Locale.ToolTip_PlaceCounty, data_classconcept = EntityClassKeys.CountyOrParish })
+        @Html.ValidationMessageFor(m => m.Address.County, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Address.City, new { @class = "col-md-2 control-label" })
+    <div class="col-md-8">
+        @Html.DropDownListFor(m => m.Address.City, Model.CityList, new { @class = "address-search form-control", multiple = "multiple", title = Locale.ToolTip_PlaceCity, data_classconcept = EntityClassKeys.CityOrTown })
+        @Html.ValidationMessageFor(m => m.Address.City, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Address.Precinct, new { @class = "col-md-2 control-label" })
+    <div class="col-md-8">
+        @Html.DropDownListFor(m => m.Address.Precinct, Model.PrecinctList, new { @class = "address-search form-control", multiple = "multiple", title = Locale.ToolTip_PlacePrecinct, data_classconcept = EntityClassKeys.Place })
+        @Html.ValidationMessageFor(m => m.Address.Precinct, "", new { @class = "text-danger" })
+    </div>
+</div>
+
+<div class="form-group">
+    @Html.LabelFor(m => m.Address.StreetAddress, new { @class = "col-md-2 control-label" })
+    <div class="col-md-8">
+        @Html.TextBoxFor(m => m.Address.StreetAddress, new { @class = "form-control", title = Locale.ToolTip_PlaceStreetAddress })
+        @Html.ValidationMessageFor(m => m.Address.StreetAddress, "", new { @class = "text-danger" })
+    </div>
+</div>

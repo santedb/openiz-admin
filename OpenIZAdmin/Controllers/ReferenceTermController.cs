@@ -34,10 +34,10 @@ using OpenIZAdmin.Models.ReferenceTermModels;
 
 namespace OpenIZAdmin.Controllers
 {
-    /// <summary>
-    /// Provides operations for managing reference terms.
-    /// </summary>
-    [TokenAuthorize]
+	/// <summary>
+	/// Provides operations for managing reference terms.
+	/// </summary>
+	[TokenAuthorize(Constants.AdministerConceptDictionary)]
 	public class ReferenceTermController : MetadataController
     {       
         /// <summary>

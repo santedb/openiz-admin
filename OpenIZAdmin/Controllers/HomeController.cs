@@ -17,37 +17,57 @@
  * Date: 2016-5-31
  */
 
-
 using Microsoft.AspNet.Identity;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.AppletModels;
-using OpenIZAdmin.Models.CertificateModels;
 using OpenIZAdmin.Models.DebugModels;
+using OpenIZAdmin.Models.DeviceModels;
+using OpenIZAdmin.Models.RoleModels;
+using OpenIZAdmin.Services.Applets;
+using OpenIZAdmin.Services.Security;
+using OpenIZAdmin.Services.Security.Devices;
+using OpenIZAdmin.Services.Security.Roles;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using OpenIZAdmin.Models.DeviceModels;
 
 namespace OpenIZAdmin.Controllers
 {
-    /// <summary>
-    /// Provides operations for generic use.
-    /// </summary>
-    [TokenAuthorize]
+	/// <summary>
+	/// Provides operations for generic use.
+	/// </summary>
+	[TokenAuthorize]
 	public class HomeController : BaseController
 	{
 		/// <summary>
-		/// Gets all devices.
+		/// The applet service.
 		/// </summary>
-		/// <returns>Returns a list of all devices as device view model instances.</returns>
-		private IEnumerable<DeviceViewModel> GetAllDevices()
+		private readonly IAppletService appletService;
+
+		/// <summary>
+		/// The security device service.
+		/// </summary>
+		private readonly ISecurityDeviceService securityDeviceService;
+
+		/// <summary>
+		/// The security role service.
+		/// </summary>
+		private readonly ISecurityRoleService securityRoleService;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="HomeController" /> class.
+		/// </summary>
+		/// <param name="appletService">The applet service.</param>
+		/// <param name="securityDeviceService">The security device service.</param>
+		/// <param name="securityRoleService">The security role service.</param>
+		public HomeController(IAppletService appletService, ISecurityDeviceService securityDeviceService, ISecurityRoleService securityRoleService)
 		{
-			return this.AmiClient.GetDevices(d => d.Name != string.Empty).CollectionItem.Select(d => new DeviceViewModel(d));
+			this.appletService = appletService;
+			this.securityDeviceService = securityDeviceService;
+			this.securityRoleService = securityRoleService;
 		}
 
 		/// <summary>
@@ -61,13 +81,30 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("JoinRealm", "Realm");
 			}
 
-            var viewModel = new DashboardViewModel
+			var viewModel = new DashboardViewModel();
+
+			try
 			{
-				Applets = this.AmiClient.GetApplets().CollectionItem.Select(a => new AppletViewModel(a)),
-				CertificateRequests = new List<CertificateSigningRequestViewModel>(), //CertificateUtil.GetAllCertificateSigningRequests(this.client),
-				Devices = this.GetAllDevices().OrderBy(d => d.CreationTime).ThenBy(d => d.Name).Take(15),
-				Roles = this.GetAllRoles().OrderBy(r => r.Name).Take(15)
-			};
+				if (PolicyPermission.TryDemand(this.User, Constants.UnrestrictedMetadata))
+				{
+					viewModel.Applets = appletService.GetAllApplets().Select(a => new AppletViewModel(a));
+				}
+
+				if (PolicyPermission.TryDemand(this.User, Constants.CreateDevice))
+				{
+					viewModel.Devices = securityDeviceService.GetAllDevices().Select(d => new DeviceViewModel(d)).OrderBy(d => d.CreationTime).ThenBy(d => d.Name).Take(15);
+				}
+
+				if (PolicyPermission.TryDemand(this.User, Constants.AlterRoles))
+				{
+					viewModel.Roles = securityRoleService.GetAllRoles().OrderBy(r => r.Name).Take(15).Select(r => new RoleViewModel(r));
+				}
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to create dashboard view model: {e}");
+				this.TempData["error"] = Locale.UnexpectedErrorMessage;
+			}
 
 			return View(viewModel);
 		}

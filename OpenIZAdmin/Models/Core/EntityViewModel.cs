@@ -110,6 +110,7 @@ namespace OpenIZAdmin.Models.Core
         /// <summary>
         /// Entity address view model
         /// </summary>
+        [Display(Name = "Address", ResourceType = typeof(Locale))]
         public List<EntityAddressViewModel> Address { get; set; }
 
         /// <summary>

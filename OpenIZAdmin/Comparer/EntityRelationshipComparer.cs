@@ -31,6 +31,14 @@ namespace OpenIZAdmin.Comparer
 	public class EntityRelationshipComparer : IEqualityComparer<EntityRelationship>
 	{
 		/// <summary>
+		/// Initializes a new instance of the <see cref="EntityRelationshipComparer"/> class.
+		/// </summary>
+		public EntityRelationshipComparer()
+		{
+			
+		}
+
+		/// <summary>
 		/// Determines whether the specified objects are equal.
 		/// </summary>
 		/// <param name="x">The first object of type to compare.</param>

@@ -32,7 +32,7 @@ namespace OpenIZAdmin.Controllers
 	/// <summary>
 	/// Provides operations for managing extension types.
 	/// </summary>
-	[TokenAuthorize]
+	[TokenAuthorize(Constants.UnrestrictedMetadata)]
 	public class ExtensionTypeController : Controller
 	{
 		/// <summary>

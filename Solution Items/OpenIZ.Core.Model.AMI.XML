@@ -701,6 +701,11 @@
             Gets or sets the applets
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticApplicationInfo.ServiceInfo">
+            <summary>
+            Gets or sets the applets
+            </summary>
+        </member>
         <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticApplicationInfo.FileInfo">
             <summary>
             Gets or sets file info
@@ -821,9 +826,39 @@
             Gets or sets any ticket related information
             </summary>
         </member>
+        <member name="T:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticServiceInfo">
+            <summary>
+            Represents diagnostic service info
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticServiceInfo.#ctor(System.Object)">
+            <summary>
+            Create the service info
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticServiceInfo.Description">
+            <summary>
+            Gets or sets the description
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticServiceInfo.IsRunning">
+            <summary>
+            Gets or sets whether the service is running
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticServiceInfo.Type">
+            <summary>
+            Gets or sets the type
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticSyncInfo">
             <summary>
             Remote sync info
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticSyncInfo.Name">
+            <summary>
+            Friendly name of the sync
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Model.AMI.Diagnostics.DiagnosticSyncInfo.Filter">

@@ -34,7 +34,7 @@ namespace OpenIZAdmin.Controllers
 	/// <summary>
 	/// Provides operations for managing assigning authorities.
 	/// </summary>
-	[TokenAuthorize]
+	[TokenAuthorize(Constants.UnrestrictedMetadata)]
 	public class AssigningAuthorityController : BaseController
 	{
 		/// <summary>

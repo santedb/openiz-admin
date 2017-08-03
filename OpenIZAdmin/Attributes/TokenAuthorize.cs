@@ -18,13 +18,18 @@
  */
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
 using System.Net;
+using System.Security.Permissions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Microsoft.AspNet.Identity;
+using OpenIZAdmin.Services.Security;
+using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Attributes
 {
@@ -35,10 +40,25 @@ namespace OpenIZAdmin.Attributes
 	public sealed class TokenAuthorize : AuthorizeAttribute
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenIZAdmin.Attributes.TokenAuthorize"/> class.
+		/// The policies to enforce as a part of the authorization.
+		/// </summary>
+		private readonly List<string> policies;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TokenAuthorize"/> class.
 		/// </summary>
 		public TokenAuthorize()
 		{
+			this.policies = new List<string>();
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TokenAuthorize"/> class.
+		/// </summary>
+		/// <param name="policies">The policies.</param>
+		public TokenAuthorize(params string[] policies)
+		{
+			this.policies = policies?.ToList() ?? new List<string>();
 		}
 
 		/// <summary>
@@ -48,7 +68,7 @@ namespace OpenIZAdmin.Attributes
 		/// <returns>Returns true if the current user is authorized to access the request resources.</returns>
 		protected override bool AuthorizeCore(HttpContextBase httpContext)
 		{
-			bool isAuthorized = false;
+			var isAuthorized = false;
 
 			var accessToken = httpContext.Request.Cookies["access_token"]?.Value;
 
@@ -56,16 +76,12 @@ namespace OpenIZAdmin.Attributes
 			{
 				try
 				{
-					var securityToken = new JwtSecurityToken(accessToken);
+					isAuthorized = !JwtUtil.IsExpired(accessToken);
 
-					// is the token expired?
-					if (securityToken.ValidTo <= DateTime.UtcNow)
+					foreach (var policy in policies)
 					{
-						isAuthorized = false;
-					}
-					else
-					{
-						isAuthorized = true;
+						// demand the permission
+						new PolicyPermission(PermissionState.Unrestricted, policy, httpContext.User).Demand();
 					}
 				}
 				catch (Exception e)

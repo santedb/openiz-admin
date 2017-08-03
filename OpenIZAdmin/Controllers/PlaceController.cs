@@ -44,14 +44,16 @@ using OpenIZ.Core.Model;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZ.Core.Http;
 using OpenIZAdmin.Services.Http;
+using OpenIZAdmin.Services.Core;
+using OpenIZAdmin.Services.Entities.Places;
 
 namespace OpenIZAdmin.Controllers
 {
-    /// <summary>
-    /// Provides operations for managing places.
-    /// </summary>
-    [TokenAuthorize]
-    public class PlaceController : EntityBaseController
+	/// <summary>
+	/// Provides operations for managing places.
+	/// </summary>
+	[TokenAuthorize(Constants.UnrestrictedMetadata)]
+	public class PlaceController : EntityBaseController
     {
         /// <summary>
         /// The health facility mnemonic.
@@ -63,11 +65,23 @@ namespace OpenIZAdmin.Controllers
         /// </summary>
         private readonly string placeTypeMnemonic = ConfigurationManager.AppSettings["PlaceTypeConceptMnemonic"];
 
+		/// <summary>
+		/// The entity service.
+		/// </summary>
+		private readonly IEntityService entityService;
+
+		/// <summary>
+		/// The place concept service.
+		/// </summary>
+		private readonly IPlaceConceptService placeConceptService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PlaceController"/> class.
         /// </summary>
-        public PlaceController()
+        public PlaceController(IEntityService entityService, IPlaceConceptService placeConceptService)
         {
+	        this.entityService = entityService;
+	        this.placeConceptService = placeConceptService;
         }
 
         /// <summary>
@@ -80,7 +94,7 @@ namespace OpenIZAdmin.Controllers
         {
             try
             {
-                var place = this.GetEntity<Place>(id, null);
+	            var place = this.entityService.Get<Place>(id);
 
                 if (place == null)
                 {
@@ -88,11 +102,9 @@ namespace OpenIZAdmin.Controllers
                     return RedirectToAction("Edit", new { id = id, versionId = versionId });
                 }
 
-                place.CreationTime = DateTimeOffset.Now;
-                place.VersionKey = null;
                 place.StatusConceptKey = StatusKeys.Active;
 
-                var updatedPlace = this.ImsiClient.Update(place);
+	            var updatedPlace = entityService.Update(place);
 
                 this.TempData["success"] = Locale.PlaceActivatedSuccessfully;
 
@@ -119,7 +131,7 @@ namespace OpenIZAdmin.Controllers
             var model = new CreatePlaceModel
             {
                 IsServiceDeliveryLocation = true,
-                TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList()
+                TypeConcepts = this.placeConceptService.GetPlaceTypeConcepts(healthFacilityMnemonic, placeTypeMnemonic).ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList()
             };
 
             return View(model);
@@ -168,7 +180,7 @@ namespace OpenIZAdmin.Controllers
 
                     placeToCreate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
 
-                    var createdPlace = this.ImsiClient.Create<Place>(placeToCreate);
+	                var createdPlace = this.entityService.Create(placeToCreate);
 
                     TempData["success"] = Locale.PlaceSuccessfullyCreated;
 
@@ -181,7 +193,7 @@ namespace OpenIZAdmin.Controllers
                 }
             }
 
-            model.TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
+            model.TypeConcepts = this.placeConceptService.GetPlaceTypeConcepts(healthFacilityMnemonic, placeTypeMnemonic).ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
 
             this.TempData["error"] = Locale.UnableToCreatePlace;
 
@@ -198,7 +210,7 @@ namespace OpenIZAdmin.Controllers
         {
             try
             {
-                var place = this.GetEntity<Place>(id);
+	            var place = this.entityService.Get<Place>(id);
 
                 if (place == null)
                 {
@@ -380,7 +392,7 @@ namespace OpenIZAdmin.Controllers
 
                 var model = new EditPlaceModel(place)
                 {
-                    TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), t => t.Key == place.TypeConceptKey).ToList(),
+                    TypeConcepts = this.placeConceptService.GetPlaceTypeConcepts(healthFacilityMnemonic, placeTypeMnemonic).ToSelectList(this.HttpContext.GetCurrentLanguage(), t => t.Key == place.TypeConceptKey).ToList(),
                     UpdatedBy = this.GetUserEntityBySecurityUserKey(place.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
                 };
 
@@ -439,7 +451,7 @@ namespace OpenIZAdmin.Controllers
                     model.Identifiers = place.Identifiers.Select(i => new EntityIdentifierModel(i.Key.Value, place.Key.Value)).ToList();
                     model.Relationships = place.Relationships.Select(r => new EntityRelationshipModel(r)).ToList();
 
-                    model.TypeConcepts = this.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), t => t.Key == place.TypeConceptKey).ToList();
+                    model.TypeConcepts = this.placeConceptService.GetPlaceTypeConcepts(healthFacilityMnemonic, placeTypeMnemonic).ToSelectList(this.HttpContext.GetCurrentLanguage(), t => t.Key == place.TypeConceptKey).ToList();
 
                     var placeToUpdate = model.ToPlace(place);
 
@@ -568,12 +580,13 @@ namespace OpenIZAdmin.Controllers
             return View();
         }
 
-        /// <summary>
-        /// Searches for a place.
-        /// </summary>
-        /// <param name="searchTerm">The search term.</param>
-        /// <returns>Returns a list of places which match the search term.</returns>
-        [HttpGet]
+		/// <summary>
+		/// Searches for a place.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <param name="searchType">Type of the search.</param>
+		/// <returns>Returns a list of places which match the search term.</returns>
+		[HttpGet]
         public ActionResult Search(string searchTerm, string searchType)
         {
             var results = new List<PlaceViewModel>();
@@ -658,6 +671,32 @@ namespace OpenIZAdmin.Controllers
         }
 
         /// <summary>
+        /// Searches for an address component.
+        /// </summary>
+        /// <param name="searchTerm">The search term.</param>
+        /// <param name="classConcept">The class concept.</param>
+        /// <returns>Returns a list of address components which match the search term.</returns>
+        [HttpGet]
+        public ActionResult SearchAddressAjax(string searchTerm, string classConcept)
+        {
+            var viewModels = new List<PlaceViewModel>();
+
+            if (!ModelState.IsValid) return Json(viewModels, JsonRequestBehavior.AllowGet);
+
+            Bundle places;
+            Guid classConceptKey;
+
+            if (Guid.TryParse(classConcept, out classConceptKey))
+            {
+                places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == classConceptKey, 0, 15, new string[] { "typeConcept", "address.use" });
+
+                viewModels = places.Item.OfType<Place>().LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+            }
+
+            return Json(viewModels, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
         /// Searches for a place to view details.
         /// </summary>
         /// <param name="id">The place identifier search string.</param>
@@ -701,32 +740,5 @@ namespace OpenIZAdmin.Controllers
 
             return RedirectToAction("Index");
         }
-
-        /// <summary>
-        /// Gets the place type concepts.
-        /// </summary>
-        /// <returns>IEnumerable&lt;Concept&gt;.</returns>
-        private IEnumerable<Concept> GetPlaceTypeConcepts()
-        {
-            var typeConcepts = new List<Concept>();
-
-            if (!string.IsNullOrEmpty(this.healthFacilityMnemonic) && !string.IsNullOrWhiteSpace(this.healthFacilityMnemonic))
-            {
-                typeConcepts.AddRange(this.GetConceptSet(this.healthFacilityMnemonic).Concepts);
-            }
-
-            if (!string.IsNullOrEmpty(this.placeTypeMnemonic) && !string.IsNullOrWhiteSpace(this.placeTypeMnemonic))
-            {
-                typeConcepts.AddRange(this.GetConceptSet(this.placeTypeMnemonic).Concepts);
-            }
-
-            if (!typeConcepts.Any())
-            {
-                typeConcepts.AddRange(this.ImsiClient.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null));
-            }
-
-            return typeConcepts;
-        }
-
     }
 }

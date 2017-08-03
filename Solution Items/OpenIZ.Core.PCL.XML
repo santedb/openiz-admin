@@ -946,6 +946,11 @@
             Fired after the request has been finished
             </summary>
         </member>
+        <member name="E:OpenIZ.Core.Http.IRestClient.Responding">
+            <summary>
+            Fired on response
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Http.JsonBodySerializer">
             <summary>
             Represents a body serializer that uses JSON
@@ -1027,6 +1032,11 @@
             </summary>
         </member>
         <member name="E:OpenIZ.Core.Http.RestClientBase.Responded">
+            <summary>
+            Fired on response
+            </summary>
+        </member>
+        <member name="E:OpenIZ.Core.Http.RestClientBase.Responding">
             <summary>
             Fired on response
             </summary>
@@ -1207,6 +1217,11 @@
             Perform a head operation against the specified url
             </summary>
         </member>
+        <member name="M:OpenIZ.Core.Http.RestClientBase.FireResponding(OpenIZ.Core.Http.RestResponseEventArgs)">
+            <summary>
+            Fire responding event
+            </summary>
+        </member>
         <member name="T:OpenIZ.Core.Http.ServiceClientErrorType">
             <summary>
             Service client error type
@@ -1300,9 +1315,14 @@
             Rest client event args
             </summary>
         </member>
-        <member name="M:OpenIZ.Core.Http.RestResponseEventArgs.#ctor(System.String,System.String,OpenIZ.Core.Model.Query.NameValueCollection,System.String,System.Object,System.Int32)">
+        <member name="M:OpenIZ.Core.Http.RestResponseEventArgs.#ctor(System.String,System.String,OpenIZ.Core.Model.Query.NameValueCollection,System.String,System.Object,System.Int32,System.Int64)">
             <summary>
             REST response client event args
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Http.RestResponseEventArgs.ContentLength">
+            <summary>
+            Content length
             </summary>
         </member>
         <member name="P:OpenIZ.Core.Http.RestResponseEventArgs.StatusCode">

@@ -60,6 +60,8 @@
                     if (data.data.Address[0].Country != null)
                         addrString += data.data.Address[0].Country + ", ";
 
+                    addrString = addrString.substring(0, addrString.length - 2);
+
                     retVal += "<small>(<span class='glyphicon glyphicon-map-marker'></span>" + addrString + ")</small>";
                 }
             }

@@ -18,6 +18,7 @@
  */
 
 using System;
+using System.Configuration;
 
 namespace OpenIZAdmin
 {
@@ -72,6 +73,11 @@ namespace OpenIZAdmin
 		public const string NotApplicable = "N/A";
 
 		/// <summary>
+		/// The OpenIZ grant type claim type.
+		/// </summary>
+		public const string OpenIZGrantTypeClaimType = "http://openiz.org/claims/grant";
+
+		/// <summary>
 		/// Regular expression string for password validation
 		/// </summary>
 		public const string RegExPassword = @"^[^\s\\/:*;\.\)\(]+$";
@@ -124,14 +130,14 @@ namespace OpenIZAdmin
 		/// <summary>
 		/// The target population extension type key.
 		/// </summary>
-		public static readonly Guid TargetPopulationExtensionTypeKey = Guid.Parse("f9552ed8-66aa-4644-b6a8-108ad54f2476");
+		public static readonly Guid TargetPopulationExtensionTypeKey = Guid.Parse(ConfigurationManager.AppSettings["TargetPopulationKey"]);
 
 		/// <summary>
 		/// The target population URL.
 		/// </summary>
-		public const string TargetPopulationUrl = "http://openiz.org/extensions/contrib/bid/targetPopulation";
+		public static readonly string TargetPopulationUrl = ConfigurationManager.AppSettings["TargetPopulationUrl"];
 
-        /// <summary>
+		/// <summary>
 		/// The target population URL.
 		/// </summary>
 		public const string OpenIzGrantedPolicyClaim = "http://openiz.org/claims/grant";

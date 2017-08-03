@@ -36,10 +36,10 @@ using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin.Controllers
 {
-    /// <summary>
-    /// Provides operations for administering roles.
-    /// </summary>
-    [TokenAuthorize]
+	/// <summary>
+	/// Provides operations for administering roles.
+	/// </summary>
+	[TokenAuthorize(Constants.AlterRoles)]
 	public class RoleController : SecurityBaseController
     {
 		/// <summary>

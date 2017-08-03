@@ -36,7 +36,7 @@ namespace OpenIZAdmin.Controllers
 	/// <summary>
 	/// Provides operations for managing security applications.
 	/// </summary>
-	[TokenAuthorize]
+	[TokenAuthorize(Constants.CreateApplication)]
 	public class ApplicationController : SecurityBaseController
 	{
 		/// <summary>

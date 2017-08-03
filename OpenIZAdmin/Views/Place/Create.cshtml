@@ -22,6 +22,8 @@
                 </div>
             </div>
 
+            @Html.Partial("_EditEntityAddressPartial", Model.Address, new ViewDataDictionary { TemplateInfo = new TemplateInfo { HtmlFieldPrefix = "Address" } })
+
             <div class="form-group">
                 @Html.LabelFor(m => m.TargetPopulation, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">

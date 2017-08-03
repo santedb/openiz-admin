@@ -44,13 +44,14 @@ using OpenIZAdmin.Services.Entities;
 using OpenIZAdmin.Services.Entities.Materials;
 using OpenIZAdmin.Services.Security;
 using OpenIZAdmin.Services.Metadata;
+using OpenIZAdmin.Services.Security.Users;
 
 namespace OpenIZAdmin.Controllers
 {
 	/// <summary>
 	/// Provides operations for managing materials.
 	/// </summary>
-	[TokenAuthorize]
+	[TokenAuthorize(Constants.UnrestrictedMetadata)]
 	public class MaterialController : Controller
 	{
 		/// <summary>

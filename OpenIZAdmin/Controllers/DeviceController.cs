@@ -37,7 +37,7 @@ namespace OpenIZAdmin.Controllers
 	/// <summary>
 	/// Provides operations for managing devices.
 	/// </summary>
-	[TokenAuthorize]
+	[TokenAuthorize(Constants.CreateDevice)]
 	public class DeviceController : SecurityBaseController
 	{
 		/// <summary>

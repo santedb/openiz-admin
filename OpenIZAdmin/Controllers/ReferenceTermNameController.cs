@@ -35,7 +35,7 @@ namespace OpenIZAdmin.Controllers
 	/// <summary>
 	/// Provides operations for managing reference term names.
 	/// </summary>
-	[TokenAuthorize]
+	[TokenAuthorize(Constants.AdministerConceptDictionary)]
 	public class ReferenceTermNameController : BaseController
 	{
 		/// <summary>

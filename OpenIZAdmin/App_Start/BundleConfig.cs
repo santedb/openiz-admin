@@ -60,7 +60,8 @@ namespace OpenIZAdmin
 						"~/Scripts/material-search.js",
 						"~/Scripts/manufactured-material-search.js",
 						"~/Scripts/place-search.js",
-						"~/Scripts/user-search.js"));
+                        "~/Scripts/address-search.js",
+                        "~/Scripts/user-search.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/ui-customizations").Include(
 						"~/Scripts/ui-customizations.js"));

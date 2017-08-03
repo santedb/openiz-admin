@@ -45,7 +45,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// </summary>
 		public EditPlaceModel()
 		{
-		}
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditPlaceModel"/> class
@@ -56,6 +56,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		{
 			this.IsServiceDeliveryLocation = place.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation;
 			this.Name = string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value));
+            this.Address = new EditEntityAddressViewModel(place.Addresses.FirstOrDefault());
 
 			if (place.Extensions.Any(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey))
 			{
@@ -98,11 +99,16 @@ namespace OpenIZAdmin.Models.PlaceModels
 		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
-		/// <summary>
-		/// Gets or sets the target population.
-		/// </summary>
-		/// <value>The target population.</value>
-		[Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
+        /// <summary>
+        /// Gets or sets the address of the place
+        /// </summary>
+        public EditEntityAddressViewModel Address { get; set; }
+
+        /// <summary>
+        /// Gets or sets the target population.
+        /// </summary>
+        /// <value>The target population.</value>
+        [Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
 		[Range(1, ulong.MaxValue, ErrorMessageResourceName = "TargetPopulationMustBePositive", ErrorMessageResourceType = typeof(Locale))]
 		public ulong? TargetPopulation { get; set; }
 
@@ -183,6 +189,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 			place.CreationTime = DateTimeOffset.Now;
 			place.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.OfficialRecord);
 			place.Names.Add(new EntityName(NameUseKeys.OfficialRecord, this.Name));
+            place.Addresses = new List<EntityAddress>() { Address.Address.ToEntityAddress() };
 			place.TypeConceptKey = Guid.Parse(this.TypeConcept);
 			place.VersionKey = null;
 

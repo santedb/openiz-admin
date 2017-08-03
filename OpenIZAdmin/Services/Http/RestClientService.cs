@@ -37,6 +37,8 @@ using OpenIZ.Core.Model.Query;
 using System.Web;
 using OpenIZAdmin.Logging;
 using OpenIZAdmin.Services.Http.Security;
+using SharpCompress.Compressors.BZip2;
+using SharpCompress.Compressors.LZMA;
 
 namespace OpenIZAdmin.Services.Http
 {
@@ -304,12 +306,20 @@ namespace OpenIZAdmin.Services.Http
 							switch (response.Headers[HttpResponseHeader.ContentEncoding])
 							{
 								case "deflate":
-									using (DeflateStream df = new DeflateStream(response.GetResponseStream(), CompressionMode.Decompress))
+									using (DeflateStream df = new DeflateStream(response.GetResponseStream(), CompressionMode.Decompress, true))
 										retVal = (TResult)serializer.DeSerialize(df);
 									break;
 								case "gzip":
-									using (GZipStream df = new GZipStream(response.GetResponseStream(), CompressionMode.Decompress))
+									using (GZipStream df = new GZipStream(response.GetResponseStream(), CompressionMode.Decompress, true))
 										retVal = (TResult)serializer.DeSerialize(df);
+									break;
+								case "lzma":
+									using (var lzmaStream = new LZipStream(response.GetResponseStream(), SharpCompress.Compressors.CompressionMode.Decompress, true))
+										retVal = (TResult)serializer.DeSerialize(lzmaStream);
+									break;
+								case "bzip2":
+									using (var bzip2 = new BZip2Stream(response.GetResponseStream(), SharpCompress.Compressors.CompressionMode.Decompress, true))
+										retVal = (TResult)serializer.DeSerialize(bzip2);
 									break;
 								default:
 									retVal = (TResult)serializer.DeSerialize(response.GetResponseStream());
