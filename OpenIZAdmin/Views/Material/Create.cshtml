@@ -49,7 +49,7 @@
                 @Html.LabelFor(m => m.ExpiryDate, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
                     <div class="input-group date" id="expiryDateInputGroup">
-                        @Html.TextBoxFor(m => m.ExpiryDate, new { @class = "form-control" })
+                        @Html.TextBoxFor(m => m.ExpiryDate, new { @class = "form-control", Value = DateTime.Now.ToString("MM/dd/yyyy") })
                         <span class="input-group-addon">
                             <span class="glyphicon glyphicon-calendar"></span>
                         </span>
@@ -76,6 +76,7 @@
         {
             $("#expiryDateInputGroup").datepicker({
                 autoclose: true,
+                defaultDate: new Date(),
                 startDate: '2012',
                 orientation: "auto"
             });

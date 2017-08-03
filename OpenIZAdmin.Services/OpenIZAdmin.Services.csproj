@@ -83,6 +83,8 @@
     <Compile Include="Core\IEntityService.cs" />
     <Compile Include="Entities\Places\IPlaceConceptService.cs" />
     <Compile Include="Entities\Places\PlaceConceptService.cs" />
+    <Compile Include="EntityRelationships\EntityRelationshipService.cs" />
+    <Compile Include="EntityRelationships\IEntityRelationshipService.cs" />
     <Compile Include="Metadata\ConceptService.cs" />
     <Compile Include="Metadata\ExtensionTypeService.cs" />
     <Compile Include="Metadata\IConceptService.cs" />
@@ -111,6 +113,7 @@
       <Name>OpenIZAdmin.Localization</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

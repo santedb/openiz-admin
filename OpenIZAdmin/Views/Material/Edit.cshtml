@@ -177,7 +177,8 @@
         $(document).ready(function ()
         {
             $("#expiryDateInputGroup").datepicker({
-                startDate: '2012'
+                startDate: '2012',
+                defaultDate: new Date()
             });
 
             $("#expiryDateInputGroup").datepicker("setDate", new Date("@Model.ExpiryDate.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)"));

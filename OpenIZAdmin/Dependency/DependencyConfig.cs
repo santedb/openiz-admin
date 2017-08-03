@@ -42,6 +42,7 @@ using OpenIZAdmin.Services.Applets;
 using OpenIZAdmin.Services.Core;
 using OpenIZAdmin.Services.Entities.Materials;
 using OpenIZAdmin.Services.Entities.Places;
+using OpenIZAdmin.Services.EntityRelationships;
 using OpenIZAdmin.Services.Security.Devices;
 using OpenIZAdmin.Services.Security.Roles;
 using OpenIZAdmin.Services.Security.Users;
@@ -128,6 +129,9 @@ namespace OpenIZAdmin.Dependency
 
 			// register role services
 			builder.RegisterType<SecurityRoleService>().As<ISecurityRoleService>().InstancePerLifetimeScope();
+
+			// register entity relationship services
+			builder.RegisterType<EntityRelationshipService>().As<IEntityRelationshipService>().InstancePerLifetimeScope();
 		}
 	}
 }

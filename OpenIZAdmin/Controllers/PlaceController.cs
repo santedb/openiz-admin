@@ -46,6 +46,8 @@ using OpenIZ.Core.Http;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Core;
 using OpenIZAdmin.Services.Entities.Places;
+using OpenIZAdmin.Services.EntityRelationships;
+using OpenIZAdmin.Services.Security.Users;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -71,17 +73,29 @@ namespace OpenIZAdmin.Controllers
 		private readonly IEntityService entityService;
 
 		/// <summary>
+		/// The entity relationship service
+		/// </summary>
+		private readonly IEntityRelationshipService entityRelationshipService;
+
+		/// <summary>
 		/// The place concept service.
 		/// </summary>
 		private readonly IPlaceConceptService placeConceptService;
 
+		/// <summary>
+		/// The user service.
+		/// </summary>
+		private readonly IUserService userService;
+
         /// <summary>
         /// Initializes a new instance of the <see cref="PlaceController"/> class.
         /// </summary>
-        public PlaceController(IEntityService entityService, IPlaceConceptService placeConceptService)
+        public PlaceController(IEntityService entityService, IEntityRelationshipService entityRelationshipService, IPlaceConceptService placeConceptService, IUserService userService)
         {
 	        this.entityService = entityService;
+	        this.entityRelationshipService = entityRelationshipService;
 	        this.placeConceptService = placeConceptService;
+	        this.userService = userService;
         }
 
         /// <summary>
@@ -707,7 +721,7 @@ namespace OpenIZAdmin.Controllers
         {
             try
             {
-                var place = this.GetEntity<Place>(id);
+	            var place = this.entityService.Get<Place>(id);
 
                 if (place == null)
                 {
@@ -717,17 +731,23 @@ namespace OpenIZAdmin.Controllers
 
                 var relationships = new List<EntityRelationship>();
 
-                relationships.AddRange(this.GetEntityRelationships<Place>(place.Key.Value,
-                        r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
-                        r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
-                        r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
+                //relationships.AddRange(this.GetEntityRelationships<Place>(place.Key.Value,
+                //        r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
+                //        r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
+                //        r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
 
-                place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
+				// get relationships where I am the source of type parent
+	            relationships.AddRange(entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Parent));
 
-                var viewModel = new PlaceViewModel(place)
+				// get relationships where I am the target of type parent and dedicated service delivery location
+	            relationships.AddRange(entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, EntityRelationshipTypeKeys.Parent));
+
+				place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
+
+				var viewModel = new PlaceViewModel(place)
                 {
-                    UpdatedBy = this.GetUserEntityBySecurityUserKey(place.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
-                };
+                    UpdatedBy = this.userService.GetUserEntityBySecurityUserKey(place.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
+				};
 
                 return View(viewModel);
             }
