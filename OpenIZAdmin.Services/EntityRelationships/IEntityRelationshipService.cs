@@ -56,9 +56,9 @@ namespace OpenIZAdmin.Services.EntityRelationships
 		/// Gets the entity relationships.
 		/// </summary>
 		/// <param name="source">The source.</param>
-		/// <param name="relationshipTypes">The relationship types.</param>
+		/// <param name="relationshipType">Type of the relationship.</param>
 		/// <returns>Returns a list of entity relationships for a given source key and filtered by relationship types.</returns>
-		IEnumerable<EntityRelationship> GetEntityRelationshipsBySource(Guid source, params Guid[] relationshipTypes);
+		IEnumerable<EntityRelationship> GetEntityRelationshipsBySource(Guid source, Guid? relationshipType);
 
 		/// <summary>
 		/// Gets the entity relationships by target.
@@ -71,8 +71,8 @@ namespace OpenIZAdmin.Services.EntityRelationships
 		/// Gets the entity relationships.
 		/// </summary>
 		/// <param name="target">The target.</param>
-		/// <param name="relationshipTypes">The relationship types.</param>
+		/// <param name="relationshipType">Type of the relationship.</param>
 		/// <returns>Returns a list of entity relationships for a given target key and filtered by relationship types.</returns>
-		IEnumerable<EntityRelationship> GetEntityRelationshipsByTarget(Guid target, params Guid[] relationshipTypes);
+		IEnumerable<EntityRelationship> GetEntityRelationshipsByTarget(Guid target, Guid? relationshipType);
 	}
 }

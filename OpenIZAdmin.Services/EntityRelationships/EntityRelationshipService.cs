@@ -98,28 +98,29 @@ namespace OpenIZAdmin.Services.EntityRelationships
 		/// <returns>Returns a list of entity relationships by source key.</returns>
 		public IEnumerable<EntityRelationship> GetEntityRelationshipsBySource(Guid source)
 		{
-			var bundle = this.Client.Query<EntityRelationship>(r => r.SourceEntityKey == source && r.ObsoleteVersionSequenceId == null);
-
-			bundle.Reconstitute();
-
-			return bundle.Item.OfType<EntityRelationship>().Where(r => r.SourceEntityKey == source && r.ObsoleteVersionSequenceId == null);
+			return this.GetEntityRelationshipsBySource(source, null);
 		}
 
 		/// <summary>
 		/// Gets the entity relationships.
 		/// </summary>
 		/// <param name="source">The source.</param>
-		/// <param name="relationshipTypes">The relationship types.</param>
+		/// <param name="relationshipType">Type of the relationship.</param>
 		/// <returns>Returns a list of entity relationships for a given source key and filtered by relationship types.</returns>
-		public IEnumerable<EntityRelationship> GetEntityRelationshipsBySource(Guid source, params Guid[] relationshipTypes)
+		public IEnumerable<EntityRelationship> GetEntityRelationshipsBySource(Guid source, Guid? relationshipType)
 		{
-			var relationshipTypeFilters = relationshipTypes.ToList();
+			Expression<Func<EntityRelationship, bool>> expression = r => r.SourceEntityKey == source && r.ObsoleteVersionSequenceId == null;
 
-			var bundle = this.Client.Query<EntityRelationship>(r => r.SourceEntityKey == source && r.ObsoleteVersionSequenceId == null, 0, null, new string[] { Constants.RelationshipTarget });
+			if (relationshipType.HasValue && relationshipType.Value != Guid.Empty)
+			{
+				expression = r => r.SourceEntityKey == source && r.RelationshipTypeKey == relationshipType && r.ObsoleteVersionSequenceId == null;
+			}
+
+			var bundle = this.Client.Query(expression, 0, null, new[] { Constants.RelationshipTarget });
 
 			bundle.Reconstitute();
 
-			return this.LoadNested(bundle, r => r.SourceEntityKey == source && relationshipTypeFilters.Contains(r.RelationshipTypeKey.Value) && r.ObsoleteVersionSequenceId == null);
+			return this.LoadNested(bundle, r => expression.Compile().Invoke(r));
 		}
 
 		/// <summary>
@@ -129,41 +130,54 @@ namespace OpenIZAdmin.Services.EntityRelationships
 		/// <returns>Returns a list of entity relationships which match the given target key.</returns>
 		public IEnumerable<EntityRelationship> GetEntityRelationshipsByTarget(Guid target)
 		{
-			var bundle = this.Client.Query<EntityRelationship>(r => r.TargetEntityKey == target && r.ObsoleteVersionSequenceId == null);
-
-			bundle.Reconstitute();
-
-			return this.LoadNested(bundle, r => r.TargetEntityKey == target && r.ObsoleteVersionSequenceId == null);
+			return this.GetEntityRelationshipsByTarget(target, null);
 		}
 
 		/// <summary>
 		/// Gets the entity relationships.
 		/// </summary>
 		/// <param name="target">The target.</param>
-		/// <param name="relationshipTypes">The relationship types.</param>
+		/// <param name="relationshipType">Type of the relationship.</param>
 		/// <returns>Returns a list of entity relationships for a given target key and filtered by relationship types.</returns>
-		public IEnumerable<EntityRelationship> GetEntityRelationshipsByTarget(Guid target, params Guid[] relationshipTypes)
+		public IEnumerable<EntityRelationship> GetEntityRelationshipsByTarget(Guid target, Guid? relationshipType)
 		{
-			var relationshipTypeFilters = relationshipTypes.ToList();
+			Expression<Func<EntityRelationship, bool>> expression = r => r.TargetEntityKey == target && r.ObsoleteVersionSequenceId == null;
 
-			var bundle = this.Client.Query<EntityRelationship>(r => r.TargetEntityKey == target && r.ObsoleteVersionSequenceId == null);
+			if (relationshipType.HasValue && relationshipType.Value != Guid.Empty)
+			{
+				expression = r => r.TargetEntityKey == target && r.RelationshipTypeKey == relationshipType && r.ObsoleteVersionSequenceId == null;
+			}
+
+			var bundle = this.Client.Query(expression, 0, null, new[] { Constants.RelationshipSource, Constants.RelationshipTarget });
 
 			bundle.Reconstitute();
 
-			return bundle.Item.OfType<EntityRelationship>().Where(r => r.TargetEntityKey == target && relationshipTypeFilters.Contains(r.RelationshipTypeKey.Value) && r.ObsoleteVersionSequenceId == null);
+			return this.LoadNested(bundle, r => expression.Compile().Invoke(r), true);
 		}
 
 		/// <summary>
 		/// Loads the nested data for the entity relationships.
 		/// </summary>
 		/// <param name="bundle">The bundle.</param>
+		/// <param name="expression">The expression.</param>
+		/// <param name="loadSource">if set to <c>true</c> the source entity will be loaded.</param>
 		/// <returns>Returns a list of entity relationships with the nested data.</returns>
-		private IEnumerable<EntityRelationship> LoadNested(Bundle bundle, Expression<Func<EntityRelationship, bool>> expression)
+		private IEnumerable<EntityRelationship> LoadNested(Bundle bundle, Expression<Func<EntityRelationship, bool>> expression, bool loadSource = false)
 		{
 			var relationships = new List<EntityRelationship>();
 
 			foreach (var relationship in bundle.Item.OfType<EntityRelationship>().Where(r => expression.Compile().Invoke(r)))
 			{
+				if (loadSource)
+				{
+					relationship.SourceEntity = relationship.LoadProperty(nameof(EntityRelationship.SourceEntity)) as Entity;
+
+					if (relationship.SourceEntity?.ShouldSerializeTypeConceptKey() == true && relationship.SourceEntity.TypeConcept == null)
+					{
+						relationship.SourceEntity.TypeConcept = relationship.SourceEntity.LoadProperty<Concept>("TypeConcept");
+					}
+				}
+
 				relationship.RelationshipType = relationship.LoadProperty<Concept>(nameof(EntityRelationship.RelationshipType));
 				relationship.TargetEntity = relationship.LoadProperty(nameof(EntityRelationship.TargetEntity)) as Entity;
 

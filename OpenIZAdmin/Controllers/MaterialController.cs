@@ -228,7 +228,7 @@ namespace OpenIZAdmin.Controllers
 
 				var concepts = new List<Concept>
 				{
-					this.conceptService.GetConcept(EntityRelationshipTypeKeys.UsedEntity)
+					this.conceptService.GetConcept(EntityRelationshipTypeKeys.UsedEntity, true)
 				};
 
 				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.UsedEntity));
@@ -447,7 +447,7 @@ namespace OpenIZAdmin.Controllers
 						this.ModelState.AddModelError(nameof(model.Quantity), Locale.QuantityRequired);
 						this.TempData["error"] = Locale.QuantityRequired;
 
-						concepts.Add(this.conceptService.GetConcept(EntityRelationshipTypeKeys.Instance));
+						concepts.Add(this.conceptService.GetConcept(EntityRelationshipTypeKeys.Instance, true));
 
 						// re-populate the model
 						var existingMaterial = this.entityService.Get<Material>(model.SourceId);
@@ -489,7 +489,7 @@ namespace OpenIZAdmin.Controllers
 
 			this.TempData["error"] = Locale.UnableToCreateRelatedManufacturedMaterial;
 
-			concepts.Add(this.conceptService.GetConcept(EntityRelationshipTypeKeys.Instance));
+			concepts.Add(this.conceptService.GetConcept(EntityRelationshipTypeKeys.Instance, true));
 			model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.Instance));
 
 			return View(model);
@@ -823,9 +823,9 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				material.FormConcept = this.conceptService.GetConcept(material.FormConceptKey);
-				material.QuantityConcept = this.conceptService.GetConcept(material.QuantityConceptKey);
-				material.TypeConcept = this.conceptService.GetConcept(material.TypeConceptKey);
+				material.FormConcept = this.conceptService.GetConcept(material.FormConceptKey, true);
+				material.QuantityConcept = this.conceptService.GetConcept(material.QuantityConceptKey, true);
+				material.TypeConcept = this.conceptService.GetConcept(material.TypeConceptKey, true);
 
 				var relationships = new List<EntityRelationship>();
 

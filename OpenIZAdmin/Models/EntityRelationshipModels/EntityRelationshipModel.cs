@@ -67,26 +67,34 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="EntityRelationshipModel"/> class.
+		/// Initializes a new instance of the <see cref="EntityRelationshipModel" /> class.
 		/// </summary>
 		/// <param name="entityRelationship">The entity relationship.</param>
 		public EntityRelationshipModel(EntityRelationship entityRelationship) : this(entityRelationship.Key.Value, entityRelationship.SourceEntityKey.Value, entityRelationship.TargetEntityKey.Value)
 		{
 			this.RelationshipType = entityRelationship.RelationshipTypeKey?.ToString() ?? Constants.NotApplicable;
+
 			this.RelationshipTypeName = entityRelationship.RelationshipType != null ? string.Join(" ", entityRelationship.RelationshipType.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
+
+			this.SourceName = entityRelationship.SourceEntity != null ? string.Join(" ", entityRelationship.SourceEntity.Names.SelectMany(n => n.Component).Select(c => c.Value)) : Constants.NotApplicable;
+			this.SourceTypeConcept = entityRelationship.SourceEntity?.TypeConcept != null ? string.Join(" ", entityRelationship.SourceEntity.TypeConcept.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
+
 			this.TargetName = entityRelationship.TargetEntity != null ? string.Join(" ", entityRelationship.TargetEntity.Names.SelectMany(n => n.Component).Select(c => c.Value)) : Constants.NotApplicable;
 			this.TargetTypeConcept = entityRelationship.TargetEntity?.TypeConcept != null ? string.Join(" ", entityRelationship.TargetEntity.TypeConcept.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
 		}
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="EntityRelationshipModel"/> class.
+		/// Initializes a new instance of the <see cref="EntityRelationshipModel" /> class.
 		/// </summary>
 		/// <param name="entityRelationship">The entity relationship.</param>
 		/// <param name="sourceType">Type of the source.</param>
-		public EntityRelationshipModel(EntityRelationship entityRelationship, string sourceType, String sourceClass) : this(entityRelationship)
+		/// <param name="sourceClass">The source class.</param>
+		/// <param name="isInverse">if set to <c>true</c> the relationship is inverse, which means that the target of the relationship is the entity instead of the source.</param>
+		public EntityRelationshipModel(EntityRelationship entityRelationship, string sourceType, string sourceClass, bool isInverse = false) : this(entityRelationship)
 		{
 			this.SourceType = sourceType;
             this.SourceClass = sourceClass;
+			this.IsInverse = isInverse;
 		}
 
 		/// <summary>
@@ -109,10 +117,16 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		[Display(Name = "Quantity", ResourceType = typeof(Locale))]
 		public int? Quantity { get; set; }
 
-        /// <summary>
-        /// True if the relationship is inverted
-        /// </summary>
-        [Display(Name = "InverseRelationship", ResourceType = typeof(Locale))]
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is inverse.
+		/// </summary>
+		/// <value><c>true</c> if this instance is inverse; otherwise, <c>false</c>.</value>
+		public bool IsInverse { get; set; }
+
+		/// <summary>
+		/// True if the relationship is inverted
+		/// </summary>
+		[Display(Name = "InverseRelationship", ResourceType = typeof(Locale))]
         public bool Inverse { get; set; }
 
 		/// <summary>
@@ -154,11 +168,26 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
         /// <value>The type of the source.</value>
         public String SourceClass { get; set; }
 
-        /// <summary>
-        /// Gets or sets the target identifier.
-        /// </summary>
-        /// <value>The target identifier.</value>
-        [Display(Name = "Related", ResourceType = typeof(Locale))]
+
+		/// <summary>
+		/// Gets or sets the name of the source.
+		/// </summary>
+		/// <value>The name of the source.</value>
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+		public string SourceName { get; set; }
+
+		/// <summary>
+		/// Gets or sets the source type concept.
+		/// </summary>
+		/// <value>The source type concept.</value>
+		[Display(Name = "Type", ResourceType = typeof(Locale))]
+		public string SourceTypeConcept { get; set; }
+
+		/// <summary>
+		/// Gets or sets the target identifier.
+		/// </summary>
+		/// <value>The target identifier.</value>
+		[Display(Name = "Related", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "RelationRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string TargetId { get; set; }
 
