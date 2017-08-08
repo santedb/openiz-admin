@@ -19,11 +19,18 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using OpenIZ.Core.Model;
+using OpenIZ.Core.Model.Collection;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
+using OpenIZ.Core.Services;
 using OpenIZ.Messaging.IMSI.Client;
+using OpenIZAdmin.Core;
 using OpenIZAdmin.Services.Core;
+using OpenIZAdmin.Services.Metadata;
 
 namespace OpenIZAdmin.Services.EntityRelationships
 {
@@ -35,11 +42,24 @@ namespace OpenIZAdmin.Services.EntityRelationships
 	public class EntityRelationshipService : ImsiServiceBase, IEntityRelationshipService
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="EntityRelationshipService"/> class.
+		/// The concept service.
+		/// </summary>
+		private readonly IConceptService conceptService;
+
+		/// <summary>
+		/// The entity service.
+		/// </summary>
+		private readonly IEntityService entityService;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EntityRelationshipService" /> class.
 		/// </summary>
 		/// <param name="client">The client.</param>
-		public EntityRelationshipService(ImsiServiceClient client) : base(client)
+		/// <param name="conceptService">The concept service.</param>
+		public EntityRelationshipService(ImsiServiceClient client, IConceptService conceptService, IEntityService entityService) : base(client)
 		{
+			this.conceptService = conceptService;
+			this.entityService = entityService;
 		}
 
 		/// <summary>
@@ -95,11 +115,11 @@ namespace OpenIZAdmin.Services.EntityRelationships
 		{
 			var relationshipTypeFilters = relationshipTypes.ToList();
 
-			var bundle = this.Client.Query<EntityRelationship>(r => r.SourceEntityKey == source && r.ObsoleteVersionSequenceId == null);
+			var bundle = this.Client.Query<EntityRelationship>(r => r.SourceEntityKey == source && r.ObsoleteVersionSequenceId == null, 0, null, new string[] { Constants.RelationshipTarget });
 
 			bundle.Reconstitute();
 
-			return bundle.Item.OfType<EntityRelationship>().Where(r => r.SourceEntityKey == source && relationshipTypeFilters.Contains(r.RelationshipTypeKey.Value) && r.ObsoleteVersionSequenceId == null);
+			return this.LoadNested(bundle, r => r.SourceEntityKey == source && relationshipTypeFilters.Contains(r.RelationshipTypeKey.Value) && r.ObsoleteVersionSequenceId == null);
 		}
 
 		/// <summary>
@@ -113,7 +133,7 @@ namespace OpenIZAdmin.Services.EntityRelationships
 
 			bundle.Reconstitute();
 
-			return bundle.Item.OfType<EntityRelationship>().Where(r => r.TargetEntityKey == target && r.ObsoleteVersionSequenceId == null);
+			return this.LoadNested(bundle, r => r.TargetEntityKey == target && r.ObsoleteVersionSequenceId == null);
 		}
 
 		/// <summary>
@@ -131,6 +151,32 @@ namespace OpenIZAdmin.Services.EntityRelationships
 			bundle.Reconstitute();
 
 			return bundle.Item.OfType<EntityRelationship>().Where(r => r.TargetEntityKey == target && relationshipTypeFilters.Contains(r.RelationshipTypeKey.Value) && r.ObsoleteVersionSequenceId == null);
+		}
+
+		/// <summary>
+		/// Loads the nested data for the entity relationships.
+		/// </summary>
+		/// <param name="bundle">The bundle.</param>
+		/// <returns>Returns a list of entity relationships with the nested data.</returns>
+		private IEnumerable<EntityRelationship> LoadNested(Bundle bundle, Expression<Func<EntityRelationship, bool>> expression)
+		{
+			var relationships = new List<EntityRelationship>();
+
+			foreach (var relationship in bundle.Item.OfType<EntityRelationship>().Where(r => expression.Compile().Invoke(r)))
+			{
+				relationship.RelationshipType = relationship.LoadProperty<Concept>(nameof(EntityRelationship.RelationshipType));
+				relationship.TargetEntity = relationship.LoadProperty(nameof(EntityRelationship.TargetEntity)) as Entity;
+
+				if (relationship.TargetEntity?.ShouldSerializeTypeConceptKey() == true && relationship.TargetEntity.TypeConcept == null)
+				{
+					relationship.TargetEntity.TypeConcept = relationship.TargetEntity.LoadProperty<Concept>("TypeConcept");
+				}
+
+				relationships.Add(relationship);
+			}
+
+			return relationships;
+
 		}
 	}
 }

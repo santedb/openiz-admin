@@ -39,5 +39,15 @@ namespace OpenIZAdmin.Core
         /// </summary>
         public const string OpenIzGrantedPolicyClaim = "http://openiz.org/claims/grant";
 
-    }
+		/// <summary>
+		/// The relationship target expand property key.
+		/// </summary>
+		public const string RelationshipTarget = "relationship.target";
+
+		/// <summary>
+		/// The type concept expand property key.
+		/// </summary>
+		public const string TypeConcept = "typeConcept";
+
+	}
 }
