@@ -242,14 +242,6 @@ namespace OpenIZAdmin.DAL
 
 			var securityToken = new JwtSecurityToken(accessToken);
 
-			// if the user is not a part of the administrators group, we don't allow them to login
-            // Actually if we got a token they have login permission
-			//if (securityToken.Claims.Any(o=>o.Type == Constants.OpenIzGrantedPolicyClaim && o.Value == Constants.Login))
-			//{
-   //             Trace.TraceWarning("User {0} lacks login security permission", username);
-			//	return SignInStatus.Failure;
-			//}
-
 			var user = await this.UserManager.FindByIdAsync(securityToken.Claims.First(c => c.Type == "sub").Value);
 
 			if (user == null)
@@ -272,38 +264,24 @@ namespace OpenIZAdmin.DAL
 					user.Email = email;
 				}
 
-				foreach (var identityUserClaim in securityToken.Claims.Select(claim => new IdentityUserClaim { ClaimType = claim.Type, ClaimValue = claim.Value, UserId = securityToken.Claims.First(c => c.Type == "sub").Value }))
-				{
-					user.Claims.Add(identityUserClaim);
-				}
-
 				var identityResult = await this.UserManager.CreateAsync(user);
 
 				if (!identityResult.Succeeded)
 				{
-                    Trace.TraceWarning("Could not create identity - {0}", String.Join(",",identityResult.Errors));
 					return SignInStatus.Failure;
 				}
-
-				var userIdentity = await this.CreateUserIdentityAsync(user);
-
-                // Add the things we're allowed to do as we will use them in the UI
-                foreach (var stgp in securityToken.Claims.Where(o => o.Type == Constants.OpenIzGrantedPolicyClaim))
-                    userIdentity.AddClaim(new Claim(Constants.OpenIzGrantedPolicyClaim, stgp.Value));
-
-				this.AuthenticationManager.SignIn(properties, userIdentity);
-				this.AccessToken = accessToken;
 			}
-			else
+
+			var userIdentity = await this.CreateUserIdentityAsync(user);
+
+			// Add the things we're allowed to do as we will use them in the UI
+			foreach (var stgp in securityToken.Claims.Where(o => o.Type == Constants.OpenIzGrantedPolicyClaim))
 			{
-				var userIdentity = await this.CreateUserIdentityAsync(user);
-
-                foreach (var stgp in securityToken.Claims.Where(o => o.Type == Constants.OpenIzGrantedPolicyClaim))
-                    userIdentity.AddClaim(new Claim(Constants.OpenIzGrantedPolicyClaim, stgp.Value));
-
-                this.AuthenticationManager.SignIn(properties, userIdentity);
-				this.AccessToken = accessToken;
+				userIdentity.AddClaim(new Claim(Constants.OpenIzGrantedPolicyClaim, stgp.Value));
 			}
+
+			this.AuthenticationManager.SignIn(properties, userIdentity);
+			this.AccessToken = accessToken;
 
 			return SignInStatus.Success;
 		}
