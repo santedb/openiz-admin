@@ -44,13 +44,57 @@
                     <th>@Locale.BuildDateTime</th>
                 </tr>
             </thead>
-            <tbody id="alert-results">
+            <tbody>
                 @foreach (var item in Model.Assemblies)
                 {
                     <tr>
                         <td class="autoFitContents">@item.AssemblyInformation</td>
                         <td>@item.Description</td>
                         <td class="autoFitContents">@item.BuildDateTime</td>
+                    </tr>}
+            </tbody>
+        </table>
+
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.ServerInformation</span>
+    </div>
+
+    <div class="panel panel-body">
+        <table class="table table-striped" id="serverInformationTable">
+            <thead>
+                <tr>
+                    <th>@Locale.Name</th>
+                    <th>@Locale.Services</th>
+                    <th>@Locale.ServerInterfaceVersion</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ServerInformation)
+                {
+                    <tr>
+                        <td class="autoFitContents">@item.Name</td>
+                        <td>
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>@Locale.ResourceName</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var service in item.Services)
+                                    {
+                                        <tr>
+                                            <td>@(service.ResourceName ?? Locale.NoInformation)</td>
+                                        </tr>
+}
+                                </tbody>
+                            </table>
+                        </td>
+                        <td>@item.ServerInterfaceVersion</td>
                     </tr>}
             </tbody>
         </table>
@@ -68,6 +112,13 @@
                     "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
                 }
             });
+
+            @*$("#serverInformationTable").DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                }
+            });*@
         });
     </script>
 

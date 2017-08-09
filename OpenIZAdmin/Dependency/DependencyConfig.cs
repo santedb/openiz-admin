@@ -46,6 +46,7 @@ using OpenIZAdmin.Services.EntityRelationships;
 using OpenIZAdmin.Services.Security.Devices;
 using OpenIZAdmin.Services.Security.Roles;
 using OpenIZAdmin.Services.Security.Users;
+using OpenIZAdmin.Services.Server;
 
 namespace OpenIZAdmin.Dependency
 {
@@ -132,6 +133,10 @@ namespace OpenIZAdmin.Dependency
 
 			// register entity relationship services
 			builder.RegisterType<EntityRelationshipService>().As<IEntityRelationshipService>().InstancePerLifetimeScope();
+
+			// register server information services
+			builder.RegisterType<AmiServerInformationService>().As<IAmiServerInformationService>().InstancePerLifetimeScope();
+			builder.RegisterType<ImsiServerInformationService>().As<IImsiServerInformationService>().InstancePerLifetimeScope();
 		}
 	}
 }

@@ -772,6 +772,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Capabilities.
+        /// </summary>
+        public static string Capabilities {
+            get {
+                return ResourceManager.GetString("Capabilities", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Certificate.
         /// </summary>
         public static string Certificate {
@@ -1893,6 +1902,15 @@ namespace OpenIZAdmin.Localization {
         public static string EN {
             get {
                 return ResourceManager.GetString("EN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Endpoints.
+        /// </summary>
+        public static string Endpoints {
+            get {
+                return ResourceManager.GetString("Endpoints", resourceCulture);
             }
         }
         
@@ -3346,6 +3364,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Information.
+        /// </summary>
+        public static string NoInformation {
+            get {
+                return ResourceManager.GetString("NoInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Languages Assigned.
         /// </summary>
         public static string NoLanguagesAssigned {
@@ -4462,6 +4489,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Resource Name.
+        /// </summary>
+        public static string ResourceName {
+            get {
+                return ResourceManager.GetString("ResourceName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Retrieve.
         /// </summary>
         public static string Retrieve {
@@ -4701,6 +4737,42 @@ namespace OpenIZAdmin.Localization {
         public static string Select2SpecialCharErrorMessage {
             get {
                 return ResourceManager.GetString("Select2SpecialCharErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server Information.
+        /// </summary>
+        public static string ServerInformation {
+            get {
+                return ResourceManager.GetString("ServerInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server Interface Version.
+        /// </summary>
+        public static string ServerInterfaceVersion {
+            get {
+                return ResourceManager.GetString("ServerInterfaceVersion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Services.
+        /// </summary>
+        public static string Services {
+            get {
+                return ResourceManager.GetString("Services", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service Type.
+        /// </summary>
+        public static string ServiceType {
+            get {
+                return ResourceManager.GetString("ServiceType", resourceCulture);
             }
         }
         
@@ -6825,6 +6897,15 @@ namespace OpenIZAdmin.Localization {
         public static string VendorName {
             get {
                 return ResourceManager.GetString("VendorName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Verbs.
+        /// </summary>
+        public static string Verbs {
+            get {
+                return ResourceManager.GetString("Verbs", resourceCulture);
             }
         }
         

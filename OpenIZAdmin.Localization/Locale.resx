@@ -2463,4 +2463,31 @@
   <data name="ToolTip_PlaceStreetAddress" xml:space="preserve">
     <value>The street address of this place</value>
   </data>
+  <data name="Capabilities" xml:space="preserve">
+    <value>Capabilities</value>
+  </data>
+  <data name="Endpoints" xml:space="preserve">
+    <value>Endpoints</value>
+  </data>
+  <data name="ServerInformation" xml:space="preserve">
+    <value>Server Information</value>
+  </data>
+  <data name="ServerInterfaceVersion" xml:space="preserve">
+    <value>Server Interface Version</value>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>Services</value>
+  </data>
+  <data name="ServiceType" xml:space="preserve">
+    <value>Service Type</value>
+  </data>
+  <data name="NoInformation" xml:space="preserve">
+    <value>No Information</value>
+  </data>
+  <data name="ResourceName" xml:space="preserve">
+    <value>Resource Name</value>
+  </data>
+  <data name="Verbs" xml:space="preserve">
+    <value>Verbs</value>
+  </data>
 </root>

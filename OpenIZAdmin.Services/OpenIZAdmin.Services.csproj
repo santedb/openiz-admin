@@ -99,6 +99,11 @@
     <Compile Include="Security\PolicyPermission.cs" />
     <Compile Include="Security\Users\SecurityUserService.cs" />
     <Compile Include="Security\Users\UserService.cs" />
+    <Compile Include="Server\ImsiServerInformationService.cs" />
+    <Compile Include="Server\IImsiServerInformationService.cs" />
+    <Compile Include="Server\IAmiServerInformationService.cs" />
+    <Compile Include="Server\AmiServerInformationService.cs" />
+    <Compile Include="Server\IServerInformationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="OpenIZAdmin.licenseheader" />

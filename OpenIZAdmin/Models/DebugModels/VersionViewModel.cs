@@ -19,6 +19,7 @@
 
 using System.Collections.Generic;
 using System.Reflection;
+using OpenIZAdmin.Models.DebugModels.ServerInformationViewModels;
 
 namespace OpenIZAdmin.Models.DebugModels
 {
@@ -33,6 +34,7 @@ namespace OpenIZAdmin.Models.DebugModels
 		public VersionViewModel()
 		{
 			this.Assemblies = new List<AssemblyInfoViewModel>();
+			this.ServerInformation = new List<ServerInformationViewModel>();
 		}
 
 		/// <summary>
@@ -40,7 +42,7 @@ namespace OpenIZAdmin.Models.DebugModels
 		/// with a specific <see cref="Assembly"/> instance.
 		/// </summary>
 		/// <param name="assembly">The assembly instance.</param>
-		public VersionViewModel(Assembly assembly)
+		public VersionViewModel(Assembly assembly) : this()
 		{
 			this.Assemblies = new List<AssemblyInfoViewModel>();
 			this.Company = assembly.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company;
@@ -49,6 +51,16 @@ namespace OpenIZAdmin.Models.DebugModels
 			this.Product = assembly.GetCustomAttribute<AssemblyProductAttribute>()?.Product;
 			this.Title = assembly.GetCustomAttribute<AssemblyTitleAttribute>()?.Title;
 			this.Version = AssemblyName.GetAssemblyName(assembly.Location).Version.ToString();
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="VersionViewModel"/> class.
+		/// </summary>
+		/// <param name="assembly">The assembly.</param>
+		/// <param name="serverInformation">The server information.</param>
+		public VersionViewModel(Assembly assembly, List<ServerInformationViewModel> serverInformation) : this(assembly)
+		{
+			this.ServerInformation = serverInformation;
 		}
 
 		/// <summary>
@@ -75,6 +87,12 @@ namespace OpenIZAdmin.Models.DebugModels
 		/// Gets or sets the product of the version information.
 		/// </summary>
 		public string Product { get; set; }
+
+		/// <summary>
+		/// Gets or sets the server information.
+		/// </summary>
+		/// <value>The server information.</value>
+		public List<ServerInformationViewModel> ServerInformation { get; set; }
 
 		/// <summary>
 		/// Gets or sets the title of the version information.
