@@ -284,7 +284,7 @@ namespace OpenIZAdmin.Services.Core
 				// only load the relationship type concept if the IMS didn't return the relationship type concept of the relationship
 				if (entityRelationship.RelationshipType == null && entityRelationship.RelationshipTypeKey.HasValue && entityRelationship.RelationshipTypeKey.Value != Guid.Empty)
 				{
-					entityRelationship.RelationshipType = this.conceptService.GetConcept(entityRelationship.RelationshipTypeKey.Value);
+					entityRelationship.RelationshipType = this.conceptService.GetConcept(entityRelationship.RelationshipTypeKey.Value, true);
 				}
 
 				// only load the target entity if the IMS didn't return the target entity by default
@@ -296,7 +296,7 @@ namespace OpenIZAdmin.Services.Core
 				// only load the type concept of the target entity if the IMS didn't return the type concept of the target entity
 				if (entityRelationship.TargetEntity?.TypeConcept == null && entityRelationship.TargetEntity?.TypeConceptKey.HasValue == true && entityRelationship.TargetEntity?.TypeConceptKey != Guid.Empty)
 				{
-					entityRelationship.TargetEntity.TypeConcept = this.conceptService.GetConcept(entityRelationship.TargetEntity.TypeConceptKey.Value);
+					entityRelationship.TargetEntity.TypeConcept = this.conceptService.GetConcept(entityRelationship.TargetEntity.TypeConceptKey.Value, true);
 				}
 			}
 

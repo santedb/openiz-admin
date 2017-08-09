@@ -371,6 +371,9 @@
     <Compile Include="Models\Core\UserModelBase.cs" />
     <Compile Include="Models\Core\VerifyEntityModel.cs" />
     <Compile Include="Models\Core\VersionedMetadataEditModelBase.cs" />
+    <Compile Include="Models\DebugModels\ServerInformationViewModels\ServerInformationViewModel.cs" />
+    <Compile Include="Models\DebugModels\ServerInformationViewModels\ServerEndpointViewModel.cs" />
+    <Compile Include="Models\DebugModels\ServerInformationViewModels\ServerServiceViewModel.cs" />
     <Compile Include="Models\DebugModels\SubmitBugReportModel.cs" />
     <Compile Include="Models\DependentPropertyValidator.cs" />
     <Compile Include="Models\Domain\Manual.cs" />

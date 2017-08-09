@@ -47,6 +47,7 @@ using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Core;
 using OpenIZAdmin.Services.Entities.Places;
 using OpenIZAdmin.Services.EntityRelationships;
+using OpenIZAdmin.Services.Metadata;
 using OpenIZAdmin.Services.Security.Users;
 
 namespace OpenIZAdmin.Controllers
@@ -66,6 +67,11 @@ namespace OpenIZAdmin.Controllers
         /// The place type mnemonic.
         /// </summary>
         private readonly string placeTypeMnemonic = ConfigurationManager.AppSettings["PlaceTypeConceptMnemonic"];
+
+		/// <summary>
+		/// The concept service.
+		/// </summary>
+		private readonly IConceptService conceptService;
 
 		/// <summary>
 		/// The entity service.
@@ -90,8 +96,9 @@ namespace OpenIZAdmin.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="PlaceController"/> class.
         /// </summary>
-        public PlaceController(IEntityService entityService, IEntityRelationshipService entityRelationshipService, IPlaceConceptService placeConceptService, IUserService userService)
+        public PlaceController(IConceptService conceptService, IEntityService entityService, IEntityRelationshipService entityRelationshipService, IPlaceConceptService placeConceptService, IUserService userService)
         {
+	        this.conceptService = conceptService;
 	        this.entityService = entityService;
 	        this.entityRelationshipService = entityRelationshipService;
 	        this.placeConceptService = placeConceptService;
@@ -381,7 +388,7 @@ namespace OpenIZAdmin.Controllers
         {
             try
             {
-                var place = this.GetEntity<Place>(id);
+	            var place = this.entityService.Get<Place>(id);
 
                 if (place == null)
                 {
@@ -395,14 +402,25 @@ namespace OpenIZAdmin.Controllers
                     return RedirectToAction("ViewPlace", new { id, versionId });
                 }
 
-                var relationships = new List<EntityRelationship>();
+	            var relationships = new List<EntityRelationship>();
 
-                relationships.AddRange(this.GetEntityRelationships<Place>(place.Key.Value,
-                    r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
-                        r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
-                        r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
+	            // get relationships where I am the source of type parent
+	            relationships.AddRange(entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Parent));
 
-                place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
+	            // get relationships where I am the target of type dedicated service delivery location
+	            relationships.AddRange(entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
+
+	            // get relationships where I am the target of type parent
+	            relationships.AddRange(entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.Parent));
+
+	            // set the relationships where I am the parent to relationship type of child
+	            // this is for display purposes only
+	            foreach (var relationship in relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent && r.TargetEntityKey == place.Key))
+	            {
+		            relationship.RelationshipType = this.conceptService.GetConcept(EntityRelationshipTypeKeys.Child, true);
+	            }
+
+				place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
 
                 var model = new EditPlaceModel(place)
                 {
@@ -731,16 +749,21 @@ namespace OpenIZAdmin.Controllers
 
                 var relationships = new List<EntityRelationship>();
 
-                //relationships.AddRange(this.GetEntityRelationships<Place>(place.Key.Value,
-                //        r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
-                //        r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
-                //        r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
-
 				// get relationships where I am the source of type parent
 	            relationships.AddRange(entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Parent));
 
-				// get relationships where I am the target of type parent and dedicated service delivery location
-	            relationships.AddRange(entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, EntityRelationshipTypeKeys.Parent));
+				// get relationships where I am the target of type dedicated service delivery location
+				relationships.AddRange(entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
+
+				// get relationships where I am the target of type parent
+				relationships.AddRange(entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.Parent));
+
+				// set the relationships where I am the parent to relationship type of child
+				// this is for display purposes only
+	            foreach (var relationship in relationships.Where(r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent && r.TargetEntityKey == place.Key))
+	            {
+		            relationship.RelationshipType = this.conceptService.GetConcept(EntityRelationshipTypeKeys.Child, true);
+	            }
 
 				place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
 

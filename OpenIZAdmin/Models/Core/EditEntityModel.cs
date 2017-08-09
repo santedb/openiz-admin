@@ -63,7 +63,7 @@ namespace OpenIZAdmin.Models.Core
 		{
 			this.Identifiers = entity.Identifiers.Select(i => new EntityIdentifierModel(i, entity.Key.Value, entity.Type)).OrderBy(i => i.Name).ToList();
 			this.IsObsolete = entity.StatusConceptKey == StatusKeys.Obsolete;
-			this.Relationships = entity.Relationships.Select(r => new EntityRelationshipModel(r, entity.Type, entity.ClassConceptKey?.ToString()) { Quantity = r.Quantity }).ToList();
+			this.Relationships = entity.Relationships.Select(r => new EntityRelationshipModel(r, entity.Type, entity.ClassConceptKey?.ToString(), r.TargetEntityKey == entity.Key) { Quantity = r.Quantity }).ToList();
 			this.Types = entity.Identifiers.Select(i => new SelectListItem { Text = i.Authority.Name, Value = i.AuthorityKey?.ToString() }).ToList();
 			this.UpdatedTime = entity.CreationTime.DateTime.ToString(CultureInfo.InvariantCulture);
 			this.VersionKey = entity.VersionKey;

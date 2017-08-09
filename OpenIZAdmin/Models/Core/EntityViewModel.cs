@@ -65,7 +65,7 @@ namespace OpenIZAdmin.Models.Core
 			this.IsObsolete = entity.StatusConceptKey == StatusKeys.Obsolete;
 			this.Name = string.Join(" ", entity.Names.SelectMany(n => n.Component).Select(c => c.Value));
 			this.ObsoletionTime = entity.ObsoletionTime?.DateTime;
-			this.Relationships = entity.Relationships.Select(r => new EntityRelationshipViewModel(r)).OrderBy(r => r.TargetName).ToList();
+			this.Relationships = entity.Relationships.Select(r => new EntityRelationshipViewModel(r, r.TargetEntityKey == entity.Key)).OrderBy(r => r.TargetName).ToList();
 			this.Tags = entity.Tags.Select(t => new EntityTagViewModel(t)).ToList();
             this.Address = entity.Addresses?.Select(o => new EntityAddressViewModel(o))?.ToList();
 

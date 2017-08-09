@@ -26,17 +26,32 @@
                             {
                                 <tr>
                                     <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-random"></span></td>
-                                    <td>@item.TargetName</td>
+
+                                    @if (item.IsInverse)
+                                    {
+                                        <td>@item.SourceName</td>  }
+                                    else
+                                    {
+                                        <td>@item.TargetName</td>
+}
                                     <td>@item.RelationshipTypeName</td>
-                                    <td>@item.TargetTypeConcept</td>
-                            @if (item.Quantity.HasValue)
-                            {
-                                <td>@item.Quantity</td>
-                            }
-                            else
-                            {
-                                <td>@Constants.NotApplicable</td>
-                            }
+
+                                    @if (item.IsInverse)
+                                    {
+                                        <td>@item.SourceTypeConcept</td>
+}
+                                    else
+                                    {
+                                        <td>@item.TargetTypeConcept</td>
+}
+                                    @if (item.Quantity.HasValue)
+                                    {
+                                        <td>@item.Quantity</td>
+}
+                                    else
+                                    {
+                                        <td>@Constants.NotApplicable</td>
+}
                                 </tr>}
 
                         </tbody>

@@ -33,6 +33,9 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Core.Engine;
+using OpenIZAdmin.Models.DebugModels.ServerInformationViewModels;
+using OpenIZAdmin.Services.Server;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -43,9 +46,19 @@ namespace OpenIZAdmin.Controllers
 	public class HomeController : BaseController
 	{
 		/// <summary>
+		/// The AMI server information service.
+		/// </summary>
+		private readonly IAmiServerInformationService amiServerInformationService;
+
+		/// <summary>
 		/// The applet service.
 		/// </summary>
 		private readonly IAppletService appletService;
+
+		/// <summary>
+		/// The IMSI server information service.
+		/// </summary>
+		private readonly IImsiServerInformationService imsiServerInformationService;
 
 		/// <summary>
 		/// The security device service.
@@ -63,11 +76,13 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="appletService">The applet service.</param>
 		/// <param name="securityDeviceService">The security device service.</param>
 		/// <param name="securityRoleService">The security role service.</param>
-		public HomeController(IAppletService appletService, ISecurityDeviceService securityDeviceService, ISecurityRoleService securityRoleService)
+		public HomeController(IAppletService appletService, ISecurityDeviceService securityDeviceService, ISecurityRoleService securityRoleService, IAmiServerInformationService amiServerInformationService, IImsiServerInformationService imsiServerInformationService)
 		{
 			this.appletService = appletService;
 			this.securityDeviceService = securityDeviceService;
 			this.securityRoleService = securityRoleService;
+			this.amiServerInformationService = amiServerInformationService;
+			this.imsiServerInformationService = imsiServerInformationService;
 		}
 
 		/// <summary>
@@ -181,6 +196,12 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
+				var amiServerInformation = new ServerInformationViewModel(this.amiServerInformationService.GetServerInformation(), amiServerInformationService.Name);
+				var imsiServerInformation = new ServerInformationViewModel(this.imsiServerInformationService.GetServerInformation(), imsiServerInformationService.Name);
+
+				viewModel.ServerInformation.Add(amiServerInformation);
+				viewModel.ServerInformation.Add(imsiServerInformation);
+
 				viewModel.Assemblies.AddRange(AppDomain.CurrentDomain.GetAssemblies().Select(a => new AssemblyInfoViewModel(a)).Where(a => a.Title != null).OrderBy(a => a.Title));
 			}
 			catch (Exception e)

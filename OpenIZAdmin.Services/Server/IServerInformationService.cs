@@ -13,46 +13,33 @@
  * License for the specific language governing permissions and limitations under 
  * the License.
  * 
- * User: khannan
- * Date: 2017-7-10
+ * User: nitya
+ * Date: 2017-8-8
  */
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenIZ.Core.Interop;
 
-namespace OpenIZAdmin.Core
+namespace OpenIZAdmin.Services.Server
 {
 	/// <summary>
-	/// Represents constants for the application.
+	/// Represents a server information service.
 	/// </summary>
-	public static class Constants
+	public interface IServerInformationService
 	{
 		/// <summary>
-		/// The system user identifier.
+		/// Gets the name.
 		/// </summary>
-		public const string SystemUserId = "fadca076-3690-4a6e-af9e-f1cd68e8c7e8";
-
-        /// <summary>
-        /// Granted policy claim
-        /// </summary>
-        public const string OpenIzGrantedPolicyClaim = "http://openiz.org/claims/grant";
+		/// <value>The name.</value>
+		string Name { get; }
 
 		/// <summary>
-		/// The relationship source expand property key.
+		/// Gets the server information.
 		/// </summary>
-		public const string RelationshipSource = "relationship.source";
-
-		/// <summary>
-		/// The relationship target expand property key.
-		/// </summary>
-		public const string RelationshipTarget = "relationship.target";
-
-		/// <summary>
-		/// The type concept expand property key.
-		/// </summary>
-		public const string TypeConcept = "typeConcept";
-
+		/// <returns>Returns the server information.</returns>
+		ServiceOptions GetServerInformation();
 	}
 }

@@ -21,22 +21,36 @@
                         {
                             <tr>
                                 <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-user"></span></td>
-                                <td>@item.TargetName</td>
+                                @if (item.IsInverse)
+                                {
+                                    <td>@item.SourceName</td>
+}
+                                else
+                                {
+                                    <td>@item.TargetName</td>
+}
                                 <td>@item.RelationshipTypeName</td>
-                                <td>@item.TargetTypeConcept</td>
+
+                                @if (item.IsInverse)
+                                {
+                                    <td>@item.SourceTypeConcept</td>  }
+                                else
+                                {
+                                    <td>@item.TargetTypeConcept</td>
+}
                                 @if (item.Quantity.HasValue)
                                 {
                                     <td>@item.Quantity</td>
-                                }
+}
                                 else
                                 {
                                     <td>@Constants.NotApplicable</td>
-                                }
+}
                                 <td class="autoFitContents centerContent">
                                     @*<a class="btn btn-warning" href="@Url.Action("Edit", "EntityRelationship", new { id = item.Id, sourceId = item.SourceId, type = item.SourceType })">
-                                        @Locale.Edit
-                                        <span class="glyphicon glyphicon-pencil"></span>
-                                    </a>*@
+                                            @Locale.Edit
+                                            <span class="glyphicon glyphicon-pencil"></span>
+                                        </a>*@
                                     @using (Html.BeginForm("Delete", "EntityRelationship", new { id = item.Id, sourceId = item.SourceId, type = item.SourceType }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                     {
                                         @Html.AntiForgeryToken()

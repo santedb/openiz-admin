@@ -52,11 +52,18 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		/// Initializes a new instance of the <see cref="EntityRelationshipViewModel" /> class.
 		/// </summary>
 		/// <param name="entityRelationship">The entity relationship.</param>
-		public EntityRelationshipViewModel(EntityRelationship entityRelationship)
+		/// <param name="isInverse">if set to <c>true</c> the relationship is inverse, which means that the target of the relationship is the entity instead of the source.</param>
+		public EntityRelationshipViewModel(EntityRelationship entityRelationship, bool isInverse = false)
 		{
 			this.Id = entityRelationship.Key.Value;
+			this.IsInverse = isInverse;
 			this.Quantity = entityRelationship.Quantity;
+
 			this.RelationshipTypeName = entityRelationship.RelationshipType != null ? string.Join(" ", entityRelationship.RelationshipType.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
+
+			this.SourceName = entityRelationship.SourceEntity != null ? string.Join(" ", entityRelationship.SourceEntity.Names.SelectMany(n => n.Component).Select(c => c.Value)) : Constants.NotApplicable;
+			this.SourceTypeConcept = entityRelationship.SourceEntity?.TypeConcept != null ? string.Join(" ", entityRelationship.SourceEntity.TypeConcept.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
+
 			this.TargetName = entityRelationship.TargetEntity != null ? string.Join(" ", entityRelationship.TargetEntity.Names.SelectMany(n => n.Component).Select(c => c.Value)) : Constants.NotApplicable;
 			this.TargetTypeConcept = entityRelationship.TargetEntity?.TypeConcept != null ? string.Join(" ", entityRelationship.TargetEntity.TypeConcept.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
 		}
@@ -79,6 +86,12 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		}
 
 		/// <summary>
+		/// Gets or sets a value indicating whether this instance is inverse.
+		/// </summary>
+		/// <value><c>true</c> if this instance is inverse; otherwise, <c>false</c>.</value>
+		public bool IsInverse { get; set; }
+
+		/// <summary>
 		/// Gets or sets the quantity.
 		/// </summary>
 		/// <value>The quantity.</value>
@@ -91,6 +104,20 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		/// <value>The name of the relationship type.</value>
 		[Display(Name = "RelationshipType", ResourceType = typeof(Locale))]
 		public string RelationshipTypeName { get; set; }
+
+		/// <summary>
+		/// Gets or sets the name of the source.
+		/// </summary>
+		/// <value>The name of the source.</value>
+		[Display(Name = "Name", ResourceType = typeof(Locale))]
+		public string SourceName { get; set; }
+
+		/// <summary>
+		/// Gets or sets the source type concept.
+		/// </summary>
+		/// <value>The source type concept.</value>
+		[Display(Name = "Type", ResourceType = typeof(Locale))]
+		public string SourceTypeConcept { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the target.

@@ -1,4 +1,5 @@
-﻿@model OpenIZAdmin.Models.DashboardViewModel
+﻿@using OpenIZAdmin.Services.Security
+@model OpenIZAdmin.Models.DashboardViewModel
 @{
     ViewBag.Title = Locale.Home;
 }
@@ -7,22 +8,36 @@
     <h1>OpenIZ Administration Portal</h1>
     <p class="lead">@Locale.HomePageHeaderText</p>
 </div>
-<div class="col-md-12" id="applets-partial">
-    @Html.Partial("_AppletsPartial", Model.Applets)
-</div>
-<div class="col-md-12" id="certificates-partial">
-    @Html.Partial("_CertificateRequestsPartial", Model.CertificateRequests)
-</div>
-<div class="col-md-12" id="devices-partial">
-    @Html.Partial("_DevicesPartial", Model.Devices)
-</div>
-<div class="col-md-12" id="roles-partial">
-    @Html.Partial("_RolesPartial", Model.Roles)
-</div>
+
+@if (PolicyPermission.TryDemand(User, Constants.UnrestrictedMetadata))
+{
+    <div class="col-md-12" id="applets-partial">
+        @Html.Partial("_AppletsPartial", Model.Applets)
+    </div>
+
+    <div class="col-md-12" id="certificates-partial">
+        @Html.Partial("_CertificateRequestsPartial", Model.CertificateRequests)
+    </div>
+}
+
+@if (PolicyPermission.TryDemand(User, Constants.CreateDevice))
+{
+    <div class="col-md-12" id="devices-partial">
+        @Html.Partial("_DevicesPartial", Model.Devices)
+    </div>
+}
+
+@if (PolicyPermission.TryDemand(User, Constants.AlterRoles))
+{
+    <div class="col-md-12" id="roles-partial">
+        @Html.Partial("_RolesPartial", Model.Roles)
+    </div>
+}
 
 @section scripts{
     <script>
-        $(document).ready(function () {
+        $(document).ready(function ()
+        {
 
             $('#appletsTable').DataTable({
                 "language":

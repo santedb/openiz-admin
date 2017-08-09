@@ -33,12 +33,12 @@ namespace OpenIZAdmin.Extensions
 		// this is courtesy of https://stackoverflow.com/questions/1600962/displaying-the-build-date
 
 		/// <summary>
-		/// Gets the build date time.
+		/// Gets the build date time of an assembly.
 		/// </summary>
 		/// <param name="source">The source.</param>
 		/// <param name="targetTimeZoneInfo">The target time zone information.</param>
 		/// <returns>Returns the linker time of the assembly.</returns>
-		/// <exception cref="System.ArgumentNullException">source</exception>
+		/// <exception cref="System.ArgumentNullException">If the source is null.</exception>
 		public static DateTime? GetBuildDateTime(this Assembly source, TimeZoneInfo targetTimeZoneInfo = null)
 		{
 			if (source == null)

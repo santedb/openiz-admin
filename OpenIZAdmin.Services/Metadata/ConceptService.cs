@@ -19,7 +19,6 @@
 
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Messaging.IMSI.Client;
-using OpenIZAdmin.Core.Extensions;
 using OpenIZAdmin.Services.Core;
 using System;
 using System.Collections.Generic;
@@ -56,18 +55,52 @@ namespace OpenIZAdmin.Services.Metadata
 		/// Gets the concept.
 		/// </summary>
 		/// <param name="key">The key.</param>
+		/// <param name="loadFast">if set to <c>true</c> the concept will be retrieved from the cache instead of contacting the server.</param>
 		/// <returns>Returns the concept for the given key.</returns>
-		public Concept GetConcept(Guid? key)
+		public Concept GetConcept(Guid? key, bool loadFast = false)
 		{
-			return key.HasValue && key.Value != Guid.Empty ? this.Client.Get<Concept>(key.Value, null) as Concept : null;
+			// if the key doesn't have a value, we want to exit
+			if (!key.HasValue || key == Guid.Empty)
+			{
+				return null;
+			}
+
+			return loadFast ? cacheService.Get<Concept>(key.ToString(), () => this.GetConceptInternal(key.Value)) : this.GetConceptInternal(key.Value);
 		}
 
 		/// <summary>
 		/// Gets the concept.
 		/// </summary>
 		/// <param name="mnemonic">The mnemonic.</param>
+		/// <param name="loadFast">if set to <c>true</c> the concept will be retrieved from the cache instead of contacting the server.</param>
 		/// <returns>Returns the concept for the given mnemonic.</returns>
-		public Concept GetConcept(string mnemonic)
+		public Concept GetConcept(string mnemonic, bool loadFast = false)
+		{
+			// if the mnemonic is null or empty, we want to exit
+			if (string.IsNullOrEmpty(mnemonic) || string.IsNullOrWhiteSpace(mnemonic))
+			{
+				return null;
+			}
+
+			return loadFast ? cacheService.Get<Concept>(mnemonic, () => this.GetConceptInternal(mnemonic)) : this.GetConceptInternal(mnemonic);
+		}
+
+		/// <summary>
+		/// Gets the concept.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Returns the concept for the given key.</returns>
+		private Concept GetConceptInternal(Guid key)
+		{
+			return this.Client.Get<Concept>(key, null) as Concept;
+		}
+
+		/// <summary>
+		/// Gets the concept by mnemonic.
+		/// </summary>
+		/// <param name="mnemonic">The mnemonic.</param>
+		/// <returns>Returns the concept for the given mnemonic.</returns>
+		private Concept GetConceptInternal(string mnemonic)
 		{
 			var bundle = this.Client.Query<Concept>(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null, 0, 1, true);
 

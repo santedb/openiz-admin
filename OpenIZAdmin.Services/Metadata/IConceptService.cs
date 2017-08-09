@@ -33,15 +33,17 @@ namespace OpenIZAdmin.Services.Metadata
 		/// Gets the concept.
 		/// </summary>
 		/// <param name="key">The key.</param>
+		/// <param name="loadFast">if set to <c>true</c> the concept will be retrieved from the cache instead of contacting the server.</param>
 		/// <returns>Returns the concept for the given key.</returns>
-		Concept GetConcept(Guid? key);
+		Concept GetConcept(Guid? key, bool loadFast = false);
 
 		/// <summary>
 		/// Gets the concept.
 		/// </summary>
 		/// <param name="mnemonic">The mnemonic.</param>
+		/// <param name="loadFast">if set to <c>true</c> the concept will be retrieved from the cache instead of contacting the server.</param>
 		/// <returns>Returns the concept for the given mnemonic.</returns>
-		Concept GetConcept(string mnemonic);
+		Concept GetConcept(string mnemonic, bool loadFast = false);
 
 		/// <summary>
 		/// Gets the concept reference terms.

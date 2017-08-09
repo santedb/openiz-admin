@@ -2486,4 +2486,31 @@ au jina la kikoa</value>
   <data name="ToolTip_PlaceStreetAddress" xml:space="preserve">
     <value>Anwani ya mitaani ya mahali hapa</value>
   </data>
+  <data name="Capabilities" xml:space="preserve">
+    <value>Uwezo</value>
+  </data>
+  <data name="Endpoints" xml:space="preserve">
+    <value>Mwisho</value>
+  </data>
+  <data name="ServerInformation" xml:space="preserve">
+    <value>Maelezo ya Serikali</value>
+  </data>
+  <data name="ServerInterfaceVersion" xml:space="preserve">
+    <value>Toleo la seva ya seva</value>
+  </data>
+  <data name="Services" xml:space="preserve">
+    <value>Huduma</value>
+  </data>
+  <data name="ServiceType" xml:space="preserve">
+    <value>Aina ya Huduma</value>
+  </data>
+  <data name="NoInformation" xml:space="preserve">
+    <value>Hakuna Taarifa</value>
+  </data>
+  <data name="ResourceName" xml:space="preserve">
+    <value>Jina la Rasilimali</value>
+  </data>
+  <data name="Verbs" xml:space="preserve">
+    <value>Vifungu</value>
+  </data>
 </root>
