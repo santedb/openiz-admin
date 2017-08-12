@@ -50,6 +50,16 @@ namespace OpenIZAdmin.Core
 		public const string RelationshipTarget = "relationship.target";
 
 		/// <summary>
+		/// The source expand property key.
+		/// </summary>
+		public const string Source = "source";
+
+		/// <summary>
+		/// The target expand property key.
+		/// </summary>
+		public const string Target = "target";
+
+		/// <summary>
 		/// The type concept expand property key.
 		/// </summary>
 		public const string TypeConcept = "typeConcept";

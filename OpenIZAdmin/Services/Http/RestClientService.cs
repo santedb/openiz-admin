@@ -132,7 +132,7 @@ namespace OpenIZAdmin.Services.Http
 			// Compress?
 			if (this.Description.Binding.Optimize)
 			{
-				retVal.Headers.Add(HttpRequestHeader.AcceptEncoding, "deflate,gzip");
+				retVal.Headers[HttpRequestHeader.AcceptEncoding] = "gzip,deflate";
 			}
 
 			return retVal;

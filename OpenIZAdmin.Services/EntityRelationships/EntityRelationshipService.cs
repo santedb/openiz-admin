@@ -116,7 +116,7 @@ namespace OpenIZAdmin.Services.EntityRelationships
 				expression = r => r.SourceEntityKey == source && r.RelationshipTypeKey == relationshipType && r.ObsoleteVersionSequenceId == null;
 			}
 
-			var bundle = this.Client.Query(expression, 0, null, new[] { Constants.RelationshipTarget });
+			var bundle = this.Client.Query(expression, 0, null, new[] { Constants.Target });
 
 			bundle.Reconstitute();
 
@@ -148,7 +148,7 @@ namespace OpenIZAdmin.Services.EntityRelationships
 				expression = r => r.TargetEntityKey == target && r.RelationshipTypeKey == relationshipType && r.ObsoleteVersionSequenceId == null;
 			}
 
-			var bundle = this.Client.Query(expression, 0, null, new[] { Constants.RelationshipSource, Constants.RelationshipTarget });
+			var bundle = this.Client.Query(expression, 0, null, new[] { Constants.Target });
 
 			bundle.Reconstitute();
 
@@ -174,16 +174,23 @@ namespace OpenIZAdmin.Services.EntityRelationships
 
 					if (relationship.SourceEntity?.ShouldSerializeTypeConceptKey() == true && relationship.SourceEntity.TypeConcept == null)
 					{
-						relationship.SourceEntity.TypeConcept = relationship.SourceEntity.LoadProperty<Concept>("TypeConcept");
+						// load the type concept of the source entity
+						relationship.SourceEntity.TypeConcept = this.conceptService.GetConcept(relationship.SourceEntity.TypeConceptKey.Value, true);
 					}
 				}
 
-				relationship.RelationshipType = relationship.LoadProperty<Concept>(nameof(EntityRelationship.RelationshipType));
+				// only load the relationship type if the IMS didn't return it
+				if (relationship.RelationshipTypeKey.HasValue && relationship.RelationshipTypeKey != Guid.Empty && relationship.RelationshipType == null)
+				{
+					relationship.RelationshipType = this.conceptService.GetConcept(relationship.RelationshipTypeKey.Value, true);
+				}
+
 				relationship.TargetEntity = relationship.LoadProperty(nameof(EntityRelationship.TargetEntity)) as Entity;
 
 				if (relationship.TargetEntity?.ShouldSerializeTypeConceptKey() == true && relationship.TargetEntity.TypeConcept == null)
 				{
-					relationship.TargetEntity.TypeConcept = relationship.TargetEntity.LoadProperty<Concept>("TypeConcept");
+					// load the type concept of the target entity
+					relationship.TargetEntity.TypeConcept = this.conceptService.GetConcept(relationship.TargetEntity.TypeConceptKey.Value, true);
 				}
 
 				relationships.Add(relationship);
