@@ -72,7 +72,14 @@ namespace OpenIZAdmin.Services.Auditing
 						Audit = audits
 					};
 
-					this.Client.SubmitAudit(auditInfo);
+					try
+					{
+						this.Client.SubmitAudit(auditInfo);
+					}
+					catch (Exception e)
+					{
+						Trace.TraceError($"Unable to send audit: {e}");
+					}
 				});
 			}
 			catch (Exception e)
