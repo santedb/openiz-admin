@@ -83,6 +83,7 @@
     <Compile Include="Core\IEntityService.cs" />
     <Compile Include="Entities\Places\IPlaceConceptService.cs" />
     <Compile Include="Entities\Places\PlaceConceptService.cs" />
+    <Compile Include="EntityRelationships\EntityRelationshipConceptService.cs" />
     <Compile Include="EntityRelationships\EntityRelationshipService.cs" />
     <Compile Include="EntityRelationships\IEntityRelationshipConceptService.cs" />
     <Compile Include="EntityRelationships\IEntityRelationshipService.cs" />
