@@ -17,19 +17,18 @@
  * Date: 2016-7-10
  */
 
+using Microsoft.AspNet.Identity;
+using OpenIZAdmin.Services.Security;
+using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Security.Permissions;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Microsoft.AspNet.Identity;
-using OpenIZAdmin.Services.Security;
-using OpenIZAdmin.Util;
 
 namespace OpenIZAdmin.Attributes
 {
@@ -77,6 +76,18 @@ namespace OpenIZAdmin.Attributes
 				try
 				{
 					isAuthorized = !JwtUtil.IsExpired(accessToken);
+
+					// if there is no login or login as a service permission, we must manually validate against that
+					if (!policies.Contains(Constants.Login))
+					{
+						// validate the login permission
+						new PolicyPermission(PermissionState.Unrestricted, Constants.Login, httpContext.User).Demand();
+					}
+					else if (!policies.Contains(Constants.Login) && !policies.Contains(Constants.LoginAsService))
+					{
+						// validate the login as a service permission only if login and login as a service are missing from the validation list
+						new PolicyPermission(PermissionState.Unrestricted, Constants.LoginAsService, httpContext.User).Demand();
+					}
 
 					foreach (var policy in policies)
 					{
