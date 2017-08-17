@@ -139,7 +139,7 @@ namespace OpenIZAdmin.Dependency
 			builder.RegisterType<ImsiServerInformationService>().As<IImsiServerInformationService>().InstancePerLifetimeScope();
 
 			// register entity relationship concept services
-			builder.RegisterType<IEntityRelationshipConceptService>().As<EntityRelationshipConceptService>().InstancePerLifetimeScope();
+			builder.RegisterType<EntityRelationshipConceptService>().As<IEntityRelationshipConceptService>().InstancePerLifetimeScope();
 		}
 	}
 }

@@ -82,6 +82,16 @@ namespace OpenIZAdmin.Services.EntityRelationships
 		}
 
 		/// <summary>
+		/// Deletes an entity relationship.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Returns the deleted entity relationship.</returns>
+		public EntityRelationship Delete(Guid key)
+		{
+			return this.Client.Obsolete(this.Get(key));
+		}
+
+		/// <summary>
 		/// Gets the entity relationship.
 		/// </summary>
 		/// <param name="key">The key.</param>
@@ -153,6 +163,39 @@ namespace OpenIZAdmin.Services.EntityRelationships
 			bundle.Reconstitute();
 
 			return this.LoadNested(bundle, r => expression.Compile().Invoke(r), true);
+		}
+
+		/// <summary>
+		/// Updates an entity relationship.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="sourceKey">The source key.</param>
+		/// <param name="targetKey">The target key.</param>
+		/// <param name="relationshipType">Type of the relationship.</param>
+		/// <param name="sourceType">Type of the source.</param>
+		/// <param name="quantity">The quantity.</param>
+		/// <returns>Returns the updated entity relationship.</returns>
+		public EntityRelationship Update(Guid key, Guid sourceKey, Guid targetKey, Guid relationshipType, Type sourceType, int? quantity = null)
+		{
+			var entityRelationship = this.Get(key);
+
+			entityRelationship.SourceEntityKey = sourceKey;
+			entityRelationship.TargetEntityKey = targetKey;
+			entityRelationship.RelationshipTypeKey = relationshipType;
+			entityRelationship.Quantity = quantity;
+
+			var entity = this.entityService.Get(sourceKey, sourceType);
+
+			// remove the old relationship
+			entity.Relationships.RemoveAll(r => r.Key == key);
+
+			// add the new relationship to the entity
+			entity.Relationships.Add(entityRelationship);
+
+			// update the entity
+			this.entityService.Update(entity);
+
+			return entityRelationship;
 		}
 
 		/// <summary>

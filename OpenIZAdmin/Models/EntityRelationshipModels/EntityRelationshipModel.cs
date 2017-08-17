@@ -92,6 +92,7 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		/// <param name="isInverse">if set to <c>true</c> the relationship is inverse, which means that the target of the relationship is the entity instead of the source.</param>
 		public EntityRelationshipModel(EntityRelationship entityRelationship, string sourceType, string sourceClass, bool isInverse = false) : this(entityRelationship)
 		{
+			this.ModelType = sourceType;
 			this.SourceType = sourceType;
             this.SourceClass = sourceClass;
 			this.IsInverse = isInverse;
@@ -128,6 +129,12 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		/// </summary>
 		[Display(Name = "InverseRelationship", ResourceType = typeof(Locale))]
         public bool Inverse { get; set; }
+
+		/// <summary>
+		/// Gets or sets the type of the model.
+		/// </summary>
+		/// <value>The type of the model.</value>
+		public string ModelType { get; set; }
 
 		/// <summary>
 		/// Gets or sets the type of the relationship.

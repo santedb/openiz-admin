@@ -24,7 +24,9 @@ using System.Threading.Tasks;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Messaging.IMSI.Client;
+using OpenIZAdmin.Core.Caching;
 using OpenIZAdmin.Services.Core;
+using OpenIZAdmin.Services.Metadata;
 
 namespace OpenIZAdmin.Services.EntityRelationships
 {
@@ -36,11 +38,18 @@ namespace OpenIZAdmin.Services.EntityRelationships
 	public class EntityRelationshipConceptService : ImsiServiceBase, IEntityRelationshipConceptService
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="EntityRelationshipConceptService"/> class.
+		/// The cache service.
+		/// </summary>
+		private readonly ICacheService cacheService;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="EntityRelationshipConceptService" /> class.
 		/// </summary>
 		/// <param name="client">The client.</param>
-		public EntityRelationshipConceptService(ImsiServiceClient client) : base(client)
+		/// <param name="cacheService">The cache service.</param>
+		public EntityRelationshipConceptService(ImsiServiceClient client, ICacheService cacheService) : base(client)
 		{
+			this.cacheService = cacheService;
 		}
 
 		/// <summary>
@@ -49,13 +58,14 @@ namespace OpenIZAdmin.Services.EntityRelationships
 		/// <returns>Returns a list of concepts which relate materials to manufactured materials.</returns>
 		public IEnumerable<Concept> GetMaterialManufacturedMaterialRelationshipConcepts()
 		{
-			return new List<Concept>
+			return cacheService.Get(EntityRelationshipTypeKeys.Instance.ToString(), () =>
 			{
-				new Concept
-				{
-					Key = EntityRelationshipTypeKeys.Instance
-				}
-			};
+				var bundle = this.Client.Query<Concept>(c => c.Key == EntityRelationshipTypeKeys.Instance && c.ObsoletionTime == null);
+
+				bundle.Reconstitute();
+
+				return bundle.Item.OfType<Concept>().Where(c => c.Key == EntityRelationshipTypeKeys.Instance && c.ObsoletionTime == null);
+			});
 		}
 	}
 }

@@ -54,6 +54,14 @@ namespace OpenIZAdmin.Services.Core
 		/// Gets a specific entity with a given key.
 		/// </summary>
 		/// <param name="key">The key.</param>
+		/// <param name="modelType">Type of the model.</param>
+		/// <returns>Returns the entity for the given key.</returns>
+		Entity Get(Guid key, Type modelType);
+
+		/// <summary>
+		/// Gets a specific entity with a given key.
+		/// </summary>
+		/// <param name="key">The key.</param>
 		/// <returns>Returns the entity for the given key.</returns>
 		T Get<T>(Guid key) where T : Entity;
 
@@ -83,6 +91,13 @@ namespace OpenIZAdmin.Services.Core
 		/// <param name="entityRelationshipExpression">The entity relationship expression.</param>
 		/// <returns>Returns a list of entity relationships for the given entity.</returns>
 		IEnumerable<EntityRelationship> GetEntityRelationships<TTargetType>(Guid id, Expression<Func<EntityRelationship, bool>> entityRelationshipExpression = null) where TTargetType : Entity;
+
+		/// <summary>
+		/// Gets the type of the model.
+		/// </summary>
+		/// <param name="type">The type.</param>
+		/// <returns>Type.</returns>
+		Type GetModelType(string type);
 
 		/// <summary>
 		/// Obsoletes the specified key.

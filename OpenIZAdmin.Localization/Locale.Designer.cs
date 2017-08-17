@@ -4399,6 +4399,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Relationship updated successfully.
+        /// </summary>
+        public static string RelationshipUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("RelationshipUpdatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reporter.
         /// </summary>
         public static string Reporter {
@@ -6465,6 +6474,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToUpdateRelatedManufacturedMaterial {
             get {
                 return ResourceManager.GetString("UnableToUpdateRelatedManufacturedMaterial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to update relationship.
+        /// </summary>
+        public static string UnableToUpdateRelationship {
+            get {
+                return ResourceManager.GetString("UnableToUpdateRelationship", resourceCulture);
             }
         }
         

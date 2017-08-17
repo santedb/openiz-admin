@@ -2513,4 +2513,10 @@ au jina la kikoa</value>
   <data name="Verbs" xml:space="preserve">
     <value>Vifungu</value>
   </data>
+  <data name="RelationshipUpdatedSuccessfully" xml:space="preserve">
+    <value>Uhusiano umebadilishwa kwa mafanikio</value>
+  </data>
+  <data name="UnableToUpdateRelationship" xml:space="preserve">
+    <value>Haiwezi kuboresha uhusiano</value>
+  </data>
 </root>

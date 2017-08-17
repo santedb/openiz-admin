@@ -14,6 +14,9 @@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
             @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.SourceId)
+            @Html.HiddenFor(m => m.TargetId)
+            @Html.HiddenFor(m => m.ModelType)
 
             <div class="form-group">
                 @Html.LabelFor(m => m.RelationshipType, new { @class = "col-md-2 control-label" })
@@ -21,6 +24,14 @@
                     @Html.DropDownListFor(m => m.RelationshipType, Model.RelationshipTypes, new { @class = "form-control" })
                     @Html.ValidationMessageFor(m => m.RelationshipType, "", new { @class = "text-danger" })
                 </div>                
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.Quantity, new { @class = "col-md-2 control-label" })
+                <div class="col-md-2">
+                    @Html.TextBoxFor(m => m.Quantity, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Quantity, "", new { @class = "text-danger" })
+                </div>
             </div>
 
             <div class="form-group">

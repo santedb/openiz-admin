@@ -35,6 +35,7 @@ using OpenIZ.Core.Model.Collection;
 using OpenIZAdmin.Core.Extensions;
 using OpenIZAdmin.Services.Metadata;
 using System.Diagnostics;
+using OpenIZAdmin.Localization;
 
 namespace OpenIZAdmin.Services.Core
 {
@@ -145,6 +146,19 @@ namespace OpenIZAdmin.Services.Core
 		public Entity Deactivate(Entity entity)
 		{
 			return this.Obsolete(entity);
+		}
+
+		/// <summary>
+		/// Gets a specific entity with a given key.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="modelType">Type of the model.</param>
+		/// <returns>Returns the entity for the given key.</returns>
+		public Entity Get(Guid key, Type modelType)
+		{
+			var getMethod = this.Client.GetType().GetRuntimeMethod("Get", new Type[] { typeof(Guid), typeof(Guid?) }).MakeGenericMethod(modelType);
+
+			return getMethod.Invoke(this.Client, new object[] { key, null }) as Entity;
 		}
 
 		/// <summary>
@@ -304,6 +318,41 @@ namespace OpenIZAdmin.Services.Core
 		}
 
 		/// <summary>
+		/// Gets the type of the model.
+		/// </summary>
+		/// <param name="type">The type.</param>
+		/// <returns>Returns the type for a given model type.</returns>
+		/// <exception cref="System.ArgumentNullException">If the type is null or empty.</exception>
+		/// <exception cref="System.ArgumentException">If the model type is not supported.</exception>
+		public Type GetModelType(string type)
+		{
+			if (string.IsNullOrEmpty(type) || string.IsNullOrWhiteSpace(type))
+				throw new ArgumentNullException(nameof(type), Locale.ValueCannotBeNull);
+
+			Type modelType;
+
+			switch (type.ToLower())
+			{
+				case "material":
+					modelType = typeof(Material);
+					break;
+
+				case "place":
+					modelType = typeof(Place);
+					break;
+
+				case "organization":
+					modelType = typeof(Organization);
+					break;
+
+				default:
+					throw new ArgumentException($"Unsupported type: { type }");
+			}
+
+			return modelType;
+		}
+
+		/// <summary>
 		/// Obsoletes the specified key.
 		/// </summary>
 		/// <param name="key">The key.</param>
@@ -436,7 +485,6 @@ namespace OpenIZAdmin.Services.Core
 		/// <typeparam name="T"></typeparam>
 		/// <param name="searchTerm">The search term.</param>
 		/// <returns>Returns a list of entities which match the given search term.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
 		public IEnumerable<T> Search<T>(string searchTerm) where T : Entity
 		{
 			var results = new List<T>();
@@ -470,9 +518,9 @@ namespace OpenIZAdmin.Services.Core
 				{
 					bundle = this.Client.Query<T>(p => p.ClassConceptKey == classConceptKey, 0, null, false);
 
-					foreach (var material in bundle.Item.OfType<T>().LatestVersionOnly().Where(p => p.ClassConceptKey == classConceptKey))
+					foreach (var item in bundle.Item.OfType<T>().LatestVersionOnly().Where(p => p.ClassConceptKey == classConceptKey))
 					{
-						material.TypeConcept = this.conceptService.GetTypeConcept(material);
+						item.TypeConcept = this.conceptService.GetTypeConcept(item);
 					}
 
 					results = bundle.Item.OfType<T>().LatestVersionOnly().Where(p => p.ClassConceptKey == classConceptKey).ToList();
@@ -485,9 +533,9 @@ namespace OpenIZAdmin.Services.Core
 					{
 						bundle = this.Client.Query<T>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == classConceptKey, 0, null, false);
 
-						foreach (var material in bundle.Item.OfType<T>().LatestVersionOnly().Where(p => p.ClassConceptKey == classConceptKey))
+						foreach (var item in bundle.Item.OfType<T>().LatestVersionOnly().Where(p => p.ClassConceptKey == classConceptKey))
 						{
-							material.TypeConcept = this.conceptService.GetTypeConcept(material);
+							item.TypeConcept = this.conceptService.GetTypeConcept(item);
 						}
 
 						results = bundle.Item.OfType<T>().Where(nameExpression.Compile()).LatestVersionOnly().Where(p => p.ClassConceptKey == classConceptKey).ToList();

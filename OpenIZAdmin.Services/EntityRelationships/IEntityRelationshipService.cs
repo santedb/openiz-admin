@@ -39,14 +39,21 @@ namespace OpenIZAdmin.Services.EntityRelationships
 		EntityRelationship Create(Guid sourceKey, Guid targetKey, Guid relationshipType, uint quantity);
 
 		/// <summary>
-		/// Gets the entity relationship.
+		/// Deletes an entity relationship.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Returns the deleted entity relationship.</returns>
+		EntityRelationship Delete(Guid key);
+
+		/// <summary>
+		/// Gets entity relationship.
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <returns>Returns an entity relationships which matches the given key.</returns>
 		EntityRelationship Get(Guid key);
 
 		/// <summary>
-		/// Gets the entity relationships by source.
+		/// Gets entity relationships by source.
 		/// </summary>
 		/// <param name="source">The source.</param>
 		/// <returns>Returns a list of entity relationships which match the given source key.</returns>
@@ -61,7 +68,7 @@ namespace OpenIZAdmin.Services.EntityRelationships
 		IEnumerable<EntityRelationship> GetEntityRelationshipsBySource(Guid source, Guid? relationshipType);
 
 		/// <summary>
-		/// Gets the entity relationships by target.
+		/// Gets entity relationships by target.
 		/// </summary>
 		/// <param name="target">The target.</param>
 		/// <returns>Returns a list of entity relationships which match the given target key.</returns>
@@ -74,5 +81,17 @@ namespace OpenIZAdmin.Services.EntityRelationships
 		/// <param name="relationshipType">Type of the relationship.</param>
 		/// <returns>Returns a list of entity relationships for a given target key and filtered by relationship types.</returns>
 		IEnumerable<EntityRelationship> GetEntityRelationshipsByTarget(Guid target, Guid? relationshipType);
+
+		/// <summary>
+		/// Updates an entity relationship.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="sourceKey">The source key.</param>
+		/// <param name="targetKey">The target key.</param>
+		/// <param name="relationshipType">Type of the relationship.</param>
+		/// <param name="sourceType">Type of the source.</param>
+		/// <param name="quantity">The quantity.</param>
+		/// <returns>Returns the updated entity relationship.</returns>
+		EntityRelationship Update(Guid key, Guid sourceKey, Guid targetKey, Guid relationshipType, Type sourceType, int? quantity = null);
 	}
 }

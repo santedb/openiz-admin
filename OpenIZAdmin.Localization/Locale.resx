@@ -2490,4 +2490,10 @@
   <data name="Verbs" xml:space="preserve">
     <value>Verbs</value>
   </data>
+  <data name="RelationshipUpdatedSuccessfully" xml:space="preserve">
+    <value>Relationship updated successfully</value>
+  </data>
+  <data name="UnableToUpdateRelationship" xml:space="preserve">
+    <value>Unable to update relationship</value>
+  </data>
 </root>
