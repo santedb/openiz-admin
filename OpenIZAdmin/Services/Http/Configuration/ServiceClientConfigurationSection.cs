@@ -106,12 +106,7 @@ namespace OpenIZAdmin.Services.Http.Configuration
 		/// <returns>Returns the service client configuration.</returns>
 		internal static ServiceClientConfigurationSection GetServiceClientConfiguration()
 		{
-			Realm realm = null;
-
-			using (IUnitOfWork unitOfWork = new EntityUnitOfWork(new ApplicationDbContext()))
-			{
-				realm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).SingleOrDefault();
-			}
+			var realm = RealmConfig.GetCurrentRealm();
 
 			if (realm == null)
 			{

@@ -420,6 +420,8 @@ namespace OpenIZAdmin.Controllers
 					this.Response.Cookies.Remove("access_token");
 					HttpContext.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
 
+					MvcApplication.MemoryCache.Remove(RealmConfig.RealmDataCacheKey);
+
 					TempData["success"] = Locale.RealmLeftSuccessfully;
 
 					return RedirectToAction("JoinRealm", "Realm");

@@ -36,16 +36,26 @@ namespace OpenIZAdmin
 		public const string RealmCacheKey = "JoinedToRealm";
 
 		/// <summary>
+		/// The realm data cache key.
+		/// </summary>
+		public const string RealmDataCacheKey = "Realm";
+
+		/// <summary>
 		/// Gets the current realm of the application.
 		/// </summary>
 		/// <returns>Returns the current realm of the application.</returns>
 		public static Realm GetCurrentRealm()
 		{
-			Realm currentRealm = null;
+			var currentRealm = MvcApplication.MemoryCache.Get(RealmDataCacheKey) as Realm;
 
-			using (IUnitOfWork unitOfWork = new EntityUnitOfWork(new ApplicationDbContext()))
+			if (currentRealm == null)
 			{
-				currentRealm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).Single();
+				using (IUnitOfWork unitOfWork = new EntityUnitOfWork(new ApplicationDbContext()))
+				{
+					currentRealm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).Single();
+				}
+
+				MvcApplication.MemoryCache.Set(RealmDataCacheKey, currentRealm, MvcApplication.CacheItemPolicy);
 			}
 
 			return currentRealm;
@@ -77,7 +87,7 @@ namespace OpenIZAdmin
 
 			using (IUnitOfWork unitOfWork = new EntityUnitOfWork(new ApplicationDbContext()))
 			{
-				isJoinedToRealm = unitOfWork.RealmRepository.AsQueryable().Count(r => r.ObsoletionTime == null) > 0;
+				isJoinedToRealm = GetCurrentRealm() != null;
 			}
 
 			return isJoinedToRealm;
