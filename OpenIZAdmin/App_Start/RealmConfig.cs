@@ -52,10 +52,13 @@ namespace OpenIZAdmin
 			{
 				using (IUnitOfWork unitOfWork = new EntityUnitOfWork(new ApplicationDbContext()))
 				{
-					currentRealm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).Single();
+					currentRealm = unitOfWork.RealmRepository.Get(r => r.ObsoletionTime == null).FirstOrDefault();
 				}
 
-				MvcApplication.MemoryCache.Set(RealmDataCacheKey, currentRealm, MvcApplication.CacheItemPolicy);
+				if (currentRealm != null)
+				{
+					MvcApplication.MemoryCache.Set(RealmDataCacheKey, currentRealm, MvcApplication.CacheItemPolicy);
+				}
 			}
 
 			return currentRealm;
@@ -85,12 +88,7 @@ namespace OpenIZAdmin
 				return isJoinedToRealm;
 			}
 
-			using (IUnitOfWork unitOfWork = new EntityUnitOfWork(new ApplicationDbContext()))
-			{
-				isJoinedToRealm = GetCurrentRealm() != null;
-			}
-
-			return isJoinedToRealm;
+			return GetCurrentRealm() != null;
 		}
 	}
 }
