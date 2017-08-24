@@ -76,6 +76,8 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="appletService">The applet service.</param>
 		/// <param name="securityDeviceService">The security device service.</param>
 		/// <param name="securityRoleService">The security role service.</param>
+		/// <param name="amiServerInformationService">The ami server information service.</param>
+		/// <param name="imsiServerInformationService">The imsi server information service.</param>
 		public HomeController(IAppletService appletService, ISecurityDeviceService securityDeviceService, ISecurityRoleService securityRoleService, IAmiServerInformationService amiServerInformationService, IImsiServerInformationService imsiServerInformationService)
 		{
 			this.appletService = appletService;
