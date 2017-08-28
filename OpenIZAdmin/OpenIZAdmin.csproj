@@ -389,6 +389,8 @@
     <Compile Include="Models\ConceptNameModels\ConceptNameViewModel.cs" />
     <Compile Include="Models\ManualModels\ManualIndexViewModel.cs" />
     <Compile Include="Models\ManualModels\UploadManualModel.cs" />
+    <Compile Include="Models\ManufacturedMaterialModels\CreateManufacturedMaterialModel.cs" />
+    <Compile Include="Models\ManufacturedMaterialModels\EditManufacturedMaterialModel.cs" />
     <Compile Include="Models\ManufacturedMaterialModels\ManufacturedMaterialViewModel.cs" />
     <Compile Include="Models\MaterialModels\EditMaterialModel.cs" />
     <Compile Include="Models\MaterialModels\CreateMaterialModel.cs" />
@@ -867,6 +869,11 @@
     <Content Include="Views\Shared\_ManageAppletsPartial.cshtml" />
     <Content Include="Views\Shared\_ConceptSetsPartial.cshtml" />
     <Content Include="Views\Shared\_EditEntityAddressPartial.cshtml" />
+    <Content Include="Views\ManufacturedMaterial\Create.cshtml" />
+    <Content Include="Views\ManufacturedMaterial\Edit.cshtml" />
+    <Content Include="Views\ManufacturedMaterial\ViewManufacturedMaterial.cshtml" />
+    <Content Include="Views\ManufacturedMaterial\Index.cshtml" />
+    <Content Include="Views\Shared\_ManufacturedMaterialSearchResultsPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

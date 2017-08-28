@@ -78,6 +78,8 @@
     <Compile Include="Core\ImsiServiceBase.cs" />
     <Compile Include="Core\AmiServiceBase.cs" />
     <Compile Include="Core\RisiServiceBase.cs" />
+    <Compile Include="Entities\ManufacturedMaterials\IManufacturedMaterialConceptService.cs" />
+    <Compile Include="Entities\ManufacturedMaterials\ManufacturedMaterialConceptService.cs" />
     <Compile Include="Entities\Materials\IMaterialConceptService.cs" />
     <Compile Include="Entities\Materials\MaterialConceptService.cs" />
     <Compile Include="Core\IEntityService.cs" />

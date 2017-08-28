@@ -2519,4 +2519,28 @@ au jina la kikoa</value>
   <data name="UnableToUpdateRelationship" xml:space="preserve">
     <value>Haiwezi kuboresha uhusiano</value>
   </data>
+  <data name="LotNumberRequired" xml:space="preserve">
+    <value>Tafadhali ingiza idadi kubwa</value>
+  </data>
+  <data name="ViewManufacturedMaterial" xml:space="preserve">
+    <value>Angalia Nyenzo Imetengenezwa</value>
+  </data>
+  <data name="ManufacturedMaterialNotFound" xml:space="preserve">
+    <value>Nyenzo zilizofanywa hazipatikani</value>
+  </data>
+  <data name="EditManufacturedMaterial_Heading" xml:space="preserve">
+    <value>Hariri Nyenzo zilizofanywa</value>
+  </data>
+  <data name="ManufacturedMaterialUpdatedSuccessfully" xml:space="preserve">
+    <value>Nyenzo zilizofanywa zimesasishwa kwa mafanikio</value>
+  </data>
+  <data name="UnableToUpdateManufacturedMaterial" xml:space="preserve">
+    <value>Imeshindwa kurekebisha nyenzo za viwandani</value>
+  </data>
+  <data name="ManufacturedMaterialCreatedSuccessfully" xml:space="preserve">
+    <value>Nyenzo zilizofanywa ziliundwa kwa ufanisi</value>
+  </data>
+  <data name="UnableToCreateManufacturedMaterial" xml:space="preserve">
+    <value>Haiwezi kuunda vifaa vya viwandani</value>
+  </data>
 </root>

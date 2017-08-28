@@ -1,0 +1,58 @@
+﻿@using OpenIZAdmin.Extensions
+@model IEnumerable<OpenIZAdmin.Models.ManufacturedMaterialModels.ManufacturedMaterialViewModel>
+@{
+    ViewBag.Title = Locale.ManufacturedMaterials;
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">
+            @Locale.ManufacturedMaterials
+        </span>
+    </div>
+    <div class="panel panel-body">
+        @if (Model.Any())
+        {
+            <table class="table table-striped table-bordered" id="manufacturedMaterialsSearchTable">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>@Html.DisplayNameFor(m => m.CreationTime)</th>
+                        <th>@Html.DisplayNameFor(m => m.Name)</th>
+                        <th>@Html.DisplayNameFor(m => m.Type)</th>
+                        <th>@Html.DisplayNameFor(m => m.LotNumber)</th>
+                        <th>@Locale.Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-grain" aria-hidden="true"></span></td>
+                            <td>@item.CreationTime.DefaultFormat()</td>
+                            <td>@item.Name</td>
+                            <td>@item.Type</td>                            
+                            <td>@item.LotNumber</td>
+                            <td>@item.IsObsolete.ToObsoleteStatus()</td>
+                            <td class="autoFitContents centerContent">
+                                <a class="btn btn-primary" href="@Url.Action("ViewManufacturedMaterial", "ManufacturedMaterial", new { id = item.Id, versionId = item.VersionKey })">
+                                    @Locale.View
+                                    <span class="glyphicon glyphicon-eye-open"></span>
+                                </a>
+                                <a class="btn btn-warning" href="@Url.Action("Edit", "ManufacturedMaterial", new { id = item.Id, versionId = item.VersionKey })">
+                                    @Locale.Edit
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
+                            </td>
+                        </tr>
+}
+                </tbody>
+            </table>
+        }
+        else
+        {
+            <p>@Locale.NoMaterialsFound</p>
+            
+        }
+    </div>
+</div>

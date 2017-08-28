@@ -1789,6 +1789,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Manufactured Material.
+        /// </summary>
+        public static string EditManufacturedMaterial_Heading {
+            get {
+                return ResourceManager.GetString("EditManufacturedMaterial_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Material.
         /// </summary>
         public static string EditMaterial_Heading {
@@ -2806,6 +2815,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a lot number.
+        /// </summary>
+        public static string LotNumberRequired {
+            get {
+                return ResourceManager.GetString("LotNumberRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manage.
         /// </summary>
         public static string Manage {
@@ -2869,11 +2887,38 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Manufactured Material created successfully.
+        /// </summary>
+        public static string ManufacturedMaterialCreatedSuccessfully {
+            get {
+                return ResourceManager.GetString("ManufacturedMaterialCreatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manufactured Material not found.
+        /// </summary>
+        public static string ManufacturedMaterialNotFound {
+            get {
+                return ResourceManager.GetString("ManufacturedMaterialNotFound", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manufactured Materials.
         /// </summary>
         public static string ManufacturedMaterials {
             get {
                 return ResourceManager.GetString("ManufacturedMaterials", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manufactured Material updated successfully.
+        /// </summary>
+        public static string ManufacturedMaterialUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("ManufacturedMaterialUpdatedSuccessfully", resourceCulture);
             }
         }
         
@@ -5830,6 +5875,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to create manufactured material.
+        /// </summary>
+        public static string UnableToCreateManufacturedMaterial {
+            get {
+                return ResourceManager.GetString("UnableToCreateManufacturedMaterial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to create material.
         /// </summary>
         public static string UnableToCreateMaterial {
@@ -6411,6 +6465,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToUpdateLanguage {
             get {
                 return ResourceManager.GetString("UnableToUpdateLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to update manufactured material.
+        /// </summary>
+        public static string UnableToUpdateManufacturedMaterial {
+            get {
+                return ResourceManager.GetString("UnableToUpdateManufacturedMaterial", resourceCulture);
             }
         }
         
@@ -7104,6 +7167,15 @@ namespace OpenIZAdmin.Localization {
         public static string ViewExtensionType {
             get {
                 return ResourceManager.GetString("ViewExtensionType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Manufactured Material.
+        /// </summary>
+        public static string ViewManufacturedMaterial {
+            get {
+                return ResourceManager.GetString("ViewManufacturedMaterial", resourceCulture);
             }
         }
         

@@ -333,6 +333,9 @@ namespace OpenIZAdmin.Services.Core
 
 			switch (type.ToLower())
 			{
+				case "manufacturedmaterial":
+					modelType = typeof(ManufacturedMaterial);
+					break;
 				case "material":
 					modelType = typeof(Material);
 					break;
@@ -493,7 +496,11 @@ namespace OpenIZAdmin.Services.Core
 			{
 				Guid classConceptKey;
 
-				if (typeof(T) == typeof(Material))
+				if (typeof(T) == typeof(ManufacturedMaterial))
+				{
+					classConceptKey = EntityClassKeys.ManufacturedMaterial;
+				}
+				else if (typeof(T) == typeof(Material))
 				{
 					classConceptKey = EntityClassKeys.Material;
 				}

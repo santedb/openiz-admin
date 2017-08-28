@@ -21,13 +21,14 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
 using System.ComponentModel.DataAnnotations;
+using OpenIZAdmin.Models.MaterialModels;
 
 namespace OpenIZAdmin.Models.ManufacturedMaterialModels
 {
 	/// <summary>
 	/// Represents a manufactured material view model.
 	/// </summary>
-	public class ManufacturedMaterialViewModel : EntityViewModel
+	public class ManufacturedMaterialViewModel : MaterialViewModel
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ManufacturedMaterialViewModel"/> class.

@@ -1,0 +1,228 @@
+﻿@using System.Globalization
+@using OpenIZAdmin.Extensions
+@using OpenIZAdmin.Models
+@model OpenIZAdmin.Models.ManufacturedMaterialModels.EditManufacturedMaterialModel
+@{
+    ViewBag.Title = Locale.EditManufacturedMaterial_Heading;
+}
+
+@Html.Partial("_ObsoleteWarningPartial", new ObsoleteWarningViewModel(Model.IsObsolete, Locale.MaterialNotActive))
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.EditManufacturedMaterial_Heading</span>       
+    </div>
+    <div class="panel panel-body">
+        @using (Html.BeginForm("Edit", "ManufacturedMaterial", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-horizontal">
+
+                        @Html.AntiForgeryToken()
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(m => m.Id)
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_MaterialName })
+                                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.FormConcept, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(m => m.FormConcept, Model.FormConcepts, new { @class = "form-control", title = Locale.ToolTip_MaterialFormConcepts })
+                                @Html.ValidationMessageFor(m => m.FormConcept, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.QuantityConcept, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(m => m.QuantityConcept, Model.QuantityConcepts, new { @class = "form-control", title = Locale.ToolTip_MaterialQuantityConcepts })
+                                @Html.ValidationMessageFor(m => m.QuantityConcept, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.TypeConcept, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-8">
+                                @Html.DropDownListFor(m => m.TypeConcept, Model.TypeConcepts, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(m => m.TypeConcept, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.ExpiryDate, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-8">
+                                <div class="input-group date" id="expiryDateInputGroup">
+                                    @Html.TextBoxFor(m => m.ExpiryDate, new { @class = "form-control" })
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                </div>
+                                @Html.ValidationMessageFor(m => m.ExpiryDate, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.LotNumber, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.LotNumber, new { @class = "form-control", title = Locale.ToolTip_MaterialName })
+                                @Html.ValidationMessageFor(m => m.LotNumber, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.UpdatedBy, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.UpdatedBy, new { @class = "form-control", @readonly = "readonly" })
+                            </div>
+                        </div>
+                    
+                        <div class="form-group">
+                            @Html.LabelFor(m => m.UpdatedTime, new { @class = "col-md-2 control-label" })
+                            <div class="col-md-8">
+                                @Html.TextBoxFor(m => m.UpdatedTime, new { @class = "form-control", @readonly = "readonly", disabled = "disabled" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-8">
+                                <a href="@Url.Action("ViewManufacturedMaterial", new { id = Model.Id, versionId = Model.VersionKey })" class="btn btn-danger">@Locale.Cancel</a>
+                                @if (Model.IsObsolete)
+                                {
+                                    <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-primary" disabled="disabled" title="@Locale.ToolTip_Submit">@Locale.CannotUpdateNotActive</button>
+                                }
+                                else
+                                {
+                                    <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+        <div class="form-group col-md-offset-2 col-md-8">
+            <div class="pull-right">
+                @if (!Model.IsObsolete)
+                {
+                    using (Html.BeginForm("Delete", "Material", new { id = Model.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-danger">
+                            @Locale.Deactivate
+                            <span class="glyphicon glyphicon-remove"></span>
+                        </button>
+                    }
+                }
+                else
+                {
+                    using (Html.BeginForm("Activate", "Material", new { id = Model.Id, versionId = Model.VersionKey }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-success">
+                            @Locale.Activate
+                            <span class="glyphicon glyphicon-upload"></span>
+                        </button>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.Identifiers</span>
+        @if (!Model.IsObsolete)
+        {
+            <div class="pull-right">
+                <a href="@Url.Action("Create", "EntityIdentifier", new {id = Model.Id, type = "ManufacturedMaterial"})">
+                    <span class="text-primary h4">@Locale.New</span>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                </a>
+            </div>
+        }
+    </div>
+    @Html.Partial("_ManageIdentifiersPartial", Model.Identifiers)
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.Relationships</span>
+
+        @if (!Model.IsObsolete)
+        {
+            <div class="pull-right">
+                <a href="@Url.Action("AssociateMaterial", "Material", new { id = Model.Id })">
+                    <span class="text-primary h4">@Locale.AssociateMaterial</span>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                </a>
+                <a href="@Url.Action("CreateRelatedManufacturedMaterial", "Material", new {id = Model.Id})">
+                    <span class="text-primary h4">@Locale.NewManufacturedMaterial</span>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                </a>
+            </div>
+        }
+
+    </div>
+    @Html.Partial("_ManageRelationshipsPartial", Model.Relationships)
+</div>
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/bootstrap-datepicker")
+
+    <script type="text/javascript">
+        $(document).ready(function ()
+        {
+            $("#expiryDateInputGroup").datepicker({
+                startDate: '2012',
+                defaultDate: new Date()
+            });
+
+            $("#expiryDateInputGroup").datepicker("setDate", new Date("@Model.ExpiryDate.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)"));
+
+            $('#identifiersTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                },
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  { "orderable": false }
+                ]
+            });
+
+            $('#relationshipsTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                },
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  null,
+                  { "orderable": false }
+                ]
+            });
+
+        });
+    </script>
+
+}

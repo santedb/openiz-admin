@@ -1,0 +1,137 @@
+﻿@using OpenIZ.Core.Model.Entities
+@using OpenIZAdmin.Models.Core
+@model OpenIZAdmin.Models.ManufacturedMaterialModels.ManufacturedMaterialViewModel
+@{
+    ViewBag.Title = Locale.ViewManufacturedMaterial;
+}
+
+@if (Model.Tags.Any(t => t.TagKey == Constants.ImportedDataTag && t.TagValue?.ToLower() == "true"))
+{
+    @Html.Partial("_VerifyEntityPartial", new VerifyEntityModel(Model.Id, nameof(ManufacturedMaterial)))
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.ViewManufacturedMaterial</span>
+        <div class="pull-right">
+            <a href="@Url.Action("Edit", "ManufacturedMaterial", new {id = Model.Id, versionId = Model.VersionKey})" title="@Locale.ToolTip_Edit">
+                <span class="glyphicon glyphicon-pencil"></span>
+                <span class="text-primary h4">@Locale.Edit</span>
+            </a>
+        </div>
+    </div>
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.FormConcept, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.FormConcept, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.QuantityConcept, new {@class = "col-md-2 control-label"})
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.QuantityConcept, new {@class = "form-control", @readonly = "readonly"})
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Type, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Type, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.ExpiryDate, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.ExpiryDate, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.LotNumber, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.LotNumber, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.UpdatedBy, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.UpdatedBy, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.UpdatedTime, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.UpdatedTime, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("_IdentifiersPartial", Model.Identifiers)
+
+@Html.Partial("_RelationshipsPartial", Model.Relationships)
+
+@section scripts{
+    <script>
+        $(document).ready(function ()
+        {            
+            $('#identifiersTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                },
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null                  
+                ]
+            });
+
+            $('#manufacturedMaterialsTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                },
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  null
+                ]
+            });
+            
+            $('#relationshipsTable').DataTable({
+                "language":
+                {
+                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                },
+                order: [],
+                columns: [
+                  { "orderable": false },
+                  null,
+                  null,
+                  null,
+                  null
+                ]
+            });
+            
+        });
+    </script>
+}

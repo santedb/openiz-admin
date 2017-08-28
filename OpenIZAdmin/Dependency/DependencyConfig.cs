@@ -40,6 +40,7 @@ using OpenIZAdmin.Core.Auditing.Core;
 using OpenIZAdmin.Core.Auditing.Entities;
 using OpenIZAdmin.Services.Applets;
 using OpenIZAdmin.Services.Core;
+using OpenIZAdmin.Services.Entities.ManufacturedMaterials;
 using OpenIZAdmin.Services.Entities.Materials;
 using OpenIZAdmin.Services.Entities.Places;
 using OpenIZAdmin.Services.EntityRelationships;
@@ -110,6 +111,7 @@ namespace OpenIZAdmin.Dependency
 			builder.RegisterType<ConceptService>().As<IConceptService>().InstancePerLifetimeScope();
 
 			// register entity concept services
+			builder.RegisterType<ManufacturedMaterialConceptService>().As<IManufacturedMaterialConceptService>().InstancePerLifetimeScope();
 			builder.RegisterType<MaterialConceptService>().As<IMaterialConceptService>().InstancePerLifetimeScope();
 			builder.RegisterType<PlaceConceptService>().As<IPlaceConceptService>().InstancePerLifetimeScope();
 

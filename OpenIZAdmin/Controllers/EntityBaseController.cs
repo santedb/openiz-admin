@@ -75,6 +75,9 @@ namespace OpenIZAdmin.Controllers
 
 			switch (type.ToLower())
 			{
+				case "manufacturedmaterial":
+					modelType = typeof(ManufacturedMaterial);
+					break;
 				case "material":
 					modelType = typeof(Material);
 					break;

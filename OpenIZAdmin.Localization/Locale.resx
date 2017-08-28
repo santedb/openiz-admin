@@ -2496,4 +2496,28 @@
   <data name="UnableToUpdateRelationship" xml:space="preserve">
     <value>Unable to update relationship</value>
   </data>
+  <data name="LotNumberRequired" xml:space="preserve">
+    <value>Please enter a lot number</value>
+  </data>
+  <data name="ViewManufacturedMaterial" xml:space="preserve">
+    <value>View Manufactured Material</value>
+  </data>
+  <data name="ManufacturedMaterialNotFound" xml:space="preserve">
+    <value>Manufactured Material not found</value>
+  </data>
+  <data name="EditManufacturedMaterial_Heading" xml:space="preserve">
+    <value>Edit Manufactured Material</value>
+  </data>
+  <data name="ManufacturedMaterialUpdatedSuccessfully" xml:space="preserve">
+    <value>Manufactured Material updated successfully</value>
+  </data>
+  <data name="UnableToUpdateManufacturedMaterial" xml:space="preserve">
+    <value>Unable to update manufactured material</value>
+  </data>
+  <data name="ManufacturedMaterialCreatedSuccessfully" xml:space="preserve">
+    <value>Manufactured Material created successfully</value>
+  </data>
+  <data name="UnableToCreateManufacturedMaterial" xml:space="preserve">
+    <value>Unable to create manufactured material</value>
+  </data>
 </root>
