@@ -21,8 +21,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MARC.HI.EHRS.SVC.Auditing.Data;
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Core.Auditing.Core;
+using OpenIZAdmin.Core.Auditing.Model;
+using OpenIZAdmin.Core.Auditing.SecurityEntities;
 using OpenIZAdmin.Services.Core;
 
 namespace OpenIZAdmin.Services.Security.Roles
@@ -35,11 +40,25 @@ namespace OpenIZAdmin.Services.Security.Roles
 	public class SecurityRoleService : AmiServiceBase, ISecurityRoleService
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SecurityRoleService"/> class.
+		/// The core audit service.
+		/// </summary>
+		private readonly ICoreAuditService coreAuditService;
+
+		/// <summary>
+		/// The security entity audit service.
+		/// </summary>
+		private readonly ISecurityEntityAuditService<SecurityRole> securityEntityAuditService;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SecurityRoleService" /> class.
 		/// </summary>
 		/// <param name="client">The client.</param>
-		public SecurityRoleService(AmiServiceClient client) : base(client)
+		/// <param name="coreAuditService">The core audit service.</param>
+		/// <param name="securityEntityAuditService">The security entity audit service.</param>
+		public SecurityRoleService(AmiServiceClient client, ICoreAuditService coreAuditService, ISecurityEntityAuditService<SecurityRole> securityEntityAuditService) : base(client)
 		{
+			this.coreAuditService = coreAuditService;
+			this.securityEntityAuditService = securityEntityAuditService;
 		}
 
 		/// <summary>
@@ -48,7 +67,20 @@ namespace OpenIZAdmin.Services.Security.Roles
 		/// <returns>Returns a list of all roles in the system.</returns>
 		public IEnumerable<SecurityRoleInfo> GetAllRoles()
 		{
-			return this.Client.GetRoles(r => r.ObsoletionTime == null).CollectionItem;
+			IEnumerable<SecurityRoleInfo> roles;
+
+			try
+			{
+				roles = this.Client.GetRoles(r => r.ObsoletionTime == null).CollectionItem;
+				this.securityEntityAuditService.AuditQuerySecurityEntity(OutcomeIndicator.Success, roles.Select(r => r.Role));
+			}
+			catch (Exception e)
+			{
+				this.coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, securityEntityAuditService.QuerySecurityEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
+				throw;
+			}
+
+			return roles;
 		}
 	}
 }

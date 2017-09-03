@@ -25,6 +25,8 @@ using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Core;
+using OpenIZAdmin.Core.Auditing.Core;
+using OpenIZAdmin.Core.Auditing.Entities;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Services.Core;
 
@@ -38,11 +40,18 @@ namespace OpenIZAdmin.Services.Security.Users
 	public class UserService : ImsiServiceBase, IUserService
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="UserService"/> class.
+		/// The entity service.
+		/// </summary>
+		private readonly IEntityService entityService;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="UserService" /> class.
 		/// </summary>
 		/// <param name="client">The client.</param>
-		public UserService(ImsiServiceClient client) : base(client)
+		/// <param name="entityService">The entity service.</param>
+		public UserService(ImsiServiceClient client, IEntityService entityService) : base(client)
 		{
+			this.entityService = entityService;
 		}
 
 		/// <summary>
@@ -63,11 +72,7 @@ namespace OpenIZAdmin.Services.Security.Users
 				};
 			}
 
-			var bundle = this.Client.Query<UserEntity>(u => u.SecurityUserKey == securityUserId && u.ObsoletionTime == null, 0, null, true);
-
-			bundle.Reconstitute();
-
-			return bundle.Item.OfType<UserEntity>().Where(u => u.SecurityUserKey == securityUserId).LatestVersionOnly().FirstOrDefault();
+			return entityService.Query<UserEntity>(u => u.SecurityUserKey == securityUserId && u.ObsoletionTime == null, 0, null, true).LatestVersionOnly().FirstOrDefault();
 		}
 
 		/// <summary>
@@ -75,13 +80,9 @@ namespace OpenIZAdmin.Services.Security.Users
 		/// </summary>
 		/// <param name="userEntity">The user entity.</param>
 		/// <returns>Returns the updated user entity.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
 		public UserEntity UpdateUserEntity(UserEntity userEntity)
 		{
-			userEntity.CreationTime = DateTimeOffset.Now;
-			userEntity.VersionKey = null;
-
-			return this.Client.Update(userEntity);
+			return entityService.Update(userEntity) as UserEntity;
 		}
 	}
 }
