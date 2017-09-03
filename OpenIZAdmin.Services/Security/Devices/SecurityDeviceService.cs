@@ -22,6 +22,11 @@ using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Services.Core;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using MARC.HI.EHRS.SVC.Auditing.Data;
+using OpenIZ.Core.Model.Security;
+using OpenIZAdmin.Core.Auditing.Core;
+using OpenIZAdmin.Core.Auditing.SecurityEntities;
 
 namespace OpenIZAdmin.Services.Security.Devices
 {
@@ -34,11 +39,25 @@ namespace OpenIZAdmin.Services.Security.Devices
 
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SecurityDeviceService"/> class.
+		/// The core audit service.
+		/// </summary>
+		private readonly ICoreAuditService coreAuditService;
+
+		/// <summary>
+		/// The security entity audit service.
+		/// </summary>
+		private readonly ISecurityEntityAuditService<SecurityDevice> securityEntityAuditService;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SecurityDeviceService" /> class.
 		/// </summary>
 		/// <param name="client">The client.</param>
-		public SecurityDeviceService(AmiServiceClient client) : base(client)
+		/// <param name="coreAuditService">The core audit service.</param>
+		/// <param name="securityEntityAuditService">The security entity audit service.</param>
+		public SecurityDeviceService(AmiServiceClient client, ICoreAuditService coreAuditService, ISecurityEntityAuditService<SecurityDevice> securityEntityAuditService) : base(client)
 		{
+			this.coreAuditService = coreAuditService;
+			this.securityEntityAuditService = securityEntityAuditService;
 		}
 
 		/// <summary>
@@ -47,8 +66,20 @@ namespace OpenIZAdmin.Services.Security.Devices
 		/// <returns>Returns a list of all devices in the system.</returns>
 		public IEnumerable<SecurityDeviceInfo> GetAllDevices()
 		{
-			return this.Client.GetDevices(c => c.Name != string.Empty).CollectionItem;
-			;
+			List<SecurityDeviceInfo> devices;
+
+			try
+			{
+				devices = this.Client.GetDevices(c => c.Name != string.Empty).CollectionItem;
+				this.securityEntityAuditService.AuditQuerySecurityEntity(OutcomeIndicator.Success, devices.Select(d => d.Device));
+			}
+			catch (Exception e)
+			{
+				this.coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, securityEntityAuditService.QuerySecurityEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
+				throw;
+			}
+
+			return devices;
 		}
 
 		/// <summary>
@@ -58,7 +89,20 @@ namespace OpenIZAdmin.Services.Security.Devices
 		/// <returns>Returns the device which matches the given key, or null if no device is found.</returns>
 		public SecurityDeviceInfo GetDevice(Guid key)
 		{
-			return this.Client.GetDevice(key.ToString());
+			SecurityDeviceInfo device;
+
+			try
+			{
+				device = this.Client.GetDevice(key.ToString());
+				this.securityEntityAuditService.AuditQuerySecurityEntity(OutcomeIndicator.Success, new List<SecurityDevice> { device?.Device });
+			}
+			catch (Exception e)
+			{
+				this.coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, securityEntityAuditService.QuerySecurityEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
+				throw;
+			}
+
+			return device;
 		}
 	}
 }

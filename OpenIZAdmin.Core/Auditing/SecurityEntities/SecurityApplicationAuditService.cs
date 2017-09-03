@@ -33,8 +33,7 @@ namespace OpenIZAdmin.Core.Auditing.SecurityEntities
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SecurityApplicationAuditService"/> class.
 		/// </summary>
-		/// <param name="context">The context.</param>
-		public SecurityApplicationAuditService(HttpContext context) : base(context)
+		public SecurityApplicationAuditService()
 		{
 		}
 

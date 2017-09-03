@@ -28,14 +28,14 @@ namespace OpenIZAdmin.Core.Auditing.SecurityEntities
 	/// Represents a security entity audit helper.
 	/// </summary>
 	/// <typeparam name="T">The type of security entity.</typeparam>
+	/// <seealso cref="OpenIZAdmin.Core.Auditing.Core.HttpContextAuditService" />
 	/// <seealso cref="HttpContextAuditService" />
 	public abstract class SecurityEntityAuditServiceBase<T> : HttpContextAuditService where T : SecurityEntity
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="SecurityEntityAuditServiceBase{T}"/> class.
 		/// </summary>
-		/// <param name="context">The context.</param>
-		protected SecurityEntityAuditServiceBase(HttpContext context) : base(context)
+		protected SecurityEntityAuditServiceBase()
 		{
 		}
 

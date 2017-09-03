@@ -42,16 +42,9 @@ namespace OpenIZAdmin.Core.Auditing.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="HttpContextAuditService" /> class.
 		/// </summary>
-		/// <param name="context">The context.</param>
-		/// <exception cref="System.ArgumentNullException">context</exception>
-		public HttpContextAuditService(HttpContext context)
+		public HttpContextAuditService()
 		{
-			if (context == null)
-			{
-				throw new ArgumentNullException(nameof(context), Locale.ValueCannotBeNull);
-			}
-
-			this.Context = context;
+			this.Context = HttpContext.Current;
 		}
 
 		/// <summary>

@@ -39,8 +39,7 @@ namespace OpenIZAdmin.Core.Auditing.Controllers
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AuthenticationAuditService"/> class.
 		/// </summary>
-		/// <param name="context">The context.</param>
-		public AuthenticationAuditService(HttpContext context) : base(context)
+		public AuthenticationAuditService()
 		{
 		}
 

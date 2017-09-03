@@ -37,8 +37,7 @@ namespace OpenIZAdmin.Core.Auditing.Entities
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EntityAuditService"/> class.
 		/// </summary>
-		/// <param name="context">The context.</param>
-		public EntityAuditService(HttpContext context) : base(context)
+		public EntityAuditService()
 		{
 		}
 

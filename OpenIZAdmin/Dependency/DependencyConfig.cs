@@ -92,14 +92,14 @@ namespace OpenIZAdmin.Dependency
 			builder.RegisterType<AuditService>().As<IAuditService>().InstancePerLifetimeScope();
 
 			// register additional auditing services
-			builder.RegisterType<HttpContextAuditService>().As<ICoreAuditService>().WithParameter("context", HttpContext.Current).InstancePerLifetimeScope();
-			builder.RegisterType<AuthenticationAuditService>().As<IAuthenticationAuditService>().WithParameter("context", HttpContext.Current).InstancePerLifetimeScope();
-			builder.RegisterType<GlobalAuditService>().As<IGlobalAuditService>().WithParameter("context", HttpContext.Current).InstancePerLifetimeScope();
-			builder.RegisterType<SecurityApplicationAuditService>().As<ISecurityEntityAuditService<SecurityApplication>>().WithParameter("context", HttpContext.Current).InstancePerLifetimeScope();
-			builder.RegisterType<SecurityDeviceAuditService>().As<ISecurityEntityAuditService<SecurityDevice>>().WithParameter("context", HttpContext.Current).InstancePerLifetimeScope();
-			builder.RegisterType<SecurityRoleAuditSerivce>().As<ISecurityEntityAuditService<SecurityRole>>().WithParameter("context", HttpContext.Current).InstancePerLifetimeScope();
-			builder.RegisterType<SecurityUserAuditService>().As<ISecurityEntityAuditService<SecurityUser>>().WithParameter("context", HttpContext.Current).InstancePerLifetimeScope();
-			builder.RegisterType<EntityAuditService>().As<IEntityAuditService>().WithParameter("context", HttpContext.Current).InstancePerLifetimeScope();
+			builder.RegisterType<HttpContextAuditService>().As<ICoreAuditService>().InstancePerLifetimeScope();
+			builder.RegisterType<AuthenticationAuditService>().As<IAuthenticationAuditService>().InstancePerLifetimeScope();
+			builder.RegisterType<GlobalAuditService>().As<IGlobalAuditService>().InstancePerLifetimeScope();
+			builder.RegisterType<SecurityApplicationAuditService>().As<ISecurityEntityAuditService<SecurityApplication>>().InstancePerLifetimeScope();
+			builder.RegisterType<SecurityDeviceAuditService>().As<ISecurityEntityAuditService<SecurityDevice>>().InstancePerLifetimeScope();
+			builder.RegisterType<SecurityRoleAuditService>().As<ISecurityEntityAuditService<SecurityRole>>().InstancePerLifetimeScope();
+			builder.RegisterType<SecurityUserAuditService>().As<ISecurityEntityAuditService<SecurityUser>>().InstancePerLifetimeScope();
+			builder.RegisterType<EntityAuditService>().As<IEntityAuditService>().InstancePerLifetimeScope();
 
 			// register security entity services
 			builder.RegisterType<SecurityUserService>().As<ISecurityUserService>().InstancePerLifetimeScope();

@@ -32,8 +32,7 @@ namespace OpenIZAdmin.Core.Auditing.Core
 		/// <summary>
 		/// Initializes a new instance of the <see cref="GlobalAuditService"/> class.
 		/// </summary>
-		/// <param name="context">The context.</param>
-		public GlobalAuditService(HttpContext context) : base(context)
+		public GlobalAuditService()
 		{
 		}
 

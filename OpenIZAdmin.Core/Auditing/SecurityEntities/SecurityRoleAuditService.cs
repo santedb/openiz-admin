@@ -28,13 +28,12 @@ namespace OpenIZAdmin.Core.Auditing.SecurityEntities
 	/// <summary>
 	/// Represents a security role audit helper.
 	/// </summary>
-	public class SecurityRoleAuditSerivce : SecurityEntityAuditServiceBase<SecurityRole>, ISecurityEntityAuditService<SecurityRole>
+	public class SecurityRoleAuditService : SecurityEntityAuditServiceBase<SecurityRole>, ISecurityEntityAuditService<SecurityRole>
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SecurityRoleAuditSerivce"/> class.
+		/// Initializes a new instance of the <see cref="SecurityRoleAuditService"/> class.
 		/// </summary>
-		/// <param name="context">The context.</param>
-		public SecurityRoleAuditSerivce(HttpContext context) : base(context)
+		public SecurityRoleAuditService()
 		{
 		}
 
