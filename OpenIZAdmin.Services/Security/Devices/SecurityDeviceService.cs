@@ -17,16 +17,16 @@
  * Date: 2017-8-3
  */
 
+using MARC.HI.EHRS.SVC.Auditing.Data;
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Core.Auditing.Core;
+using OpenIZAdmin.Core.Auditing.SecurityEntities;
 using OpenIZAdmin.Services.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using MARC.HI.EHRS.SVC.Auditing.Data;
-using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Core.Auditing.Core;
-using OpenIZAdmin.Core.Auditing.SecurityEntities;
 
 namespace OpenIZAdmin.Services.Security.Devices
 {

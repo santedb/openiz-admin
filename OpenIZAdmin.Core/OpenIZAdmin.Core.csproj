@@ -109,9 +109,11 @@
     <Compile Include="Auditing\Core\HttpContextAuditService.cs" />
     <Compile Include="Auditing\Model\EventTypeCode.cs" />
     <Compile Include="Auditing\SecurityEntities\ISecurityEntityAuditService.cs" />
+    <Compile Include="Auditing\SecurityEntities\ISecurityPolicyAuditService.cs" />
     <Compile Include="Auditing\SecurityEntities\SecurityApplicationAuditService.cs" />
     <Compile Include="Auditing\SecurityEntities\SecurityDeviceAuditService.cs" />
     <Compile Include="Auditing\SecurityEntities\SecurityEntityAuditSerivceBase.cs" />
+    <Compile Include="Auditing\SecurityEntities\SecurityPolicyAuditService.cs" />
     <Compile Include="Auditing\SecurityEntities\SecurityRoleAuditService.cs" />
     <Compile Include="Auditing\SecurityEntities\SecurityUserAuditService.cs" />
     <Compile Include="Auditing\Services\IAuditService.cs" />

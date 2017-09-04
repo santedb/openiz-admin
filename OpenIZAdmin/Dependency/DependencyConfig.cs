@@ -44,7 +44,9 @@ using OpenIZAdmin.Services.Entities.ManufacturedMaterials;
 using OpenIZAdmin.Services.Entities.Materials;
 using OpenIZAdmin.Services.Entities.Places;
 using OpenIZAdmin.Services.EntityRelationships;
+using OpenIZAdmin.Services.Security.Applications;
 using OpenIZAdmin.Services.Security.Devices;
+using OpenIZAdmin.Services.Security.Policies;
 using OpenIZAdmin.Services.Security.Roles;
 using OpenIZAdmin.Services.Security.Users;
 using OpenIZAdmin.Services.Server;
@@ -97,11 +99,16 @@ namespace OpenIZAdmin.Dependency
 			builder.RegisterType<GlobalAuditService>().As<IGlobalAuditService>().InstancePerLifetimeScope();
 			builder.RegisterType<SecurityApplicationAuditService>().As<ISecurityEntityAuditService<SecurityApplication>>().InstancePerLifetimeScope();
 			builder.RegisterType<SecurityDeviceAuditService>().As<ISecurityEntityAuditService<SecurityDevice>>().InstancePerLifetimeScope();
+			builder.RegisterType<SecurityPolicyAuditService>().As<ISecurityPolicyAuditService>().InstancePerLifetimeScope();
 			builder.RegisterType<SecurityRoleAuditService>().As<ISecurityEntityAuditService<SecurityRole>>().InstancePerLifetimeScope();
 			builder.RegisterType<SecurityUserAuditService>().As<ISecurityEntityAuditService<SecurityUser>>().InstancePerLifetimeScope();
 			builder.RegisterType<EntityAuditService>().As<IEntityAuditService>().InstancePerLifetimeScope();
 
 			// register security entity services
+			builder.RegisterType<SecurityApplicationService>().As<ISecurityApplicationService>().InstancePerLifetimeScope();
+			builder.RegisterType<SecurityDeviceService>().As<ISecurityDeviceService>().InstancePerLifetimeScope();
+			builder.RegisterType<SecurityPolicyService>().As<ISecurityPolicyService>().InstancePerLifetimeScope();
+			builder.RegisterType<SecurityRoleService>().As<ISecurityRoleService>().InstancePerLifetimeScope();
 			builder.RegisterType<SecurityUserService>().As<ISecurityUserService>().InstancePerLifetimeScope();
 
 			// register cache service
@@ -126,12 +133,6 @@ namespace OpenIZAdmin.Dependency
 
 			// register applet services
 			builder.RegisterType<AppletService>().As<IAppletService>().InstancePerLifetimeScope();
-
-			// register device services
-			builder.RegisterType<SecurityDeviceService>().As<ISecurityDeviceService>().InstancePerLifetimeScope();
-
-			// register role services
-			builder.RegisterType<SecurityRoleService>().As<ISecurityRoleService>().InstancePerLifetimeScope();
 
 			// register entity relationship services
 			builder.RegisterType<EntityRelationshipService>().As<IEntityRelationshipService>().InstancePerLifetimeScope();

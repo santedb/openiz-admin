@@ -19,17 +19,17 @@
 
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ApplicationModels;
+using OpenIZAdmin.Models.PolicyModels;
+using OpenIZAdmin.Services.Security.Applications;
+using OpenIZAdmin.Services.Security.Policies;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using MARC.HI.EHRS.SVC.Auditing.Data;
-using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Extensions;
-using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -39,6 +39,27 @@ namespace OpenIZAdmin.Controllers
 	[TokenAuthorize(Constants.CreateApplication)]
 	public class ApplicationController : SecurityBaseController
 	{
+		/// <summary>
+		/// The security application service.
+		/// </summary>
+		private readonly ISecurityApplicationService securityApplicationService;
+
+		/// <summary>
+		/// The security policy service.
+		/// </summary>
+		private readonly ISecurityPolicyService securityPolicyService;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ApplicationController" /> class.
+		/// </summary>
+		/// <param name="securityApplicationService">The security application service.</param>
+		/// <param name="securityPolicyService">The security policy service.</param>
+		public ApplicationController(ISecurityApplicationService securityApplicationService, ISecurityPolicyService securityPolicyService)
+		{
+			this.securityApplicationService = securityApplicationService;
+			this.securityPolicyService = securityPolicyService;
+		}
+
 		/// <summary>
 		/// Activates an application.
 		/// </summary>
@@ -50,7 +71,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var securityApplicationInfo = this.AmiClient.GetApplication(id.ToString());
+				var securityApplicationInfo = this.securityApplicationService.Get(id);
 
 				if (securityApplicationInfo == null)
 				{
@@ -59,12 +80,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				securityApplicationInfo.Id = id;
-				securityApplicationInfo.Application.ObsoletedBy = null;
-				securityApplicationInfo.Application.ObsoletionTime = null;
-				securityApplicationInfo.Application.ObsoletionTimeXml = null;
-
-				this.AmiClient.UpdateApplication(id.ToString(), securityApplicationInfo);
+				this.securityApplicationService.Activate(id, securityApplicationInfo);
 
 				TempData["success"] = Locale.ApplicationActivatedSuccessfully;
 
@@ -106,7 +122,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var application = this.AmiClient.CreateApplication(model.ToSecurityApplication());
+					var application = securityApplicationService.Create(model.ToSecurityApplication());
 
 					TempData["success"] = Locale.ApplicationCreatedSuccessfully;
 
@@ -127,14 +143,14 @@ namespace OpenIZAdmin.Controllers
 		/// Deletes an application.
 		/// </summary>
 		/// <param name="id">The id of the application to delete.</param>
-		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
+		/// <returns>Returns an <see cref="ActionResult" /> instance.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
 		public ActionResult Delete(Guid id)
 		{
 			try
 			{
-				this.AmiClient.DeleteApplication(id.ToString());
+				this.securityApplicationService.Delete(id);
 
 				TempData["success"] = Locale.ApplicationDeactivatedSuccessfully;
 
@@ -160,7 +176,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var securityApplicationInfo = this.AmiClient.GetApplication(id.ToString());
+				var securityApplicationInfo = securityApplicationService.Get(id);
 
 				if (securityApplicationInfo == null)
 				{
@@ -171,7 +187,7 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditApplicationModel(securityApplicationInfo);
 
-				model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id", null, true));
+				model.PoliciesList.AddRange(securityPolicyService.GetAllPolicies().Select(p => new PolicyViewModel(p)).ToSelectList("Name", "Id", null, true));
 
 				return View(model);
 			}
@@ -197,7 +213,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var appEntity = this.AmiClient.GetApplication(model.Id.ToString());
+					var appEntity = securityApplicationService.Get(model.Id);
 
 					if (appEntity == null)
 					{
@@ -208,7 +224,7 @@ namespace OpenIZAdmin.Controllers
 
 					var appInfo = this.ToSecurityApplicationInfo(model, appEntity);
 
-					this.AmiClient.UpdateApplication(model.Id.ToString(), appInfo);
+					this.securityApplicationService.Update(model.Id, appInfo);
 
 					TempData["success"] = Locale.ApplicationUpdatedSuccessfully;
 
@@ -233,8 +249,8 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Application";
-            TempData["searchTerm"] = "*";
-            return View();
+			TempData["searchTerm"] = "*";
+			return View();
 		}
 
 		/// <summary>

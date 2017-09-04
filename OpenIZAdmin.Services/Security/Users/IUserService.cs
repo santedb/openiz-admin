@@ -17,8 +17,8 @@
  * Date: 2017-7-10
  */
 
-using System;
 using OpenIZ.Core.Model.Entities;
+using System;
 
 namespace OpenIZAdmin.Services.Security.Users
 {

@@ -13,24 +13,31 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  *
- * User: khannan
- * Date: 2017-8-3
+ * User: Nityan
+ * Date: 2017-9-4
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
 using System.Collections.Generic;
 
-namespace OpenIZAdmin.Services.Security.Roles
+namespace OpenIZAdmin.Services.Security.Policies
 {
 	/// <summary>
-	/// Represents a security role service.
+	/// Represents a security policy service.
 	/// </summary>
-	public interface ISecurityRoleService
+	public interface ISecurityPolicyService
 	{
 		/// <summary>
-		/// Gets all roles.
+		/// Creates the security policy.
 		/// </summary>
-		/// <returns>Returns a list of all roles in the system.</returns>
-		IEnumerable<SecurityRoleInfo> GetAllRoles();
+		/// <param name="securityPolicyInfo">The security policy information.</param>
+		/// <returns>Returns the created security policy.</returns>
+		SecurityPolicyInfo CreateSecurityPolicy(SecurityPolicyInfo securityPolicyInfo);
+
+		/// <summary>
+		/// Gets all policies.
+		/// </summary>
+		/// <returns>Returns a list of security policies.</returns>
+		IEnumerable<SecurityPolicyInfo> GetAllPolicies();
 	}
 }
