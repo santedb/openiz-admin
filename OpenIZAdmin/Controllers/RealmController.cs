@@ -350,6 +350,9 @@ namespace OpenIZAdmin.Controllers
 					var addedRealm = unitOfWork.RealmRepository.Get(r => r.Address == model.Address).Single();
 					unitOfWork.RealmRepository.Delete(addedRealm.Id);
 					unitOfWork.Save();
+
+					// remove the current realm configuration from the cache
+					MvcApplication.MemoryCache.Remove(RealmConfig.RealmDataCacheKey);
 				}
 				finally
 				{
