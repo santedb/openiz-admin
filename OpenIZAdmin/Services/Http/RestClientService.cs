@@ -20,25 +20,20 @@
 using OpenIZ.Core.Http;
 using OpenIZ.Core.Http.Description;
 using OpenIZ.Core.Model.EntityLoader;
+using OpenIZ.Core.Model.Query;
 using OpenIZAdmin.Services.Entity;
 using OpenIZAdmin.Services.Http.Configuration;
-using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.IO.Compression;
-using System.Net;
-using System.Security.Cryptography.X509Certificates;
-using OpenIZ.Core.Model;
-using OpenIZ.Core.Model.Query;
-using System.Web;
-using OpenIZAdmin.Logging;
 using OpenIZAdmin.Services.Http.Security;
 using SharpCompress.Compressors.BZip2;
 using SharpCompress.Compressors.LZMA;
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.IO.Compression;
+using System.Linq;
+using System.Net;
+using System.Security.Cryptography.X509Certificates;
+using System.Web;
 
 namespace OpenIZAdmin.Services.Http
 {
@@ -138,22 +133,21 @@ namespace OpenIZAdmin.Services.Http
 			return retVal;
 		}
 
-	    /// <summary>
-	    /// Invokes a request.
-	    /// </summary>
-	    /// <typeparam name="TBody">The type of the body of the request.</typeparam>
-	    /// <typeparam name="TResult">The type of the result of the request.</typeparam>
-	    /// <param name="method">The request method.</param>
-	    /// <param name="url">The URL of the request.</param>
-	    /// <param name="contentType">The content type of the request.</param>
-	    /// <param name="requestHeaders">Additional headers for the request.</param>
-	    /// <param name="responseHeaders"> the response headers outgoing param</param>
-	    /// <param name="body">The body of the request.</param>
-	    /// <param name="query">The query parameters of the request.</param>
-	    /// <returns>Returns the response of the request.</returns>
-	    protected override TResult InvokeInternal<TBody, TResult>(string method, string url, string contentType, WebHeaderCollection requestHeaders, out WebHeaderCollection responseHeaders, TBody body, NameValueCollection query)
+		/// <summary>
+		/// Invokes a request.
+		/// </summary>
+		/// <typeparam name="TBody">The type of the body of the request.</typeparam>
+		/// <typeparam name="TResult">The type of the result of the request.</typeparam>
+		/// <param name="method">The request method.</param>
+		/// <param name="url">The URL of the request.</param>
+		/// <param name="contentType">The content type of the request.</param>
+		/// <param name="requestHeaders">Additional headers for the request.</param>
+		/// <param name="responseHeaders"> the response headers outgoing param</param>
+		/// <param name="body">The body of the request.</param>
+		/// <param name="query">The query parameters of the request.</param>
+		/// <returns>Returns the response of the request.</returns>
+		protected override TResult InvokeInternal<TBody, TResult>(string method, string url, string contentType, WebHeaderCollection requestHeaders, out WebHeaderCollection responseHeaders, TBody body, NameValueCollection query)
 		{
-
 			if (string.IsNullOrEmpty(method))
 			{
 				throw new ArgumentNullException(nameof(method));
@@ -194,12 +188,11 @@ namespace OpenIZAdmin.Services.Http
 				// Body was provided?
 				try
 				{
-
 					// Try assigned credentials
 					IBodySerializer serializer = null;
 					if (body != null)
 					{
-						// GET Stream, 
+						// GET Stream,
 						Stream requestStream = null;
 						Exception requestException = null;
 
@@ -282,7 +275,6 @@ namespace OpenIZAdmin.Services.Http
 						// No content - does the result want a pointer maybe?
 						if (response.StatusCode == HttpStatusCode.NoContent)
 						{
-
 							return default(TResult);
 						}
 						else
@@ -309,18 +301,22 @@ namespace OpenIZAdmin.Services.Http
 									using (DeflateStream df = new DeflateStream(response.GetResponseStream(), CompressionMode.Decompress, true))
 										retVal = (TResult)serializer.DeSerialize(df);
 									break;
+
 								case "gzip":
 									using (GZipStream df = new GZipStream(response.GetResponseStream(), CompressionMode.Decompress, true))
 										retVal = (TResult)serializer.DeSerialize(df);
 									break;
+
 								case "lzma":
 									using (var lzmaStream = new LZipStream(response.GetResponseStream(), SharpCompress.Compressors.CompressionMode.Decompress, true))
 										retVal = (TResult)serializer.DeSerialize(lzmaStream);
 									break;
+
 								case "bzip2":
 									using (var bzip2 = new BZip2Stream(response.GetResponseStream(), SharpCompress.Compressors.CompressionMode.Decompress, true))
 										retVal = (TResult)serializer.DeSerialize(bzip2);
 									break;
+
 								default:
 									retVal = (TResult)serializer.DeSerialize(response.GetResponseStream());
 									break;
@@ -362,10 +358,12 @@ namespace OpenIZAdmin.Services.Http
 										using (DeflateStream df = new DeflateStream(errorResponse.GetResponseStream(), CompressionMode.Decompress))
 											result = (TResult)serializer.DeSerialize(df);
 										break;
+
 									case "gzip":
 										using (GZipStream df = new GZipStream(errorResponse.GetResponseStream(), CompressionMode.Decompress))
 											result = (TResult)serializer.DeSerialize(df);
 										break;
+
 									default:
 										result = (TResult)serializer.DeSerialize(errorResponse.GetResponseStream());
 										break;
@@ -387,6 +385,7 @@ namespace OpenIZAdmin.Services.Http
 											e.Response);
 
 									break;
+
 								default:
 									throw new RestClientException<TResult>(
 										result,
@@ -395,11 +394,11 @@ namespace OpenIZAdmin.Services.Http
 										e.Response);
 							}
 							break;
+
 						default:
 							throw;
 					}
 				}
-
 			}
 
 			responseHeaders = new WebHeaderCollection();
