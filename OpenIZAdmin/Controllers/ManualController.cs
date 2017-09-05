@@ -1,34 +1,32 @@
 ﻿/*
  * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you 
- * may not use this file except in compliance with the License. You may 
- * obtain a copy of the License at 
- * 
- * http://www.apache.org/licenses/LICENSE-2.0 
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the 
- * License for the specific language governing permissions and limitations under 
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * User: khannan
  * Date: 2017-6-4
  */
+
+using OpenIZAdmin.Attributes;
+using OpenIZAdmin.DAL.Manuals;
+using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.Domain;
+using OpenIZAdmin.Models.ManualModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Web;
 using System.Web.Mvc;
-using OpenIZAdmin.Attributes;
-using OpenIZAdmin.DAL;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.Domain;
-using OpenIZAdmin.Models.ManualModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -37,28 +35,19 @@ namespace OpenIZAdmin.Controllers
 	/// </summary>
 	/// <seealso cref="OpenIZAdmin.Controllers.BaseController" />
 	[TokenAuthorize(Constants.UnrestrictedMetadata)]
-	public class ManualController : BaseController
+	public class ManualController : Controller
 	{
 		/// <summary>
-		/// The unit of work.
+		/// The manual service.
 		/// </summary>
-		private readonly IUnitOfWork unitOfWork;
+		private readonly IManualService manualService;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ManualController"/> class.
 		/// </summary>
-		public ManualController() : this(new EntityUnitOfWork(new ApplicationDbContext()))
-	    {
-		    
-	    }
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="ManualController"/> class.
-		/// </summary>
-		/// <param name="unitOfWork">The unit of work.</param>
-		public ManualController(IUnitOfWork unitOfWork)
+		public ManualController(IManualService manualService)
 		{
-			this.unitOfWork = unitOfWork;
+			this.manualService = manualService;
 		}
 
 		/// <summary>
@@ -72,13 +61,10 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var manual = this.unitOfWork.ManualRepository.FindById(id);
+				this.manualService.Delete(id);
 
-				this.unitOfWork.ManualRepository.Delete(manual);
-				this.unitOfWork.Save();
-
-                this.TempData["success"] = Locale.ManualDeletedSuccessfully;
-            }
+				this.TempData["success"] = Locale.ManualDeletedSuccessfully;
+			}
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to delete manual: {e}");
@@ -99,7 +85,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var manual = this.unitOfWork.ManualRepository.FindById(id);
+				var manual = this.manualService.Get(id);
 
 				if (manual == null)
 				{
@@ -110,7 +96,6 @@ namespace OpenIZAdmin.Controllers
 				var content = Convert.FromBase64String(manual.Content);
 
 				return new FileContentResult(content, "application/pdf");
-
 			}
 			catch (Exception e)
 			{
@@ -131,7 +116,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				foreach (var manual in unitOfWork.ManualRepository.AsQueryable())
+				foreach (var manual in this.manualService.AsQueryable())
 				{
 					model.Add(new ManualIndexViewModel(manual)
 					{
@@ -147,43 +132,6 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			return View(model);
-		}
-
-		/// <summary>
-		/// Tries to validate a PDF.
-		/// </summary>
-		/// <param name="stream">The stream.</param>
-		/// <returns><c>true</c> if the PDF is valid, <c>false</c> otherwise.</returns>
-		public bool IsValidPdf(Stream stream)
-		{
-			// courtesy of:
-			// https://stackoverflow.com/questions/3108201/detect-if-pdf-file-is-correct-header-pdf
-
-			var status = false;
-
-			try
-			{
-				var br = new BinaryReader(stream);
-
-				var buffer = br.ReadBytes(1024);
-
-				var enc = new ASCIIEncoding();
-				var header = enc.GetString(buffer);
-
-				//%PDF−1.0
-				// If you are loading it into a long, this is (0x04034b50).
-
-				if (buffer[0] == 0x25 && buffer[1] == 0x50 && buffer[2] == 0x44 && buffer[3] == 0x46)
-				{
-					status = header.Contains("%PDF-");
-				}
-			}
-			catch (Exception e)
-			{
-				Trace.TraceError($"Unable to verify PDF: {e}");
-			}
-
-			return status;
 		}
 
 		/// <summary>
@@ -209,7 +157,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				var id = Guid.NewGuid();
 
-				if (this.ModelState.IsValid && this.IsValidPdf(model.File.InputStream))
+				if (this.ModelState.IsValid && this.manualService.IsValidPdf(model.File.InputStream))
 				{
 					var path = Path.Combine(this.Server.MapPath("~/Manuals"), Path.GetFileName(model.File.FileName));
 
@@ -217,8 +165,7 @@ namespace OpenIZAdmin.Controllers
 
 					var manualContent = Convert.ToBase64String(System.IO.File.ReadAllBytes(path));
 
-					this.unitOfWork.ManualRepository.Add(new Manual(id, Path.GetFileNameWithoutExtension(model.File.FileName), manualContent));
-					this.unitOfWork.Save();
+					this.manualService.Save(new Manual(id, Path.GetFileNameWithoutExtension(model.File.FileName), manualContent));
 
 					this.TempData["success"] = Locale.ManualUploadedSuccessfully;
 

@@ -38,6 +38,7 @@ using OpenIZAdmin.Services.Security;
 using System.Web;
 using OpenIZAdmin.Core.Auditing.Core;
 using OpenIZAdmin.Core.Auditing.Entities;
+using OpenIZAdmin.DAL.Manuals;
 using OpenIZAdmin.Services.Applets;
 using OpenIZAdmin.Services.Core;
 using OpenIZAdmin.Services.Entities.ManufacturedMaterials;
@@ -143,6 +144,11 @@ namespace OpenIZAdmin.Dependency
 
 			// register entity relationship concept services
 			builder.RegisterType<EntityRelationshipConceptService>().As<IEntityRelationshipConceptService>().InstancePerLifetimeScope();
+
+			// register manual services
+			builder.RegisterType<ManualService>().As<IManualService>().InstancePerLifetimeScope();
+
+
 		}
 	}
 }
