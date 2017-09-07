@@ -17,12 +17,12 @@
  * Date: 2017-7-10
  */
 
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZ.Core.Model.Entities;
 using System;
 using System.Collections.Generic;
+using OpenIZ.Core.Model.DataTypes;
+using OpenIZ.Core.Model.Entities;
 
-namespace OpenIZAdmin.Services.Metadata
+namespace OpenIZAdmin.Services.Metadata.Concepts
 {
 	/// <summary>
 	/// Represents a concept service.

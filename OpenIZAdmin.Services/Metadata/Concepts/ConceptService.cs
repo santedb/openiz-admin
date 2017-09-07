@@ -17,23 +17,23 @@
  * Date: 2017-7-10
  */
 
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZ.Messaging.IMSI.Client;
-using OpenIZAdmin.Services.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using OpenIZ.Core.Model;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
+using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Core.Caching;
+using OpenIZAdmin.Services.Core;
 
-namespace OpenIZAdmin.Services.Metadata
+namespace OpenIZAdmin.Services.Metadata.Concepts
 {
 	/// <summary>
 	/// Represents a concept service.
 	/// </summary>
 	/// <seealso cref="OpenIZAdmin.Services.Core.ImsiServiceBase" />
-	/// <seealso cref="OpenIZAdmin.Services.Metadata.IConceptService" />
+	/// <seealso cref="IConceptService" />
 	public class ConceptService : ImsiServiceBase, IConceptService
 	{
 		/// <summary>

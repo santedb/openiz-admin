@@ -27,6 +27,7 @@ using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Core.Caching;
 using OpenIZAdmin.Services.Core;
 using OpenIZAdmin.Services.Metadata;
+using OpenIZAdmin.Services.Metadata.Concepts;
 
 namespace OpenIZAdmin.Services.Entities.ManufacturedMaterials
 {

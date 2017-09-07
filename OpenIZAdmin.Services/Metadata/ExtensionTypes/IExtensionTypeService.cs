@@ -16,14 +16,12 @@
  * User: Nityan
  * Date: 2017-7-22
  */
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenIZ.Core.Model.DataTypes;
 
-namespace OpenIZAdmin.Services.Metadata
+namespace OpenIZAdmin.Services.Metadata.ExtensionTypes
 {
 	/// <summary>
 	/// Represents an extension type service.

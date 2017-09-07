@@ -48,6 +48,7 @@ using OpenIZAdmin.Services.Core;
 using OpenIZAdmin.Services.Entities.Places;
 using OpenIZAdmin.Services.EntityRelationships;
 using OpenIZAdmin.Services.Metadata;
+using OpenIZAdmin.Services.Metadata.Concepts;
 using OpenIZAdmin.Services.Security.Users;
 
 namespace OpenIZAdmin.Controllers

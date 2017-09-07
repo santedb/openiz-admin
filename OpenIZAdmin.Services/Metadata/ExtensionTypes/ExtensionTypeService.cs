@@ -16,22 +16,20 @@
  * User: Nityan
  * Date: 2017-7-22
  */
+
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Services.Core;
 
-namespace OpenIZAdmin.Services.Metadata
+namespace OpenIZAdmin.Services.Metadata.ExtensionTypes
 {
 	/// <summary>
 	/// Represents an extension type service.
 	/// </summary>
 	/// <seealso cref="OpenIZAdmin.Services.Core.AmiServiceBase" />
-	/// <seealso cref="OpenIZAdmin.Services.Metadata.IExtensionTypeService" />
+	/// <seealso cref="IExtensionTypeService" />
 	public class ExtensionTypeService : AmiServiceBase, IExtensionTypeService
 	{
 		/// <summary>

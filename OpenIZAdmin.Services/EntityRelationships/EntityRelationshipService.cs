@@ -31,6 +31,7 @@ using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Core;
 using OpenIZAdmin.Services.Core;
 using OpenIZAdmin.Services.Metadata;
+using OpenIZAdmin.Services.Metadata.Concepts;
 
 namespace OpenIZAdmin.Services.EntityRelationships
 {
