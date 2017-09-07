@@ -126,7 +126,8 @@ namespace OpenIZAdmin.Dependency
 			// register entity services
 			builder.RegisterType<EntityService>().As<IEntityService>().InstancePerLifetimeScope();
 
-			// register extension type services
+			// register metadata services (extension type, code system, assigning authority, etc.)
+			builder.RegisterType<CodeSystemService>().As<ICodeSystemService>().InstancePerLifetimeScope();
 			builder.RegisterType<ExtensionTypeService>().As<IExtensionTypeService>().InstancePerLifetimeScope();
 
 			// register applet services
