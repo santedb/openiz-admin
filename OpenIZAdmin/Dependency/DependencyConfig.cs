@@ -41,6 +41,7 @@ using OpenIZAdmin.Services.Entities.Places;
 using OpenIZAdmin.Services.EntityRelationships;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Metadata;
+using OpenIZAdmin.Services.Reports;
 using OpenIZAdmin.Services.Security.Applications;
 using OpenIZAdmin.Services.Security.Devices;
 using OpenIZAdmin.Services.Security.Policies;
@@ -143,6 +144,9 @@ namespace OpenIZAdmin.Dependency
 
 			// register manual services
 			builder.RegisterType<ManualService>().As<IManualService>().InstancePerLifetimeScope();
+
+			// register report services
+			builder.RegisterType<ReportService>().As<IReportService>().InstancePerLifetimeScope();
 		}
 	}
 }

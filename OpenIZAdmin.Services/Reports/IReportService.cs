@@ -13,32 +13,33 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  *
- * User: Nityan
- * Date: 2017-7-9
+ * User: nitya
+ * Date: 2017-9-7
  */
 
-using OpenIZ.Messaging.RISI.Client;
+using OpenIZ.Core.Model.RISI;
+using System;
+using System.Collections.Generic;
+using System.IO;
 
-namespace OpenIZAdmin.Services.Core
+namespace OpenIZAdmin.Services.Reports
 {
 	/// <summary>
-	/// Represents a RISI service base.
+	/// Represents a report service.
 	/// </summary>
-	public abstract class RisiServiceBase
+	public interface IReportService
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ImsiServiceBase"/> class.
+		/// Downloads the report source.
 		/// </summary>
-		/// <param name="client">The client.</param>
-		protected RisiServiceBase(RisiServiceClient client)
-		{
-			this.Client = client;
-		}
+		/// <param name="key">The key.</param>
+		/// <returns>Returns a <see cref="Stream"/> containing the report source.</returns>
+		Stream DownloadReportSource(Guid key);
 
 		/// <summary>
-		/// Gets the client.
+		/// Gets all report definitions.
 		/// </summary>
-		/// <value>The client.</value>
-		protected RisiServiceClient Client { get; }
+		/// <returns>Returns a list of report definitions.</returns>
+		IEnumerable<ReportDefinition> GetAllReportDefinitions();
 	}
 }

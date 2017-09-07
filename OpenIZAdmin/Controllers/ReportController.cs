@@ -28,28 +28,28 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ReportModels;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
+using OpenIZAdmin.Services.Reports;
 
 namespace OpenIZAdmin.Controllers
 {
 	/// <summary>
 	/// Represents a report controller.
 	/// </summary>
-	/// <seealso cref="OpenIZAdmin.Controllers.MetadataController" />
 	[TokenAuthorize(Constants.UnrestrictedWarehouse)]
-	public class ReportController : MetadataController
+	public class ReportController : Controller
 	{
+		/// <summary>
+		/// The report service.
+		/// </summary>
+		private readonly IReportService reportService;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ReportController"/> class.
 		/// </summary>
-		public ReportController()
+		public ReportController(IReportService reportService)
 		{
-			
+			this.reportService = reportService;
 		}
-
-		/// <summary>
-		/// Gets the <see cref="RisiServiceClient"/> instance.
-		/// </summary>
-		protected RisiServiceClient RisiClient { get; private set; }
 
 		/// <summary>
 		/// Downloads a report.
@@ -60,7 +60,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var reportSourceStream = this.RisiClient.GetReportSource(id);
+				var reportSourceStream = this.reportService.DownloadReportSource(id);
 
 				var contentDisposition = new ContentDisposition
 				{
@@ -92,7 +92,7 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				reports.AddRange(this.RisiClient.GetReportDefinitions().Items.Select(r => new ReportViewModel(r)));
+				reports.AddRange(this.reportService.GetAllReportDefinitions().Select(r => new ReportViewModel(r)));
 			}
 			catch (Exception e)
 			{
@@ -101,23 +101,6 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			return View(reports);
-		}
-
-		/// <summary>
-		/// Called when the action is executing.
-		/// </summary>
-		/// <param name="filterContext">The filter context of the action executing.</param>
-		protected override void OnActionExecuting(ActionExecutingContext filterContext)
-		{
-			var restClientService = new RestClientService(Constants.Risi)
-			{
-				Accept = Constants.ApplicationXml,
-				Credentials = new AmiCredentials(this.User, HttpContext.Request)
-			};
-
-			this.RisiClient = new RisiServiceClient(restClientService);
-
-			base.OnActionExecuting(filterContext);
 		}
 	}
 }

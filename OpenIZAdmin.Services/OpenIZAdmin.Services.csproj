@@ -90,11 +90,15 @@
     <Compile Include="EntityRelationships\EntityRelationshipService.cs" />
     <Compile Include="EntityRelationships\IEntityRelationshipConceptService.cs" />
     <Compile Include="EntityRelationships\IEntityRelationshipService.cs" />
+    <Compile Include="Metadata\CodeSystemService.cs" />
     <Compile Include="Metadata\ConceptService.cs" />
     <Compile Include="Metadata\ExtensionTypeService.cs" />
+    <Compile Include="Metadata\ICodeSystemService.cs" />
     <Compile Include="Metadata\IConceptService.cs" />
     <Compile Include="Metadata\IExtensionTypeService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reports\IReportService.cs" />
+    <Compile Include="Reports\ReportService.cs" />
     <Compile Include="Security\Applications\ISecurityApplicationService.cs" />
     <Compile Include="Security\Applications\SecurityApplicationService.cs" />
     <Compile Include="Security\Devices\ISecurityDeviceService.cs" />
