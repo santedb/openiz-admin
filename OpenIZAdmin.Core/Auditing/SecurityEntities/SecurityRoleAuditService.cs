@@ -84,6 +84,11 @@ namespace OpenIZAdmin.Core.Auditing.SecurityEntities
 			AuditService.SendAudit(audit);
 		}
 
+		/// <summary>
+		/// Audits the delete security entity.
+		/// </summary>
+		/// <param name="outcomeIndicator">The outcome indicator.</param>
+		/// <param name="securityEntity">The security entity.</param>
 		public void AuditDeleteSecurityEntity(OutcomeIndicator outcomeIndicator, SecurityRole securityEntity)
 		{
 			var audit = base.CreateSecurityResourceDeleteAudit(securityEntity, this.DeleteSecurityEntityAuditCode, outcomeIndicator);

@@ -56,6 +56,7 @@ namespace OpenIZAdmin.Services.EntityRelationships
 		/// </summary>
 		/// <param name="client">The client.</param>
 		/// <param name="conceptService">The concept service.</param>
+		/// <param name="entityService">The entity service.</param>
 		public EntityRelationshipService(ImsiServiceClient client, IConceptService conceptService, IEntityService entityService) : base(client)
 		{
 			this.conceptService = conceptService;

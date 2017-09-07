@@ -30,7 +30,7 @@ using OpenIZAdmin.Models.AlertModels;
 namespace OpenIZAdmin.Tests.Util
 {
 	/// <summary>
-	/// Contains tests for the <see cref="AlertUtil"/> class.
+	/// Contains tests for mapping alert models.
 	/// </summary>
 	[TestClass]
 	public class AlertUtilTests

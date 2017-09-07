@@ -62,6 +62,11 @@ namespace OpenIZAdmin.Services.Metadata
 			return this.Client.CreateExtensionType(extensionType);
 		}
 
+		/// <summary>
+		/// Searches for an extension type using a given search term.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns a list of extension types which match the given search term.</returns>
 		public IEnumerable<ExtensionType> Search(string searchTerm)
 		{
 			var results = new List<ExtensionType>();

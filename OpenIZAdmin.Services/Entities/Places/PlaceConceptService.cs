@@ -49,6 +49,11 @@ namespace OpenIZAdmin.Services.Entities.Places
 			this.conceptService = conceptService;
 		}
 
+		/// <summary>
+		/// Gets the place type concepts.
+		/// </summary>
+		/// <param name="conceptSetMnemonicFilters">The concept set mnemonic filters.</param>
+		/// <returns>Returns a list of concepts.</returns>
 		public IEnumerable<Concept> GetPlaceTypeConcepts(params string[] conceptSetMnemonicFilters)
 		{
 			var typeConcepts = new List<Concept>();
