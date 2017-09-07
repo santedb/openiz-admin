@@ -26,6 +26,7 @@ using OpenIZAdmin.Services.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Services.Security.Policies
 {
@@ -100,7 +101,87 @@ namespace OpenIZAdmin.Services.Security.Policies
 			try
 			{
 				policies.AddRange(this.Client.GetPolicies(p => p.ObsoletionTime == null).CollectionItem);
-				securityPolicyAuditService.AuditQueryPolicies(OutcomeIndicator.Success, policies.Select(p => p.Policy));
+
+				this.securityPolicyAuditService.AuditQueryPolicies(OutcomeIndicator.Success, policies.Select(p => p.Policy));
+			}
+			catch (Exception e)
+			{
+				this.coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, securityPolicyAuditService.QuerySecurityPolicyAuditCode, EventIdentifierType.ApplicationActivity, e);
+				throw;
+			}
+
+			return policies;
+		}
+
+		/// <summary>
+		/// Gets the policies by OID.
+		/// </summary>
+		/// <param name="oid">The OID.</param>
+		/// <returns>Returns a list of policies which match the given OID value.</returns>
+		public IEnumerable<SecurityPolicyInfo> GetPoliciesByOid(string oid)
+		{
+			var policies = new List<SecurityPolicyInfo>();
+
+			try
+			{
+				policies.AddRange(this.Client.GetPolicies(p => p.Oid == oid).CollectionItem);
+
+				this.securityPolicyAuditService.AuditQueryPolicies(OutcomeIndicator.Success, policies.Select(p => p.Policy));
+			}
+			catch (Exception e)
+			{
+				this.coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, securityPolicyAuditService.QuerySecurityPolicyAuditCode, EventIdentifierType.ApplicationActivity, e);
+				throw;
+			}
+
+			return policies;
+		}
+
+		/// <summary>
+		/// Gets a security policy.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Returns the security policy which matches the given id or null or no security policy is found.</returns>
+		public SecurityPolicyInfo GetSecurityPolicy(Guid key)
+		{
+			SecurityPolicyInfo policy;
+
+			try
+			{
+				policy = this.Client.GetPolicy(key.ToString());
+
+				if (policy != null)
+				{
+					this.securityPolicyAuditService.AuditQueryPolicies(OutcomeIndicator.Success, new List<SecurityPolicy> { policy.Policy });
+				}
+				else
+				{
+					this.securityPolicyAuditService.AuditQueryPolicies(OutcomeIndicator.SeriousFail, null);
+				}
+			}
+			catch (Exception e)
+			{
+				this.coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, securityPolicyAuditService.QuerySecurityPolicyAuditCode, EventIdentifierType.ApplicationActivity, e);
+				throw;
+			}
+
+			return policy;
+		}
+
+		/// <summary>
+		/// Searches for a policy using a given term.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns a list of policies which match the given search term.</returns>
+		public IEnumerable<SecurityPolicyInfo> Search(string searchTerm)
+		{
+			var policies = new List<SecurityPolicyInfo>();
+
+			try
+			{
+				policies.AddRange(searchTerm == "*" ? this.GetAllPolicies() : this.Client.GetPolicies(p => p.Name.Contains(searchTerm)).CollectionItem);
+
+				this.securityPolicyAuditService.AuditQueryPolicies(OutcomeIndicator.Success, policies.Select(p => p.Policy));
 			}
 			catch (Exception e)
 			{

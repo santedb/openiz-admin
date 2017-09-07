@@ -18,6 +18,7 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
+using System;
 using System.Collections.Generic;
 
 namespace OpenIZAdmin.Services.Security.Policies
@@ -39,5 +40,26 @@ namespace OpenIZAdmin.Services.Security.Policies
 		/// </summary>
 		/// <returns>Returns a list of security policies.</returns>
 		IEnumerable<SecurityPolicyInfo> GetAllPolicies();
+
+		/// <summary>
+		/// Gets the policies by OID.
+		/// </summary>
+		/// <param name="oid">The OID.</param>
+		/// <returns>Returns a list of policies which match the given OID value.</returns>
+		IEnumerable<SecurityPolicyInfo> GetPoliciesByOid(string oid);
+
+		/// <summary>
+		/// Gets a security policy.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Returns the security policy which matches the given id or null or no security policy is found.</returns>
+		SecurityPolicyInfo GetSecurityPolicy(Guid key);
+
+		/// <summary>
+		/// Searches for a policy using a given term.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns a list of policies which match the given search term.</returns>
+		IEnumerable<SecurityPolicyInfo> Search(string searchTerm);
 	}
 }

@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Services.Security.Policies;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -33,13 +34,19 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for administering policies.
 	/// </summary>
 	[TokenAuthorize(Constants.UnrestrictedAdministration)]
-	public class PolicyController : BaseController
+	public class PolicyController : Controller
 	{
+		/// <summary>
+		/// The security policy service.
+		/// </summary>
+		private readonly ISecurityPolicyService securityPolicyService;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="OpenIZAdmin.Controllers.PolicyController"/> class.
 		/// </summary>
-		public PolicyController()
+		public PolicyController(ISecurityPolicyService securityPolicyService)
 		{
+			this.securityPolicyService = securityPolicyService;
 		}
 
 		/// <summary>
@@ -70,13 +77,14 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var exists = this.AmiClient.GetPolicies(c => c.Oid == model.Oid).CollectionItem.Any();
+				
+				var exists = this.securityPolicyService.GetPoliciesByOid(model.Oid).Any();
 
 				if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
 
 				if (this.ModelState.IsValid)
 				{
-					var policy = this.AmiClient.CreatePolicy(model.ToSecurityPolicyInfo());
+					var policy = this.securityPolicyService.CreateSecurityPolicy(model.ToSecurityPolicyInfo());
 
 					TempData["success"] = Locale.PolicyCreatedSuccessfully;
 
@@ -127,11 +135,11 @@ namespace OpenIZAdmin.Controllers
 
 			try
 			{
-				if (this.IsValidId(searchTerm))
+				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 				{
 					var results = new List<SecurityPolicyInfo>();
 
-					results.AddRange(searchTerm == "*" ? this.AmiClient.GetPolicies(a => a.Key != null).CollectionItem : this.AmiClient.GetPolicies(a => a.Name.Contains(searchTerm)).CollectionItem);
+					results.AddRange(this.securityPolicyService.Search(searchTerm));
 
 					TempData["searchTerm"] = searchTerm;
 
@@ -159,16 +167,16 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var result = this.AmiClient.GetPolicies(r => r.Key == id);
+				var result = securityPolicyService.GetSecurityPolicy(id);
 
-				if (!result.CollectionItem.Any())
+				if (result == null)
 				{
 					TempData["error"] = Locale.PolicyNotFound;
 
 					return RedirectToAction("Index");
 				}
 
-				return View(new PolicyViewModel(result.CollectionItem.First()));
+				return View(new PolicyViewModel(result));
 			}
 			catch (Exception e)
 			{
