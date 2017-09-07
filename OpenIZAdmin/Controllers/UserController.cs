@@ -31,10 +31,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using MARC.HI.EHRS.SVC.Auditing.Data;
-using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Models.Audit;
-using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin.Controllers
 {

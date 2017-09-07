@@ -14,10 +14,6 @@
     <div class="col-md-12" id="applets-partial">
         @Html.Partial("_AppletsPartial", Model.Applets)
     </div>
-
-    <div class="col-md-12" id="certificates-partial">
-        @Html.Partial("_CertificateRequestsPartial", Model.CertificateRequests)
-    </div>
 }
 
 @if (PolicyPermission.TryDemand(User, Constants.CreateDevice))

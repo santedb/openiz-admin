@@ -18,7 +18,6 @@
  */
 
 using OpenIZAdmin.Models.AppletModels;
-using OpenIZAdmin.Models.CertificateModels;
 using OpenIZAdmin.Models.DeviceModels;
 using OpenIZAdmin.Models.RoleModels;
 using System.Collections.Generic;
@@ -36,7 +35,6 @@ namespace OpenIZAdmin.Models
 		public DashboardViewModel()
 		{
 			this.Applets = new List<AppletViewModel>();
-			this.CertificateRequests = new List<CertificateSigningRequestViewModel>();
 			this.Devices = new List<DeviceViewModel>();
 			this.Roles = new List<RoleViewModel>();
 		}
@@ -45,11 +43,6 @@ namespace OpenIZAdmin.Models
 		/// Gets or sets a list of applets of the view model.
 		/// </summary>
 		public IEnumerable<AppletViewModel> Applets { get; set; }
-
-		/// <summary>
-		/// Gets or sets a list of certificate requests of the view model.
-		/// </summary>
-		public IEnumerable<CertificateSigningRequestViewModel> CertificateRequests { get; set; }
 
 		/// <summary>
 		/// Gets or sets a list of devices of the view model.

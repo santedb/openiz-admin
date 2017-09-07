@@ -17,10 +17,8 @@
  * Date: 2016-5-31
  */
 
-using MARC.HI.EHRS.SVC.Auditing.Data;
+using OpenIZAdmin.Core.Engine;
 using OpenIZAdmin.DAL;
-using OpenIZAdmin.Models.Audit;
-using OpenIZAdmin.Services.Http.Security;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -28,9 +26,6 @@ using System.Runtime.Caching;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
-using OpenIZAdmin.Core.Auditing.Core;
-using OpenIZAdmin.Core.Auditing.Model;
-using OpenIZAdmin.Core.Engine;
 
 namespace OpenIZAdmin
 {

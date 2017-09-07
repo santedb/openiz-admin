@@ -31,7 +31,6 @@ using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.AccountModels;
-using OpenIZAdmin.Models.Audit;
 using OpenIZAdmin.Security;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
