@@ -19,32 +19,28 @@
 
 using Autofac;
 using Autofac.Integration.Mvc;
-using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZ.Messaging.RISI.Client;
 using OpenIZAdmin.Core.Auditing.Controllers;
+using OpenIZAdmin.Core.Auditing.Core;
+using OpenIZAdmin.Core.Auditing.Entities;
 using OpenIZAdmin.Core.Auditing.SecurityEntities;
 using OpenIZAdmin.Core.Auditing.Services;
 using OpenIZAdmin.Core.Caching;
 using OpenIZAdmin.Core.Engine;
 using OpenIZAdmin.DAL;
-using OpenIZAdmin.Services.Auditing;
-using OpenIZAdmin.Services.Entities;
-using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Metadata;
-using OpenIZAdmin.Services.Security;
-using System.Web;
-using OpenIZAdmin.Core.Auditing.Core;
-using OpenIZAdmin.Core.Auditing.Entities;
 using OpenIZAdmin.DAL.Manuals;
 using OpenIZAdmin.Services.Applets;
+using OpenIZAdmin.Services.Auditing;
 using OpenIZAdmin.Services.Core;
 using OpenIZAdmin.Services.Entities.ManufacturedMaterials;
 using OpenIZAdmin.Services.Entities.Materials;
 using OpenIZAdmin.Services.Entities.Places;
 using OpenIZAdmin.Services.EntityRelationships;
+using OpenIZAdmin.Services.Http;
+using OpenIZAdmin.Services.Metadata;
 using OpenIZAdmin.Services.Security.Applications;
 using OpenIZAdmin.Services.Security.Devices;
 using OpenIZAdmin.Services.Security.Policies;
@@ -147,8 +143,6 @@ namespace OpenIZAdmin.Dependency
 
 			// register manual services
 			builder.RegisterType<ManualService>().As<IManualService>().InstancePerLifetimeScope();
-
-
 		}
 	}
 }

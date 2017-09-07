@@ -39,14 +39,14 @@ namespace OpenIZAdmin.Extensions
 		/// <returns>Returns the formatted date time as a string.</returns>
 		public static string DefaultFormat(this DateTime dateTime)
 		{
-            try
-            {
-                return DefaultFormat(new DateTimeOffset(dateTime));
-            }
-            catch
-            {
-                return null;
-            }
+			try
+			{
+				return DefaultFormat(new DateTimeOffset(dateTime));
+			}
+			catch
+			{
+				return null;
+			}
 		}
 
 		/// <summary>

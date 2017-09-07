@@ -46,9 +46,9 @@ namespace OpenIZAdmin
 
 			bundles.Add(new ScriptBundle("~/bundles/select2").Include(
 						"~/Scripts/select2.min.js",
-                        "~/Scripts/select2-i18n/en-ca.js",
-                        "~/Scripts/select2-i18n/sw.js",
-                        "~/Scripts/select2-config.js"));
+						"~/Scripts/select2-i18n/en-ca.js",
+						"~/Scripts/select2-i18n/sw.js",
+						"~/Scripts/select2-config.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/toastr").Include(
 						"~/Scripts/toastr.min.js",
@@ -60,8 +60,8 @@ namespace OpenIZAdmin
 						"~/Scripts/material-search.js",
 						"~/Scripts/manufactured-material-search.js",
 						"~/Scripts/place-search.js",
-                        "~/Scripts/address-search.js",
-                        "~/Scripts/user-search.js"));
+						"~/Scripts/address-search.js",
+						"~/Scripts/user-search.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/ui-customizations").Include(
 						"~/Scripts/ui-customizations.js"));

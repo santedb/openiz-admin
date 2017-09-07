@@ -24,30 +24,30 @@ namespace OpenIZAdmin
 	/// </summary>
 	public static class LocalizationConfig
 	{
-        /// <summary>
-        /// Represents localization language codes
-        /// </summary>
-        public static class LanguageCode
-        {
-            /// <summary>
-            /// The language code for English
-            /// </summary>
-            public const string English = "en";
-
-            /// <summary>
-            /// The language code for Swahili
-            /// </summary>
-            public const string Swahili = "sw";
-        }
-
-        /// <summary>
-        /// The default language for the application.
-        /// </summary>
-        public static readonly string DefaultLanguage = "en";
+		/// <summary>
+		/// The default language for the application.
+		/// </summary>
+		public static readonly string DefaultLanguage = "en";
 
 		/// <summary>
 		/// The default cookie name which contains the users preferred language.
 		/// </summary>
 		public static readonly string LanguageCookieName = "__openiz_language";
+
+		/// <summary>
+		/// Represents localization language codes
+		/// </summary>
+		public static class LanguageCode
+		{
+			/// <summary>
+			/// The language code for English
+			/// </summary>
+			public const string English = "en";
+
+			/// <summary>
+			/// The language code for Swahili
+			/// </summary>
+			public const string Swahili = "sw";
+		}
 	}
 }
