@@ -81,8 +81,8 @@ namespace OpenIZAdmin.Core.Engine
 		/// <summary>
 		/// Resolves this instance.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns>T.</returns>
+		/// <typeparam name="T">The type of instance to resolve.</typeparam>
+		/// <returns>Returns an instance of the type to resolve.</returns>
 		public T Resolve<T>() where T : class
 		{
 			return containerManager.Resolve<T>();
@@ -92,7 +92,7 @@ namespace OpenIZAdmin.Core.Engine
 		/// Resolves the specified type.
 		/// </summary>
 		/// <param name="type">The type.</param>
-		/// <returns>System.Object.</returns>
+		/// <returns>Returns an instance of the type to resolve.</returns>
 		public object Resolve(Type type)
 		{
 			return containerManager.Resolve(type);
