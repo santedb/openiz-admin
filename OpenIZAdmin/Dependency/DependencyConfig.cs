@@ -40,7 +40,7 @@ using OpenIZAdmin.Services.Entities.Materials;
 using OpenIZAdmin.Services.Entities.Places;
 using OpenIZAdmin.Services.EntityRelationships;
 using OpenIZAdmin.Services.Http;
-using OpenIZAdmin.Services.Metadata;
+using OpenIZAdmin.Services.Metadata.AssigningAuthorities;
 using OpenIZAdmin.Services.Metadata.CodeSystems;
 using OpenIZAdmin.Services.Metadata.Concepts;
 using OpenIZAdmin.Services.Metadata.ExtensionTypes;
@@ -129,7 +129,8 @@ namespace OpenIZAdmin.Dependency
 			// register entity services
 			builder.RegisterType<EntityService>().As<IEntityService>().InstancePerLifetimeScope();
 
-			// register metadata services (extension type, code system, assigning authority, etc.)
+			// register metadata services (assigning authority, code system, extension type, etc.)
+			builder.RegisterType<AssigningAuthorityService>().As<IAssigningAuthorityService>().InstancePerLifetimeScope();
 			builder.RegisterType<CodeSystemService>().As<ICodeSystemService>().InstancePerLifetimeScope();
 			builder.RegisterType<ExtensionTypeService>().As<IExtensionTypeService>().InstancePerLifetimeScope();
 

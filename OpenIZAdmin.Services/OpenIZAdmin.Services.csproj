@@ -90,6 +90,8 @@
     <Compile Include="EntityRelationships\EntityRelationshipService.cs" />
     <Compile Include="EntityRelationships\IEntityRelationshipConceptService.cs" />
     <Compile Include="EntityRelationships\IEntityRelationshipService.cs" />
+    <Compile Include="Metadata\AssigningAuthorities\AssigningAuthorityService.cs" />
+    <Compile Include="Metadata\AssigningAuthorities\IAssigningAuthorityService.cs" />
     <Compile Include="Metadata\CodeSystems\CodeSystemService.cs" />
     <Compile Include="Metadata\Concepts\ConceptService.cs" />
     <Compile Include="Metadata\ExtensionTypes\ExtensionTypeService.cs" />
