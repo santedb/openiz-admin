@@ -13,14 +13,12 @@
  * License for the specific language governing permissions and limitations under 
  * the License.
  * 
- * User: nitya
+ * User: Nityan
  * Date: 2017-9-9
  */
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenIZ.Core.Model.AMI.DataTypes;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Services.Core;
@@ -58,10 +56,9 @@ namespace OpenIZAdmin.Services.Metadata.AssigningAuthorities
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <returns>Returns the assigning authority for the given key or null if no assigning authority is found.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
 		public AssigningAuthorityInfo GetAssigningAuthority(Guid key)
 		{
-			throw new NotImplementedException();
+			return this.Client.GetAssigningAuthorities(a => a.Key == key).CollectionItem.FirstOrDefault(a => a.Id == key);
 		}
 
 		/// <summary>
@@ -69,10 +66,9 @@ namespace OpenIZAdmin.Services.Metadata.AssigningAuthorities
 		/// </summary>
 		/// <param name="oid">The oid.</param>
 		/// <returns>Returns a list of assigning authorities whose OID matches the given OID.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
 		public IEnumerable<AssigningAuthorityInfo> GetAssigningAuthoritiesByOid(string oid)
 		{
-			throw new NotImplementedException();
+			return this.Client.GetAssigningAuthorities(a => a.Oid == oid).CollectionItem.Where(a => a.AssigningAuthority.Oid == oid);
 		}
 
 		/// <summary>
@@ -80,10 +76,9 @@ namespace OpenIZAdmin.Services.Metadata.AssigningAuthorities
 		/// </summary>
 		/// <param name="domain">The domain.</param>
 		/// <returns>Returns a list of assigning authorities whose domain matches the given domain.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
 		public IEnumerable<AssigningAuthorityInfo> GetAssigningAuthoritiesByDomain(string domain)
 		{
-			throw new NotImplementedException();
+			return this.Client.GetAssigningAuthorities(a => a.DomainName == domain).CollectionItem.Where(a => a.AssigningAuthority.DomainName == domain);
 		}
 
 		/// <summary>
@@ -91,22 +86,40 @@ namespace OpenIZAdmin.Services.Metadata.AssigningAuthorities
 		/// </summary>
 		/// <param name="searchTerm">The search term.</param>
 		/// <returns>Returns a list of assigning authorities which match the given search term.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
 		public IEnumerable<AssigningAuthorityInfo> Search(string searchTerm)
 		{
-			throw new NotImplementedException();
+			var results = new List<AssigningAuthorityInfo>();
+
+			if (searchTerm == "*")
+			{
+				results.AddRange(this.Client.GetAssigningAuthorities(a => a.ObsoletionTime == null).CollectionItem.Where(a => a.AssigningAuthority.ObsoletionTime == null));
+			}
+			else
+			{
+				Guid key;
+
+				if (!Guid.TryParse(searchTerm, out key))
+				{
+					results.AddRange(this.Client.GetAssigningAuthorities(c => c.Name.Contains(searchTerm)).CollectionItem.Where(a => a.AssigningAuthority.Name.Contains(searchTerm)));
+				}
+				else
+				{
+					results.Add(this.GetAssigningAuthority(key));
+				}
+			}
+
+			return results;
 		}
 
 		/// <summary>
 		/// Updates the assigning authority.
 		/// </summary>
 		/// <param name="key">The key.</param>
-		/// <param name="assingAssigningAuthorityInfo">The assing assigning authority information.</param>
+		/// <param name="assigningAuthorityInfo">The assigning authority information.</param>
 		/// <returns>Returns the updated assigning authority.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
-		public AssigningAuthorityInfo UpdateAssigningAuthority(Guid key, AssigningAuthorityInfo assingAssigningAuthorityInfo)
+		public AssigningAuthorityInfo UpdateAssigningAuthority(Guid key, AssigningAuthorityInfo assigningAuthorityInfo)
 		{
-			throw new NotImplementedException();
+			return this.Client.UpdateAssigningAuthority(key.ToString(), assigningAuthorityInfo);
 		}
 	}
 }

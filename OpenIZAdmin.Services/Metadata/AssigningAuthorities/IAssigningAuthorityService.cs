@@ -18,9 +18,6 @@
  */
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using OpenIZ.Core.Model.AMI.DataTypes;
 
 namespace OpenIZAdmin.Services.Metadata.AssigningAuthorities
@@ -69,8 +66,8 @@ namespace OpenIZAdmin.Services.Metadata.AssigningAuthorities
 		/// Updates the assigning authority.
 		/// </summary>
 		/// <param name="key">The key.</param>
-		/// <param name="assingAssigningAuthorityInfo">The assing assigning authority information.</param>
+		/// <param name="assigningAuthorityInfo">The assigning authority information.</param>
 		/// <returns>Returns the updated assigning authority.</returns>
-		AssigningAuthorityInfo UpdateAssigningAuthority(Guid key, AssigningAuthorityInfo assingAssigningAuthorityInfo);
+		AssigningAuthorityInfo UpdateAssigningAuthority(Guid key, AssigningAuthorityInfo assigningAuthorityInfo);
 	}
 }
