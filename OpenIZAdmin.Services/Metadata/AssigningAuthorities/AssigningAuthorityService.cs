@@ -62,6 +62,47 @@ namespace OpenIZAdmin.Services.Metadata.AssigningAuthorities
 		}
 
 		/// <summary>
+		/// Determines whether the domain is a duplicate domain.
+		/// </summary>
+		/// <param name="domain">The domain.</param>
+		/// <returns>
+		///   <c>true</c> if the domain already exists; otherwise, <c>false</c>.</returns>
+		public bool IsDuplicateDomain(string domain)
+		{
+			return this.GetAssigningAuthoritiesByDomain(domain).Any();
+		}
+
+		/// <summary>
+		/// Determines whether the name is a duplicate name.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <returns><c>true</c> if the name already exists; otherwise, <c>false</c>.</returns>
+		public bool IsDuplicateName(string name)
+		{
+			return this.GetAssigningAuthoritiesByName(name).Any();
+		}
+
+		/// <summary>
+		/// Determines whether the OID already exists.
+		/// </summary>
+		/// <param name="oid">The oid.</param>
+		/// <returns><c>true</c> if the OID already exists; otherwise, <c>false</c>.</returns>
+		public bool IsDuplicateOid(string oid)
+		{
+			return this.GetAssigningAuthoritiesByOid(oid).Any();
+		}
+
+		/// <summary>
+		/// Gets the name of the assigning authorities by name.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <returns>Returns a list of assigning authorities whose name matches the given name.</returns>
+		public IEnumerable<AssigningAuthorityInfo> GetAssigningAuthoritiesByName(string name)
+		{
+			return this.Client.GetAssigningAuthorities(a => a.Name == name).CollectionItem.Where(a => a.AssigningAuthority.Name == name);
+		}
+
+		/// <summary>
 		/// Gets the assigning authorities by OID.
 		/// </summary>
 		/// <param name="oid">The oid.</param>

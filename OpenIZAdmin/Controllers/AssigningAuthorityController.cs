@@ -28,6 +28,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Services.Metadata.AssigningAuthorities;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -38,10 +39,17 @@ namespace OpenIZAdmin.Controllers
 	public class AssigningAuthorityController : BaseController
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="AssigningAuthorityController"/> class.
+		/// The assigning authority service.
 		/// </summary>
-		public AssigningAuthorityController()
+		private IAssigningAuthorityService assigningAuthorityService;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AssigningAuthorityController" /> class.
+		/// </summary>
+		/// <param name="assigningAuthorityService">The assigning authority service.</param>
+		public AssigningAuthorityController(IAssigningAuthorityService assigningAuthorityService)
 		{
+			this.assigningAuthorityService = assigningAuthorityService;
 		}
 
 		/// <summary>
