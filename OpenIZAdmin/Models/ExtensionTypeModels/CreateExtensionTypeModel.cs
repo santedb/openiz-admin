@@ -19,7 +19,6 @@
 
 using OpenIZ.Core.Extensions;
 using OpenIZ.Core.Model.DataTypes;
-using OpenIZ.Core.Model.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
 using System;
