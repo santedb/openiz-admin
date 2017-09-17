@@ -1206,6 +1206,11 @@
             Gets or sets the total results
             </summary>
         </member>
+        <member name="P:OpenIZ.Core.Model.Collection.Bundle.ExpansionKeys">
+            <summary>
+            Gets or sets the keys of objects that aren't really in the bundle but are expansion items
+            </summary>
+        </member>
         <member name="M:OpenIZ.Core.Model.Collection.Bundle.Add(OpenIZ.Core.Model.IdentifiedData)">
             <summary>
             Add item to the bundle
@@ -1245,6 +1250,16 @@
         <member name="M:OpenIZ.Core.Model.Collection.Bundle.ProcessModel(OpenIZ.Core.Model.IdentifiedData,OpenIZ.Core.Model.Collection.Bundle,System.Boolean)">
             <summary>
             Packages the objects into a bundle
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Collection.Bundle.GetExpansionItems">
+            <summary>
+            Gets from the item set only those items which are for expansion
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Model.Collection.Bundle.GetResultItems">
+            <summary>
+            Gets from the item set only those items which are results
             </summary>
         </member>
         <member name="T:OpenIZ.Core.Model.Collection.ILockable">
@@ -6085,31 +6100,6 @@
             Get relationships
             </summary>
         </member>
-        <member name="T:OpenIZ.Core.Model.Extensions.BinaryExtensionHandler">
-            <summary>
-            Binary extension handler
-            </summary>
-        </member>
-        <member name="P:OpenIZ.Core.Model.Extensions.BinaryExtensionHandler.Name">
-            <summary>
-            Gets the name of the handler
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.Extensions.BinaryExtensionHandler.DeSerialize(System.Byte[])">
-            <summary>
-            Deserialize data
-            </summary> 
-        </member>
-        <member name="M:OpenIZ.Core.Model.Extensions.BinaryExtensionHandler.GetDisplay(System.Object)">
-            <summary>
-            Get display 
-            </summary>
-        </member>
-        <member name="M:OpenIZ.Core.Model.Extensions.BinaryExtensionHandler.Serialize(System.Object)">
-            <summary>
-            Serialize
-            </summary>
-        </member>
         <member name="T:OpenIZ.Core.Model.LoadState">
             <summary>
             Identifies the state of loading of the object
@@ -7922,6 +7912,31 @@
             Output model map exception as string
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:OpenIZ.Core.Extensions.BinaryExtensionHandler">
+            <summary>
+            Binary extension handler
+            </summary>
+        </member>
+        <member name="P:OpenIZ.Core.Extensions.BinaryExtensionHandler.Name">
+            <summary>
+            Gets the name of the handler
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Extensions.BinaryExtensionHandler.DeSerialize(System.Byte[])">
+            <summary>
+            Deserialize data
+            </summary> 
+        </member>
+        <member name="M:OpenIZ.Core.Extensions.BinaryExtensionHandler.GetDisplay(System.Object)">
+            <summary>
+            Get display 
+            </summary>
+        </member>
+        <member name="M:OpenIZ.Core.Extensions.BinaryExtensionHandler.Serialize(System.Object)">
+            <summary>
+            Serialize
+            </summary>
         </member>
         <member name="T:OpenIZ.Core.Extensions.BooleanExtensionHandler">
             <summary>
