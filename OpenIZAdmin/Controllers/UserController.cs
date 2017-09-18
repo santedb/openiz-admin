@@ -130,7 +130,8 @@ namespace OpenIZAdmin.Controllers
 
 					var userEntity = this.GetUserEntityBySecurityUserKey(user.UserId.Value);
 
-					if (model.Roles.Contains(Constants.ClinicalStaff))
+					// create the provider association if the user has a facility
+					if (model.Facility != null)
 					{
 						var provider = this.ImsiClient.Create<Provider>(new Provider { Key = Guid.NewGuid() });
 
