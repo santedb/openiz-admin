@@ -1,27 +1,28 @@
 ﻿/*
  * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you 
- * may not use this file except in compliance with the License. You may 
- * obtain a copy of the License at 
- * 
- * http://www.apache.org/licenses/LICENSE-2.0 
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the 
- * License for the specific language governing permissions and limitations under 
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * User: Nityan
  * Date: 2017-9-9
  */
-using System;
-using System.Collections.Generic;
-using System.Linq;
+
 using OpenIZ.Core.Model.AMI.DataTypes;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Services.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenIZAdmin.Services.Metadata.AssigningAuthorities
 {
@@ -45,10 +46,39 @@ namespace OpenIZAdmin.Services.Metadata.AssigningAuthorities
 		/// </summary>
 		/// <param name="assigningAuthorityInfo">The assigning authority information.</param>
 		/// <returns>Returns the created assigning authority.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
 		public AssigningAuthorityInfo CreateAssigningAuthority(AssigningAuthorityInfo assigningAuthorityInfo)
 		{
-			throw new NotImplementedException();
+			return this.Client.CreateAssigningAuthority(assigningAuthorityInfo);
+		}
+
+		/// <summary>
+		/// Gets the assigning authorities by domain.
+		/// </summary>
+		/// <param name="domain">The domain.</param>
+		/// <returns>Returns a list of assigning authorities whose domain matches the given domain.</returns>
+		public IEnumerable<AssigningAuthorityInfo> GetAssigningAuthoritiesByDomain(string domain)
+		{
+			return this.Client.GetAssigningAuthorities(a => a.DomainName == domain).CollectionItem.Where(a => a.AssigningAuthority.DomainName == domain);
+		}
+
+		/// <summary>
+		/// Gets the name of the assigning authorities by name.
+		/// </summary>
+		/// <param name="name">The name.</param>
+		/// <returns>Returns a list of assigning authorities whose name matches the given name.</returns>
+		public IEnumerable<AssigningAuthorityInfo> GetAssigningAuthoritiesByName(string name)
+		{
+			return this.Client.GetAssigningAuthorities(a => a.Name == name).CollectionItem.Where(a => a.AssigningAuthority.Name == name);
+		}
+
+		/// <summary>
+		/// Gets the assigning authorities by OID.
+		/// </summary>
+		/// <param name="oid">The oid.</param>
+		/// <returns>Returns a list of assigning authorities whose OID matches the given OID.</returns>
+		public IEnumerable<AssigningAuthorityInfo> GetAssigningAuthoritiesByOid(string oid)
+		{
+			return this.Client.GetAssigningAuthorities(a => a.Oid == oid).CollectionItem.Where(a => a.AssigningAuthority.Oid == oid);
 		}
 
 		/// <summary>
@@ -90,36 +120,6 @@ namespace OpenIZAdmin.Services.Metadata.AssigningAuthorities
 		public bool IsDuplicateOid(string oid)
 		{
 			return this.GetAssigningAuthoritiesByOid(oid).Any();
-		}
-
-		/// <summary>
-		/// Gets the name of the assigning authorities by name.
-		/// </summary>
-		/// <param name="name">The name.</param>
-		/// <returns>Returns a list of assigning authorities whose name matches the given name.</returns>
-		public IEnumerable<AssigningAuthorityInfo> GetAssigningAuthoritiesByName(string name)
-		{
-			return this.Client.GetAssigningAuthorities(a => a.Name == name).CollectionItem.Where(a => a.AssigningAuthority.Name == name);
-		}
-
-		/// <summary>
-		/// Gets the assigning authorities by OID.
-		/// </summary>
-		/// <param name="oid">The oid.</param>
-		/// <returns>Returns a list of assigning authorities whose OID matches the given OID.</returns>
-		public IEnumerable<AssigningAuthorityInfo> GetAssigningAuthoritiesByOid(string oid)
-		{
-			return this.Client.GetAssigningAuthorities(a => a.Oid == oid).CollectionItem.Where(a => a.AssigningAuthority.Oid == oid);
-		}
-
-		/// <summary>
-		/// Gets the assigning authorities by domain.
-		/// </summary>
-		/// <param name="domain">The domain.</param>
-		/// <returns>Returns a list of assigning authorities whose domain matches the given domain.</returns>
-		public IEnumerable<AssigningAuthorityInfo> GetAssigningAuthoritiesByDomain(string domain)
-		{
-			return this.Client.GetAssigningAuthorities(a => a.DomainName == domain).CollectionItem.Where(a => a.AssigningAuthority.DomainName == domain);
 		}
 
 		/// <summary>

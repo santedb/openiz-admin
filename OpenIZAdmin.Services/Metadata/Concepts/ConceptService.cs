@@ -17,15 +17,15 @@
  * Date: 2017-7-10
  */
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Core.Caching;
 using OpenIZAdmin.Services.Core;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenIZAdmin.Services.Metadata.Concepts
 {
@@ -83,30 +83,6 @@ namespace OpenIZAdmin.Services.Metadata.Concepts
 			}
 
 			return loadFast ? cacheService.Get<Concept>(mnemonic, () => this.GetConceptInternal(mnemonic)) : this.GetConceptInternal(mnemonic);
-		}
-
-		/// <summary>
-		/// Gets the concept.
-		/// </summary>
-		/// <param name="key">The key.</param>
-		/// <returns>Returns the concept for the given key.</returns>
-		private Concept GetConceptInternal(Guid key)
-		{
-			return this.Client.Get<Concept>(key, null) as Concept;
-		}
-
-		/// <summary>
-		/// Gets the concept by mnemonic.
-		/// </summary>
-		/// <param name="mnemonic">The mnemonic.</param>
-		/// <returns>Returns the concept for the given mnemonic.</returns>
-		private Concept GetConceptInternal(string mnemonic)
-		{
-			var bundle = this.Client.Query<Concept>(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null, 0, 1, true);
-
-			bundle.Reconstitute();
-
-			return bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
 		}
 
 		/// <summary>
@@ -202,6 +178,30 @@ namespace OpenIZAdmin.Services.Metadata.Concepts
 			}
 
 			return typeConcept;
+		}
+
+		/// <summary>
+		/// Gets the concept.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Returns the concept for the given key.</returns>
+		private Concept GetConceptInternal(Guid key)
+		{
+			return this.Client.Get<Concept>(key, null) as Concept;
+		}
+
+		/// <summary>
+		/// Gets the concept by mnemonic.
+		/// </summary>
+		/// <param name="mnemonic">The mnemonic.</param>
+		/// <returns>Returns the concept for the given mnemonic.</returns>
+		private Concept GetConceptInternal(string mnemonic)
+		{
+			var bundle = this.Client.Query<Concept>(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null, 0, 1, true);
+
+			bundle.Reconstitute();
+
+			return bundle.Item.OfType<Concept>().FirstOrDefault(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null);
 		}
 	}
 }

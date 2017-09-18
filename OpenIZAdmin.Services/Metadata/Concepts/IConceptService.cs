@@ -17,10 +17,10 @@
  * Date: 2017-7-10
  */
 
-using System;
-using System.Collections.Generic;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
+using System;
+using System.Collections.Generic;
 
 namespace OpenIZAdmin.Services.Metadata.Concepts
 {
