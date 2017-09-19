@@ -27,6 +27,7 @@ using OpenIZAdmin.Services.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OpenIZAdmin.Services.Entities;
 
 namespace OpenIZAdmin.Services.Security.Users
 {

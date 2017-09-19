@@ -37,6 +37,7 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		/// </summary>
 		public CreateOrganizationModel()
 		{
+			this.IndustryConcepts = new List<SelectListItem>();
 		}
 
 		/// <summary>

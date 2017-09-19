@@ -29,6 +29,7 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Models.EntityRelationshipModels;
 using OpenIZAdmin.Services.Core;
+using OpenIZAdmin.Services.Entities;
 using OpenIZAdmin.Services.EntityRelationships;
 using OpenIZAdmin.Util;
 

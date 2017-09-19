@@ -75,7 +75,7 @@
     <Compile Include="Applets\AppletService.cs" />
     <Compile Include="Applets\IAppletService.cs" />
     <Compile Include="Auditing\AuditService.cs" />
-    <Compile Include="Core\EntityService.cs" />
+    <Compile Include="Entities\EntityService.cs" />
     <Compile Include="Core\ImsiServiceBase.cs" />
     <Compile Include="Core\AmiServiceBase.cs" />
     <Compile Include="Core\RisiServiceBase.cs" />
@@ -83,7 +83,9 @@
     <Compile Include="Entities\ManufacturedMaterials\ManufacturedMaterialConceptService.cs" />
     <Compile Include="Entities\Materials\IMaterialConceptService.cs" />
     <Compile Include="Entities\Materials\MaterialConceptService.cs" />
-    <Compile Include="Core\IEntityService.cs" />
+    <Compile Include="Entities\IEntityService.cs" />
+    <Compile Include="Entities\Organizations\IOrganizationConceptService.cs" />
+    <Compile Include="Entities\Organizations\OrganizationConceptService.cs" />
     <Compile Include="Entities\Places\IPlaceConceptService.cs" />
     <Compile Include="Entities\Places\PlaceConceptService.cs" />
     <Compile Include="EntityRelationships\EntityRelationshipConceptService.cs" />

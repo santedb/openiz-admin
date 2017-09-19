@@ -17,6 +17,12 @@
  * Date: 2017-7-9
  */
 
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
 using MARC.HI.EHRS.SVC.Auditing.Data;
 using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Collection;
@@ -28,20 +34,15 @@ using OpenIZAdmin.Core.Auditing.Core;
 using OpenIZAdmin.Core.Auditing.Entities;
 using OpenIZAdmin.Core.Extensions;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Services.Core;
 using OpenIZAdmin.Services.Metadata.Concepts;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
 
-namespace OpenIZAdmin.Services.Core
+namespace OpenIZAdmin.Services.Entities
 {
 	/// <summary>
 	/// Represents an entity service.
 	/// </summary>
-	/// <seealso cref="OpenIZAdmin.Services.Core.IEntityService" />
+	/// <seealso cref="IEntityService" />
 	/// <seealso cref="OpenIZAdmin.Services.Core.ImsiServiceBase" />
 	public class EntityService : ImsiServiceBase, IEntityService
 	{
@@ -595,6 +596,7 @@ namespace OpenIZAdmin.Services.Core
 
 			// remove all the relationships where I am the target entity
 			entity.Relationships.RemoveAll(r => r.TargetEntityKey == entity.Key);
+			entity.StatusConceptKey = StatusKeys.Active;
 
 			// null out the version key
 			entity.VersionKey = null;

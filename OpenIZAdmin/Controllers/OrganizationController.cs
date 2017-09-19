@@ -17,8 +17,8 @@
  * Date: 2016-7-23
  */
 
-
-using OpenIZ.Core.Model.Collection;
+using Microsoft.AspNet.Identity;
+using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
@@ -28,16 +28,15 @@ using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.EntityRelationshipModels;
 using OpenIZAdmin.Models.OrganizationModels;
+using OpenIZAdmin.Services.Entities;
+using OpenIZAdmin.Services.Entities.Organizations;
+using OpenIZAdmin.Services.Metadata.Concepts;
+using OpenIZAdmin.Services.Security.Users;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using OpenIZAdmin.Core.Extensions;
-using OpenIZ.Core.Model;
-using OpenIZAdmin.Services.Core;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -45,19 +44,40 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing organizations.
 	/// </summary>
 	[TokenAuthorize(Constants.UnrestrictedMetadata)]
-	public class OrganizationController : EntityBaseController
+	public class OrganizationController : Controller
 	{
+		/// <summary>
+		/// The concept service.
+		/// </summary>
+		private readonly IConceptService conceptService;
+
 		/// <summary>
 		/// The entity service.
 		/// </summary>
-		private IEntityService entityService;
+		private readonly IEntityService entityService;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="OrganizationController"/> class.
+		/// The organization concept service.
 		/// </summary>
-		public OrganizationController(IEntityService entityService)
+		private readonly IOrganizationConceptService organizationConceptService;
+
+		/// <summary>
+		/// The user service.
+		/// </summary>
+		private readonly IUserService userService;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="OrganizationController" /> class.
+		/// </summary>
+		/// <param name="conceptService">The concept service.</param>
+		/// <param name="entityService">The entity service.</param>
+		/// <param name="organizationConceptService">The organization concept service.</param>
+		public OrganizationController(IConceptService conceptService, IEntityService entityService, IOrganizationConceptService organizationConceptService, IUserService userService)
 		{
+			this.conceptService = conceptService;
 			this.entityService = entityService;
+			this.organizationConceptService = organizationConceptService;
+			this.userService = userService;
 		}
 
 		/// <summary>
@@ -70,7 +90,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var organization = this.GetEntity<Organization>(id, null);
+				var organization = this.entityService.Get<Organization>(id);
 
 				if (organization == null)
 				{
@@ -78,11 +98,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Edit", new { id = id, versionId = versionId });
 				}
 
-				organization.CreationTime = DateTimeOffset.Now;
-				organization.StatusConceptKey = StatusKeys.Active;
-				organization.VersionKey = null;
-
-				var updatedOrganization = this.ImsiClient.Update(organization);
+				var updatedOrganization = this.entityService.Update(organization);
 
 				this.TempData["success"] = Locale.OrganizationActivatedSuccessfully;
 
@@ -90,7 +106,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to activate organization: { e }");
 			}
 
@@ -106,12 +121,16 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Create()
 		{
-			var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
+			var model = new CreateOrganizationModel();
 
-			var model = new CreateOrganizationModel
+			try
 			{
-				IndustryConcepts = industryConceptSet.Concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList()
-			};
+				model.IndustryConcepts = organizationConceptService.GetIndustryConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to load industry concepts: {e}");
+			}
 
 			return View(model);
 		}
@@ -133,7 +152,7 @@ namespace OpenIZAdmin.Controllers
 
 					organizationToCreate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
 
-					var organization = this.ImsiClient.Create(organizationToCreate);
+					var organization = this.entityService.Create(organizationToCreate);
 
 					TempData["success"] = Locale.OrganizationCreatedSuccessfully;
 
@@ -142,13 +161,12 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to create organization: { e }");
 			}
 
-			var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
+			var industryConceptSet = this.organizationConceptService.GetIndustryConcepts();
 
-			model.IndustryConcepts = industryConceptSet.Concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == Guid.Parse(model.IndustryConcept)).ToList();
+			model.IndustryConcepts = industryConceptSet.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == Guid.Parse(model.IndustryConcept)).ToList();
 
 			TempData["error"] = Locale.UnableToCreateOrganization;
 
@@ -165,7 +183,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var organization = this.GetEntity<Organization>(id);
+				var organization = this.entityService.Get<Organization>(id);
 
 				if (organization == null)
 				{
@@ -176,7 +194,7 @@ namespace OpenIZAdmin.Controllers
 
 				var relationships = new List<EntityRelationship>();
 
-				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => (r.RelationshipTypeKey == EntityRelationshipTypeKeys.Instance || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct) && r.ObsoleteVersionSequenceId == null).ToList());
+				relationships.AddRange(this.entityService.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => (r.RelationshipTypeKey == EntityRelationshipTypeKeys.Instance || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct) && r.ObsoleteVersionSequenceId == null).ToList());
 
 				organization.Relationships = relationships.Intersect(organization.Relationships, new EntityRelationshipComparer()).ToList();
 
@@ -187,8 +205,8 @@ namespace OpenIZAdmin.Controllers
 
 				var concepts = new List<Concept>
 				{
-					this.GetConcept(EntityRelationshipTypeKeys.Instance),
-					this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct)
+					this.conceptService.GetConcept(EntityRelationshipTypeKeys.Instance),
+					this.conceptService.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct)
 				};
 
 				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()));
@@ -197,7 +215,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to create related place: { e }");
 			}
 
@@ -219,7 +236,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (this.ModelState.IsValid)
 				{
-					var organization = this.GetEntity<Organization>(model.SourceId);
+					var organization = this.entityService.Get<Organization>(model.SourceId);
 
 					if (organization == null)
 					{
@@ -230,7 +247,7 @@ namespace OpenIZAdmin.Controllers
 					organization.Relationships.RemoveAll(r => r.TargetEntityKey == Guid.Parse(model.TargetId) && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
 					organization.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), Guid.Parse(model.TargetId)) { EffectiveVersionSequenceId = organization.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
 
-					this.UpdateEntity<Organization>(organization);
+					this.entityService.Update(organization);
 
 					this.TempData["success"] = Locale.RelatedManufacturedMaterialCreatedSuccessfully;
 
@@ -239,14 +256,13 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to create related manufactured material: { e }");
 			}
 
 			var concepts = new List<Concept>
 			{
-				this.GetConcept(EntityRelationshipTypeKeys.Instance),
-				this.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct)
+				this.conceptService.GetConcept(EntityRelationshipTypeKeys.Instance),
+				this.conceptService.GetConcept(EntityRelationshipTypeKeys.ManufacturedProduct)
 			};
 
 			model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()));
@@ -267,7 +283,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var organization = this.GetEntity<Organization>(id);
+				var organization = this.entityService.Get<Organization>(id);
 
 				if (organization == null)
 				{
@@ -276,7 +292,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				this.ImsiClient.Obsolete<Organization>(organization);
+				this.entityService.Obsolete(organization);
 
 				this.TempData["success"] = Locale.OrganizationDeactivatedSuccessfully;
 
@@ -303,7 +319,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var organization = this.GetEntity<Organization>(id);
+				var organization = this.entityService.Get<Organization>(id);
 
 				if (organization == null)
 				{
@@ -335,12 +351,12 @@ namespace OpenIZAdmin.Controllers
 
 				organization.Relationships = relationships;
 
-				var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
+				var industryConceptSet = this.organizationConceptService.GetIndustryConcepts();
 
 				var model = new EditOrganizationModel(organization)
 				{
-					IndustryConcepts = industryConceptSet?.Concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList(),
-					UpdatedBy = this.GetUserEntityBySecurityUserKey(organization.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
+					IndustryConcepts = industryConceptSet?.ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList(),
+					UpdatedBy = this.userService.GetUserEntityBySecurityUserKey(organization.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
 				};
 
 				return View(model);
@@ -367,7 +383,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (ModelState.IsValid)
 				{
-					var organization = this.GetEntity<Organization>(model.Id, model.VersionKey, m => m.ClassConceptKey == EntityClassKeys.Organization && m.ObsoletionTime == null);
+					var organization = this.entityService.Get<Organization>(model.Id, model.VersionKey, m => m.ClassConceptKey == EntityClassKeys.Organization && m.ObsoletionTime == null);
 
 					if (organization == null)
 					{
@@ -380,7 +396,7 @@ namespace OpenIZAdmin.Controllers
 
 					organizationToUpdate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
 
-					var updatedOrganization = this.ImsiClient.Update<Organization>(organizationToUpdate);
+					var updatedOrganization = this.entityService.Update(organizationToUpdate);
 
 					TempData["success"] = Locale.OrganizationUpdatedSuccessfully;
 
@@ -392,9 +408,9 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to update organization: {e}");
 			}
 
-			var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
+			var industryConceptSet = this.organizationConceptService.GetIndustryConcepts();
 
-			model.IndustryConcepts = industryConceptSet?.Concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
+			model.IndustryConcepts = industryConceptSet?.ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
 
 			TempData["error"] = Locale.UnableToUpdateOrganization;
 
@@ -409,8 +425,8 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Organization";
-            TempData["searchTerm"] = "*";
-            return View();
+			TempData["searchTerm"] = "*";
+			return View();
 		}
 
 		/// <summary>
@@ -422,36 +438,18 @@ namespace OpenIZAdmin.Controllers
 		[ValidateInput(false)]
 		public ActionResult Search(string searchTerm)
 		{
-			IEnumerable<OrganizationViewModel> results = new List<OrganizationViewModel>();
+			var results = new List<OrganizationViewModel>();
 
-			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+			try
 			{
-				Bundle bundle;
-
-				Expression<Func<Organization, bool>> nameExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)));
-
-				if (searchTerm == "*")
+				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 				{
-					bundle = this.ImsiClient.Query<Organization>(p => p.ClassConceptKey == EntityClassKeys.Organization);
-
-					foreach (var organization in bundle.Item.OfType<Organization>().LatestVersionOnly())
-					{
-						organization.TypeConcept = this.GetTypeConcept(organization);
-					}
-
-					results = bundle.Item.OfType<Organization>().LatestVersionOnly().Select(p => new OrganizationViewModel(p)).OrderBy(p => p.Name).ToList();
+					results = entityService.Search<Organization>(searchTerm).Select(p => new OrganizationViewModel(p)).OrderBy(p => p.Name).ToList();
 				}
-				else
-				{
-					bundle = this.ImsiClient.Query<Organization>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Organization);
-
-					foreach (var organization in bundle.Item.OfType<Organization>().LatestVersionOnly())
-					{
-						organization.TypeConcept = this.GetTypeConcept(organization);
-					}
-
-					results = bundle.Item.OfType<Organization>().Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new OrganizationViewModel(p)).OrderBy(p => p.Name).ToList();
-				}
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to search for organization: {e}");
 			}
 
 			TempData["searchTerm"] = searchTerm;
@@ -470,7 +468,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var organization = this.GetEntity<Organization>(id);
+				var organization = this.entityService.Get<Organization>(id);
 
 				if (organization == null)
 				{
@@ -498,14 +496,13 @@ namespace OpenIZAdmin.Controllers
 
 				var viewModel = new OrganizationViewModel(organization)
 				{
-					UpdatedBy = this.GetUserEntityBySecurityUserKey(organization.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
+					UpdatedBy = this.userService.GetUserEntityBySecurityUserKey(organization.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
 				};
 
 				return View(viewModel);
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to retrieve organization: { e }");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}

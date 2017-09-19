@@ -17,35 +17,26 @@
  * Date: 2016-7-23
  */
 
-using OpenIZ.Core.Model.Collection;
+using Microsoft.AspNet.Identity;
+using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Comparer;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.EntityRelationshipModels;
 using OpenIZAdmin.Models.MaterialModels;
+using OpenIZAdmin.Services.Entities;
+using OpenIZAdmin.Services.Entities.Materials;
+using OpenIZAdmin.Services.Metadata.Concepts;
+using OpenIZAdmin.Services.Security.Users;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Linq.Expressions;
-using System.Runtime.Caching;
 using System.Web.Mvc;
-using MARC.HI.EHRS.SVC.Auditing.Data;
-using Microsoft.AspNet.Identity;
-using OpenIZ.Core.Model;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Comparer;
-using OpenIZAdmin.Core.Auditing.Entities;
-using OpenIZAdmin.Core.Extensions;
-using OpenIZAdmin.Models.EntityRelationshipModels;
-using OpenIZAdmin.Services.Core;
-using OpenIZAdmin.Services.Entities;
-using OpenIZAdmin.Services.Entities.Materials;
-using OpenIZAdmin.Services.Security;
-using OpenIZAdmin.Services.Metadata;
-using OpenIZAdmin.Services.Metadata.Concepts;
-using OpenIZAdmin.Services.Security.Users;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -85,7 +76,6 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		public MaterialController()
 		{
-			
 		}
 
 		/// <summary>
@@ -135,65 +125,6 @@ namespace OpenIZAdmin.Controllers
 			this.TempData["error"] = Locale.UnableToActivateMaterial;
 
 			return RedirectToAction("Edit", new { id = id, versionId = versionId });
-		}
-
-		/// <summary>
-		/// Builds the material select list.
-		/// </summary>
-		/// <param name="material">The material.</param>
-		/// <returns>Returns a select list of material values to use to associate materials to each other.</returns>
-		private List<SelectListItem> BuildMaterialSelectList(Material material)
-		{
-			var selectList = new List<SelectListItem>
-			{
-				new SelectListItem
-				{
-					Text = string.Empty,
-					Value = string.Empty
-				}
-			};
-
-			var filterIds = new List<Guid>
-			{
-				material.Key.Value
-			};
-
-			filterIds.AddRange(material.Relationships.Select(r => r.TargetEntityKey.Value).ToArray());
-
-			var materials = this.GetMaterials(filterIds.ToArray());
-
-			foreach (var item in materials)
-			{
-				var selectListItem = new SelectListItem
-				{
-					Value = item.Key.ToString()
-				};
-
-				Guid? nameUseKey = null;
-
-				if (item.Names?.Any(n => n.NameUseKey == NameUseKeys.Assigned) == true)
-				{
-					nameUseKey = NameUseKeys.Assigned;
-				}
-				else if (item.Names?.Any(n => n.NameUseKey == NameUseKeys.OfficialRecord) == true)
-				{
-					nameUseKey = NameUseKeys.OfficialRecord;
-				}
-				else
-				{
-					// get the first name component value
-					selectListItem.Text = item.Names?.FirstOrDefault()?.Component?.FirstOrDefault()?.Value;
-				}
-
-				if (nameUseKey != null)
-				{
-					selectListItem.Text = item.Names.First(n => n.NameUseKey == nameUseKey).Component.FirstOrDefault()?.Value;
-				}
-
-				selectList.Add(selectListItem);
-			}
-
-			return selectList.OrderBy(t => t.Text).ToList();
 		}
 
 		/// <summary>
@@ -597,6 +528,53 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Edit for material.
+		/// </summary>
+		/// <param name="model">The model containing the information of the edit material.</param>
+		/// <returns>Returns the edit for a material.</returns>
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Edit(EditMaterialModel model)
+		{
+			try
+			{
+				if (ModelState.IsValid)
+				{
+					var material = this.entityService.Get<Material>(model.Id, model.VersionKey, m => m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null);
+
+					if (material == null)
+					{
+						TempData["error"] = Locale.MaterialNotFound;
+
+						return RedirectToAction("Index");
+					}
+
+					var materialToUpdate = model.ToMaterial(material);
+
+					materialToUpdate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
+
+					var updatedEntity = this.entityService.Update(materialToUpdate);
+
+					TempData["success"] = Locale.MaterialUpdatedSuccessfully;
+
+					return RedirectToAction("ViewMaterial", new { id = updatedEntity.Key, versionId = updatedEntity.VersionKey });
+				}
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to update material: {e}");
+			}
+			finally
+			{
+				MvcApplication.MemoryCache.Remove(model.Id.ToString());
+			}
+
+			TempData["error"] = Locale.UnableToUpdateMaterial;
+
+			return View(model);
+		}
+
+		/// <summary>
 		/// Edits the related manufactured material.
 		/// </summary>
 		/// <param name="id">The identifier.</param>
@@ -681,77 +659,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Gets the materials.
-		/// </summary>
-		/// <param name="filterIds">The filter ids.</param>
-		/// <returns>Returns a list of materials.</returns>
-		private IEnumerable<Material> GetMaterials(params Guid[] filterIds)
-		{
-			var materials = MvcApplication.MemoryCache.Get(MaterialsCacheKey) as IEnumerable<Material>;
-
-			if (materials == null)
-			{
-				materials = this.entityService.Query<Material>(r => r.ClassConceptKey == EntityClassKeys.Material && r.StatusConceptKey == StatusKeys.Active && r.ObsoletionTime == null);
-
-				MvcApplication.MemoryCache.Set(MaterialsCacheKey, materials, MvcApplication.CacheItemPolicy);
-			}
-
-			if (filterIds.Any())
-			{
-				materials = materials.Where(m => !filterIds.Any(f => f == m.Key));
-			}
-
-			return materials;
-		}
-
-		/// <summary>
-		/// Edit for material.
-		/// </summary>
-		/// <param name="model">The model containing the information of the edit material.</param>
-		/// <returns>Returns the edit for a material.</returns>
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public ActionResult Edit(EditMaterialModel model)
-		{
-			try
-			{
-				if (ModelState.IsValid)
-				{
-					var material = this.entityService.Get<Material>(model.Id, model.VersionKey, m => m.ClassConceptKey == EntityClassKeys.Material && m.ObsoletionTime == null);
-
-					if (material == null)
-					{
-						TempData["error"] = Locale.MaterialNotFound;
-
-						return RedirectToAction("Index");
-					}
-
-					var materialToUpdate = model.ToMaterial(material);
-
-					materialToUpdate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
-
-					var updatedEntity = this.entityService.Update(materialToUpdate);
-
-					TempData["success"] = Locale.MaterialUpdatedSuccessfully;
-
-					return RedirectToAction("ViewMaterial", new {id = updatedEntity.Key, versionId = updatedEntity.VersionKey});
-				}
-			}
-			catch (Exception e)
-			{
-				Trace.TraceError($"Unable to update material: {e}");
-			}
-			finally
-			{
-				MvcApplication.MemoryCache.Remove(model.Id.ToString());
-			}
-
-			TempData["error"] = Locale.UnableToUpdateMaterial;
-
-			return View(model);
-		}
-
-		/// <summary>
 		/// Displays the index view.
 		/// </summary>
 		/// <returns>Returns the index view.</returns>
@@ -759,8 +666,8 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Material";
-            TempData["searchTerm"] = "*";
-            return View();
+			TempData["searchTerm"] = "*";
+			return View();
 		}
 
 		/// <summary>
@@ -780,7 +687,6 @@ namespace OpenIZAdmin.Controllers
 				{
 					results = entityService.Search<Material>(searchTerm).Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name).ToList();
 				}
-
 			}
 			catch (Exception e)
 			{
@@ -805,7 +711,7 @@ namespace OpenIZAdmin.Controllers
 			if (ModelState.IsValid)
 			{
 				var materials = this.entityService.Query<Material>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.StatusConceptKey == StatusKeys.Active && p.ClassConceptKey == EntityClassKeys.Material, 0, null, false);
-				
+
 				viewModels.AddRange(materials.Select(p => new MaterialViewModel(p)).OrderBy(p => p.Name));
 			}
 
@@ -867,6 +773,89 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			return RedirectToAction("Index");
+		}
+
+		/// <summary>
+		/// Builds the material select list.
+		/// </summary>
+		/// <param name="material">The material.</param>
+		/// <returns>Returns a select list of material values to use to associate materials to each other.</returns>
+		private List<SelectListItem> BuildMaterialSelectList(Material material)
+		{
+			var selectList = new List<SelectListItem>
+			{
+				new SelectListItem
+				{
+					Text = string.Empty,
+					Value = string.Empty
+				}
+			};
+
+			var filterIds = new List<Guid>
+			{
+				material.Key.Value
+			};
+
+			filterIds.AddRange(material.Relationships.Select(r => r.TargetEntityKey.Value).ToArray());
+
+			var materials = this.GetMaterials(filterIds.ToArray());
+
+			foreach (var item in materials)
+			{
+				var selectListItem = new SelectListItem
+				{
+					Value = item.Key.ToString()
+				};
+
+				Guid? nameUseKey = null;
+
+				if (item.Names?.Any(n => n.NameUseKey == NameUseKeys.Assigned) == true)
+				{
+					nameUseKey = NameUseKeys.Assigned;
+				}
+				else if (item.Names?.Any(n => n.NameUseKey == NameUseKeys.OfficialRecord) == true)
+				{
+					nameUseKey = NameUseKeys.OfficialRecord;
+				}
+				else
+				{
+					// get the first name component value
+					selectListItem.Text = item.Names?.FirstOrDefault()?.Component?.FirstOrDefault()?.Value;
+				}
+
+				if (nameUseKey != null)
+				{
+					selectListItem.Text = item.Names.First(n => n.NameUseKey == nameUseKey).Component.FirstOrDefault()?.Value;
+				}
+
+				selectList.Add(selectListItem);
+			}
+
+			return selectList.OrderBy(t => t.Text).ToList();
+		}
+
+		/// <summary>
+		/// Gets the materials.
+		/// </summary>
+		/// <param name="filterIds">The filter ids.</param>
+		/// <returns>Returns a list of materials.</returns>
+		private IEnumerable<Material> GetMaterials(params Guid[] filterIds)
+		{
+			var materials = MvcApplication.MemoryCache.Get(MaterialsCacheKey) as IEnumerable<Material>;
+
+			if (materials == null)
+			{
+				materials = this.entityService.Query<Material>(r => r.ClassConceptKey == EntityClassKeys.Material && r.StatusConceptKey == StatusKeys.Active && r.ObsoletionTime == null);
+
+				MvcApplication.MemoryCache.Set(MaterialsCacheKey, materials, MvcApplication.CacheItemPolicy);
+			}
+
+			if (filterIds.Any())
+			{
+				materials = materials.Where(m => !filterIds.Any(f => f == m.Key));
+			}
+
+			return materials;
 		}
 	}
 }

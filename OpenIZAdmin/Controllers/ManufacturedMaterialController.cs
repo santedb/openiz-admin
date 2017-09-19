@@ -25,7 +25,7 @@ using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ManufacturedMaterialModels;
-using OpenIZAdmin.Services.Core;
+using OpenIZAdmin.Services.Entities;
 using OpenIZAdmin.Services.Entities.ManufacturedMaterials;
 using OpenIZAdmin.Services.Entities.Materials;
 using OpenIZAdmin.Services.Metadata.Concepts;

@@ -45,6 +45,7 @@ using OpenIZ.Messaging.IMSI.Client;
 using OpenIZ.Core.Http;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Core;
+using OpenIZAdmin.Services.Entities;
 using OpenIZAdmin.Services.Entities.Places;
 using OpenIZAdmin.Services.EntityRelationships;
 using OpenIZAdmin.Services.Metadata;
