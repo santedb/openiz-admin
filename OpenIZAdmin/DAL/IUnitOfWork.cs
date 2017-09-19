@@ -36,7 +36,7 @@ namespace OpenIZAdmin.DAL
 		/// <value>The manual repository.</value>
 		IRepository<Manual> ManualRepository { get; }
 
-			/// <summary>
+		/// <summary>
 		/// The repository for accessing realms.
 		/// </summary>
 		IRepository<Realm> RealmRepository { get; }

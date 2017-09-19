@@ -19,24 +19,22 @@
 
 using MARC.HI.EHRS.SVC.Auditing.Data;
 using OpenIZ.Core.Model;
+using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Core.Auditing.Core;
 using OpenIZAdmin.Core.Auditing.Entities;
-using OpenIZAdmin.Services.Entities;
+using OpenIZAdmin.Core.Extensions;
+using OpenIZAdmin.Localization;
+using OpenIZAdmin.Services.Metadata.Concepts;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using OpenIZ.Core.Model.Collection;
-using OpenIZAdmin.Core.Extensions;
-using OpenIZAdmin.Services.Metadata;
-using System.Diagnostics;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Services.Metadata.Concepts;
 
 namespace OpenIZAdmin.Services.Core
 {
@@ -126,7 +124,7 @@ namespace OpenIZAdmin.Services.Core
 			{
 				var createMethod = this.Client.GetType().GetRuntimeMethods().First(m => m.Name == "Create" && m.ContainsGenericParameters && m.GetParameters().Count() == 1).MakeGenericMethod(entity.GetType());
 
-                created = createMethod.Invoke(this.Client, new object[] { entity }) as Entity;
+				created = createMethod.Invoke(this.Client, new object[] { entity }) as Entity;
 
 				this.entityAuditService.AuditCreateEntity(OutcomeIndicator.Success, created);
 			}
@@ -337,6 +335,7 @@ namespace OpenIZAdmin.Services.Core
 				case "manufacturedmaterial":
 					modelType = typeof(ManufacturedMaterial);
 					break;
+
 				case "material":
 					modelType = typeof(Material);
 					break;
@@ -385,7 +384,7 @@ namespace OpenIZAdmin.Services.Core
 			}
 			catch (Exception e)
 			{
-                Trace.TraceError(e.ToString());
+				Trace.TraceError(e.ToString());
 				this.coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, entityAuditService.DeleteEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
 				throw;
 			}

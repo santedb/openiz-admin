@@ -19,7 +19,6 @@
 
 using MARC.HI.EHRS.SVC.Auditing.Data;
 using OpenIZAdmin.Core.Auditing.Model;
-using OpenIZAdmin.Localization;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

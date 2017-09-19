@@ -17,12 +17,12 @@
  * Date: 2016-7-10
  */
 
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using Newtonsoft.Json.Linq;
 using OpenIZAdmin.Models.Domain;
+using OpenIZAdmin.Security;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -32,8 +32,6 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNet.Identity;
-using OpenIZAdmin.Security;
 
 namespace OpenIZAdmin.DAL
 {
@@ -58,16 +56,6 @@ namespace OpenIZAdmin.DAL
 		/// Gets the access token.
 		/// </summary>
 		public string AccessToken { get; private set; }
-
-		/// <summary>
-		/// Creates a user identity.
-		/// </summary>
-		/// <param name="user">The user for which to create the identity from.</param>
-		/// <returns>Returns the newly created user identity.</returns>
-		public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
-		{
-			return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
-		}
 
 		/// <summary>
 		/// Creates an instance of the <see cref="OpenIZAdmin.DAL.ApplicationSignInManager"/> class.
@@ -130,6 +118,58 @@ namespace OpenIZAdmin.DAL
 		}
 
 		/// <summary>
+		/// Creates a user identity.
+		/// </summary>
+		/// <param name="user">The user for which to create the identity from.</param>
+		/// <returns>Returns the newly created user identity.</returns>
+		public override Task<ClaimsIdentity> CreateUserIdentityAsync(ApplicationUser user)
+		{
+			return user.GenerateUserIdentityAsync((ApplicationUserManager)UserManager);
+		}
+
+		/// <summary>
+		/// Signs in a user using a username and password.
+		/// </summary>
+		/// <param name="userName">The username of the user.</param>
+		/// <param name="password">The password of the user.</param>
+		/// <param name="isPersistent">Whether the user session is persistent.</param>
+		/// <param name="shouldLockout">Whether the user should be locked out.</param>
+		/// <returns>Returns a sign in status.</returns>
+		public override async Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
+		{
+			var currentRealm = RealmConfig.GetCurrentRealm();
+
+			if (currentRealm == null)
+			{
+				throw new InvalidOperationException("Must be joined to realm before attempting to sign in");
+			}
+
+			using (var client = new HttpClient())
+			{
+				client.DefaultRequestHeaders.Add("Authorization", "BASIC " + Convert.ToBase64String(Encoding.UTF8.GetBytes(currentRealm.ApplicationId + ":" + currentRealm.ApplicationSecret)));
+
+				var content = new StringContent($"grant_type=password&username={userName}&password={password}&scope={currentRealm.Address}/imsi");
+
+				// HACK: have to remove the headers before adding them...
+				content.Headers.Remove("Content-Type");
+				content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
+
+				Trace.TraceInformation("Begin authentication for {0}", userName);
+				var result = await client.PostAsync($"{currentRealm.Address}/auth/oauth2_token", content);
+
+				if (result.IsSuccessStatusCode)
+				{
+					return await this.SignInAsync(result, userName);
+				}
+				else
+				{
+					Trace.TraceWarning("Cannot login: {0}", await result.Content.ReadAsStringAsync());
+					return SignInStatus.Failure;
+				}
+			}
+		}
+
+		/// <summary>
 		/// Tfas the sign in asynchronous.
 		/// </summary>
 		/// <param name="username">The username.</param>
@@ -169,48 +209,6 @@ namespace OpenIZAdmin.DAL
 				}
 
 				return SignInStatus.Failure;
-			}
-		}
-
-		/// <summary>
-		/// Signs in a user using a username and password.
-		/// </summary>
-		/// <param name="userName">The username of the user.</param>
-		/// <param name="password">The password of the user.</param>
-		/// <param name="isPersistent">Whether the user session is persistent.</param>
-		/// <param name="shouldLockout">Whether the user should be locked out.</param>
-		/// <returns>Returns a sign in status.</returns>
-		public override async Task<SignInStatus> PasswordSignInAsync(string userName, string password, bool isPersistent, bool shouldLockout)
-		{
-			var currentRealm = RealmConfig.GetCurrentRealm();
-
-			if (currentRealm == null)
-			{
-				throw new InvalidOperationException("Must be joined to realm before attempting to sign in");
-			}
-
-			using (var client = new HttpClient())
-			{
-				client.DefaultRequestHeaders.Add("Authorization", "BASIC " + Convert.ToBase64String(Encoding.UTF8.GetBytes(currentRealm.ApplicationId + ":" + currentRealm.ApplicationSecret)));
-
-				var content = new StringContent($"grant_type=password&username={userName}&password={password}&scope={currentRealm.Address}/imsi");
-
-				// HACK: have to remove the headers before adding them...
-				content.Headers.Remove("Content-Type");
-				content.Headers.Add("Content-Type", "application/x-www-form-urlencoded");
-
-                Trace.TraceInformation("Begin authentication for {0}", userName);
-				var result = await client.PostAsync($"{currentRealm.Address}/auth/oauth2_token", content);
-
-				if (result.IsSuccessStatusCode)
-				{
-					return await this.SignInAsync(result, userName);
-				}
-				else
-				{
-                    Trace.TraceWarning("Cannot login: {0}", await result.Content.ReadAsStringAsync());
-					return SignInStatus.Failure;
-				}
 			}
 		}
 

@@ -18,8 +18,6 @@
  */
 
 using OpenIZAdmin.Models.Domain;
-using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 
 namespace OpenIZAdmin.DAL
@@ -144,6 +142,18 @@ namespace OpenIZAdmin.DAL
 
 		private bool disposedValue = false; // To detect redundant calls
 
+		// This code added to correctly implement the disposable pattern.
+		/// <summary>
+		/// Dispose of any managed resources.
+		/// </summary>
+		public void Dispose()
+		{
+			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+			Dispose(true);
+			// TODO: uncomment the following line if the finalizer is overridden above.
+			// GC.SuppressFinalize(this);
+		}
+
 		/// <summary>
 		/// Dispose of any managed resources.
 		/// </summary>
@@ -169,18 +179,6 @@ namespace OpenIZAdmin.DAL
 		//   // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
 		//   Dispose(false);
 		// }
-
-		// This code added to correctly implement the disposable pattern.
-		/// <summary>
-		/// Dispose of any managed resources.
-		/// </summary>
-		public void Dispose()
-		{
-			// Do not change this code. Put cleanup code in Dispose(bool disposing) above.
-			Dispose(true);
-			// TODO: uncomment the following line if the finalizer is overridden above.
-			// GC.SuppressFinalize(this);
-		}
 
 		#endregion IDisposable Support
 	}

@@ -18,10 +18,10 @@
  */
 
 using OpenIZ.Core.Http.Description;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Serialization;
-using System;
 
 namespace OpenIZAdmin.Services.Http
 {
@@ -40,25 +40,29 @@ namespace OpenIZAdmin.Services.Http
 		}
 
 		/// <summary>
-		/// The endpoints of the client.
-		/// </summary>
-		/// <value>The endpoint.</value>
-		[XmlElement("endpoints")]
-		public List<ServiceClientEndpoint> Endpoint { get; set; }
-
-		/// <summary>
-		/// Gets or sets the name of the service client.
-		/// </summary>
-		/// <value>The name.</value>
-		[XmlAttribute("name")]
-		public string Name { get; set; }
-
-		/// <summary>
 		/// Gets or sets the binding for the service client.
 		/// </summary>
 		/// <value>The binding.</value>
 		[XmlElement("binding")]
 		public ServiceClientBinding Binding { get; set; }
+
+		/// <summary>
+		/// Gets the binding for the service client configuration.
+		/// </summary>
+		IRestClientBindingDescription IRestClientDescription.Binding
+		{
+			get
+			{
+				return this.Binding;
+			}
+		}
+
+		/// <summary>
+		/// The endpoints of the client.
+		/// </summary>
+		/// <value>The endpoint.</value>
+		[XmlElement("endpoints")]
+		public List<ServiceClientEndpoint> Endpoint { get; set; }
 
 		/// <summary>
 		/// Gets the endpoints for the service client configuration.
@@ -72,25 +76,21 @@ namespace OpenIZAdmin.Services.Http
 		}
 
 		/// <summary>
-		/// Gets the binding for the service client configuration.
+		/// Gets or sets the name of the service client.
 		/// </summary>
-		IRestClientBindingDescription IRestClientDescription.Binding
+		/// <value>The name.</value>
+		[XmlAttribute("name")]
+		public string Name { get; set; }
+
+		/// <summary>
+		/// Gets the trace property
+		/// </summary>
+		public bool Trace
 		{
 			get
 			{
-				return this.Binding;
+				throw new NotImplementedException();
 			}
 		}
-
-        /// <summary>
-		/// Gets the trace property
-		/// </summary>
-        public bool Trace
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
-    }
+	}
 }

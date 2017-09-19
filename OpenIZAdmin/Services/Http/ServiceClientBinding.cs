@@ -39,6 +39,13 @@ namespace OpenIZAdmin.Services.Http
 		}
 
 		/// <summary>
+		/// Content type mapper
+		/// </summary>
+		/// <value>The content type mapper.</value>
+		[XmlIgnore]
+		public IContentTypeMapper ContentTypeMapper { get; set; }
+
+		/// <summary>
 		/// Gets or sets the type which dictates how a body maps to an object.
 		/// </summary>
 		/// <value>The serialization binder type XML.</value>
@@ -56,11 +63,11 @@ namespace OpenIZAdmin.Services.Http
 		}
 
 		/// <summary>
-		/// Content type mapper
+		/// Gets or sets a value indicating whether this <see cref="ServiceClientBinding"/> is optimized.
 		/// </summary>
-		/// <value>The content type mapper.</value>
-		[XmlIgnore]
-		public IContentTypeMapper ContentTypeMapper { get; set; }
+		/// <value><c>true</c> if optimize; otherwise, <c>false</c>.</value>
+		[XmlElement("optimize")]
+		public bool Optimize { get; set; }
 
 		/// <summary>
 		/// Gets or sets the security configuration
@@ -68,13 +75,6 @@ namespace OpenIZAdmin.Services.Http
 		/// <value>The security.</value>
 		[XmlElement("security")]
 		public ServiceClientSecurity Security { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="ServiceClientBinding"/> is optimized.
-		/// </summary>
-		/// <value><c>true</c> if optimize; otherwise, <c>false</c>.</value>
-		[XmlElement("optimize")]
-		public bool Optimize { get; set; }
 
 		/// <summary>
 		/// Gets the security description

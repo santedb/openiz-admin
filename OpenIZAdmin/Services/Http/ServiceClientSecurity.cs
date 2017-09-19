@@ -31,6 +31,20 @@ namespace OpenIZAdmin.Services.Http
 	public class ServiceClientSecurity : IRestClientSecurityDescription
 	{
 		/// <summary>
+		/// Gets or sets the authentication realm this client should verify
+		/// </summary>
+		/// <value>The auth realm.</value>
+		[XmlAttribute("realm")]
+		public string AuthRealm { get; set; }
+
+		/// <summary>
+		/// Gets or sets the certificate validator.
+		/// </summary>
+		/// <value>The certificate validator.</value>
+		[XmlIgnore]
+		public ICertificateValidator CertificateValidator { get; set; }
+
+		/// <summary>
 		/// Gets or sets the ICertificateValidator interface which should be called to validate
 		/// certificates
 		/// </summary>
@@ -49,11 +63,28 @@ namespace OpenIZAdmin.Services.Http
 		}
 
 		/// <summary>
-		/// Gets or sets the certificate validator.
+		/// Gets the thumbprint the device should use for authentication
 		/// </summary>
-		/// <value>The certificate validator.</value>
+		[XmlElement("certificate")]
+		public ServiceCertificateConfiguration ClientCertificate { get; set; }
+
+		/// <summary>
+		/// Gets the certificate.
+		/// </summary>
+		IRestClientCertificateDescription IRestClientSecurityDescription.ClientCertificate
+		{
+			get
+			{
+				return this.ClientCertificate;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the credential provider.
+		/// </summary>
+		/// <value>The credential provider.</value>
 		[XmlIgnore]
-		public ICertificateValidator CertificateValidator { get; set; }
+		public ICredentialProvider CredentialProvider { get; set; }
 
 		/// <summary>
 		/// Gets or sets the ICredentialProvider
@@ -78,37 +109,6 @@ namespace OpenIZAdmin.Services.Http
 		/// <value>The mode.</value>
 		[XmlAttribute("mode")]
 		public SecurityScheme Mode { get; set; }
-
-		/// <summary>
-		/// Gets or sets the credential provider.
-		/// </summary>
-		/// <value>The credential provider.</value>
-		[XmlIgnore]
-		public ICredentialProvider CredentialProvider { get; set; }
-
-		/// <summary>
-		/// Gets the thumbprint the device should use for authentication
-		/// </summary>
-		[XmlElement("certificate")]
-		public ServiceCertificateConfiguration ClientCertificate { get; set; }
-
-		/// <summary>
-		/// Gets or sets the authentication realm this client should verify
-		/// </summary>
-		/// <value>The auth realm.</value>
-		[XmlAttribute("realm")]
-		public string AuthRealm { get; set; }
-
-		/// <summary>
-		/// Gets the certificate.
-		/// </summary>
-		IRestClientCertificateDescription IRestClientSecurityDescription.ClientCertificate
-		{
-			get
-			{
-				return this.ClientCertificate;
-			}
-		}
 
 		/// <summary>
 		/// Gets or sets the preemptive authentication

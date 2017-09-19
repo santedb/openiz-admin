@@ -19,13 +19,10 @@
 
 using Newtonsoft.Json;
 using OpenIZ.Core.Http.Description;
-using OpenIZAdmin.DAL;
-using OpenIZAdmin.Models.Domain;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
-using System.Linq;
 using System.Xml.Serialization;
 
 namespace OpenIZAdmin.Services.Http.Configuration
@@ -45,6 +42,13 @@ namespace OpenIZAdmin.Services.Http.Configuration
 		}
 
 		/// <summary>
+		/// Represents a service client
+		/// </summary>
+		/// <value>The client.</value>
+		[XmlElement("clients")]
+		public List<ServiceClientDescription> Clients { get; set; }
+
+		/// <summary>
 		/// Gets or sets the proxy address.
 		/// </summary>
 		/// <value>The proxy address.</value>
@@ -52,11 +56,11 @@ namespace OpenIZAdmin.Services.Http.Configuration
 		public String ProxyAddress { get; set; }
 
 		/// <summary>
-		/// Represents a service client
+		/// Gets or sets the rest client implementation
 		/// </summary>
-		/// <value>The client.</value>
-		[XmlElement("clients")]
-		public List<ServiceClientDescription> Clients { get; set; }
+		/// <value>The type of the rest client.</value>
+		[XmlIgnore]
+		public Type RestClientType { get; set; }
 
 		/// <summary>
 		/// Gets or sets the type which is to be used for rest clients
@@ -74,13 +78,6 @@ namespace OpenIZAdmin.Services.Http.Configuration
 				this.RestClientType = Type.GetType(value);
 			}
 		}
-
-		/// <summary>
-		/// Gets or sets the rest client implementation
-		/// </summary>
-		/// <value>The type of the rest client.</value>
-		[XmlIgnore]
-		public Type RestClientType { get; set; }
 
 		/// <summary>
 		/// Converts the service client configuration section to an XML representation.

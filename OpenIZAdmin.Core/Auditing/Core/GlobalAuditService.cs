@@ -19,7 +19,6 @@
 
 using MARC.HI.EHRS.SVC.Auditing.Data;
 using OpenIZAdmin.Core.Auditing.Model;
-using System.Web;
 
 namespace OpenIZAdmin.Core.Auditing.Core
 {

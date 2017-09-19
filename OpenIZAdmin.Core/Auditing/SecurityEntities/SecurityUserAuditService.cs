@@ -21,7 +21,6 @@ using MARC.HI.EHRS.SVC.Auditing.Data;
 using OpenIZ.Core.Model.Security;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 
 namespace OpenIZAdmin.Core.Auditing.SecurityEntities
 {

@@ -17,8 +17,8 @@
  * Date: 2017-7-10
  */
 
-using System.Security.Principal;
 using MARC.HI.EHRS.SVC.Auditing.Data;
+using System.Security.Principal;
 
 namespace OpenIZAdmin.Core.Auditing.Controllers
 {
