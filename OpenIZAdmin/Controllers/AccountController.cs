@@ -17,7 +17,6 @@
  * Date: 2016-5-31
  */
 
-using MARC.HI.EHRS.SVC.Auditing.Data;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using OpenIZ.Core.Model.AMI.Auth;
@@ -26,12 +25,12 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Core.Auditing.Controllers;
 using OpenIZAdmin.DAL;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.AccountModels;
-using OpenIZAdmin.Security;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
 using System;
@@ -41,7 +40,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using OpenIZAdmin.Core.Auditing.Controllers;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -52,6 +50,11 @@ namespace OpenIZAdmin.Controllers
 	public class AccountController : BaseController
 	{
 		/// <summary>
+		/// The audit service.
+		/// </summary>
+		private readonly IAuthenticationAuditService auditService;
+
+		/// <summary>
 		/// The internal reference to the <see cref="ApplicationUserManager"/> instance.
 		/// </summary>
 		private ApplicationSignInManager signInManager;
@@ -60,11 +63,6 @@ namespace OpenIZAdmin.Controllers
 		/// The internal reference to the <see cref="ApplicationSignInManager"/> instance.
 		/// </summary>
 		private ApplicationUserManager userManager;
-
-		/// <summary>
-		/// The audit service.
-		/// </summary>
-		private readonly IAuthenticationAuditService auditService;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="AccountController"/> class.
@@ -445,7 +443,7 @@ namespace OpenIZAdmin.Controllers
 
 					var user = amiServiceClient.GetUser(model.UserId.ToString());
 
-					if (user == null || user?.User?.ObsoletionTime != null)
+					if (user == null || user.User?.ObsoletionTime != null)
 					{
 						this.TempData["error"] = Locale.UnableToResetPassword;
 						return RedirectToAction("ForgotPassword");
@@ -577,9 +575,6 @@ namespace OpenIZAdmin.Controllers
 						// only swahili is currently supported
 						case LocalizationConfig.LanguageCode.Swahili:
 							code = LocalizationConfig.LanguageCode.Swahili;
-							break;
-
-						default:
 							break;
 					}
 
