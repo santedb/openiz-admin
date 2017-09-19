@@ -564,10 +564,18 @@ namespace OpenIZAdmin.Controllers
 
 				var relationships = new List<EntityRelationship>();
 
-				relationships.AddRange(this.entityService.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity && r.ObsoleteVersionSequenceId == null).ToList());
-				relationships.AddRange(this.entityService.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Instance && r.ObsoleteVersionSequenceId == null).ToList());
+				foreach (var relationship in material.Relationships)
+				{
+					var rel = relationship;
 
-				material.Relationships = relationships.Intersect(material.Relationships, new EntityRelationshipComparer()).ToList();
+					// only load the relationships which need data to be loaded
+					if (relationship.RelationshipType == null || relationship.TargetEntity == null)
+					{
+						rel = entityService.GetEntityRelationship(relationship.Key.Value);
+					}
+
+					relationships.Add(rel);
+				}
 
 				var model = new EditMaterialModel(material)
 				{
@@ -830,10 +838,20 @@ namespace OpenIZAdmin.Controllers
 
 				var relationships = new List<EntityRelationship>();
 
-				relationships.AddRange(this.entityService.GetEntityRelationships<Material>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.UsedEntity && r.ObsoleteVersionSequenceId == null).ToList());
-				relationships.AddRange(this.entityService.GetEntityRelationships<ManufacturedMaterial>(material.Key.Value, r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Instance && r.ObsoleteVersionSequenceId == null).ToList());
+				foreach (var relationship in material.Relationships)
+				{
+					var rel = relationship;
 
-				material.Relationships = relationships.Intersect(material.Relationships, new EntityRelationshipComparer()).ToList();
+					// only load the relationships which need data to be loaded
+					if (relationship.RelationshipType == null || relationship.TargetEntity == null)
+					{
+						rel = entityService.GetEntityRelationship(relationship.Key.Value);
+					}
+
+					relationships.Add(rel);
+				}
+
+				material.Relationships = relationships;
 
 				var viewModel = new MaterialViewModel(material)
 				{

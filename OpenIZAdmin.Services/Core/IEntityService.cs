@@ -84,6 +84,13 @@ namespace OpenIZAdmin.Services.Core
 		T Get<T>(Guid key, Guid? versionKey, Expression<Func<T, bool>> expression) where T : Entity;
 
 		/// <summary>
+		/// Gets the entity relationship.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Returns the entity relationship for the given key or null if no entity relationship is found.</returns>
+		EntityRelationship GetEntityRelationship(Guid key);
+
+		/// <summary>
 		/// Gets the entity relationships.
 		/// </summary>
 		/// <typeparam name="TTargetType">The type of the t target type.</typeparam>

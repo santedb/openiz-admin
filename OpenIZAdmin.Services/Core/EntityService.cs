@@ -264,6 +264,20 @@ namespace OpenIZAdmin.Services.Core
 		}
 
 		/// <summary>
+		/// Gets the entity relationship.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Returns the entity relationship for the given key or null if no entity relationship is found.</returns>
+		public EntityRelationship GetEntityRelationship(Guid key)
+		{
+			var bundle = this.Client.Query<EntityRelationship>(e => e.Key == key, 0, 1, new []{ "relationshipType", "target", "target.typeConcept" });
+
+			bundle.Reconstitute();
+
+			return bundle.Item.OfType<EntityRelationship>().FirstOrDefault(e => e.Key == key);
+		}
+
+		/// <summary>
 		/// Gets the entity relationships.
 		/// </summary>
 		/// <typeparam name="TTargetType">The type of the t target type.</typeparam>

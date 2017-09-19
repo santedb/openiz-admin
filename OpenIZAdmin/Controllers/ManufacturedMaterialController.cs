@@ -17,28 +17,24 @@
  * Date: 2017-3-27
  */
 
-using System;
+using Microsoft.AspNet.Identity;
+using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Attributes;
-using OpenIZAdmin.Models.ManufacturedMaterialModels;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using OpenIZ.Core.Model;
-using OpenIZAdmin.Comparer;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.MaterialModels;
+using OpenIZAdmin.Models.ManufacturedMaterialModels;
 using OpenIZAdmin.Services.Core;
 using OpenIZAdmin.Services.Entities.ManufacturedMaterials;
 using OpenIZAdmin.Services.Entities.Materials;
-using OpenIZAdmin.Services.Metadata;
 using OpenIZAdmin.Services.Metadata.Concepts;
 using OpenIZAdmin.Services.Security.Users;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -47,7 +43,7 @@ namespace OpenIZAdmin.Controllers
 	/// </summary>
 	/// <seealso cref="OpenIZAdmin.Controllers.BaseController" />
 	[TokenAuthorize(Constants.UnrestrictedMetadata)]
-	public class ManufacturedMaterialController : BaseController
+	public class ManufacturedMaterialController : Controller
 	{
 		/// <summary>
 		/// The concept service.
@@ -285,7 +281,6 @@ namespace OpenIZAdmin.Controllers
 				{
 					results = entityService.Search<ManufacturedMaterial>(searchTerm).Select(p => new ManufacturedMaterialViewModel(p)).OrderBy(p => p.Name).ToList();
 				}
-
 			}
 			catch (Exception e)
 			{
@@ -305,17 +300,21 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult SearchAjax(string searchTerm)
 		{
-			var viewModels = new List<ManufacturedMaterialViewModel>();
+			var results = new List<ManufacturedMaterialViewModel>();
 
-			if (ModelState.IsValid)
+			try
 			{
-				searchTerm = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(searchTerm);
-				var places = this.ImsiClient.Query<ManufacturedMaterial>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ManufacturedMaterial);
-
-				viewModels = places.Item.OfType<ManufacturedMaterial>().Select(p => new ManufacturedMaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+				{
+					results = entityService.Search<ManufacturedMaterial>(searchTerm).Select(p => new ManufacturedMaterialViewModel(p)).OrderBy(p => p.Name).ToList();
+				}
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to search for manufactured material: {e}");
 			}
 
-			return Json(viewModels, JsonRequestBehavior.AllowGet);
+			return Json(results, JsonRequestBehavior.AllowGet);
 		}
 
 		/// <summary>
