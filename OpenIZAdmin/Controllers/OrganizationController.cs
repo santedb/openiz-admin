@@ -37,6 +37,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using OpenIZAdmin.Core.Extensions;
 using OpenIZ.Core.Model;
+using OpenIZAdmin.Services.Core;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -47,10 +48,16 @@ namespace OpenIZAdmin.Controllers
 	public class OrganizationController : EntityBaseController
 	{
 		/// <summary>
+		/// The entity service.
+		/// </summary>
+		private IEntityService entityService;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="OrganizationController"/> class.
 		/// </summary>
-		public OrganizationController()
+		public OrganizationController(IEntityService entityService)
 		{
+			this.entityService = entityService;
 		}
 
 		/// <summary>
@@ -313,9 +320,20 @@ namespace OpenIZAdmin.Controllers
 
 				var relationships = new List<EntityRelationship>();
 
-				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => (r.RelationshipTypeKey == EntityRelationshipTypeKeys.Instance || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct) && r.ObsoleteVersionSequenceId == null).ToList());
+				foreach (var relationship in organization.Relationships)
+				{
+					var rel = relationship;
 
-				organization.Relationships = relationships.Intersect(organization.Relationships, new EntityRelationshipComparer()).ToList();
+					// only load the relationships which need data to be loaded
+					if (relationship.RelationshipType == null || relationship.TargetEntity == null)
+					{
+						rel = entityService.GetEntityRelationship(relationship.Key.Value);
+					}
+
+					relationships.Add(rel);
+				}
+
+				organization.Relationships = relationships;
 
 				var industryConceptSet = this.GetConceptSet(ConceptSetKeys.IndustryCode);
 
@@ -463,9 +481,20 @@ namespace OpenIZAdmin.Controllers
 
 				var relationships = new List<EntityRelationship>();
 
-				relationships.AddRange(this.GetEntityRelationships<ManufacturedMaterial>(organization.Key.Value, r => (r.RelationshipTypeKey == EntityRelationshipTypeKeys.Instance || r.RelationshipTypeKey == EntityRelationshipTypeKeys.ManufacturedProduct) && r.ObsoleteVersionSequenceId == null).ToList());
+				foreach (var relationship in organization.Relationships)
+				{
+					var rel = relationship;
 
-				organization.Relationships = relationships.Intersect(organization.Relationships, new EntityRelationshipComparer()).ToList();
+					// only load the relationships which need data to be loaded
+					if (relationship.RelationshipType == null || relationship.TargetEntity == null)
+					{
+						rel = entityService.GetEntityRelationship(relationship.Key.Value);
+					}
+
+					relationships.Add(rel);
+				}
+
+				organization.Relationships = relationships;
 
 				var viewModel = new OrganizationViewModel(organization)
 				{
