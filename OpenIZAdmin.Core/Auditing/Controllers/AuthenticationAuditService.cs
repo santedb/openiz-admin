@@ -48,7 +48,6 @@ namespace OpenIZAdmin.Core.Auditing.Controllers
 		/// <param name="outcomeIndicator">The outcome indicator.</param>
 		/// <param name="identityName">Name of the identity.</param>
 		/// <param name="deviceId">The device identifier.</param>
-		/// <exception cref="System.NotImplementedException"></exception>
 		public void AuditChangePassword(OutcomeIndicator outcomeIndicator, string identityName, string deviceId)
 		{
 			var audit = CreateBaseAudit(ActionType.Execute, CreateAuditCode(EventTypeCode.UserSecurityChanged), EventIdentifierType.UserAuthentication, outcomeIndicator);
@@ -74,6 +73,8 @@ namespace OpenIZAdmin.Core.Auditing.Controllers
 		public void AuditLogin(string identityName, string deviceId, string[] roles = null, bool successfulLogin = true)
 		{
 			var audit = CreateBaseAudit(ActionType.Execute, CreateAuditCode(EventTypeCode.Login), EventIdentifierType.UserAuthentication, successfulLogin ? OutcomeIndicator.Success : OutcomeIndicator.EpicFail);
+
+			this.IsRequestSensitive = true;
 
 			audit.Actors.Add(new AuditActorData
 			{
@@ -119,10 +120,11 @@ namespace OpenIZAdmin.Core.Auditing.Controllers
 		/// <param name="outcomeIndicator">The outcome indicator.</param>
 		/// <param name="identityName">Name of the identity.</param>
 		/// <param name="deviceId">The device identifier.</param>
-		/// <exception cref="System.NotImplementedException"></exception>
 		public void AuditResetPassword(OutcomeIndicator outcomeIndicator, string identityName, string deviceId)
 		{
 			var audit = CreateBaseAudit(ActionType.Execute, CreateAuditCode(EventTypeCode.UserSecurityChanged), EventIdentifierType.UserAuthentication, outcomeIndicator);
+
+			this.IsRequestSensitive = true;
 
 			audit.Actors.Add(new AuditActorData
 			{

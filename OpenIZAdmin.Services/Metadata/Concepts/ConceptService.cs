@@ -136,7 +136,6 @@ namespace OpenIZAdmin.Services.Metadata.Concepts
 		/// </summary>
 		/// <param name="mnemonic">The mnemonic.</param>
 		/// <returns>Returns the concept set for the given mnemonic.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
 		public ConceptSet GetConceptSet(string mnemonic)
 		{
 			var bundle = this.Client.Query<ConceptSet>(c => c.Mnemonic == mnemonic && c.ObsoletionTime == null, 0, 1, true);

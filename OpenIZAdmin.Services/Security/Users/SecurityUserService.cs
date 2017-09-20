@@ -24,6 +24,9 @@ using OpenIZAdmin.Services.Core;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using MARC.HI.EHRS.SVC.Auditing.Data;
+using OpenIZAdmin.Core.Auditing.Core;
+using OpenIZAdmin.Core.Auditing.SecurityEntities;
 
 namespace OpenIZAdmin.Services.Security.Users
 {
@@ -36,11 +39,25 @@ namespace OpenIZAdmin.Services.Security.Users
 
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="SecurityUserService"/> class.
+		/// The core audit service.
+		/// </summary>
+		private readonly ICoreAuditService coreAuditService;
+
+		/// <summary>
+		/// The security entity audit service.
+		/// </summary>
+		private readonly ISecurityEntityAuditService<SecurityUser> securityEntityAuditService;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="SecurityUserService" /> class.
 		/// </summary>
 		/// <param name="client">The client.</param>
-		public SecurityUserService(AmiServiceClient client) : base(client)
+		/// <param name="coreAuditService">The core audit service.</param>
+		/// <param name="securityEntityAuditService">The security entity audit service.</param>
+		public SecurityUserService(AmiServiceClient client, ICoreAuditService coreAuditService, ISecurityEntityAuditService<SecurityUser> securityEntityAuditService) : base(client)
 		{
+			this.coreAuditService = coreAuditService;
+			this.securityEntityAuditService = securityEntityAuditService;
 		}
 
 		/// <summary>
@@ -92,10 +109,30 @@ namespace OpenIZAdmin.Services.Security.Users
 		/// </summary>
 		/// <param name="key">The key.</param>
 		/// <returns>Returns the security user for the given key.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
 		public SecurityUserInfo GetSecurityUser(Guid key)
 		{
-			throw new NotImplementedException();
+			SecurityUserInfo securityUserInfo;
+
+			try
+			{
+				securityUserInfo = this.Client.GetUser(key.ToString());
+
+				if (securityUserInfo != null)
+				{
+					this.securityEntityAuditService.AuditQuerySecurityEntity(OutcomeIndicator.Success, new List<SecurityUser> { securityUserInfo.User });
+				}
+				else
+				{
+					this.securityEntityAuditService.AuditQuerySecurityEntity(OutcomeIndicator.SeriousFail, null);
+				}
+			}
+			catch (Exception e)
+			{
+				coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, this.securityEntityAuditService.QuerySecurityEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
+				throw;
+			}
+
+			return securityUserInfo;
 		}
 
 		/// <summary>
