@@ -18,7 +18,10 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Constants;
+using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.DeviceModels;
 using System;
@@ -26,11 +29,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using MARC.HI.EHRS.SVC.Auditing.Data;
-using OpenIZ.Core.Model.Constants;
-using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Extensions;
-using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -238,16 +236,16 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("ViewDevice", new { id = securityDeviceInfo.Id.ToString() });
 				}
 
-                model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id", null, true));
-            }
+				model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id", null, true));
+			}
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to update device: {e}");
 			}
 
-			TempData["error"] = Locale.UnableToUpdateDevice;            
+			TempData["error"] = Locale.UnableToUpdateDevice;
 
-            return View(model);
+			return View(model);
 		}
 
 		/// <summary>
@@ -257,8 +255,8 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Device";
-            TempData["searchTerm"] = "*";
-            return View();
+			TempData["searchTerm"] = "*";
+			return View();
 		}
 
 		/// <summary>

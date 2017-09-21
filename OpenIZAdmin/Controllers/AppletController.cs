@@ -17,10 +17,9 @@
  * Date: 2016-7-8
  */
 
-
 using OpenIZ.Core.Applets.Model;
 using OpenIZAdmin.Attributes;
-using OpenIZAdmin.Extensions;
+using OpenIZAdmin.Core.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AppletModels;
 using System;
@@ -30,15 +29,13 @@ using System.IO.Compression;
 using System.Linq;
 using System.Web.Mvc;
 using System.Xml.Serialization;
-using OpenIZ.Core.Model.AMI.Applet;
-using OpenIZAdmin.Core.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
-    /// <summary>
-    /// Provides operations for managing applets.
-    /// </summary>
-    [TokenAuthorize(Constants.UnrestrictedMetadata)]
+	/// <summary>
+	/// Provides operations for managing applets.
+	/// </summary>
+	[TokenAuthorize(Constants.UnrestrictedMetadata)]
 	public class AppletController : BaseController
 	{
 		/// <summary>
@@ -105,7 +102,7 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult Index()
 		{
-			var applets = this.AmiClient.GetApplets().CollectionItem.Select(a => new AppletViewModel(a)).ToList();            
+			var applets = this.AmiClient.GetApplets().CollectionItem.Select(a => new AppletViewModel(a)).ToList();
 
 			return View(applets);
 		}

@@ -17,25 +17,13 @@
  * Date: 2017-4-23
  */
 
-
-using Microsoft.AspNet.Identity;
-using OpenIZ.Core.Alert.Alerting;
-using OpenIZ.Core.Model.AMI.Alerting;
+using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.AlertModels;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
-using System.Security.Principal;
-using System.Web.Mvc;
-using MARC.HI.EHRS.SVC.Auditing.Data;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZ.Core.Model.Entities;
-using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Models.Core;
+using System;
+using System.Diagnostics;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {

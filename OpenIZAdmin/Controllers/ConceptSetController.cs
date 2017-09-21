@@ -17,7 +17,6 @@
  * Date: 2016-7-23
  */
 
-
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Query;
 using OpenIZAdmin.Attributes;
@@ -29,7 +28,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -69,15 +67,13 @@ namespace OpenIZAdmin.Controllers
 			{
 				var exists = this.ImsiClient.Query<ConceptSet>(c => c.Oid == model.Oid).Item.OfType<ConceptSet>().Any();
 
-                if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+				if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
 
+				var duplicate = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == model.Mnemonic).Item.OfType<ConceptSet>().Any();
 
-                var duplicate = this.ImsiClient.Query<ConceptSet>(c => c.Mnemonic == model.Mnemonic).Item.OfType<ConceptSet>().Any();
+				if (duplicate) ModelState.AddModelError("Mnemonic", Locale.MnemonicMustBeUnique);
 
-                if (duplicate) ModelState.AddModelError("Mnemonic", Locale.MnemonicMustBeUnique);
-
-
-                if (ModelState.IsValid)
+				if (ModelState.IsValid)
 				{
 					var conceptSet = new ConceptSet
 					{
@@ -97,14 +93,13 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to create concept set: {e}");
 			}
 
 			TempData["error"] = Locale.UnableToCreateConceptSet;
 
 			return View(model);
-		}        
+		}
 
 		/// <summary>
 		/// Removes a concept from the concept set
@@ -138,7 +133,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to delete concept from concept set: {e}");
 			}
 
@@ -180,11 +174,10 @@ namespace OpenIZAdmin.Controllers
 					Concepts = concepts.Select(c => new ConceptViewModel(c, id)).ToList()
 				};
 
-			return View(model);
+				return View(model);
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to retrieve concept set: {e}");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
@@ -203,51 +196,49 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-                var conceptSet = this.GetConceptSet(model.Id);
+				var conceptSet = this.GetConceptSet(model.Id);
 
-                if (conceptSet == null)
-                {
-                    TempData["error"] = Locale.ConceptSetNotFound;
+				if (conceptSet == null)
+				{
+					TempData["error"] = Locale.ConceptSetNotFound;
 
-                    return RedirectToAction("Index");
-                }
+					return RedirectToAction("Index");
+				}
 
-                //check oid
-                if (!conceptSet.Oid.Equals(model.Oid))
-                {
-                    var exists = this.ImsiClient.Query<ConceptSet>(c => c.Oid == model.Oid).Item.OfType<ConceptSet>().Any();
+				//check oid
+				if (!conceptSet.Oid.Equals(model.Oid))
+				{
+					var exists = this.ImsiClient.Query<ConceptSet>(c => c.Oid == model.Oid).Item.OfType<ConceptSet>().Any();
 
-                    if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
-                }
+					if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+				}
 
-                //check mnemonic
-                if (!string.Equals(conceptSet.Mnemonic, model.Mnemonic))
-                {
-                    var duplicate = DoesConceptSetExist(model.Mnemonic);
-                    if(duplicate) ModelState.AddModelError("Mnemonic", Locale.MnemonicMustBeUnique);                    
-                }
+				//check mnemonic
+				if (!string.Equals(conceptSet.Mnemonic, model.Mnemonic))
+				{
+					var duplicate = DoesConceptSetExist(model.Mnemonic);
+					if (duplicate) ModelState.AddModelError("Mnemonic", Locale.MnemonicMustBeUnique);
+				}
 
-                if (ModelState.IsValid)
-				{									                        				
-                    conceptSet = model.ToConceptSet(conceptSet);
+				if (ModelState.IsValid)
+				{
+					conceptSet = model.ToConceptSet(conceptSet);
 
-                    var result = this.ImsiClient.Update<ConceptSet>(conceptSet);
+					var result = this.ImsiClient.Update<ConceptSet>(conceptSet);
 
-                    TempData["success"] = Locale.ConceptSetUpdatedSuccessfully;
+					TempData["success"] = Locale.ConceptSetUpdatedSuccessfully;
 
-                    return RedirectToAction("ViewConceptSet", new { id = result.Key });
-                    					
+					return RedirectToAction("ViewConceptSet", new { id = result.Key });
 				}
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to update concept set: {e}");
 				this.TempData["error"] = Locale.UnableToUpdateConceptSet;
 			}
 
-            TempData["error"] = Locale.UnableToUpdateConceptSet;
-            return View(model);
+			TempData["error"] = Locale.UnableToUpdateConceptSet;
+			return View(model);
 		}
 
 		/// <summary>
@@ -258,8 +249,8 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "ConceptSet";
-            TempData["searchTerm"] = "*";
-            return View();
+			TempData["searchTerm"] = "*";
+			return View();
 		}
 
 		/// <summary>
@@ -272,7 +263,6 @@ namespace OpenIZAdmin.Controllers
 		{
 			var results = new List<ConceptSetViewModel>();
 
-			
 			try
 			{
 				Guid conceptSetId;
@@ -302,7 +292,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to search for concept sets: { e }");
 			}
 

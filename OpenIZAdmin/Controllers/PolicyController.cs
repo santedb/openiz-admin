@@ -21,12 +21,12 @@ using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.PolicyModels;
+using OpenIZAdmin.Services.Security.Policies;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Services.Security.Policies;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -77,7 +77,6 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				
 				var exists = this.securityPolicyService.GetPoliciesByOid(model.Oid).Any();
 
 				if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);

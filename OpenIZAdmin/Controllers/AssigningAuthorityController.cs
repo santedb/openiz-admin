@@ -17,18 +17,17 @@
  * Date: 2016-7-30
  */
 
-
 using OpenIZ.Core.Model.AMI.DataTypes;
+using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AssigningAuthorityModels;
+using OpenIZAdmin.Services.Metadata.AssigningAuthorities;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.DataTypes;
-using OpenIZAdmin.Services.Metadata.AssigningAuthorities;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -73,18 +72,18 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Create(CreateAssigningAuthorityModel model)
 		{
 			try
-			{   
-                //refactor at later time             
-                var exists = this.AmiClient.GetAssigningAuthorities(m => m.Oid == model.Oid).CollectionItem.Any();
-                if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+			{
+				//refactor at later time
+				var exists = this.AmiClient.GetAssigningAuthorities(m => m.Oid == model.Oid).CollectionItem.Any();
+				if (exists) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
 
-                var duplicateName = this.AmiClient.GetAssigningAuthorities(m => m.Name == model.Name).CollectionItem.Any();
-                if (duplicateName) ModelState.AddModelError("Name", Locale.NameMustBeUnique);
+				var duplicateName = this.AmiClient.GetAssigningAuthorities(m => m.Name == model.Name).CollectionItem.Any();
+				if (duplicateName) ModelState.AddModelError("Name", Locale.NameMustBeUnique);
 
-                var duplicateDomainName = this.AmiClient.GetAssigningAuthorities(m => m.DomainName == model.DomainName).CollectionItem.Any();
-                if (duplicateDomainName) ModelState.AddModelError("DomainName", Locale.DomainNameMustBeUnique);
+				var duplicateDomainName = this.AmiClient.GetAssigningAuthorities(m => m.DomainName == model.DomainName).CollectionItem.Any();
+				if (duplicateDomainName) ModelState.AddModelError("DomainName", Locale.DomainNameMustBeUnique);
 
-                if (ModelState.IsValid)
+				if (ModelState.IsValid)
 				{
 					var assigningAuthority = this.AmiClient.CreateAssigningAuthority(model.ToAssigningAuthorityInfo());
 
@@ -103,55 +102,54 @@ namespace OpenIZAdmin.Controllers
 			return View(model);
 		}
 
-        /// <summary>
+		/// <summary>
 		///
 		/// </summary>
 		/// <param name="authorityId"></param>
 		/// <param name="conceptId"></param>
 		/// <returns></returns>
 		[HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteScopeFromAuthority(Guid authorityId, Guid conceptId)
-        {
-            try
-            {
-                var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == authorityId).CollectionItem.FirstOrDefault();
+		[ValidateAntiForgeryToken]
+		public ActionResult DeleteScopeFromAuthority(Guid authorityId, Guid conceptId)
+		{
+			try
+			{
+				var assigningAuthority = this.AmiClient.GetAssigningAuthorities(m => m.Key == authorityId).CollectionItem.FirstOrDefault();
 
-                if (assigningAuthority == null)
-                {
-                    TempData["error"] = Locale.AssigningAuthorityNotFound;
-                    return RedirectToAction("Index");
-                }
+				if (assigningAuthority == null)
+				{
+					TempData["error"] = Locale.AssigningAuthorityNotFound;
+					return RedirectToAction("Index");
+				}
 
-                if (assigningAuthority.AssigningAuthority.AuthorityScopeXml != null)
-                {
-                    var index = assigningAuthority.AssigningAuthority.AuthorityScopeXml.FindIndex(a => a.Equals(conceptId));
-                    if (index != -1) assigningAuthority.AssigningAuthority.AuthorityScopeXml.RemoveAt(index);
+				if (assigningAuthority.AssigningAuthority.AuthorityScopeXml != null)
+				{
+					var index = assigningAuthority.AssigningAuthority.AuthorityScopeXml.FindIndex(a => a.Equals(conceptId));
+					if (index != -1) assigningAuthority.AssigningAuthority.AuthorityScopeXml.RemoveAt(index);
 
-                    var result = this.AmiClient.UpdateAssigningAuthority(authorityId.ToString(), assigningAuthority);
+					var result = this.AmiClient.UpdateAssigningAuthority(authorityId.ToString(), assigningAuthority);
 
-                    TempData["success"] = Locale.AuthorityScopeDeletedSuccessfully;
+					TempData["success"] = Locale.AuthorityScopeDeletedSuccessfully;
 
-                    return RedirectToAction("ViewAssigningAuthority", new { id = result.Id });
-                }                
-            }
-            catch (Exception e)
-            {
-                
-                Trace.TraceError($"Unable to delete concept from assigning authority: {e}");
-            }
+					return RedirectToAction("ViewAssigningAuthority", new { id = result.Id });
+				}
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to delete concept from assigning authority: {e}");
+			}
 
-            TempData["error"] = Locale.UnableToUpdateAssigningAuthority;
+			TempData["error"] = Locale.UnableToUpdateAssigningAuthority;
 
-            return RedirectToAction("Edit", new { id = authorityId });
-        }
+			return RedirectToAction("Edit", new { id = authorityId });
+		}
 
-        /// <summary>
-        /// Displays the edit assigning authority view.
-        /// </summary>
-        /// <param name="id">The id of the assigning authority to edit.</param>
-        /// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
-        [HttpGet]
+		/// <summary>
+		/// Displays the edit assigning authority view.
+		/// </summary>
+		/// <param name="id">The id of the assigning authority to edit.</param>
+		/// <returns>Returns an <see cref="ActionResult"/> instance.</returns>
+		[HttpGet]
 		public ActionResult Edit(Guid id)
 		{
 			try
@@ -165,12 +163,12 @@ namespace OpenIZAdmin.Controllers
 				}
 
 				var model = new EditAssigningAuthorityModel(assigningAuthorityInfo)
-                {
-                    AuthorityScopeList = assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x, assigningAuthorityInfo.Id)
-                    {
-	                    Class = x.Class == null && x.ClassKey.HasValue ? (this.ImsiClient.Get<ConceptClass>(x.ClassKey.Value, null) as ConceptClass)?.Name : x.Class?.Name
+				{
+					AuthorityScopeList = assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x, assigningAuthorityInfo.Id)
+					{
+						Class = x.Class == null && x.ClassKey.HasValue ? (this.ImsiClient.Get<ConceptClass>(x.ClassKey.Value, null) as ConceptClass)?.Name : x.Class?.Name
 					}).ToList()
-                };
+				};
 
 				return View(model);
 			}
@@ -194,54 +192,53 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-                var assigningAuthorityInfo = this.AmiClient.GetAssigningAuthorities(m => m.Key == model.Id).CollectionItem.FirstOrDefault();
+				var assigningAuthorityInfo = this.AmiClient.GetAssigningAuthorities(m => m.Key == model.Id).CollectionItem.FirstOrDefault();
 
-                if (assigningAuthorityInfo == null)
-                {
-                    TempData["error"] = Locale.AssigningAuthorityNotFound;
-                    return RedirectToAction("Index");
-                }
-                
-                if (!assigningAuthorityInfo.AssigningAuthority.Oid.Equals(model.Oid))
-                {
-                    var exists = this.AmiClient.GetAssigningAuthorities(m => m.Oid == model.Oid).CollectionItem.FirstOrDefault();
-                    if (exists?.AssigningAuthority != null) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
-                }
+				if (assigningAuthorityInfo == null)
+				{
+					TempData["error"] = Locale.AssigningAuthorityNotFound;
+					return RedirectToAction("Index");
+				}
 
-			    if (!assigningAuthorityInfo.AssigningAuthority.Name.Equals(model.Name))
-			    {
-			        var duplicateName = this.AmiClient.GetAssigningAuthorities(m => m.Name == model.Name).CollectionItem.FirstOrDefault();
-			        if (duplicateName?.AssigningAuthority != null) ModelState.AddModelError("Name", Locale.NameMustBeUnique);
-			    }
+				if (!assigningAuthorityInfo.AssigningAuthority.Oid.Equals(model.Oid))
+				{
+					var exists = this.AmiClient.GetAssigningAuthorities(m => m.Oid == model.Oid).CollectionItem.FirstOrDefault();
+					if (exists?.AssigningAuthority != null) ModelState.AddModelError("Oid", Locale.OidMustBeUnique);
+				}
 
-			    if (!assigningAuthorityInfo.AssigningAuthority.DomainName.Equals(model.DomainName))
-			    {
-			        var duplicateDomainName = this.AmiClient.GetAssigningAuthorities(m => m.DomainName == model.DomainName).CollectionItem.FirstOrDefault();
-			        if (duplicateDomainName?.AssigningAuthority != null) ModelState.AddModelError("DomainName", Locale.DomainNameMustBeUnique);
-			    }
+				if (!assigningAuthorityInfo.AssigningAuthority.Name.Equals(model.Name))
+				{
+					var duplicateName = this.AmiClient.GetAssigningAuthorities(m => m.Name == model.Name).CollectionItem.FirstOrDefault();
+					if (duplicateName?.AssigningAuthority != null) ModelState.AddModelError("Name", Locale.NameMustBeUnique);
+				}
 
-			    if (model.HasSelectedAuthorityScope(assigningAuthorityInfo.AssigningAuthority)) ModelState.AddModelError("AddConcepts", Locale.ConceptSelectedExists);                
+				if (!assigningAuthorityInfo.AssigningAuthority.DomainName.Equals(model.DomainName))
+				{
+					var duplicateDomainName = this.AmiClient.GetAssigningAuthorities(m => m.DomainName == model.DomainName).CollectionItem.FirstOrDefault();
+					if (duplicateDomainName?.AssigningAuthority != null) ModelState.AddModelError("DomainName", Locale.DomainNameMustBeUnique);
+				}
 
-			    if (ModelState.IsValid)
-			    {
-                    assigningAuthorityInfo.AssigningAuthority = model.ToAssigningAuthorityInfo(assigningAuthorityInfo.AssigningAuthority);
-                    this.AmiClient.UpdateAssigningAuthority(model.Id.ToString(), assigningAuthorityInfo);                    
+				if (model.HasSelectedAuthorityScope(assigningAuthorityInfo.AssigningAuthority)) ModelState.AddModelError("AddConcepts", Locale.ConceptSelectedExists);
 
-                    TempData["success"] = Locale.AssigningAuthorityUpdatedSuccessfully;
+				if (ModelState.IsValid)
+				{
+					assigningAuthorityInfo.AssigningAuthority = model.ToAssigningAuthorityInfo(assigningAuthorityInfo.AssigningAuthority);
+					this.AmiClient.UpdateAssigningAuthority(model.Id.ToString(), assigningAuthorityInfo);
+
+					TempData["success"] = Locale.AssigningAuthorityUpdatedSuccessfully;
 					return RedirectToAction("ViewAssigningAuthority", new { id = model.Id });
 				}
 
-                model.AuthorityScopeList = assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x, assigningAuthorityInfo.Id)).ToList();
-
-            }
+				model.AuthorityScopeList = assigningAuthorityInfo.AssigningAuthority.AuthorityScope.Select(x => new AuthorityScopeViewModel(x, assigningAuthorityInfo.Id)).ToList();
+			}
 			catch (Exception e)
 			{
 				Trace.TraceError($"Unable to update assigning authority: {e}");
 			}
 
-			TempData["error"] = Locale.UnableToUpdateAssigningAuthority;		    
+			TempData["error"] = Locale.UnableToUpdateAssigningAuthority;
 
-            return View(model);
+			return View(model);
 		}
 
 		/// <summary>
@@ -252,8 +249,8 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "AssigningAuthority";
-            TempData["searchTerm"] = "*";
-            return View();
+			TempData["searchTerm"] = "*";
+			return View();
 		}
 
 		/// <summary>

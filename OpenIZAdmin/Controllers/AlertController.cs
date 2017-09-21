@@ -17,10 +17,10 @@
  * Date: 2016-11-14
  */
 
-
 using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Alert.Alerting;
 using OpenIZ.Core.Model.AMI.Alerting;
+using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.AlertModels;
@@ -30,7 +30,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Security.Principal;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.Security;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -222,52 +221,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Converts an alert model to an alert message info.
-		/// </summary>		
-		/// <param name="model">The create alert model.</param>
-		/// <param name="user">The <see cref="IPrincipal"/> instance.</param>
-		/// <returns>Returns the converted alert message info.</returns>
-		private AlertMessageInfo ToAlertMessageInfo(CreateAlertModel model, IPrincipal user)
-		{
-			var alertMessageInfo = new AlertMessageInfo
-			{
-				AlertMessage = new AlertMessage
-				{
-					Body = model.Message,
-					CreatedBy = new SecurityUser
-					{
-						Key = Guid.Parse(user.Identity.GetUserId())
-					},
-					Flags = (AlertMessageFlags)model.Priority
-				}
-			};
-
-			alertMessageInfo.AlertMessage.From = user.Identity.GetUserName();
-
-			var securityUser = this.AmiClient.GetUser(model.To).User;
-
-			alertMessageInfo.AlertMessage.RcptTo = new List<SecurityUser>
-			{
-				securityUser
-			};
-
-			switch (alertMessageInfo.AlertMessage.Flags)
-			{
-				case AlertMessageFlags.System:
-					alertMessageInfo.AlertMessage.To = "everyone";
-					break;
-				default:
-					alertMessageInfo.AlertMessage.To = securityUser.UserName;
-					break;
-			}
-
-			alertMessageInfo.AlertMessage.Subject = model.Subject;
-			alertMessageInfo.AlertMessage.TimeStamp = DateTimeOffset.Now;
-
-			return alertMessageInfo;
-		}
-
-		/// <summary>
 		/// Displays the alert view.
 		/// </summary>
 		/// <param name="id">The id of the alert to be viewed.</param>
@@ -319,6 +272,53 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			return alerts.Union(userAlerts).Where(a => a.AlertMessage.ObsoletionTime == null).ToList();
+		}
+
+		/// <summary>
+		/// Converts an alert model to an alert message info.
+		/// </summary>
+		/// <param name="model">The create alert model.</param>
+		/// <param name="user">The <see cref="IPrincipal"/> instance.</param>
+		/// <returns>Returns the converted alert message info.</returns>
+		private AlertMessageInfo ToAlertMessageInfo(CreateAlertModel model, IPrincipal user)
+		{
+			var alertMessageInfo = new AlertMessageInfo
+			{
+				AlertMessage = new AlertMessage
+				{
+					Body = model.Message,
+					CreatedBy = new SecurityUser
+					{
+						Key = Guid.Parse(user.Identity.GetUserId())
+					},
+					Flags = (AlertMessageFlags)model.Priority
+				}
+			};
+
+			alertMessageInfo.AlertMessage.From = user.Identity.GetUserName();
+
+			var securityUser = this.AmiClient.GetUser(model.To).User;
+
+			alertMessageInfo.AlertMessage.RcptTo = new List<SecurityUser>
+			{
+				securityUser
+			};
+
+			switch (alertMessageInfo.AlertMessage.Flags)
+			{
+				case AlertMessageFlags.System:
+					alertMessageInfo.AlertMessage.To = "everyone";
+					break;
+
+				default:
+					alertMessageInfo.AlertMessage.To = securityUser.UserName;
+					break;
+			}
+
+			alertMessageInfo.AlertMessage.Subject = model.Subject;
+			alertMessageInfo.AlertMessage.TimeStamp = DateTimeOffset.Now;
+
+			return alertMessageInfo;
 		}
 	}
 }

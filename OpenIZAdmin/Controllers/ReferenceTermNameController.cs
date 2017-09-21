@@ -17,11 +17,6 @@
  * Date: 2017-4-17
  */
 
-using System;
-using System.Diagnostics;
-using System.Linq;
-using System.Web.Mvc;
-
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
@@ -29,6 +24,10 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ReferenceTermModels;
 using OpenIZAdmin.Models.ReferenceTermNameModels;
 using OpenIZAdmin.Util;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -116,7 +115,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to retrieve entity: { e }");
 			}
 
@@ -130,7 +128,7 @@ namespace OpenIZAdmin.Controllers
 		/// Deletes a reference term name from a reference term.
 		/// </summary>
 		/// <param name="id">The reference term name identifier</param>
-		/// <param name="refTermId">The identifier of the reference term instance.</param>		
+		/// <param name="refTermId">The identifier of the reference term instance.</param>
 		/// <returns>Returns the index view.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
@@ -163,11 +161,9 @@ namespace OpenIZAdmin.Controllers
 				TempData["success"] = Locale.ReferenceTermNameDeletedSuccessfully;
 
 				return RedirectToAction("Edit", "ReferenceTerm", new { id = result.Key });
-
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to retrieve reference term: { e }");
 			}
 
@@ -220,7 +216,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to retrieve reference term: { e }");
 			}
 
@@ -269,7 +264,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to retrieve entity: { e }");
 			}
 

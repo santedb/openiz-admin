@@ -19,20 +19,15 @@
 
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.PolicyModels;
 using OpenIZAdmin.Models.RoleModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using MARC.HI.EHRS.SVC.Auditing.Data;
-using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Core.Auditing.Core;
-using OpenIZAdmin.Core.Auditing.SecurityEntities;
-using OpenIZAdmin.Extensions;
-using OpenIZAdmin.Models.PolicyModels;
-using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -41,7 +36,7 @@ namespace OpenIZAdmin.Controllers
 	/// </summary>
 	[TokenAuthorize(Constants.AlterRoles)]
 	public class RoleController : SecurityBaseController
-    {
+	{
 		/// <summary>
 		/// Activates the specified Role.
 		/// </summary>
@@ -107,7 +102,7 @@ namespace OpenIZAdmin.Controllers
 
 					TempData["success"] = Locale.RoleCreatedSuccessfully;
 
-					return RedirectToAction("ViewRole", new {id = role.Id.ToString()});
+					return RedirectToAction("ViewRole", new { id = role.Id.ToString() });
 				}
 			}
 			catch (Exception e)
@@ -168,8 +163,8 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditRoleModel(securityRoleInfo)
 				{
-                    PoliciesList = new List<SelectListItem>()
-                };
+					PoliciesList = new List<SelectListItem>()
+				};
 
 				model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id", null, true));
 
@@ -193,11 +188,11 @@ namespace OpenIZAdmin.Controllers
 		[ValidateAntiForgeryToken]
 		public ActionResult Edit(EditRoleModel model)
 		{
-		    SecurityRoleInfo roleInfo = null;
+			SecurityRoleInfo roleInfo = null;
 
-            if (ModelState.IsValid)
-            {                
-                try
+			if (ModelState.IsValid)
+			{
+				try
 				{
 					roleInfo = this.AmiClient.GetRole(model.Id.ToString());
 
@@ -220,16 +215,16 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-		    if (roleInfo != null)
-		    {
-                model.RolePolicies = roleInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList();
-            }            
+			if (roleInfo != null)
+			{
+				model.RolePolicies = roleInfo.Policies.Select(p => new PolicyViewModel(p)).OrderBy(q => q.Name).ToList();
+			}
 
-            model.PoliciesList = new List<SelectListItem>();
-            model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id", null, true));
-            model.Policies = model.RolePolicies?.Select(p => p.Id.ToString()).ToList();
+			model.PoliciesList = new List<SelectListItem>();
+			model.PoliciesList.AddRange(this.GetAllPolicies().ToSelectList("Name", "Id", null, true));
+			model.Policies = model.RolePolicies?.Select(p => p.Id.ToString()).ToList();
 
-            TempData["error"] = Locale.UnableToUpdateRole;
+			TempData["error"] = Locale.UnableToUpdateRole;
 
 			return View(model);
 		}
@@ -242,8 +237,8 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Index()
 		{
 			TempData["searchType"] = "Role";
-            TempData["searchTerm"] = "*";
-            return View();
+			TempData["searchTerm"] = "*";
+			return View();
 		}
 
 		/// <summary>

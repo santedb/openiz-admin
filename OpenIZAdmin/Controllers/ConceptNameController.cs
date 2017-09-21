@@ -17,18 +17,17 @@
  * Date: 2017-4-19
  */
 
-
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.ConceptNameModels;
 using OpenIZAdmin.Util;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Attributes;
-using OpenIZAdmin.Extensions;
-using OpenIZAdmin.Models.ConceptNameModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -70,7 +69,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to retrieve entity: { e }");
 			}
 
@@ -117,7 +115,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to retrieve entity: { e }");
 			}
 
@@ -274,7 +271,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to retrieve concept: { e }");
 			}
 

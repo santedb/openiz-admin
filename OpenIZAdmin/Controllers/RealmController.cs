@@ -17,7 +17,6 @@
  * Date: 2016-7-13
  */
 
-
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Newtonsoft.Json;
@@ -30,8 +29,8 @@ using OpenIZ.Core.Model.Roles;
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Core.Extensions;
 using OpenIZAdmin.DAL;
-using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.Domain;
@@ -45,7 +44,6 @@ using System.Runtime.Caching;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
-using OpenIZAdmin.Core.Extensions;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -432,7 +430,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to leave realm: { e }");
 			}
 

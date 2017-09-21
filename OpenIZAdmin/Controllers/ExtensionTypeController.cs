@@ -20,13 +20,12 @@
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ExtensionTypeModels;
-using OpenIZAdmin.Services.Metadata;
+using OpenIZAdmin.Services.Metadata.ExtensionTypes;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Services.Metadata.ExtensionTypes;
 
 namespace OpenIZAdmin.Controllers
 {

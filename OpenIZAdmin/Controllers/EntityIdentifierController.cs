@@ -17,8 +17,9 @@
  * Date: 2017-3-20
  */
 
-
+using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.DataTypes;
+using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
@@ -29,8 +30,6 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.Collection;
-using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -69,7 +68,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to retrieve entity: { e }");
 			}
 
@@ -165,7 +163,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to create entity identifier: { e }");
 			}
 
@@ -202,7 +199,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to delete entity identifier: { e }");
 			}
 
@@ -255,7 +251,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to retrieve entity identifier: { e }");
 
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
@@ -353,7 +348,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to create entity identifier: { e }");
 			}
 

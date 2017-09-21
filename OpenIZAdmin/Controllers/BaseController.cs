@@ -17,6 +17,8 @@
  * Date: 2016-11-19
  */
 
+using OpenIZ.Core.Model;
+using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
@@ -24,30 +26,26 @@ using OpenIZ.Messaging.AMI.Client;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.DAL;
+using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.RoleModels;
 using OpenIZAdmin.Services.Http;
 using OpenIZAdmin.Services.Http.Security;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.Caching;
 using System.Security.Principal;
 using System.Web;
 using System.Web.Mvc;
-using OpenIZ.Core.Model.Collection;
-using OpenIZAdmin.Extensions;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Models.RoleModels;
-using OpenIZAdmin.Core.Extensions;
-using OpenIZ.Core.Model;
-using System.Diagnostics;
 
 namespace OpenIZAdmin.Controllers
 {
-    /// <summary>
-    /// Represents a base controller.
-    /// </summary>
-    [TokenAuthorize]
+	/// <summary>
+	/// Represents a base controller.
+	/// </summary>
+	[TokenAuthorize]
 	public abstract class BaseController : Controller
 	{
 		/// <summary>
@@ -267,7 +265,7 @@ namespace OpenIZAdmin.Controllers
 
 			var bundle = this.ImsiClient.Query<T>(query, 0, null, true);
 
-            bundle.Reconstitute();
+			bundle.Reconstitute();
 
 			entity = bundle.Item.OfType<T>().Where(query.Compile()).LatestVersionOnly().FirstOrDefault(query.Compile().Invoke);
 
@@ -283,7 +281,6 @@ namespace OpenIZAdmin.Controllers
 
 			return entity;
 		}
-
 
 		/// <summary>
 		/// Gets the entity relationships.
@@ -447,15 +444,15 @@ namespace OpenIZAdmin.Controllers
 
 			this.ImsiClient = new ImsiServiceClient(imsiRestClient);
 
-            base.OnActionExecuting(filterContext);
+			base.OnActionExecuting(filterContext);
 		}
 
-        /// <summary>
-        /// An exception occurs
-        /// </summary>
-        protected override void OnException(ExceptionContext filterContext)
-        {
-            Trace.TraceError(filterContext.Exception.ToString());
-        }
-    }
+		/// <summary>
+		/// An exception occurs
+		/// </summary>
+		protected override void OnException(ExceptionContext filterContext)
+		{
+			Trace.TraceError(filterContext.Exception.ToString());
+		}
+	}
 }

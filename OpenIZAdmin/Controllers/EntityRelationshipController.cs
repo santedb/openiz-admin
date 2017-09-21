@@ -17,21 +17,17 @@
  * Date: 2017-3-27
  */
 
-
-using OpenIZAdmin.Localization;
-using System;
-using System.Data.Entity.Core.EntityClient;
-using System.Diagnostics;
-using System.Linq;
-using System.Web.Mvc;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Extensions;
+using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.EntityRelationshipModels;
-using OpenIZAdmin.Services.Core;
 using OpenIZAdmin.Services.Entities;
 using OpenIZAdmin.Services.EntityRelationships;
-using OpenIZAdmin.Util;
+using System;
+using System.Diagnostics;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -98,7 +94,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to delete entity relationship: { e }");
 			}
 
@@ -107,59 +102,57 @@ namespace OpenIZAdmin.Controllers
 			return RedirectToAction("Edit", type, new { id = sourceId });
 		}
 
-        /// <summary>
-        /// Edits an entity relationship.
-        /// </summary>
-        /// <param name="id">The identifier.</param>
-        /// <param name="sourceId">The source identifier.</param>	
-        /// <param name="type">The type.</param>	
-        /// <returns>Returns the entity relationship edit view.</returns>
-        [HttpGet]
-	    public ActionResult Edit(Guid id, Guid sourceId, string type)
-	    {	      
-	        Guid? versionKey = null;
+		/// <summary>
+		/// Edits an entity relationship.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <param name="sourceId">The source identifier.</param>
+		/// <param name="type">The type.</param>
+		/// <returns>Returns the entity relationship edit view.</returns>
+		[HttpGet]
+		public ActionResult Edit(Guid id, Guid sourceId, string type)
+		{
+			Guid? versionKey = null;
 
-	        try
-	        {
-		        var entityRelationship = entityRelationshipService.Get(id);
+			try
+			{
+				var entityRelationship = entityRelationshipService.Get(id);
 
-                var modelType = this.entityService.GetModelType(type);
-                var entity = this.entityService.Get(sourceId, modelType);
-                versionKey = entity.VersionKey;
+				var modelType = this.entityService.GetModelType(type);
+				var entity = this.entityService.Get(sourceId, modelType);
+				versionKey = entity.VersionKey;
 
-                var model = new EntityRelationshipModel(id, sourceId, versionKey ?? Guid.Empty)
-                {
+				var model = new EntityRelationshipModel(id, sourceId, versionKey ?? Guid.Empty)
+				{
 					ModelType = type,
 					Quantity = entityRelationship.Quantity,
 					TargetId = entityRelationship.TargetEntityKey.ToString()
-                    //ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
-                };
+					//ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList()
+				};
 
-		        if (modelType == typeof(Material))
-		        {
-			        model.RelationshipType = EntityRelationshipTypeKeys.Instance.ToString();
+				if (modelType == typeof(Material))
+				{
+					model.RelationshipType = EntityRelationshipTypeKeys.Instance.ToString();
 					model.RelationshipTypes.AddRange(entityRelationshipConceptService.GetMaterialManufacturedMaterialRelationshipConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.Instance).ToList());
 				}
 				else if (modelType == typeof(Organization))
-		        {
-			        
-		        }
+				{
+				}
 				else if (modelType == typeof(Place))
-		        {
-			        
-		        }
+				{
+				}
 
 				return View(model);
-	        }
-	        catch (Exception e)
-	        {
-	            Trace.TraceError($"Unable to delete entity relationship: {e}");
-	        }
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to delete entity relationship: {e}");
+			}
 
-	        this.TempData["error"] = Locale.UnableToEditRelationship;
+			this.TempData["error"] = Locale.UnableToEditRelationship;
 
-	        return RedirectToAction("Edit" + type, type, new {id = sourceId, versionId = versionKey});
-	    }
+			return RedirectToAction("Edit" + type, type, new { id = sourceId, versionId = versionKey });
+		}
 
 		/// <summary>
 		/// Edits an entity relationship.
@@ -180,7 +173,7 @@ namespace OpenIZAdmin.Controllers
 
 					this.TempData["success"] = Locale.RelationshipUpdatedSuccessfully;
 
-					return RedirectToAction("Edit", model.ModelType, new { id = model.SourceId });	
+					return RedirectToAction("Edit", model.ModelType, new { id = model.SourceId });
 				}
 			}
 			catch (Exception e)

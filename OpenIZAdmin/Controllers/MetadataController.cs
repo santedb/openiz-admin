@@ -1,31 +1,29 @@
 ﻿/*
  * Copyright 2016-2017 Mohawk College of Applied Arts and Technology
- * 
- * Licensed under the Apache License, Version 2.0 (the "License"); you 
- * may not use this file except in compliance with the License. You may 
- * obtain a copy of the License at 
- * 
- * http://www.apache.org/licenses/LICENSE-2.0 
- * 
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you
+ * may not use this file except in compliance with the License. You may
+ * obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the 
- * License for the specific language governing permissions and limitations under 
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
  * the License.
- * 
+ *
  * User: Nityan
  * Date: 2017-4-14
  */
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+
 using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.AMI.Security;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Attributes;
-using OpenIZAdmin.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -41,26 +39,6 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		public MetadataController()
 		{
-
-		}
-
-		/// <summary>
-		/// Gets the code systems.
-		/// </summary>
-		/// <returns>Returns a list of concept classes.</returns>
-		protected AmiCollection<CodeSystem> GetCodeSystems()
-		{
-			return this.AmiClient.GetCodeSystems(c => c.ObsoletionTime == null);
-		}
-
-		/// <summary>
-		/// Gets the concept class.
-		/// </summary>
-		/// <param name="key">The key.</param>
-		/// <returns>Returns the concept class for the given key, or null if no concept class is found.</returns>
-		protected ConceptClass GetConceptClass(Guid key)
-		{
-			return this.ImsiClient.Get<ConceptClass>(key, null) as ConceptClass;
 		}
 
 		/// <summary>
@@ -81,6 +59,25 @@ namespace OpenIZAdmin.Controllers
 		protected virtual bool DoesConceptSetExist(string mnemonic)
 		{
 			return this.GetConceptSet(mnemonic) != null;
+		}
+
+		/// <summary>
+		/// Gets the code systems.
+		/// </summary>
+		/// <returns>Returns a list of concept classes.</returns>
+		protected AmiCollection<CodeSystem> GetCodeSystems()
+		{
+			return this.AmiClient.GetCodeSystems(c => c.ObsoletionTime == null);
+		}
+
+		/// <summary>
+		/// Gets the concept class.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <returns>Returns the concept class for the given key, or null if no concept class is found.</returns>
+		protected ConceptClass GetConceptClass(Guid key)
+		{
+			return this.ImsiClient.Get<ConceptClass>(key, null) as ConceptClass;
 		}
 
 		/// <summary>

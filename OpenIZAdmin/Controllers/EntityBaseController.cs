@@ -19,15 +19,10 @@
 
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Attributes;
+using OpenIZAdmin.Localization;
 using System;
 using System.Linq;
 using System.Reflection;
-using System.Web.Mvc;
-using Microsoft.Ajax.Utilities;
-using OpenIZAdmin.Core.Auditing.Core;
-using OpenIZAdmin.Core.Auditing.Entities;
-using OpenIZAdmin.Localization;
-using OpenIZAdmin.Services.Http.Security;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -43,7 +38,6 @@ namespace OpenIZAdmin.Controllers
 		/// </summary>
 		public EntityBaseController() : base()
 		{
-
 		}
 
 		/// <summary>
@@ -78,6 +72,7 @@ namespace OpenIZAdmin.Controllers
 				case "manufacturedmaterial":
 					modelType = typeof(ManufacturedMaterial);
 					break;
+
 				case "material":
 					modelType = typeof(Material);
 					break;

@@ -17,12 +17,13 @@
  * Date: 2016-7-23
  */
 
-
+using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.ConceptModels;
+using OpenIZAdmin.Models.ConceptNameModels;
 using OpenIZAdmin.Models.ReferenceTermModels;
 using OpenIZAdmin.Util;
 using System;
@@ -30,8 +31,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZ.Core.Model;
-using OpenIZAdmin.Models.ConceptNameModels;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -87,7 +86,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to create concept: {e}");
 			}
 
@@ -133,7 +131,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to delete reference term from concept: {e}");
 			}
 
@@ -194,7 +191,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to retrieve concept: {e}");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
@@ -212,7 +208,7 @@ namespace OpenIZAdmin.Controllers
 		public ActionResult Edit(EditConceptModel model)
 		{
 			try
-			{			    
+			{
 				var concept = this.GetConcept(model.Id, model.VersionKey);
 
 				if (concept == null)
@@ -222,14 +218,14 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-                if (model.HasAddReferenceTerm())
-                {
-                    if (string.IsNullOrWhiteSpace(model.AddReferenceTerm)) ModelState.AddModelError("AddReferenceTerm", Locale.ReferenceTermRequired);
+				if (model.HasAddReferenceTerm())
+				{
+					if (string.IsNullOrWhiteSpace(model.AddReferenceTerm)) ModelState.AddModelError("AddReferenceTerm", Locale.ReferenceTermRequired);
 
-                    if (string.IsNullOrWhiteSpace(model.RelationshipType)) ModelState.AddModelError("RelationshipType", Locale.RelationshipRequired);
-                }
+					if (string.IsNullOrWhiteSpace(model.RelationshipType)) ModelState.AddModelError("RelationshipType", Locale.RelationshipRequired);
+				}
 
-                if (ModelState.IsValid)
+				if (ModelState.IsValid)
 				{
 					if (!string.Equals(concept.Mnemonic, model.Mnemonic) && !DoesConceptExist(model.Mnemonic))
 					{
@@ -259,17 +255,41 @@ namespace OpenIZAdmin.Controllers
 
 				model.ReferenceTerms = this.GetConceptReferenceTerms(concept.Key.Value, concept.VersionKey).Select(r => new ReferenceTermViewModel(r, concept)).ToList();
 				model.Languages = concept.ConceptNames.Select(k => new ConceptNameViewModel(k.Language, k.Name, concept)).ToList();
-
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to update concept: {e}");
 			}
 
 			TempData["error"] = Locale.UnableToUpdateConcept;
 
 			return View(model);
+		}
+
+		/// <summary>
+		/// Remote validation method to check if parameters are populated for reference terms
+		/// </summary>
+		/// <param name="model">The EditConceptModel instance</param>
+		/// <returns></returns>
+		[HttpGet]
+		public JsonResult HasReferenceTerm(EditConceptModel model)
+		{
+			if (!string.IsNullOrWhiteSpace(model.AddReferenceTerm) && !string.Equals(model.AddReferenceTerm, "null")) return Json(true, JsonRequestBehavior.AllowGet); // indicates its valid
+
+			return Json(false, JsonRequestBehavior.AllowGet);
+		}
+
+		/// <summary>
+		/// Remote validation method to check if parameters are populated for reference terms
+		/// </summary>
+		/// <param name="model">The EditConceptModel instance</param>
+		/// <returns></returns>
+		[HttpGet]
+		public JsonResult HasRelationshipType(EditConceptModel model)
+		{
+			if (!string.IsNullOrWhiteSpace(model.RelationshipType) && !string.Equals(model.RelationshipType, "null")) return Json(true, JsonRequestBehavior.AllowGet);
+
+			return Json(true, JsonRequestBehavior.AllowGet);
 		}
 
 		/// <summary>
@@ -323,7 +343,6 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to load concepts: {e}");
 			}
 
@@ -409,38 +428,11 @@ namespace OpenIZAdmin.Controllers
 			}
 			catch (Exception e)
 			{
-				
 				Trace.TraceError($"Unable to load concept: {e}");
 				this.TempData["error"] = Locale.UnexpectedErrorMessage;
 			}
 
 			return RedirectToAction("Index");
-		}
-
-		/// <summary>
-		/// Remote validation method to check if parameters are populated for reference terms
-		/// </summary>
-		/// <param name="model">The EditConceptModel instance</param>
-		/// <returns></returns>
-		[HttpGet]
-		public JsonResult HasReferenceTerm(EditConceptModel model)
-		{
-			if (!string.IsNullOrWhiteSpace(model.AddReferenceTerm) && !string.Equals(model.AddReferenceTerm, "null")) return Json(true, JsonRequestBehavior.AllowGet); // indicates its valid
-
-			return Json(false, JsonRequestBehavior.AllowGet);
-		}
-
-		/// <summary>
-		/// Remote validation method to check if parameters are populated for reference terms
-		/// </summary>
-		/// <param name="model">The EditConceptModel instance</param>
-		/// <returns></returns>
-		[HttpGet]
-		public JsonResult HasRelationshipType(EditConceptModel model)
-		{
-			if (!string.IsNullOrWhiteSpace(model.RelationshipType) && !string.Equals(model.RelationshipType, "null")) return Json(true, JsonRequestBehavior.AllowGet);
-
-			return Json(true, JsonRequestBehavior.AllowGet);
 		}
 	}
 }
