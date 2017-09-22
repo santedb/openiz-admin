@@ -121,7 +121,7 @@ namespace OpenIZAdmin.Controllers
 
 				place.StatusConceptKey = StatusKeys.Active;
 
-				var updatedPlace = entityService.Update(place);
+				var updatedPlace = entityService.Activate(place);
 
 				this.TempData["success"] = Locale.PlaceActivatedSuccessfully;
 

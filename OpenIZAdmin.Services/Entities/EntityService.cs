@@ -23,7 +23,9 @@ using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Threading;
 using MARC.HI.EHRS.SVC.Auditing.Data;
+using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.Constants;
@@ -82,6 +84,9 @@ namespace OpenIZAdmin.Services.Entities
 		/// <returns>Returns the activated entity.</returns>
 		public Entity Activate(Entity entity)
 		{
+			// set the created by key
+			entity.CreatedByKey = Guid.Parse(Thread.CurrentPrincipal.Identity.GetUserId());
+
 			entity.CreationTime = DateTimeOffset.Now;
 			entity.StatusConceptKey = StatusKeys.Active;
 			entity.VersionKey = null;
@@ -110,6 +115,9 @@ namespace OpenIZAdmin.Services.Entities
 		/// <returns>Returns the created entity.</returns>
 		public Entity Create(Entity entity)
 		{
+			// set the created by key
+			entity.CreatedByKey = Guid.Parse(Thread.CurrentPrincipal.Identity.GetUserId());
+
 			// set the creation time
 			entity.CreationTime = DateTimeOffset.Now;
 
@@ -591,6 +599,9 @@ namespace OpenIZAdmin.Services.Entities
 		/// <returns>Returns the updated entity.</returns>
 		public Entity Update(Entity entity)
 		{
+			// set the created by key
+			entity.CreatedByKey = Guid.Parse(Thread.CurrentPrincipal.Identity.GetUserId());
+
 			// set the creation time
 			entity.CreationTime = DateTimeOffset.Now;
 

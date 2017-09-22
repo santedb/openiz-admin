@@ -98,7 +98,7 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Edit", new { id = id, versionId = versionId });
 				}
 
-				var updatedOrganization = this.entityService.Update(organization);
+				var updatedOrganization = this.entityService.Activate(organization);
 
 				this.TempData["success"] = Locale.OrganizationActivatedSuccessfully;
 
