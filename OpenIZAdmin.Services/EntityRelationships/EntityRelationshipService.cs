@@ -23,12 +23,12 @@ using OpenIZ.Core.Model.Entities;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Core;
 using OpenIZAdmin.Services.Core;
+using OpenIZAdmin.Services.Entities;
 using OpenIZAdmin.Services.Metadata.Concepts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using OpenIZAdmin.Services.Entities;
 
 namespace OpenIZAdmin.Services.EntityRelationships
 {

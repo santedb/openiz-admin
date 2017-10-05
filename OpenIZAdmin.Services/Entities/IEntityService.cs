@@ -17,10 +17,10 @@
  * Date: 2017-7-9
  */
 
+using OpenIZ.Core.Model.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Services.Entities
 {

@@ -30,21 +30,6 @@ namespace OpenIZAdmin.Core
 		public const string OpenIzGrantedPolicyClaim = "http://openiz.org/claims/grant";
 
 		/// <summary>
-		/// The relationship source expand property key.
-		/// </summary>
-		public const string RelationshipSource = "relationship.source";
-
-		/// <summary>
-		/// The relationship target expand property key.
-		/// </summary>
-		public const string RelationshipTarget = "relationship.target";
-
-		/// <summary>
-		/// The source expand property key.
-		/// </summary>
-		public const string Source = "source";
-
-		/// <summary>
 		/// The system user identifier.
 		/// </summary>
 		public const string SystemUserId = "fadca076-3690-4a6e-af9e-f1cd68e8c7e8";
@@ -53,10 +38,5 @@ namespace OpenIZAdmin.Core
 		/// The target expand property key.
 		/// </summary>
 		public const string Target = "target";
-
-		/// <summary>
-		/// The type concept expand property key.
-		/// </summary>
-		public const string TypeConcept = "typeConcept";
 	}
 }

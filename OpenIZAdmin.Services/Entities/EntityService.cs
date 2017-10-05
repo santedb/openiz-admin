@@ -17,13 +17,6 @@
  * Date: 2017-7-9
  */
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Reflection;
-using System.Threading;
 using MARC.HI.EHRS.SVC.Auditing.Data;
 using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Model;
@@ -38,6 +31,13 @@ using OpenIZAdmin.Core.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Services.Core;
 using OpenIZAdmin.Services.Metadata.Concepts;
+using System;
+using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Reflection;
+using System.Threading;
 
 namespace OpenIZAdmin.Services.Entities
 {
@@ -279,7 +279,7 @@ namespace OpenIZAdmin.Services.Entities
 		/// <returns>Returns the entity relationship for the given key or null if no entity relationship is found.</returns>
 		public EntityRelationship GetEntityRelationship(Guid key)
 		{
-			var bundle = this.Client.Query<EntityRelationship>(e => e.Key == key, 0, 1, new []{ "relationshipType", "target", "target.typeConcept" });
+			var bundle = this.Client.Query<EntityRelationship>(e => e.Key == key, 0, 1, new[] { "relationshipType", "target", "target.typeConcept" });
 
 			bundle.Reconstitute();
 

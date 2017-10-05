@@ -24,10 +24,10 @@ using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Core;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Services.Core;
+using OpenIZAdmin.Services.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using OpenIZAdmin.Services.Entities;
 
 namespace OpenIZAdmin.Services.Security.Users
 {
