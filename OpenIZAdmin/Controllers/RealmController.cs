@@ -19,13 +19,8 @@
 
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
-using Newtonsoft.Json;
-using OpenIZ.Core.Model.Acts;
 using OpenIZ.Core.Model.AMI.Auth;
-using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.Constants;
-using OpenIZ.Core.Model.Entities;
-using OpenIZ.Core.Model.Roles;
 using OpenIZ.Core.Model.Security;
 using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Attributes;
@@ -153,60 +148,6 @@ namespace OpenIZAdmin.Controllers
 		[AllowAnonymous]
 		public ActionResult JoinRealm()
 		{
-			var bundle = new Bundle();
-
-			var person = new Person
-			{
-				Key = Guid.NewGuid(),
-				Names = new List<EntityName>
-				{
-					new EntityName(NameUseKeys.OfficialRecord, "smith", "mary")
-				}
-			};
-
-			var patient = new Patient
-			{
-				Relationships = new List<EntityRelationship>
-				{
-					new EntityRelationship(EntityRelationshipTypeKeys.Mother, Guid.NewGuid())
-				}
-			};
-
-			var test = new ActParticipation(ActParticipationKey.RecordTarget, Guid.NewGuid());
-			var test1 = new ActParticipation(ActParticipationKey.Location, Guid.Parse("880d2a08-8e94-402b-84b6-cb3bc0a576a9"));
-			var test2 = new ActParticipation(ActParticipationKey.Performer, Guid.Parse("6ba47c4c-ec52-46a9-b2d9-ad3104ef238f"));
-			var test3 = new ActParticipation(ActParticipationKey.Authororiginator, Guid.Parse("6ba47c4c-ec52-46a9-b2d9-ad3104ef238f"));
-			var test4 = new ActParticipation(ActParticipationKey.Consumable, Guid.Parse("a14dd78e-1f68-40e0-a59f-cd1e64f720b8"));
-			var test5 = new ActParticipation(ActParticipationKey.Consumable, Guid.Parse("ecda818f-e7b7-466a-9a71-a79eb2241ac9"));
-
-			var act = new SubstanceAdministration
-			{
-				CreationTime = DateTimeOffset.Now,
-				Key = Guid.NewGuid(),
-				MoodConceptKey = ActMoodKeys.Eventoccurrence,
-				Participations = new List<ActParticipation>
-				{
-					test,
-					test1,
-					test2,
-					test3,
-					test4,
-					test5
-				}
-			};
-
-			bundle.Item.Add(person);
-			bundle.Item.Add(patient);
-			bundle.Item.Add(act);
-			bundle.Item.Add(test);
-			bundle.Item.Add(test1);
-			bundle.Item.Add(test2);
-			bundle.Item.Add(test3);
-			bundle.Item.Add(test4);
-			bundle.Item.Add(test5);
-
-			var content = JsonConvert.SerializeObject(bundle);
-
 			return View();
 		}
 

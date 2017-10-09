@@ -72,6 +72,7 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="conceptService">The concept service.</param>
 		/// <param name="entityService">The entity service.</param>
 		/// <param name="organizationConceptService">The organization concept service.</param>
+		/// <param name="userService">The user service.</param>
 		public OrganizationController(IConceptService conceptService, IEntityService entityService, IOrganizationConceptService organizationConceptService, IUserService userService)
 		{
 			this.conceptService = conceptService;
