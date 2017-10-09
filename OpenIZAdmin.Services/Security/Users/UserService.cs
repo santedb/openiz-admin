@@ -66,7 +66,14 @@ namespace OpenIZAdmin.Services.Security.Users
 				{
 					Names = new List<EntityName>
 					{
-						new EntityName(NameUseKeys.OfficialRecord, Locale.System)
+						new EntityName
+						{
+							Component = new List<EntityNameComponent>
+							{
+								new EntityNameComponent(NameComponentKeys.Given, Locale.System)
+							},
+							NameUseKey = NameUseKeys.OfficialRecord
+						}
 					}
 				};
 			}

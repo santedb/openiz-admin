@@ -87,8 +87,13 @@ namespace OpenIZAdmin.Services.Entities
 			// set the created by key
 			entity.CreatedByKey = Guid.Parse(Thread.CurrentPrincipal.Identity.GetUserId());
 
+			// set the creation time
 			entity.CreationTime = DateTimeOffset.Now;
+
+			// set the status key
 			entity.StatusConceptKey = StatusKeys.Active;
+
+			// null out the version key
 			entity.VersionKey = null;
 
 			Entity updated;
@@ -123,6 +128,9 @@ namespace OpenIZAdmin.Services.Entities
 
 			// remove all the relationships where I am the target entity
 			entity.Relationships.RemoveAll(r => r.TargetEntityKey == entity.Key);
+
+			// set the status key
+			entity.StatusConceptKey = StatusKeys.Active;
 
 			// null out the version key
 			entity.VersionKey = null;
