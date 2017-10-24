@@ -26,14 +26,16 @@ using OpenIZAdmin.Services.Http.Configuration;
 using OpenIZAdmin.Services.Http.Security;
 using SharpCompress.Compressors.BZip2;
 using SharpCompress.Compressors.LZMA;
+using SharpCompress.Compressors.Deflate;
+using SharpCompress.Compressors;
 using System;
 using System.Diagnostics;
 using System.IO;
-using System.IO.Compression;
 using System.Linq;
 using System.Net;
 using System.Security.Cryptography.X509Certificates;
 using System.Web;
+using OpenIZAdmin.Services.Http.Model;
 
 namespace OpenIZAdmin.Services.Http
 {
@@ -96,6 +98,11 @@ namespace OpenIZAdmin.Services.Http
 				this.Description = InternalConfiguration.GetServiceClientConfiguration().Clients.Find(d => d.Name == endpointName);
 			}
 		}
+
+		/// <summary>
+		/// Fired when an unauthorized response is received.
+		/// </summary>
+		public event EventHandler OnUnauthorized;
 
 		/// <summary>
 		/// Gets or sets the client certificate
@@ -230,8 +237,7 @@ namespace OpenIZAdmin.Services.Http
 						}
 						finally
 						{
-							if (requestStream != null)
-								requestStream.Dispose();
+							requestStream?.Dispose();
 						}
 					}
 
@@ -292,18 +298,18 @@ namespace OpenIZAdmin.Services.Http
 
 							serializer = this.Description.Binding.ContentTypeMapper.GetSerializer(responseContentType, typeof(TResult));
 
-							TResult retVal = default(TResult);
+							var retVal = default(TResult);
 
 							// Compression?
 							switch (response.Headers[HttpResponseHeader.ContentEncoding])
 							{
 								case "deflate":
-									using (DeflateStream df = new DeflateStream(response.GetResponseStream(), CompressionMode.Decompress, true))
+									using (var df = new DeflateStream(response.GetResponseStream(), CompressionMode.Decompress, leaveOpen: true))
 										retVal = (TResult)serializer.DeSerialize(df);
 									break;
 
 								case "gzip":
-									using (GZipStream df = new GZipStream(response.GetResponseStream(), CompressionMode.Decompress, true))
+									using (var df = new GZipStream(response.GetResponseStream(), CompressionMode.Decompress, true))
 										retVal = (TResult)serializer.DeSerialize(df);
 									break;
 
@@ -344,7 +350,8 @@ namespace OpenIZAdmin.Services.Http
 						case WebExceptionStatus.ProtocolError:
 
 							// Deserialize
-							TResult result = default(TResult);
+							var result = default(ErrorResult);
+
 							var errorResponse = (e.Response as HttpWebResponse);
 							var responseContentType = errorResponse.ContentType;
 							if (responseContentType.Contains(";"))
@@ -355,17 +362,24 @@ namespace OpenIZAdmin.Services.Http
 								switch (errorResponse.Headers[HttpResponseHeader.ContentEncoding])
 								{
 									case "deflate":
-										using (DeflateStream df = new DeflateStream(errorResponse.GetResponseStream(), CompressionMode.Decompress))
-											result = (TResult)serializer.DeSerialize(df);
+										using (var df = new DeflateStream(errorResponse.GetResponseStream(), CompressionMode.Decompress, leaveOpen: true))
+											result = (ErrorResult)serializer.DeSerialize(df);
 										break;
 
 									case "gzip":
-										using (GZipStream df = new GZipStream(errorResponse.GetResponseStream(), CompressionMode.Decompress))
-											result = (TResult)serializer.DeSerialize(df);
+										using (var df = new GZipStream(errorResponse.GetResponseStream(), CompressionMode.Decompress, leaveOpen: true))
+											result = (ErrorResult)serializer.DeSerialize(df);
 										break;
-
+									case "bzip2":
+										using (var bzs = new BZip2Stream(errorResponse.GetResponseStream(), CompressionMode.Decompress, leaveOpen: true))
+											result = (ErrorResult)serializer.DeSerialize(bzs);
+										break;
+									case "lzma":
+										using (var lzmas = new LZipStream(errorResponse.GetResponseStream(), CompressionMode.Decompress, leaveOpen: true))
+											result = (ErrorResult)serializer.DeSerialize(lzmas);
+										break;
 									default:
-										result = (TResult)serializer.DeSerialize(errorResponse.GetResponseStream());
+										result = (ErrorResult)serializer.DeSerialize(errorResponse.GetResponseStream());
 										break;
 								}
 							}
@@ -376,18 +390,17 @@ namespace OpenIZAdmin.Services.Http
 
 							switch (errorResponse.StatusCode)
 							{
-								case HttpStatusCode.Unauthorized: // Validate the response
-									if (this.ValidateResponse(errorResponse) != ServiceClientErrorType.Valid)
-										throw new RestClientException<TResult>(
-											result,
-											e,
-											e.Status,
-											e.Response);
-
+								case HttpStatusCode.Unauthorized:
+								case HttpStatusCode.Forbidden:
+									this.OnUnauthorized?.Invoke(this, EventArgs.Empty);
 									break;
 
+								case HttpStatusCode.NotFound:
+									responseHeaders = new WebHeaderCollection();
+									return default(TResult);
+
 								default:
-									throw new RestClientException<TResult>(
+									throw new RestClientException<ErrorResult>(
 										result,
 										e,
 										e.Status,

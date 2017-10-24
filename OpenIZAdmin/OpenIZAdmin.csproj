@@ -451,6 +451,9 @@
     <Compile Include="Security\DeviceIdentity.cs" />
     <Compile Include="Services\Entity\WebEntitySourceProvider.cs" />
     <Compile Include="Services\Http\Configuration\ServiceClientConfigurationSection.cs" />
+    <Compile Include="Services\Http\Model\DetailType.cs" />
+    <Compile Include="Services\Http\Model\ErrorResult.cs" />
+    <Compile Include="Services\Http\Model\ResultDetail.cs" />
     <Compile Include="Services\Http\RestClientService.cs" />
     <Compile Include="Services\Http\Security\AmiCredentials.cs" />
     <Compile Include="Services\Http\Security\ImsCredentials.cs" />
