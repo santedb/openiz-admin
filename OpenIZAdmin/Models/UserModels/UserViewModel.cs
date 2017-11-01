@@ -53,7 +53,7 @@ namespace OpenIZAdmin.Models.UserModels
 			this.Email = securityUserInfo.Email;
 			this.HasRoles = securityUserInfo.Roles?.Any() == true;
 			this.IsLockedOut = securityUserInfo.Lockout.HasValue && securityUserInfo.Lockout.Value;
-			this.LastLoginTime = securityUserInfo.User.LastLoginTime?.DateTime;
+			this.LastLoginTime = securityUserInfo.User.LastLoginTime;
 			this.PhoneNumber = securityUserInfo.User.PhoneNumber;
 			this.Roles = new List<RoleViewModel>();
 			this.Username = securityUserInfo.UserName;
@@ -70,7 +70,7 @@ namespace OpenIZAdmin.Models.UserModels
 			this.Email = securityUserInfo.Email;
 			this.HasRoles = securityUserInfo.Roles?.Any() == true;
 			this.IsLockedOut = securityUserInfo.Lockout.GetValueOrDefault(false);
-			this.LastLoginTime = securityUserInfo.User.LastLoginTime?.DateTime;
+			this.LastLoginTime = securityUserInfo.User.LastLoginTime;
 			this.Roles = new List<RoleViewModel>();
 			this.Username = securityUserInfo.UserName;
 
@@ -131,8 +131,13 @@ namespace OpenIZAdmin.Models.UserModels
 		/// Gets or sets the last login time of the user.
 		/// </summary>
 		[Display(Name = "LastLoginTime", ResourceType = typeof(Locale))]
-		[DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd}")]
-		public DateTime? LastLoginTime { get; set; }
+		public DateTimeOffset? LastLoginTime { get; set; }
+
+		/// <summary>
+		/// Gets or sets the last login time display.
+		/// </summary>
+		/// <value>The last login time display.</value>
+		public string LastLoginTimeDisplay { get; set; }
 
 		/// <summary>
 		/// Gets or sets the name of the user.

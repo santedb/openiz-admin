@@ -1,7 +1,10 @@
-﻿@using OpenIZAdmin.Extensions
+﻿@using System.Globalization
+@using OpenIZAdmin.Extensions
 @model OpenIZAdmin.Models.UserModels.UserViewModel
 @{
     ViewBag.Title = Locale.ViewUser_Heading;
+
+    Model.LastLoginTimeDisplay = Model.LastLoginTime?.ToLocalTime().ToString("dd/MM/yyyy hh:mm:ss tt (z)", CultureInfo.InvariantCulture);
 }
 
 <div class="panel panel-default">
@@ -75,7 +78,7 @@
                     <div class="form-group">
                         @Html.LabelFor(m => m.LastLoginTime, new { @class = "col-md-2 control-label" })
                         <div class="col-md-6">
-                            @Html.TextBoxFor(m => m.LastLoginTime, Constants.DateTimeFormatViewWithTimestamp, new { @class = "form-control", @readonly = "readonly" })
+                            @Html.TextBoxFor(m => m.LastLoginTimeDisplay, new { @class = "form-control", @readonly = "readonly" })
                         </div>
                     </div>
                 </div>
@@ -91,7 +94,6 @@
     <script type="text/javascript">
         $(document).ready(function ()
         {
-
             $('#userRolesTable').DataTable({
                 "language":
                 {
