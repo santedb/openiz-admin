@@ -154,11 +154,6 @@ namespace OpenIZAdmin
 		public const string OpenIzGrantedPolicyClaim = "http://openiz.org/claims/grant";
 
 		/// <summary>
-		/// The OpenIZ grant type claim type.
-		/// </summary>
-		public const string OpenIZGrantTypeClaimType = "http://openiz.org/claims/grant";
-
-		/// <summary>
 		/// Query clinical data
 		/// </summary>
 		public const string QueryClinicalData = "1.3.6.1.4.1.33349.3.1.5.9.2.2.0";

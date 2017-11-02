@@ -127,10 +127,11 @@ namespace OpenIZAdmin.Controllers
 			try
 			{
 				model.IndustryConcepts = organizationConceptService.GetIndustryConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
+				model.TypeConcepts = this.organizationConceptService.GetTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
 			}
 			catch (Exception e)
 			{
-				Trace.TraceError($"Unable to load industry concepts: {e}");
+				Trace.TraceError($"Unable to load the create organization page: {e}");
 			}
 
 			return View(model);
@@ -150,8 +151,6 @@ namespace OpenIZAdmin.Controllers
 				if (ModelState.IsValid)
 				{
 					var organizationToCreate = model.ToOrganization();
-
-					organizationToCreate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
 
 					var organization = this.entityService.Create(organizationToCreate);
 
@@ -357,6 +356,7 @@ namespace OpenIZAdmin.Controllers
 				var model = new EditOrganizationModel(organization)
 				{
 					IndustryConcepts = industryConceptSet?.ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList(),
+					TypeConcepts = this.organizationConceptService.GetTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), t => t.Key == organization.TypeConceptKey).ToList(),
 					UpdatedBy = this.userService.GetUserEntityBySecurityUserKey(organization.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
 				};
 

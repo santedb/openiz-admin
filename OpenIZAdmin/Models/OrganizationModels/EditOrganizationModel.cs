@@ -51,6 +51,8 @@ namespace OpenIZAdmin.Models.OrganizationModels
 			this.IndustryConcept = organization.IndustryConceptKey?.ToString();
 			this.IndustryConcepts = new List<SelectListItem>();
 			this.Name = string.Join(" ", organization.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Select(c => c.Value));
+			this.TypeConcept = organization.TypeConceptKey?.ToString();
+			this.TypeConcepts = new List<SelectListItem>();
 		}
 
 		/// <summary>
@@ -74,6 +76,20 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		public string Name { get; set; }
 
 		/// <summary>
+		/// Gets or sets the type concept.
+		/// </summary>
+		/// <value>The type concept.</value>
+		[Required(ErrorMessageResourceName = "TypeConceptRequired", ErrorMessageResourceType = typeof(Locale))]
+		[Display(Name = "TypeConcept", ResourceType = typeof(Locale))]
+		public string TypeConcept { get; set; }
+
+		/// <summary>
+		/// Gets or sets the type concepts.
+		/// </summary>
+		/// <value>The type concepts.</value>
+		public List<SelectListItem> TypeConcepts { get; set; }
+
+		/// <summary>
 		/// Converts an <see cref="EditOrganizationModel" /> instance to an <see cref="Organization" /> instance.
 		/// </summary>
 		/// <param name="organization">The organization.</param>
@@ -89,6 +105,13 @@ namespace OpenIZAdmin.Models.OrganizationModels
 			if (Guid.TryParse(this.IndustryConcept, out industryConceptKey))
 			{
 				organization.IndustryConceptKey = industryConceptKey;
+			}
+
+			Guid typeConceptKey;
+
+			if (Guid.TryParse(this.TypeConcept, out typeConceptKey))
+			{
+				organization.TypeConceptKey = typeConceptKey;
 			}
 
 			organization.VersionKey = null;

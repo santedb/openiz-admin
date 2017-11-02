@@ -64,5 +64,22 @@ namespace OpenIZAdmin.Services.Entities.Organizations
 				return bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == ConceptSetKeys.IndustryCode)?.Concepts;
 			});
 		}
+
+		/// <summary>
+		/// Gets the type concepts.
+		/// </summary>
+		/// <returns>Returns a list of type concepts.</returns>
+		public IEnumerable<Concept> GetTypeConcepts()
+		{
+			return this.cacheService.Get<IEnumerable<Concept>>(ConceptSetKeys.OrganizationTypes.ToString(), () =>
+			{
+				var bundle = this.Client.Query<ConceptSet>(c => c.Key == ConceptSetKeys.OrganizationTypes, 0, null, new[] { "concept" });
+
+				bundle.Reconstitute();
+
+				return bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == ConceptSetKeys.OrganizationTypes)?.Concepts;
+			});
+
+		}
 	}
 }

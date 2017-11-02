@@ -22,6 +22,8 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using OpenIZ.Core.Model;
+using OpenIZ.Core.Model.DataTypes;
 
 namespace OpenIZAdmin.Models.OrganizationModels
 {
@@ -44,7 +46,7 @@ namespace OpenIZAdmin.Models.OrganizationModels
 		/// <param name="organization">The organization.</param>
 		public OrganizationViewModel(Organization organization) : base(organization)
 		{
-			if (organization.IndustryConcept != null)
+			if (organization.LoadProperty<Concept>("IndustryConcept") != null)
 			{
 				this.IndustryConcept = string.Join(" ", organization.IndustryConcept.ConceptNames.Select(c => c.Name));
 			}

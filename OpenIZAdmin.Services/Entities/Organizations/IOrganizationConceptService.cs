@@ -32,5 +32,11 @@ namespace OpenIZAdmin.Services.Entities.Organizations
 		/// </summary>
 		/// <returns>Returns a list of industry concepts.</returns>
 		IEnumerable<Concept> GetIndustryConcepts();
+
+		/// <summary>
+		/// Gets the type concepts.
+		/// </summary>
+		/// <returns>Returns a list of type concepts.</returns>
+		IEnumerable<Concept> GetTypeConcepts();
 	}
 }
