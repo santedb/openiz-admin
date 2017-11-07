@@ -861,6 +861,8 @@
     <Content Include="Views\ManufacturedMaterial\ViewManufacturedMaterial.cshtml" />
     <Content Include="Views\ManufacturedMaterial\Index.cshtml" />
     <Content Include="Views\Shared\_ManufacturedMaterialSearchResultsPartial.cshtml" />
+    <Content Include="Views\Shared\_DedicatedServiceDeliveryLocationsPartial.cshtml" />
+    <Content Include="Views\Shared\_AreasServedPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

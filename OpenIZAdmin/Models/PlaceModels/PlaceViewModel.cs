@@ -26,10 +26,12 @@ using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
 using OpenIZAdmin.Models.Core.Serialization;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using OpenIZAdmin.Models.EntityRelationshipModels;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
@@ -43,6 +45,8 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// </summary>
 		public PlaceViewModel()
 		{
+			this.AreasServed = new List<EntityRelationshipViewModel>();
+			this.DedicatedServiceDeliveryLocations = new List<EntityRelationshipViewModel>();
 		}
 
 		/// <summary>
@@ -51,13 +55,14 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <param name="place">The place.</param>
 		public PlaceViewModel(Place place) : base(place)
 		{
-			this.IsServiceDeliveryLocation = place.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation ? Locale.Yes : Locale.No;
+			this.IsServiceDeliveryLocation = place.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation;
+			this.IsServiceDeliveryLocationDisplay = this.IsServiceDeliveryLocation ? Locale.Yes : Locale.No;
 
 			if (place.Extensions.Any(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey))
 			{
 				try
 				{
-					var entityExtension = place.Extensions.First(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey);
+					var entityExtension = place.Extensions.First(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey && e.ObsoleteVersionSequenceId == null);
 
 					entityExtension.ExtensionType = new ExtensionType(Constants.TargetPopulationUrl, typeof(DictionaryExtensionHandler))
 					{
@@ -76,11 +81,29 @@ namespace OpenIZAdmin.Models.PlaceModels
 		}
 
 		/// <summary>
+		/// Gets or sets the areas served.
+		/// </summary>
+		/// <value>The areas served.</value>
+		public List<EntityRelationshipViewModel> AreasServed { get; set; }
+
+		/// <summary>
+		/// Gets or sets the dedicated service delivery locations.
+		/// </summary>
+		/// <value>The dedicated service delivery locations.</value>
+		public List<EntityRelationshipViewModel> DedicatedServiceDeliveryLocations { get; set; }
+
+		/// <summary>
 		/// Gets or sets a value indicating whether this instance is service delivery location.
 		/// </summary>
 		/// <value><c>true</c> if this instance is service delivery location; otherwise, <c>false</c>.</value>
+		public bool IsServiceDeliveryLocation { get; set; }
+
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is service delivery location.
+		/// </summary>
+		/// <value>The is service delivery location display.</value>
 		[Display(Name = "IsServiceDeliveryLocation", ResourceType = typeof(Locale))]
-		public string IsServiceDeliveryLocation { get; set; }
+		public string IsServiceDeliveryLocationDisplay { get; set; }
 
 		/// <summary>
 		/// Gets or sets the target population.

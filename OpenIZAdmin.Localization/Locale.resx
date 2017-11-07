@@ -2520,4 +2520,16 @@
   <data name="UnableToCreateManufacturedMaterial" xml:space="preserve">
     <value>Unable to create manufactured material</value>
   </data>
+  <data name="DedicatedServiceDeliveryLocations" xml:space="preserve">
+    <value>Dedicated Service Delivery Locations</value>
+  </data>
+  <data name="NoDedicatedServiceDeliveryLocations" xml:space="preserve">
+    <value>No Dedicated Service Delivery Locations</value>
+  </data>
+  <data name="AreasServed" xml:space="preserve">
+    <value>Areas Served</value>
+  </data>
+  <data name="NoAreasServed" xml:space="preserve">
+    <value>No Areas Served</value>
+  </data>
 </root>

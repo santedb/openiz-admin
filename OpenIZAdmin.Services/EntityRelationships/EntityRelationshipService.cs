@@ -147,8 +147,9 @@ namespace OpenIZAdmin.Services.EntityRelationships
 		/// </summary>
 		/// <param name="target">The target.</param>
 		/// <param name="relationshipType">Type of the relationship.</param>
+		/// <param name="excludedSourceTypes">The excluded source types.</param>
 		/// <returns>Returns a list of entity relationships for a given target key and filtered by relationship types.</returns>
-		public IEnumerable<EntityRelationship> GetEntityRelationshipsByTarget(Guid target, Guid? relationshipType)
+		public IEnumerable<EntityRelationship> GetEntityRelationshipsByTarget(Guid target, Guid? relationshipType, List<Type> excludedSourceTypes = null)
 		{
 			Expression<Func<EntityRelationship, bool>> expression = r => r.TargetEntityKey == target && r.ObsoleteVersionSequenceId == null;
 
@@ -161,7 +162,7 @@ namespace OpenIZAdmin.Services.EntityRelationships
 
 			bundle.Reconstitute();
 
-			return this.LoadNested(bundle, r => expression.Compile().Invoke(r), true);
+			return this.LoadNested(bundle, r => expression.Compile().Invoke(r), excludedSourceTypes, true);
 		}
 
 		/// <summary>
@@ -202,9 +203,10 @@ namespace OpenIZAdmin.Services.EntityRelationships
 		/// </summary>
 		/// <param name="bundle">The bundle.</param>
 		/// <param name="expression">The expression.</param>
+		/// <param name="excludedSourceTypes">The excluded source types.</param>
 		/// <param name="loadSource">if set to <c>true</c> the source entity will be loaded.</param>
 		/// <returns>Returns a list of entity relationships with the nested data.</returns>
-		private IEnumerable<EntityRelationship> LoadNested(Bundle bundle, Expression<Func<EntityRelationship, bool>> expression, bool loadSource = false)
+		private IEnumerable<EntityRelationship> LoadNested(Bundle bundle, Expression<Func<EntityRelationship, bool>> expression, List<Type> excludedSourceTypes = null, bool loadSource = false)
 		{
 			var relationships = new List<EntityRelationship>();
 
@@ -213,6 +215,12 @@ namespace OpenIZAdmin.Services.EntityRelationships
 				if (loadSource)
 				{
 					relationship.SourceEntity = relationship.LoadProperty(nameof(EntityRelationship.SourceEntity)) as Entity;
+
+					// skip fully loading the source if the returned source type is in the list of source types to exclude
+					if (excludedSourceTypes?.Any(t => t.IsInstanceOfType(relationship.SourceEntity)) == true)
+					{
+						continue;
+					}
 
 					if (relationship.SourceEntity?.ShouldSerializeTypeConceptKey() == true && relationship.SourceEntity.TypeConcept == null)
 					{

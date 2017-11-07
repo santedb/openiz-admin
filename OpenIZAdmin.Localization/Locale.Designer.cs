@@ -556,6 +556,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Areas Served.
+        /// </summary>
+        public static string AreasServed {
+            get {
+                return ResourceManager.GetString("AreasServed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assembly Information.
         /// </summary>
         public static string AssemblyInformation {
@@ -1416,6 +1425,15 @@ namespace OpenIZAdmin.Localization {
         public static string Deactivated {
             get {
                 return ResourceManager.GetString("Deactivated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dedicated Service Delivery Locations.
+        /// </summary>
+        public static string DedicatedServiceDeliveryLocations {
+            get {
+                return ResourceManager.GetString("DedicatedServiceDeliveryLocations", resourceCulture);
             }
         }
         
@@ -3283,6 +3301,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Areas Served.
+        /// </summary>
+        public static string NoAreasServed {
+            get {
+                return ResourceManager.GetString("NoAreasServed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No associated concepts.
         /// </summary>
         public static string NoAssociatedConcepts {
@@ -3378,6 +3405,15 @@ namespace OpenIZAdmin.Localization {
         public static string NoDataAvailable {
             get {
                 return ResourceManager.GetString("NoDataAvailable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No Dedicated Service Delivery Locations.
+        /// </summary>
+        public static string NoDedicatedServiceDeliveryLocations {
+            get {
+                return ResourceManager.GetString("NoDedicatedServiceDeliveryLocations", resourceCulture);
             }
         }
         

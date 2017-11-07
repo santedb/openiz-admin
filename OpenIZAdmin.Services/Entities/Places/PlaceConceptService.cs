@@ -17,13 +17,12 @@
  * Date: 2017-7-27
  */
 
-using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Messaging.IMSI.Client;
+using OpenIZAdmin.Core.Caching;
 using OpenIZAdmin.Services.Core;
 using OpenIZAdmin.Services.Metadata.Concepts;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OpenIZAdmin.Services.Entities.Places
 {
@@ -34,42 +33,32 @@ namespace OpenIZAdmin.Services.Entities.Places
 	/// <seealso cref="OpenIZAdmin.Services.Entities.Places.IPlaceConceptService" />
 	public class PlaceConceptService : ImsiServiceBase, IPlaceConceptService
 	{
+		private readonly ICacheService cacheService;
+
 		/// <summary>
 		/// The concept service.
 		/// </summary>
 		private readonly IConceptService conceptService;
 
 		/// <summary>
-		/// Initializes a new instance of the <see cref="PlaceConceptService"/> class.
+		/// Initializes a new instance of the <see cref="PlaceConceptService" /> class.
 		/// </summary>
 		/// <param name="client">The client.</param>
+		/// <param name="cacheService">The cache service.</param>
 		/// <param name="conceptService">The concept service.</param>
-		public PlaceConceptService(ImsiServiceClient client, IConceptService conceptService) : base(client)
+		public PlaceConceptService(ImsiServiceClient client, ICacheService cacheService, IConceptService conceptService) : base(client)
 		{
+			this.cacheService = cacheService;
 			this.conceptService = conceptService;
 		}
 
 		/// <summary>
 		/// Gets the place type concepts.
 		/// </summary>
-		/// <param name="conceptSetMnemonicFilters">The concept set mnemonic filters.</param>
-		/// <returns>Returns a list of concepts.</returns>
-		public IEnumerable<Concept> GetPlaceTypeConcepts(params string[] conceptSetMnemonicFilters)
+		/// <returns>Returns a list of place type concepts.</returns>
+		public IEnumerable<Concept> GetPlaceTypeConcepts()
 		{
-			var typeConcepts = new List<Concept>();
-
-			foreach (var conceptSetMnemonicFilter in conceptSetMnemonicFilters.Where(f => !string.IsNullOrEmpty(f) && !string.IsNullOrWhiteSpace(f)))
-			{
-				typeConcepts.AddRange(this.conceptService.GetConceptSet(conceptSetMnemonicFilter).Concepts);
-			}
-
-			// only default the items in the list if the list is empty
-			if (!typeConcepts.Any())
-			{
-				typeConcepts.AddRange(this.Client.Query<Concept>(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null).Item.OfType<Concept>().Where(m => m.ClassKey == ConceptClassKeys.Other && m.ObsoletionTime == null));
-			}
-
-			return typeConcepts;
+			return this.cacheService.Get("PlaceTypeConcept", () => this.conceptService.GetConceptsByConceptSetMnemonic("PlaceTypeConcept"));
 		}
 	}
 }

@@ -122,6 +122,34 @@ namespace OpenIZAdmin.Services.Metadata.Concepts
 		}
 
 		/// <summary>
+		/// Gets the concepts by concept set key.
+		/// </summary>
+		/// <param name="conceptSetKey">The concept set key.</param>
+		/// <returns>Returns a list of concepts for the concept set key.</returns>
+		public IEnumerable<Concept> GetConceptsByConceptSetKey(Guid conceptSetKey)
+		{
+			var bundle = this.Client.Query<ConceptSet>(c => c.Key == conceptSetKey, 0, null, new[] { "concept" });
+
+			bundle.Reconstitute();
+
+			return bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == conceptSetKey)?.Concepts;
+		}
+
+		/// <summary>
+		/// Gets the concepts by concept set mnemonic.
+		/// </summary>
+		/// <param name="conceptSetMnemonic">The concept set mnemonic.</param>
+		/// <returns>Returns a list of concepts for the concept set mnemonic.</returns>
+		public IEnumerable<Concept> GetConceptsByConceptSetMnemonic(string conceptSetMnemonic)
+		{
+			var bundle = this.Client.Query<ConceptSet>(c => c.Mnemonic == conceptSetMnemonic, 0, null, new[] { "concept" });
+
+			bundle.Reconstitute();
+
+			return bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Mnemonic == conceptSetMnemonic)?.Concepts;
+		}
+
+		/// <summary>
 		/// Gets the concept set.
 		/// </summary>
 		/// <param name="key">The key.</param>

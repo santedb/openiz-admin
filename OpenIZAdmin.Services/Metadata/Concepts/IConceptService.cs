@@ -54,6 +54,20 @@ namespace OpenIZAdmin.Services.Metadata.Concepts
 		IEnumerable<ReferenceTerm> GetConceptReferenceTerms(Guid id, Guid? versionId);
 
 		/// <summary>
+		/// Gets the concepts by concept set key.
+		/// </summary>
+		/// <param name="conceptSetKey">The concept set key.</param>
+		/// <returns>Returns a list of concepts for the concept set key.</returns>
+		IEnumerable<Concept> GetConceptsByConceptSetKey(Guid conceptSetKey);
+
+		/// <summary>
+		/// Gets the concepts by concept set mnemonic.
+		/// </summary>
+		/// <param name="conceptSetMnemonic">The concept set mnemonic.</param>
+		/// <returns>Returns a list of concepts for the concept set mnemonic.</returns>
+		IEnumerable<Concept> GetConceptsByConceptSetMnemonic(string conceptSetMnemonic);
+
+		/// <summary>
 		/// Gets the concept set.
 		/// </summary>
 		/// <param name="key">The key.</param>

@@ -70,19 +70,9 @@ namespace OpenIZAdmin.Controllers
 		private readonly IEntityService entityService;
 
 		/// <summary>
-		/// The health facility mnemonic.
-		/// </summary>
-		private readonly string healthFacilityMnemonic = ConfigurationManager.AppSettings["HealthFacilityTypeConceptMnemonic"];
-
-		/// <summary>
 		/// The place concept service.
 		/// </summary>
 		private readonly IPlaceConceptService placeConceptService;
-
-		/// <summary>
-		/// The place type mnemonic.
-		/// </summary>
-		private readonly string placeTypeMnemonic = ConfigurationManager.AppSettings["PlaceTypeConceptMnemonic"];
 
 		/// <summary>
 		/// The user service.
@@ -146,9 +136,21 @@ namespace OpenIZAdmin.Controllers
 		{
 			var model = new CreatePlaceModel
 			{
-				IsServiceDeliveryLocation = true,
-				TypeConcepts = this.placeConceptService.GetPlaceTypeConcepts(healthFacilityMnemonic, placeTypeMnemonic).ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList()
+				IsServiceDeliveryLocation = true
 			};
+
+			try
+			{
+				// get the place type concepts
+				model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList());
+
+				// order the type concept list
+				model.TypeConcepts = model.TypeConcepts.OrderBy(c => c.Text).ToList();
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to load type concepts on the create place page: {e}");
+			}
 
 			return View(model);
 		}
@@ -208,7 +210,13 @@ namespace OpenIZAdmin.Controllers
 				}
 			}
 
-			model.TypeConcepts = this.placeConceptService.GetPlaceTypeConcepts(healthFacilityMnemonic, placeTypeMnemonic).ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
+			model.TypeConcepts = new List<SelectListItem>();
+
+			// get the place type concepts
+			model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList());
+
+			// order the type concept list
+			model.TypeConcepts = model.TypeConcepts.OrderBy(c => c.Text).ToList();
 
 			this.TempData["error"] = Locale.UnableToCreatePlace;
 
@@ -415,9 +423,14 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditPlaceModel(place)
 				{
-					TypeConcepts = this.placeConceptService.GetPlaceTypeConcepts(healthFacilityMnemonic, placeTypeMnemonic).ToSelectList(this.HttpContext.GetCurrentLanguage(), t => t.Key == place.TypeConceptKey).ToList(),
 					UpdatedBy = this.GetUserEntityBySecurityUserKey(place.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
 				};
+
+				// get the place type concepts
+				model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == place.TypeConceptKey).ToList());
+
+				// order the type concept list
+				model.TypeConcepts = model.TypeConcepts.OrderBy(c => c.Text).ToList();
 
 				return View(model);
 			}
@@ -472,7 +485,11 @@ namespace OpenIZAdmin.Controllers
 					model.Identifiers = place.Identifiers.Select(i => new EntityIdentifierModel(i.Key.Value, place.Key.Value)).ToList();
 					model.Relationships = place.Relationships.Select(r => new EntityRelationshipModel(r)).ToList();
 
-					model.TypeConcepts = this.placeConceptService.GetPlaceTypeConcepts(healthFacilityMnemonic, placeTypeMnemonic).ToSelectList(this.HttpContext.GetCurrentLanguage(), t => t.Key == place.TypeConceptKey).ToList();
+					// get the place type concepts
+					model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == place.TypeConceptKey).ToList());
+
+					// order the type concept list
+					model.TypeConcepts = model.TypeConcepts.OrderBy(c => c.Text).ToList();
 
 					var placeToUpdate = model.ToPlace(place);
 
@@ -590,11 +607,24 @@ namespace OpenIZAdmin.Controllers
 		{
 			TempData["searchType"] = "Place";
 			TempData["searchTerm"] = "*";
-			TempData["typeFilter"] = new SelectListItem[] { new SelectListItem() { Value = null, Text = Locale.NotApplicable } }.Union(this.ImsiClient.Query<Concept>(o => o.ConceptSets.Any(c => c.Mnemonic == "PlaceTypeConcept")).GetResultItems().OfType<Concept>().Select(o => new SelectListItem()
+
+			var typeFilter = new List<SelectListItem>();
+
+			try
 			{
-				Text = o.LoadCollection<ConceptName>("ConceptNames")?.FirstOrDefault()?.Name,
-				Value = o.Key.ToString()
-			}));
+				// get the place type concepts
+				typeFilter.AddRange(this.placeConceptService.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList());
+
+				// order the type concept list
+				typeFilter = typeFilter.OrderBy(c => c.Text).ToList();
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to load type filter for the search place page: {e}");
+			}
+
+			TempData["typeFilter"] = typeFilter;
+
 			return View();
 		}
 
@@ -731,13 +761,24 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
+				var areasServed = new List<EntityRelationship>();
+				var dedicatedServiceDeliveryLocations = new List<EntityRelationship>();
 				var relationships = new List<EntityRelationship>();
 
 				// get relationships where I am the source of type parent
 				relationships.AddRange(entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Parent));
 
-				// get relationships where I am the target of type dedicated service delivery location
-				relationships.AddRange(entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
+				// if I am not a service delivery location, load the dedicated service delivery locations which I am pointing at
+				if (place.ClassConceptKey != EntityClassKeys.ServiceDeliveryLocation)
+				{
+					// get relationships where I am the source of type dedicated service delivery location
+					dedicatedServiceDeliveryLocations.AddRange(entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
+				}
+				else
+				{
+					// get relationships where I am the target of type dedicated service delivery location
+					areasServed.AddRange(entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, new List<Type> { typeof(Person) }));
+				}
 
 				// get relationships where I am the target of type parent
 				relationships.AddRange(entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.Parent));
@@ -753,6 +794,8 @@ namespace OpenIZAdmin.Controllers
 
 				var viewModel = new PlaceViewModel(place)
 				{
+					AreasServed = areasServed.Select(r => new EntityRelationshipViewModel(r, r.TargetEntityKey == place.Key)).OrderBy(r => r.TargetName).ToList(),
+					DedicatedServiceDeliveryLocations = dedicatedServiceDeliveryLocations.Select(r => new EntityRelationshipViewModel(r, r.TargetEntityKey == place.Key)).OrderBy(r => r.TargetName).ToList(),
 					UpdatedBy = this.userService.GetUserEntityBySecurityUserKey(place.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
 				};
 

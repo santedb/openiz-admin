@@ -22,8 +22,8 @@ using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Core.Caching;
 using OpenIZAdmin.Services.Core;
+using OpenIZAdmin.Services.Metadata.Concepts;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace OpenIZAdmin.Services.Entities.Organizations
 {
@@ -40,13 +40,20 @@ namespace OpenIZAdmin.Services.Entities.Organizations
 		private readonly ICacheService cacheService;
 
 		/// <summary>
+		/// The concept service.
+		/// </summary>
+		private readonly IConceptService conceptService;
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="OrganizationConceptService" /> class.
 		/// </summary>
 		/// <param name="client">The client.</param>
 		/// <param name="cacheService">The cache service.</param>
-		public OrganizationConceptService(ImsiServiceClient client, ICacheService cacheService) : base(client)
+		/// <param name="conceptService">The concept service.</param>
+		public OrganizationConceptService(ImsiServiceClient client, ICacheService cacheService, IConceptService conceptService) : base(client)
 		{
 			this.cacheService = cacheService;
+			this.conceptService = conceptService;
 		}
 
 		/// <summary>
@@ -57,11 +64,7 @@ namespace OpenIZAdmin.Services.Entities.Organizations
 		{
 			return this.cacheService.Get<IEnumerable<Concept>>(ConceptSetKeys.IndustryCode.ToString(), () =>
 			{
-				var bundle = this.Client.Query<ConceptSet>(c => c.Key == ConceptSetKeys.IndustryCode, 0, null, new[] { "concept" });
-
-				bundle.Reconstitute();
-
-				return bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == ConceptSetKeys.IndustryCode)?.Concepts;
+				return this.conceptService.GetConceptsByConceptSetKey(ConceptSetKeys.IndustryCode);
 			});
 		}
 
@@ -73,13 +76,8 @@ namespace OpenIZAdmin.Services.Entities.Organizations
 		{
 			return this.cacheService.Get<IEnumerable<Concept>>(ConceptSetKeys.OrganizationTypes.ToString(), () =>
 			{
-				var bundle = this.Client.Query<ConceptSet>(c => c.Key == ConceptSetKeys.OrganizationTypes, 0, null, new[] { "concept" });
-
-				bundle.Reconstitute();
-
-				return bundle.Item.OfType<ConceptSet>().FirstOrDefault(c => c.Key == ConceptSetKeys.OrganizationTypes)?.Concepts;
+				return this.conceptService.GetConceptsByConceptSetKey(ConceptSetKeys.OrganizationTypes);
 			});
-
 		}
 	}
 }

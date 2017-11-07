@@ -79,8 +79,9 @@ namespace OpenIZAdmin.Services.EntityRelationships
 		/// </summary>
 		/// <param name="target">The target.</param>
 		/// <param name="relationshipType">Type of the relationship.</param>
+		/// <param name="excludedSourceTypes">The excluded source types.</param>
 		/// <returns>Returns a list of entity relationships for a given target key and filtered by relationship types.</returns>
-		IEnumerable<EntityRelationship> GetEntityRelationshipsByTarget(Guid target, Guid? relationshipType);
+		IEnumerable<EntityRelationship> GetEntityRelationshipsByTarget(Guid target, Guid? relationshipType, List<Type> excludedSourceTypes = null);
 
 		/// <summary>
 		/// Updates an entity relationship.

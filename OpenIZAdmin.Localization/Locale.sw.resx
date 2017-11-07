@@ -2543,4 +2543,16 @@ au jina la kikoa</value>
   <data name="UnableToCreateManufacturedMaterial" xml:space="preserve">
     <value>Haiwezi kuunda vifaa vya viwandani</value>
   </data>
+  <data name="DedicatedServiceDeliveryLocations" xml:space="preserve">
+    <value>Maeneo ya utoaji wa huduma</value>
+  </data>
+  <data name="NoDedicatedServiceDeliveryLocations" xml:space="preserve">
+    <value>Hakuna Eneo la Utoaji wa Huduma</value>
+  </data>
+  <data name="AreasServed" xml:space="preserve">
+    <value>Maeneo yamehudumiwa</value>
+  </data>
+  <data name="NoAreasServed" xml:space="preserve">
+    <value>Hakuna Maeneo Iliyotumiwa</value>
+  </data>
 </root>

@@ -22,6 +22,7 @@ using OpenIZ.Messaging.AMI.Client;
 using OpenIZAdmin.Services.Core;
 using System;
 using System.Collections.Generic;
+using OpenIZAdmin.Core.Caching;
 
 namespace OpenIZAdmin.Services.Metadata.ExtensionTypes
 {
@@ -33,11 +34,18 @@ namespace OpenIZAdmin.Services.Metadata.ExtensionTypes
 	public class ExtensionTypeService : AmiServiceBase, IExtensionTypeService
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="ExtensionTypeService"/> class.
+		/// The cache service.
+		/// </summary>
+		private readonly ICacheService cacheService;
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ExtensionTypeService" /> class.
 		/// </summary>
 		/// <param name="client">The client.</param>
-		public ExtensionTypeService(AmiServiceClient client) : base(client)
+		/// <param name="cacheService">The cache service.</param>
+		public ExtensionTypeService(AmiServiceClient client, ICacheService cacheService) : base(client)
 		{
+			this.cacheService = cacheService;
 		}
 
 		/// <summary>
@@ -47,7 +55,11 @@ namespace OpenIZAdmin.Services.Metadata.ExtensionTypes
 		/// <returns>Returns the created extension type.</returns>
 		public ExtensionType Create(ExtensionType extensionType)
 		{
-			return this.Client.CreateExtensionType(extensionType);
+			var createdExtensionType = this.Client.CreateExtensionType(extensionType);
+
+			this.cacheService.Set(createdExtensionType.Key.ToString(), createdExtensionType, TimeSpan.FromMinutes(20));
+
+			return createdExtensionType;
 		}
 
 		/// <summary>
@@ -57,7 +69,7 @@ namespace OpenIZAdmin.Services.Metadata.ExtensionTypes
 		/// <returns>Returns the extension type for the give key.</returns>
 		public ExtensionType Get(Guid key)
 		{
-			return this.Client.GetExtensionType(key.ToString());
+			return this.cacheService.Get<ExtensionType>(key.ToString(), () => this.Client.GetExtensionType(key.ToString()));
 		}
 
 		/// <summary>

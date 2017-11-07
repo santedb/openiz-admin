@@ -59,13 +59,13 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 			this.IsInverse = isInverse;
 			this.Quantity = entityRelationship.Quantity;
 
-			this.RelationshipTypeName = entityRelationship.RelationshipType != null ? string.Join(" ", entityRelationship.RelationshipType.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
+			this.RelationshipTypeName = entityRelationship.RelationshipType != null ? string.Join(", ", entityRelationship.RelationshipType.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
 
 			this.SourceName = entityRelationship.SourceEntity != null ? string.Join(" ", entityRelationship.SourceEntity.Names.SelectMany(n => n.Component).Select(c => c.Value)) : Constants.NotApplicable;
-			this.SourceTypeConcept = entityRelationship.SourceEntity?.TypeConcept != null ? string.Join(" ", entityRelationship.SourceEntity.TypeConcept.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
+			this.SourceTypeConcept = entityRelationship.SourceEntity?.TypeConcept != null ? string.Join(", ", entityRelationship.SourceEntity.TypeConcept.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
 
 			this.TargetName = entityRelationship.TargetEntity != null ? string.Join(" ", entityRelationship.TargetEntity.Names.SelectMany(n => n.Component).Select(c => c.Value)) : Constants.NotApplicable;
-			this.TargetTypeConcept = entityRelationship.TargetEntity?.TypeConcept != null ? string.Join(" ", entityRelationship.TargetEntity.TypeConcept.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
+			this.TargetTypeConcept = entityRelationship.TargetEntity?.TypeConcept != null ? string.Join(", ", entityRelationship.TargetEntity.TypeConcept.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
 		}
 
 		/// <summary>
