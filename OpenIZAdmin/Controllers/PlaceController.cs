@@ -20,7 +20,6 @@
 using Microsoft.AspNet.Identity;
 using OpenIZ.Core.Extensions;
 using OpenIZ.Core.Model;
-using OpenIZ.Core.Model.Collection;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
@@ -40,7 +39,6 @@ using OpenIZAdmin.Services.Metadata.Concepts;
 using OpenIZAdmin.Services.Security.Users;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
@@ -52,7 +50,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing places.
 	/// </summary>
 	[TokenAuthorize(Constants.UnrestrictedMetadata)]
-	public class PlaceController : EntityBaseController
+	public class PlaceController : Controller//EntityBaseController
 	{
 		/// <summary>
 		/// The concept service.
@@ -244,7 +242,7 @@ namespace OpenIZAdmin.Controllers
 
 				var relationships = new List<EntityRelationship>();
 
-				relationships.AddRange(this.GetEntityRelationships<Place>(place.Key.Value,
+				relationships.AddRange(this.entityService.GetEntityRelationships<Place>(place.Key.Value,
 					r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
 						r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
 						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
@@ -260,9 +258,9 @@ namespace OpenIZAdmin.Controllers
 				// JF - THIS NEEDS TO BE CHANGED TO USE A CONCEPT SET
 				var concepts = new List<Concept>
 				{
-					this.GetConcept(EntityRelationshipTypeKeys.Child),
-					this.GetConcept(EntityRelationshipTypeKeys.Parent),
-					this.GetConcept(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation)
+					this.conceptService.GetConcept(EntityRelationshipTypeKeys.Child, true),
+					this.conceptService.GetConcept(EntityRelationshipTypeKeys.Parent, true),
+					this.conceptService.GetConcept(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, true)
 				};
 
 				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()));
@@ -292,11 +290,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (this.ModelState.IsValid)
 				{
-					Place place = null;
-					if (model.Inverse)
-						place = this.GetEntity<Place>(Guid.Parse(model.TargetId));
-					else
-						place = this.GetEntity<Place>(model.SourceId);
+					var place = this.entityService.Get<Place>(model.Inverse ? Guid.Parse(model.TargetId) : model.SourceId);
 
 					if (place == null)
 					{
@@ -310,7 +304,7 @@ namespace OpenIZAdmin.Controllers
 
 					place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.Inverse ? model.SourceId : Guid.Parse(model.TargetId)) { EffectiveVersionSequenceId = place.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
 
-					this.ImsiClient.Update(place);
+					this.entityService.Update(place);
 
 					this.TempData["success"] = Locale.RelatedPlaceCreatedSuccessfully;
 
@@ -324,8 +318,8 @@ namespace OpenIZAdmin.Controllers
 
 			var concepts = new List<Concept>
 			{
-				this.GetConcept(EntityRelationshipTypeKeys.Child),
-				this.GetConcept(EntityRelationshipTypeKeys.Parent)
+				this.conceptService.GetConcept(EntityRelationshipTypeKeys.Child, true),
+				this.conceptService.GetConcept(EntityRelationshipTypeKeys.Parent, true)
 			};
 
 			Guid relationshipType;
@@ -351,7 +345,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var place = this.GetEntity<Place>(id);
+				var place = this.entityService.Get<Place>(id);
 
 				if (place == null)
 				{
@@ -362,7 +356,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.TempData["success"] = Locale.PlaceDeactivatedSuccessfully;
 
-				var result = this.ImsiClient.Obsolete<Place>(place);
+				var result = this.entityService.Obsolete(place);
 
 				return RedirectToAction("ViewPlace", new { id = result.Key, versionId = result.VersionKey });
 			}
@@ -423,7 +417,7 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditPlaceModel(place)
 				{
-					UpdatedBy = this.GetUserEntityBySecurityUserKey(place.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
+					UpdatedBy = this.userService.GetUserEntityBySecurityUserKey(place.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
 				};
 
 				// get the place type concepts
@@ -468,11 +462,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (ModelState.IsValid)
 				{
-					var bundle = this.ImsiClient.Query<Place>(p => p.Key == model.Id && p.ObsoletionTime == null, 0, null, true);
-
-					bundle.Reconstitute();
-
-					var place = bundle.Item.OfType<Place>().FirstOrDefault(p => p.Key == model.Id && p.ObsoletionTime == null);
+					var place = this.entityService.Get<Place>(model.Id, null, p => p.ObsoletionTime == null);
 
 					if (place == null)
 					{
@@ -511,7 +501,7 @@ namespace OpenIZAdmin.Controllers
 
 					placeToUpdate.CreatedByKey = Guid.Parse(this.User.Identity.GetUserId());
 
-					var updatedPlace = this.UpdateEntity<Place>(placeToUpdate);
+					var updatedPlace = this.entityService.Update(placeToUpdate);
 
 					TempData["success"] = Locale.PlaceSuccessfullyUpdated;
 
@@ -539,7 +529,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var place = this.ImsiClient.Get<Place>(id, null) as Place;
+				var place = this.entityService.Get<Place>(id);
 
 				if (place == null)
 				{
@@ -575,7 +565,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (this.ModelState.IsValid)
 				{
-					var place = this.ImsiClient.Get<Place>(model.SourceId, null) as Place;
+					var place = this.entityService.Get<Place>(model.SourceId);
 
 					if (place == null)
 					{
@@ -586,7 +576,7 @@ namespace OpenIZAdmin.Controllers
 					place.Relationships.RemoveAll(r => r.Key == model.Id);
 					place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), Guid.Parse(model.TargetId)));
 
-					var updatedPlace = this.ImsiClient.Update<Place>(place);
+					var updatedPlace = this.entityService.Update(place);
 
 					return RedirectToAction("Edit", new { id = updatedPlace.Key.Value });
 				}
@@ -641,7 +631,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 			{
-				Bundle bundle;
+				IEnumerable<Place> places;
 
 				Expression<Func<Place, bool>> nameExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)));
 
@@ -650,16 +640,17 @@ namespace OpenIZAdmin.Controllers
 					var type = Guid.Empty;
 
 					if (String.IsNullOrEmpty(searchType) || !Guid.TryParse(searchType, out type))
-						bundle = this.ImsiClient.Query<Place>(p => p.ObsoletionTime == null, 0, null, new[] { "typeConcept", "address" });
+						places = this.entityService.Query<Place>(p => p.ObsoletionTime == null, 0, null, new[] { "typeConcept", "address" });
 					else
-						bundle = this.ImsiClient.Query<Place>(p => p.TypeConceptKey == type && p.ObsoletionTime == null, 0, null, new[] { "typeConcept", "address" });
+						places = this.entityService.Query<Place>(p => p.TypeConceptKey == type && p.ObsoletionTime == null, 0, null, new[] { "typeConcept", "address" });
 
-					foreach (var place in bundle.Item.OfType<Place>().LatestVersionOnly())
+					// force load the type concept of the place if the IMS didn't return it
+					foreach (var place in places.Where(p => p.TypeConceptKey.HasValue && p.TypeConcept == null))
 					{
-						place.TypeConcept = this.GetTypeConcept(place);
+						place.TypeConcept = this.conceptService.GetConcept(place.TypeConceptKey.Value, true);
 					}
 
-					results = bundle.Item.OfType<Place>().LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+					results = places.Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 				}
 				else
 				{
@@ -669,20 +660,21 @@ namespace OpenIZAdmin.Controllers
 					if (!Guid.TryParse(searchTerm, out placeId))
 					{
 						if (String.IsNullOrEmpty(searchType) || !Guid.TryParse(searchType, out type))
-							bundle = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))), 0, null, new[] { "typeConcept", "address" });
+							places = this.entityService.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))), 0, null, new[] { "typeConcept", "address" });
 						else
-							bundle = this.ImsiClient.Query<Place>(p => p.TypeConceptKey == type && p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))), 0, null, new[] { "typeConcept", "address" });
+							places = this.entityService.Query<Place>(p => p.TypeConceptKey == type && p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))), 0, null, new[] { "typeConcept", "address" });
 
-						foreach (var place in bundle.Item.OfType<Place>().LatestVersionOnly())
+						// force load the type concept of the place if the IMS didn't return it
+						foreach (var place in places.Where(p => p.TypeConceptKey.HasValue && p.TypeConcept == null))
 						{
-							place.TypeConcept = this.GetTypeConcept(place);
+							place.TypeConcept = this.conceptService.GetConcept(place.TypeConceptKey.Value, true);
 						}
 
-						results = bundle.Item.OfType<Place>().Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+						results = places.Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 					}
 					else
 					{
-						var place = this.GetEntity<Place>(placeId);
+						var place = this.entityService.Get<Place>(placeId);
 
 						if (place != null)
 						{
@@ -710,14 +702,15 @@ namespace OpenIZAdmin.Controllers
 
 			if (!ModelState.IsValid) return Json(viewModels, JsonRequestBehavior.AllowGet);
 
-			Bundle places;
+			IEnumerable<Place> places;
+
 			Guid classConceptKey;
 
 			if (Guid.TryParse(classConcept, out classConceptKey))
 			{
-				places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == classConceptKey, 0, 15, new string[] { "typeConcept", "address.use" });
+				places = this.entityService.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == classConceptKey, 0, 15, new string[] { "typeConcept", "address.use" });
 
-				viewModels = places.Item.OfType<Place>().LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+				viewModels = places.Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 			}
 
 			return Json(viewModels, JsonRequestBehavior.AllowGet);
@@ -735,9 +728,9 @@ namespace OpenIZAdmin.Controllers
 
 			if (!ModelState.IsValid) return Json(viewModels, JsonRequestBehavior.AllowGet);
 
-			var places = this.ImsiClient.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation, 0, 25, new string[] { "typeConcept", "address.use" });
+			var places = this.entityService.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation, 0, 25, new string[] { "typeConcept", "address.use" });
 
-			viewModels = places.Item.OfType<Place>().LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+			viewModels = places.Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 
 			return Json(viewModels, JsonRequestBehavior.AllowGet);
 		}

@@ -25,6 +25,11 @@ namespace OpenIZAdmin.Core
 	public static class Constants
 	{
 		/// <summary>
+		/// The imported data tag.
+		/// </summary>
+		public const string ImportedDataTag = "http://openiz.org/tags/contrib/importedData";
+
+		/// <summary>
 		/// Granted policy claim
 		/// </summary>
 		public const string OpenIzGrantedPolicyClaim = "http://openiz.org/claims/grant";

@@ -438,7 +438,7 @@ namespace OpenIZAdmin.Services.Entities
 
 				bundle.Reconstitute();
 
-				entities.AddRange(bundle.Item.OfType<T>().LatestVersionOnly().Where(expression.Compile()));
+				entities.AddRange(bundle.Item.OfType<T>().LatestVersionOnly().Where(expression.Compile()).LatestVersionOnly());
 
 				this.entityAuditService.AuditQueryEntity(OutcomeIndicator.Success, entities);
 			}
@@ -469,7 +469,7 @@ namespace OpenIZAdmin.Services.Entities
 
 				bundle.Reconstitute();
 
-				entities.AddRange(bundle.Item.OfType<T>().Where(expression.Compile()));
+				entities.AddRange(bundle.Item.OfType<T>().LatestVersionOnly().Where(expression.Compile()));
 
 				this.entityAuditService.AuditQueryEntity(OutcomeIndicator.Success, entities);
 			}
@@ -500,7 +500,7 @@ namespace OpenIZAdmin.Services.Entities
 
 				bundle.Reconstitute();
 
-				entities.AddRange(bundle.Item.OfType<T>().Where(expression.Compile()));
+				entities.AddRange(bundle.Item.OfType<T>().LatestVersionOnly().Where(expression.Compile()));
 
 				this.entityAuditService.AuditQueryEntity(OutcomeIndicator.Success, entities);
 			}
@@ -637,6 +637,24 @@ namespace OpenIZAdmin.Services.Entities
 			}
 
 			return updated;
+		}
+
+		/// <summary>
+		/// Verifies the entity.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="modelType">Type of the model.</param>
+		/// <returns>Returns the verified entity.</returns>
+		public Entity Verify(Guid key, string modelType)
+		{
+			var entity = this.Get(key, this.GetModelType(modelType));
+
+			entity.Tags.RemoveAll(t => t.TagKey == OpenIZAdmin.Core.Constants.ImportedDataTag && t.Value == "true");
+			entity.Relationships.RemoveAll(r => r.TargetEntityKey == entity.Key);
+
+			entity = this.Update(entity);
+
+			return entity;
 		}
 	}
 }

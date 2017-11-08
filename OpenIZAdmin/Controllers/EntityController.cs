@@ -24,20 +24,27 @@ using OpenIZAdmin.Models.Core;
 using System;
 using System.Diagnostics;
 using System.Web.Mvc;
+using OpenIZAdmin.Services.Entities;
 
 namespace OpenIZAdmin.Controllers
 {
 	/// <summary>
-	/// Provides operations for managing alerts.
+	/// Provides operations for managing entities.
 	/// </summary>
 	[TokenAuthorize]
-	public class EntityController : EntityBaseController
+	public class EntityController : BaseController
 	{
+		/// <summary>
+		/// The entity service.
+		/// </summary>
+		private readonly IEntityService entityService;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EntityController"/> class.
 		/// </summary>
-		public EntityController()
+		public EntityController(IEntityService entityService)
 		{
+			this.entityService = entityService;
 		}
 
 		/// <summary>
@@ -54,14 +61,7 @@ namespace OpenIZAdmin.Controllers
 			{
 				if (this.ModelState.IsValid)
 				{
-					var modelType = this.GetModelType(model.Type);
-
-					entity = this.GetEntity(model.Id, this.GetModelType(model.Type));
-
-					entity.Tags.RemoveAll(t => t.TagKey == Constants.ImportedDataTag && t.Value == "true");
-					entity.Relationships.RemoveAll(r => r.TargetEntityKey == entity.Key);
-
-					entity = this.UpdateEntity(entity, modelType);
+					entity = this.entityService.Verify(model.Id, model.Type);
 
 					this.TempData["success"] = Locale.DataVerifiedSuccessfully;
 				}

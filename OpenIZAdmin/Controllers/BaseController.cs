@@ -241,101 +241,6 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
-		/// Gets the entity.
-		/// </summary>
-		/// <typeparam name="T">The type of entity.</typeparam>
-		/// <param name="id">The identifier.</param>
-		/// <param name="versionId">The version identifier.</param>
-		/// <param name="expression">The expression.</param>
-		/// <returns>Returns the identifier based on the id, version id, and an expression.</returns>
-		protected T GetEntity<T>(Guid id, Guid? versionId = null, Expression<Func<T, bool>> expression = null) where T : Entity
-		{
-			Expression<Func<T, bool>> query = o => o.Key == id;
-
-			if (versionId.HasValue && versionId.Value != Guid.Empty && expression != null)
-			{
-				query = o => o.Key == id && o.VersionKey == versionId && expression.Compile().Invoke(o);
-			}
-			else if (versionId.HasValue && versionId.Value != Guid.Empty)
-			{
-				query = o => o.Key == id && o.VersionKey == versionId;
-			}
-
-			T entity = null;
-
-			var bundle = this.ImsiClient.Query<T>(query, 0, null, true);
-
-			bundle.Reconstitute();
-
-			entity = bundle.Item.OfType<T>().Where(query.Compile()).LatestVersionOnly().FirstOrDefault(query.Compile().Invoke);
-
-			if (entity == null)
-			{
-				return null;
-			}
-
-			if (entity.TypeConceptKey.HasValue && entity.TypeConceptKey != Guid.Empty)
-			{
-				entity.TypeConcept = this.GetConcept(entity.TypeConceptKey.Value);
-			}
-
-			return entity;
-		}
-
-		/// <summary>
-		/// Gets the entity relationships.
-		/// </summary>
-		/// <typeparam name="TTargetType">The type of the t target type.</typeparam>
-		/// <param name="id">The identifier.</param>
-		/// <param name="entityRelationshipExpression">The entity relationship expression.</param>
-		/// <returns>Returns a list of entity relationships for the given entity.</returns>
-		protected IEnumerable<EntityRelationship> GetEntityRelationships<TTargetType>(Guid id, Expression<Func<EntityRelationship, bool>> entityRelationshipExpression = null) where TTargetType : Entity
-		{
-			Bundle bundle;
-
-			if (entityRelationshipExpression != null)
-			{
-				bundle = this.ImsiClient.Query<EntityRelationship>(c => c.SourceEntityKey == id && entityRelationshipExpression.Compile().Invoke(c));
-			}
-			else
-			{
-				bundle = this.ImsiClient.Query<EntityRelationship>(c => c.SourceEntityKey == id);
-			}
-
-			bundle.Reconstitute();
-
-			var entityRelationships = bundle.Item.OfType<EntityRelationship>().ToArray();
-
-			if (entityRelationshipExpression != null)
-			{
-				entityRelationships = entityRelationships.Where(c => entityRelationshipExpression.Compile().Invoke(c)).ToArray();
-			}
-
-			foreach (var entityRelationship in entityRelationships)
-			{
-				// only load the relationship type concept if the IMS didn't return the relationship type concept of the relationship
-				if (entityRelationship.RelationshipType == null && entityRelationship.RelationshipTypeKey.HasValue && entityRelationship.RelationshipTypeKey.Value != Guid.Empty)
-				{
-					entityRelationship.RelationshipType = this.GetConcept(entityRelationship.RelationshipTypeKey);
-				}
-
-				// only load the target entity if the IMS didn't return the target entity by default
-				if (entityRelationship.TargetEntity == null && entityRelationship.TargetEntityKey.HasValue && entityRelationship.TargetEntityKey.Value != Guid.Empty)
-				{
-					entityRelationship.TargetEntity = this.ImsiClient.Get<TTargetType>(entityRelationship.TargetEntityKey.Value, null) as TTargetType;
-				}
-
-				// only load the type concept of the target entity if the IMS didn't return the type concept of the target entity
-				if (entityRelationship.TargetEntity?.TypeConcept == null && entityRelationship.TargetEntity?.TypeConceptKey.HasValue == true && entityRelationship.TargetEntity?.TypeConceptKey != Guid.Empty)
-				{
-					entityRelationship.TargetEntity.TypeConcept = this.GetConcept(entityRelationship.TargetEntity.TypeConceptKey.Value);
-				}
-			}
-
-			return entityRelationships;
-		}
-
-		/// <summary>
 		/// Gets the phone type concept set.
 		/// </summary>
 		/// <returns>Returns the concept set which represents a telecommunications address use.</returns>
@@ -358,33 +263,6 @@ namespace OpenIZAdmin.Controllers
 			}
 
 			return conceptSet;
-		}
-
-		/// <summary>
-		/// Gets the type concept.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="entity">The entity.</param>
-		/// <returns>Return the entity with a type concept value.</returns>
-		protected Concept GetTypeConcept<T>(T entity) where T : Entity
-		{
-			Concept typeConcept = null;
-
-			if (entity.TypeConceptKey.HasValue && entity.TypeConceptKey.Value != Guid.Empty)
-			{
-				typeConcept = MvcApplication.MemoryCache.Get(entity.TypeConceptKey.ToString()) as Concept;
-
-				if (typeConcept == null)
-				{
-					typeConcept = this.ImsiClient.Get<Concept>(entity.TypeConceptKey.Value, null) as Concept;
-
-					entity.TypeConceptKey = typeConcept.Key;
-
-					MvcApplication.MemoryCache.Set(entity.TypeConceptKey.ToString(), typeConcept, MvcApplication.CacheItemPolicy);
-				}
-			}
-
-			return typeConcept;
 		}
 
 		/// <summary>

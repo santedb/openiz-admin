@@ -161,5 +161,13 @@ namespace OpenIZAdmin.Services.Entities
 		/// <param name="entity">The entity.</param>
 		/// <returns>Returns the updated entity.</returns>
 		Entity Update(Entity entity);
+
+		/// <summary>
+		/// Verifies the entity.
+		/// </summary>
+		/// <param name="key">The key.</param>
+		/// <param name="modelType">Type of the model.</param>
+		/// <returns>Returns the verified entity.</returns>
+		Entity Verify(Guid key, string modelType);
 	}
 }
