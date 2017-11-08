@@ -22,7 +22,7 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td>@item.Name</td>
+                    <td class="autoFitContents">@item.Name</td>
                     <td>@item.Description</td>
                     <td class="centerContent autoFitContents">
                         <a class="btn btn-primary" href="@Url.Action("Download", "Report", new { id = item.Id })">
@@ -46,7 +46,7 @@
                 {
                     "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
                 },
-                order: [],
+                order: [[0, 'asc']],
                 columns: [                  
                   null,
                   null,
