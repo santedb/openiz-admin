@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  *
- * User: yendtr
+ * User: khannan
  * Date: 2016-7-23
  */
 
@@ -56,7 +56,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			var model = new CreateConceptModel
 			{
-				ConceptClassList = this.GetConceptClasses().ToSelectList().OrderBy(c => c.Text).ToList(),
+				ConceptClassList = this.GetConceptClasses().ToSelectList().ToList(),
 				Language = Locale.EN,
 				LanguageList = LanguageUtil.GetLanguageList().ToSelectList("DisplayName", "TwoLetterCountryCode").ToList()
 			};

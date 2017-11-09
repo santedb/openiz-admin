@@ -107,7 +107,7 @@ namespace OpenIZAdmin.Extensions
 
 			selectList.AddRange(source.Select(c => new SelectListItem { Text = c.Name, Value = c.Key.ToString() }));
 
-			return selectList;
+			return selectList.OrderBy(c => c.Text);
 		}
 	}
 }
