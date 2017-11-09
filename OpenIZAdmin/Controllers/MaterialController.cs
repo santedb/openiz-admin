@@ -508,6 +508,8 @@ namespace OpenIZAdmin.Controllers
 					relationships.Add(rel);
 				}
 
+				material.Relationships = relationships;
+
 				var model = new EditMaterialModel(material)
 				{
 					FormConcepts = formConcepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == material.FormConceptKey).ToList(),
