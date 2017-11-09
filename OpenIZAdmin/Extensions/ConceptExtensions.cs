@@ -58,19 +58,32 @@ namespace OpenIZAdmin.Extensions
 				languageCode = "en";
 			}
 
-			selectList.AddRange(
-				selectedExpression != null ?
-				source.Select(c => new SelectListItem
+			foreach (var concept in source)
+			{
+				var item = new SelectListItem
 				{
-					Selected = Convert.ToBoolean(selectedExpression.Compile().DynamicInvoke(c)),
-					Text = c.ConceptNames?.Any(cn => cn.Language == languageCode) == true ? string.Join(" ", c.ConceptNames.Where(cn => cn.Language == languageCode).Select(n => n.Name)) : c.Mnemonic,
-					Value = c.Key.ToString()
-				}) :
-				source.Select(c => new SelectListItem
+					Selected = selectedExpression != null && Convert.ToBoolean(selectedExpression.Compile().DynamicInvoke(concept)),
+					Value = concept.Key.ToString()
+				};
+
+				// if the concept has names in the given language code
+				if (concept.ConceptNames?.Any(c => c.Language == languageCode) == true)
 				{
-					Text = c.ConceptNames?.Any(cn => cn.Language == languageCode) == true ? string.Join(" ", c.ConceptNames.Where(cn => cn.Language == languageCode).Select(n => n.Name)) : c.Mnemonic,
-					Value = c.Key.ToString()
-				}));
+					item.Text = string.Join(" ", concept.ConceptNames.Where(cn => cn.Language == languageCode).Select(n => n.Name));
+				}
+				// if the concept has names in english
+				else if (concept.ConceptNames?.Any(c => c.Language == "en") == true)
+				{
+					item.Text = string.Join(" ", concept.ConceptNames.Where(cn => cn.Language == "en").Select(n => n.Name));
+				}
+				// otherwise, default to the mnemonic of the concept
+				else
+				{
+					item.Text = concept.Mnemonic;
+				}
+
+				selectList.Add(item);
+			}
 
 			return selectList.OrderBy(c => c.Text);
 		}
