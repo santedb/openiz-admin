@@ -71,13 +71,22 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="id">The identifier.</param>
 		/// <param name="sourceId">The source identifier.</param>
 		/// <param name="type">The type.</param>
+		/// <param name="targetId">The target identifier.</param>
+		/// <param name="isInverse">if set to <c>true</c> [is inverse].</param>
 		/// <returns>ActionResult.</returns>
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public ActionResult Delete(Guid id, Guid sourceId, string type)
+		public ActionResult Delete(Guid id, Guid sourceId, string type, Guid targetId, bool isInverse)
 		{
+			var returnKey = sourceId;
+
 			try
 			{
+				if (isInverse)
+				{
+					returnKey = targetId;
+				}
+
 				var entityRelationship = entityRelationshipService.Get(id);
 
 				if (entityRelationship == null)
@@ -90,7 +99,7 @@ namespace OpenIZAdmin.Controllers
 
 				this.TempData["success"] = Locale.RelationshipDeletedSuccessfully;
 
-				return RedirectToAction("Edit", type, new { id = sourceId });
+				return RedirectToAction("Edit", type, new { id = returnKey });
 			}
 			catch (Exception e)
 			{
@@ -99,7 +108,7 @@ namespace OpenIZAdmin.Controllers
 
 			this.TempData["error"] = Locale.UnableToDeleteRelationship;
 
-			return RedirectToAction("Edit", type, new { id = sourceId });
+			return RedirectToAction("Edit", type, new { id = returnKey });
 		}
 
 		/// <summary>
