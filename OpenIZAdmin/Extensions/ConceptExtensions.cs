@@ -36,21 +36,24 @@ namespace OpenIZAdmin.Extensions
 		/// Converts a <see cref="IEnumerable{T}" /> of <see cref="Concept" /> to a <see cref="IEnumerable{T}" /> of <see cref="SelectListItem" />.
 		/// </summary>
 		/// <param name="source">The list of concepts to convert.</param>
-		/// <param name="selectedExpression">An expression which evaluates to set selected items.</param>
 		/// <param name="languageCode">The language code.</param>
+		/// <param name="selectedExpression">An expression which evaluates to set selected items.</param>
+		/// <param name="skipDefaultEntry">if set to <c>true</c> [skip default entry].</param>
 		/// <returns>Returns a <see cref="IEnumerable{T}" /> of <see cref="SelectListItem" />.</returns>
 		/// <exception cref="System.ArgumentNullException">If the source is null.</exception>
-		public static IEnumerable<SelectListItem> ToSelectList(this IEnumerable<Concept> source, string languageCode = "en", Expression<Func<Concept, bool>> selectedExpression = null)
+		public static IEnumerable<SelectListItem> ToSelectList(this IEnumerable<Concept> source, string languageCode = "en", Expression<Func<Concept, bool>> selectedExpression = null, bool skipDefaultEntry = false)
 		{
 			if (source == null)
 			{
 				throw new ArgumentNullException(nameof(source), Locale.ValueCannotBeNull);
 			}
 
-			var selectList = new List<SelectListItem>
+			var selectList = new List<SelectListItem>();
+
+			if (!skipDefaultEntry)
 			{
-				new SelectListItem { Text = string.Empty, Value = string.Empty }
-			};
+				selectList.Add(new SelectListItem { Text = string.Empty, Value = string.Empty });
+			}
 
 			// force set the language code if null
 			if (languageCode == null)

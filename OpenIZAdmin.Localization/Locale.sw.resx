@@ -2555,4 +2555,16 @@ au jina la kikoa</value>
   <data name="NoAreasServed" xml:space="preserve">
     <value>Hakuna Maeneo Iliyotumiwa</value>
   </data>
+  <data name="AssociateChildPlace" xml:space="preserve">
+    <value>Shirikisha Mahali ya Mtoto</value>
+  </data>
+  <data name="AssociateParentPlace" xml:space="preserve">
+    <value>Weka Mahali ya Mzazi</value>
+  </data>
+  <data name="AssociateAreaServed" xml:space="preserve">
+    <value>Eneo la Washiriki Linatumiwa</value>
+  </data>
+  <data name="AssociateDedicatedServiceDeliveryLocation" xml:space="preserve">
+    <value>Eneo la Utoaji wa Utumishi wa Kujitolea</value>
+  </data>
 </root>

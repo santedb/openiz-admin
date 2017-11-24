@@ -55,6 +55,8 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <param name="place">The place.</param>
 		public PlaceViewModel(Place place) : base(place)
 		{
+			this.AreasServed = new List<EntityRelationshipViewModel>();
+			this.DedicatedServiceDeliveryLocations = new List<EntityRelationshipViewModel>();
 			this.IsServiceDeliveryLocation = place.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation;
 			this.IsServiceDeliveryLocationDisplay = this.IsServiceDeliveryLocation ? Locale.Yes : Locale.No;
 

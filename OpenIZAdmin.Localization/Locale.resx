@@ -2532,4 +2532,16 @@
   <data name="NoAreasServed" xml:space="preserve">
     <value>No Areas Served</value>
   </data>
+  <data name="AssociateChildPlace" xml:space="preserve">
+    <value>Associate Child Place</value>
+  </data>
+  <data name="AssociateParentPlace" xml:space="preserve">
+    <value>Associate Parent Place</value>
+  </data>
+  <data name="AssociateAreaServed" xml:space="preserve">
+    <value>Associate Area Served</value>
+  </data>
+  <data name="AssociateDedicatedServiceDeliveryLocation" xml:space="preserve">
+    <value>Associate Dedicated Service Delivery Location</value>
+  </data>
 </root>

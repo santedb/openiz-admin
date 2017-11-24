@@ -149,17 +149,65 @@
 
         @if (!Model.IsObsolete)
         {
-            <div class="pull-right">
-                <a href="@Url.Action("CreateRelatedPlace", "Place", new { id = Model.Id })">
-                    <span class="text-primary h4">@Locale.NewPlace</span>
+            @*<div class="pull-right">
+                <a href="@Url.Action("AssociateChildPlace", "Place", new { id = Model.Id })">
+                    <span class="text-primary h4">@Locale.AssociateChildPlace</span>
                     <span class="glyphicon glyphicon-plus-sign"></span>
                 </a>
             </div>
+
+            <div class="pull-right">
+                <a href="@Url.Action("AssociateParentPlace", "Place", new { id = Model.Id })">
+                    <span class="text-primary h4">@Locale.AssociateParentPlace</span>
+                    <span class="glyphicon glyphicon-plus-sign"></span>
+                </a>
+            </div>*@
         }
 
     </div>
     @Html.Partial("_ManageRelationshipsPartial", Model.Relationships)
 </div>
+
+@if (Model.IsServiceDeliveryLocation)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="panel-title">@Locale.AreasServed</span>
+
+            @if (!Model.IsObsolete)
+            {
+                <div class="pull-right">
+                    <a href="@Url.Action("AssociateAreaServed", "Place", new { id = Model.Id })">
+                        <span class="text-primary h4">@Locale.AssociateAreaServed</span>
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                    </a>
+                </div>
+            }
+
+        </div>
+        @Html.Partial("_ManageAreasServedPartial", Model.AreasServed)
+    </div>
+}
+else
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="panel-title">@Locale.DedicatedServiceDeliveryLocations</span>
+
+            @if (!Model.IsObsolete)
+            {
+                <div class="pull-right">
+                    <a href="@Url.Action("AssociateDedicatedServiceDeliveryLocation", "Place", new { id = Model.Id })">
+                        <span class="text-primary h4">@Locale.AssociateDedicatedServiceDeliveryLocation</span>
+                        <span class="glyphicon glyphicon-plus-sign"></span>
+                    </a>
+                </div>
+            }
+
+        </div>
+        @Html.Partial("_ManageDedicatedServiceDeliveryLocationsPartial", Model.DedicatedServiceDeliveryLocations)
+    </div>
+}
 
 @section Scripts
 {    
@@ -174,7 +222,7 @@
             minViewMode: "years",
             startDate: '1900',
             endDate: new Date(),
-            oreintation: "auto"
+            orientation: "auto"
         });
 
         $(document).ready(function ()

@@ -32,6 +32,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Web.Mvc;
+using OpenIZAdmin.Models.EntityRelationshipModels;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
@@ -45,7 +46,9 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// </summary>
 		public EditPlaceModel()
 		{
-        }
+			this.AreasServed = new List<EntityRelationshipModel>();
+			this.DedicatedServiceDeliveryLocations = new List<EntityRelationshipModel>();
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="EditPlaceModel"/> class
@@ -54,6 +57,8 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <param name="place">The <see cref="Place"/> instance.</param>
 		public EditPlaceModel(Place place) : base(place)
 		{
+			this.AreasServed = new List<EntityRelationshipModel>();
+			this.DedicatedServiceDeliveryLocations = new List<EntityRelationshipModel>();
 			this.IsServiceDeliveryLocation = place.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation;
 			this.Name = string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value));
             this.Address = new EditEntityAddressViewModel(place.Addresses.FirstOrDefault());
@@ -82,6 +87,18 @@ namespace OpenIZAdmin.Models.PlaceModels
 
 			this.TypeConcepts = new List<SelectListItem>();
 		}
+
+		/// <summary>
+		/// Gets or sets the areas served.
+		/// </summary>
+		/// <value>The areas served.</value>
+		public List<EntityRelationshipModel> AreasServed { get; set; }
+
+		/// <summary>
+		/// Gets or sets the dedicated service delivery locations.
+		/// </summary>
+		/// <value>The dedicated service delivery locations.</value>
+		public List<EntityRelationshipModel> DedicatedServiceDeliveryLocations { get; set; }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this instance is service delivery location.

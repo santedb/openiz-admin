@@ -1,0 +1,55 @@
+﻿@model OpenIZAdmin.Models.EntityRelationshipModels.EntityRelationshipModel
+@{
+    ViewBag.Title = Locale.AssociateAreaServed;
+}
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.AssociateAreaServed</span>
+    </div>
+    <div class="panel panel-body">
+        @using (Html.BeginForm("CreateRelatedPlace", "Place", null, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            @Html.HiddenFor(m => m.Id)
+            @Html.HiddenFor(m => m.SourceId)
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.TargetId, new { @class = "col-md-2 control-label" })
+                <div class="col-md-6">
+                    @Html.DropDownListFor(m => m.TargetId, new List<SelectListItem>(), new { @class = "place-search form-control", multiple = "multiple", title = Locale.ToolTip_Facilities })
+                    @Html.ValidationMessageFor(m => m.TargetId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            if (Model.SourceClass == OpenIZ.Core.Model.Constants.EntityClassKeys.ServiceDeliveryLocation.ToString())
+            {
+            <div class="form-group">
+                @Html.LabelFor(m => m.Inverse, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.CheckBoxFor(m => m.Inverse)
+                    @Locale.ToolTop_InverseRelationship
+
+                </div>
+            </div>
+            }
+            <div class="form-group">
+                @Html.LabelFor(m => m.RelationshipType, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.RelationshipType, Model.RelationshipTypes, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.RelationshipType, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <a href="@(Request.UrlReferrer ?? new Uri(Request.Url.GetLeftPart(UriPartial.Authority)))" class="btn btn-danger">@Locale.Cancel</a>
+                    <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-primary" title="@Locale.ToolTip_Submit">@Locale.Submit</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@Html.Partial("_RelationshipsPartial", Model.ExistingRelationships)

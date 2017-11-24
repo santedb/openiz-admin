@@ -521,11 +521,86 @@ namespace OpenIZAdmin.Services.Entities
 		/// <returns>Returns a list of entities which match the given search term.</returns>
 		public IEnumerable<T> Search<T>(string searchTerm) where T : Entity
 		{
+			return this.Search<T>(searchTerm, null, null);
+		}
+
+		/// <summary>
+		/// Searches for a specific entity by search term.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="searchTerm">The search term.</param>
+		/// <param name="expandProperties">The expand properties.</param>
+		/// <returns>Returns a list of entities which match the given search term.</returns>
+		public IEnumerable<T> Search<T>(string searchTerm, string[] expandProperties) where T : Entity
+		{
+			return this.Search<T>(searchTerm, null, expandProperties);
+		}
+
+		/// <summary>
+		/// Searches the specified search term.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="searchTerm">The search term.</param>
+		/// <param name="classConceptFilterKey">The class concept filter key.</param>
+		/// <param name="expandProperties">The expand properties.</param>
+		/// <param name="invertClassConceptFilterCheck">if set to <c>true</c> [invert class concept filter check].</param>
+		/// <returns>Returns a list of entities which match the given search term and class concept key filter.</returns>
+		public IEnumerable<T> Search<T>(string searchTerm, Guid classConceptFilterKey, string[] expandProperties, bool invertClassConceptFilterCheck = false) where T : Entity
+		{
 			var results = new List<T>();
 
 			try
 			{
-				Guid classConceptKey;
+				Expression<Func<T, bool>> nameExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)));
+
+				Expression<Func<T, bool>> queryExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == classConceptFilterKey;
+
+				if (invertClassConceptFilterCheck)
+				{
+					queryExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey != classConceptFilterKey;
+				}
+
+				var bundle = this.Client.Query<T>(queryExpression, 0, null, expandProperties);
+
+				foreach (var item in bundle.Item.OfType<T>().LatestVersionOnly().Where(queryExpression.Compile()))
+				{
+					item.TypeConcept = this.conceptService.GetTypeConcept(item);
+				}
+
+				results = bundle.Item.OfType<T>().Where(nameExpression.Compile()).LatestVersionOnly().ToList();
+
+				this.entityAuditService.AuditQueryEntity(OutcomeIndicator.Success, results);
+			}
+			catch (Exception e)
+			{
+				coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, this.entityAuditService.QueryEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
+				throw;
+			}
+			return results;
+		}
+
+		/// <summary>
+		/// Searches for a specific entity by search term.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="searchTerm">The search term.</param>
+		/// <param name="type">The type.</param>
+		/// <param name="expandProperties">The expand properties.</param>
+		/// <returns>Returns a list of entities which match the given search term.</returns>
+		/// <exception cref="System.ArgumentException"></exception>
+		public IEnumerable<T> Search<T>(string searchTerm, string type, string[] expandProperties) where T : Entity
+		{
+			var results = new List<T>();
+
+			// if the list of properties to expand is null or empty, force set it to null
+			if (expandProperties == null || !expandProperties.Any())
+			{
+				expandProperties = null;
+			}
+
+			try
+			{
+				var classConceptKey = Guid.Empty;
 
 				if (typeof(T) == typeof(ManufacturedMaterial))
 				{
@@ -535,51 +610,113 @@ namespace OpenIZAdmin.Services.Entities
 				{
 					classConceptKey = EntityClassKeys.Material;
 				}
-				else if (typeof(T) == typeof(Organization))
-				{
-					classConceptKey = EntityClassKeys.Organization;
-				}
-				else if (typeof(T) == typeof(Place))
-				{
-					classConceptKey = EntityClassKeys.Place;
-				}
-				else
-				{
-					throw new ArgumentException($"Unsupported search type: {typeof(T).Name}");
-				}
+
+				var typeConceptKey = Guid.Empty;
 
 				Bundle bundle;
 
+				// set the default name expression
 				Expression<Func<T, bool>> nameExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)));
 
+				// if the search term is "*", we treat it as a wildcard search
 				if (searchTerm == "*")
 				{
-					bundle = this.Client.Query<T>(p => p.ClassConceptKey == classConceptKey, 0, null, false);
+					// set the default query expression to query on obsoletion time
+					Expression<Func<T, bool>> queryExpression = p => p.ObsoletionTime == null;
 
-					foreach (var item in bundle.Item.OfType<T>().LatestVersionOnly().Where(p => p.ClassConceptKey == classConceptKey))
+					if (!Guid.TryParse(type, out typeConceptKey))
+					{
+						// if the class concept is a material, make sure we filter on material
+						if (classConceptKey == EntityClassKeys.Material)
+						{
+							queryExpression = p => p.ClassConceptKey == EntityClassKeys.Material && p.ObsoletionTime == null;
+						}
+						// if the class concept is a manufactured material, make sure we filter on manufactured material
+						else if (classConceptKey == EntityClassKeys.ManufacturedMaterial)
+						{
+							queryExpression = p => p.ClassConceptKey == EntityClassKeys.ManufacturedMaterial && p.ObsoletionTime == null;
+						}
+
+						bundle = this.Client.Query(queryExpression, 0, null, expandProperties);
+					}
+					else
+					{
+						queryExpression = p => p.ObsoletionTime == null && p.TypeConceptKey == typeConceptKey;
+
+						// if the class concept is a material, make sure we filter on material
+						if (classConceptKey == EntityClassKeys.Material)
+						{
+							queryExpression = p => p.ClassConceptKey == EntityClassKeys.Material && p.ObsoletionTime == null && p.TypeConceptKey == typeConceptKey;
+						}
+						// if the class concept is a manufactured material, make sure we filter on manufactured material
+						else if (classConceptKey == EntityClassKeys.ManufacturedMaterial)
+						{
+							queryExpression = p => p.ClassConceptKey == EntityClassKeys.ManufacturedMaterial && p.ObsoletionTime == null && p.TypeConceptKey == typeConceptKey;
+						}
+
+						bundle = this.Client.Query(queryExpression, 0, null, expandProperties);
+					}
+
+					foreach (var item in bundle.Item.OfType<T>().LatestVersionOnly().Where(queryExpression.Compile()))
 					{
 						item.TypeConcept = this.conceptService.GetTypeConcept(item);
 					}
 
-					results = bundle.Item.OfType<T>().LatestVersionOnly().Where(p => p.ClassConceptKey == classConceptKey).ToList();
+					results = bundle.Item.OfType<T>().LatestVersionOnly().Where(queryExpression.Compile()).ToList();
 				}
 				else
 				{
 					Guid id;
 
+					// if the search term entered is not a valid GUID
 					if (!Guid.TryParse(searchTerm, out id))
 					{
-						bundle = this.Client.Query<T>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == classConceptKey, 0, null, false);
+						Expression<Func<T, bool>> queryExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm)));
 
-						foreach (var item in bundle.Item.OfType<T>().LatestVersionOnly().Where(p => p.ClassConceptKey == classConceptKey))
+						if (!Guid.TryParse(type, out typeConceptKey))
+						{
+							// if the class concept is a material, make sure we filter on material
+							if (classConceptKey == EntityClassKeys.Material)
+							{
+								queryExpression = p => p.ClassConceptKey == EntityClassKeys.Material && p.ObsoletionTime == null;
+							}
+							// if the class concept is a manufactured material, make sure we filter on manufactured material
+							else if (classConceptKey == EntityClassKeys.ManufacturedMaterial)
+							{
+								queryExpression = p => p.ClassConceptKey == EntityClassKeys.ManufacturedMaterial && p.ObsoletionTime == null;
+							}
+
+							bundle = this.Client.Query(queryExpression, 0, null, expandProperties);
+						}
+						else
+						{
+							queryExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.TypeConceptKey == typeConceptKey;
+
+							// if the class concept is a material, make sure we filter on material
+							if (classConceptKey == EntityClassKeys.Material)
+							{
+								queryExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.Material && p.ObsoletionTime == null && p.TypeConceptKey == typeConceptKey;
+							}
+							// if the class concept is a manufactured material, make sure we filter on manufactured material
+							else if (classConceptKey == EntityClassKeys.ManufacturedMaterial)
+							{
+								queryExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.ManufacturedMaterial && p.ObsoletionTime == null && p.TypeConceptKey == typeConceptKey;
+							}
+
+							bundle = this.Client.Query<T>(queryExpression, 0, null, expandProperties);
+						}
+
+						foreach (var item in bundle.Item.OfType<T>().LatestVersionOnly().Where(p => p.TypeConcept == null && p.TypeConceptKey.HasValue))
 						{
 							item.TypeConcept = this.conceptService.GetTypeConcept(item);
 						}
 
-						results = bundle.Item.OfType<T>().Where(nameExpression.Compile()).LatestVersionOnly().Where(p => p.ClassConceptKey == classConceptKey).ToList();
+						results = bundle.Item.OfType<T>().Where(nameExpression.Compile()).LatestVersionOnly().ToList();
 					}
+					// if the search term entered is a valid GUID
 					else
 					{
+						// attempt to retrieve the entity by it's GUID
 						var entity = this.Get<T>(id);
 
 						if (entity != null)

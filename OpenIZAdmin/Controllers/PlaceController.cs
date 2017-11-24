@@ -50,7 +50,7 @@ namespace OpenIZAdmin.Controllers
 	/// Provides operations for managing places.
 	/// </summary>
 	[TokenAuthorize(Constants.UnrestrictedMetadata)]
-	public class PlaceController : Controller//EntityBaseController
+	public class PlaceController : Controller
 	{
 		/// <summary>
 		/// The concept service.
@@ -123,6 +123,221 @@ namespace OpenIZAdmin.Controllers
 			this.TempData["error"] = Locale.UnableToActivatePlace;
 
 			return RedirectToAction("Edit", new { id = id, versionId = versionId });
+		}
+
+		/// <summary>
+		/// Associates the area served.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>Returns the associate area served view.</returns>
+		[HttpGet]
+		public ActionResult AssociateAreaServed(Guid id)
+		{
+			try
+			{
+				var place = this.entityService.Get<Place>(id);
+
+				if (place == null)
+				{
+					this.TempData["error"] = Locale.PlaceNotFound;
+
+					return RedirectToAction("Edit", new { id = id });
+				}
+
+				var relationships = new List<EntityRelationship>();
+
+				// get relationships where I am the target of type dedicated service delivery location
+				relationships.AddRange(entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, new List<Type> { typeof(Person) }));
+
+				place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
+
+				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
+				{
+					ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList(),
+					SourceClass = place.ClassConceptKey?.ToString()
+				};
+
+				var concepts = new List<Concept>
+				{
+					this.conceptService.GetConcept(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, true)
+				};
+
+				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, true));
+
+				return View(model);
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to load associate child place view: { e }");
+			}
+
+			this.TempData["error"] = Locale.PlaceNotFound;
+
+			return RedirectToAction("Edit", new { id = id });
+		}
+
+		/// <summary>
+		/// Associates the child place.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>Returns the associate child place view.</returns>
+		[HttpGet]
+		public ActionResult AssociateChildPlace(Guid id)
+		{
+			try
+			{
+				var place = this.entityService.Get<Place>(id);
+
+				if (place == null)
+				{
+					this.TempData["error"] = Locale.PlaceNotFound;
+
+					return RedirectToAction("Edit", new { id = id });
+				}
+
+				var relationships = new List<EntityRelationship>();
+
+				// get the relationships where I am the source and the relationship type is parent
+				relationships.AddRange(entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Parent));
+
+				// get the relationships where I am the target and the relationship type is parent
+				relationships.AddRange(entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.Parent));
+
+				place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
+
+				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
+				{
+					ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList(),
+					SourceClass = place.ClassConceptKey?.ToString()
+				};
+
+				var concepts = new List<Concept>
+				{
+					this.conceptService.GetConcept(EntityRelationshipTypeKeys.Child, true)
+				};
+
+				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), null, true));
+
+				return View(model);
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to load associate child place view: { e }");
+			}
+
+			this.TempData["error"] = Locale.PlaceNotFound;
+
+			return RedirectToAction("Edit", new { id = id });
+		}
+
+		/// <summary>
+		/// Associates the dedicated service delivery location.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>Returns the associate dedicated service delivery location view.</returns>
+		[HttpGet]
+		public ActionResult AssociateDedicatedServiceDeliveryLocation(Guid id)
+		{
+			try
+			{
+				var place = this.entityService.Get<Place>(id);
+
+				if (place == null)
+				{
+					this.TempData["error"] = Locale.PlaceNotFound;
+
+					return RedirectToAction("Edit", new { id = id });
+				}
+
+				var relationships = new List<EntityRelationship>();
+
+				relationships.AddRange(this.entityService.GetEntityRelationships<Place>(place.Key.Value,
+					r => r.RelationshipTypeKey == EntityRelationshipTypeKeys.Child ||
+						r.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent ||
+						r.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
+
+				place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
+
+				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
+				{
+					ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList(),
+					SourceClass = place.ClassConceptKey?.ToString()
+				};
+
+				// JF - THIS NEEDS TO BE CHANGED TO USE A CONCEPT SET
+				var concepts = new List<Concept>
+				{
+					this.conceptService.GetConcept(EntityRelationshipTypeKeys.Child, true),
+					this.conceptService.GetConcept(EntityRelationshipTypeKeys.Parent, true),
+					this.conceptService.GetConcept(EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, true)
+				};
+
+				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage()));
+
+				return View(model);
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to load associate child place view: { e }");
+			}
+
+			this.TempData["error"] = Locale.PlaceNotFound;
+
+			return RedirectToAction("Edit", new { id = id });
+		}
+
+		/// <summary>
+		/// Associates the parent place.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>Returns the associate parent place view.</returns>
+		[HttpGet]
+		public ActionResult AssociateParentPlace(Guid id)
+		{
+			try
+			{
+				var place = this.entityService.Get<Place>(id);
+
+				if (place == null)
+				{
+					this.TempData["error"] = Locale.PlaceNotFound;
+
+					return RedirectToAction("Edit", new { id = id });
+				}
+
+				var relationships = new List<EntityRelationship>();
+
+				// get the relationships where I am the source and the relationship type is parent
+				relationships.AddRange(entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Parent));
+
+				// get the relationships where I am the target and the relationship type is parent
+				relationships.AddRange(entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.Parent));
+
+				place.Relationships = relationships.Intersect(place.Relationships, new EntityRelationshipComparer()).ToList();
+
+				var model = new EntityRelationshipModel(Guid.NewGuid(), id)
+				{
+					ExistingRelationships = place.Relationships.Select(r => new EntityRelationshipViewModel(r)).ToList(),
+					SourceClass = place.ClassConceptKey?.ToString()
+				};
+
+				var concepts = new List<Concept>
+				{
+					this.conceptService.GetConcept(EntityRelationshipTypeKeys.Parent, true)
+				};
+
+				model.RelationshipTypes.AddRange(concepts.ToSelectList(this.HttpContext.GetCurrentLanguage(), null, true));
+
+				return View(model);
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to load associate parent place view: { e }");
+			}
+
+			this.TempData["error"] = Locale.PlaceNotFound;
+
+			return RedirectToAction("Edit", new { id = id });
 		}
 
 		/// <summary>
@@ -299,16 +514,36 @@ namespace OpenIZAdmin.Controllers
 						return RedirectToAction("Edit", new { id = model.SourceId });
 					}
 
-					if (Guid.Parse(model.RelationshipType) == EntityRelationshipTypeKeys.Parent)
+					// if the relationship type is child, find the target place
+					// and add a parent relationship to the target place, where the target of that relationship is the current place in context
+					if (Guid.Parse(model.RelationshipType) == EntityRelationshipTypeKeys.Child)
+					{
+						var childPlace = this.entityService.Get<Place>(Guid.Parse(model.TargetId));
+
+						childPlace.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.Parent, place.Key)
+						{
+							Key = Guid.NewGuid(),
+							Quantity = model.Quantity ?? 0,
+							SourceEntityKey = Guid.Parse(model.TargetId)
+						});
+
+						this.entityService.Update(childPlace);
+					}
+					else if (Guid.Parse(model.RelationshipType) == EntityRelationshipTypeKeys.Parent)
+					{
 						place.Relationships.RemoveAll(r => r.TargetEntityKey == Guid.Parse(model.TargetId) && r.RelationshipTypeKey == Guid.Parse(model.RelationshipType));
+						place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.Inverse ? model.SourceId : Guid.Parse(model.TargetId)) { EffectiveVersionSequenceId = place.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
+					}
+					else
+					{
+						place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.Inverse ? model.SourceId : Guid.Parse(model.TargetId)) { EffectiveVersionSequenceId = place.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
+					}
 
-					place.Relationships.Add(new EntityRelationship(Guid.Parse(model.RelationshipType), model.Inverse ? model.SourceId : Guid.Parse(model.TargetId)) { EffectiveVersionSequenceId = place.VersionSequence, Key = Guid.NewGuid(), Quantity = model.Quantity ?? 0, SourceEntityKey = model.SourceId });
-
-					this.entityService.Update(place);
+					var updatedPlace = this.entityService.Update(place);
 
 					this.TempData["success"] = Locale.RelatedPlaceCreatedSuccessfully;
 
-					return RedirectToAction("Edit", new { id = place.Key.Value });
+					return RedirectToAction("Edit", new { id = updatedPlace.Key.Value, versionId = updatedPlace.VersionKey });
 				}
 			}
 			catch (Exception e)
@@ -381,7 +616,7 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
-				var place = this.entityService.Get<Place>(id);
+				var place = this.entityService.Get<Place>(id, versionId);
 
 				if (place == null)
 				{
@@ -395,13 +630,30 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("ViewPlace", new { id, versionId });
 				}
 
+				var areasServed = new List<EntityRelationship>();
+				var dedicatedServiceDeliveryLocations = new List<EntityRelationship>();
 				var relationships = new List<EntityRelationship>();
 
-				// get relationships where I am the source of type parent
-				relationships.AddRange(entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Parent));
+				// get relationships where I am the source and the relationship type is parent
+				relationships.AddRange(this.entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Parent));
 
-				// get relationships where I am the target of type dedicated service delivery location
-				relationships.AddRange(entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
+				// get relationships where I am the target and the relationship type is parent
+				relationships.AddRange(this.entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.Parent));
+
+				// get relationships where I am the source and the relationship type is child
+				//relationships.AddRange(this.entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Child));
+
+				// if I am not a service delivery location, load the dedicated service delivery locations which I am pointing at
+				if (place.ClassConceptKey != EntityClassKeys.ServiceDeliveryLocation)
+				{
+					// get relationships where I am the source of type dedicated service delivery location
+					dedicatedServiceDeliveryLocations.AddRange(entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation));
+				}
+				else
+				{
+					// get relationships where I am the target of type dedicated service delivery location
+					areasServed.AddRange(entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation, new List<Type> { typeof(Person) }));
+				}
 
 				// get relationships where I am the target of type parent
 				relationships.AddRange(entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.Parent));
@@ -417,6 +669,8 @@ namespace OpenIZAdmin.Controllers
 
 				var model = new EditPlaceModel(place)
 				{
+					AreasServed = areasServed.Select(r => new EntityRelationshipModel(r, place.Type, place.ClassConceptKey?.ToString(), r.TargetEntityKey == place.Key) { Quantity = r.Quantity }).ToList(),
+					DedicatedServiceDeliveryLocations = dedicatedServiceDeliveryLocations.Select(r => new EntityRelationshipModel(r, place.Type, place.ClassConceptKey?.ToString(), r.TargetEntityKey == place.Key) { Quantity = r.Quantity }).ToList(),
 					UpdatedBy = this.userService.GetUserEntityBySecurityUserKey(place.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
 				};
 
@@ -629,59 +883,16 @@ namespace OpenIZAdmin.Controllers
 		{
 			var results = new List<PlaceViewModel>();
 
-			if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
+			try
 			{
-				IEnumerable<Place> places;
-
-				Expression<Func<Place, bool>> nameExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)));
-
-				if (searchTerm == "*")
+				if (!string.IsNullOrEmpty(searchTerm) && !string.IsNullOrWhiteSpace(searchTerm))
 				{
-					var type = Guid.Empty;
-
-					if (String.IsNullOrEmpty(searchType) || !Guid.TryParse(searchType, out type))
-						places = this.entityService.Query<Place>(p => p.ObsoletionTime == null, 0, null, new[] { "typeConcept", "address" });
-					else
-						places = this.entityService.Query<Place>(p => p.TypeConceptKey == type && p.ObsoletionTime == null, 0, null, new[] { "typeConcept", "address" });
-
-					// force load the type concept of the place if the IMS didn't return it
-					foreach (var place in places.Where(p => p.TypeConceptKey.HasValue && p.TypeConcept == null))
-					{
-						place.TypeConcept = this.conceptService.GetConcept(place.TypeConceptKey.Value, true);
-					}
-
-					results = places.Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+					results = this.entityService.Search<Place>(searchTerm, searchType, new[] { "typeConcept", "address" }).Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 				}
-				else
-				{
-					Guid placeId;
-					var type = Guid.Empty;
-
-					if (!Guid.TryParse(searchTerm, out placeId))
-					{
-						if (String.IsNullOrEmpty(searchType) || !Guid.TryParse(searchType, out type))
-							places = this.entityService.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))), 0, null, new[] { "typeConcept", "address" });
-						else
-							places = this.entityService.Query<Place>(p => p.TypeConceptKey == type && p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))), 0, null, new[] { "typeConcept", "address" });
-
-						// force load the type concept of the place if the IMS didn't return it
-						foreach (var place in places.Where(p => p.TypeConceptKey.HasValue && p.TypeConcept == null))
-						{
-							place.TypeConcept = this.conceptService.GetConcept(place.TypeConceptKey.Value, true);
-						}
-
-						results = places.Where(nameExpression.Compile()).LatestVersionOnly().Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
-					}
-					else
-					{
-						var place = this.entityService.Get<Place>(placeId);
-
-						if (place != null)
-						{
-							results.Add(new PlaceViewModel(place));
-						}
-					}
-				}
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to search for places: {e}");
 			}
 
 			TempData["searchTerm"] = searchTerm;
@@ -698,22 +909,30 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult SearchAddressAjax(string searchTerm, string classConcept)
 		{
-			var viewModels = new List<PlaceViewModel>();
+			var results = new List<PlaceViewModel>();
 
-			if (!ModelState.IsValid) return Json(viewModels, JsonRequestBehavior.AllowGet);
-
-			IEnumerable<Place> places;
-
-			Guid classConceptKey;
-
-			if (Guid.TryParse(classConcept, out classConceptKey))
+			if (string.IsNullOrEmpty(searchTerm) || string.IsNullOrWhiteSpace(searchTerm))
 			{
-				places = this.entityService.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == classConceptKey, 0, 15, new string[] { "typeConcept", "address.use" });
-
-				viewModels = places.Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+				return Json(results, JsonRequestBehavior.AllowGet);
 			}
 
-			return Json(viewModels, JsonRequestBehavior.AllowGet);
+			try
+			{
+				Guid classConceptKey;
+
+				if (Guid.TryParse(classConcept, out classConceptKey))
+				{
+					var places = this.entityService.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == classConceptKey, 0, 15, new string[] { "typeConcept", "address.use" });
+
+					results = places.Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+				}
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to search for addresses: {e}");
+			}
+
+			return Json(results, JsonRequestBehavior.AllowGet);
 		}
 
 		/// <summary>
@@ -724,15 +943,52 @@ namespace OpenIZAdmin.Controllers
 		[HttpGet]
 		public ActionResult SearchAjax(string searchTerm)
 		{
-			var viewModels = new List<PlaceViewModel>();
+			var results = new List<PlaceViewModel>();
 
-			if (!ModelState.IsValid) return Json(viewModels, JsonRequestBehavior.AllowGet);
+			if (string.IsNullOrEmpty(searchTerm) || string.IsNullOrWhiteSpace(searchTerm))
+			{
+				return Json(results, JsonRequestBehavior.AllowGet);
+			}
+			try
+			{
+				var places = this.entityService.Search<Place>(searchTerm, new[] { "typeConcept", "address.use" });
 
-			var places = this.entityService.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation, 0, 25, new string[] { "typeConcept", "address.use" });
+				results = places.Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to search for places: {e}");
+			}
 
-			viewModels = places.Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+			return Json(results, JsonRequestBehavior.AllowGet);
+		}
 
-			return Json(viewModels, JsonRequestBehavior.AllowGet);
+		/// <summary>
+		/// Searches for a dedicated service delivery location.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns a list of dedicated service delivery locations which match the search term.</returns>
+		[HttpGet]
+		public ActionResult SearchDedicatedServiceDeliveryLocation(string searchTerm)
+		{
+			var results = new List<PlaceViewModel>();
+
+			if (string.IsNullOrEmpty(searchTerm) || string.IsNullOrWhiteSpace(searchTerm))
+			{
+				return Json(results, JsonRequestBehavior.AllowGet);
+			}
+			try
+			{
+				var places = this.entityService.Search<Place>(searchTerm, EntityClassKeys.ServiceDeliveryLocation, new[] { "typeConcept", "address.use" });
+
+				results = places.Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to search for places: {e}");
+			}
+
+			return Json(results, JsonRequestBehavior.AllowGet);
 		}
 
 		/// <summary>
@@ -758,8 +1014,14 @@ namespace OpenIZAdmin.Controllers
 				var dedicatedServiceDeliveryLocations = new List<EntityRelationship>();
 				var relationships = new List<EntityRelationship>();
 
-				// get relationships where I am the source of type parent
-				relationships.AddRange(entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Parent));
+				// get relationships where I am the source and the relationship type is parent
+				relationships.AddRange(this.entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Parent));
+
+				// get relationships where I am the target and the relationship type is parent
+				relationships.AddRange(this.entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.Parent));
+
+				// get relationships where I am the source and the relationship type is child
+				//relationships.AddRange(this.entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Child));
 
 				// if I am not a service delivery location, load the dedicated service delivery locations which I am pointing at
 				if (place.ClassConceptKey != EntityClassKeys.ServiceDeliveryLocation)

@@ -655,11 +655,47 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Associate Area Served.
+        /// </summary>
+        public static string AssociateAreaServed {
+            get {
+                return ResourceManager.GetString("AssociateAreaServed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Associate Child Place.
+        /// </summary>
+        public static string AssociateChildPlace {
+            get {
+                return ResourceManager.GetString("AssociateChildPlace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Associate Dedicated Service Delivery Location.
+        /// </summary>
+        public static string AssociateDedicatedServiceDeliveryLocation {
+            get {
+                return ResourceManager.GetString("AssociateDedicatedServiceDeliveryLocation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Associate material.
         /// </summary>
         public static string AssociateMaterial {
             get {
                 return ResourceManager.GetString("AssociateMaterial", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Associate Parent Place.
+        /// </summary>
+        public static string AssociateParentPlace {
+            get {
+                return ResourceManager.GetString("AssociateParentPlace", resourceCulture);
             }
         }
         

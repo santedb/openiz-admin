@@ -692,6 +692,7 @@
     <Content Include="Scripts\moment.js" />
     <Content Include="Scripts\moment.min.js" />
     <Content Include="Scripts\manufactured-material-search.js" />
+    <Content Include="Scripts\dedicated-service-delivery-location-search.js" />
     <Content Include="Scripts\reference-term-search.js" />
     <Content Include="Scripts\select2-config.js" />
     <Content Include="Scripts\select2-i18n\en-ca.js" />
@@ -863,6 +864,12 @@
     <Content Include="Views\Shared\_ManufacturedMaterialSearchResultsPartial.cshtml" />
     <Content Include="Views\Shared\_DedicatedServiceDeliveryLocationsPartial.cshtml" />
     <Content Include="Views\Shared\_AreasServedPartial.cshtml" />
+    <Content Include="Views\Place\AssociateChildPlace.cshtml" />
+    <Content Include="Views\Place\AssociateParentPlace.cshtml" />
+    <Content Include="Views\Shared\_ManageAreasServedPartial.cshtml" />
+    <Content Include="Views\Shared\_ManageDedicatedServiceDeliveryLocationsPartial.cshtml" />
+    <Content Include="Views\Place\AssociateAreaServed.cshtml" />
+    <Content Include="Views\Place\AssociateDedicatedServiceDeliveryLocation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
