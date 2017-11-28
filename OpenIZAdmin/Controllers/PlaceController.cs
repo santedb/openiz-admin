@@ -729,6 +729,12 @@ namespace OpenIZAdmin.Controllers
 					model.Identifiers = place.Identifiers.Select(i => new EntityIdentifierModel(i.Key.Value, place.Key.Value)).ToList();
 					model.Relationships = place.Relationships.Select(r => new EntityRelationshipModel(r)).ToList();
 
+					// ensure the type concept list is not null
+					if (model.TypeConcepts == null)
+					{
+						model.TypeConcepts = new List<SelectListItem>();
+					}
+
 					// get the place type concepts
 					model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == place.TypeConceptKey).ToList());
 
