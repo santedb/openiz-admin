@@ -58,7 +58,8 @@ namespace OpenIZAdmin
 					OnValidateIdentity = SecurityStampValidator.OnValidateIdentity<ApplicationUserManager, ApplicationUser>(
 						validateInterval: TimeSpan.FromMinutes(30),
 						regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
-				}
+				},
+				CookieName = "OPENIZ-ADMIN"
 			});
 			app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
