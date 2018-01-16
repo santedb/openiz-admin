@@ -10,13 +10,14 @@
 
         @if (Model.Any())
         {
-            <table class="table table-striped table-bordered" id="referenceTermsTable">                
+            <table class="table table-striped table-bordered" id="referenceTermsTable">
                 <thead>
-                <tr>
-                    <th></th>
-                    <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
-                    <th>@Html.DisplayNameFor(m => m.Names)</th>                    
-                </tr>
+                    <tr>
+                        <th></th>
+                        <th>@Html.DisplayNameFor(m => m.Mnemonic)</th>
+                        <th>@Html.DisplayNameFor(m => m.Names)</th>
+                        <th>@Html.DisplayNameFor(m => m.CodeSystem)</th>
+                    </tr>
                 </thead>
                 <tbody>
                     @foreach (var referenceTerm in Model)
@@ -24,9 +25,10 @@
                         <tr>
                             <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-list" aria-hidden="true"></span></td>
                             <td>@referenceTerm.Mnemonic</td>
-                            <td>@referenceTerm.Names</td>                            
+                            <td>@referenceTerm.Names</td>
+                            <td>@referenceTerm.CodeSystem</td>
                         </tr>
-                    }
+}
                 </tbody>
             </table>
         }

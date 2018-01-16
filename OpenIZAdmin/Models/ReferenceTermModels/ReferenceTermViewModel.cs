@@ -49,6 +49,7 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		public ReferenceTermViewModel(ReferenceTerm referenceTerm) : this()
 		{
 			this.CreationTime = referenceTerm.CreationTime.DateTime;
+			this.CodeSystem = referenceTerm.CodeSystem?.Oid;
 			this.DisplayNames = referenceTerm.DisplayNames;
 			this.Id = referenceTerm.Key.Value;
 			this.Mnemonic = referenceTerm.Mnemonic;
@@ -75,7 +76,14 @@ namespace OpenIZAdmin.Models.ReferenceTermModels
 		}
 
 		/// <summary>
-		/// Gets or sets the concept identifier associated with the reference term
+		/// Gets or sets the code system.
+		/// </summary>
+		/// <value>The code system.</value>
+		[Display(Name = "CodeSystem", ResourceType = typeof(Locale))]
+		public string CodeSystem { get; set; }
+
+		/// <summary>
+		/// Gets or sets the concept identifier associated with the reference term.
 		/// </summary>
 		public Guid? ConceptId { get; set; }
 
