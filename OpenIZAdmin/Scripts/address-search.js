@@ -28,7 +28,7 @@
         maximumSelectionLength: 1,
         keepSearchResults: true,
         escapeMarkup: function (markup) { return markup; },
-        minimumInputLength: 4,
+        minimumInputLength: 3,
         templateResult: function (data) {
             var retVal = "";
             if (data.data) {

@@ -177,6 +177,19 @@ namespace OpenIZAdmin.Services.Entities
 		IEnumerable<T> Search<T>(string searchTerm, Guid classConceptFilterKey, string[] expandProperties, bool invertClassConceptFilterCheck = false) where T : Entity;
 
 		/// <summary>
+		/// Searches the specified search term.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="searchTerm">The search term.</param>
+		/// <param name="classConceptFilterKey">The class concept filter key.</param>
+		/// <param name="offset">The offset.</param>
+		/// <param name="count">The count.</param>
+		/// <param name="expandProperties">The expand properties.</param>
+		/// <param name="invertClassConceptFilterCheck">if set to <c>true</c> [invert class concept filter check].</param>
+		/// <returns>Returns a list of entities which match the given search term and class concept key filter.</returns>
+		IEnumerable<T> Search<T>(string searchTerm, Guid classConceptFilterKey, int offset, int? count, string[] expandProperties, bool invertClassConceptFilterCheck = false) where T : Entity;
+
+		/// <summary>
 		/// Searches for a specific entity by search term.
 		/// </summary>
 		/// <typeparam name="T"></typeparam>

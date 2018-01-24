@@ -928,7 +928,7 @@ namespace OpenIZAdmin.Controllers
 
 				if (Guid.TryParse(classConcept, out classConceptKey))
 				{
-					var places = this.entityService.Query<Place>(p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ObsoletionTime == null && p.ClassConceptKey == classConceptKey, 0, 15, new string[] { "typeConcept", "address.use" });
+					var places = this.entityService.Search<Place>(searchTerm, classConceptKey, 0, 15, new []{ "typeConcept", "address.use" });
 
 					results = places.Select(p => new PlaceViewModel(p)).OrderBy(p => p.Name).ToList();
 				}

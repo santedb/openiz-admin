@@ -547,6 +547,22 @@ namespace OpenIZAdmin.Services.Entities
 		/// <returns>Returns a list of entities which match the given search term and class concept key filter.</returns>
 		public IEnumerable<T> Search<T>(string searchTerm, Guid classConceptFilterKey, string[] expandProperties, bool invertClassConceptFilterCheck = false) where T : Entity
 		{
+			return this.Search<T>(searchTerm, classConceptFilterKey, 0, null, expandProperties, invertClassConceptFilterCheck);
+		}
+
+		/// <summary>
+		/// Searches the specified search term.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="searchTerm">The search term.</param>
+		/// <param name="classConceptFilterKey">The class concept filter key.</param>
+		/// <param name="offset">The offset.</param>
+		/// <param name="count">The count.</param>
+		/// <param name="expandProperties">The expand properties.</param>
+		/// <param name="invertClassConceptFilterCheck">if set to <c>true</c> [invert class concept filter check].</param>
+		/// <returns>Returns a list of entities which match the given search term and class concept key filter.</returns>
+		public IEnumerable<T> Search<T>(string searchTerm, Guid classConceptFilterKey, int offset, int? count, string[] expandProperties, bool invertClassConceptFilterCheck = false) where T : Entity
+		{
 			var results = new List<T>();
 
 			try
@@ -560,7 +576,7 @@ namespace OpenIZAdmin.Services.Entities
 					queryExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey != classConceptFilterKey;
 				}
 
-				var bundle = this.Client.Query<T>(queryExpression, 0, null, expandProperties);
+				var bundle = this.Client.Query<T>(queryExpression, offset, count, expandProperties);
 
 				foreach (var item in bundle.Item.OfType<T>().LatestVersionOnly().Where(queryExpression.Compile()))
 				{
@@ -576,6 +592,7 @@ namespace OpenIZAdmin.Services.Entities
 				coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, this.entityAuditService.QueryEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
 				throw;
 			}
+
 			return results;
 		}
 
