@@ -18,6 +18,7 @@
  */
 
 using System;
+using System.Globalization;
 using System.Reflection;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
@@ -44,7 +45,7 @@ namespace OpenIZAdmin.Models.DebugModels
 		public AssemblyInfoViewModel(Assembly assembly)
 		{
 			this.AssemblyInformation = assembly.ToString();
-			this.BuildDateTime = assembly.GetBuildDateTime(TimeZoneInfo.Local)?.ToString() ?? Locale.UnableToRetrieveBuildDateTime;
+			this.BuildDateTime = assembly.GetBuildDateTime(TimeZoneInfo.Local)?.ToString("dd/MM/yyy hh:mm:ss tt", CultureInfo.InvariantCulture) ?? Locale.UnableToRetrieveBuildDateTime;
 			this.Description = assembly.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
 			this.Title = assembly.GetCustomAttribute<AssemblyTitleAttribute>()?.Title;
 		}
