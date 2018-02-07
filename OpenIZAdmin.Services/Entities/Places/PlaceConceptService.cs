@@ -60,5 +60,14 @@ namespace OpenIZAdmin.Services.Entities.Places
 		{
 			return this.cacheService.Get("PlaceTypeConcept", () => this.conceptService.GetConceptsByConceptSetMnemonic("PlaceTypeConcept"));
 		}
+
+		/// <summary>
+		/// Gets the place sub type concepts.
+		/// </summary>
+		/// <returns>Returns a list of place type subconcepts.</returns>
+		public IEnumerable<Concept> GetPlaceSubTypeConcepts()
+		{
+			return this.cacheService.Get("PlaceTypes", () => this.conceptService.GetConceptsByConceptSetMnemonic("PlaceTypes"));
+		}
 	}
 }

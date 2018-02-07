@@ -32,5 +32,11 @@ namespace OpenIZAdmin.Services.Entities.Places
 		/// </summary>
 		/// <returns>Returns a list of place type concepts.</returns>
 		IEnumerable<Concept> GetPlaceTypeConcepts();
+
+		/// <summary>
+		/// Gets the place sub type concepts.
+		/// </summary>
+		/// <returns>Returns a list of place type subconcepts.</returns>
+		IEnumerable<Concept> GetPlaceSubTypeConcepts();
 	}
 }

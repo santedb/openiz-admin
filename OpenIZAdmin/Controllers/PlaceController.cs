@@ -357,6 +357,9 @@ namespace OpenIZAdmin.Controllers
 				// get the place type concepts
 				model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList());
 
+				// get the place types sub concepts
+				model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceSubTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList());
+
 				// order the type concept list
 				model.TypeConcepts = model.TypeConcepts.OrderBy(c => c.Text).ToList();
 			}
@@ -427,6 +430,9 @@ namespace OpenIZAdmin.Controllers
 
 			// get the place type concepts
 			model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList());
+
+			// get the place types sub concepts
+			model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceSubTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList());
 
 			// order the type concept list
 			model.TypeConcepts = model.TypeConcepts.OrderBy(c => c.Text).ToList();
@@ -677,6 +683,9 @@ namespace OpenIZAdmin.Controllers
 				// get the place type concepts
 				model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == place.TypeConceptKey).ToList());
 
+				// get the place types sub concepts
+				model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceSubTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == place.TypeConceptKey).ToList());
+
 				// order the type concept list
 				model.TypeConcepts = model.TypeConcepts.OrderBy(c => c.Text).ToList();
 
@@ -737,6 +746,9 @@ namespace OpenIZAdmin.Controllers
 
 					// get the place type concepts
 					model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == place.TypeConceptKey).ToList());
+
+					// get the place types sub concepts
+					model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceSubTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == place.TypeConceptKey).ToList());
 
 					// order the type concept list
 					model.TypeConcepts = model.TypeConcepts.OrderBy(c => c.Text).ToList();
@@ -864,6 +876,9 @@ namespace OpenIZAdmin.Controllers
 			{
 				// get the place type concepts
 				typeFilter.AddRange(this.placeConceptService.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList());
+
+				// get the place types sub concepts
+				typeFilter.AddRange(this.placeConceptService.GetPlaceSubTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList());
 
 				// order the type concept list
 				typeFilter = typeFilter.OrderBy(c => c.Text).ToList();
