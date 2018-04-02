@@ -47,7 +47,7 @@
                                     <td>@Constants.NotApplicable</td>
 }
                                 <td class="autoFitContents centerContent">
-                                    @if (item.ModelType.ToLower() == "material")
+                                    @if (item.ModelType?.ToLower() == "material")
                                     {
                                         <a class="btn btn-warning" href="@Url.Action("Edit", "EntityRelationship", new {id = item.Id, sourceId = item.SourceId, type = item.SourceType})">
                                             @Locale.Edit
