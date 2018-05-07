@@ -37,6 +37,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
+using OpenIZAdmin.Services.Dataset;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -55,6 +56,11 @@ namespace OpenIZAdmin.Controllers
 		/// The concept service
 		/// </summary>
 		private readonly IConceptService conceptService;
+
+		/// <summary>
+		/// The dataset service.
+		/// </summary>
+		private readonly IDatasetService datasetService;
 
 		/// <summary>
 		/// The material service.
@@ -82,12 +88,14 @@ namespace OpenIZAdmin.Controllers
 		/// Initializes a new instance of the <see cref="MaterialController" /> class.
 		/// </summary>
 		/// <param name="conceptService">The concept service.</param>
+		/// <param name="datasetService">The dataset service.</param>
 		/// <param name="entityService">The entity service.</param>
 		/// <param name="materialConceptService">The material concept service.</param>
 		/// <param name="userService">The user service.</param>
-		public MaterialController(IConceptService conceptService, IEntityService entityService, IMaterialConceptService materialConceptService, IUserService userService)
+		public MaterialController(IConceptService conceptService, IDatasetService datasetService, IEntityService entityService, IMaterialConceptService materialConceptService, IUserService userService)
 		{
 			this.conceptService = conceptService;
+			this.datasetService = datasetService;
 			this.entityService = entityService;
 			this.materialConceptService = materialConceptService;
 			this.userService = userService;
@@ -473,6 +481,15 @@ namespace OpenIZAdmin.Controllers
 		{
 			try
 			{
+				var material = this.entityService.Get<Material>(id);
+
+				if (material == null)
+				{
+					this.TempData["error"] = Locale.MaterialNotFound;
+					return RedirectToAction("ViewMaterial", "Material", id);
+				}
+
+				var dataset = this.datasetService.ConvertToDataset(material);
 
 			}
 			catch (Exception e)

@@ -18,9 +18,11 @@
  */
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Services.Dataset
@@ -38,9 +40,41 @@ namespace OpenIZAdmin.Services.Dataset
 		/// <param name="instance">The instance.</param>
 		/// <returns>Returns the dataset.</returns>
 		/// <exception cref="NotImplementedException"></exception>
-		public DataInstallAction ConvertToDataset<T>(T instance) where T : Entity
+		public DatasetInstall ConvertToDataset<T>(T instance) where T : Entity
 		{
 			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// Converts an entity or derived entity to a dataset instance.
+		/// </summary>
+		/// <param name="instance">The instance.</param>
+		/// <param name="type">The type.</param>
+		/// <returns>Returns the dataset.</returns>
+		/// <exception cref="NotImplementedException"></exception>
+		public DatasetInstall ConvertToDataset(object instance, Type type)
+		{
+			throw new NotImplementedException();
+		}
+
+		/// <summary>
+		/// Serializes the specified dataset install.
+		/// </summary>
+		/// <param name="datasetInstall">The dataset install.</param>
+		/// <returns>Returns the dataset install as an XML string.</returns>
+		public string Serialize(DatasetInstall datasetInstall)
+		{
+			var serializer = new XmlSerializer(typeof(DatasetInstall));
+
+			string result = null;
+
+			using (var stringWriter = new StringWriter())
+			{
+				serializer.Serialize(stringWriter, datasetInstall);
+				result = stringWriter.ToString();
+			}
+
+			return result;
 		}
 	}
 }
