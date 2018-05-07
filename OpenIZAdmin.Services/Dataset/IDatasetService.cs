@@ -36,6 +36,21 @@ namespace OpenIZAdmin.Services.Dataset
 		/// <typeparam name="T">The type of instance to convert to a dataset.</typeparam>
 		/// <param name="instance">The instance.</param>
 		/// <returns>Returns the dataset.</returns>
-		DataInstallAction ConvertToDataset<T>(T instance) where T : Entity;
+		DatasetInstall ConvertToDataset<T>(T instance) where T : Entity;
+
+		/// <summary>
+		/// Converts an entity or derived entity to a dataset instance.
+		/// </summary>
+		/// <param name="instance">The instance.</param>
+		/// <param name="type">The type.</param>
+		/// <returns>Returns the dataset.</returns>
+		DatasetInstall ConvertToDataset(object instance, Type type);
+
+		/// <summary>
+		/// Serializes the specified dataset install.
+		/// </summary>
+		/// <param name="datasetInstall">The dataset install.</param>
+		/// <returns>Returns the dataset install as an XML string.</returns>
+		string Serialize(DatasetInstall datasetInstall);
 	}
 }
