@@ -27,6 +27,7 @@
     </NuGetPackageImportStamp>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -598,7 +599,6 @@
     <Content Include="Content\bootstrap\badges.less" />
     <Content Include="Content\bootstrap\alerts.less" />
     <None Include="Properties\PublishProfiles\Disk.pubxml" />
-    <None Include="Properties\PublishProfiles\MARC_HI_khannan_TImRAdmin.pubxml" />
     <Content Include="Scripts\address-search.js" />
     <Content Include="Scripts\bootstrap-datepicker.js" />
     <Content Include="Scripts\bootstrap-datepicker.min.js" />
@@ -607,7 +607,7 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\concept-search.js" />
     <Content Include="Scripts\datatables.js" />
-    <None Include="Properties\PublishProfiles\MARC_HI_khannan_TImRAdmin_Internal.pubxml" />
+    <None Include="Properties\PublishProfiles\MARC_HI_khannan_OpenIZ_Admin.pubxml" />
     <None Include="Scripts\jquery-2.2.4.intellisense.js" />
     <Content Include="Scripts\datetime-moment.js" />
     <Content Include="Scripts\jquery-2.2.4.js" />
