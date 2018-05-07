@@ -19,9 +19,9 @@
                 <span class="glyphicon glyphicon-pencil"></span>
                 <span class="text-primary h4">@Locale.Edit</span>
             </a>
-            <a class="btn btn-primary btn-sm" href="@Url.Action("Download", "Report", new { id = Model.Id })">
-                @Locale.Download
+            <a href="@Url.Action("DownloadAsDataset", "Material", new { id = Model.Id })" title="@Locale.Download">
                 <span class="glyphicon glyphicon-download"></span>
+                <span class="text-primary h4">@Locale.Download</span>
             </a>
         </div>
     </div>
