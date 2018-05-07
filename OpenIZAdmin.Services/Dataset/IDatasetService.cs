@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Services.Dataset
@@ -31,12 +32,12 @@ namespace OpenIZAdmin.Services.Dataset
 	public interface IDatasetService
 	{
 		/// <summary>
-		/// Converts an entity or derived entity to a dataset instance.
+		/// Converts an identified data instance to a dataset instance.
 		/// </summary>
 		/// <typeparam name="T">The type of instance to convert to a dataset.</typeparam>
 		/// <param name="instance">The instance.</param>
 		/// <returns>Returns the dataset.</returns>
-		DatasetInstall ConvertToDataset<T>(T instance) where T : Entity;
+		DatasetInstall ConvertToDataset<T>(T instance) where T : IdentifiedData;
 
 		/// <summary>
 		/// Converts an entity or derived entity to a dataset instance.

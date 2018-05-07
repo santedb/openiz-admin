@@ -23,6 +23,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
+using OpenIZ.Core.Model;
 using OpenIZ.Core.Model.Entities;
 
 namespace OpenIZAdmin.Services.Dataset
@@ -34,15 +35,14 @@ namespace OpenIZAdmin.Services.Dataset
 	public class DatasetService : IDatasetService
 	{
 		/// <summary>
-		/// Converts an entity or derived entity to a dataset instance.
+		/// Converts an identified data instance to a dataset instance.
 		/// </summary>
 		/// <typeparam name="T">The type of instance to convert to a dataset.</typeparam>
 		/// <param name="instance">The instance.</param>
 		/// <returns>Returns the dataset.</returns>
-		/// <exception cref="NotImplementedException"></exception>
-		public DatasetInstall ConvertToDataset<T>(T instance) where T : Entity
+		public DatasetInstall ConvertToDataset<T>(T instance) where T : IdentifiedData
 		{
-			throw new NotImplementedException();
+			return ConvertToDatasetInternal(instance, typeof(T));
 		}
 
 		/// <summary>
@@ -51,10 +51,35 @@ namespace OpenIZAdmin.Services.Dataset
 		/// <param name="instance">The instance.</param>
 		/// <param name="type">The type.</param>
 		/// <returns>Returns the dataset.</returns>
-		/// <exception cref="NotImplementedException"></exception>
 		public DatasetInstall ConvertToDataset(object instance, Type type)
 		{
-			throw new NotImplementedException();
+			return ConvertToDatasetInternal(instance, type);
+		}
+
+		/// <summary>
+		/// Converts an entity or derived entity to a dataset instance.
+		/// </summary>
+		/// <param name="instance">The instance.</param>
+		/// <param name="type">The type.</param>
+		/// <returns>Returns the dataset.</returns>
+		/// <exception cref="ArgumentException">Thrown if the type does not inherit from <see cref="IdentifiedData"/>.</exception>
+		private DatasetInstall ConvertToDatasetInternal(object instance, Type type)
+		{
+			if (type != typeof(IdentifiedData))
+			{
+				throw new ArgumentException($"The type {type} must be a derived type of {typeof(IdentifiedData)}");
+			}
+
+			var datasetInstall = new DatasetInstall(Guid.NewGuid().ToString());
+
+			datasetInstall.Action.Add(new DataUpdate
+			{
+				InsertIfNotExists = true,
+				Element = (IdentifiedData)instance,
+				IgnoreErrors = false
+			});
+
+			return datasetInstall;
 		}
 
 		/// <summary>
