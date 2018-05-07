@@ -34,6 +34,7 @@ using OpenIZAdmin.DAL;
 using OpenIZAdmin.DAL.Manuals;
 using OpenIZAdmin.Services.Applets;
 using OpenIZAdmin.Services.Auditing;
+using OpenIZAdmin.Services.Dataset;
 using OpenIZAdmin.Services.Entities;
 using OpenIZAdmin.Services.Entities.ManufacturedMaterials;
 using OpenIZAdmin.Services.Entities.Materials;
@@ -141,6 +142,9 @@ namespace OpenIZAdmin.Dependency
 
 			// register entity relationship services
 			builder.RegisterType<EntityRelationshipService>().As<IEntityRelationshipService>().InstancePerLifetimeScope();
+
+			// register dataset services
+			builder.RegisterType<DatasetService>().As<IDatasetService>().InstancePerLifetimeScope();
 
 			// register server information services
 			builder.RegisterType<AmiServerInformationService>().As<IAmiServerInformationService>().InstancePerLifetimeScope();

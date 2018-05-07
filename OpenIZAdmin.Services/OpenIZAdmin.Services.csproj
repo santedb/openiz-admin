@@ -84,7 +84,9 @@
     <Compile Include="Dataset\DataInstallAction.cs" />
     <Compile Include="Dataset\DataObsolete.cs" />
     <Compile Include="Dataset\DatasetInstall.cs" />
+    <Compile Include="Dataset\DatasetService.cs" />
     <Compile Include="Dataset\DataUpdate.cs" />
+    <Compile Include="Dataset\IDatasetService.cs" />
     <Compile Include="Entities\EntityService.cs" />
     <Compile Include="Core\ImsiServiceBase.cs" />
     <Compile Include="Core\AmiServiceBase.cs" />

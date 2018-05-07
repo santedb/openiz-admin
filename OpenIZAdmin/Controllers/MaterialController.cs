@@ -464,6 +464,27 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Downloads as dataset.
+		/// </summary>
+		/// <param name="id">The identifier.</param>
+		/// <returns>Returns the material as a dataset instance.</returns>
+		[HttpGet]
+		public ActionResult DownloadAsDataset(Guid id)
+		{
+			try
+			{
+
+			}
+			catch (Exception e)
+			{
+				this.TempData["error"] = Locale.UnexpectedErrorMessage;
+				Trace.TraceError($"Unable to download material: {e}");
+			}
+
+			return RedirectToAction("ViewMaterial", "Material", id);
+		}
+
+		/// <summary>
 		/// Edit for material.
 		/// </summary>
 		/// <param name="id">The key of the material.</param>
