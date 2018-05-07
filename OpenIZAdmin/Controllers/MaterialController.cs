@@ -35,7 +35,9 @@ using OpenIZAdmin.Services.Security.Users;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
+using System.Net.Mime;
 using System.Web.Mvc;
 using OpenIZAdmin.Services.Dataset;
 
@@ -489,8 +491,31 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("ViewMaterial", "Material", id);
 				}
 
-				var dataset = this.datasetService.ConvertToDataset(material);
+				var stream = this.datasetService.GetDatasetAsStream(this.datasetService.ConvertToDataset(material));
+				string name;
 
+				if (material.Names.Any(n => n.NameUseKey == NameUseKeys.Assigned))
+				{
+					name = string.Join(" ", material.Names.Where(n => n.NameUseKey == NameUseKeys.Assigned).SelectMany(n => n.Component).Select(c => c.Value));
+				}
+				else if (material.Names.Any(n => n.NameUseKey == NameUseKeys.OfficialRecord))
+				{
+					name = string.Join(" ", material.Names.Where(n => n.NameUseKey == NameUseKeys.OfficialRecord).SelectMany(n => n.Component).Select(c => c.Value));
+				}
+				else
+				{
+					name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value));
+				}
+
+				var contentDisposition = new ContentDisposition
+				{
+					FileName = $"Material-{name} {id}.xml",
+					Inline = false
+				};
+
+				this.Response.AppendHeader("Content-Disposition", contentDisposition.ToString());
+
+				return File(stream, MediaTypeNames.Text.Xml);
 			}
 			catch (Exception e)
 			{
@@ -498,7 +523,7 @@ namespace OpenIZAdmin.Controllers
 				Trace.TraceError($"Unable to download material: {e}");
 			}
 
-			return RedirectToAction("ViewMaterial", "Material", id);
+			return RedirectToAction("ViewMaterial", "Material", new { id, versionId = Guid.Empty });
 		}
 
 		/// <summary>
