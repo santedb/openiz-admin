@@ -28,15 +28,15 @@ namespace OpenIZAdmin.Services.Entities.Places
 	public interface IPlaceConceptService
 	{
 		/// <summary>
-		/// Gets the place type concepts.
-		/// </summary>
-		/// <returns>Returns a list of place type concepts.</returns>
-		IEnumerable<Concept> GetPlaceTypeConcepts();
-
-		/// <summary>
 		/// Gets the place sub type concepts.
 		/// </summary>
 		/// <returns>Returns a list of place type subconcepts.</returns>
 		IEnumerable<Concept> GetPlaceSubTypeConcepts();
+
+		/// <summary>
+		/// Gets the place type concepts.
+		/// </summary>
+		/// <returns>Returns a list of place type concepts.</returns>
+		IEnumerable<Concept> GetPlaceTypeConcepts();
 	}
 }

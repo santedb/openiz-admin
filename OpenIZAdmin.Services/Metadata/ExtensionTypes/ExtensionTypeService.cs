@@ -19,10 +19,10 @@
 
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Messaging.AMI.Client;
+using OpenIZAdmin.Core.Caching;
 using OpenIZAdmin.Services.Core;
 using System;
 using System.Collections.Generic;
-using OpenIZAdmin.Core.Caching;
 
 namespace OpenIZAdmin.Services.Metadata.ExtensionTypes
 {
