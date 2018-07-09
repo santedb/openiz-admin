@@ -21,7 +21,7 @@ using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZ.Core.Model.Security;
-using OpenIZAdmin.Extensions;
+using OpenIZAdmin.Core.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
 using System;
@@ -29,7 +29,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web.Mvc;
-using OpenIZAdmin.Core.Extensions;
 
 namespace OpenIZAdmin.Models.UserModels
 {
@@ -75,7 +74,6 @@ namespace OpenIZAdmin.Models.UserModels
 		[Display(Name = "ConfirmPassword", ResourceType = typeof(Locale))]
 		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "ConfirmPasswordRequired", ErrorMessageResourceType = typeof(Locale))]
-		[RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
 		[System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessageResourceName = "ConfirmPasswordMatch", ErrorMessageResourceType = typeof(Locale))]
 		public string ConfirmPassword { get; set; }
 
@@ -98,7 +96,6 @@ namespace OpenIZAdmin.Models.UserModels
 		[Display(Name = "Password", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Locale))]
 		[StringLength(50, ErrorMessageResourceName = "PasswordLength50", ErrorMessageResourceType = typeof(Locale))]
-		[RegularExpression(Constants.RegExPassword, ErrorMessageResourceName = "PasswordValidationErrorMessage", ErrorMessageResourceType = typeof(Locale))]
 		public string Password { get; set; }
 
 		/// <summary>
