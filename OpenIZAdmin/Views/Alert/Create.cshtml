@@ -17,7 +17,7 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.To, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.ListBoxFor(m => m.To, new List<SelectListItem>(), new { @class = "user-search form-control", multiple="multiple", title = Locale.ToolTip_AlertTo })
+                    @Html.ListBoxFor(m => m.To, new List<SelectListItem>(), new { @class = "user-search form-control", multiple = "multiple", title = Locale.ToolTip_AlertTo })
                     @Html.ValidationMessageFor(m => m.To, "", new { @class = "text-danger" })
                 </div>
             </div>
@@ -52,6 +52,10 @@
                 </div>
             </div>
 
+            <label>Preview</label>
+            <hr />
+            <div id="messagePreview"></div>
+
             <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <a href="@Url.Action("Index", "Home")" class="btn btn-danger">@Locale.Cancel</a>
@@ -67,6 +71,14 @@
     <script type="text/javascript">
         $(document).ready(function ()
         {
+
+            var showdownConv = new showdown.Converter();
+
+            $("#@Html.IdFor(m=>m.Message)").keyup(function () {
+                var rawMessage = $("#@Html.IdFor(m=>m.Message)").val();
+                $("#messagePreview").html(showdownConv.makeHtml(rawMessage));
+            });
+
             $("#@Html.IdFor(m => m.IsSystemAlert)").change(function ()
             {
                 if (this.checked)

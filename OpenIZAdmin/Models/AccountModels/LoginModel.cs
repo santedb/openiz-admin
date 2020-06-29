@@ -18,6 +18,8 @@
  */
 
 using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.AlertModels;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace OpenIZAdmin.Models.AccountModels
@@ -27,17 +29,32 @@ namespace OpenIZAdmin.Models.AccountModels
 	/// </summary>
 	public class LoginModel
 	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="OpenIZAdmin.Models.AccountModels.LoginModel"/> class.
-		/// </summary>
-		public LoginModel()
+        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OpenIZAdmin.Models.AccountModels.LoginModel"/> class.
+        /// </summary>
+        public LoginModel()
 		{
 		}
 
-		/// <summary>
-		/// Gets or sets the password of the model.
-		/// </summary>
-		[DataType(DataType.Password)]
+        /// <summary>
+        /// Create login model
+        /// </summary>
+        public LoginModel(List<AlertViewModel> alerts)
+        {
+            this.Alerts = alerts;
+        }
+
+        /// <summary>
+        /// Gets or sets the password of the model.
+        /// </summary>
+        [MappingIgnore]
+        public List<AlertViewModel> Alerts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the password of the model.
+        /// </summary>
+        [DataType(DataType.Password)]
 		[Display(Name = "Password", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "PasswordRequired", ErrorMessageResourceType = typeof(Locale))]
 		public string Password { get; set; }

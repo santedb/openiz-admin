@@ -27,6 +27,7 @@
     </NuGetPackageImportStamp>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -699,6 +700,7 @@
     <Content Include="Scripts\select2-config.js" />
     <Content Include="Scripts\select2-i18n\en-ca.js" />
     <Content Include="Scripts\select2-i18n\sw.js" />
+    <Content Include="Scripts\showdown.min.js" />
     <Content Include="Scripts\ui-customizations.js" />
     <Content Include="Scripts\user-search.js" />
     <Content Include="Scripts\place-search.js" />
