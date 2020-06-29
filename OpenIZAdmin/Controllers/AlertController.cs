@@ -231,7 +231,7 @@ namespace OpenIZAdmin.Controllers
 			try
 			{
 				var alert = this.AmiClient.GetAlerts(a => a.Key == id).CollectionItem.FirstOrDefault();
-
+                Trace.TraceError(alert.AlertMessage.Body);
 				if (alert == null)
 				{
 					TempData["error"] = Locale.AlertNotFound;

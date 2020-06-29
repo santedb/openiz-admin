@@ -40,6 +40,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using OpenIZAdmin.Core.Auditing.Controllers;
+using OpenIZAdmin.Models.AlertModels;
+using OpenIZ.Core.Model.AMI.Alerting;
+using OpenIZ.Core.Alert.Alerting;
 
 namespace OpenIZAdmin.Controllers
 {
@@ -295,12 +299,29 @@ namespace OpenIZAdmin.Controllers
 			return View("ResetPassword", resetPasswordModel);
 		}
 
-		/// <summary>
-		/// Displays the login view.
+        /// <summary>
+		/// Gets the alerts.
 		/// </summary>
-		/// <param name="returnUrl">The return URL for an unauthenticated user.</param>
-		/// <returns></returns>
-		[AllowAnonymous]
+		/// <param name="all">if set to <c>true</c> [all].</param>
+		/// <returns>Returns a list of alerts for the current user, including alerts marked for "everyone".</returns>
+		private IEnumerable<AlertMessageInfo> GetAlerts()
+        {
+
+
+            var amiServiceClient = GetDeviceServiceClient();
+
+            var alerts = amiServiceClient.GetAlerts(a => a.To.Contains("everyone") ).CollectionItem.ToList();
+            alerts = alerts.Where(a => a.AlertMessage.ObsoletionTime == null && a.AlertMessage.Flags == AlertMessageFlags.System).ToList();
+
+            return alerts.OrderByDescending(o => o.AlertMessage.CreationTime);
+        }
+
+        /// <summary>
+        /// Displays the login view.
+        /// </summary>
+        /// <param name="returnUrl">The return URL for an unauthenticated user.</param>
+        /// <returns></returns>
+        [AllowAnonymous]
 		public ActionResult Login(string returnUrl)
 		{
 			if (!RealmConfig.IsJoinedToRealm())
@@ -313,7 +334,19 @@ namespace OpenIZAdmin.Controllers
 				return RedirectToAction("Index", "Home");
 			}
 
-			ViewBag.ReturnUrl = returnUrl;
+            // Get alerts for login screen
+            var models = new List<AlertViewModel>();
+
+            try
+            {
+                ViewBag.ReturnUrl = returnUrl;
+                models.AddRange(this.GetAlerts().Select(a => new AlertViewModel(a)));
+                return View(new LoginModel(models));
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError($"Unable to retrieve alerts: {e}");
+            }
 			return View();
 		}
 
@@ -575,6 +608,9 @@ namespace OpenIZAdmin.Controllers
 						// only swahili is currently supported
 						case LocalizationConfig.LanguageCode.Swahili:
 							code = LocalizationConfig.LanguageCode.Swahili;
+							break;
+
+						default:
 							break;
 					}
 

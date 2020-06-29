@@ -20,14 +20,12 @@
 
         <div class="col-md-12">
             <div class="form-group">
-                <div class="col-md-10 grey rounded-corners">
-                    @Model.Body
-                </div>
+                <div class="col-md-10 grey rounded-corners" style="overflow:auto; min-height:400px" id="messageBody">@Model.Body</div>
             </div>
         </div>
         <div class="col-md-12">
             <div class="form-group">
-                @using (Html.BeginForm("Read", "Alert", new {id = Model.Id}, FormMethod.Post, new {@class = "form-horizontal", role = "form"}))
+                @using (Html.BeginForm("Read", "Alert", new { id = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                 {
                     @Html.AntiForgeryToken()
 
@@ -37,3 +35,14 @@
         </div>
     </div>
 </div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var showdownConv = new showdown.Converter();
+            $("#messageBody").html(showdownConv.makeHtml($("#messageBody").text()));
+        });
+    </script>
+}

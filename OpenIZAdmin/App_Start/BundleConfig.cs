@@ -41,7 +41,10 @@ namespace OpenIZAdmin
 			bundles.Add(new ScriptBundle("~/bundles/jqueryajax").Include(
 						"~/Scripts/jquery.unobtrusive-ajax.min.js"));
 
-			bundles.Add(new ScriptBundle("~/bundles/moment").Include(
+            bundles.Add(new ScriptBundle("~/bundles/showdown").Include(
+            "~/Scripts/showdown.min.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/moment").Include(
 						"~/Scripts/moment.min.js"));
 
 			bundles.Add(new ScriptBundle("~/bundles/select2").Include(
