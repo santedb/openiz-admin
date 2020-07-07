@@ -306,8 +306,6 @@ namespace OpenIZAdmin.Controllers
 		/// <returns>Returns a list of alerts for the current user, including alerts marked for "everyone".</returns>
 		private IEnumerable<AlertMessageInfo> GetAlerts()
         {
-
-
             var amiServiceClient = GetDeviceServiceClient();
 
             var alerts = amiServiceClient.GetAlerts(a => a.To.Contains("everyone") ).CollectionItem.ToList();
@@ -412,7 +410,8 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToLocal(returnUrl);
 
 				default:
-					ModelState.AddModelError("", Locale.IncorrectUsernameOrPassword);
+                    model.Alerts = this.GetAlerts().Select(a => new AlertViewModel(a)).ToList();
+                    ModelState.AddModelError("", Locale.IncorrectUsernameOrPassword);
 					return View(model);
 			}
 		}
