@@ -17,6 +17,7 @@
                         <th></th>
                         <th>@Html.DisplayNameFor(m => m.Username)</th>
                         <th>@Html.DisplayNameFor(m => m.Email)</th>
+                        <th>@Html.DisplayNameFor(m => m.LastLoginTime)</th>
                         <th>@Html.DisplayNameFor(m => m.IsLockedOut)</th>
                         <th>@Html.DisplayNameFor(m => m.Roles)</th>
                         <th>@Locale.Status</th>
@@ -26,24 +27,25 @@
                 <tbody>
                     @foreach (var item in Model)
                     {
-                        <tr>
-                            <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></td>
-                            <td>@item.Username</td>
-                            <td>@item.Email</td>                                                                         
-                            <td>@item.IsLockedOut.ToLockoutStatus()</td>                                                        
-                            <td>@item.HasRoles.ToYesOrNo()</td>                            
-                            <td>@item.IsObsolete.ToObsoleteStatus()</td>                            
-                            <td class="autoFitContents centerContent">
-                                <a class="btn btn-primary" href="@Url.Action("ViewUser", "User", new { id = item.Id })">
-                                    @Locale.View
-                                    <span class="glyphicon glyphicon-eye-open"></span>
-                                </a>
-                                <a class="btn btn-warning" href="@Url.Action("Edit", "User", new { id = item.Id })">
-                                    @Locale.Edit
-                                    <span class="glyphicon glyphicon-pencil"></span>
-                                </a>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></td>
+                        <td>@item.Username</td>
+                        <td>@item.Email</td>
+                        <td>@(item.LastLoginTime?.DefaultFormat())</td>
+                        <td>@item.IsLockedOut.ToLockoutStatus()</td>
+                        <td>@item.HasRoles.ToYesOrNo()</td>
+                        <td>@item.IsObsolete.ToObsoleteStatus()</td>
+                        <td class="autoFitContents centerContent">
+                            <a class="btn btn-primary" href="@Url.Action("ViewUser", "User", new { id = item.Id })">
+                                @Locale.View
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                            </a>
+                            <a class="btn btn-warning" href="@Url.Action("Edit", "User", new { id = item.Id })">
+                                @Locale.Edit
+                                <span class="glyphicon glyphicon-pencil"></span>
+                            </a>
+                        </td>
+                    </tr>
 }
                 </tbody>
             </table>
