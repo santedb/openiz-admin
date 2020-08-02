@@ -2544,4 +2544,10 @@
   <data name="AssociateDedicatedServiceDeliveryLocation" xml:space="preserve">
     <value>Associate Dedicated Service Delivery Location</value>
   </data>
+  <data name="TypeToSearchForUser" xml:space="preserve">
+    <value>Begin typing to search for users to add...</value>
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value>Remove</value>
+  </data>
 </root>

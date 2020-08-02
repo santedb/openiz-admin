@@ -2567,4 +2567,10 @@ au jina la kikoa</value>
   <data name="AssociateDedicatedServiceDeliveryLocation" xml:space="preserve">
     <value>Eneo la Utoaji wa Utumishi wa Kujitolea</value>
   </data>
+  <data name="TypeToSearchForUser" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Remove" xml:space="preserve">
+    <value />
+  </data>
 </root>

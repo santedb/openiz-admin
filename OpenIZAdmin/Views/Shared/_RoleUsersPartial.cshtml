@@ -12,15 +12,13 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="myModalLabel">Add Users to the <strong>@Model.Name</strong> Role. </h4>
+                        <h4 class="modal-title" id="myModalLabel">@Locale.AddUsers - <strong>@Model.Name</strong></h4>
                     </div>
                     <div class="modal-body">
-                        <p>Begin typing to search for users to add...</p>
+                        <p>@Locale.TypeToSearchForUser</p>
                         <div class="form-group user-search-group" style="padding-left: 15px; padding-right: 15px;">
                             <label for="message-text" class="col-form-label">@Locale.Users:</label>
-                           
                             @{ var userIds = new List<Guid>(); }
-
                             @Html.DropDownListFor(
                                 m => userIds,
                                 new List<SelectListItem>(),
@@ -92,23 +90,14 @@
                                             <td>@item.HasRoles.ToYesOrNo()</td>
                                             <td>@item.IsObsolete.ToObsoleteStatus()</td>
                                             <td class="autoFitContents centerContent">
-                                                @*<a class="btn btn-danger" href="@Url.Action("RemoveRole", "User", new { roleId = Model.Id, userId = item.Id })">
-                                                        @Locale.Delete
-                                                        <span class="glyphicon glyphicon-remove"></span>
-                                                    </a>*@
-
-
                                                 @using (Html.BeginForm("RemoveRole", "User", new { roleId = Model.Id, userId = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
                                                 {
-
                                                     @Html.AntiForgeryToken()
-
                                                     <button type="submit" class="btn btn-danger">
-                                                        Remove
+                                                        @Locale.Remove
                                                         <span class="glyphicon glyphicon-remove"></span>
                                                     </button>
                                                 }
-
                                             </td>
                                         </tr>
                                     }
@@ -119,8 +108,6 @@
                         {
                             <p>@Locale.NoUsersAdded </p>
                         }
-
-
                     </div>
                 </div>
             </div>
