@@ -18,11 +18,13 @@
  */
 
 using OpenIZ.Core.Model.AMI.Auth;
+using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.PolicyModels;
 using OpenIZAdmin.Models.RoleModels;
+using OpenIZAdmin.Models.UserModels;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -295,7 +297,12 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				return View(new RoleViewModel(securityRoleInfo));
+				List<UserViewModel> users = this.AmiClient
+											.GetUsers(u => u.Roles.Any(r => r.Name == securityRoleInfo.Role.Name))
+											.CollectionItem
+											.ConvertAll(i => new UserViewModel(i));
+
+				return View(new RoleViewModel(securityRoleInfo, users));
 			}
 			catch (Exception e)
 			{
@@ -305,5 +312,7 @@ namespace OpenIZAdmin.Controllers
 
 			return RedirectToAction("Index");
 		}
+
+		
 	}
 }

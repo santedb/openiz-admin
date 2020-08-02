@@ -258,52 +258,12 @@ namespace OpenIZAdmin.Controllers
 					return RedirectToAction("Index");
 				}
 
-				// remove null or empty strings from the roles list
-				model.Roles.RemoveAll(r => string.IsNullOrEmpty(r) || string.IsNullOrWhiteSpace(r));
-
-				if (!model.IsValidNameLength(model.GivenName))
-				{
-					this.ModelState.AddModelError(nameof(model.GivenName), Locale.GivenNameLength100);
-				}
-
-				if (!model.IsValidNameLength(model.Surname))
-				{
-					this.ModelState.AddModelError(nameof(model.Surname), Locale.SurnameLength100);
-				}
-
-				if (!model.Roles.Any())
-				{
-					ModelState.AddModelError("Roles", Locale.RoleIsRequired);
-					//restore roles on error
-					var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUserKey.ToString());
-					if (securityUserInfo != null) model.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
-				}
+				ValidateEditUserModel(model, userEntity);
 
 				if (ModelState.IsValid)
 				{
-					var updatedUserEntity = this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
-
-					if (updatedUserEntity.SecurityUser == null)
-					{
-						updatedUserEntity.SecurityUser = this.AmiClient.GetUser(model.Id.ToString())?.User;
-					}
-
-					var securityInfo = model.ToSecurityUserInfo(updatedUserEntity);
-
-					if (model.Roles.Any())
-					{
-						securityInfo.Roles.AddRange(model.Roles.Select(this.AmiClient.GetRole).Where(r => r.Role != null));
-					}
-
-					var updated = this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, securityInfo);
-
-					if (updated.User == null)
-					{
-						updated.User = this.AmiClient.GetUser(model.Id.ToString())?.User;
-					}
-
+					UpdateUser(model, userEntity);
 					TempData["success"] = Locale.UserUpdatedSuccessfully;
-
 					return RedirectToAction("ViewUser", new { id = userEntity.SecurityUserKey.ToString() });
 				}
 			}
@@ -683,6 +643,136 @@ namespace OpenIZAdmin.Controllers
 		private bool UsernameExists(string username)
 		{
 			return this.AmiClient.GetUsers(u => u.UserName == username).CollectionItem.Any();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult RemoveRole(Guid roleId, Guid userId)
+		{
+			var securityUserInfo = this.AmiClient.GetUser(userId.ToString());
+
+			if (securityUserInfo == null)
+			{
+				TempData["error"] = Locale.UserNotFound;
+				return RedirectToAction("Index");
+			}
+
+			securityUserInfo.Roles = securityUserInfo.Roles.Where(r => r.Id != roleId).ToList();
+
+			var userEntity = this.GetUserEntityBySecurityUserKey(userId);
+			var model = new EditUserModel(userEntity, securityUserInfo);
+
+			model = BuildEditModelMetaData(model, userEntity, model.IsObsolete);
+
+			try
+			{
+				ValidateEditUserModel(model, userEntity);
+
+				if (ModelState.IsValid)
+				{
+					UpdateUser(model, userEntity);
+					TempData["success"] = Locale.UserUpdatedSuccessfully;
+					return RedirectToAction("ViewRole", "Role", new { id = roleId });
+				}
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to update user: {e}");
+			}
+
+			TempData["error"] = Locale.UnableToUpdateUser;
+			return RedirectToAction("ViewRole", "Role", new { id = roleId });
+		}
+
+		[HttpPost]
+		public ActionResult AddRoleForUsers(Guid roleId, List<Guid> userIds)
+		{
+
+			var securityRoleInfo = this.AmiClient.GetRole(roleId.ToString());
+			if (securityRoleInfo == null)
+			{
+				TempData["error"] = Locale.RoleNotFound;
+				return RedirectToAction("Index");
+			}
+
+			try
+			{
+				foreach (Guid id in userIds)
+				{
+					var securityUserInfo = this.AmiClient.GetUser(id.ToString());
+					if (securityUserInfo == null)
+					{
+						TempData["error"] = Locale.UserNotFound;
+						return RedirectToAction("Index");
+					}
+
+					if (!securityUserInfo.Roles.Contains(securityRoleInfo))
+						securityUserInfo.Roles.Add(securityRoleInfo);
+
+					var userEntity = this.GetUserEntityBySecurityUserKey(id);
+					var model = new EditUserModel(userEntity, securityUserInfo);
+				
+					ValidateEditUserModel(model, userEntity);
+
+					if (ModelState.IsValid)
+						UpdateUser(model, userEntity);
+				}
+
+				TempData["success"] = Locale.RoleUpdatedSuccessfully;
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to update users: {e}");
+				TempData["error"] = Locale.UnableToUpdateUser;
+			} 
+				
+			return RedirectToAction("ViewRole", "Role", new { id = roleId });
+		}
+
+		private void UpdateUser(EditUserModel model, UserEntity userEntity)
+		{
+			var updatedUserEntity = this.ImsiClient.Update<UserEntity>(model.ToUserEntity(userEntity));
+
+			if (updatedUserEntity.SecurityUser == null)
+			{
+				updatedUserEntity.SecurityUser = this.AmiClient.GetUser(model.Id.ToString())?.User;
+			}
+
+			var securityInfo = model.ToSecurityUserInfo(updatedUserEntity);
+
+			if (model.Roles.Any())
+			{
+				securityInfo.Roles.AddRange(model.Roles.Select(this.AmiClient.GetRole).Where(r => r.Role != null));
+			}
+
+			var updated = this.AmiClient.UpdateUser(userEntity.SecurityUserKey.Value, securityInfo);
+
+			if (updated.User == null)
+			{
+				updated.User = this.AmiClient.GetUser(model.Id.ToString())?.User;
+			}
+		}
+
+		private void ValidateEditUserModel(EditUserModel model, UserEntity userEntity)
+        {
+			// remove null or empty strings from the roles list
+			model.Roles.RemoveAll(r => string.IsNullOrEmpty(r) || string.IsNullOrWhiteSpace(r));
+
+			if (!model.IsValidNameLength(model.GivenName))
+				this.ModelState.AddModelError(nameof(model.GivenName), Locale.GivenNameLength100);
+
+			if (!model.IsValidNameLength(model.Surname))
+				this.ModelState.AddModelError(nameof(model.Surname), Locale.SurnameLength100);
+			
+
+			if (!model.Roles.Any())
+			{
+				ModelState.AddModelError("Roles", Locale.RoleIsRequired);
+
+				//restore roles on error
+				var securityUserInfo = this.AmiClient.GetUser(userEntity.SecurityUserKey.ToString());
+				if (securityUserInfo != null) model.Roles = securityUserInfo.Roles.Select(r => r.Id.ToString()).ToList();
+			}
 		}
 	}
 }

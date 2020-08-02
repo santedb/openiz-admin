@@ -16,19 +16,19 @@
     <div class="panel panel-body">
         <div class="row">
             <div class="col-md-12">
-                <div class="form-group form-horizontal">                        
+                <div class="form-group form-horizontal">
                     <div class="form-group">
                         @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
                         <div class="col-md-8">
                             @Html.TextBoxFor(m => m.Name, new { @class = "form-control", @readonly = "readonly" })
                         </div>
-                    </div>                     
+                    </div>
                     <div class="form-group">
                         @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
                         <div class="col-md-8">
                             @Html.TextAreaFor(m => m.Description, new { @class = "form-control", cols = "20", rows = "3", @readonly = "readonly" })
                         </div>
-                    </div>                   
+                    </div>
                 </div>
             </div>
         </div>
@@ -36,28 +36,22 @@
 </div>
 
 @Html.Partial("_PoliciesPartial", Model.Policies)
+@Html.Partial("_RoleUsersPartial", Model)
 
 @section scripts{
     <script>
-        $(document).ready(function ()
-        {            
+        $(document).ready(function () {
             $('#policyTable').DataTable({
-                "language":
-                {
-                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
-                },
+                language: { url: "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json" },
                 order: [],
-                columns: [
-                  { "orderable": false },
-                  null,
-                  null,
-                  null,
-                  null,
-                  null,
-                  null                  
-                ]
+                columns: [{ "orderable": false }, null, null, null, null, null, null]
             });
 
+            $('#roleUsersTable').DataTable({
+                language: { url: "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") ".json" },
+                order: [],
+                columns: [{ "orderable": false }, null, null, null, null, null, null, { "orderable": false }]
+            });
         });
     </script>
 }

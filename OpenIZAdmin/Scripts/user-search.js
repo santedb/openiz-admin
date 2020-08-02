@@ -28,7 +28,7 @@
             },
             cache: true
         },
-        maximumSelectionLength: 1,
+        maximumSelectionLength: $(".user-search").attr("maximumSelectionLength") || 1,
         keepSearchResults: true,
         escapeMarkup: function (markup) { return markup; },
         minimumInputLength: 3,

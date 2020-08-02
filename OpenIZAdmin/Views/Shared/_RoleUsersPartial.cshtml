@@ -1,0 +1,136 @@
+﻿@using OpenIZAdmin.Extensions
+@model OpenIZAdmin.Models.RoleModels.RoleViewModel
+@{
+    ViewBag.Title = Locale.Users;
+}
+
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        @using (Html.BeginForm("AddRoleForUsers", "User", new { roleId = Model.Id }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Add Users to the <strong>@Model.Name</strong> Role. </h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Begin typing to search for users to add...</p>
+                        <div class="form-group user-search-group" style="padding-left: 15px; padding-right: 15px;">
+                            <label for="message-text" class="col-form-label">@Locale.Users:</label>
+                           
+                            @{ var userIds = new List<Guid>(); }
+
+                            @Html.DropDownListFor(
+                                m => userIds,
+                                new List<SelectListItem>(),
+                                new {
+                                    @class = "user-search form-control",
+                                    multiple = "multiple",
+                                    title = Locale.ToolTip_Facilities,
+                                    maximumSelectionLength = false
+                                }
+                            )
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <button type="submit"
+                                data-wait-text="@Locale.PleaseWait"
+                                class="btn btn-primary"
+                                title="@Locale.ToolTip_Submit">
+                            @Locale.Add
+                        </button>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.Users</span>
+        <div class="pull-right">
+            <a data-toggle="modal" data-target="#myModal" title="@Locale.ToolTip_Edit" href>
+                <span class="glyphicon glyphicon-plus"></span>
+                <span class="text-primary h4">@Locale.Add</span>
+            </a>
+        </div>
+    </div>
+ 
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-group">
+                    <div class="col-md-12">
+
+                        @if (Model.Users.Any())
+                        {
+                            <label class="control-label">@Locale.Users</label>
+                            <table class="table table-striped table-bordered" id="roleUsersTable">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>@Html.DisplayNameFor(m => m.Users[0].Username)</th>
+                                        <th>@Html.DisplayNameFor(m => m.Users[0].Email)</th>
+                                        <th>@Html.DisplayNameFor(m => m.Users[0].LastLoginTime)</th>
+                                        <th>@Html.DisplayNameFor(m => m.Users[0].IsLockedOut)</th>
+                                        <th>@Html.DisplayNameFor(m => m.Users[0].Roles)</th>
+                                        <th>@Locale.Status</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model.Users)
+                                    {
+                                        <tr>
+                                            <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-user" aria-hidden="true"></span></td>
+                                            <td>@item.Username</td>
+                                            <td>@item.Email</td>
+                                            <td>@(item.LastLoginTime?.DefaultFormat())</td>
+                                            <td>@item.IsLockedOut.ToLockoutStatus()</td>
+                                            <td>@item.HasRoles.ToYesOrNo()</td>
+                                            <td>@item.IsObsolete.ToObsoleteStatus()</td>
+                                            <td class="autoFitContents centerContent">
+                                                @*<a class="btn btn-danger" href="@Url.Action("RemoveRole", "User", new { roleId = Model.Id, userId = item.Id })">
+                                                        @Locale.Delete
+                                                        <span class="glyphicon glyphicon-remove"></span>
+                                                    </a>*@
+
+
+                                                @using (Html.BeginForm("RemoveRole", "User", new { roleId = Model.Id, userId = item.Id }, FormMethod.Post, new { @class = "inlineForm form-horizontal", role = "form" }))
+                                                {
+
+                                                    @Html.AntiForgeryToken()
+
+                                                    <button type="submit" class="btn btn-danger">
+                                                        Remove
+                                                        <span class="glyphicon glyphicon-remove"></span>
+                                                    </button>
+                                                }
+
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        }
+                        else
+                        {
+                            <p>@Locale.NoUsersAdded </p>
+                        }
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .user-search-group .select2-selection,
+    .user-search-group .select2{
+        width: 100% !important;
+    }
+</style>

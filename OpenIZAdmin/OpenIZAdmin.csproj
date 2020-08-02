@@ -871,6 +871,7 @@
     <Content Include="Views\Shared\_ManageDedicatedServiceDeliveryLocationsPartial.cshtml" />
     <Content Include="Views\Place\AssociateAreaServed.cshtml" />
     <Content Include="Views\Place\AssociateDedicatedServiceDeliveryLocation.cshtml" />
+    <Content Include="Views\Shared\_RoleUsersPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
