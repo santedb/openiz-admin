@@ -69,10 +69,18 @@ namespace OpenIZAdmin.Models.MaterialModels
 		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
 		public string Name { get; set; }
 
-		/// <summary>
-		/// Gets or sets the quantity concept of the material.
+        /// <summary>
+		/// Gets or sets the name of the material.
 		/// </summary>
-		[Display(Name = "QuantityConcept", ResourceType = typeof(Locale))]
+		[Display(Name = "CommonName", ResourceType = typeof(Locale))]
+        [StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+        public string CommonName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the quantity concept of the material.
+        /// </summary>
+        [Display(Name = "QuantityConcept", ResourceType = typeof(Locale))]
 		public string QuantityConcept { get; set; }
 
 		/// <summary>
@@ -106,7 +114,8 @@ namespace OpenIZAdmin.Models.MaterialModels
 				Key = Guid.NewGuid(),
 				Names = new List<EntityName>
 				{
-					new EntityName(NameUseKeys.Assigned, this.Name)
+					new EntityName(NameUseKeys.Assigned, this.Name),
+					new EntityName(NameUseKeys.Search, this.CommonName)
 				},
 				StatusConceptKey = StatusKeys.Active
 			};

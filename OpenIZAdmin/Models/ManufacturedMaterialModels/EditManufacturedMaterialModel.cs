@@ -66,6 +66,7 @@ namespace OpenIZAdmin.Models.ManufacturedMaterialModels
 			manufacturedMaterial.ExpiryDate = this.ExpiryDate;
 			manufacturedMaterial.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.Assigned);
 			manufacturedMaterial.Names.Add(new EntityName(NameUseKeys.Assigned, this.Name));
+			manufacturedMaterial.Names.Add(new EntityName(NameUseKeys.Search, this.CommonName));
 
 			Guid formConceptKey, quantityConceptKey, typeConceptKey;
 

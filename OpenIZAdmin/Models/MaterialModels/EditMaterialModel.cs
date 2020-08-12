@@ -67,7 +67,10 @@ namespace OpenIZAdmin.Models.MaterialModels
 				this.Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value));
 			}
 
-			this.QuantityConcept = material.QuantityConceptKey?.ToString();
+            if(material.Names.Any(n=>n.NameUseKey == NameUseKeys.Search))
+                this.CommonName = string.Join(" ", material.Names.Where(n => n.NameUseKey == NameUseKeys.Search).SelectMany(n => n.Component).Select(c => c.Value));
+
+            this.QuantityConcept = material.QuantityConceptKey?.ToString();
 			this.TypeConcept = material.TypeConceptKey?.ToString();
 		}
 
@@ -97,11 +100,19 @@ namespace OpenIZAdmin.Models.MaterialModels
 		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
 		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
 		public string Name { get; set; }
-
-		/// <summary>
-		/// Gets or sets the quantity concept of the material.
+        
+        /// <summary>
+		/// Gets or sets the name of the material.
 		/// </summary>
-		[Display(Name = "QuantityConcept", ResourceType = typeof(Locale))]
+		[Display(Name = "CommonName", ResourceType = typeof(Locale))]
+        [StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+        public string CommonName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the quantity concept of the material.
+        /// </summary>
+        [Display(Name = "QuantityConcept", ResourceType = typeof(Locale))]
 		public string QuantityConcept { get; set; }
 
 		/// <summary>
@@ -133,7 +144,7 @@ namespace OpenIZAdmin.Models.MaterialModels
 			material.ExpiryDate = this.ExpiryDate;
 			material.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.Assigned);
 			material.Names.Add(new EntityName(NameUseKeys.Assigned, this.Name));
-
+            material.Names.Add(new EntityName(NameUseKeys.Search, this.CommonName));
 			Guid formConceptKey, quantityConceptKey, typeConceptKey;
 
 			if (Guid.TryParse(this.FormConcept, out formConceptKey))

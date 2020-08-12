@@ -64,7 +64,8 @@ namespace OpenIZAdmin.Models.ManufacturedMaterialModels
 				LotNumber = this.LotNumber,
 				Names = new List<EntityName>
 				{
-					new EntityName(NameUseKeys.Assigned, this.Name)
+					new EntityName(NameUseKeys.Assigned, this.Name),
+                    new EntityName(NameUseKeys.Search, this.CommonName)
 				},
 				StatusConceptKey = StatusKeys.Active
 			};

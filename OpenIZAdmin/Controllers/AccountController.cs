@@ -308,7 +308,7 @@ namespace OpenIZAdmin.Controllers
         {
             var amiServiceClient = GetDeviceServiceClient();
 
-            var alerts = amiServiceClient.GetAlerts(a => a.To.Contains("everyone") ).CollectionItem.ToList();
+            var alerts = amiServiceClient.GetAlerts(a => a.To.Contains("everyone") ).CollectionItem?.ToList();
             alerts = alerts.Where(a => a.AlertMessage.ObsoletionTime == null && a.AlertMessage.Flags == AlertMessageFlags.System).ToList();
 
             return alerts.OrderByDescending(o => o.AlertMessage.CreationTime);

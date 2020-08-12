@@ -227,6 +227,7 @@ namespace OpenIZAdmin.Controllers
 
 			if (deviceIdentity == null)
 			{
+                Trace.TraceWarning("Could not login as device client account");
 				return null;
 			}
 

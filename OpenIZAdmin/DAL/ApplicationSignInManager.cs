@@ -112,6 +112,10 @@ namespace OpenIZAdmin.DAL
 						AccessToken = accessToken
 					};
 				}
+                else
+                {
+                    Trace.TraceWarning("Error received from server: {0} - {1}", result.StatusCode, JObject.Parse(result.Content.ReadAsStringAsync().Result));
+                }
 			}
 
 			return deviceIdentity;

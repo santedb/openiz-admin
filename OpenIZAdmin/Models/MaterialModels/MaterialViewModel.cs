@@ -63,7 +63,10 @@ namespace OpenIZAdmin.Models.MaterialModels
 				this.Name = string.Join(" ", material.Names.SelectMany(n => n.Component).Select(c => c.Value));
 			}
 
-			this.QuantityConcept = material.QuantityConcept?.ConceptNames.Any() == true ? string.Join(" ", material.QuantityConcept?.ConceptNames.Select(c => c.Name)) + " " + material.QuantityConcept?.Mnemonic : material.QuantityConcept?.Mnemonic;
+            if (material.Names.Any(n => n.NameUseKey == NameUseKeys.Search))
+                this.CommonName = string.Join(" ", material.Names.Where(n => n.NameUseKey == NameUseKeys.Search).SelectMany(n => n.Component).Select(c => c.Value));
+
+            this.QuantityConcept = material.QuantityConcept?.ConceptNames.Any() == true ? string.Join(" ", material.QuantityConcept?.ConceptNames.Select(c => c.Name)) + " " + material.QuantityConcept?.Mnemonic : material.QuantityConcept?.Mnemonic;
 		}
 
 		/// <summary>
@@ -83,5 +86,11 @@ namespace OpenIZAdmin.Models.MaterialModels
 		/// </summary>
 		[Display(Name = "QuantityConcept", ResourceType = typeof(Locale))]
 		public string QuantityConcept { get; set; }
-	}
+
+        /// <summary>
+        /// Gets or sets the common name of the material.
+        /// </summary>
+        [Display(Name = "CommonName", ResourceType = typeof(Locale))]
+        public string CommonName { get; set; }
+    }
 }
