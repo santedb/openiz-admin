@@ -695,12 +695,12 @@ namespace OpenIZAdmin.Services.Entities
 							// if the class concept is a material, make sure we filter on material
 							if (classConceptKey == EntityClassKeys.Material)
 							{
-								queryExpression = p => p.ClassConceptKey == EntityClassKeys.Material && p.ObsoletionTime == null;
+								queryExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) &&  p.ClassConceptKey == EntityClassKeys.Material && p.ObsoletionTime == null;
 							}
 							// if the class concept is a manufactured material, make sure we filter on manufactured material
 							else if (classConceptKey == EntityClassKeys.ManufacturedMaterial)
 							{
-								queryExpression = p => p.ClassConceptKey == EntityClassKeys.ManufacturedMaterial && p.ObsoletionTime == null;
+								queryExpression = p => p.Names.Any(n => n.Component.Any(c => c.Value.Contains(searchTerm))) && p.ClassConceptKey == EntityClassKeys.ManufacturedMaterial && p.ObsoletionTime == null;
 							}
 
 							bundle = this.Client.Query(queryExpression, 0, null, expandProperties);
