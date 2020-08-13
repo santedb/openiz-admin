@@ -62,6 +62,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 			this.IsServiceDeliveryLocation = place.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation;
 			this.Name = string.Join(" ", place.Names.SelectMany(n => n.Component).Select(c => c.Value));
             this.Address = new EditEntityAddressViewModel(place.Addresses.FirstOrDefault());
+            this.ClassConcept = place.ClassConceptKey.ToString();
 
 			if (place.Extensions.Any(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey))
 			{
@@ -107,10 +108,16 @@ namespace OpenIZAdmin.Models.PlaceModels
 		[Display(Name = "IsServiceDeliveryLocation", ResourceType = typeof(Locale))]
 		public bool IsServiceDeliveryLocation { get; set; }
 
-		/// <summary>
-		/// Gets or sets the name of the place.
-		/// </summary>
-		[Display(Name = "Name", ResourceType = typeof(Locale))]
+        /// <summary>
+        /// Gets or sets the class concept.
+        /// </summary>
+        [Display(Name = "ClassConcept", ResourceType = typeof(Locale))]
+        public string ClassConcept { get; set; }
+
+        /// <summary>
+        /// Gets or sets the name of the place.
+        /// </summary>
+        [Display(Name = "Name", ResourceType = typeof(Locale))]
 		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
 		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
 		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
@@ -142,11 +149,17 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <value>The type concepts.</value>
 		public List<SelectListItem> TypeConcepts { get; set; }
 
-		/// <summary>
-		/// Gets or sets the year.
-		/// </summary>
-		/// <value>The year.</value>
-		[Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
+
+        /// <summary>
+        /// Gets or sets the class concepts.
+        /// </summary>
+        public List<SelectListItem> ClassConcepts { get; set; }
+
+        /// <summary>
+        /// Gets or sets the year.
+        /// </summary>
+        /// <value>The year.</value>
+        [Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
 		public string Year { get; set; }
 
 		/// <summary>
@@ -202,7 +215,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <returns>Returns a <see cref="Place"/> instance.</returns>
 		public Place ToPlace(Place place)
 		{
-			place.ClassConceptKey = this.IsServiceDeliveryLocation ? EntityClassKeys.ServiceDeliveryLocation : EntityClassKeys.Place;
+			place.ClassConceptKey = this.IsServiceDeliveryLocation ? EntityClassKeys.ServiceDeliveryLocation : Guid.Parse(this.ClassConcept);
 			place.CreationTime = DateTimeOffset.Now;
 			place.Names.RemoveAll(n => n.NameUseKey == NameUseKeys.OfficialRecord);
 			place.Names.Add(new EntityName(NameUseKeys.OfficialRecord, this.Name));

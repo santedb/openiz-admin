@@ -22,8 +22,16 @@
             <div class="form-group">
                 @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">
-                    @Html.TextBoxFor(m => m.Name, new { @class = "form-control", title = Locale.ToolTip_PlaceName })
+                    @Html.TextBoxFor(m => m.Name,  new { @class = "form-control", title = Locale.ToolTip_PlaceName})
                     @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(m => m.ClassConcept, new { @class = "col-md-2 control-label" })
+                <div class="col-md-8">
+                    @Html.DropDownListFor(m => m.ClassConcept, Model.ClassConcepts, new { @class = "form-control", @readonly = "readonly"  })
+                    @Html.ValidationMessageFor(m => m.ClassConcept, "", new { @class = "text-danger" })
                 </div>
             </div>
 
@@ -50,7 +58,7 @@
                     @Html.ValidationMessageFor(m => m.Year, "", new { @class = "text-danger" })
                     <span class="help-block">@Locale.ToolTip_TargetPopulationYear </span>
                 </div>
-            </div>            
+            </div>
 
             <div class="form-group">
                 @Html.LabelFor(m => m.TypeConcept, new { @class = "col-md-2 control-label" })
@@ -73,7 +81,7 @@
                     @Html.TextBoxFor(m => m.UpdatedBy, new { @class = "form-control", @readonly = "readonly" })
                 </div>
             </div>
-                    
+
             <div class="form-group">
                 @Html.LabelFor(m => m.UpdatedTime, new { @class = "col-md-2 control-label" })
                 <div class="col-md-8">

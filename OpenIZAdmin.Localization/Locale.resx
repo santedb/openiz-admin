@@ -2550,4 +2550,10 @@
   <data name="Remove" xml:space="preserve">
     <value>Remove</value>
   </data>
+  <data name="ClassConcept" xml:space="preserve">
+    <value>Classification</value>
+  </data>
+  <data name="ClassConceptRequired" xml:space="preserve">
+    <value>Classification Code is required</value>
+  </data>
 </root>

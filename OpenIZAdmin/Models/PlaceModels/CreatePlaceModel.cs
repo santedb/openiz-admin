@@ -28,36 +28,37 @@ using System.Web.Mvc;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
-	/// <summary>
-	/// Class CreatePlaceModel.
-	/// </summary>
-	public class CreatePlaceModel
-	{
-		/// <summary>
-		/// Initializes a new instance of the <see cref="CreatePlaceModel"/> class.
-		/// </summary>
-		public CreatePlaceModel()
-		{
-			this.TypeConcepts = new List<SelectListItem>();
+    /// <summary>
+    /// Class CreatePlaceModel.
+    /// </summary>
+    public class CreatePlaceModel
+    {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreatePlaceModel"/> class.
+        /// </summary>
+        public CreatePlaceModel()
+        {
+            this.TypeConcepts = new List<SelectListItem>();
             this.Address = new EditEntityAddressViewModel();
+            this.ClassConcept = EntityClassKeys.Place.ToString();
         }
 
-		/// <summary>
-		/// Gets or sets a value indicating whether this instance is service delivery location.
-		/// </summary>
-		/// <value><c>true</c> if this instance is service delivery location; otherwise, <c>false</c>.</value>
-		[Display(Name = "IsServiceDeliveryLocation", ResourceType = typeof(Locale))]
-		public bool IsServiceDeliveryLocation { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is service delivery location.
+        /// </summary>
+        /// <value><c>true</c> if this instance is service delivery location; otherwise, <c>false</c>.</value>
+        [Display(Name = "IsServiceDeliveryLocation", ResourceType = typeof(Locale))]
+        public bool IsServiceDeliveryLocation { get; set; }
 
-		/// <summary>
-		/// Gets or sets the name.
-		/// </summary>
-		/// <value>The name.</value>
-		[Display(Name = "Name", ResourceType = typeof(Locale))]
-		[Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
-		[StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
-		[RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
-		public string Name { get; set; }
+        /// <summary>
+        /// Gets or sets the name.
+        /// </summary>
+        /// <value>The name.</value>
+        [Display(Name = "Name", ResourceType = typeof(Locale))]
+        [Required(ErrorMessageResourceName = "NameRequired", ErrorMessageResourceType = typeof(Locale))]
+        [StringLength(64, ErrorMessageResourceName = "NameLength64", ErrorMessageResourceType = typeof(Locale))]
+        [RegularExpression(Constants.RegExBasicString, ErrorMessageResourceName = "InvalidStringEntry", ErrorMessageResourceType = typeof(Locale))]
+        public string Name { get; set; }
 
         /// <summary>
         /// Gets or sets the address of the place
@@ -69,102 +70,114 @@ namespace OpenIZAdmin.Models.PlaceModels
         /// </summary>
         /// <value>The target population.</value>
         [Display(Name = "TargetPopulation", ResourceType = typeof(Locale))]
-		[Range(1, ulong.MaxValue, ErrorMessageResourceName = "TargetPopulationMustBePositive", ErrorMessageResourceType = typeof(Locale))]
-		public ulong? TargetPopulation { get; set; }
+        [Range(1, ulong.MaxValue, ErrorMessageResourceName = "TargetPopulationMustBePositive", ErrorMessageResourceType = typeof(Locale))]
+        public ulong? TargetPopulation { get; set; }
 
-		/// <summary>
-		/// Gets or sets the type concept.
+        /// <summary>
+        /// Gets or sets the type concept.
+        /// </summary>
+        /// <value>The type concept.</value>
+        [Required(ErrorMessageResourceName = "TypeConceptRequired", ErrorMessageResourceType = typeof(Locale))]
+        [Display(Name = "TypeConcept", ResourceType = typeof(Locale))]
+        public string TypeConcept { get; set; }
+
+        /// <summary>
+		/// Gets or sets the class concept.
 		/// </summary>
-		/// <value>The type concept.</value>
-		[Required(ErrorMessageResourceName = "TypeConceptRequired", ErrorMessageResourceType = typeof(Locale))]
-		[Display(Name = "TypeConcept", ResourceType = typeof(Locale))]
-		public string TypeConcept { get; set; }
+		[Required(ErrorMessageResourceName = "ClassConceptRequired", ErrorMessageResourceType = typeof(Locale))]
+        [Display(Name = "ClassConcept", ResourceType = typeof(Locale))]
+        public string ClassConcept { get; set; }
 
-		/// <summary>
-		/// Gets or sets the type concepts.
-		/// </summary>
-		/// <value>The type concepts.</value>
-		public List<SelectListItem> TypeConcepts { get; set; }
+        /// <summary>
+        /// Gets or sets the type concepts.
+        /// </summary>
+        /// <value>The type concepts.</value>
+        public List<SelectListItem> TypeConcepts { get; set; }
 
-		/// <summary>
-		/// Gets or sets the year.
-		/// </summary>
-		/// <value>The year.</value>
-		[Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
-		public string Year { get; set; }
+        /// <summary>
+        /// Classification concepts
+        /// </summary>
+        public List<SelectListItem> ClassConcepts { get; set; }
 
-		/// <summary>
-		/// Converts the string year to an int
-		/// </summary>
-		/// <returns>Returns the year as an int or 0 if unsuccessful.</returns>
-		public ulong ConvertPopulationToULong()
-		{
-			if (TargetPopulation == null) return 0;
+        /// <summary>
+        /// Gets or sets the year.
+        /// </summary>
+        /// <value>The year.</value>
+        [Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
+        public string Year { get; set; }
 
-			return (ulong)TargetPopulation;
-		}
+        /// <summary>
+        /// Converts the string year to an int
+        /// </summary>
+        /// <returns>Returns the year as an int or 0 if unsuccessful.</returns>
+        public ulong ConvertPopulationToULong()
+        {
+            if (TargetPopulation == null) return 0;
 
-		/// <summary>
-		/// Converts the string year to an int
-		/// </summary>
-		/// <returns>Returns the year as an int or 0 if unsuccessful.</returns>
-		public int ConvertToPopulationYear()
-		{
-			int year;
+            return (ulong)TargetPopulation;
+        }
 
-			if (int.TryParse(Year, out year) && (year >= 1900 && year <= 2100)) return year;
+        /// <summary>
+        /// Converts the string year to an int
+        /// </summary>
+        /// <returns>Returns the year as an int or 0 if unsuccessful.</returns>
+        public int ConvertToPopulationYear()
+        {
+            int year;
 
-			return 0;
-		}
+            if (int.TryParse(Year, out year) && (year >= 1900 && year <= 2100)) return year;
 
-		/// <summary>
-		/// Checks if year and population are entered
-		/// </summary>
-		/// <returns>Returns true if both contain entries or both are empty.</returns>
-		public bool HasOnlyYearOrPopulation()
-		{
-			if (string.IsNullOrWhiteSpace(Year) && TargetPopulation != null) return true;
+            return 0;
+        }
 
-			return !string.IsNullOrWhiteSpace(Year) && TargetPopulation == null;
-		}
+        /// <summary>
+        /// Checks if year and population are entered
+        /// </summary>
+        /// <returns>Returns true if both contain entries or both are empty.</returns>
+        public bool HasOnlyYearOrPopulation()
+        {
+            if (string.IsNullOrWhiteSpace(Year) && TargetPopulation != null) return true;
 
-		/// <summary>
-		/// Checks if year and population are entered
-		/// </summary>
-		/// <returns>Returns true if both contain entries.</returns>
-		public bool SubmitYearAndPopulation()
-		{
-			if (TargetPopulation == null) return false;
+            return !string.IsNullOrWhiteSpace(Year) && TargetPopulation == null;
+        }
 
-			return !string.IsNullOrWhiteSpace(Year) && TargetPopulation > 0;
-		}
+        /// <summary>
+        /// Checks if year and population are entered
+        /// </summary>
+        /// <returns>Returns true if both contain entries.</returns>
+        public bool SubmitYearAndPopulation()
+        {
+            if (TargetPopulation == null) return false;
 
-		/// <summary>
-		/// Converts a <see cref="CreatePlaceModel"/> instance to a <see cref="Place"/> instance.
-		/// </summary>
-		/// <returns>Returns the converted place instance.</returns>
-		public Place ToPlace()
-		{
-			var place = new Place
-			{
-				ClassConceptKey = this.IsServiceDeliveryLocation ? EntityClassKeys.ServiceDeliveryLocation : EntityClassKeys.Place,
-				Key = Guid.NewGuid(),
-				Names = new List<EntityName>
-				{
-					new EntityName(NameUseKeys.OfficialRecord, this.Name)
-				},
-				StatusConceptKey = StatusKeys.Active,
+            return !string.IsNullOrWhiteSpace(Year) && TargetPopulation > 0;
+        }
+
+        /// <summary>
+        /// Converts a <see cref="CreatePlaceModel"/> instance to a <see cref="Place"/> instance.
+        /// </summary>
+        /// <returns>Returns the converted place instance.</returns>
+        public Place ToPlace()
+        {
+            var place = new Place
+            {
+                ClassConceptKey = this.IsServiceDeliveryLocation ? EntityClassKeys.ServiceDeliveryLocation : Guid.Parse(this.ClassConcept),
+                Key = Guid.NewGuid(),
+                Names = new List<EntityName>
+                {
+                    new EntityName(NameUseKeys.OfficialRecord, this.Name)
+                },
+                StatusConceptKey = StatusKeys.Active,
                 Addresses = new List<EntityAddress>() { Address.Address.ToEntityAddress() }
-        };
+            };
 
-			Guid typeConceptKey;
+            Guid typeConceptKey;
 
-			if (Guid.TryParse(this.TypeConcept, out typeConceptKey))
-			{
-				place.TypeConceptKey = typeConceptKey;
-			}
+            if (Guid.TryParse(this.TypeConcept, out typeConceptKey))
+            {
+                place.TypeConceptKey = typeConceptKey;
+            }
 
-			return place;
-		}
-	}
+            return place;
+        }
+    }
 }

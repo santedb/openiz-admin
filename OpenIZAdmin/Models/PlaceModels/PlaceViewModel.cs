@@ -59,7 +59,7 @@ namespace OpenIZAdmin.Models.PlaceModels
 			this.DedicatedServiceDeliveryLocations = new List<EntityRelationshipViewModel>();
 			this.IsServiceDeliveryLocation = place.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation;
 			this.IsServiceDeliveryLocationDisplay = this.IsServiceDeliveryLocation ? Locale.Yes : Locale.No;
-
+            this.ClassConcept = place.ClassConceptKey.ToString();
 			if (place.Extensions.Any(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey))
 			{
 				try
@@ -100,11 +100,16 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <value><c>true</c> if this instance is service delivery location; otherwise, <c>false</c>.</value>
 		public bool IsServiceDeliveryLocation { get; set; }
 
-		/// <summary>
-		/// Gets or sets a value indicating whether this instance is service delivery location.
-		/// </summary>
-		/// <value>The is service delivery location display.</value>
-		[Display(Name = "IsServiceDeliveryLocation", ResourceType = typeof(Locale))]
+        /// <summary>
+        /// Gets or sets the classification concept
+        /// </summary>
+        public String ClassConcept { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is service delivery location.
+        /// </summary>
+        /// <value>The is service delivery location display.</value>
+        [Display(Name = "IsServiceDeliveryLocation", ResourceType = typeof(Locale))]
 		public string IsServiceDeliveryLocationDisplay { get; set; }
 
 		/// <summary>

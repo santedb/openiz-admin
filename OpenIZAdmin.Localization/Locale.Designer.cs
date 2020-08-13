@@ -907,6 +907,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Classification.
+        /// </summary>
+        public static string ClassConcept {
+            get {
+                return ResourceManager.GetString("ClassConcept", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Classification Code is required.
+        /// </summary>
+        public static string ClassConceptRequired {
+            get {
+                return ResourceManager.GetString("ClassConceptRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string Close {

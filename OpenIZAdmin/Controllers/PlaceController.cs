@@ -356,8 +356,10 @@ namespace OpenIZAdmin.Controllers
                 model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList());
 
                 // get the place types sub concepts
-                model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceSubTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList());
+                //model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceSubTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList());
 
+                // Get the place class concepts
+                model.ClassConcepts = this.placeConceptService.GetPlaceClassConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
                 // order the type concept list
                 model.TypeConcepts = model.TypeConcepts.OrderBy(c => c.Text).ToList();
             }
@@ -431,6 +433,7 @@ namespace OpenIZAdmin.Controllers
 
             // get the place types sub concepts
             model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceSubTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList());
+            model.ClassConcepts = this.placeConceptService.GetPlaceClassConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
 
             // order the type concept list
             model.TypeConcepts = model.TypeConcepts.OrderBy(c => c.Text).ToList();
@@ -682,7 +685,10 @@ namespace OpenIZAdmin.Controllers
                 model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == place.TypeConceptKey).ToList());
 
                 // get the place types sub concepts
-                model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceSubTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == place.TypeConceptKey).ToList());
+                //model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceSubTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == place.TypeConceptKey).ToList());
+
+                // Get the place class concepts
+                model.ClassConcepts = this.placeConceptService.GetPlaceClassConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
 
                 // order the type concept list
                 model.TypeConcepts = model.TypeConcepts.OrderBy(c => c.Text).ToList();
@@ -721,9 +727,21 @@ namespace OpenIZAdmin.Controllers
                     if (model.ConvertToPopulationYear() == 0) ModelState.AddModelError("Year", Locale.PopulationYearInvalidFormat);
                 }
 
+                var place = this.entityService.Get<Place>(model.Id, null, p => p.ObsoletionTime == null);
+                // ensure the type concept list is not null
+                if (model.TypeConcepts == null)
+                {
+                    model.TypeConcepts = new List<SelectListItem>();
+                }
+
+                // get the place type concepts
+                model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == place.TypeConceptKey).ToList());
+                // order the type concept list
+                model.TypeConcepts = model.TypeConcepts.OrderBy(c => c.Text).ToList();
+                model.ClassConcepts = this.placeConceptService.GetPlaceClassConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
+
                 if (ModelState.IsValid)
                 {
-                    var place = this.entityService.Get<Place>(model.Id, null, p => p.ObsoletionTime == null);
 
                     if (place == null)
                     {
@@ -735,21 +753,6 @@ namespace OpenIZAdmin.Controllers
                     // repopulate incase the update fails
                     model.Identifiers = place.Identifiers.Select(i => new EntityIdentifierModel(i.Key.Value, place.Key.Value)).ToList();
                     model.Relationships = place.Relationships.Select(r => new EntityRelationshipModel(r)).ToList();
-
-                    // ensure the type concept list is not null
-                    if (model.TypeConcepts == null)
-                    {
-                        model.TypeConcepts = new List<SelectListItem>();
-                    }
-
-                    // get the place type concepts
-                    model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == place.TypeConceptKey).ToList());
-
-                    // get the place types sub concepts
-                    model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceSubTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == place.TypeConceptKey).ToList());
-
-                    // order the type concept list
-                    model.TypeConcepts = model.TypeConcepts.OrderBy(c => c.Text).ToList();
 
                     var placeToUpdate = model.ToPlace(place);
 
@@ -777,6 +780,7 @@ namespace OpenIZAdmin.Controllers
 
                     return RedirectToAction("ViewPlace", new { id = updatedPlace.Key, versionId = updatedPlace.VersionKey });
                 }
+
             }
             catch (Exception e)
             {
@@ -1072,6 +1076,8 @@ namespace OpenIZAdmin.Controllers
                     DedicatedServiceDeliveryLocations = dedicatedServiceDeliveryLocations.Select(r => new EntityRelationshipViewModel(r, r.TargetEntityKey == place.Key)).OrderBy(r => r.TargetName).ToList(),
                     UpdatedBy = this.userService.GetUserEntityBySecurityUserKey(place.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
                 };
+
+                viewModel.ClassConcept = this.conceptService.GetConcept(place.ClassConceptKey.Value, true).ConceptNames?.FirstOrDefault()?.Name;
 
                 return View(viewModel);
             }
