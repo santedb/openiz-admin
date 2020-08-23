@@ -20,7 +20,9 @@
 using OpenIZ.Core.Model.AMI.Auth;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
+using OpenIZ.Core.Model.Query;
 using OpenIZ.Core.Model.Roles;
+using OpenIZ.Core.Model.Security;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
@@ -28,6 +30,7 @@ using OpenIZAdmin.Models;
 using OpenIZAdmin.Models.UserModels;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Web.Mvc;
@@ -397,35 +400,15 @@ namespace OpenIZAdmin.Controllers
 				{
 					var results = new List<SecurityUserInfo>();
 
+                    OpenIZ.Core.Model.Query.NameValueCollection nvc = new OpenIZ.Core.Model.Query.NameValueCollection();
+					nvc.Add("userClass", UserClassKeys.HumanUser.ToString());
 
-					if (role != null && facility != null)
-                    {
-						if (searchTerm == "*")
-							results.AddRange(this.AmiClient.GetUsers(a => a.UserClass == UserClassKeys.HumanUser && a.Roles.Any(r => r.Key == role) && a.UserEntity.Relationships.Where(o => o.RelationshipType.Mnemonic == "DedicatedServiceDeliveryLocation").Any(dsdl => dsdl.TargetEntityKey == facility)).CollectionItem);
-						else
-							results.AddRange(this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser && u.Roles.Any(r => r.Key == role) && u.UserEntity.Relationships.Where(o => o.RelationshipType.Mnemonic == "DedicatedServiceDeliveryLocation").Any(dsdl => dsdl.TargetEntityKey == facility)).CollectionItem);
-					}
-					else if (role != null)
-                    {
-						if (searchTerm == "*")
-							results.AddRange(this.AmiClient.GetUsers(a => a.UserClass == UserClassKeys.HumanUser && a.Roles.Any(r => r.Key == role)).CollectionItem);
-						else
-							results.AddRange(this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser && u.Roles.Any(r => r.Key == role)).CollectionItem);
-					}
-					else if (facility != null)
-                    {
-						if (searchTerm == "*")
-							results.AddRange(this.AmiClient.GetUsers(a => a.UserClass == UserClassKeys.HumanUser && a.UserEntity.Relationships.Where(o => o.RelationshipType.Mnemonic == "DedicatedServiceDeliveryLocation").Any(dsdl => dsdl.TargetEntityKey == facility)).CollectionItem);
-						else
-							results.AddRange(this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser && u.UserEntity.Relationships.Where(o => o.RelationshipType.Mnemonic == "DedicatedServiceDeliveryLocation").Any(dsdl => dsdl.TargetEntityKey == facility)).CollectionItem);
-					}
-					else
-                    {
-						if (searchTerm == "*")
-							results.AddRange(this.AmiClient.GetUsers(a => a.UserClass == UserClassKeys.HumanUser ).CollectionItem);
-						else
-							results.AddRange(this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser).CollectionItem);
-					}
+
+					if (role != null) nvc.Add("role.id", role.ToString());
+                    if (facility != null) nvc.Add("userEntity.relationship[DedicatedServiceDeliveryLocation].target", facility.ToString());
+                    if (!string.IsNullOrEmpty(searchTerm) && searchTerm != "*") nvc.Add("userName", $"~*{searchTerm}*");
+
+					results.AddRange(this.AmiClient.GetUsers(QueryExpressionParser.BuildLinqExpression<SecurityUser>(nvc, null, false)).CollectionItem);
 
 					TempData["searchTerm"] = searchTerm;
 
