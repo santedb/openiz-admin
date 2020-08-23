@@ -382,10 +382,12 @@ namespace OpenIZAdmin.Controllers
 		/// Searches for a user.
 		/// </summary>
 		/// <param name="searchTerm">The search term.</param>
+		/// <param name="role">The role Id to filter on.</param>
+		/// <param name="facility">The facility Id to filter on.</param>
 		/// <returns>Returns a list of users which match the search term.</returns>
 		[HttpGet]
 		[ValidateInput(false)]
-		public ActionResult Search(string searchTerm)
+		public ActionResult Search(string searchTerm, Guid? role = null, Guid? facility = null)
 		{
 			var users = new List<UserViewModel>();
 
@@ -395,7 +397,35 @@ namespace OpenIZAdmin.Controllers
 				{
 					var results = new List<SecurityUserInfo>();
 
-					results.AddRange(searchTerm == "*" ? this.AmiClient.GetUsers(a => a.UserClass == UserClassKeys.HumanUser).CollectionItem : this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser).CollectionItem);
+
+					if (role != null && facility != null)
+                    {
+						if (searchTerm == "*")
+							results.AddRange(this.AmiClient.GetUsers(a => a.UserClass == UserClassKeys.HumanUser && a.Roles.Any(r => r.Key == role) && a.UserEntity.Relationships.Where(o => o.RelationshipType.Mnemonic == "DedicatedServiceDeliveryLocation").Any(dsdl => dsdl.TargetEntityKey == facility)).CollectionItem);
+						else
+							results.AddRange(this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser && u.Roles.Any(r => r.Key == role) && u.UserEntity.Relationships.Where(o => o.RelationshipType.Mnemonic == "DedicatedServiceDeliveryLocation").Any(dsdl => dsdl.TargetEntityKey == facility)).CollectionItem);
+					}
+					else if (role != null)
+                    {
+						if (searchTerm == "*")
+							results.AddRange(this.AmiClient.GetUsers(a => a.UserClass == UserClassKeys.HumanUser && a.Roles.Any(r => r.Key == role)).CollectionItem);
+						else
+							results.AddRange(this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser && u.Roles.Any(r => r.Key == role)).CollectionItem);
+					}
+					else if (facility != null)
+                    {
+						if (searchTerm == "*")
+							results.AddRange(this.AmiClient.GetUsers(a => a.UserClass == UserClassKeys.HumanUser && a.UserEntity.Relationships.Where(o => o.RelationshipType.Mnemonic == "DedicatedServiceDeliveryLocation").Any(dsdl => dsdl.TargetEntityKey == facility)).CollectionItem);
+						else
+							results.AddRange(this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser && u.UserEntity.Relationships.Where(o => o.RelationshipType.Mnemonic == "DedicatedServiceDeliveryLocation").Any(dsdl => dsdl.TargetEntityKey == facility)).CollectionItem);
+					}
+					else
+                    {
+						if (searchTerm == "*")
+							results.AddRange(this.AmiClient.GetUsers(a => a.UserClass == UserClassKeys.HumanUser ).CollectionItem);
+						else
+							results.AddRange(this.AmiClient.GetUsers(u => u.UserName.Contains(searchTerm) && u.UserClass == UserClassKeys.HumanUser).CollectionItem);
+					}
 
 					TempData["searchTerm"] = searchTerm;
 

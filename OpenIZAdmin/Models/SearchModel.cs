@@ -18,6 +18,7 @@
  */
 
 using OpenIZAdmin.Localization;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
@@ -66,5 +67,26 @@ namespace OpenIZAdmin.Models
 		[Display(Name = "Type", ResourceType = typeof(Locale))]
         public string SearchType { get; set; }
 
-    }
+		/// <summary>
+		/// Show facility search parameter
+		/// </summary>
+		public bool FacilityEnabled { get; set; }
+
+		/// <summary>
+		/// Id of facility to filter search on
+		/// </summary>
+		[Display(Name = "Facility", ResourceType = typeof(Locale))]
+		public Guid? Facility { get; set; }
+
+		/// <summary>
+		/// Show Roles search parameter
+		/// </summary>
+		public bool RoleEnabled { get; set; }
+
+		/// <summary>
+		/// List of Role Ids to filter search on
+		/// </summary>
+		[Display(Name = "Role", ResourceType = typeof(Locale))]
+		public Guid? Role { get; set; }
+	}
 }

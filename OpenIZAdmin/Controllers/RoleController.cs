@@ -279,6 +279,29 @@ namespace OpenIZAdmin.Controllers
 		}
 
 		/// <summary>
+		/// Searches for a role.
+		/// </summary>
+		/// <param name="searchTerm">The search term.</param>
+		/// <returns>Returns a list of roles which match the search term.</returns>
+		[HttpGet]
+		public ActionResult SearchAjax(string searchTerm)
+		{
+			var results = new List<SecurityRoleInfo>();
+
+			try
+			{
+				if (this.IsValidId(searchTerm))
+					results.AddRange(this.AmiClient.GetRoles(a => a.Name.Contains(searchTerm)).CollectionItem);
+			}
+			catch (Exception e)
+			{
+				Trace.TraceError($"Unable to retrieve users: {e}");
+			}
+
+			return Json(results.Select(r => new RoleViewModel(r)).OrderBy(a => a.Name), JsonRequestBehavior.AllowGet);
+		}
+
+		/// <summary>
 		/// Retrieves the selected role
 		/// </summary>
 		/// <param name="id">The identifier of the role object</param>
