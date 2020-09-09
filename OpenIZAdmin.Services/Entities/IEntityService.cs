@@ -147,13 +147,24 @@ namespace OpenIZAdmin.Services.Entities
 		/// <returns>Returns a list of entities which match the given expression.</returns>
 		IEnumerable<T> Query<T>(Expression<Func<T, bool>> expression, int offset, int? count, string[] expandProperties) where T : Entity;
 
-		/// <summary>
-		/// Searches for a specific entity by search term.
+        /// <summary>
+		/// Queries for an entity with a given expression.
 		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="searchTerm">The search term.</param>
-		/// <returns>Returns a list of entities which match the given search term.</returns>
-		IEnumerable<T> Search<T>(string searchTerm) where T : Entity;
+		/// <param name="expression">The expression.</param>
+		/// <param name="offset">The offset.</param>
+		/// <param name="count">The count.</param>
+		/// <param name="expandProperties">The expand properties.</param>
+		/// <returns>Returns a list of entities which match the given expression.</returns>
+		IEnumerable<T> Query<T>(Expression<Func<T, bool>> expression, int offset, int? count, Guid queryId, string[] expandProperties) where T : Entity;
+
+
+        /// <summary>
+        /// Searches for a specific entity by search term.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="searchTerm">The search term.</param>
+        /// <returns>Returns a list of entities which match the given search term.</returns>
+        IEnumerable<T> Search<T>(string searchTerm) where T : Entity;
 
 		/// <summary>
 		/// Searches for a specific entity by search term.

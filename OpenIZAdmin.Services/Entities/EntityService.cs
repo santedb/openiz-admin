@@ -513,13 +513,39 @@ namespace OpenIZAdmin.Services.Entities
 			return entities;
 		}
 
-		/// <summary>
-		/// Searches for a specific entity by search term.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="searchTerm">The search term.</param>
-		/// <returns>Returns a list of entities which match the given search term.</returns>
-		public IEnumerable<T> Search<T>(string searchTerm) where T : Entity
+        /// <summary>
+        /// Query for the specified entities using the server's stored query (faster for paging)
+        /// </summary>
+        public IEnumerable<T> Query<T>(Expression<Func<T, bool>> expression, int offset, int? count, Guid queryId, string[] expandProperties) where T : Entity
+        {
+            var entities = new List<T>();
+
+            try
+            {
+                var bundle = this.Client.Query(expression, offset, count, expandProperties, queryId);
+
+                bundle.Reconstitute();
+
+                entities.AddRange(bundle.Item.OfType<T>().LatestVersionOnly().Where(expression.Compile()));
+
+                this.entityAuditService.AuditQueryEntity(OutcomeIndicator.Success, entities);
+            }
+            catch (Exception e)
+            {
+                coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, this.entityAuditService.QueryEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
+                throw;
+            }
+
+            return entities;
+        }
+
+        /// <summary>
+        /// Searches for a specific entity by search term.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="searchTerm">The search term.</param>
+        /// <returns>Returns a list of entities which match the given search term.</returns>
+        public IEnumerable<T> Search<T>(string searchTerm) where T : Entity
 		{
 			return this.Search<T>(searchTerm, null, null);
 		}

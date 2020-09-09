@@ -1753,6 +1753,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download File Template.
+        /// </summary>
+        public static string DownloadTemplate {
+            get {
+                return ResourceManager.GetString("DownloadTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The identifier value already exists for the given assigning authority. This identifier value is already associated with another {0}.
         /// </summary>
         public static string DuplicateIdentifierValue {
@@ -2446,6 +2455,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Import.
+        /// </summary>
+        public static string Import {
+            get {
+                return ResourceManager.GetString("Import", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target population was updated successfully..
+        /// </summary>
+        public static string ImportCompletedSuccessfully {
+            get {
+                return ResourceManager.GetString("ImportCompletedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Incorrect Username or Password.
         /// </summary>
         public static string IncorrectUsernameOrPassword {
@@ -2478,6 +2505,15 @@ namespace OpenIZAdmin.Localization {
         public static string Information {
             get {
                 return ResourceManager.GetString("Information", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Integrations.
+        /// </summary>
+        public static string Integrations {
+            get {
+                return ResourceManager.GetString("Integrations", resourceCulture);
             }
         }
         
@@ -5101,6 +5137,24 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Download the target population template file using the template link below (note: It may take up to 10 minutes to generate this file).
+        /// </summary>
+        public static string TargetPopulationDownloadTemplateInstruction {
+            get {
+                return ResourceManager.GetString("TargetPopulationDownloadTemplateInstruction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit the downloaded template to ensure the values are correct.
+        /// </summary>
+        public static string TargetPopulationEditInstruction {
+            get {
+                return ResourceManager.GetString("TargetPopulationEditInstruction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The target population must be a number greater than 0 and less than 18,446,744,073,709,551,615.
         /// </summary>
         public static string TargetPopulationMustBePositive {
@@ -5115,6 +5169,15 @@ namespace OpenIZAdmin.Localization {
         public static string TargetPopulationRequired {
             get {
                 return ResourceManager.GetString("TargetPopulationRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Upload the modified file to the administrative service.
+        /// </summary>
+        public static string TargetPopulationUploadInstruction {
+            get {
+                return ResourceManager.GetString("TargetPopulationUploadInstruction", resourceCulture);
             }
         }
         
@@ -6258,6 +6321,15 @@ namespace OpenIZAdmin.Localization {
         public static string UnableToFindSpecifiedCertificateSigningRequest {
             get {
                 return ResourceManager.GetString("UnableToFindSpecifiedCertificateSigningRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The import of the target population file you&apos;ve uploaded failed..
+        /// </summary>
+        public static string UnableToImportPopulation {
+            get {
+                return ResourceManager.GetString("UnableToImportPopulation", resourceCulture);
             }
         }
         

@@ -285,6 +285,7 @@
     <Compile Include="Attributes\TokenAuthorize.cs" />
     <Compile Include="Comparer\EntityRelationshipComparer.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\IntegrationsController.cs" />
     <Compile Include="Controllers\EntityController.cs" />
     <Compile Include="Controllers\EntityBaseController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
@@ -388,6 +389,7 @@
     <Compile Include="Models\FacilityModel.cs" />
     <Compile Include="Models\Core\LanguageModel.cs" />
     <Compile Include="Models\ConceptNameModels\ConceptNameViewModel.cs" />
+    <Compile Include="Models\IntegrationModels\IntegrationControlModel.cs" />
     <Compile Include="Models\ManualModels\ManualIndexViewModel.cs" />
     <Compile Include="Models\ManualModels\UploadManualModel.cs" />
     <Compile Include="Models\ManufacturedMaterialModels\CreateManufacturedMaterialModel.cs" />
@@ -873,6 +875,7 @@
     <Content Include="Views\Place\AssociateAreaServed.cshtml" />
     <Content Include="Views\Place\AssociateDedicatedServiceDeliveryLocation.cshtml" />
     <Content Include="Views\Shared\_RoleUsersPartial.cshtml" />
+    <Content Include="Views\Integrations\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

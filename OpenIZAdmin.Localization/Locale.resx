@@ -2556,4 +2556,28 @@
   <data name="ClassConceptRequired" xml:space="preserve">
     <value>Classification Code is required</value>
   </data>
+  <data name="Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Integrations" xml:space="preserve">
+    <value>Integrations</value>
+  </data>
+  <data name="DownloadTemplate" xml:space="preserve">
+    <value>Download File Template</value>
+  </data>
+  <data name="TargetPopulationDownloadTemplateInstruction" xml:space="preserve">
+    <value>Download the target population template file using the template link below (note: It may take up to 10 minutes to generate this file)</value>
+  </data>
+  <data name="TargetPopulationEditInstruction" xml:space="preserve">
+    <value>Edit the downloaded template to ensure the values are correct</value>
+  </data>
+  <data name="TargetPopulationUploadInstruction" xml:space="preserve">
+    <value>Upload the modified file to the administrative service</value>
+  </data>
+  <data name="UnableToImportPopulation" xml:space="preserve">
+    <value>The import of the target population file you've uploaded failed.</value>
+  </data>
+  <data name="ImportCompletedSuccessfully" xml:space="preserve">
+    <value>Target population was updated successfully.</value>
+  </data>
 </root>

@@ -129,8 +129,12 @@
                         {
                             <li><a href="@Url.Action("Index", "User")"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Locale.Users</a></li>
                         }
+                        if (OpenIZAdmin.Services.Security.PolicyPermission.TryDemand(User, Constants.UnrestrictedAdministration))
+                        {
+                            <li><a href="@Url.Action("Index", "Integrations")"><span class="glyphicon glyphicon-random" aria-hidden="true"></span> @Locale.Integrations</a></li>
+                        }
                         <li><a href="@Url.Action("VersionInformation", "Home")"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> @Locale.About</a></li>
-}
+                    }
                 </ul>
             </div>
 
