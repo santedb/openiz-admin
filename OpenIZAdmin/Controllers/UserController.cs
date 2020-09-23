@@ -406,7 +406,7 @@ namespace OpenIZAdmin.Controllers
 
 					if (role != null) nvc.Add("role.id", role.ToString());
                     if (facility != null) nvc.Add("userEntity.relationship[DedicatedServiceDeliveryLocation].target", facility.ToString());
-                    if (!string.IsNullOrEmpty(searchTerm) && searchTerm != "*") nvc.Add("userName", $"~*{searchTerm}*");
+                    if (!string.IsNullOrEmpty(searchTerm) && searchTerm != "*") nvc.Add("userName", $"~{searchTerm}");
 
 					results.AddRange(this.AmiClient.GetUsers(QueryExpressionParser.BuildLinqExpression<SecurityUser>(nvc, null, false)).CollectionItem);
 

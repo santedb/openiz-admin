@@ -369,3 +369,8 @@ div#data .panel-body table th {
 .error-wrapper p {
     font-weight: 600;
 }
+
+/* An override class that adds dynamic width to select2 dropdown list fields. */
+.dynamic-with-dropdown + .select2 {
+	width: 100% !important;
+}
