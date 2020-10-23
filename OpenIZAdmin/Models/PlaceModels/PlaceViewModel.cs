@@ -32,6 +32,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using OpenIZAdmin.Models.EntityRelationshipModels;
+using OpenIZ.Core.Services;
 
 namespace OpenIZAdmin.Models.PlaceModels
 {
@@ -60,7 +61,22 @@ namespace OpenIZAdmin.Models.PlaceModels
 			this.IsServiceDeliveryLocation = place.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation;
 			this.IsServiceDeliveryLocationDisplay = this.IsServiceDeliveryLocation ? Locale.Yes : Locale.No;
             this.ClassConcept = place.ClassConceptKey.ToString();
-			if (place.Extensions.Any(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey))
+            this.StatusConcept = place.StatusConceptKey;
+            if(place.Extensions.Any(e=>e.ExtensionTypeKey == Constants.DetectedIssueExtensionTypeKey))
+            {
+                try
+                {
+                    var entityExtension = place.Extensions.First(e => e.ExtensionTypeKey == Constants.DetectedIssueExtensionTypeKey && e.ObsoleteVersionSequenceId == null);
+                    var issues = JsonConvert.DeserializeObject<List<DetectedIssue>>(Encoding.UTF8.GetString(entityExtension.ExtensionValueXml));
+                    this.Issues = issues;
+                }
+                catch (Exception e)
+                {
+                    Trace.TraceError($"Unable to de-serialize the target population extensions: { e }");
+                }
+            }
+
+            if (place.Extensions.Any(e => e.ExtensionTypeKey == Constants.TargetPopulationExtensionTypeKey))
 			{
 				try
 				{
@@ -81,6 +97,11 @@ namespace OpenIZAdmin.Models.PlaceModels
 				}
 			}
 		}
+
+        /// <summary>
+        /// Gets or sets the detected issues
+        /// </summary>
+        public List<DetectedIssue> Issues { get; set; }
 
 		/// <summary>
 		/// Gets or sets the areas served.
@@ -106,6 +127,16 @@ namespace OpenIZAdmin.Models.PlaceModels
         public String ClassConcept { get; set; }
 
         /// <summary>
+        /// Gets the status concept
+        /// </summary>
+        public Guid? StatusConcept { get; }
+
+        /// <summary>
+        /// Gets the status concept
+        /// </summary>
+        public Guid? ReplacedById { get; internal set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether this instance is service delivery location.
         /// </summary>
         /// <value>The is service delivery location display.</value>
@@ -125,5 +156,10 @@ namespace OpenIZAdmin.Models.PlaceModels
 		/// <value>The target population year.</value>
 		[Display(Name = "PopulationYear", ResourceType = typeof(Locale))]
 		public int TargetPopulationYear { get; set; }
-	}
+
+        /// <summary>
+        /// Gets the duplicates for this facility
+        /// </summary>
+        public List<EntityRelationshipViewModel> Duplicates { get; set; }
+    }
 }

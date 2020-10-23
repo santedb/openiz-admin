@@ -19,9 +19,11 @@
 
 using Newtonsoft.Json;
 using OpenIZ.Core.Model;
+using OpenIZ.Core.Model.Acts;
 using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.DataTypes;
 using OpenIZ.Core.Model.Entities;
+using OpenIZ.Core.Services;
 using OpenIZAdmin.Attributes;
 using OpenIZAdmin.Extensions;
 using OpenIZAdmin.Localization;
@@ -29,6 +31,7 @@ using OpenIZAdmin.Models.ConceptModels;
 using OpenIZAdmin.Models.ConceptNameModels;
 using OpenIZAdmin.Models.IntegrationModels;
 using OpenIZAdmin.Models.ReferenceTermModels;
+using OpenIZAdmin.Services.Acts;
 using OpenIZAdmin.Services.Entities;
 using OpenIZAdmin.Services.Metadata.Concepts;
 using OpenIZAdmin.Util;
@@ -37,6 +40,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
@@ -73,13 +77,18 @@ namespace OpenIZAdmin.Controllers
         private readonly IConceptService conceptService;
 
         /// <summary>
+        /// Act service
+        /// </summary>
+        private readonly IActService actService;
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="ConceptController"/> class.
         /// </summary>
-        public IntegrationsController(IEntityService entityService, IConceptService conceptService)
+        public IntegrationsController(IEntityService entityService, IConceptService conceptService, IActService actService)
         {
             this.entityService = entityService;
             this.conceptService = conceptService;
-
+            this.actService = actService;
         }
 
         /// <summary>
@@ -88,7 +97,73 @@ namespace OpenIZAdmin.Controllers
         /// <returns>Returns the index view.</returns>
         public ActionResult Index()
         {
-            return View();
+
+            var model = new IntegrationControlModel();
+            try
+            {
+                var cacts = this.actService.Query<Act>(o => o.ClassConceptKey == ActClassKeys.ControlAct, 0, 10, true);
+                model.ImportActs = cacts.Select(o => new ControlActViewModel(o, this.conceptService)).ToList();
+            }
+            catch(Exception e)
+            {
+                Trace.TraceError($"Unable to fetch acts: {e}");
+                TempData["error"] = e.Message;
+            }
+            return View(model);
+        }
+
+        /// <summary>
+        /// View the specified import event
+        /// </summary>
+        /// <param name="id">The identifier of the import event</param>
+        /// <returns>The import detail view</returns>
+        public ActionResult View(Guid id)
+        {
+            try
+            {
+                var act = this.actService.Get<Act>(id);
+
+                // Load additional details
+                var loadCache = new Dictionary<Guid, IdentifiedData>();
+                foreach (var itm in act.Participations)
+                {
+                    // Fix role
+                    if (itm.ParticipationRole == null)
+                    {
+                        if (!loadCache.TryGetValue(itm.ParticipationRoleKey.Value, out IdentifiedData concept))
+                        {
+                            concept = this.conceptService.GetConcept(itm.ParticipationRoleKey);
+                            loadCache.Add(itm.ParticipationRoleKey.Value, concept);
+                        }
+                        itm.ParticipationRole = concept as Concept;
+                    }
+
+                    // Fix target
+                    if(itm.PlayerEntity == null)
+                        itm.PlayerEntity = this.entityService.Get<Entity>(itm.PlayerEntityKey.Value);
+
+                    if(itm.PlayerEntity.TypeConcept == null && itm.PlayerEntity.TypeConceptKey.HasValue)
+                    {
+                        if (!loadCache.TryGetValue(itm.PlayerEntity.TypeConceptKey.Value, out IdentifiedData concept))
+                        {
+                            concept = this.conceptService.GetConcept(itm.PlayerEntity.TypeConceptKey);
+                            loadCache.Add(itm.PlayerEntity.TypeConceptKey.Value, concept);
+                        }
+                        itm.PlayerEntity.TypeConcept = concept as Concept;
+                    }
+                }
+
+                var model = new ControlActViewModel(act, this.conceptService);
+
+                return View(model);
+
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError($"Unable to fetch model: {e}");
+                TempData["error"] = e.Message;
+            }
+            return this.Index();
         }
 
         /// <summary>
@@ -189,7 +264,9 @@ namespace OpenIZAdmin.Controllers
                                         var extension = place.Extensions.FirstOrDefault(o => o.ExtensionTypeKey == TargetPopulationKey);
 
                                         // Generate the token
-                                        var extensionValue = JsonConvert.SerializeObject(new { value = Int32.Parse(lineData[COL_POPULATION]), year = Int32.Parse(lineData[COL_YEAR]) });
+                                        if (!Int32.TryParse(lineData[COL_POPULATION], out int population) || !Int32.TryParse(lineData[COL_YEAR], out int year))
+                                            throw new FormatException($"Values {lineData[COL_POPULATION]} or {lineData[COL_YEAR]} were not in the correct format");
+                                        var extensionValue = JsonConvert.SerializeObject(new { value = population, year = year });
 
                                         if (extension == null)
                                             place.Extensions.Add(new EntityExtension(TargetPopulationKey, System.Text.Encoding.UTF8.GetBytes(extensionValue)));
@@ -206,7 +283,7 @@ namespace OpenIZAdmin.Controllers
                             }
                             catch (Exception e)
                             {
-                                Trace.TraceError($"Unable to upload applet: {e}");
+                                Trace.TraceError($"Unable to upload Setting: {e}");
                                 ModelState.AddModelError(nameof(model.TargetPopulationFile), Locale.UnableToImportPopulation);
                                 ModelState.AddModelError(nameof(model.TargetPopulationFile), e.Message);
                             }

@@ -32,6 +32,7 @@ using OpenIZAdmin.Core.Caching;
 using OpenIZAdmin.Core.Engine;
 using OpenIZAdmin.DAL;
 using OpenIZAdmin.DAL.Manuals;
+using OpenIZAdmin.Services.Acts;
 using OpenIZAdmin.Services.Applets;
 using OpenIZAdmin.Services.Auditing;
 using OpenIZAdmin.Services.Dataset;
@@ -119,7 +120,7 @@ namespace OpenIZAdmin.Dependency
 
 			// register the concept service
 			builder.RegisterType<ConceptService>().As<IConceptService>().InstancePerLifetimeScope();
-
+            builder.RegisterType<ActService>().As<IActService>().InstancePerLifetimeScope();
 			// register entity concept services
 			builder.RegisterType<ManufacturedMaterialConceptService>().As<IManufacturedMaterialConceptService>().InstancePerLifetimeScope();
 			builder.RegisterType<MaterialConceptService>().As<IMaterialConceptService>().InstancePerLifetimeScope();

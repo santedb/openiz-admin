@@ -389,6 +389,8 @@
     <Compile Include="Models\FacilityModel.cs" />
     <Compile Include="Models\Core\LanguageModel.cs" />
     <Compile Include="Models\ConceptNameModels\ConceptNameViewModel.cs" />
+    <Compile Include="Models\IntegrationModels\ControlActViewModel.cs" />
+    <Compile Include="Models\IntegrationModels\ActParticipationViewModel.cs" />
     <Compile Include="Models\IntegrationModels\IntegrationControlModel.cs" />
     <Compile Include="Models\ManualModels\ManualIndexViewModel.cs" />
     <Compile Include="Models\ManualModels\UploadManualModel.cs" />
@@ -876,6 +878,7 @@
     <Content Include="Views\Place\AssociateDedicatedServiceDeliveryLocation.cshtml" />
     <Content Include="Views\Shared\_RoleUsersPartial.cshtml" />
     <Content Include="Views\Integrations\Index.cshtml" />
+    <Content Include="Views\Integrations\View.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

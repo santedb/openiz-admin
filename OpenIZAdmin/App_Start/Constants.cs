@@ -276,5 +276,10 @@ namespace OpenIZAdmin
 		/// The target population URL.
 		/// </summary>
 		public static readonly string TargetPopulationUrl = ConfigurationManager.AppSettings["TargetPopulationUrl"];
-	}
+
+        /// <summary>
+        /// Detected issue extension type key
+        /// </summary>
+        public static readonly Guid DetectedIssueExtensionTypeKey = Guid.Parse("f43de55f-1433-41a9-84bd-763ed739461a");
+    }
 }

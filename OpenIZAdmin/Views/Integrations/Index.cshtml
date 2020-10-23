@@ -47,3 +47,69 @@
         }
     </div>
 </div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.RemoteIntegrations</span>
+    </div>
+    <div class="panel panel-body">
+        <table class="table table-striped table-bordered" id="importTable">
+            <thead>
+                <tr>
+                    <th>@Locale.ImportEventType</th>
+                    <th>@Locale.ImportStart</th>
+                    <th>@Locale.ImportStop</th>
+                    <th>@Locale.ImportObjects</th>
+                    <th>@Locale.ImportStatus</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.ImportActs != null)
+                {
+                    foreach (var item in Model.ImportActs)
+                    {
+                <tr>
+                    <td>@item.TypeName
+                    @if (item.Issues != null)
+                    {
+                        <span class="glyphicon glyphicon-warning-sign text-warning"></span>
+                    }</td>
+                    <td>@item.StartTime</td>
+                    <td>@item.StopTime</td>
+                    <td>@item.Objects.Count() [@String.Join(",", item.Objects.Select(o=>o.ParticipationTypeName).Distinct())]</td>
+                    <td>
+                        @switch (item.Status)
+                        {
+                            case "COMPLETE":
+                                <span class="glyphicon glyphicon-check text-success"></span>
+                                break;
+                            case "CANCELLED":
+                                <span class="glyphicon glyphicon-exclamation-sign text-danger"></span>
+                                break;
+                            case "ACTIVE":
+                                <span class="glyphicon glyphicon-play-circle text-primary"></span>
+                                break;
+                        }
+                        @item.Status
+                    </td>
+                    <td class="centerContent autoFitContents">
+                        <a class="btn btn-primary" href="/Integrations/View/@(item.Id + "/")">
+                            @Locale.View
+                            <span class="glyphicon glyphicon-eye-open"></span>
+                        </a>
+                    </td>
+                </tr>
+                    }
+                } else
+                {
+                    <tr>
+                        <td colspan="4">Error loading import events</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+

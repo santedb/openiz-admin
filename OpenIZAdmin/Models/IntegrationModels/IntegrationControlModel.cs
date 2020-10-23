@@ -20,6 +20,10 @@ namespace OpenIZAdmin.Models.IntegrationModels
         [Required(ErrorMessageResourceName = "FileRequired", ErrorMessageResourceType = typeof(Locale))]
         public HttpPostedFileBase TargetPopulationFile { get; set; }
 
+        /// <summary>
+        /// Acts which represent the import of data
+        /// </summary>
+        public IEnumerable<ControlActViewModel> ImportActs { get; set; }
 
     }
 }

@@ -28,15 +28,29 @@
     @Html.Partial("_VerifyEntityPartial", new VerifyEntityModel(Model.Id, nameof(Place)))
 }
 
+@if (Model.ReplacedById != null)
+{
+    <div class="well bg-info">
+        <h5 class="text-primary"><span class="glyphicon glyphicon-info-sign"></span> @Locale.DuplicateAlreadyMerged 
+            <a class="btn btn-info" href="@Url.Action($"ViewPlace", "Place", new {id = Model.ReplacedById })">
+                @Locale.View
+                <span class="glyphicon glyphicon-eye-open"></span>
+            </a>
+        </h5>
+    </div>
+}
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <span class="panel-title">@Locale.ViewPlace_Heading</span>
+        @if (Model.StatusConcept == OpenIZ.Core.Model.Constants.StatusKeys.Active || Model.StatusConcept == OpenIZ.Core.Model.Constants.StatusKeys.New) {
         <div class="pull-right">
-            <a href="@Url.Action("Edit", "Place", new {id = Model.Id, versionId = Model.VersionKey})" title="@Locale.ToolTip_Edit">
+            <a href="@Url.Action("Edit", "Place", new { id = Model.Id, versionId = Model.VersionKey })" title="@Locale.ToolTip_Edit">
                 <span class="glyphicon glyphicon-pencil"></span>
                 <span class="text-primary h4">@Locale.Edit</span>
             </a>
         </div>
+        }
     </div>
     <div class="panel panel-body">
         <div class="row">
@@ -120,22 +134,123 @@ else
     @Html.Partial("_DedicatedServiceDeliveryLocationsPartial", Model.DedicatedServiceDeliveryLocations)
 }
 
+@if (Model.Issues != null)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="panel-title">@Locale.ImportIssues</span>
+        </div>
+        <div class="panel panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered" id="relationshipsTable">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>@Locale.Type</th>
+                                <th>@Locale.Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Issues)
+                            {
+                                <tr>
+                                    <td class="centerContent autoFitContents">
+                                        @switch (item.Priority.ToString())
+                                        {
+                                            case "Informational":
+                                                <span class="glyphicon glyphicon-info-sign text-primary"></span>
+
+                                                break;
+                                            case "Warning":
+                                                <span class="glyphicon glyphicon-exclamation-sign text-warning"></span>
+                                                break;
+                                            case "Error":
+                                                <span class="glyphicon glyphicon-stop text-danger"></span>
+                                                break;
+
+                                        }
+                                    </td>
+                                    <td>@item.Priority</td>
+                                    <td>@item.Text</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@if (Model.Duplicates != null && Model.Duplicates.Count > 0)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="panel-title">@Locale.ImportDuplicates</span>
+        </div>
+        <div class="panel panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered" id="relationshipsTable">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>@Locale.DuplicateTarget</th>
+                                <th>@Locale.DuplicateTargetType</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Duplicates)
+                            {
+                                string className = item.TargetId == Model.ReplacedById ? "bg-success" : null;
+                                <tr  class="@className">
+                                    <td class="centerContent autoFitContents">
+                                        <span class="glyphicon glyphicon-copy"></span>
+                                    </td>
+                                    <td>@item.TargetName</td>
+                                    <td>@item.TargetTypeConcept</td>
+                                    <td>
+                                        <a class="btn btn-primary" href="@Url.Action($"ViewPlace", "Place", new {id = item.TargetId })">
+                                            @Locale.View
+                                            <span class="glyphicon glyphicon-eye-open"></span>
+                                        </a>
+                                        @if (Model.ReplacedById == null)
+                                        {
+                                        <a class="btn btn-warning" onclick="return confirm('This will deactivate this record and copy its data to @item.TargetName.  Do you want to continue?')" href="@Url.Action($"MergePlace", "Place", new { duplicateRelationshipId = item.Id })">
+                                            @Locale.DuplicateMerge
+                                            <span class="glyphicon glyphicon-check"></span>
+                                        </a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 @section scripts{
     <script>
         $(document).ready(function ()
         {
 
-            if (!$('#identifiersTable').length)
+                                                if (!$('#identifiersTable').length)
                 return;
 
-            if ($.fn.DataTable.isDataTable('#identifiersTable'))
+                                                if ($.fn.DataTable.isDataTable('#identifiersTable'))
                 return;
 
             $('#identifiersTable').DataTable({
-                "language":
+                                                    "language":
                 {
-                    "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
+                                                        "url": "/Content/datatable-locales/" + getCookie("@LocalizationConfig.LanguageCookieName") + ".json"
                 },
                 order: [],
                 columns: [

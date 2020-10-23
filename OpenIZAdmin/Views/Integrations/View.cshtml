@@ -1,0 +1,160 @@
+﻿@model OpenIZAdmin.Models.IntegrationModels.ControlActViewModel
+@{
+    ViewBag.Title = Locale.RemoteIntegrations;
+}
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.ViewRemoteIntegration</span>
+    </div>
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Id, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Id, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.TypeName, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.TypeName, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.CreatedBy, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.CreatedBy, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Status, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.Status, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.StartTime, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.StartTime, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.StopTime, new { @class = "col-md-2 control-label" })
+                        <div class="col-md-8">
+                            @Html.TextBoxFor(m => m.StopTime, new { @class = "form-control", @readonly = "readonly" })
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (Model.Issues != null)
+{
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <span class="panel-title">@Locale.ImportIssues</span>
+        </div>
+        <div class="panel panel-body">
+            <div class="row">
+                <div class="col-md-12">
+                    <table class="table table-striped table-bordered" id="relationshipsTable">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>@Locale.Type</th>
+                                <th>@Locale.Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Issues)
+                            {
+                                <tr>
+                                    <td class="centerContent autoFitContents">
+                                        @switch (item.Priority.ToString())
+                                        {
+                                            case "Informational":
+                                                <span class="glyphicon glyphicon-info-sign text-primary"></span>
+
+                                                break;
+                                            case "Warning":
+                                                <span class="glyphicon glyphicon-exclamation-sign text-warning"></span>
+                                                break;
+                                            case "Error":
+                                                <span class="glyphicon glyphicon-stop text-danger"></span>
+                                                break;
+
+                                        }
+                                    </td>
+                                    <td>@item.Priority</td>
+                                    <td>@item.Text</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <span class="panel-title">@Locale.ImportObjects</span>
+    </div>
+    <div class="panel panel-body">
+        <div class="row">
+            <div class="col-md-12">
+                @if (Model.Objects.Any())
+                {
+                    <table class="table table-striped table-bordered" id="relationshipsTable">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>@Locale.ImportedObjectRole</th>
+                                <th>@Locale.ImportedObjectName</th>
+                                <th>@Locale.ImportedObjectType</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.Objects)
+                            {
+                                <tr>
+                                    <td class="centerContent autoFitContents"><span class="glyphicon glyphicon-random"></span></td>
+                                    <td>@item.ParticipationTypeName</td>
+                                    <td>@item.PlayerName</td>
+                                    <td>@item.PlayerTypeConcept</td>
+                                    <td>
+                                        <a class="btn btn-primary" href="@Url.Action($"View{item.PlayerType}", item.PlayerType, new {id = item.PlayerId })">
+                                            @Locale.View
+                                            <span class="glyphicon glyphicon-eye-open"></span>
+                                        </a>
+
+                                    </td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>}
+                else
+                {
+                    <p>@Locale.NoImportedObjects</p>
+                }
+            </div>
+
+        </div>
+    </div>
+</div>

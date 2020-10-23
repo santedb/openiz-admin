@@ -2580,4 +2580,70 @@
   <data name="ImportCompletedSuccessfully" xml:space="preserve">
     <value>Target population was updated successfully.</value>
   </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completion Time</value>
+  </data>
+  <data name="Started" xml:space="preserve">
+    <value>Start Time</value>
+  </data>
+  <data name="RemoteIntegrations" xml:space="preserve">
+    <value>Remote Integrations</value>
+  </data>
+  <data name="ViewRemoteIntegration" xml:space="preserve">
+    <value>View Remote Import Event</value>
+  </data>
+  <data name="ImportEventId" xml:space="preserve">
+    <value>Import ID #</value>
+  </data>
+  <data name="ImportEventType" xml:space="preserve">
+    <value>Import Type</value>
+  </data>
+  <data name="ImportObjects" xml:space="preserve">
+    <value>Imported Objects</value>
+  </data>
+  <data name="ImportStart" xml:space="preserve">
+    <value>Start Time</value>
+  </data>
+  <data name="ImportStatus" xml:space="preserve">
+    <value>Current Status</value>
+  </data>
+  <data name="ImportStop" xml:space="preserve">
+    <value>Completion Time</value>
+  </data>
+  <data name="ImportUser" xml:space="preserve">
+    <value>User Account</value>
+  </data>
+  <data name="ImportedObjectName" xml:space="preserve">
+    <value>Name</value>
+  </data>
+  <data name="ImportedObjectRole" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="ImportedObjectType" xml:space="preserve">
+    <value>Type</value>
+  </data>
+  <data name="ImportIssues" xml:space="preserve">
+    <value>Synchronization Issues</value>
+  </data>
+  <data name="NoImportedObjects" xml:space="preserve">
+    <value>No Objects Imported</value>
+  </data>
+  <data name="DuplicateMerge" xml:space="preserve">
+    <value>Merge</value>
+  </data>
+  <data name="DuplicateTarget" xml:space="preserve">
+    <value>Candidate</value>
+  </data>
+  <data name="DuplicateTargetType" xml:space="preserve">
+    <value>Candidate Type</value>
+  </data>
+  <data name="ImportDuplicates" xml:space="preserve">
+    <value>Suspected Duplicate Records</value>
+  </data>
+  <data name="DuplicateMergeSuccess" xml:space="preserve">
+    <value>The previous record was successfully merged into this record</value>
+  </data>
+  <data name="DuplicateAlreadyMerged" xml:space="preserve">
+    <value>This record was already merged with another record and is no longer active</value>
+  </data>
 </root>

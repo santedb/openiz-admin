@@ -647,6 +647,10 @@ namespace OpenIZAdmin.Controllers
                 // get relationships where I am the target and the relationship type is parent
                 relationships.AddRange(this.entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.Parent));
 
+                // get relationships for duplicates
+                relationships.AddRange(this.entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Duplicate));
+
+                this.LoadRelationshipData(relationships);
                 // get relationships where I am the source and the relationship type is child
                 //relationships.AddRange(this.entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Child));
 
@@ -1036,12 +1040,19 @@ namespace OpenIZAdmin.Controllers
                 var areasServed = new List<EntityRelationship>();
                 var dedicatedServiceDeliveryLocations = new List<EntityRelationship>();
                 var relationships = new List<EntityRelationship>();
+                var replacedBy = this.entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.Replaces).FirstOrDefault();
+
 
                 // get relationships where I am the source and the relationship type is parent
                 relationships.AddRange(this.entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Parent));
 
                 // get relationships where I am the target and the relationship type is parent
                 relationships.AddRange(this.entityRelationshipService.GetEntityRelationshipsByTarget(place.Key.Value, EntityRelationshipTypeKeys.Parent));
+
+                // get relationships where I have duplicates
+                relationships.AddRange(this.entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Duplicate));
+
+                this.LoadRelationshipData(relationships);
 
                 // get relationships where I am the source and the relationship type is child
                 //relationships.AddRange(this.entityRelationshipService.GetEntityRelationshipsBySource(place.Key.Value, EntityRelationshipTypeKeys.Child));
@@ -1074,9 +1085,10 @@ namespace OpenIZAdmin.Controllers
                 {
                     AreasServed = areasServed.Select(r => new EntityRelationshipViewModel(r, r.TargetEntityKey == place.Key)).OrderBy(r => r.TargetName).ToList(),
                     DedicatedServiceDeliveryLocations = dedicatedServiceDeliveryLocations.Select(r => new EntityRelationshipViewModel(r, r.TargetEntityKey == place.Key)).OrderBy(r => r.TargetName).ToList(),
+                    Duplicates = relationships.Where(o=>o.RelationshipTypeKey == EntityRelationshipTypeKeys.Duplicate).Select(o=>new EntityRelationshipViewModel(o)).ToList(),
                     UpdatedBy = this.userService.GetUserEntityBySecurityUserKey(place.CreatedByKey.Value)?.GetFullName(NameUseKeys.OfficialRecord)
                 };
-
+                viewModel.ReplacedById = replacedBy?.SourceEntityKey;
                 viewModel.ClassConcept = this.conceptService.GetConcept(place.ClassConceptKey.Value, true).ConceptNames?.FirstOrDefault()?.Name;
 
                 return View(viewModel);
@@ -1088,6 +1100,117 @@ namespace OpenIZAdmin.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+
+
+        /// <summary>
+        /// Merge place
+        /// </summary>
+        public ActionResult MergePlace(Guid duplicateRelationshipId)
+        {
+            try
+            {
+                var duplicateRel = this.entityRelationshipService.Get(duplicateRelationshipId);
+                if (duplicateRel.RelationshipTypeKey != EntityRelationshipTypeKeys.Duplicate)
+                    throw new InvalidOperationException("Cannot perform a merge on a non duplicate relationship");
+
+                // Load the source and target
+                Place source = this.entityService.Get<Place>(duplicateRel.SourceEntityKey.Value),
+                    target = this.entityService.Get<Place>(duplicateRel.TargetEntityKey.Value);
+
+                // Copy the fields from source to target
+                target.Addresses = source.Addresses.Select(o=> new EntityAddress()
+                {
+                    Component = o.Component.Select(c=>new EntityAddressComponent(c.ComponentTypeKey.Value, c.Value)).ToList(),
+                    AddressUseKey = o.AddressUseKey
+                }).ToList();
+                target.Identifiers = source.Identifiers.Select(o => new EntityIdentifier(o.Authority, o.Value)).ToList();
+                target.Names = source.Names.Select(o => new EntityName()
+                {
+                    Component = o.Component.Select(c => new EntityNameComponent(c.ComponentTypeKey.Value, c.Value)).ToList(),
+                    NameUseKey = o.NameUseKey
+                }).ToList();
+
+                // Parent change?
+                EntityRelationship sourceParent = source.Relationships.FirstOrDefault(o => o.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent),
+                    targetParent = source.Relationships.FirstOrDefault(o => o.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent);
+                if(sourceParent != null)
+                    targetParent.TargetEntityKey = sourceParent?.TargetEntityKey ?? targetParent.TargetEntityKey;
+
+                // Served areas?
+                var sourceServedAreas = source.Relationships.Where(o => o.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                if (!sourceServedAreas.Any()) // Try reverse
+                    sourceServedAreas = this.entityRelationshipService.GetEntityRelationshipsByTarget(source.Key.Value, EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                var targetServedAreas = target.Relationships.Where(o => o.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                if (!targetServedAreas.Any()) // Try reverse
+                    targetServedAreas = this.entityRelationshipService.GetEntityRelationshipsByTarget(target.Key.Value, EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+
+                target.TypeConceptKey = source.TypeConceptKey;
+                target.ClassConceptKey = source.ClassConceptKey;
+
+                target.Relationships.AddRange(sourceServedAreas.Where(s => targetServedAreas.Any(t => t.SourceEntityKey == s.SourceEntityKey || t.TargetEntityKey == s.TargetEntityKey))
+                .Select(r => new EntityRelationship()
+                {
+                    SourceEntityKey = r.SourceEntityKey == source.Key ? target.Key : r.SourceEntityKey,
+                    TargetEntityKey = r.TargetEntityKey == source.Key ? target.Key : r.TargetEntityKey,
+                    RelationshipTypeKey = EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation
+                }));
+
+                target.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.Replaces, source.Key));
+                source.StatusConceptKey = StatusKeys.Nullified;
+
+                this.entityService.Update(target);
+                this.entityService.Update(source);
+
+                this.TempData["success"] = Locale.DuplicateMergeSuccess;
+
+                return RedirectToAction("ViewPlace", new { Id = target.Key.Value });
+
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError($"Unable to retrieve place: { e }");
+                this.TempData["error"] = Locale.UnexpectedErrorMessage;
+            }
+
+            return RedirectToAction("Index");
+        }
+
+
+        /// <summary>
+        /// Load relationship data which may be missing
+        /// </summary>
+        private void LoadRelationshipData(List<EntityRelationship> relationships)
+        {
+            // Load additional details
+            var loadCache = new Dictionary<Guid, IdentifiedData>();
+            foreach (var itm in relationships)
+            {
+                // Fix role
+                if (itm.RelationshipType == null)
+                {
+                    if (!loadCache.TryGetValue(itm.RelationshipTypeKey.Value, out IdentifiedData concept))
+                    {
+                        concept = this.conceptService.GetConcept(itm.RelationshipTypeKey);
+                        loadCache.Add(itm.RelationshipTypeKey.Value, concept);
+                    }
+                    itm.RelationshipType = concept as Concept;
+                }
+
+                // Fix target
+                if (itm.TargetEntity == null)
+                    itm.TargetEntity = this.entityService.Get<Entity>(itm.TargetEntityKey.Value);
+
+                if (itm.TargetEntity.TypeConcept == null && itm.TargetEntity.TypeConceptKey.HasValue)
+                {
+                    if (!loadCache.TryGetValue(itm.TargetEntity.TypeConceptKey.Value, out IdentifiedData concept))
+                    {
+                        concept = this.conceptService.GetConcept(itm.TargetEntity.TypeConceptKey);
+                        loadCache.Add(itm.TargetEntity.TypeConceptKey.Value, concept);
+                    }
+                    itm.TargetEntity.TypeConcept = concept as Concept;
+                }
+            }
         }
     }
 }

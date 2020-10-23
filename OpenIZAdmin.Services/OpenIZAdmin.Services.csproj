@@ -76,6 +76,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Acts\ActService.cs" />
+    <Compile Include="Acts\IActService.cs" />
     <Compile Include="Applets\AppletService.cs" />
     <Compile Include="Applets\IAppletService.cs" />
     <Compile Include="Auditing\AuditService.cs" />

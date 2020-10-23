@@ -29,6 +29,7 @@ namespace OpenIZAdmin.Services.Http.Security
 	/// </summary>
 	public class ImsCredentials : Credentials
 	{
+
 		/// <summary>
 		/// The internal reference to the HTTP headers.
 		/// </summary>

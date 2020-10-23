@@ -66,6 +66,7 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 
 			this.TargetName = entityRelationship.TargetEntity != null ? string.Join(" ", entityRelationship.TargetEntity.Names.SelectMany(n => n.Component).Select(c => c.Value)) : Constants.NotApplicable;
 			this.TargetTypeConcept = entityRelationship.TargetEntity?.TypeConcept != null ? string.Join(", ", entityRelationship.TargetEntity.TypeConcept.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
+            this.TargetId = entityRelationship.TargetEntityKey;
 		}
 
 		/// <summary>
@@ -132,5 +133,10 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		/// <value>The target type concept.</value>
 		[Display(Name = "Type", ResourceType = typeof(Locale))]
 		public string TargetTypeConcept { get; set; }
-	}
+
+        /// <summary>
+        /// Gets the target identifier
+        /// </summary>
+        public Guid? TargetId { get; }
+    }
 }

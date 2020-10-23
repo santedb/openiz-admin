@@ -1024,6 +1024,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Completion Time.
+        /// </summary>
+        public static string Completed {
+            get {
+                return ResourceManager.GetString("Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Concept.
         /// </summary>
         public static string Concept {
@@ -1762,11 +1771,56 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This record was already merged with another record and is no longer active.
+        /// </summary>
+        public static string DuplicateAlreadyMerged {
+            get {
+                return ResourceManager.GetString("DuplicateAlreadyMerged", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The identifier value already exists for the given assigning authority. This identifier value is already associated with another {0}.
         /// </summary>
         public static string DuplicateIdentifierValue {
             get {
                 return ResourceManager.GetString("DuplicateIdentifierValue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Merge.
+        /// </summary>
+        public static string DuplicateMerge {
+            get {
+                return ResourceManager.GetString("DuplicateMerge", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The previous record was successfully merged into this record.
+        /// </summary>
+        public static string DuplicateMergeSuccess {
+            get {
+                return ResourceManager.GetString("DuplicateMergeSuccess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Candidate.
+        /// </summary>
+        public static string DuplicateTarget {
+            get {
+                return ResourceManager.GetString("DuplicateTarget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Candidate Type.
+        /// </summary>
+        public static string DuplicateTargetType {
+            get {
+                return ResourceManager.GetString("DuplicateTargetType", resourceCulture);
             }
         }
         
@@ -2469,6 +2523,114 @@ namespace OpenIZAdmin.Localization {
         public static string ImportCompletedSuccessfully {
             get {
                 return ResourceManager.GetString("ImportCompletedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suspected Duplicate Records.
+        /// </summary>
+        public static string ImportDuplicates {
+            get {
+                return ResourceManager.GetString("ImportDuplicates", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Name.
+        /// </summary>
+        public static string ImportedObjectName {
+            get {
+                return ResourceManager.GetString("ImportedObjectName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role.
+        /// </summary>
+        public static string ImportedObjectRole {
+            get {
+                return ResourceManager.GetString("ImportedObjectRole", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type.
+        /// </summary>
+        public static string ImportedObjectType {
+            get {
+                return ResourceManager.GetString("ImportedObjectType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import ID #.
+        /// </summary>
+        public static string ImportEventId {
+            get {
+                return ResourceManager.GetString("ImportEventId", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Import Type.
+        /// </summary>
+        public static string ImportEventType {
+            get {
+                return ResourceManager.GetString("ImportEventType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Synchronization Issues.
+        /// </summary>
+        public static string ImportIssues {
+            get {
+                return ResourceManager.GetString("ImportIssues", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Imported Objects.
+        /// </summary>
+        public static string ImportObjects {
+            get {
+                return ResourceManager.GetString("ImportObjects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Time.
+        /// </summary>
+        public static string ImportStart {
+            get {
+                return ResourceManager.GetString("ImportStart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Current Status.
+        /// </summary>
+        public static string ImportStatus {
+            get {
+                return ResourceManager.GetString("ImportStatus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Completion Time.
+        /// </summary>
+        public static string ImportStop {
+            get {
+                return ResourceManager.GetString("ImportStop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Account.
+        /// </summary>
+        public static string ImportUser {
+            get {
+                return ResourceManager.GetString("ImportUser", resourceCulture);
             }
         }
         
@@ -3535,6 +3697,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No Objects Imported.
+        /// </summary>
+        public static string NoImportedObjects {
+            get {
+                return ResourceManager.GetString("NoImportedObjects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No Information.
         /// </summary>
         public static string NoInformation {
@@ -4579,6 +4750,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remote Integrations.
+        /// </summary>
+        public static string RemoteIntegrations {
+            get {
+                return ResourceManager.GetString("RemoteIntegrations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove.
         /// </summary>
         public static string Remove {
@@ -4980,6 +5160,15 @@ namespace OpenIZAdmin.Localization {
         public static string SoftwareName {
             get {
                 return ResourceManager.GetString("SoftwareName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Time.
+        /// </summary>
+        public static string Started {
+            get {
+                return ResourceManager.GetString("Started", resourceCulture);
             }
         }
         
@@ -7401,6 +7590,15 @@ namespace OpenIZAdmin.Localization {
         public static string ViewReferenceTerm_Heading {
             get {
                 return ResourceManager.GetString("ViewReferenceTerm_Heading", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Remote Import Event.
+        /// </summary>
+        public static string ViewRemoteIntegration {
+            get {
+                return ResourceManager.GetString("ViewRemoteIntegration", resourceCulture);
             }
         }
         
