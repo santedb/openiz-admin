@@ -1127,7 +1127,7 @@ namespace OpenIZAdmin.Controllers
                 target.Identifiers = source.Identifiers.Select(o => new EntityIdentifier(o.Authority, o.Value)).ToList();
                 target.Names = source.Names.Select(o => new EntityName()
                 {
-                    Component = o.Component.Select(c => new EntityNameComponent(c.ComponentTypeKey.Value, c.Value)).ToList(),
+                    Component = o.Component.Select(c => new EntityNameComponent(c.Value)).ToList(),
                     NameUseKey = o.NameUseKey
                 }).ToList();
 
@@ -1160,7 +1160,7 @@ namespace OpenIZAdmin.Controllers
                 source.StatusConceptKey = StatusKeys.Nullified;
 
                 this.entityService.Update(target);
-                this.entityService.Update(source);
+                this.entityService.Obsolete(source);
 
                 this.TempData["success"] = Locale.DuplicateMergeSuccess;
 
