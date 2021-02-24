@@ -75,7 +75,6 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="isInverse">if set to <c>true</c> [is inverse].</param>
 		/// <returns>ActionResult.</returns>
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public ActionResult Delete(Guid id, Guid sourceId, string type, Guid targetId, bool isInverse)
 		{
 			var returnKey = sourceId;

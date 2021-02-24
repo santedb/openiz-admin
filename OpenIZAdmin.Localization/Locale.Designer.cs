@@ -1789,6 +1789,15 @@ namespace OpenIZAdmin.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ignore.
+        /// </summary>
+        public static string DuplicateIgnore {
+            get {
+                return ResourceManager.GetString("DuplicateIgnore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Merge.
         /// </summary>
         public static string DuplicateMerge {

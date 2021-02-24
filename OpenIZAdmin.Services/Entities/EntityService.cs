@@ -295,6 +295,16 @@ namespace OpenIZAdmin.Services.Entities
 		}
 
 		/// <summary>
+		/// Gets the entity relationship.
+		/// </summary>
+		public IEnumerable<EntityRelationship> GetEntityRelationshipsByType(Guid relationshipType)
+		{
+			var bundle = this.Client.Query<EntityRelationship>(o=>o.RelationshipTypeKey == relationshipType && o.ObsoleteVersionSequenceId == null);
+			bundle.Reconstitute();
+			return bundle.Item.OfType<EntityRelationship>().Where(e => e.RelationshipTypeKey == relationshipType);
+		}
+
+		/// <summary>
 		/// Gets the entity relationships.
 		/// </summary>
 		/// <typeparam name="TTargetType">The type of the t target type.</typeparam>

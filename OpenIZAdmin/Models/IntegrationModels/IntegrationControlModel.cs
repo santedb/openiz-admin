@@ -1,4 +1,5 @@
 ﻿using OpenIZAdmin.Localization;
+using OpenIZAdmin.Models.EntityRelationshipModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -25,5 +26,9 @@ namespace OpenIZAdmin.Models.IntegrationModels
         /// </summary>
         public IEnumerable<ControlActViewModel> ImportActs { get; set; }
 
+        /// <summary>
+        /// Gets the duplicates for this facility
+        /// </summary>
+        public List<EntityRelationshipViewModel> Duplicates { get; set; }
     }
 }

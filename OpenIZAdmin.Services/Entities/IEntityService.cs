@@ -91,6 +91,11 @@ namespace OpenIZAdmin.Services.Entities
 		EntityRelationship GetEntityRelationship(Guid key);
 
 		/// <summary>
+		/// Gets the entity relationship by types
+		/// </summary>
+		IEnumerable<EntityRelationship> GetEntityRelationshipsByType(Guid typeKey);
+
+		/// <summary>
 		/// Gets the entity relationships.
 		/// </summary>
 		/// <typeparam name="TTargetType">The type of the t target type.</typeparam>

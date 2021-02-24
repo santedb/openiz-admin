@@ -61,6 +61,7 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 
 			this.RelationshipTypeName = entityRelationship.RelationshipType != null ? string.Join(", ", entityRelationship.RelationshipType.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
 
+			this.SourceId = entityRelationship.SourceEntityKey;
 			this.SourceName = entityRelationship.SourceEntity != null ? string.Join(" ", entityRelationship.SourceEntity.Names.SelectMany(n => n.Component).Select(c => c.Value)) : Constants.NotApplicable;
 			this.SourceTypeConcept = entityRelationship.SourceEntity?.TypeConcept != null ? string.Join(", ", entityRelationship.SourceEntity.TypeConcept.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
 
@@ -107,10 +108,15 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		public string RelationshipTypeName { get; set; }
 
 		/// <summary>
-		/// Gets or sets the name of the source.
+		/// Gets or sets the source identifier
 		/// </summary>
-		/// <value>The name of the source.</value>
-		[Display(Name = "Name", ResourceType = typeof(Locale))]
+        public Guid? SourceId { get; }
+
+        /// <summary>
+        /// Gets or sets the name of the source.
+        /// </summary>
+        /// <value>The name of the source.</value>
+        [Display(Name = "Name", ResourceType = typeof(Locale))]
 		public string SourceName { get; set; }
 
 		/// <summary>

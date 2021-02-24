@@ -33,14 +33,17 @@ using OpenIZAdmin.Models.IntegrationModels;
 using OpenIZAdmin.Models.ReferenceTermModels;
 using OpenIZAdmin.Services.Acts;
 using OpenIZAdmin.Services.Entities;
+using OpenIZAdmin.Services.EntityRelationships;
 using OpenIZAdmin.Services.Metadata.Concepts;
 using OpenIZAdmin.Util;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Web.Mvc;
 
 namespace OpenIZAdmin.Controllers
@@ -54,17 +57,22 @@ namespace OpenIZAdmin.Controllers
 
         private readonly Guid TargetPopulationKey = Guid.Parse("f9552ed8-66aa-4644-b6a8-108ad54f2476");
 
-        private const int COL_UUID = 0;
-        private const int COL_NAME = 1;
-        private const int COL_PARENT = 2;
-        private const int COL_YEAR = 3;
-        private const int COL_POPULATION = 4;
+        private const int COL_UUID = 1;
+        private const int COL_NAME = 2;
+        private const int COL_PARENT = 3;
+        private const int COL_YEAR = 4;
+        private const int COL_POPULATION = 5;
 
         /// <summary>
         /// Template file cache
         /// </summary>
         private static String m_templateFile = Path.Combine(Path.GetTempPath(), "facility_template.csv");
 
+
+        /// <summary>
+        /// The entity relationship service
+        /// </summary>
+        private readonly IEntityRelationshipService entityRelationshipService;
 
         /// <summary>
         /// The entity service.
@@ -84,11 +92,13 @@ namespace OpenIZAdmin.Controllers
         /// <summary>
         /// Initializes a new instance of the <see cref="ConceptController"/> class.
         /// </summary>
-        public IntegrationsController(IEntityService entityService, IConceptService conceptService, IActService actService)
+        public IntegrationsController(IEntityService entityService, IConceptService conceptService, IActService actService, IEntityRelationshipService entityRelationshipService)
         {
             this.entityService = entityService;
             this.conceptService = conceptService;
             this.actService = actService;
+            this.entityRelationshipService = entityRelationshipService;
+
         }
 
         /// <summary>
@@ -101,8 +111,27 @@ namespace OpenIZAdmin.Controllers
             var model = new IntegrationControlModel();
             try
             {
-                var cacts = this.actService.Query<Act>(o => o.ClassConceptKey == ActClassKeys.ControlAct, 0, 10, true);
+                var cacts = this.actService.Query<Act>(o => o.ClassConceptKey == ActClassKeys.ControlAct, 0, 15, true);
                 model.ImportActs = cacts.Select(o => new ControlActViewModel(o, this.conceptService)).ToList();
+                var er = this.entityService.GetEntityRelationshipsByType(EntityRelationshipTypeKeys.Duplicate);
+
+                model.Duplicates = er.Take(50).Select(o =>
+                {
+                    // is the source or target missing and populate
+                    if (o.SourceEntity == null)
+                    {
+                        o.SourceEntity = this.entityService.Get<Place>(o.SourceEntityKey.Value);
+                        o.SourceEntity.TypeConcept = this.conceptService.GetConcept(o.SourceEntity.TypeConceptKey);
+                        o.SourceEntity.ClassConcept = this.conceptService.GetConcept(o.SourceEntity.ClassConceptKey);
+                    }
+                    if (o.TargetEntity == null)
+                    {
+                        o.TargetEntity = this.entityService.Get<Place>(o.TargetEntityKey.Value);
+                        o.TargetEntity.TypeConcept = this.conceptService.GetConcept(o.TargetEntity.TypeConceptKey);
+                        o.TargetEntity.ClassConcept = this.conceptService.GetConcept(o.TargetEntity.ClassConceptKey);
+                    }
+                    return new Models.EntityRelationshipModels.EntityRelationshipViewModel(o);
+                }).ToList();
             }
             catch(Exception e)
             {
@@ -111,6 +140,109 @@ namespace OpenIZAdmin.Controllers
             }
             return View(model);
         }
+
+
+        /// <summary>
+        /// Merge place
+        /// </summary>
+        /// TODO: Refactor to common place
+        public ActionResult MergePlace(Guid duplicateRelationshipId)
+        {
+            try
+            {
+                var duplicateRel = this.entityRelationshipService.Get(duplicateRelationshipId);
+                if (duplicateRel.RelationshipTypeKey != EntityRelationshipTypeKeys.Duplicate)
+                    throw new InvalidOperationException("Cannot perform a merge on a non duplicate relationship");
+
+                // Load the source and target
+                Place source = this.entityService.Get<Place>(duplicateRel.SourceEntityKey.Value),
+                    target = this.entityService.Get<Place>(duplicateRel.TargetEntityKey.Value);
+
+                // Copy the fields from source to target
+                target.Addresses = source.Addresses.Select(o => new EntityAddress()
+                {
+                    Component = o.Component.Select(c => new EntityAddressComponent(c.ComponentTypeKey.Value, c.Value)).ToList(),
+                    AddressUseKey = o.AddressUseKey
+                }).ToList();
+                target.Identifiers = source.Identifiers.Select(o => new EntityIdentifier(o.Authority, o.Value)).ToList();
+                target.Names = source.Names.Select(o => new EntityName()
+                {
+                    Component = o.Component.Select(c => new EntityNameComponent(c.Value)).ToList(),
+                    NameUseKey = o.NameUseKey
+                }).ToList();
+
+                // Parent change?
+                EntityRelationship sourceParent = source.Relationships.FirstOrDefault(o => o.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent),
+                    targetParent = source.Relationships.FirstOrDefault(o => o.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent);
+                if (sourceParent != null)
+                    targetParent.TargetEntityKey = sourceParent?.TargetEntityKey ?? targetParent.TargetEntityKey;
+
+                // Served areas?
+                var sourceServedAreas = source.Relationships.Where(o => o.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                if (!sourceServedAreas.Any()) // Try reverse
+                    sourceServedAreas = this.entityRelationshipService.GetEntityRelationshipsByTarget(source.Key.Value, EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                var targetServedAreas = target.Relationships.Where(o => o.RelationshipTypeKey == EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+                if (!targetServedAreas.Any()) // Try reverse
+                    targetServedAreas = this.entityRelationshipService.GetEntityRelationshipsByTarget(target.Key.Value, EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation);
+
+                target.TypeConceptKey = source.TypeConceptKey;
+                target.ClassConceptKey = source.ClassConceptKey;
+
+                target.Relationships.AddRange(sourceServedAreas.Where(s => targetServedAreas.Any(t => t.SourceEntityKey == s.SourceEntityKey || t.TargetEntityKey == s.TargetEntityKey))
+                .Select(r => new EntityRelationship()
+                {
+                    SourceEntityKey = r.SourceEntityKey == source.Key ? target.Key : r.SourceEntityKey,
+                    TargetEntityKey = r.TargetEntityKey == source.Key ? target.Key : r.TargetEntityKey,
+                    RelationshipTypeKey = EntityRelationshipTypeKeys.DedicatedServiceDeliveryLocation
+                }));
+
+                target.Relationships.Add(new EntityRelationship(EntityRelationshipTypeKeys.Replaces, source.Key));
+                source.StatusConceptKey = StatusKeys.Nullified;
+
+                this.entityService.Update(target);
+                this.entityService.Obsolete(source);
+
+                this.TempData["success"] = Locale.DuplicateMergeSuccess;
+
+                return RedirectToAction("Index");
+
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError($"Unable to retrieve place: { e }");
+                this.TempData["error"] = Locale.UnexpectedErrorMessage;
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        /// <summary>
+        /// Merge place
+        /// </summary>
+        /// TODO: Refactor to common place
+        public ActionResult MergeIgnore(Guid duplicateRelationshipId)
+        {
+            try
+            {
+                var duplicateRel = this.entityRelationshipService.Get(duplicateRelationshipId);
+                if (duplicateRel.RelationshipTypeKey != EntityRelationshipTypeKeys.Duplicate)
+                    throw new InvalidOperationException("Cannot perform a merge on a non duplicate relationship");
+                this.entityRelationshipService.Delete(duplicateRelationshipId);
+               
+                this.TempData["success"] = Locale.DuplicateMergeSuccess;
+
+                return RedirectToAction("Index");
+
+            }
+            catch (Exception e)
+            {
+                Trace.TraceError($"Unable to retrieve place: { e }");
+                this.TempData["error"] = Locale.UnexpectedErrorMessage;
+            }
+
+            return RedirectToAction("Index");
+        }
+
 
         /// <summary>
         /// View the specified import event
@@ -183,30 +315,64 @@ namespace OpenIZAdmin.Controllers
 
                 if (!System.IO.File.Exists(m_templateFile) && new FileInfo(m_templateFile).LastWriteTime < DateTime.Now.AddDays(-2))
                 {
-                    Guid queryId = Guid.NewGuid();
-                    var results = this.entityService.Query<Place>(o => o.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation && o.TypeConceptKey != facilityRegionKey && o.TypeConceptKey != facilityDistrictKey, 0, 200, queryId, new string[] { });
 
                     using (var ms = System.IO.File.Create(m_templateFile))
                     {
                         using (var tw = new StreamWriter(ms))
                         {
-                            tw.WriteLine("id,name,parent,year,target");
-                            while (results.Count() > 0)
+                            tw.WriteLine("hfrid,id,name,parent,year,target");
+                            var mre = new ManualResetEvent(false);
+                            bool complete = false;
+
+                            // The original author of these services made them non-thread safe, so we have to block here
+                            object lockBox = new object();
+                            // Read async from server
+                            ConcurrentQueue<Place> processStack = new ConcurrentQueue<Place>();
+                            ThreadPool.QueueUserWorkItem(p =>
                             {
-                                foreach (var itm in results)
+                                try
+                                {
+                                    ConcurrentQueue<Place> toProcess = (ConcurrentQueue<Place>)p;
+                                    Guid queryId = Guid.NewGuid();
+                                    var results = this.entityService.Query<Place>(o => o.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation && o.TypeConceptKey != facilityRegionKey && o.TypeConceptKey != facilityDistrictKey, 0, 200, queryId, new string[] { });
+                                    while (results.Count() > 0)
+                                    {
+                                        foreach (var r in results) toProcess.Enqueue(r);
+                                        mre.Set();
+                                        ofs += results.Count();
+                                        Trace.TraceInformation("Fetching records for building import target population list {0}", ofs);
+                                        lock (lockBox)
+                                            results = this.entityService.Query<Place>(o => o.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation, ofs, 500, queryId, new string[] { });
+                                    }
+                                }
+                                catch(Exception e)
+                                {
+                                    Trace.TraceError("Error fetching places: {0}", e);
+                                }
+                                finally
+                                {
+                                    complete = true;
+                                }
+                            }, processStack);
+
+                            while(!complete)
+                            {
+                                mre.WaitOne();
+                                while(processStack.TryDequeue(out Place itm))
                                 {
                                     var parentRel = itm.Relationships.FirstOrDefault(o => o.RelationshipTypeKey == EntityRelationshipTypeKeys.Parent);
                                     Place parent = null;
                                     if (parentRel != null && !parentCache.TryGetValue(parentRel.TargetEntityKey.Value, out parent))
                                     {
-                                        parent = entityService.Get<Place>(parentRel.TargetEntityKey.Value, null);
+                                        lock (lockBox)
+                                        {
+                                            parent = entityService.Get<Place>(parentRel.TargetEntityKey.Value, null);
+                                        }
                                         parentCache.Add(parentRel.TargetEntityKey.Value, parent);
                                     }
-
-                                    tw.WriteLine($"{itm.Identifiers?.FirstOrDefault(o => o.Value.StartsWith("urn:uuid"))?.Value},{itm.Names?.FirstOrDefault()?.Component.FirstOrDefault()?.Value},{parent?.Names?.FirstOrDefault()?.Component.FirstOrDefault()?.Value},{DateTime.Now.Year},0");
+                                    tw.WriteLine($"{itm.Identifiers?.FirstOrDefault(o => o.Authority?.DomainName == "TZ_HFR_IDNUM")?.Value},{itm.Identifiers?.FirstOrDefault(o => o.Value.StartsWith("urn:uuid"))?.Value},{itm.Names?.FirstOrDefault()?.Component.FirstOrDefault()?.Value},{parent?.Names?.FirstOrDefault()?.Component.FirstOrDefault()?.Value},{DateTime.Now.Year},0");
                                 }
-                                ofs += results.Count();
-                                results = this.entityService.Query<Place>(o => o.ClassConceptKey == EntityClassKeys.ServiceDeliveryLocation, ofs, 500, queryId, new string[] { });
+                                mre.Reset();
                             }
                         }
                     }

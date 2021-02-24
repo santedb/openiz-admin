@@ -56,7 +56,6 @@
                                     }
                                     @using (Html.BeginForm("Delete", "EntityRelationship", new {id = item.Id, sourceId = item.SourceId, type = item.SourceType, targetId = item.TargetId, isInverse = item.IsInverse}, FormMethod.Post, new {@class = "inlineForm form-horizontal", role = "form"}))
                                     {
-                                        @Html.AntiForgeryToken()
 
                                         <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-danger">
                                             @Locale.Delete

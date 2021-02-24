@@ -27,9 +27,11 @@ using OpenIZ.Messaging.IMSI.Client;
 using OpenIZAdmin.Services.Http;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using System.Runtime.Caching;
 using System.Xml.Serialization;
 
 namespace OpenIZAdmin.Services.Entity
@@ -116,8 +118,20 @@ namespace OpenIZAdmin.Services.Entity
 			{
 				if (key.HasValue && key.Value != Guid.Empty)
 				{
-					response = this.serviceClient.Get<TObject>(key.Value, null) as TObject;
-				}
+                    // HACK:
+                    var cacheResult = MemoryCache.Default.Get(key.ToString());
+                    if (cacheResult != null)
+                    {
+                        Trace.TraceInformation($"Cache Hit: {typeof(TObject).Name} using key: {key}");
+                        return (TObject)cacheResult;
+                    }
+
+                    Trace.TraceInformation($"Retrieving: {typeof(TObject).Name} using key: {key}");
+                    response = this.serviceClient.Get<TObject>(key.Value, null) as TObject;
+
+                    // HACK:
+                    MemoryCache.Default.Set(key.ToString(), response, DateTime.Now.AddSeconds(30));
+                }
 			}
 			catch
 			{

@@ -57,11 +57,11 @@ namespace OpenIZAdmin.Services.Http
 		public RestClientService(string endpointName) : base(InternalConfiguration.GetServiceClientConfiguration().Clients.Find(x => x.Name == endpointName))
 		{
 			this.endpointName = endpointName;
-			this.Requesting += (o, e) =>
-			{
-				EntitySource.Current = new EntitySource(new WebEntitySourceProvider(this.Credentials));
-			};
-		}
+            this.Requesting += (o, e) =>
+            {
+                EntitySource.Current = new EntitySource(new WebEntitySourceProvider(this.Credentials));
+            };
+        }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="RestClientService"/> class.

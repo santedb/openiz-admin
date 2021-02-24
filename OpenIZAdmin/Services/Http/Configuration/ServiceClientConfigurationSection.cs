@@ -167,7 +167,7 @@ namespace OpenIZAdmin.Services.Http.Configuration
 							new ServiceClientEndpoint
 							{
 								Address = $"{realm.Address}/imsi",
-								Timeout = 30000
+								Timeout = 120000
 							}
 						},
 						Name = Constants.Imsi

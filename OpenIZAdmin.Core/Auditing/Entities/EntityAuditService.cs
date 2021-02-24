@@ -154,7 +154,8 @@ namespace OpenIZAdmin.Core.Auditing.Entities
 				}));
 			}
 
-			AuditService.SendAudit(audit);
+            if(outcomeIndicator != OutcomeIndicator.Success)
+			    AuditService.SendAudit(audit);
 		}
 
 		/// <summary>

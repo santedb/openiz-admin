@@ -692,7 +692,7 @@ namespace OpenIZAdmin.Controllers
                 //model.TypeConcepts.AddRange(this.placeConceptService.GetPlaceSubTypeConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage(), c => c.Key == place.TypeConceptKey).ToList());
 
                 // Get the place class concepts
-                model.ClassConcepts = this.placeConceptService.GetPlaceClassConcepts().ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
+                model.ClassConcepts = this.placeConceptService.GetPlaceClassConcepts()?.ToSelectList(this.HttpContext.GetCurrentLanguage()).ToList();
 
                 // order the type concept list
                 model.TypeConcepts = model.TypeConcepts.OrderBy(c => c.Text).ToList();

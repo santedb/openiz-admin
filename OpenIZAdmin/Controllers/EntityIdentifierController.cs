@@ -181,7 +181,6 @@ namespace OpenIZAdmin.Controllers
 		/// <param name="type">The type.</param>
 		/// <returns>ActionResult.</returns>
 		[HttpPost]
-		[ValidateAntiForgeryToken]
 		public ActionResult Delete(Guid id, Guid entityId, string type)
 		{
 			try

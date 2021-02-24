@@ -30,7 +30,6 @@
                                     </a>
                                     @using (Html.BeginForm("Delete", "EntityIdentifier", new {id = item.Id, entityId = item.EntityId, type = item.ModelType}, FormMethod.Post, new {@class = "inlineForm form-horizontal", role = "form"}))
                                     {
-                                        @Html.AntiForgeryToken()
 
                                         <button type="submit" data-wait-text="@Locale.PleaseWait" class="btn btn-danger">
                                             @Locale.Delete

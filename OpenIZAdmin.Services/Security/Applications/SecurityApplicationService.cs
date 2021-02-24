@@ -205,10 +205,20 @@ namespace OpenIZAdmin.Services.Security.Applications
 		/// <param name="key">The key.</param>
 		/// <param name="securityApplicationInfo">The security application information.</param>
 		/// <returns>Returns the updated security application info.</returns>
-		/// <exception cref="System.NotImplementedException"></exception>
 		public SecurityApplicationInfo Update(Guid key, SecurityApplicationInfo securityApplicationInfo)
 		{
-			throw new NotImplementedException();
+
+			try
+			{
+				securityApplicationInfo = this.Client.UpdateApplication(key.ToString(), securityApplicationInfo);
+			}
+			catch (Exception e)
+			{
+				coreAuditService.AuditGenericError(OutcomeIndicator.EpicFail, securityEntityAuditService.QuerySecurityEntityAuditCode, EventIdentifierType.ApplicationActivity, e);
+				throw;
+			}
+
+			return securityApplicationInfo;
 		}
 	}
 }

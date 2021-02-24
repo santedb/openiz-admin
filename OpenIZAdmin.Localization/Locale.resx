@@ -2646,4 +2646,7 @@
   <data name="DuplicateAlreadyMerged" xml:space="preserve">
     <value>This record was already merged with another record and is no longer active</value>
   </data>
+  <data name="DuplicateIgnore" xml:space="preserve">
+    <value>Ignore</value>
+  </data>
 </root>
