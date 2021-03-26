@@ -291,7 +291,13 @@ namespace OpenIZAdmin.Services.Entities
 
 			bundle.Reconstitute();
 
-			return bundle.Item.OfType<EntityRelationship>().FirstOrDefault(e => e.Key == key);
+			var retVal = bundle.Item.OfType<EntityRelationship>().FirstOrDefault(e => e.Key == key);
+			if(retVal.TargetEntity == null)
+            {
+				retVal.TargetEntity = bundle.Item.FirstOrDefault(o => o.Key == retVal.TargetEntityKey) as Entity ??
+					retVal.LoadProperty<Entity>(nameof(EntityRelationship.TargetEntity));
+            }
+			return retVal;
 		}
 
 		/// <summary>
@@ -317,11 +323,11 @@ namespace OpenIZAdmin.Services.Entities
 
 			if (entityRelationshipExpression != null)
 			{
-				bundle = this.Client.Query<EntityRelationship>(c => c.SourceEntityKey == id && entityRelationshipExpression.Compile().Invoke(c));
+				bundle = this.Client.Query<EntityRelationship>(c => c.SourceEntityKey == id && entityRelationshipExpression.Compile().Invoke(c), 0, 100, new[] { "relationshipType", "target", "target.typeConcept" });
 			}
 			else
 			{
-				bundle = this.Client.Query<EntityRelationship>(c => c.SourceEntityKey == id);
+				bundle = this.Client.Query<EntityRelationship>(c => c.SourceEntityKey == id, 0, 100, new[] { "relationshipType", "target", "target.typeConcept" });
 			}
 
 			bundle.Reconstitute();
@@ -338,19 +344,21 @@ namespace OpenIZAdmin.Services.Entities
 				// only load the relationship type concept if the IMS didn't return the relationship type concept of the relationship
 				if (entityRelationship.RelationshipType == null && entityRelationship.RelationshipTypeKey.HasValue && entityRelationship.RelationshipTypeKey.Value != Guid.Empty)
 				{
-					entityRelationship.RelationshipType = this.conceptService.GetConcept(entityRelationship.RelationshipTypeKey.Value, true);
+					entityRelationship.RelationshipType = bundle.Item.FirstOrDefault(o=>o.Key == entityRelationship.RelationshipTypeKey) as Concept ??
+						this.conceptService.GetConcept(entityRelationship.RelationshipTypeKey.Value, true);
 				}
 
 				// only load the target entity if the IMS didn't return the target entity by default
 				if (entityRelationship.TargetEntity == null && entityRelationship.TargetEntityKey.HasValue && entityRelationship.TargetEntityKey.Value != Guid.Empty)
 				{
-					entityRelationship.TargetEntity = this.Client.Get<TTargetType>(entityRelationship.TargetEntityKey.Value, null) as TTargetType;
+					entityRelationship.TargetEntity = bundle.Item.FirstOrDefault(o=>o.Key == entityRelationship.TargetEntityKey) as Entity ??
+						this.Client.Get<TTargetType>(entityRelationship.TargetEntityKey.Value, null) as TTargetType;
 				}
 
 				// only load the type concept of the target entity if the IMS didn't return the type concept of the target entity
 				if (entityRelationship.TargetEntity?.TypeConcept == null && entityRelationship.TargetEntity?.TypeConceptKey.HasValue == true && entityRelationship.TargetEntity?.TypeConceptKey != Guid.Empty)
 				{
-					entityRelationship.TargetEntity.TypeConcept = this.conceptService.GetConcept(entityRelationship.TargetEntity.TypeConceptKey.Value, true);
+					entityRelationship.TargetEntity.TypeConcept = bundle.Item.FirstOrDefault(o => o.Key == entityRelationship.TargetEntity.TypeConceptKey) as Concept ?? this.conceptService.GetConcept(entityRelationship.TargetEntity.TypeConceptKey.Value, true);
 				}
 			}
 

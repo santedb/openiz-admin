@@ -124,8 +124,10 @@
             <thead>
                 <tr>
                     <th>@Locale.Place</th>
+                    <th>@Locale.Address</th>
                     <th>@Locale.TypeConcept</th>
                     <th>@Locale.DuplicateTarget</th>
+                    <th>@Locale.Address</th>
                     <th>@Locale.DuplicateTargetType</th>
                     <th></th>
                 </tr>
@@ -139,10 +141,12 @@
                     <td>
                         <a href="/Place/ViewPlace/@(item.SourceId)">@item.SourceName</a>
                     </td>
+                    <td>@item.SourceHint </td>
                     <td>
                         @item.SourceTypeConcept
                     </td>
                     <td><a href="/Place/ViewPlace/@(item.TargetId)">@item.TargetName</a></td>
+                    <td>@item.TargetHint</td>
                     <td>@item.TargetTypeConcept</td>
                     <td class="centerContent autoFitContents">
                         <a class="btn btn-warning" onclick="return confirm('This will deactivate @item.SourceName and copy its data to @item.TargetName.  Do you want to continue?')" href="@Url.Action($"MergePlace", new { duplicateRelationshipId = item.Id })">

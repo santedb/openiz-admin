@@ -809,7 +809,9 @@ namespace OpenIZAdmin.Controllers
 
 				var relationships = new List<EntityRelationship>();
 
-				foreach (var relationship in material.Relationships)
+				// Load relationships 
+
+				foreach (var relationship in entityService.GetEntityRelationships<Entity>(material.Key.Value))
 				{
 					var rel = relationship;
 

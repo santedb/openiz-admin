@@ -18,6 +18,7 @@
  */
 
 using OpenIZ.Core.Model;
+using OpenIZ.Core.Model.Constants;
 using OpenIZ.Core.Model.Entities;
 using OpenIZAdmin.Localization;
 using OpenIZAdmin.Models.Core;
@@ -64,10 +65,15 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 			this.SourceId = entityRelationship.SourceEntityKey;
 			this.SourceName = entityRelationship.SourceEntity != null ? string.Join(" ", entityRelationship.SourceEntity.Names.SelectMany(n => n.Component).Select(c => c.Value)) : Constants.NotApplicable;
 			this.SourceTypeConcept = entityRelationship.SourceEntity?.TypeConcept != null ? string.Join(", ", entityRelationship.SourceEntity.TypeConcept.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
-
-			this.TargetName = entityRelationship.TargetEntity != null ? string.Join(" ", entityRelationship.TargetEntity.Names.SelectMany(n => n.Component).Select(c => c.Value)) : Constants.NotApplicable;
+			this.SourceHint = entityRelationship.SourceEntity?.Addresses?.FirstOrDefault()?.GetComponent(AddressComponentKeys.City) ??  entityRelationship.SourceEntity?.Addresses?.FirstOrDefault()?.ToDisplay();
+			if (entityRelationship.TargetEntity is ManufacturedMaterial mmat)
+				this.TargetName = $"{string.Join(" ", entityRelationship.TargetEntity.Names.SelectMany(n => n.Component).Select(c => c.Value))} (LN#: {mmat.LotNumber})";
+			else 
+				this.TargetName = entityRelationship.TargetEntity != null ? string.Join(" ", entityRelationship.TargetEntity.Names.SelectMany(n => n.Component).Select(c => c.Value)) : Constants.NotApplicable;
 			this.TargetTypeConcept = entityRelationship.TargetEntity?.TypeConcept != null ? string.Join(", ", entityRelationship.TargetEntity.TypeConcept.ConceptNames.Select(c => c.Name)) : Constants.NotApplicable;
-            this.TargetId = entityRelationship.TargetEntityKey;
+			this.TargetHint = entityRelationship.TargetEntity?.Addresses?.FirstOrDefault()?.GetComponent(AddressComponentKeys.City) ?? entityRelationship.TargetEntity?.Addresses?.FirstOrDefault()?.ToDisplay();
+
+			this.TargetId = entityRelationship.TargetEntityKey;
 		}
 
 		/// <summary>
@@ -127,10 +133,15 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		public string SourceTypeConcept { get; set; }
 
 		/// <summary>
-		/// Gets or sets the name of the target.
+		/// Gets the source entity hint
 		/// </summary>
-		/// <value>The name of the target.</value>
-		[Display(Name = "Name", ResourceType = typeof(Locale))]
+        public string SourceHint { get; }
+
+        /// <summary>
+        /// Gets or sets the name of the target.
+        /// </summary>
+        /// <value>The name of the target.</value>
+        [Display(Name = "Name", ResourceType = typeof(Locale))]
 		public string TargetName { get; set; }
 
 		/// <summary>
@@ -139,6 +150,11 @@ namespace OpenIZAdmin.Models.EntityRelationshipModels
 		/// <value>The target type concept.</value>
 		[Display(Name = "Type", ResourceType = typeof(Locale))]
 		public string TargetTypeConcept { get; set; }
+
+		/// <summary>
+		/// Gets the target entity hint
+		/// </summary>
+        public string TargetHint { get; }
 
         /// <summary>
         /// Gets the target identifier
